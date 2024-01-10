@@ -75,8 +75,8 @@ class Mailer
     {
         $curl = curl_init();
 
-        curl_setopt_array($this->curl, array(
-            CURLOPT_URL => $url . 'api/lib/email/with_filepath_from_response',
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->url . 'api/lib/email/with_filepath_from_response',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
