@@ -6,7 +6,7 @@ class Mailer
 {
     public function __construct()
     {
-        if (getenv(CI_DORBITT)=="testing") {
+        if (getenv("CI_DORBITT")=="testing") {
             $url = "http://localhost:8080/";
         }else{
             $url = "https://api.dorbitt.com/";
