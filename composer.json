@@ -1,0 +1,38 @@
+{
+    "name": "dorbitt/lib",
+    "type": "library",
+    "description": "Dorbitt is a full-featured api creation and transfer class for PHP",
+    "authors": [
+        {
+            "name": "M. Ali Imron",
+            "email": "lienux.qq@gmail.com"
+        }
+    ],
+    "funding": [
+        {
+            "url": "https://github.com/lienux",
+            "type": "github"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/ummu-composer-installer": true
+        }
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "ext-ctype": "*",
+        "ext-filter": "*",
+        "ext-hash": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dorbitt\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dorbitt\\Test\\": "test/"
+        }
+    }
+}
