@@ -11,7 +11,7 @@ class Master
         $this->curli = new Curl();
     }
 
-    public function site_project($payload)
+    public function site_project($payload = null, $token = null)
     {
 
         $url = "api/master/site_project/show";
