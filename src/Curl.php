@@ -42,7 +42,7 @@ class Curl
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $this->tokenz
+                'Authorization: Bearer ' . $tokenz
             ),
         ));
 
