@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class Master
+class Auth
 {
     public function __construct()
     {
