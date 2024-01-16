@@ -2,100 +2,45 @@
 
 namespace Dorbitt;
 
+use Dorbitt\Curl;
+
 class Mailer
 {
     public function __construct()
     {
-        if (getenv("CI_DORBITT")=="testing") {
-            $this->url = "http://localhost:8080/";
-        }else{
-            $this->url = "https://api.dorbitt.com/";
-        }
+        $this->curli = new Curl();
     }
 
-    public function send($token,$payload)
+    public function send($payload = null, $token = null)
     {
+        $url = "api/lib/email/send";
+        $method = "POST";
+        $module_code = "email";
 
-        $curl = curl_init();
+        $request = $this->curli->request($url,$method,$payload,$module_code,$token);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . 'api/lib/email/send',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Module-Code: email',
-                'Authorization: Bearer ' . $token
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return json_decode($response, false);
-
+        return json_decode($request, false);
     }
 
-    public function with_create_pdf_by_url($token,$payload)
+    public function with_create_pdf_by_url($payload = null, $token = null)
     {
-        $curl = curl_init();
+        $url = "api/lib/email/with_create_pdf_by_url";
+        $method = "POST";
+        $module_code = "email";
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . 'api/lib/email/with_create_pdf_by_url',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Module-Code: email',
-                'Authorization: Bearer ' . $token
-            ),
-        ));
+        $request = $this->curli->request($url,$method,$payload,$module_code,$token);
 
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return json_decode($response, false);
+        return json_decode($request, false);
     }
 
-    public function with_filepath_from_response($token,$payload)
+    public function with_filepath_from_response($payload = null, $token = null)
     {
-        $curl = curl_init();
+        $url = "api/lib/email/with_filepath_from_response";
+        $method = "POST";
+        $module_code = "email";
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . 'api/lib/email/with_filepath_from_response',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Module-Code: email',
-                'Authorization: Bearer ' . $token
-            ),
-        ));
+        $request = $this->curli->request($url,$method,$payload,$module_code,$token);
 
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return json_decode($response, false);
+        return json_decode($request, false);
     }
 }

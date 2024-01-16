@@ -11,12 +11,11 @@ class Auth
         $this->curli = new Curl();
     }
 
-    public function login($payload)
+    public function login($payload = null, $token = null)
     {
         $url = "auth/login/create";
         $method = "GET";
         $module_code = "";
-        $token = null;
 
         $create = $this->curli->request($url,$method,$payload,$module_code,$token);
 
