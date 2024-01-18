@@ -2,16 +2,16 @@
 
 namespace Dorbitt;
 
-use App\Helpers\IdentityHelper;
-use App\Helpers\GlobalHelper;
+// use App\Helpers\IdentityHelper;
+use Dorbitt\GlobalHelper;
 
 class BuilderHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        $this->identity = new IdentityHelper();
-        $this->company_id = $this->identity->company_id();
+        $this->identity = [];
+        $this->company_id = "";
         $this->gHelp = new GlobalHelper();
     }
 
