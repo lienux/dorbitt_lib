@@ -26,7 +26,7 @@ class QueryHelper
     {
         $offset     = $this->request->getVar('offset');
         
-        if (!$offset OR $offset=='undefined') {
+        if (!$offset OR $offset=='undefined' OR $this->search()) {
             $offset = 0;
         }else{
             $offset = $offset;
