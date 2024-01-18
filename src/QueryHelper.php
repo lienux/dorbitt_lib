@@ -2,45 +2,11 @@
 
 namespace Dorbitt;
 
-if (getenv('app.name')=='DORBITT SYSTEM') {
-    use App\Helpers\IdentityHelper;
-}
-
 class QueryHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-
-        if (getenv('app.name')=='DORBITT SYSTEM') {
-            $this->identity = new IdentityHelper();
-            $this->company_id = $this->identity->company_id();
-        }else{
-            $this->identity = null;
-            $this->company_id = null;
-        }
-    }
-
-    public function dateFormatter($data)
-    {
-        // $from_date  = $this->request->getJsonVar('from_date');
-        // $to_date    = $this->request->getJsonVar('to_date');
-
-        // $date       = $this->request->getJsonVar('date');
-        // if ($date) {
-        //     $dateFrom = date('Y-m-d H:i:s', strtotime(str_replace('.', '/', $date->from)));
-        //     $dateTo = date('Y-m-d H:i:s', strtotime(str_replace('.', '/', $date->from)));
-            
-        //     if ($dateFrom) {
-        //         $fromdt = date('H:i:s', strtotime(str_replace('.', '/', $date->from)));
-        //     }
-
-        //     if ($dateTo) {
-        //         // code...
-        //     }
-        // }
-        // // $date = '10.21.2011';
-        // // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
     }
 
     public function limit()
@@ -177,29 +143,5 @@ class QueryHelper
         }
 
         return implode(", ",$fsl);
-    }
-
-    public function insert($params)
-    {
-        $payload = [
-            "company_id"    => $this->identity->company_id(),
-            "account_id"    => $this->identity->account_id()
-        ];
-
-        $payload = array_merge($payload,$params);
-
-        return $payload;
-    }
-
-    public function insert_fields($params)
-    {
-        $payload = [
-            "company_id"    => $this->identity->company_id(),
-            "created_by"    => $this->identity->account_id()
-        ];
-
-        $payload = array_merge($payload,$params);
-
-        return $payload;
     }
 }
