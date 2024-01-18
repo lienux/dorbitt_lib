@@ -6,7 +6,7 @@ class BuilderHelper
 {
     public function __construct()
     {
-        // 
+        $this->request = \Config\Services::request();
     }
 
     public function conditions($params)
