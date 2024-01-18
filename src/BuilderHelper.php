@@ -50,12 +50,14 @@ class BuilderHelper
         }else{
 
             if ($search) {
-                $builder->groupStart();
-                    $builder->like('id',$search);
-                    foreach ($search_params as $key => $value) {
-                        $builder->orLike($value,$search);
-                    }
-                $builder->groupEnd();
+                if ($search_params) {
+                    $builder->groupStart();
+                        $builder->like('id',$search);
+                        foreach ($search_params as $key => $value) {
+                            $builder->orLike($value,$search);
+                        }
+                    $builder->groupEnd();
+                }
             }
 
             if ($from_date) {
@@ -119,12 +121,14 @@ class BuilderHelper
         }else{
 
             if ($search) {
-                $builder->groupStart();
-                    $builder->like('a.id',$search);
-                    foreach ($search_params as $key => $value) {
-                        $builder->orLike($value,$search);
-                    }
-                $builder->groupEnd();
+                if ($search_params) {
+                    $builder->groupStart();
+                        $builder->like('a.id',$search);
+                        foreach ($search_params as $key => $value) {
+                            $builder->orLike($value,$search);
+                        }
+                    $builder->groupEnd();
+                }
             }
 
             if ($from_date) {
