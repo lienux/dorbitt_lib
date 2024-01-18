@@ -197,8 +197,13 @@ class BuilderHelper
             if ($search) {
                 if ($search_params) {
                     $builder->groupStart();
-                        foreach ($search_params as $key => $value) {
-                            $builder->orLike($value,$search);
+                        $builder->like($search_params[0],$search);
+                        if (count($search_params) > 1) {
+                            foreach ($search_params as $key => $value) {
+                                if ($key != 0) {
+                                    $builder->orLike($value,$search);
+                                }
+                            }
                         }
                     $builder->groupEnd();
                 }
@@ -251,9 +256,13 @@ class BuilderHelper
             if ($search) {
                 if ($search_params) {
                     $builder->groupStart();
-                        $builder->like('a.id',$search);
-                        foreach ($search_params as $key => $value) {
-                            $builder->orLike($value,$search);
+                        $builder->like($search_params[0],$search);
+                        if (count($search_params) > 1) {
+                            foreach ($search_params as $key => $value) {
+                                if ($key != 0) {
+                                    $builder->orLike($value,$search);
+                                }
+                            }
                         }
                     $builder->groupEnd();
                 }
