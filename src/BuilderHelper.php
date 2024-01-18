@@ -218,24 +218,18 @@ class BuilderHelper
         return $builder;
     }
 
-    public function withJoin($params)
+    public function withJoin_hill($params)
     {
         $limit      = $this->request->getJsonVar('limit');
         $offset     = $this->request->getJsonVar('offset');
         $sort       = $this->request->getJsonVar('sort');
 
         if (strpos($sort, ".")) {
-            // $sort = explode(".",$sort);
-            // $sortCount = count($sort);
-            // $sort = $sort[$sortCount-1];
             $sort = null;
         }
 
         $order      = $this->request->getJsonVar('order');
         $search     = $this->request->getJsonVar('search');
-
-        $from_date  = $this->request->getJsonVar('from_date');
-        $to_date    = $this->request->getJsonVar('to_date');
         $date       = $this->request->getJsonVar('date');
 
         $builder            = $params['builder'];
@@ -284,8 +278,6 @@ class BuilderHelper
             }
         }
         
-        $builder->where('a.deleted_at', null);
-
         return $builder;
     }
     /**
