@@ -2,14 +2,23 @@
 
 namespace Dorbitt;
 
-// use App\Helpers\IdentityHelper;
+if (getenv('app.name')=='DORBITT SYSTEM') {
+    use App\Helpers\IdentityHelper;
+}
 
 class QueryHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        // $this->identity = new IdentityHelper();
+
+        if (getenv('app.name')=='DORBITT SYSTEM') {
+            $this->identity = new IdentityHelper();
+            $this->company_id = $this->identity->company_id();
+        }else{
+            $this->identity = null;
+            $this->company_id = null;
+        }
     }
 
     public function dateFormatter($data)
@@ -170,27 +179,27 @@ class QueryHelper
         return implode(", ",$fsl);
     }
 
-    // public function insert($params)
-    // {
-    //     $payload = [
-    //         "company_id"    => $this->identity->company_id(),
-    //         "account_id"    => $this->identity->account_id()
-    //     ];
+    public function insert($params)
+    {
+        $payload = [
+            "company_id"    => $this->identity->company_id(),
+            "account_id"    => $this->identity->account_id()
+        ];
 
-    //     $payload = array_merge($payload,$params);
+        $payload = array_merge($payload,$params);
 
-    //     return $payload;
-    // }
+        return $payload;
+    }
 
-    // public function insert_fields($params)
-    // {
-    //     $payload = [
-    //         "company_id"    => $this->identity->company_id(),
-    //         "created_by"    => $this->identity->account_id()
-    //     ];
+    public function insert_fields($params)
+    {
+        $payload = [
+            "company_id"    => $this->identity->company_id(),
+            "created_by"    => $this->identity->account_id()
+        ];
 
-    //     $payload = array_merge($payload,$params);
+        $payload = array_merge($payload,$params);
 
-    //     return $payload;
-    // }
+        return $payload;
+    }
 }
