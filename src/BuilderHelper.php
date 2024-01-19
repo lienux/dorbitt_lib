@@ -116,8 +116,9 @@ class BuilderHelper
         $search_params      = $params['search_params'];
 
         if (isset($params['company_id'])) {
-            if ($params['company_id']) {
-                $builder->where('company_id', $this->company_id);
+            $company_id = $params['company_id'];
+            if ($company_id) {
+                $builder->where('a.company_id', $company_id);
             }
         }
 
@@ -250,8 +251,9 @@ class BuilderHelper
         $search_params      = $params['search_params'];
 
         if (isset($params['company_id'])) {
-            if ($params['company_id']) {
-                $builder->where('company_id', $this->company_id);
+            $company_id = $params['company_id'];
+            if ($company_id) {
+                $builder->where('a.company_id', $company_id);
             }
         }
 
