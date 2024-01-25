@@ -144,4 +144,122 @@ class QueryHelper
 
         return implode(", ",$fsl);
     }
+
+    public function array_where($array, $field, $val)
+    {
+        $rows = [];
+        foreach ($array as $key => $value) {
+
+            if ($value[$field] == $val) {
+                $rows[] = $value;
+            }
+        }
+
+        return $rows;
+    }
+
+    public function array_search($array, $params)
+    {
+        $search = $this->request->getJsonVar('search');
+
+        if ($search) {
+
+            $rows = [];
+            foreach ($array as $key => $value) {
+
+                foreach ($params as $key2 => $value2) {
+                    // $contain = str_contains($value[$value2], $search);
+                    $contain = strpos($value[$value2], $search);
+                    if ($contain !== false) {
+                        $rows[] = $value;
+                    }
+                }
+            }
+
+        }else{
+
+            $rows = $array;
+
+        }
+
+        return $rows;
+    }
+
+    public function array_paging($array)
+    {
+        $limit = $this->request->getJsonVar('limit');
+        $offset = $this->request->getJsonVar('offset');
+        $search = $this->request->getJsonVar('search');
+
+        if ($search) {
+            $offset = 0;
+        }
+
+        if ($limit == 0 OR $limit == 'undefined') {
+            $rows = $array;
+        }else{
+            $rows = array_slice($array, $offset, $limit);
+        }
+
+        $response = [
+            "rows"      => $rows, 
+            "count"     => count($rows),
+            "total"     => count($array)
+        ];
+
+        return $response;
+    }
+
+    public function response_true($rows,$count,$total)
+    {
+        $response = [
+            "status"    => true,
+            "message"   => 'Get data success',
+            "rows"      => $rows,
+            "count"     => $count,
+            "total"     => $total
+        ];
+
+        return $response;
+    }
+
+    public function response_false()
+    {
+        $response = [
+            "status"    => false,
+            "message"   => 'Data not found.',
+            "rows"      => [],
+        ];
+
+        return $response;
+    }
+
+    public function restrue($rows,$count,$total)
+    {
+        if ($count == 0) {
+            $msg = 'Data not found';
+        }else{
+            $msg = 'Get data success';
+        }
+
+        $response = [
+            "status"    => true,
+            "message"   => $msg,
+            "rows"      => $rows,
+            "count"     => $count,
+            "total"     => $total
+        ];
+
+        return $response;
+    }
+
+    public function resfalse($builder)
+    {
+        $response = [
+            "status"    => false,
+            "message"   => $builder,
+        ];
+
+        return $response;
+    }
 }

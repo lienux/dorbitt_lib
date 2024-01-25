@@ -52,8 +52,8 @@ class BuilderHelper
 
         }else{
 
-            if ($search) {
-                if ($search_params) {
+            if ($search AND $search_params) {
+                // if ($search_params) {
                     $builder->groupStart();
                         $builder->like($search_params[0],$search);
                         if (count($search_params) > 1) {
@@ -64,7 +64,7 @@ class BuilderHelper
                             }
                         }
                     $builder->groupEnd();
-                }
+                // }
             }
 
             if ($from_date) {
