@@ -169,7 +169,7 @@ class QueryHelper
 
                 foreach ($params as $key2 => $value2) {
                     // $contain = str_contains($value[$value2], $search);
-                    $contain = strpos($value[$value2], $search);
+                    $contain = strpos(strtoupper($value[$value2]), strtoupper($search));
                     if ($contain !== false) {
                         $rows[] = $value;
                     }
