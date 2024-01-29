@@ -115,9 +115,10 @@ class QueryHelper
         return $count;
     }
 
-    public function orderBy($builder)
+    public function orderBy($builder, $allowedFields = null)
     {
-        $sort       = $this->request->getJsonVar('sort');
+        $sort = $this->request->getJsonVar('sort');
+
         if (strpos($sort, ".")) {
             $sort = explode(".",$sort);
             $sortCount = count($sort);
@@ -126,9 +127,17 @@ class QueryHelper
         $order      = $this->request->getJsonVar('order');
 
         if ($sort && $order) {
-            $builder = $builder->orderBy($sort, $order);
+            if ($allowedFields) {
+                if (in_array($sort, $allowedFields)) {
+                    $builder = $builder->orderBy($sort, $order);
+                }
+            }
         }else{
-            $builder = $builder->orderBy('id', 'desc');
+            if ($allowedFields) {
+                if (in_array("id", $allowedFields)) {
+                    $builder = $builder->orderBy('id', 'desc');
+                }
+            }
         }
 
         return $builder;
