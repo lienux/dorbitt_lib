@@ -143,6 +143,34 @@ class QueryHelper
         return $builder;
     }
 
+    public function orderBy_j($builder, $allowedFields = null)
+    {
+        $sort = $this->request->getJsonVar('sort');
+
+        if (strpos($sort, ".")) {
+            $sort = explode(".",$sort);
+            $sortCount = count($sort);
+            $sort = $sort[$sortCount-1];
+        }
+        $order      = $this->request->getJsonVar('order');
+
+        if ($sort && $order) {
+            if ($allowedFields) {
+                if (in_array($sort, $allowedFields)) {
+                    $builder = $builder->orderBy('a.'.$sort, $order);
+                }
+            }
+        }else{
+            if ($allowedFields) {
+                if (in_array("id", $allowedFields)) {
+                    $builder = $builder->orderBy('a.id', 'desc');
+                }
+            }
+        }
+
+        return $builder;
+    }
+
     // untuk membuat list select otomatis saat join table
     public function select_j($fields, $alias)
     {

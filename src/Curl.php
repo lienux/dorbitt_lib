@@ -62,9 +62,9 @@ class Curl
         $token          = $params['token'];
 
         if ($token == null) {
-            $tokenz = $this->token;
-        }else{
-            $tokenz = $token;
+            $token = $this->token;
+        }elseif ($token == 'session') {
+            $token = session()->get('token');
         }
 
         $curl = curl_init();
@@ -82,7 +82,7 @@ class Curl
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $tokenz
+                'Authorization: Bearer ' . $token
             ),
         ));
 
