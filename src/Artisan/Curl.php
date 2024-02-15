@@ -48,4 +48,9 @@ class Curl
 
         return $response;
     }
+
+    public static function token()
+    {
+        return end('DORBITT_TOKEN');
+    }
 }
