@@ -24,6 +24,7 @@ class SiteProject
         }
 
         $params = [
+            "url"            => $path,
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
