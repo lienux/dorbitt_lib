@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class SiteProject
+class WorkorderSap
 {
      public function __construct()
     {
@@ -13,21 +13,15 @@ class SiteProject
 
     public function show($params)
     {
-        $id = $params['id'];
         $payload = $params['payload'];
         $token = $params['token'];
-        
-        if ($id) {
-            $path = "api/site_project/show/" . $id;
-        }else{
-            $path = "api/site_project/show";
-        }
+        $path = "api/pm/workorder_sap/show";
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "site_project",
+            "module_code"    => "pm_workorder_sap",
             "token"          => $token
         ];
 

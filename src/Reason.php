@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class SiteProject
+class Reason
 {
      public function __construct()
     {
@@ -18,16 +18,16 @@ class SiteProject
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/site_project/show/" . $id;
+            $path = "api/pm/reason/show/" . $id;
         }else{
-            $path = "api/site_project/show";
+            $path = "api/pm/reason/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "site_project",
+            "module_code"    => "pm_reason",
             "token"          => $token
         ];
 

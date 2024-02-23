@@ -148,9 +148,6 @@ class Curl
         curl_close($curl);
 
         return $response;
-
-        // return $url_;
-
     }
 
     public function ummu($params)
