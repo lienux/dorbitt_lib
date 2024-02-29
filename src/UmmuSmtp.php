@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class TahunAkademik
+class UmmuSmtp
 {
     public function __construct()
     {
@@ -18,16 +18,16 @@ class TahunAkademik
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/tahun_akademik/show/" . $id;
+            $path = "api/master/smtp/show/" . $id;
         }else{
-            $path = "api/tahun_akademik/show";
+            $path = "api/master/smtp/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "tahun_akademik",
+            "module_code"    => "smtp",
             "token"          => $token
         ];
 

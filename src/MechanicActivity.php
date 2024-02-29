@@ -6,7 +6,7 @@ use Dorbitt\Curl;
 
 class MechanicActivity
 {
-     public function __construct()
+    public function __construct()
     {
         $this->curli = new Curl();
     }

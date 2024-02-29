@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class TahunAkademik
+class RequestCategory
 {
     public function __construct()
     {
@@ -18,16 +18,16 @@ class TahunAkademik
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/tahun_akademik/show/" . $id;
+            $path = "api/ict/request_category/show/" . $id;
         }else{
-            $path = "api/tahun_akademik/show";
+            $path = "api/ict/request_category/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "tahun_akademik",
+            "module_code"    => "ict__request_category",
             "token"          => $token
         ];
 

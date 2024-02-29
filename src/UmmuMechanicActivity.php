@@ -4,7 +4,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class TahunAkademik
+class UmmuMechanicActivity
 {
     public function __construct()
     {
@@ -18,21 +18,22 @@ class TahunAkademik
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/tahun_akademik/show/" . $id;
+            $path = "api/pm/mechanic_activity/show/" . $id;
         }else{
-            $path = "api/tahun_akademik/show";
+            $path = "api/pm/mechanic_activity/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "tahun_akademik",
+            "module_code"    => "pm_mechanic_activity",
             "token"          => $token
         ];
 
         $response = $this->curli->request3($params);
 
         return json_decode($response, false);
+        // return $params;
     }
 }

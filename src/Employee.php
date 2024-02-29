@@ -6,7 +6,7 @@ use Dorbitt\Curl;
 
 class Employee
 {
-     public function __construct()
+    public function __construct()
     {
         $this->curli = new Curl();
     }

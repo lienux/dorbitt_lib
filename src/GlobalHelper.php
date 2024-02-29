@@ -192,10 +192,4 @@ class GlobalHelper
             return $dir.$newName;
         }
     }
-
-    public function disc($jml, $prc)
-    {
-        $text = $jml * prc / 100;
-        return $text;
-    }
 }
