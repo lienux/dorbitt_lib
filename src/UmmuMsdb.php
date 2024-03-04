@@ -27,7 +27,7 @@ class UmmuMsdb
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "smtp",
+            "module_code"    => "msdb",
             "token"          => $token
         ];
 
