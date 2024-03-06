@@ -50,4 +50,44 @@ class UmmuEncryption
 
         return json_decode($response, false);
     }
+
+    public function syshabEncrypt($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/lib/encryption/syshab_encrypt";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "encryption",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
+    public function syshabDecrypt($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/lib/encryption/syshab_decrypt";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "encryption",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
 }
