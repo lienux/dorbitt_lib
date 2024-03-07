@@ -2,6 +2,15 @@
 
 namespace Dorbitt;
 
+/**
+* =============================================
+* Author: Ummu
+* Website: https://ummukhairiyahyusna.com/
+* App: DORBITT LIB
+* Description: 
+* =============================================
+*/
+
 class QueryHelper
 {
     public function __construct()

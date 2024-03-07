@@ -2,6 +2,15 @@
 
 namespace Dorbitt\Artisan;
 
+/**
+* =============================================
+* Author: Ummu
+* Website: https://ummukhairiyahyusna.com/
+* App: DORBITT LIB
+* Description: 
+* =============================================
+*/
+
 class Curl
 {
     public static function request($params)

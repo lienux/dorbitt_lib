@@ -2,6 +2,15 @@
 
 namespace Dorbitt;
 
+/**
+* =============================================
+* Author: Ummu
+* Website: https://ummukhairiyahyusna.com/
+* App: DORBITT LIB
+* Description: 
+* =============================================
+*/
+
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Files\File;
