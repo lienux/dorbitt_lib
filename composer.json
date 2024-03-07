@@ -2,10 +2,17 @@
     "name": "dorbitt/lib",
     "type": "library",
     "description": "Dorbitt is a full-featured api creation and transfer class for PHP",
+    "website": "https://dorbitt.com/",
     "authors": [
         {
             "name": "M. Ali Imron",
-            "email": "lienux.qq@gmail.com"
+            "email": "lienux.qq@gmail.com",
+            "website": "https://bocahganteng.com/"
+        },
+        {
+            "name": "Ummu Khairiyah Yusna",
+            "email": "ummukhairiyahyusna@gmail.com",
+            "website": "https://ummukhairiyahyusna.com/"
         }
     ],
     "funding": [
