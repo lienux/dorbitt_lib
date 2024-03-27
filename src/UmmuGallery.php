@@ -13,7 +13,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class UmmuMsdb
+class UmmuGallery
 {
     public function __construct()
     {
@@ -27,16 +27,16 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/show/" . $id;
+            $path = "api/gallery/show/" . $id;
         }else{
-            $path = "api/msdb/show";
+            $path = "api/gallery/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "gallery",
             "token"          => $token
         ];
 
@@ -50,13 +50,13 @@ class UmmuMsdb
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/create";
+        $path = "api/gallery/create";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "gallery",
             "token"          => $token
         ];
 
@@ -71,13 +71,13 @@ class UmmuMsdb
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/update/" . $id;
+        $path = "api/gallery/update/" . $id;
 
         $params = [
             "path"           => $path,
             "method"         => "PUT",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "gallery",
             "token"          => $token
         ];
 
@@ -93,16 +93,16 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/delete/" . $id;
+            $path = "api/gallery/delete/" . $id;
         }else{
-            $path = "api/msdb/delete";
+            $path = "api/gallery/delete";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "DELETE",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "gallery",
             "token"          => $token
         ];
 

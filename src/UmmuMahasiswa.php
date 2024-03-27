@@ -13,7 +13,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class UmmuMsdb
+class UmmuMahasiswa
 {
     public function __construct()
     {
@@ -27,16 +27,16 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/show/" . $id;
+            $path = "api/siakad/mahasiswa/show/" . $id;
         }else{
-            $path = "api/msdb/show";
+            $path = "api/siakad/mahasiswa/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mahasiswa",
             "token"          => $token
         ];
 
@@ -50,13 +50,13 @@ class UmmuMsdb
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/create";
+        $path = "api/siakad/mahasiswa/create";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mahasiswa",
             "token"          => $token
         ];
 
@@ -71,13 +71,13 @@ class UmmuMsdb
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/update/" . $id;
+        $path = "api/siakad/mahasiswa/update/" . $id;
 
         $params = [
             "path"           => $path,
             "method"         => "PUT",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mahasiswa",
             "token"          => $token
         ];
 
@@ -93,16 +93,36 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/delete/" . $id;
+            $path = "api/siakad/mahasiswa/delete/" . $id;
         }else{
-            $path = "api/msdb/delete";
+            $path = "api/siakad/mahasiswa/delete";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "DELETE",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mahasiswa",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
+    public function show_gallery($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/siakad/mahasiswa/show_gallery";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "mahasiswa",
             "token"          => $token
         ];
 

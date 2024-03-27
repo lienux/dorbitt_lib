@@ -45,12 +45,52 @@ class UmmuRuangan
         return json_decode($response, false);
     }
 
+    public function show_gedung($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/ruangan/show_gedung";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "ruangan",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
     public function show_roomcateg($params)
     {
         $payload = $params['payload'];
         $token = $params['token'];
         
         $path = "api/ruangan/show_roomcateg";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "ruangan",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
+    public function show_gallery($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/ruangan/show_gallery";
 
         $params = [
             "path"           => $path,

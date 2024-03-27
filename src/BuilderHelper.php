@@ -26,6 +26,7 @@ class BuilderHelper
         $limit      = $this->request->getJsonVar('limit');
         $offset     = $this->request->getJsonVar('offset');
         $sort       = $this->request->getJsonVar('sort');
+        $withCreatedBy = $this->request->getJsonVar('created_by');
 
         if (strpos($sort, ".")) {
             // $sort = explode(".",$sort);
@@ -52,6 +53,13 @@ class BuilderHelper
             $company_id = $params['company_id'];
             if ($company_id) {
                 $builder->where('company_id', $company_id);
+            }
+        }
+
+        if (isset($params['account_id'])) {
+            $account_id = $params['account_id'];
+            if ($withCreatedBy == true) {
+                $builder->where('created_by', $account_id);
             }
         }
 
@@ -105,6 +113,7 @@ class BuilderHelper
         $limit      = $this->request->getJsonVar('limit');
         $offset     = $this->request->getJsonVar('offset');
         $sort       = $this->request->getJsonVar('sort');
+        $withCreatedBy = $this->request->getJsonVar('created_by');
 
         if (strpos($sort, ".")) {
             // $sort = explode(".",$sort);
@@ -129,6 +138,10 @@ class BuilderHelper
             if ($company_id) {
                 $builder->where('a.company_id', $company_id);
             }
+        }
+
+        if (isset($withCreatedBy) AND $withCreatedBy == true AND isset($params['account_id'])) {
+            $builder->where('a.created_by', $params['account_id']);
         }
 
         if ($id) {
