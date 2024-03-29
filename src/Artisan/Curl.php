@@ -23,7 +23,7 @@ class Curl
         if (env("CI_DORBITT")=="testing") {
             $url = "http://localhost:8080/" . $path;
         }else{
-            $url = "https://api.dorbitt.my.id/" . $path;
+            $url = "https://api.dorbitt.com/" . $path;
         }
 
         if (env("DORBITT_TOKEN")) {
