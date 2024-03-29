@@ -43,6 +43,25 @@ class UmmuMechanicActivity
         $response = $this->curli->request3($params);
 
         return json_decode($response, false);
-        // return $params;
+    }
+
+    public function insert($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/msdb/create";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "POST",
+            "payload"        => $payload,
+            "module_code"    => "msdb",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
     }
 }

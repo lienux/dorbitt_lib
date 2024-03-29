@@ -27,9 +27,9 @@ class UmmuSmtp
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/master/smtp/show/" . $id;
+            $path = "api/smtp/show/" . $id;
         }else{
-            $path = "api/master/smtp/show";
+            $path = "api/smtp/show";
         }
 
         $params = [
