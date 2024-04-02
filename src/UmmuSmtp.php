@@ -44,4 +44,23 @@ class UmmuSmtp
 
         return json_decode($response, false);
     }
+
+    public function show_upload($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        $path = "api/smtp/show_upload";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "smtp",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
 }
