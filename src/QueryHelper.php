@@ -289,11 +289,13 @@ class QueryHelper
         }
 
         $response = [
-            "status"    => true,
-            "message"   => $msg,
-            "rows"      => $rows,
-            "count"     => $count,
-            "total"     => $total
+            "status"            => true,
+            "message"           => $msg,
+            "rows"              => $rows,
+            "count"             => $count,
+            "total"             => $total,
+            "recordsTotal"      => $total,
+            "recordsFiltered"   => $total,
         ];
 
         return $response;
