@@ -21,7 +21,7 @@ class UmmuLogs
         $this->request  = \Config\Services::request();
     }
 
-    public function create($text)
+    public function create($text, $label = null)
     {
         $filename = date("Y-m-d") . '.html';
 
@@ -38,7 +38,7 @@ class UmmuLogs
         exec("chmod -R 777 /var/www/html/ummuLogs");
 
         $fp = fopen('/var/www/html/ummuLogs/' . $filename, 'a');
-        fwrite($fp, "<p>" . date("Y-m-d H:i:s") . "<br>" . "\n");
+        fwrite($fp, "<p>" . $label . date("Y-m-d H:i:s") . "<br>" . "\n");
         fwrite($fp, json_encode($text) . "<br>" . "\n");
     }
 }
