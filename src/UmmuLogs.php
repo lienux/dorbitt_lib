@@ -38,7 +38,7 @@ class UmmuLogs
         exec("chmod -R 777 /var/www/html/ummuLogs");
 
         $fp = fopen('/var/www/html/ummuLogs/' . $filename, 'a');
-        fwrite($fp, "<p>" . $label . date("Y-m-d H:i:s") . "<br>" . "\n");
+        fwrite($fp, "<p>" . $label . " " . date("Y-m-d H:i:s") . "<br>" . "\n");
         fwrite($fp, json_encode($text) . "<br>" . "\n");
     }
 }
