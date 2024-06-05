@@ -270,8 +270,13 @@ class GlobalHelper
         }
     }
 
-    public function rmcoma($a)
+    public function rmcoma($text)
     {
-        return str_replace(",", "", $a);
+        return str_replace(",", "", $text);
+    }
+
+    public function decimal($value,$scale)
+    {
+        return number_format((float)$value, $scale, '.', '');
     }
 }
