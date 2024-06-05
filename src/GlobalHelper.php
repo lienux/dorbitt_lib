@@ -270,4 +270,8 @@ class GlobalHelper
         }
     }
 
+    public function rmcoma($a)
+    {
+        return str_replace(",", "", $a);
+    }
 }
