@@ -13,7 +13,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class UmmuMsdb
+class UmmuMysql
 {
     public function __construct()
     {
@@ -27,16 +27,16 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/show/" . $id;
+            $path = "api/server/mysql/show/" . $id;
         }else{
-            $path = "api/msdb/show";
+            $path = "api/server/mysql/show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mysql",
             "token"          => $token
         ];
 
@@ -45,39 +45,18 @@ class UmmuMsdb
         return json_decode($response, false);
     }
 
-    public function insert($params)
+    public function create($params)
     {
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/create";
+        $path = "api/server/mysql/create";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "msdb",
-            "token"          => $token
-        ];
-
-        $response = $this->curli->request3($params);
-
-        return json_decode($response, false);
-    }
-
-    public function update($params)
-    {
-        $id = $params['id'];
-        $payload = $params['payload'];
-        $token = $params['token'];
-        
-        $path = "api/msdb/update/" . $id;
-
-        $params = [
-            "path"           => $path,
-            "method"         => "PUT",
-            "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mysql",
             "token"          => $token
         ];
 
@@ -98,16 +77,16 @@ class UmmuMsdb
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/msdb/delete/" . $id;
+            $path = "api/server/mysql/delete/" . $id;
         }else{
-            $path = "api/msdb/delete";
+            $path = "api/server/mysql/delete";
         }
-
+        
         $params = [
             "path"           => $path,
             "method"         => "DELETE",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "mysql",
             "token"          => $token
         ];
 
