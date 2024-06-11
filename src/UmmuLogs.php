@@ -11,6 +11,7 @@ namespace Dorbitt;
 * =============================================
 */
 
+// use CodeIgniter\HTTP\IncomingRequest;
 use Dorbitt\Curl;
 
 class UmmuLogs
@@ -65,5 +66,37 @@ class UmmuLogs
         $fp = fopen('/var/www/html/ummuLogs/' . $filename, 'a');
         fwrite($fp, "<p>" . $subject . date("Y-m-d H:i:s") . "<br>" . "\n");
         fwrite($fp, json_encode($text) . "<br>" . "\n");
+    }
+
+    public function create3($filename, $text = null, $subject = null)
+    {
+        $filename = $filename. '_'. date("Y-m-d") . '.html';
+        $vars = $this->request->getJsonVar();
+        $ip = $this->request->getIPAddress();
+        $headers = $this->request->headers();
+        $headers = implode("<br>",$headers);
+        $method = $this->request->getMethod();
+
+        if ($text == null) {
+            $text = $vars;
+        }
+
+        if ($subject) {
+            $subject = $subject . ' | ';
+        }
+
+        if (! is_dir(WRITEPATH . "ummuLogs")) {
+            exec("mkdir " . WRITEPATH . "ummuLogs");
+        }
+
+        if (! is_file(WRITEPATH . "ummuLogs/" . $filename)) {
+            exec("touch " . WRITEPATH ."ummuLogs/" . $filename);
+        }
+
+        $fp = fopen(WRITEPATH . 'ummuLogs/' . $filename, 'a');
+        fwrite($fp, "<p><span style='font-weight: bold;'>" . $method . " | " . $subject . date("Y-m-d H:i:s") . "</span><br>" . "\n");
+        fwrite($fp, "IP Address: " . $ip . "<br>" . "\n");
+        fwrite($fp, $headers . "<br>" . "\n");
+        fwrite($fp, "Body: " . json_encode($text) . "<br>" . "\n");
     }
 }
