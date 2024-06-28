@@ -13,7 +13,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class Auth
+class UmmuAuth
 {
     public function __construct()
     {
@@ -56,23 +56,6 @@ class Auth
 
         $response = $this->curli->ummu2($params);
 
-        return $response;
-    }
-
-    public function login_with_phone($payload)
-    {
-        $params = [
-            "path"           => "auth/login/create_with_phone",
-            "method"         => "POST",
-            "payload"        => $payload,
-            "headers"        => array(
-                'Content-Type: application/json'
-                // 'Company-Token: '.getenv('company_token')
-            )
-        ];
-
-        $response = $this->curli->ummu2($params);
-
-        return $response;
+        return json_decode($response, false);
     }
 }

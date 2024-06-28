@@ -11,7 +11,7 @@ namespace Dorbitt;
 * =============================================
 */
 
-class QueryHelper
+class UmmuHelper
 {
     public function __construct()
     {
@@ -90,9 +90,11 @@ class QueryHelper
         return $search;
     }
 
-    public function payload()
+    public function dt_payload()
     {
+        // $limit = $this->request->getVar('limit');
         $length = $this->request->getVar('length');
+        // $offset = $this->request->getVar('offset');
         $start = $this->request->getVar('start');
         $order = $this->request->getVar('order');
         $search = $this->request->getVar('search');
@@ -100,8 +102,8 @@ class QueryHelper
         $payload = [
             "limit"     => $length,
             "offset"    => $start,
-            "sort"      => $order['name'],
-            "order"     => $order['dir'],
+            "sort"      => $order[0]['name'],
+            "order"     => $order[0]['dir'],
             "search"    => $search['value']
         ];
 

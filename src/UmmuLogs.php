@@ -71,14 +71,20 @@ class UmmuLogs
     public function create3($filename, $text = null, $subject = null)
     {
         $filename = $filename. '_'. date("Y-m-d") . '.html';
-        $vars = $this->request->getJsonVar();
+        $jsonVar = $this->request->getJsonVar();
+        $var = $this->request->getVar();
         $ip = $this->request->getIPAddress();
         $headers = $this->request->headers();
         $headers = implode("<br>",$headers);
         $method = $this->request->getMethod();
 
         if ($text == null) {
-            $text = $vars;
+            if ($jsonVar) {
+                // code...
+                $text = $jsonVar;
+            }else{
+                $text = $var;
+            }
         }
 
         if ($subject) {

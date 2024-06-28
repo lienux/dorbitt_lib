@@ -114,7 +114,6 @@ class Curl
         curl_close($curl);
 
         return $response;
-
     }
 
     public function request3($params)
@@ -137,6 +136,48 @@ class Curl
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url_,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Module-Code: '. $module_code,
+                'Authorization: Bearer ' . $token
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return $response;
+    }
+
+    public function request4($params)
+    {
+        $path           = $params['path'];
+        $method         = $params['method'];
+        $payload        = $params['payload'];
+        $module_code    = $params['module_code'];
+        $token          = $params['token'];
+
+        if ($token == null) {
+            $token = $this->token;
+        }
+
+        if ($token == 'session') {
+            $token = session()->get('token');
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->url . $path,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -186,5 +227,76 @@ class Curl
         curl_close($curl);
 
         return json_decode($response, false);
+    }
+
+    public function ummu2($params)
+    {
+        $path           = $params['path'];
+        $method         = $params['method'];
+        $payload        = $params['payload'];
+        $headers        = $params['headers'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->url . $path,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => $headers,
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return json_decode($response, false);
+    }
+
+    public function form($params)
+    {
+        $path           = $params['path'];
+        $method         = $params['method'];
+        $payload        = $params['payload'];
+        $module_code    = $params['module_code'];
+        $token          = $params['token'];
+
+        if ($token == null) {
+            $token = $this->token;
+        }elseif ($token == 'session') {
+            $token = session()->get('token');
+        }
+
+        $url_ = $this->url . $path;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url_,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: multipart/form-data',
+                'Module-Code: '. $module_code,
+                'Authorization: Bearer ' . $token
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return $response;
     }
 }

@@ -451,4 +451,68 @@ class BuilderHelper
      * END FOR HILLCON
      * ================================================
      * */
+
+
+    public function dt_conditions($params)
+    {
+        $length      = $this->request->getJsonVar('length');
+        $limit      = $this->request->getJsonVar('limit');
+        $offset     = $this->request->getJsonVar('offset');
+        $sort       = $this->request->getJsonVar('sort');
+        $order      = $this->request->getJsonVar('order');
+        $search     = $this->request->getJsonVar('search');
+
+        if (isset($search['value'])) {
+            $search = $search['value'];
+        }else{
+            $search = "";
+        }
+
+        $date       = $this->request->getJsonVar('date');
+
+        $builder        = $params['builder'];
+        $id             = $params['id'];
+        $search_params  = $params['search_params'];
+
+        if (isset($params['company_id'])) {
+            $company_id = $params['company_id'];
+            if ($company_id) {
+                $builder->where('company_id', $company_id);
+            }
+        }
+
+        if ($id) {
+
+            $builder->where('id',$id);
+
+        }else{
+
+            if ($search) {
+                if ($search_params) {
+                    $builder->groupStart();
+                        $builder->like($search_params[0],$search);
+                        if (count($search_params) > 1) {
+                            foreach ($search_params as $key => $value) {
+                                if ($key != 0) {
+                                    $builder->orLike($value,$search);
+                                }
+                            }
+                        }
+                    $builder->groupEnd();
+                }
+            }
+
+            if ($date) {
+                if ($date->from) {
+                    $builder->where('tanggal >=', $this->gHelp->dtfFormatter($date->from));
+                }
+
+                if ($date->to) {
+                    $builder->where('tanggal <=', $this->gHelp->dttFormatter($date->to));
+                }
+            }
+        }
+
+        return $builder;
+    }
 }
