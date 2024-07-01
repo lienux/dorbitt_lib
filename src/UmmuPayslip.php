@@ -14,7 +14,7 @@ namespace Dorbitt;
 use Dorbitt\Curl;
 use Dorbitt\GlobalHelper;
 
-class UmmuEmployeeSalary
+class UmmuPayslip
 {
     public function __construct()
     {
@@ -26,34 +26,14 @@ class UmmuEmployeeSalary
     {
         $response = $this->curli->request4(
             [
-                "path"           => "api/hcm/payroll/employee_salary/show",
+                "path"           => "api/hcm/payroll/payslip/show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
-                "module_code"    => "employee_salary",
+                "module_code"    => "payslip",
                 "token"          => $params['token']
             ]
         );
 
         return json_decode($response, false);
-    }
-
-    public function import($params)
-    {
-        $filepath = $this->gHelp->upload();
-
-        $payload = [
-            "path"           => "api/hcm/payroll/employee_salary/import",
-            "method"         => "POST",
-            "payload"        => array('file'=> new \CURLFILE($filepath)),
-            "module_code"    => "employee_salary",
-            "token"          => $params['token']
-        ];
-
-        $response = $this->curli->form($payload);
-
-        unlink($filepath);
-
-        return json_decode($response, false);
-        // return $payload;
     }
 }

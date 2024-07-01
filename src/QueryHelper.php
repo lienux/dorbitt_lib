@@ -148,6 +148,13 @@ class QueryHelper
         return $rows;
     }
 
+    public function _getLastRow($builder)
+    {
+        $rows = $builder->limit($this->limit(), $this->offset())
+        ->get()->getLastRow();
+        return $rows;
+    }
+
     // untuk menjumlahkan rows data
     public function _count($rows)
     {
