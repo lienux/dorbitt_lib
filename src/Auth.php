@@ -66,8 +66,9 @@ class Auth
             "method"         => "POST",
             "payload"        => $payload,
             "headers"        => array(
-                'Content-Type: application/json'
-                // 'Company-Token: '.getenv('company_token')
+                'Content-Type: application/json',
+                // 'Company-Token: '.getenv('company_token'),
+                'App-Id: ' . getenv('app_id')
             )
         ];
 
