@@ -110,6 +110,35 @@ class UmmuHelper
         return $payload;
     }
 
+    public function dt_payload2()
+    {
+        $draw = $this->request->getVar('draw');
+        $length = $this->request->getVar('length');
+        $start = $this->request->getVar('start');
+        $columns = $this->request->getVar('columns');
+        $order = $this->request->getVar('order');
+        $column = $order[0]['column'];
+        $search = $this->request->getVar('search');
+
+        if ($draw == 1) {
+            $sort = 'id';
+            $order = 'desc';
+        }else{
+            $sort = $columns[$column]['data'];
+            $order = $order[0]['dir'];
+        }
+
+        $payload = [
+            "limit"     => $length,
+            "offset"    => $start,
+            "sort"      => $sort,
+            "order"     => $order,
+            "search"    => $search['value']
+        ];
+
+        return $payload;
+    }
+
     public function totalcount($query)
     {
         $total = $query->countAllResults(false);
