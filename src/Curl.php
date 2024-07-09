@@ -279,9 +279,9 @@ class Curl
         $response = curl_exec($curl);
 
         curl_close($curl);
-        // return $response;
+        return $response;
 
-        $newArr = (array)simplexml_load_string($response);
+        // $newArr = (array)simplexml_load_string($response);
 
         // $url = $this->request->getJsonVar('efaktur_url');
         // $xmlfile = file_get_contents($response); 
@@ -289,7 +289,7 @@ class Curl
         // $con = json_encode($data); 
         // $newArr = json_decode($con, true);
 
-        return $newArr;
+        // return $newArr;
     }
 
     public function form($params)
