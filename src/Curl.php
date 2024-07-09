@@ -292,6 +292,16 @@ class Curl
         // return $newArr;
     }
 
+    public function efaktur2($url)
+    {
+        $xmlfile = file_get_contents($url); 
+        $new = simplexml_load_string($xmlfile); 
+        $con = json_encode($new); 
+        $newArr = json_decode($con, true);
+
+        return $newArr;
+    }
+
     public function form($params)
     {
         $path           = $params['path'];
