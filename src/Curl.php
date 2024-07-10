@@ -279,21 +279,21 @@ class Curl
         $response = curl_exec($curl);
 
         curl_close($curl);
-        return $response;
+        // return $response;
 
-        // $newArr = (array)simplexml_load_string($response);
+        $newArr = (array)simplexml_load_string($response);
 
+        return $newArr;
+    }
+
+    public function efaktur2($url)
+    {
         // $url = $this->request->getJsonVar('efaktur_url');
         // $xmlfile = file_get_contents($response); 
         // $data = simplexml_load_string($xmlfile); 
         // $con = json_encode($data); 
         // $newArr = json_decode($con, true);
-
-        // return $newArr;
-    }
-
-    public function efaktur2($url)
-    {
+        
         $xmlfile = file_get_contents($url); 
         $new = simplexml_load_string($xmlfile); 
         $con = json_encode($new); 
