@@ -139,6 +139,53 @@ class UmmuHelper
         return $payload;
     }
 
+    public function dt_payload3()
+    {
+        $draw = $this->request->getVar('draw');
+        $length = $this->request->getVar('length');
+        $start = $this->request->getVar('start');
+
+        $orderVar = $this->request->getVar('order');
+        if ($orderVar) {
+            $column = $orderVar[0]['column'];
+            $order = $orderVar[0]['dir'];
+        }else{
+            $order = 'desc';
+        }
+
+        $columns = $this->request->getVar('columns');
+        if ($columns) {
+            $sort = $columns[$column]['data'];
+        }else{
+            $sort = 'id';
+        }
+
+        if ($draw == 1) {
+            $sort = 'id';
+            $order = 'desc';
+        }else{
+            $sort = $sort;
+            $order = $order;
+        }
+
+        $searchVar = $this->request->getVar('search');
+        if ($searchVar) {
+            $search = $searchVar['value'];
+        }else{
+            $search = "";
+        }
+
+        $payload = [
+            "limit"     => $length,
+            "offset"    => $start,
+            "sort"      => $sort,
+            "order"     => $order,
+            "search"    => $search
+        ];
+
+        return $payload;
+    }
+
     public function totalcount($query)
     {
         $total = $query->countAllResults(false);
@@ -288,6 +335,30 @@ class UmmuHelper
 
             $rows = $array;
 
+        }
+
+        return $rows;
+    }
+
+    public function array_search_dt($array, $params)
+    {
+        $search = $this->request->getVar('search');
+
+        if ($search) {
+            // $search = $search['value'];
+            $rows = [];
+            foreach ($array as $key => $value) {
+
+                foreach ($params as $key2 => $value2) {
+                    $contain = strpos(strtoupper($value[$value2]), strtoupper($search));
+                    if ($contain !== false) {
+                        $rows[] = $value;
+                    }
+                }
+            }
+
+        }else{
+            $rows = $array;
         }
 
         return $rows;

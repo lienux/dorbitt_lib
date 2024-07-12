@@ -50,13 +50,13 @@ class UmmuMechanicActivity
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/msdb/create";
+        $path = "api/pm/mechanic_activity/create";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "msdb",
+            "module_code"    => "pm_mechanic_activity",
             "token"          => $token
         ];
 
