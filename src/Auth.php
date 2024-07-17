@@ -76,4 +76,21 @@ class Auth
 
         return $response;
     }
+
+    public function find_phone_number($payload)
+    {
+        $params = [
+            "path"           => "auth/login/find_phone_number",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "headers"        => array(
+                'Content-Type: application/json',
+                'App-Id: ' . getenv('app_id')
+            )
+        ];
+
+        $response = $this->curli->ummu2($params);
+
+        return $response;
+    }
 }
