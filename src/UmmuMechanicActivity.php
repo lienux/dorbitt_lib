@@ -45,6 +45,31 @@ class UmmuMechanicActivity
         return json_decode($response, false);
     }
 
+    public function show_from_integration($params)
+    {
+        $id = $params['id'];
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        if ($id) {
+            $path = "api/pm/mechanic_activity/show_from_integration/" . $id;
+        }else{
+            $path = "api/pm/mechanic_activity/show_from_integration";
+        }
+
+        $params = [
+            "path"           => $path,
+            "method"         => "GET",
+            "payload"        => $payload,
+            "module_code"    => "pm_mechanic_activity",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
     public function insert($params)
     {
         $payload = $params['payload'];
