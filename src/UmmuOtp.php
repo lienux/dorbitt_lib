@@ -64,7 +64,7 @@ class UmmuOtp
         return json_decode($response, false);
     }
 
-    public function create($params)
+    public function confirm($params)
     {
         $payload = $params['payload'];
         $token = $params['token'];

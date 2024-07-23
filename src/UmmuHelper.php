@@ -114,18 +114,34 @@ class UmmuHelper
     {
         $draw = $this->request->getVar('draw');
         $length = $this->request->getVar('length');
+        if ($length) {
+            $length = $length;
+        }else{
+            $length = 100;
+        }
+
         $start = $this->request->getVar('start');
         $columns = $this->request->getVar('columns');
         $order = $this->request->getVar('order');
-        $column = $order[0]['column'];
-        $search = $this->request->getVar('search');
-
-        if ($draw == 1) {
+        if ($order) {
+            $column = $order[0]['column'];
+            if ($draw == 1) {
+                $sort = 'id';
+                $order = 'desc';
+            }else{
+                $sort = $columns[$column]['data'];
+                $order = $order[0]['dir'];
+            }
+        }else{
             $sort = 'id';
             $order = 'desc';
+        }
+
+        $search = $this->request->getVar('search');
+        if ($search) {
+            $search = $search['value'];
         }else{
-            $sort = $columns[$column]['data'];
-            $order = $order[0]['dir'];
+            $search = "";
         }
 
         $payload = [
@@ -133,7 +149,7 @@ class UmmuHelper
             "offset"    => $start,
             "sort"      => $sort,
             "order"     => $order,
-            "search"    => $search['value']
+            "search"    => $search
         ];
 
         return $payload;
