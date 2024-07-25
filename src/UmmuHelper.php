@@ -94,6 +94,9 @@ class UmmuHelper
     {
         // $limit = $this->request->getVar('limit');
         $length = $this->request->getVar('length');
+        if ($length == '-1') {
+            $length = 0;
+        }
         // $offset = $this->request->getVar('offset');
         $start = $this->request->getVar('start');
         $order = $this->request->getVar('order');
@@ -114,10 +117,8 @@ class UmmuHelper
     {
         $draw = $this->request->getVar('draw');
         $length = $this->request->getVar('length');
-        if ($length) {
-            $length = $length;
-        }else{
-            $length = 100;
+        if ($length == '-1') {
+            $length = 0;
         }
 
         $start = $this->request->getVar('start');
@@ -161,6 +162,10 @@ class UmmuHelper
         $length = $this->request->getVar('length');
         $start = $this->request->getVar('start');
 
+        if ($length == '-1') {
+            $length = 0;
+        }
+
         $orderVar = $this->request->getVar('order');
         if ($orderVar) {
             $column = $orderVar[0]['column'];
@@ -172,6 +177,61 @@ class UmmuHelper
         $columns = $this->request->getVar('columns');
         if ($columns) {
             $sort = $columns[$column]['data'];
+        }else{
+            $sort = 'id';
+        }
+
+        if ($draw == 1) {
+            $sort = 'id';
+            $order = 'desc';
+        }else{
+            $sort = $sort;
+            $order = $order;
+        }
+
+        $searchVar = $this->request->getVar('search');
+        if ($searchVar) {
+            $search = $searchVar['value'];
+        }else{
+            $search = "";
+        }
+
+        $payload = [
+            "limit"     => $length,
+            "offset"    => $start,
+            "sort"      => $sort,
+            "order"     => $order,
+            "search"    => $search
+        ];
+
+        return $payload;
+    }
+
+    public function dt_payload4()
+    {
+        $draw = $this->request->getVar('draw');
+        $length = $this->request->getVar('length');
+        $start = $this->request->getVar('start');
+
+        if ($length == '-1') {
+            $length = 0;
+        }
+
+        $orderVar = $this->request->getVar('order');
+        if ($orderVar) {
+            $column = $orderVar[0]['column'];
+            $order = $orderVar[0]['dir'];
+        }else{
+            $order = 'desc';
+        }
+
+        $columns = $this->request->getVar('columns');
+        if ($columns) {
+            if (isset($column)) {
+                $sort = $columns[$column]['data'];
+            }else{
+                $sort = 'id';
+            }
         }else{
             $sort = 'id';
         }

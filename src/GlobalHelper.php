@@ -121,7 +121,6 @@ class GlobalHelper
             //     throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
             // }
         // }
-
     }
 
     public function upload()
