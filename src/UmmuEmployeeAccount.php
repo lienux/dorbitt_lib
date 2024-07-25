@@ -44,7 +44,10 @@ class UmmuEmployeeAccount
         $payload = [
             "path"           => "api/hcm/employee_account/import",
             "method"         => "POST",
-            "payload"        => array('file'=> new \CURLFILE($filepath)),
+            "payload"        => array_merge(
+                array('file' => new \CURLFILE($filepath)),
+                $params['payload']
+            ),
             "module_code"    => "employee_account",
             "token"          => $params['token']
         ];
