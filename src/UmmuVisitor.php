@@ -13,7 +13,7 @@ namespace Dorbitt;
 
 use Dorbitt\Curl;
 
-class UmmuEventRegistration
+class UmmuVisitor
 {
     public function __construct()
     {
@@ -31,10 +31,10 @@ class UmmuEventRegistration
         }
 
         $params = [
-            "path"           => "api/event_management/registration/show" . $id,
+            "path"           => "api/event_management/visitor/show" . $id,
             "method"         => "GET",
             "payload"        => $params['payload'],
-            "module_code"    => "event_registration",
+            "module_code"    => "visitor",
             "token"          => $params['token']
         ];
 
@@ -46,10 +46,10 @@ class UmmuEventRegistration
     public function create($params)
     {
         $params = [
-            "path"           => "api/event_management/registration/create",
+            "path"           => "api/event_management/visitor/create",
             "method"         => "POST",
             "payload"        => $params['payload'],
-            "module_code"    => "event_registration",
+            "module_code"    => "visitor",
             "token"          => $params['token']
         ];
 
