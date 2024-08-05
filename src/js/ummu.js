@@ -2506,6 +2506,47 @@ var $ummu = {
             },
             res_del: function() {
 
+            },
+            form_filter: function() {
+                var html = 
+                    '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">'+
+                    '<div class="modal-dialog modal-dialog-centeredz">'+
+                    '<div class="modal-content">'+
+                    '<div class="modal-header bg-secondary">'+
+                    '<h5 class="modal-title text-light" id="message_title">Import</h5>'+
+                    '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
+                    '</div>'+
+                    '<div class="alert text-light collapse" id="modal_alert_import"></div>'+
+                    '<div class="collapse" id="loader">'+
+                    '<div class="d-flex justify-content-center mt-2">'+
+                    '<div class="spinner-border text-danger" role="status">'+
+                    '<span class="sr-only">Loading...</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="modal-body">'+
+                    '<div id="form_import">'+
+                    '<form enctype="multipart/form-data" id="form_import_file">'+
+                    '<div class="col-md-12">'+
+                    '<label class="form-label">File</label>'+
+                    '<input class="form-control" type="file" name="file" id="file_import">'+
+                    '</div>'+
+                    '</form>'+
+                    '</div>'+
+                    '<div class="mt-3">'+
+                    '<a class="text-sm" target="_blank" id="link_format_import">'+
+                    '<i class="fas fa-file-excel"></i>'+
+                    'Click for download format import file'+
+                    '</a>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="modal-footer">'+
+                    '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+                    '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
             }
         },
 
