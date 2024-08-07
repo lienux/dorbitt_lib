@@ -76,4 +76,19 @@ class UmmuEmployeeSalary
 
         return json_decode($response, false);
     }
+
+    public function delete($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/hcm/payroll/employee_salary/delete",
+                "method"         => "DELETE",
+                "payload"        => $params['payload'],
+                "module_code"    => "employee_salary",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

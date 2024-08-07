@@ -2649,6 +2649,13 @@ var $ummu = {
                 }else{
                     $(element_id).prop('disabled', true);
                 }
+            },
+            delete_selected(key) {
+                if ($ummu.dt.select.count() > 0) {
+                    table.button(key).enable();
+                }else{
+                    table.button(key).disable();
+                }
             }
         },
 
