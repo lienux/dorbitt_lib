@@ -2732,6 +2732,13 @@ var $ummu = {
             }else{
                 return '';
             }
+        },
+        active: function(data) {
+            if (data == 1) {
+                return '<i class="fas fa-check-square text-success"></i>';
+            }else{
+                return '';
+            }
         }
     },
 

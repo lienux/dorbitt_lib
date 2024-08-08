@@ -21,13 +21,14 @@ class UmmuEmployeeSalary
         $this->curli = new Curl();
         $this->gHelp = new GlobalHelper();
         $this->request = \Config\Services::request();
+        $this->urli = 'api/hcm/payroll/employee_salary/';
     }
 
     public function show($params)
     {
         $response = $this->curli->request4(
             [
-                "path"           => "api/hcm/payroll/employee_salary/show",
+                "path"           => $this->urli . "show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_salary",
@@ -44,7 +45,7 @@ class UmmuEmployeeSalary
         $filepath = $this->gHelp->upload();
 
         $payload = [
-            "path"           => "api/hcm/payroll/employee_salary/import",
+            "path"           => $this->urli . "import",
             "method"         => "POST",
             "payload"        => array(
                 'periode_id'    => $periode_id,
@@ -66,7 +67,7 @@ class UmmuEmployeeSalary
     {
         $response = $this->curli->request4(
             [
-                "path"           => "api/hcm/payroll/employee_salary/show_payslip_periode",
+                "path"           => $this->urli . "show_payslip_periode",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_salary",
@@ -81,7 +82,7 @@ class UmmuEmployeeSalary
     {
         $response = $this->curli->request4(
             [
-                "path"           => "api/hcm/payroll/employee_salary/delete",
+                "path"           => $this->urli . "delete",
                 "method"         => "DELETE",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_salary",

@@ -20,13 +20,14 @@ class UmmuEmployeeAccount
     {
         $this->curli = new Curl();
         $this->gHelp = new GlobalHelper();
+        $this->urli = 'api/hcm/employee_account/';
     }
 
     public function show($params)
     {
         $response = $this->curli->request4(
             [
-                "path"           => "api/hcm/employee_account/show",
+                "path"           => $this->urli . "show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_account",
@@ -42,7 +43,7 @@ class UmmuEmployeeAccount
         $filepath = $this->gHelp->upload();
 
         $payload = [
-            "path"           => "api/hcm/employee_account/import",
+            "path"           => $this->urli . "import",
             "method"         => "POST",
             "payload"        => array_merge(
                 array('file' => new \CURLFILE($filepath)),
@@ -55,6 +56,21 @@ class UmmuEmployeeAccount
         $response = $this->curli->form($payload);
 
         unlink($filepath);
+
+        return json_decode($response, false);
+    }
+
+    public function delete($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "delete",
+                "method"         => "DELETE",
+                "payload"        => $params['payload'],
+                "module_code"    => "employee_account",
+                "token"          => $params['token']
+            ]
+        );
 
         return json_decode($response, false);
     }
