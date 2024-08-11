@@ -15,7 +15,8 @@ var $ummu = {
         urlpath: window.location.href,
         urlParams: new URLSearchParams(window.location.search),
         page_previous: null,
-        errors: []
+        errors: [],
+        rows: null
     },
 
     config: {
@@ -2917,6 +2918,37 @@ var $ummu = {
                     setCookie("username", user, 365);
                 }
             }
+        }
+    },
+
+    modal: {
+        detele_confirm: function() {
+            var html = 
+            '<div class="modal fade" id="modal_confirm_delete" tabindex="-1">'+
+                '<div class="modal-dialog">'+
+                    '<div class="modal-content">'+
+                        '<div class="modal-header">'+
+                            '<h5 class="modal-title">Confirmation</h5>'+
+                            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
+                        '</div>'+
+                        '<div class="collapse" id="loader_delete">'+
+                            '<div class="d-flex justify-content-center mt-2">'+
+                                '<div class="spinner-border text-danger" role="status">'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="modal-body">'+
+                            'Are you sure to delete this data?'+
+                        '</div>'+
+                        '<div class="modal-footer">'+
+                            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+                            '<a href="#" id="btn_delete" class="btn btn-danger" onclick="app.controllers.delete();">Delete</a>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+
+            $('.ummu-html').html(html);
         }
     }
 }
