@@ -74,4 +74,19 @@ class UmmuEmployeeAccount
 
         return json_decode($response, false);
     }
+
+    public function update($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "update",
+                "method"         => "PUT",
+                "payload"        => $params['payload'],
+                "module_code"    => "employee_account",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }
