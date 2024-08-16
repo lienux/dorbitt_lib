@@ -36,4 +36,19 @@ class UmmuPayslip
 
         return json_decode($response, false);
     }
+
+    public function print_pdf($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/hcm/payroll/payslip/print_pdf",
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => "payslip",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

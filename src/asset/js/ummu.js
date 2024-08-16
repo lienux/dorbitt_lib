@@ -681,6 +681,64 @@ var $ummu = {
     },
 
     ajax: {
+        show0: function(url) {
+            // console.log(payload);
+            var jqXHR = $.ajax({
+                "url": url,
+                "method": 'GET',
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": 'application/json',
+                },
+                // "data": payload.data,
+                "prossesing": true,
+                'language': {
+                    'loadingRecords': '&nbsp;',
+                    'processing': '<div class="spinner"></div>'
+                },  
+                beforeSend: function(e) {
+                    // // if (payload.type == 'delete') {
+                    // //     $('#loader_delete').show()
+                    // // }else{
+                    // //     $('#modal_loader_input').show()
+                    // // }
+
+                    // if (payload.action == 'delete') {
+                    //     $('#loader_delete').show()
+                    // }else if (payload.action == 'multiple_delete') {
+                    //     $('#loader_mulitple_delete').show()
+                    // }else if (payload.action == 'insert' || payload.action == 'update') {
+                    //     $('#modal_loader_input').show()
+                    // }
+
+                    // if(e && e.overrideMimeType) {
+                    //     e.overrideMimeType('application/jsoncharset=UTF-8')
+                    // }
+                    // $('#response_message, #response_message_modal, #response_message_modal_modal').removeClass('text-success msg_animation');
+                },
+                complete: function(){
+                    // if (payload.action == 'delete') {
+                    //     $('#loader_delete').hide()
+                    // }else if (payload.action == 'multiple_delete') {
+                    //     $('#loader_mulitple_delete').hide()
+                    // }else if (payload.action == 'insert' || payload.action == 'update') {
+                    //     $('#modal_loader_input').hide()
+                    // }
+                    // // $('#loader_delete').hide()
+                    // // $('#loader_mulitple_delete').hide()
+                    // // $('#modal_loader_input').hide()
+                },
+                success: function(response){
+                    // console.log(response)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            return jqXHR;
+        },
+
         ummu: function(url, payload) {
             // console.log(payload);
             var jqXHR = $.ajax({
