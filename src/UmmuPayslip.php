@@ -51,4 +51,27 @@ class UmmuPayslip
 
         return json_decode($response, false);
     }
+
+    public function delete_pdf($params)
+    {
+        $id = $params['id'];
+
+        if ($id) {
+            $id = "/" . $id;
+        }else{
+            $id = "";
+        }
+
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/hcm/payroll/payslip/delete_pdf" . $id,
+                "method"         => "DELETE",
+                "payload"        => $params['payload'],
+                "module_code"    => "payslip",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }
