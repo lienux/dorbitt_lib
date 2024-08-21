@@ -2715,6 +2715,36 @@ var $ummu = {
                 }else{
                     table.button(key).disable();
                 }
+            },
+            standard_shb() {
+                $('#dbtn_new').on('click', function(){
+                    $('#dbtn_new').attr('disabled', true);
+                    $('#dbtn_edit').attr('disabled', true);
+                    $('#dbtn_del').attr('disabled', true);
+                    $('#dbtn_can').attr('disabled', false);
+                    $('#dbtn_save').attr('disabled', false);
+                    $('#dbtn_print').attr('disabled', true);
+                    $('#dbtn_close').attr('disabled', true);
+                })
+
+                $('#dbtn_can').on('click', function(){
+                    $('#dbtn_new').attr('disabled', false);
+                    $('#dbtn_edit').attr('disabled', true);
+                    $('#dbtn_del').attr('disabled', true);
+                    $('#dbtn_can').attr('disabled', true);
+                    $('#dbtn_save').attr('disabled', true);
+                    $('#dbtn_print').attr('disabled', true);
+                    $('#dbtn_close').attr('disabled', false);
+                })
+            },
+            standard_shb_on_select() {
+                $('#dbtn_new').attr('disabled', false);
+                $('#dbtn_edit').attr('disabled', false);
+                $('#dbtn_del').attr('disabled', false);
+                $('#dbtn_can').attr('disabled', true);
+                $('#dbtn_save').attr('disabled', true);
+                $('#dbtn_print').attr('disabled', false);
+                $('#dbtn_close').attr('disabled', false);
             }
         },
 
@@ -2797,6 +2827,14 @@ var $ummu = {
                 return '<i class="fas fa-check-square text-success"></i>';
             }else{
                 return '';
+            }
+        },
+        sap: {
+            operation: function(index, row) {
+                // console.log(row)
+                if (row) {
+                    return row.operation_kode + ' | ' + row.operation_name;
+                }
             }
         }
     },
