@@ -8,6 +8,7 @@ var $ummu = {
 
     vars: {
         page: null,
+        action: null,
         class: null,
         location_hash: null,
         error_ids: [],
@@ -2365,7 +2366,7 @@ var $ummu = {
 
     views: {
         inputEmpty: function(){
-            
+            // 
         },
         
         kosongkanForm: function(){
@@ -2725,9 +2726,13 @@ var $ummu = {
                     $('#dbtn_save').attr('disabled', false);
                     $('#dbtn_print').attr('disabled', true);
                     $('#dbtn_close').attr('disabled', true);
+                    $('.dis-able').attr('disabled', false);
+                    $('.input-form').attr('readonly', false);
                 })
 
                 $('#dbtn_can').on('click', function(){
+                    $('.dis-able').val('');
+                    $('.cnclear').val('');
                     $('#dbtn_new').attr('disabled', false);
                     $('#dbtn_edit').attr('disabled', true);
                     $('#dbtn_del').attr('disabled', true);
@@ -2735,6 +2740,8 @@ var $ummu = {
                     $('#dbtn_save').attr('disabled', true);
                     $('#dbtn_print').attr('disabled', true);
                     $('#dbtn_close').attr('disabled', false);
+                    $('.dis-able').attr('disabled', true);
+                    $('.input-form').attr('readonly', true);
                 })
             },
             standard_shb_on_select() {
@@ -2927,6 +2934,9 @@ var $ummu = {
             },
             data: function() {
                 return table.rows({selected: true}).data();
+            },
+            getRow: function(tbName) {
+                return tbName.row({selected: true}).data();
             }
         }
     },

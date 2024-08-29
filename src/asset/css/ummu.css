@@ -3,3 +3,39 @@
     background-image: linear-gradient(181deg, #673AB7 10%, #FF5722 100%);
     background-size: cover;
 }
+
+.form-control-xs {
+    height: calc(1em + 0.3rem + 1px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.700rem;
+    line-height: 0.5;
+    border-radius: 0.2
+}
+
+.input-group-xs > .form-control:not(textarea),
+.input-group-xs > .custom-select {
+    height: calc(1.5em + 0.3rem + 2px);
+}
+
+.input-group-xs > .form-control,
+.input-group-xs > .custom-select,
+.input-group-xs > .input-group-prepend > .input-group-text,
+.input-group-xs > .input-group-append > .input-group-text,
+.input-group-xs > .input-group-prepend > .btn,
+.input-group-xs > .input-group-append > .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.700rem;
+    line-height: 0.5;
+    border-radius: 0.2rem;
+}
+
+.input-group-xs > .custom-select {
+    padding-right: 1.75rem;
+}
+
+.btn-xs, .btn-group-xs > .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.700rem;
+    line-height: 0.5;
+    border-radius: 0.2rem;
+}
