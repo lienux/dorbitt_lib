@@ -2717,8 +2717,35 @@ var $ummu = {
                     table.button(key).disable();
                 }
             },
-            standard_shb() {
-                $('#dbtn_new').on('click', function(){
+            // standard_shb() {
+            //     $('#dbtn_new').on('click', function(){
+            //         $('#dbtn_new').attr('disabled', true);
+            //         $('#dbtn_edit').attr('disabled', true);
+            //         $('#dbtn_del').attr('disabled', true);
+            //         $('#dbtn_can').attr('disabled', false);
+            //         $('#dbtn_save').attr('disabled', false);
+            //         $('#dbtn_print').attr('disabled', true);
+            //         $('#dbtn_close').attr('disabled', true);
+            //         $('.dis-able').attr('disabled', false);
+            //         $('.input-form').attr('readonly', false);
+            //     })
+
+            //     $('#dbtn_can').on('click', function(){
+            //         $('.dis-able').val('');
+            //         $('.cnclear').val('');
+            //         $('#dbtn_new').attr('disabled', false);
+            //         $('#dbtn_edit').attr('disabled', true);
+            //         $('#dbtn_del').attr('disabled', true);
+            //         $('#dbtn_can').attr('disabled', true);
+            //         $('#dbtn_save').attr('disabled', true);
+            //         $('#dbtn_print').attr('disabled', true);
+            //         $('#dbtn_close').attr('disabled', false);
+            //         $('.dis-able').attr('disabled', true);
+            //         $('.input-form').attr('readonly', true);
+            //     })
+            // },
+            std_shb: {
+                onNew: function(){
                     $('#dbtn_new').attr('disabled', true);
                     $('#dbtn_edit').attr('disabled', true);
                     $('#dbtn_del').attr('disabled', true);
@@ -2728,9 +2755,8 @@ var $ummu = {
                     $('#dbtn_close').attr('disabled', true);
                     $('.dis-able').attr('disabled', false);
                     $('.input-form').attr('readonly', false);
-                })
-
-                $('#dbtn_can').on('click', function(){
+                },
+                onCan: function(){
                     $('.dis-able').val('');
                     $('.cnclear').val('');
                     $('#dbtn_new').attr('disabled', false);
@@ -2742,7 +2768,7 @@ var $ummu = {
                     $('#dbtn_close').attr('disabled', false);
                     $('.dis-able').attr('disabled', true);
                     $('.input-form').attr('readonly', true);
-                })
+                }
             },
             standard_shb_on_select() {
                 $('#dbtn_new').attr('disabled', false);
@@ -2752,6 +2778,36 @@ var $ummu = {
                 $('#dbtn_save').attr('disabled', true);
                 $('#dbtn_print').attr('disabled', false);
                 $('#dbtn_close').attr('disabled', false);
+            },
+            shb_btn_std(nw,edit,del,can,save,print,close) {
+                if (nw === false) {
+                    snw = 'disabled'
+                }else{
+                    snw = '';
+                }
+
+                // if (edit === false) {
+                //     sedit = 'disabled'
+                // }else{
+                //     sedit = ''
+                // }
+
+                // if (del === false) {
+                //     sdel = 'disabled'
+                // }else{
+                //     sdel = ''
+                // }
+
+                var html = 
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_new" '+snw+'><i class="fab fa-wpforms"></i> New</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_edit" disabled><i class="fal fa-edit"></i> Edit</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_del" disabled><i class="fal fa-trash-alt"></i> Del</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_can" disabled><i class="fal fa-times"></i> Can</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_save" disabled><i class="fal fa-save"></i> Save</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_print" disabled><i class="fal fa-print"></i> Print</button>'+
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
+                // return html;
+                $('#btn_std_shb').html(html);
             }
         },
 
