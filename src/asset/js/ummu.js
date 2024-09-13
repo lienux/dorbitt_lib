@@ -6,6 +6,21 @@ var $ummu = {
         $ummu.config.autoload()
     },
 
+    routes: {
+        mechanic_activity: {
+            edit: function(row, index) {
+                app.Controllers.edit(row,index);
+            }
+        },
+
+        auth: {
+            username: function() {
+                app.Controllers.username();
+            }
+        }
+
+    },
+
     vars: {
         page: null,
         action: null,
@@ -17,7 +32,8 @@ var $ummu = {
         urlParams: new URLSearchParams(window.location.search),
         page_previous: null,
         errors: [],
-        rows: null
+        rows: null,
+        rad_external: 0
     },
 
     config: {
@@ -204,6 +220,12 @@ var $ummu = {
                     console.log(toUrl);
                     window.location.href = $base_url + 'admin/session/module_category/' + $(this).data('value');
                 });
+
+                $('.dorbitt-login-area #btn_next').on('click', function(){
+                    $('#modal_loader').modal('show');
+                    $(this).addClass('disabled');
+                    $ummu.routes.auth.username();
+                })
             },
             escmButton: function() {
                 $('#submit').on('click', function(){
@@ -251,6 +273,14 @@ var $ummu = {
 
                 $('.dorbitt-header #rad_reject').on('change', function() {
                     $ummu.views.approval.status_detail(2);
+                })
+
+                $('#rad_internal').on('change', function(){
+                    $ummu.vars.rad_external = 0;
+                })
+
+                $('#rad_external').on('change', function(){
+                    $ummu.vars.rad_external = 1;
                 })
             },
 

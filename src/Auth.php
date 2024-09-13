@@ -93,4 +93,38 @@ class Auth
 
         return $response;
     }
+
+    public function username($payload)
+    {
+        $params = [
+            "path"           => "auth/login/username",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "module_code"    => null,
+            "token"          => null
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+        // return $response;
+
+    }
+
+    public function create_next($payload)
+    {
+        $params = [
+            "path"           => "auth/login/create_next",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "module_code"    => null,
+            "token"          => null
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+        // return $response;
+
+    }
 }
