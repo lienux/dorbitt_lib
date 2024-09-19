@@ -519,4 +519,31 @@ class UmmuHelper
 
         return $response;
     }
+
+    public function install_link($mode)
+    {
+        if ($mode == 'dev') {
+            if (is_link(FCPATH."uploads")) {
+                exec("rm -rf ".FCPATH."uploads");
+            }
+
+            if (is_link(FCPATH."vendor/dorbitt-lib")) {
+                exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
+            }
+            
+            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/asset"." ".FCPATH."vendor/dorbitt-lib");
+        }else{
+            if (is_link(FCPATH."uploads")) {
+                exec("rm -rf ".FCPATH."uploads");
+            }
+
+            if (is_link(FCPATH."vendor/dorbitt-lib")) {
+                exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
+            }
+            
+            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
+            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/asset"." ".FCPATH."vendor/dorbitt-lib");
+        }
+    }
 }

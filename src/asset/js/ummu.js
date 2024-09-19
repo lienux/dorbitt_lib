@@ -18,7 +18,6 @@ var $ummu = {
                 app.Controllers.username();
             }
         }
-
     },
 
     vars: {
@@ -222,9 +221,18 @@ var $ummu = {
                 });
 
                 $('.dorbitt-login-area #btn_next').on('click', function(){
-                    $('#modal_loader').modal('show');
-                    $(this).addClass('disabled');
-                    $ummu.routes.auth.username();
+                    var username = $('#username').val();
+                    var msdb = $('#msdb').val();
+                    if (username == '' || username == null) {
+                        $('#alert').html('<div class="alert alert-danger">Username required.</div');
+                    }
+                    else if (msdb == '' || msdb == null) {
+                        $('#alert').html('<div class="alert alert-danger">Company required.</div');
+                    }
+                    else{
+                        $(this).addClass('disabled');
+                        $ummu.routes.auth.username();
+                    }
                 })
             },
             escmButton: function() {
@@ -902,7 +910,7 @@ var $ummu = {
                     'processing': '<div class="spinner"></div>'
                 },  
                 beforeSend: function(e) {
-                    // 
+                    $('#modal_loader').modal('show');
                 },
                 complete: function(){
                     // 
@@ -912,6 +920,7 @@ var $ummu = {
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseText);
+                    $('#modal_loader').modal('hide');
                 }
             });
 

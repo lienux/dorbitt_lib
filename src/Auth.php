@@ -34,7 +34,6 @@ class Auth
 
         return json_decode($response, false);
         // return $response;
-
     }
 
     public function register($payload)
@@ -108,7 +107,6 @@ class Auth
 
         return json_decode($response, false);
         // return $response;
-
     }
 
     public function create_next($payload)
@@ -125,6 +123,21 @@ class Auth
 
         return json_decode($response, false);
         // return $response;
+    }
 
+    public function partisipan($payload)
+    {
+        $params = [
+            "path"           => "auth/login/partisipan",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "module_code"    => null,
+            "token"          => null
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+        // return $response;
     }
 }
