@@ -43,6 +43,7 @@ var $ummu = {
             $ummu.events.onChange.dorbittRadio();
             $ummu.events.onChange.selectOption();
             $ummu.gallery.button();
+            $ummu.events.onChangeFileGalleryUpload();
         }
     },
 
@@ -63,6 +64,19 @@ var $ummu = {
             //     $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
             //     $('#modal_confirmation_multiple_delete').modal('show')
             // })
+        },
+        onChangeFileGalleryUpload: function(){
+            $('#file_upload').change(function() {
+                var $id = $('#upload_img_thumbnail');
+                var $filename = $(this)[0].files[0].name;
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $($id).attr('src', e.target.result);
+                    // alert(e.target.result)
+                    $ummu.upload.filename = $filename;
+                };
+                reader.readAsDataURL($(this)[0].files[0]);
+            })
         },
 
         /*onChange: {
@@ -257,6 +271,7 @@ var $ummu = {
             },
 
             dorbittInput: function() {
+                /*// Pindah ke events => onChangeFileGalleryUpload
                 $('#file_upload').change(function() {
                     var $id = $('#upload_img_thumbnail');
                     var $filename = $(this)[0].files[0].name;
@@ -267,7 +282,7 @@ var $ummu = {
                         $ummu.upload.filename = $filename;
                     };
                     reader.readAsDataURL($(this)[0].files[0]);
-                })
+                })*/
             },
 
             dorbittRadio: function() {

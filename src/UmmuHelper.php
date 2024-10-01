@@ -522,28 +522,28 @@ class UmmuHelper
 
     public function install_link($mode)
     {
+        if (is_link(FCPATH."uploads")) {
+            exec("rm -rf ".FCPATH."uploads");
+        }
+
+        if (is_link(FCPATH."vendor/dorbitt-lib")) {
+            exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
+        }
+
+        if (is_link(APPPATH."Gviews")) {
+            exec("rm -rf ".APPPATH."Gviews");
+        }
+
         if ($mode == 'dev') {
-            if (is_link(FCPATH."uploads")) {
-                exec("rm -rf ".FCPATH."uploads");
-            }
-
-            if (is_link(FCPATH."vendor/dorbitt-lib")) {
-                exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
-            }
-            
             exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/asset"." ".FCPATH."vendor/dorbitt-lib");
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset"." ".FCPATH."Gasset");
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gviews"." ".APPPATH."Gviews");
         }else{
-            if (is_link(FCPATH."uploads")) {
-                exec("rm -rf ".FCPATH."uploads");
-            }
-
-            if (is_link(FCPATH."vendor/dorbitt-lib")) {
-                exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
-            }
-            
             exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/asset"." ".FCPATH."vendor/dorbitt-lib");
+            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
+            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
+            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
         }
     }
 }

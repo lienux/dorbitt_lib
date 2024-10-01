@@ -1,0 +1,43 @@
+<?php
+
+namespace Dorbitt;
+
+/**
+* =============================================
+* Author: Ummu
+* Website: https://ummukhairiyahyusna.com/
+* App: DORBITT LIB
+* Description: 
+* =============================================
+*/
+
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\Files\UploadedFile;
+use CodeIgniter\Files\File;
+
+class GviewsHelper 
+{
+    public function __construct()
+    {
+        $this->request = \Config\Services::request();
+    }
+
+    public function modal_gallery($themes = null)
+    {
+        if ($themes == 'niceadmin') {
+            return "../Gviews/partials/modals/gallery_niceAdmin";
+        }
+        elseif ($themes == 'sbadmin2') {
+            return "../Gviews/partials/modals/gallery_sbadmin2";
+        }
+        else{
+            // 
+        }
+    }
+
+    public function modal_loader()
+    {
+        return "../Gviews/partials/modals/loader";
+    }
+    
+}
