@@ -44,6 +44,8 @@ var $ummu = {
             $ummu.events.onChange.selectOption();
             $ummu.gallery.button();
             $ummu.events.onChangeFileGalleryUpload();
+            $ummu.events.gallery.btn_show_gallery();
+            $ummu.events.gallery.btn_submit_file_upload();
         }
     },
 
@@ -134,15 +136,6 @@ var $ummu = {
 
                 $('#message_modal_close').on('click', function(){
                     $('#message_modal').modal('hide');
-                })
-
-                $('#btn_submit_file_upload').click(function() {
-                    var file = $('#file_upload').val();
-                    if(file != ''){
-                        $ummu.upload.upload_file_gallery()
-                    }else{
-                        alert('Silahkan pilih file terlebih dahulu.')
-                    }
                 })
 
                 $('#btn_endis').click(function() {
@@ -331,6 +324,23 @@ var $ummu = {
                 // });
             }
         },
+        gallery: {
+            btn_show_gallery: function() {
+                $('.btn_show_gallery').on('click', function(){
+                    $('#modal_gallery').modal('show');
+                })
+            },
+            btn_submit_file_upload: function(){
+                $('#btn_submit_file_upload').click(function() {
+                    var file = $('#file_upload').val();
+                    if(file != ''){
+                        $ummu.upload.upload_file_gallery()
+                    }else{
+                        alert('Silahkan pilih file terlebih dahulu.')
+                    }
+                })
+            }
+        }
     },
 
     helpers: {
@@ -1664,447 +1674,447 @@ var $ummu = {
         }
     },
 
-    // upload: {
-        //     filename: null,
-        //     randomname: null,
-        //     input_id: null,
-        //     image_id: null,
-        //     ids: [],
-        //     filenames: [],
+    upload: {
+            filename: null,
+            randomname: null,
+            input_id: null,
+            image_id: null,
+            ids: [],
+            filenames: [],
 
-        //     /*findAll_berangkas: function() {
-        //         // $.ajax({
-        //         //     type: 'GET',
-        //         //     url: $base_url + "admin/berangkas/findAll",
-        //         //     dataType: 'JSON',
-        //         //     contentType: false,
-        //         //     processData: false,
-        //         // }).done(function(result) {
-        //         //     console.log(result.status)
-        //         //     if (result.status == true) {
-        //         //         var data = result.rows;
-        //         //         $('#album_berangkas').empty();
-        //         //         for(let index in data){
-        //         //             var $id = data[index].id;
-        //         //             var filename = data[index].filename;
-        //         //             if(filename == ''){
-        //         //                 var $filename = 'no_image.jpg';
-        //         //             }else{
-        //         //                 var $filename = filename;
-        //         //             }
-        //         //             var $element = '<div class="col">'+
-        //         //                 '<div class="card shadow-sm">'+
-        //         //                     '<img class="img-thumbnail" src="'+ $base_url +'uploads/'+ $filename + '" style="height:160px;">'+
-        //         //                     '<div class="card-body">'+
-        //         //                         '<div class="d-flex justify-content-between align-items-center pt-3">'+
-        //         //                             '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.upload.hapus_file_berangkas('+$id+')">Hapus</button>'+
-        //         //                             '<button type="button" class="btn btn-sm btn-outline-success pilih-berkas" data-name="'+$filename+'">Pilih</button>'+
-        //         //                         '</div>'+
-        //         //                     '</div>'+
-        //         //                 '</div>'+
-        //         //             '</div>';
-        //         //             $('#album_berangkas').append($element);
-        //         //         }
-        //         //         $('.pilih-berkas').click(function(){
-        //         //             var $data_name = $(this).data('name');
-        //         //             $ummu.upload.input_id.val($data_name)
-        //         //             $('#modal_berangkas_file').modal('hide')
-        //         //             $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-        //         //         })
-        //         //     }else{
+            /*findAll_berangkas: function() {
+                // $.ajax({
+                //     type: 'GET',
+                //     url: $base_url + "admin/berangkas/findAll",
+                //     dataType: 'JSON',
+                //     contentType: false,
+                //     processData: false,
+                // }).done(function(result) {
+                //     console.log(result.status)
+                //     if (result.status == true) {
+                //         var data = result.rows;
+                //         $('#album_berangkas').empty();
+                //         for(let index in data){
+                //             var $id = data[index].id;
+                //             var filename = data[index].filename;
+                //             if(filename == ''){
+                //                 var $filename = 'no_image.jpg';
+                //             }else{
+                //                 var $filename = filename;
+                //             }
+                //             var $element = '<div class="col">'+
+                //                 '<div class="card shadow-sm">'+
+                //                     '<img class="img-thumbnail" src="'+ $base_url +'uploads/'+ $filename + '" style="height:160px;">'+
+                //                     '<div class="card-body">'+
+                //                         '<div class="d-flex justify-content-between align-items-center pt-3">'+
+                //                             '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.upload.hapus_file_berangkas('+$id+')">Hapus</button>'+
+                //                             '<button type="button" class="btn btn-sm btn-outline-success pilih-berkas" data-name="'+$filename+'">Pilih</button>'+
+                //                         '</div>'+
+                //                     '</div>'+
+                //                 '</div>'+
+                //             '</div>';
+                //             $('#album_berangkas').append($element);
+                //         }
+                //         $('.pilih-berkas').click(function(){
+                //             var $data_name = $(this).data('name');
+                //             $ummu.upload.input_id.val($data_name)
+                //             $('#modal_berangkas_file').modal('hide')
+                //             $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                //         })
+                //     }else{
 
-        //         //     }
-        //         // }).fail(function() {
-        //         //     // An error occurred
-        //         // });;
+                //     }
+                // }).fail(function() {
+                //     // An error occurred
+                // });;
 
-        //         var params = {
-        //                 "type": "get",
-        //                 "action": "get",
-        //                 "data": {
-        //                     "limit":0,
-        //                     "offset":0,
-        //                     "sort": "id",
-        //                     "order": "desc",
-        //                     "search": ""
-        //                 },
-        //                 "cache": true,
-        //                 "contentType": "application/json",
-        //                 "dataType": "json"
-        //             };
-        //             var url = $base_url+'/admin/berangkas/show';
-        //             var ali = $globalAjax.ummay(url,params);
-        //             ali.done(function(result) {
-        //                 var response = JSON.parse(result);
-        //                 $globFunc.ch_message_modal_modal(response.message);
-        //                 // console.log(response.message)
-        //                 // var params2 = {
-        //                 //     "rows": response.rows,
-        //                 //     "element_id": 'gedung',
-        //                 //     "kode": 1
-        //                 // };
+                var params = {
+                        "type": "get",
+                        "action": "get",
+                        "data": {
+                            "limit":0,
+                            "offset":0,
+                            "sort": "id",
+                            "order": "desc",
+                            "search": ""
+                        },
+                        "cache": true,
+                        "contentType": "application/json",
+                        "dataType": "json"
+                    };
+                    var url = $base_url+'/admin/berangkas/show';
+                    var ali = $globalAjax.ummay(url,params);
+                    ali.done(function(result) {
+                        var response = JSON.parse(result);
+                        $globFunc.ch_message_modal_modal(response.message);
+                        // console.log(response.message)
+                        // var params2 = {
+                        //     "rows": response.rows,
+                        //     "element_id": 'gedung',
+                        //     "kode": 1
+                        // };
 
-        //                 // // $globFunc.set_value_to_option(response.rows,'gedung',1)
-        //                 // // $globFunc.set_value_to_option3(params2)
-        //                 // app.Views.set_value_to_option_gedung(params2)
+                        // // $globFunc.set_value_to_option(response.rows,'gedung',1)
+                        // // $globFunc.set_value_to_option3(params2)
+                        // app.Views.set_value_to_option_gedung(params2)
 
-        //                 var data = response.rows;
-        //                 $('#album_berangkas').empty();
-        //                 for(let index in data){
-        //                     var $id = data[index].id;
-        //                     var id = data[index].id;
-        //                     var filename = data[index].filename;
-        //                     var description = data[index].description;
+                        var data = response.rows;
+                        $('#album_berangkas').empty();
+                        for(let index in data){
+                            var $id = data[index].id;
+                            var id = data[index].id;
+                            var filename = data[index].filename;
+                            var description = data[index].description;
 
-        //                     if(filename == ''){
-        //                         var $filename = 'no_image.jpg';
-        //                     }else{
-        //                         var $filename = filename;
-        //                     }
+                            if(filename == ''){
+                                var $filename = 'no_image.jpg';
+                            }else{
+                                var $filename = filename;
+                            }
 
-        //                     if (description == '' || description == null) {
-        //                         var description_ = filename;
-        //                     }else{
-        //                         var description_ = description;
-        //                     }
+                            if (description == '' || description == null) {
+                                var description_ = filename;
+                            }else{
+                                var description_ = description;
+                            }
 
-        //                     // var $elementz = '<div class="col">'+
-        //                     //     '<div class="card shadow-sm">'+
-        //                     //         '<img class="img-thumbnail" src="'+ $base_url +'uploads/'+ $filename + '" style="height:160px;">'+
-        //                     //         '<div class="card-body">'+
-        //                     //             '<div class="d-flex justify-content-between align-items-center pt-3">'+
-        //                     //                 '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.upload.hapus_file_berangkas('+$id+')"><i class="fas fa-trash"></i></button>'+
-        //                     //                 '<button type="button" class="btn btn-sm btn-outline-success pilih-berkas" data-name="'+$filename+'">Pilih</button>'+
-        //                     //                 '<input class="form-check-input dorbitt-checkbox" type="checkbox">'+
-        //                     //             '</div>'+
-        //                     //         '</div>'+
-        //                     //     '</div>'+
-        //                     // '</div>';
+                            // var $elementz = '<div class="col">'+
+                            //     '<div class="card shadow-sm">'+
+                            //         '<img class="img-thumbnail" src="'+ $base_url +'uploads/'+ $filename + '" style="height:160px;">'+
+                            //         '<div class="card-body">'+
+                            //             '<div class="d-flex justify-content-between align-items-center pt-3">'+
+                            //                 '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.upload.hapus_file_berangkas('+$id+')"><i class="fas fa-trash"></i></button>'+
+                            //                 '<button type="button" class="btn btn-sm btn-outline-success pilih-berkas" data-name="'+$filename+'">Pilih</button>'+
+                            //                 '<input class="form-check-input dorbitt-checkbox" type="checkbox">'+
+                            //             '</div>'+
+                            //         '</div>'+
+                            //     '</div>'+
+                            // '</div>';
 
-        //                     var $element = '<div class="cont-checkbox">'+
-        //                         '<input type="checkbox" class="dorbitt_checkbox_image_berangkas" name="dorbitt_checkbox_image_berangkas" id="'+id+'" data-name="'+$filename+'" />'+
-        //                         '<label for="'+id+'" class="lbl_berangkas">'+
-        //                             '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-        //                             '<span class="cover-checkbox">'+
-        //                                 '<svg viewBox="0 0 12 10">'+
-        //                                     '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-        //                                 '</svg>'+
-        //                             '</span>'+
-        //                             '<div class="info">'+description_+'</div>'+
-        //                         '</label>'+
-        //                     '</div>';
-        //                     $('#album_berangkas').append($element);
-        //                 }
-        //                 $('.pilih-berkas').click(function(){
-        //                     var $data_name = $(this).data('name');
-        //                     $ummu.upload.input_id.val($data_name)
-        //                     $('#modal_berangkas_file').modal('hide')
-        //                     $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-        //                 })
-        //             }).fail(function() {
-        //                 // An error occurred
-        //             });
-        //     },*/
+                            var $element = '<div class="cont-checkbox">'+
+                                '<input type="checkbox" class="dorbitt_checkbox_image_berangkas" name="dorbitt_checkbox_image_berangkas" id="'+id+'" data-name="'+$filename+'" />'+
+                                '<label for="'+id+'" class="lbl_berangkas">'+
+                                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                    '<span class="cover-checkbox">'+
+                                        '<svg viewBox="0 0 12 10">'+
+                                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                        '</svg>'+
+                                    '</span>'+
+                                    '<div class="info">'+description_+'</div>'+
+                                '</label>'+
+                            '</div>';
+                            $('#album_berangkas').append($element);
+                        }
+                        $('.pilih-berkas').click(function(){
+                            var $data_name = $(this).data('name');
+                            $ummu.upload.input_id.val($data_name)
+                            $('#modal_berangkas_file').modal('hide')
+                            $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                        })
+                    }).fail(function() {
+                        // An error occurred
+                    });
+            },*/
 
-        //     button: function() {
-        //         $('#dorbitt_open_gallery').click(function() {
-        //             var dataImage = $(this).attr('data-image');
-        //             $ummu.upload.show_gallery();
-        //             $('#modal_gallery').modal('show');
-        //             // $ummu.upload.input_id = input_id;
-        //             // $ummu.upload.image_id = image_id;
-        //         })
+            button: function() {
+                $('#dorbitt_open_gallery').click(function() {
+                    var dataImage = $(this).attr('data-image');
+                    $ummu.upload.show_gallery();
+                    $('#modal_gallery').modal('show');
+                    // $ummu.upload.input_id = input_id;
+                    // $ummu.upload.image_id = image_id;
+                })
 
-        //         $('#dorbitt_open_gallery2').click(function() {
-        //             var dataImage = $(this).attr('data-image');
-        //             $ummu.upload.show_gallery2();
-        //             $('#modal_gallery').modal('show');
-        //             // $ummu.upload.input_id = input_id;
-        //             // $ummu.upload.image_id = image_id;
-        //         })
+                $('#dorbitt_open_gallery2').click(function() {
+                    var dataImage = $(this).attr('data-image');
+                    $ummu.upload.show_gallery2();
+                    $('#modal_gallery').modal('show');
+                    // $ummu.upload.input_id = input_id;
+                    // $ummu.upload.image_id = image_id;
+                })
 
-        //         $('#btn_select_file').click(function() {
-        //             var ids = [];
-        //             var filenames = [];
-        //             $('.dorbitt_checkbox_image_gallery:checked').each(function() {
-        //                 var id = $(this).attr('id');
-        //                 var filename = $(this).data('name');
+                $('#btn_select_file').click(function() {
+                    var ids = [];
+                    var filenames = [];
+                    $('.dorbitt_checkbox_image_gallery:checked').each(function() {
+                        var id = $(this).attr('id');
+                        var filename = $(this).data('name');
 
-        //                 ids.push(parseInt(id));
-        //                 filenames.push(filename)
-        //                 // console.log(filename)
-        //             });
+                        ids.push(parseInt(id));
+                        filenames.push(filename)
+                        // console.log(filename)
+                    });
 
-        //             $ummu.upload.ids = ids;
-        //             $ummu.upload.filenames = filenames;
+                    $ummu.upload.ids = ids;
+                    $ummu.upload.filenames = filenames;
                     
-        //             /*buat function dan custom sendiri di project masing-masing*/
-        //             app.Views.set_gallery_selected_to_img(filenames)
+                    /*buat function dan custom sendiri di project masing-masing*/
+                    app.Views.set_gallery_selected_to_img(filenames)
 
-        //             $('#modal_gallery').modal('hide');
-        //             // console.log(ids)
-        //         })
-        //     },
+                    $('#modal_gallery').modal('hide');
+                    // console.log(ids)
+                })
+            },
 
-        //     show_gallery: function() {
-        //         if ($globalVar.page == 'gallery') {
-        //             var page = 'gallery/show';
-        //         }else{
-        //             var page = $globalVar.page+'/show_gallery';
-        //         }
-        //         var params = {
-        //             "type": "get",
-        //             "action": "get",
-        //             "data": {
-        //                 "limit":0,
-        //                 "offset":0,
-        //                 "sort": "id",
-        //                 "order": "desc",
-        //                 "search": "",
-        //                 "created_by": true
-        //             },
-        //             "cache": true,
-        //             "contentType": "application/json",
-        //             "dataType": "json"
-        //         };
-        //         var url = $base_url+'/admin/'+page;
-        //         var ali = $globalAjax.ummay(url,params);
-        //         ali.done(function(result) {
-        //             var response = JSON.parse(result);
-        //             $globFunc.ch_message_modal_modal(response.message);
-        //             var data = response.rows;
-        //             $('#album_gallery').empty();
-        //             for(let index in data){
-        //                 var $id = data[index].id;
-        //                 var id = data[index].id;
-        //                 var filename = data[index].filename;
-        //                 var description = data[index].description;
+            show_gallery: function() {
+                if ($globalVar.page == 'gallery') {
+                    var page = 'gallery/show';
+                }else{
+                    var page = $globalVar.page+'/show_gallery';
+                }
+                var params = {
+                    "type": "get",
+                    "action": "get",
+                    "data": {
+                        "limit":0,
+                        "offset":0,
+                        "sort": "id",
+                        "order": "desc",
+                        "search": "",
+                        "created_by": true
+                    },
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/admin/'+page;
+                var ali = $globalAjax.ummay(url,params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $('#album_gallery').empty();
+                    for(let index in data){
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-        //                 if(filename == ''){
-        //                     var $filename = 'no_image.jpg';
-        //                 }else{
-        //                     var $filename = filename;
-        //                 }
+                        if(filename == ''){
+                            var $filename = 'no_image.jpg';
+                        }else{
+                            var $filename = filename;
+                        }
 
-        //                 if (description == '' || description == null) {
-        //                     var description_ = filename;
-        //                 }else{
-        //                     var description_ = description;
-        //                 }
+                        if (description == '' || description == null) {
+                            var description_ = filename;
+                        }else{
+                            var description_ = description;
+                        }
 
-        //                 var $element = '<div class="cont-checkbox">'+
-        //                     '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-        //                     '<label for="'+id+'" class="lbl_gallery">'+
-        //                         '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-        //                         '<span class="cover-checkbox">'+
-        //                             '<svg viewBox="0 0 12 10">'+
-        //                                 '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-        //                             '</svg>'+
-        //                         '</span>'+
-        //                         '<div class="info">'+description_+'</div>'+
-        //                     '</label>'+
-        //                 '</div>';
-        //                 $('#album_gallery').append($element);
-        //             }
-        //             $('.pilih-berkas').click(function(){
-        //                 var $data_name = $(this).data('name');
-        //                 $ummu.upload.input_id.val($data_name)
-        //                 $('#modal_gallery').modal('hide')
-        //                 $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-        //             })
-        //         }).fail(function() {
-        //             // An error occurred
-        //         });
-        //     },
+                        var $element = '<div class="cont-checkbox">'+
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                            '<label for="'+id+'" class="lbl_gallery">'+
+                                '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                '<span class="cover-checkbox">'+
+                                    '<svg viewBox="0 0 12 10">'+
+                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                    '</svg>'+
+                                '</span>'+
+                                '<div class="info">'+description_+'</div>'+
+                            '</label>'+
+                        '</div>';
+                        $('#album_gallery').append($element);
+                    }
+                    $('.pilih-berkas').click(function(){
+                        var $data_name = $(this).data('name');
+                        $ummu.upload.input_id.val($data_name)
+                        $('#modal_gallery').modal('hide')
+                        $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                    })
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
 
-        //     show_gallery2: function() {
-        //         var page = 'gallery/show';
-        //         var params = {
-        //             "type": "get",
-        //             "action": "get",
-        //             "data": {
-        //                 "limit":0,
-        //                 "offset":0,
-        //                 "sort": "id",
-        //                 "order": "desc",
-        //                 "search": "",
-        //                 "created_by": true
-        //             },
-        //             "cache": true,
-        //             "contentType": "application/json",
-        //             "dataType": "json"
-        //         };
-        //         var url = $base_url+'/admin/'+page;
-        //         var ali = $globalAjax.ummay(url,params);
-        //         ali.done(function(result) {
-        //             var response = JSON.parse(result);
-        //             $globFunc.ch_message_modal_modal(response.message);
-        //             var data = response.rows;
-        //             $('#album_gallery').empty();
-        //             for(let index in data){
-        //                 var $id = data[index].id;
-        //                 var id = data[index].id;
-        //                 var filename = data[index].filename;
-        //                 var description = data[index].description;
+            show_gallery2: function() {
+                var page = 'gallery/show';
+                var params = {
+                    "type": "get",
+                    "action": "get",
+                    "data": {
+                        "limit":0,
+                        "offset":0,
+                        "sort": "id",
+                        "order": "desc",
+                        "search": "",
+                        "created_by": true
+                    },
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/admin/'+page;
+                var ali = $globalAjax.ummay(url,params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $('#album_gallery').empty();
+                    for(let index in data){
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-        //                 if(filename == ''){
-        //                     var $filename = 'no_image.jpg';
-        //                 }else{
-        //                     var $filename = filename;
-        //                 }
+                        if(filename == ''){
+                            var $filename = 'no_image.jpg';
+                        }else{
+                            var $filename = filename;
+                        }
 
-        //                 if (description == '' || description == null) {
-        //                     var description_ = filename;
-        //                 }else{
-        //                     var description_ = description;
-        //                 }
+                        if (description == '' || description == null) {
+                            var description_ = filename;
+                        }else{
+                            var description_ = description;
+                        }
 
-        //                 var $element = '<div class="cont-checkbox">'+
-        //                     '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-        //                     '<label for="'+id+'" class="lbl_gallery">'+
-        //                         '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-        //                         '<span class="cover-checkbox">'+
-        //                             '<svg viewBox="0 0 12 10">'+
-        //                                 '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-        //                             '</svg>'+
-        //                         '</span>'+
-        //                         '<div class="info">'+description_+'</div>'+
-        //                     '</label>'+
-        //                 '</div>';
-        //                 $('#album_gallery').append($element);
-        //             }
-        //             $('.pilih-berkas').click(function(){
-        //                 var $data_name = $(this).data('name');
-        //                 $ummu.upload.input_id.val($data_name)
-        //                 $('#modal_gallery').modal('hide')
-        //                 $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-        //             })
-        //         }).fail(function() {
-        //             // An error occurred
-        //         });
-        //     },
+                        var $element = '<div class="cont-checkbox">'+
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                            '<label for="'+id+'" class="lbl_gallery">'+
+                                '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                '<span class="cover-checkbox">'+
+                                    '<svg viewBox="0 0 12 10">'+
+                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                    '</svg>'+
+                                '</span>'+
+                                '<div class="info">'+description_+'</div>'+
+                            '</label>'+
+                        '</div>';
+                        $('#album_gallery').append($element);
+                    }
+                    $('.pilih-berkas').click(function(){
+                        var $data_name = $(this).data('name');
+                        $ummu.upload.input_id.val($data_name)
+                        $('#modal_gallery').modal('hide')
+                        $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                    })
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
 
-        //     upload_file_gallery: function() {
-        //         var formData = new FormData();
-        //         formData.append('file_upload', $('#file_upload')[0].files[0]);
-        //         $.ajax({
-        //             "url": $base_url + 'admin/gallery/do_upload',
-        //             "method": "POST",
-        //             "timeout": 0,
-        //             "processData": false,
-        //             "mimeType": "multipart/form-data",
-        //             "contentType": false,
-        //             "data": formData,
-        //             beforeSend: function(e) {
-        //                 $('#modal_loader_submit_file').show()
-        //                 if(e && e.overrideMimeType) {
-        //                     e.overrideMimeType('application/jsoncharset=UTF-8')
-        //                 }
-        //             },
-        //             complete: function(){
-        //                 $('#modal_loader_submit_file').hide()
-        //             }
-        //         })
-        //         .done(function(result) {
-        //             var response = JSON.parse(result);
-        //             // console.log(response)
-        //             // console.log(response.status)
-        //             if(response.status==true){
-        //                 // $ummu.upload.randomname = response.name;
-        //                 var payload = JSON.stringify({
-        //                     "body": {
-        //                         "filename": response.name,
-        //                         "description": $('#file_description').val()
-        //                     }
-        //                 })
-        //                 $ummu.upload.insert_file_gallery(payload);
-        //             }else{
-        //                 $('#modal_alert_submit_file').addClass('bg-success');
-        //                 $('#modal_alert_submit_file').html(response.errors.file_upload).fadeIn().delay(10000).fadeOut();
-        //             }
-        //         }).fail(function() {
-        //             // An error occurred
-        //         });
-        //     },
+            upload_file_gallery: function() {
+                var formData = new FormData();
+                formData.append('file_upload', $('#file_upload')[0].files[0]);
+                $.ajax({
+                    "url": $base_url + 'admin/gallery/do_upload',
+                    "method": "POST",
+                    "timeout": 0,
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": formData,
+                    beforeSend: function(e) {
+                        $('#modal_loader_submit_file').show()
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#modal_loader_submit_file').hide()
+                    }
+                })
+                .done(function(result) {
+                    var response = JSON.parse(result);
+                    // console.log(response)
+                    // console.log(response.status)
+                    if(response.status==true){
+                        // $ummu.upload.randomname = response.name;
+                        var payload = JSON.stringify({
+                            "body": {
+                                "filename": response.name,
+                                "description": $('#file_description').val()
+                            }
+                        })
+                        $ummu.upload.insert_file_gallery(payload);
+                    }else{
+                        $('#modal_alert_submit_file').addClass('bg-success');
+                        $('#modal_alert_submit_file').html(response.errors.file_upload).fadeIn().delay(10000).fadeOut();
+                    }
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
 
-        //     insert_file_gallery: function(payload) {            
-        //         $.ajax({
-        //             "url": $base_url + 'admin/gallery/create',
-        //             "method": "POST",
-        //             "timeout": 0,
-        //             "processData": false,
-        //             "mimeType": "multipart/form-data",
-        //             "contentType": false,
-        //             "data": payload,
-        //             beforeSend: function(e) {
-        //                 $('#modal_loader_submit_file').show()
-        //                 if(e && e.overrideMimeType) {
-        //                     e.overrideMimeType('application/jsoncharset=UTF-8')
-        //                 }
-        //             },
-        //             complete: function(){
-        //                 $('#modal_loader_submit_file').hide()
-        //             },
-        //             error: function (xhr, ajaxOptions, thrownError) {
-        //                 alert(xhr.responseText);
-        //             }
-        //         })
-        //         .done(function(result) {
-        //             // console.log(result)
-        //             var response = JSON.parse(result);
-        //             if (response.status==true) {
-        //                 $('#modal_alert_submit_file').addClass('bg-success');
-        //                 $('#modal_alert_submit_file').html('Upload sukses').fadeIn().delay(10000).fadeOut();
-        //                 $ummu.upload.show_gallery();
-        //                 $('#upload_img_thumbnail').attr('src', $base_url + 'uploads/no_image.jpg');
-        //                 $('#file_upload, #file_description').val('');
-        //             }else{
-        //                 // $('#message_alert').html("");
-        //                 // var errors = response.message;
-        //                 // for(let index in errors){
-        //                 //     $('#message_alert').append("<li>"+errors[index]+"</li>");
-        //                 // }
-        //                 // $('#message_modal').modal('show');
-        //             }
-        //             $globFunc.ch_message_modal_modal(response.message);
-        //         }).fail(function() {
-        //             // An error occurred
-        //             console.log(create)
-        //         });
-        //     },
+            insert_file_gallery: function(payload) {            
+                $.ajax({
+                    "url": $base_url + 'admin/gallery/create',
+                    "method": "POST",
+                    "timeout": 0,
+                    "processData": false,
+                    "mimeType": "multipart/form-data",
+                    "contentType": false,
+                    "data": payload,
+                    beforeSend: function(e) {
+                        $('#modal_loader_submit_file').show()
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#modal_loader_submit_file').hide()
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.responseText);
+                    }
+                })
+                .done(function(result) {
+                    // console.log(result)
+                    var response = JSON.parse(result);
+                    if (response.status==true) {
+                        $('#modal_alert_submit_file').addClass('bg-success');
+                        $('#modal_alert_submit_file').html('Upload sukses').fadeIn().delay(10000).fadeOut();
+                        $ummu.upload.show_gallery();
+                        $('#upload_img_thumbnail').attr('src', $base_url + 'uploads/no_image.jpg');
+                        $('#file_upload, #file_description').val('');
+                    }else{
+                        // $('#message_alert').html("");
+                        // var errors = response.message;
+                        // for(let index in errors){
+                        //     $('#message_alert').append("<li>"+errors[index]+"</li>");
+                        // }
+                        // $('#message_modal').modal('show');
+                    }
+                    $globFunc.ch_message_modal_modal(response.message);
+                }).fail(function() {
+                    // An error occurred
+                    console.log(create)
+                });
+            },
 
-        //     hapus_file_gallery: function(id) {
-        //         $.ajax({
-        //             "url": $base_url + "admin/gallery/delete/" + id,
-        //             "method": "DELETE",
-        //             "timeout": 0,
-        //             beforeSend: function(e) {
-        //                 $('#modal_loader_gallery').show()
-        //                 if(e && e.overrideMimeType) {
-        //                     e.overrideMimeType('application/jsoncharset=UTF-8')
-        //                 }
-        //             },
-        //             complete: function(){
-        //                 $('#modal_loader_gallery').hide()
-        //             },
-        //             success: function(response){
-        //                 // console.log(response)
-        //             },
-        //             error: function (xhr, ajaxOptions, thrownError) {
-        //                 alert(xhr.responseText);
-        //             }
-        //         })
-        //         .done(function(result) {
-        //             var response = JSON.parse(result);
-        //             console.log(response.status)
-        //             if(response.status==true){
-        //                 $ummu.upload.show_gallery();
-        //             }
-        //         }).fail(function() {
-        //             // An error occurred
-        //         });
-        //     }
-    // },
+            hapus_file_gallery: function(id) {
+                $.ajax({
+                    "url": $base_url + "admin/gallery/delete/" + id,
+                    "method": "DELETE",
+                    "timeout": 0,
+                    beforeSend: function(e) {
+                        $('#modal_loader_gallery').show()
+                        if(e && e.overrideMimeType) {
+                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                        }
+                    },
+                    complete: function(){
+                        $('#modal_loader_gallery').hide()
+                    },
+                    success: function(response){
+                        // console.log(response)
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.responseText);
+                    }
+                })
+                .done(function(result) {
+                    var response = JSON.parse(result);
+                    console.log(response.status)
+                    if(response.status==true){
+                        $ummu.upload.show_gallery();
+                    }
+                }).fail(function() {
+                    // An error occurred
+                });
+            }
+    },
 
     gallery: {
         filename: null,

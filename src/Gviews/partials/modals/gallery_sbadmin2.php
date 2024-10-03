@@ -15,13 +15,16 @@
                                 <img src="<?=base_url();?>uploads/no_image.jpg" class="img-thumbnail" id="upload_img_thumbnail" alt="...">
                                 <div class="input-group input-group-sm" id="group_input_upload">
                                     <form class="input-group input-group-sm" enctype="multipart/form-data" id="form_upload_file">
-                                        <div class="col-md-12 input-group-sm">
+                                        <!-- <div class="col-md-12 input-group-sm">
                                             <input class="form-control forBtnClear" type="file" id="file_upload" name="file_upload">
+                                        </div> -->
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                            </div>
                                         </div>
-                                        <div class="input-group input-group-sm mb-3">
-                                            <span class="input-group-text">Note</span>
-                                            <input class="form-control forBtnClear" type="text" id="file_description" name="file_description" placeholder="description">
-                                        </div>
+                                        <input class="form-control forBtnClear" type="text" id="file_description" name="file_description" placeholder="Description">
                                     </form>
                                 </div>                               
                                 <div class="collapse mb-2" id="modal_loader_submit_file">
@@ -31,8 +34,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-sm btn-outline-primary" type="button" id="btn_submit_file_upload">
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-sm btn-outline-primary btn-lg btn-block" type="button" id="btn_submit_file_upload">
                                         <i class="fas fa-cloud-upload-alt"></i>
                                         Submit
                                     </button>
