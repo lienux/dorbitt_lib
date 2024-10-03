@@ -530,6 +530,10 @@ class UmmuHelper
             exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
         }
 
+        if (is_link(APPPATH."Gasset")) {
+            exec("rm -rf ".APPPATH."Gasset");
+        }
+
         if (is_link(APPPATH."Gviews")) {
             exec("rm -rf ".APPPATH."Gviews");
         }
