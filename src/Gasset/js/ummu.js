@@ -46,6 +46,8 @@ var $ummu = {
             $ummu.events.onChangeFileGalleryUpload();
             $ummu.events.gallery.btn_show_gallery();
             $ummu.events.gallery.btn_submit_file_upload();
+            $ummu.mygallery.btn_show_mygallery();
+            $ummu.mygallery.btn_select_file();
         }
     },
 
@@ -1644,7 +1646,8 @@ var $ummu = {
 
         approval: {
             gsum: function() {
-                $('#page_hide_spinner').show();
+                // $('#page_hide_spinner').show();
+                $('#modal_loader').modal('show');
                 var params = {
                     "type": "get",
                     "action": "get",
@@ -1666,7 +1669,8 @@ var $ummu = {
                     // console.log(response)
                     $ummu.localStorage.approval.sum.create(response);
                     $ummu.localStorage.approval.sum.show();
-                    $('#page_hide_spinner').hide();
+                    // $('#page_hide_spinner').hide();
+                    $('#modal_loader').modal('hide');
                 }).fail(function() {
                     // An error occurred
                 });
@@ -2232,6 +2236,355 @@ var $ummu = {
                     $('#modal_gallery').modal('hide')
                     $ummu.gallery.image_id.attr('src', $base_url + 'uploads/' + $data_name)
                 })
+                $('#modal_loader_gallery').hide();
+            }).fail(function() {
+                // An error occurred
+            });
+        },
+
+        show2: function() {
+            var page = 'gallery/show';
+            var params = {
+                "type": "get",
+                "action": "get",
+                "data": {
+                    "limit":0,
+                    "offset":0,
+                    "sort": "id",
+                    "order": "desc",
+                    "search": "",
+                    "created_by": true
+                },
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+            var url = $base_url+'/admin/'+page;
+            var ali = $globalAjax.ummay(url,params);
+            ali.done(function(result) {
+                var response = JSON.parse(result);
+                $globFunc.ch_message_modal_modal(response.message);
+                var data = response.rows;
+                $('#album_gallery').empty();
+                for(let index in data){
+                    var $id = data[index].id;
+                    var id = data[index].id;
+                    var filename = data[index].filename;
+                    var description = data[index].description;
+
+                    if(filename == ''){
+                        var $filename = 'no_image.jpg';
+                    }else{
+                        var $filename = filename;
+                    }
+
+                    if (description == '' || description == null) {
+                        var description_ = filename;
+                    }else{
+                        var description_ = description;
+                    }
+
+                    var $element = '<div class="cont-checkbox">'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                        '<label for="'+id+'" class="lbl_gallery">'+
+                            '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                            '<span class="cover-checkbox">'+
+                                '<svg viewBox="0 0 12 10">'+
+                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                '</svg>'+
+                            '</span>'+
+                            '<div class="info">'+description_+'</div>'+
+                        '</label>'+
+                    '</div>';
+                    $('#album_gallery').append($element);
+                    $('#modal_loader_gallery').hide();
+                }
+                $('.pilih-berkas').click(function(){
+                    var $data_name = $(this).data('name');
+                    $ummu.gallery.input_id.val($data_name)
+                    $('#modal_gallery').modal('hide')
+                    $ummu.gallery.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                })
+            }).fail(function() {
+                // An error occurred
+            });
+        },
+
+        gallery_file_gallery: function() {
+            var formData = new FormData();
+            formData.append('file_gallery', $('#file_gallery')[0].files[0]);
+            $.ajax({
+                "url": $base_url + 'admin/gallery/do_gallery',
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": formData,
+                beforeSend: function(e) {
+                    $('#modal_loader_submit_file').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    $('#modal_loader_submit_file').hide()
+                }
+            })
+            .done(function(result) {
+                var response = JSON.parse(result);
+                // console.log(response)
+                // console.log(response.status)
+                if(response.status==true){
+                    // $ummu.gallery.randomname = response.name;
+                    var payload = JSON.stringify({
+                        "body": {
+                            "filename": response.name,
+                            "description": $('#file_description').val()
+                        }
+                    })
+                    $ummu.gallery.insert_file_gallery(payload);
+                }else{
+                    $('#modal_alert_submit_file').addClass('bg-success');
+                    $('#modal_alert_submit_file').html(response.errors.file_gallery).fadeIn().delay(10000).fadeOut();
+                }
+            }).fail(function() {
+                // An error occurred
+            });
+        },
+
+        insert_file_gallery: function(payload) {            
+            $.ajax({
+                "url": $base_url + 'admin/gallery/create',
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": payload,
+                beforeSend: function(e) {
+                    $('#modal_loader_submit_file').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    $('#modal_loader_submit_file').hide()
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            })
+            .done(function(result) {
+                // console.log(result)
+                var response = JSON.parse(result);
+                if (response.status==true) {
+                    $('#modal_alert_submit_file').addClass('bg-success');
+                    $('#modal_alert_submit_file').html('gallery sukses').fadeIn().delay(10000).fadeOut();
+                    $ummu.gallery.show();
+                    $('#gallery_img_thumbnail').attr('src', $base_url + 'gallerys/no_image.jpg');
+                    $('#file_gallery, #file_description').val('');
+                }else{
+                    // $('#message_alert').html("");
+                    // var errors = response.message;
+                    // for(let index in errors){
+                    //     $('#message_alert').append("<li>"+errors[index]+"</li>");
+                    // }
+                    // $('#message_modal').modal('show');
+                }
+                $globFunc.ch_message_modal_modal(response.message);
+            }).fail(function() {
+                // An error occurred
+                console.log(create)
+            });
+        },
+
+        hapus_file_gallery: function(id) {
+            $.ajax({
+                "url": $base_url + "admin/gallery/delete/" + id,
+                "method": "DELETE",
+                "timeout": 0,
+                beforeSend: function(e) {
+                    $('#modal_loader_gallery').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    $('#modal_loader_gallery').hide()
+                },
+                success: function(response){
+                    // console.log(response)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            })
+            .done(function(result) {
+                var response = JSON.parse(result);
+                console.log(response.status)
+                if(response.status==true){
+                    $ummu.gallery.show();
+                }
+            }).fail(function() {
+                // An error occurred
+            });
+        }
+    },
+
+    mygallery: {
+        filename: null,
+        randomname: null,
+        input_id: null,
+        image_id: null,
+        ids: [],
+        filenames: [],
+
+        btn_show_mygallery: function(){
+            $('.btn-show-mygallery').on('click', function() {
+                $('#modal_loader_gallery').show();
+                var dataImage = $(this).attr('data-image');
+                $ummu.mygallery.show();
+                $('#modal_mygallery').modal('show');
+                // $ummu.gallery.input_id = input_id;
+                // $ummu.gallery.image_id = image_id;
+            })
+        },
+
+        btn_select_file: function() {
+            $('#mygallery_btn_select_file').on('click', function() {
+                var ids = [];
+                var filenames = [];
+                $('.dorbitt_checkbox_image_gallery:checked').each(function() {
+                    var id = $(this).attr('id');
+                    var filename = $(this).data('name');
+
+                    ids.push(parseInt(id));
+                    filenames.push(filename)
+                    // console.log(filename)
+                });
+
+                $ummu.gallery.ids = ids;
+                $ummu.gallery.filenames = filenames;
+                
+                /*buat function dan custom sendiri di project masing-masing*/
+                app.views.set_gallery_selected_to_img(filenames)
+
+                $('#modal_mygallery').modal('hide');
+                // console.log(ids)
+            })
+        },
+
+        // button: function() {
+        //     $('#dorbitt_open_gallery').click(function() {
+        //         $('#modal_loader_gallery').show();
+        //         var dataImage = $(this).attr('data-image');
+        //         $ummu.gallery.show();
+        //         $('#modal_gallery').modal('show');
+        //         // $ummu.gallery.input_id = input_id;
+        //         // $ummu.gallery.image_id = image_id;
+        //     })
+
+        //     $('#dorbitt_open_gallery2').click(function() {
+        //         $('#modal_loader_gallery').show();
+        //         var dataImage = $(this).attr('data-image');
+        //         $ummu.gallery.show2();
+        //         $('#modal_gallery').modal('show');
+        //         // $ummu.gallery.input_id = input_id;
+        //         // $ummu.gallery.image_id = image_id;
+        //     })
+
+        //     $('#btn_select_file').click(function() {
+        //         var ids = [];
+        //         var filenames = [];
+        //         $('.dorbitt_checkbox_image_gallery:checked').each(function() {
+        //             var id = $(this).attr('id');
+        //             var filename = $(this).data('name');
+
+        //             ids.push(parseInt(id));
+        //             filenames.push(filename)
+        //             // console.log(filename)
+        //         });
+
+        //         $ummu.gallery.ids = ids;
+        //         $ummu.gallery.filenames = filenames;
+                
+        //         /*buat function dan custom sendiri di project masing-masing*/
+        //         app.Views.set_gallery_selected_to_img(filenames)
+
+        //         $('#modal_gallery').modal('hide');
+        //         // console.log(ids)
+        //     })
+        // },
+
+        show: function() {
+            // if ($globalVar.page == 'gallery') {
+            //     var page = 'gallery/show';
+            // }else{
+            //     var page = $globalVar.page+'/show_gallery';
+            // }
+            var params = {
+                "type": "get",
+                "action": "get",
+                "data": {
+                    "limit":0,
+                    "offset":0,
+                    "sort": "id",
+                    "order": "desc",
+                    "search": "",
+                    "created_by": true
+                },
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+            var url = $base_url+'/mygallery/show';
+            var ali = $globalAjax.ummay(url,params);
+            ali.done(function(result) {
+                var response = JSON.parse(result);
+                $globFunc.ch_message_modal_modal(response.message);
+                var data = response.rows;
+                $('#album_gallery').empty();
+                for(let index in data){
+                    var $id = data[index].id;
+                    var id = data[index].id;
+                    var filename = data[index].filename;
+                    var description = data[index].description;
+                    var path = data[index].path;
+                    var path2 = data[index].path2;
+
+                    if(filename == ''){
+                        var $filename = 'no_image.jpg';
+                    }else{
+                        var $filename = filename;
+                    }
+
+                    if (description == '' || description == null) {
+                        var description_ = filename;
+                    }else{
+                        var description_ = description;
+                    }
+
+                    var $element = '<div class="cont-checkbox mr-2">'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" />'+
+                        '<label for="'+id+'" class="lbl_gallery">'+
+                            '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                            '<span class="cover-checkbox">'+
+                                '<svg viewBox="0 0 12 10">'+
+                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                '</svg>'+
+                            '</span>'+
+                            '<div class="info">'+ description_ +'</div>'+
+                        '</label>'+
+                    '</div>';
+                    $('#album_gallery').append($element);
+                }
+                // $('.pilih-berkas').click(function(){
+                //     var $data_name = $(this).data('name');
+                //     $ummu.mygallery.input_id.val($data_name)
+                //     $('#modal_gallery').modal('hide')
+                //     $ummu.mygallery.image_id.attr('src', path2)
+                // })
                 $('#modal_loader_gallery').hide();
             }).fail(function() {
                 // An error occurred

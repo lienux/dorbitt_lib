@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_loader" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: transparent;">
+<div class="modal fade" id="modal_loader" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: transparent;">
 	<div class="modal-dialog modal-dialog-centered" style="background: transparent;">
 		<div class="modal-content border-0" style="background: transparent;">
 			<!-- <div class="modal-header">
