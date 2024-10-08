@@ -58,9 +58,97 @@ class BuilderHelper
 
         if (isset($params['account_id'])) {
             $account_id = $params['account_id'];
-            if ($withCreatedBy == true) {
+            // if ($withCreatedBy == true) {
+            //     $builder->where('created_by', $account_id);
+            // }
+            if ($account_id) {
                 $builder->where('created_by', $account_id);
             }
+        }
+
+        if ($id) {
+
+            $builder->where('id',$id);
+
+        }else{
+
+            if ($search AND $search_params) {
+                // if ($search_params) {
+                    $builder->groupStart();
+                        $builder->like($search_params[0],$search);
+                        if (count($search_params) > 1) {
+                            foreach ($search_params as $key => $value) {
+                                if ($key != 0) {
+                                    $builder->orLike($value,$search);
+                                }
+                            }
+                        }
+                    $builder->groupEnd();
+                // }
+            }
+
+            if ($from_date) {
+                $builder->where('created_at >=', $this->gHelp->dtfFormatter($from_date));
+            }
+
+            if ($to_date) {
+                $builder->where('created_at <=', $this->gHelp->dttFormatter($to_date));
+            }
+
+            if ($date) {
+                if ($date->from) {
+                    $builder->where('created_at >=', $this->gHelp->dtfFormatter($date->from));
+                }
+
+                if ($date->to) {
+                    $builder->where('created_at <=', $this->gHelp->dttFormatter($date->to));
+                }
+            }
+        }
+
+        $builder->where('deleted_at', null);
+
+        return $builder;
+    }
+
+    public function conditions2($params)
+    {
+        $limit      = $this->request->getJsonVar('limit');
+        $offset     = $this->request->getJsonVar('offset');
+        $sort       = $this->request->getJsonVar('sort');
+        $withCreatedBy = $this->request->getJsonVar('created_by');
+
+        if (strpos($sort, ".")) {
+            // $sort = explode(".",$sort);
+            // $sortCount = count($sort);
+            // $sort = $sort[$sortCount-1];
+            $sort = null;
+        }
+
+        $order      = $this->request->getJsonVar('order');
+        $search     = $this->request->getJsonVar('search');
+
+        $from_date  = $this->request->getJsonVar('from_date');
+        $to_date    = $this->request->getJsonVar('to_date');
+        $date       = $this->request->getJsonVar('date');
+
+        // $date = '10.21.2011';
+        // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
+
+        $builder        = $params['builder'];
+        $id             = $params['id'];
+        $search_params  = $params['search_params'];
+
+        if (isset($params['company_id'])) {
+            $company_id = $params['company_id'];
+            if ($company_id) {
+                $builder->where('company_id', $company_id);
+            }
+        }
+
+        if (isset($params['account_id'])) {
+            $account_id = $params['account_id'];
+            $builder->where('created_by', $account_id);
         }
 
         if ($id) {

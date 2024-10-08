@@ -986,6 +986,7 @@ var $ummu = {
                     }else if (payload.action == 'insert' || payload.action == 'update') {
                         $('#modal_loader_input').hide()
                     }
+                    $('#modal_loader').modal('hide');
                 },
                 success: function(response){
                     // console.log(response)

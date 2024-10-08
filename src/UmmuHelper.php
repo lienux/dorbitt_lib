@@ -526,9 +526,9 @@ class UmmuHelper
             exec("rm -rf ".FCPATH."uploads");
         }
 
-        if (is_link(FCPATH."vendor/dorbitt-lib")) {
-            exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
-        }
+        // if (is_link(FCPATH."vendor/dorbitt-lib")) {
+        //     exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
+        // }
 
         if (is_link(FCPATH."Gasset")) {
             exec("rm -rf ".FCPATH."Gasset");
