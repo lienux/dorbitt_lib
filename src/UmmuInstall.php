@@ -42,6 +42,10 @@ class UmmuInstall
             exec("rm -rf ".APPPATH."Gviews");
         }
 
+        if (!is_dir(FCPATH."vendor")) {
+            exec("mkdir ". FCPATH ."vendor");
+        }
+
         if ($mode == 'dev') {
             exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
             exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");

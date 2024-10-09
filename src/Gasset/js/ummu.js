@@ -2440,6 +2440,7 @@ var $ummu = {
         image_id: null,
         ids: [],
         filenames: [],
+        paths: [],
 
         btn_show_mygallery: function(){
             $('.btn-show-mygallery').on('click', function() {
@@ -2456,20 +2457,27 @@ var $ummu = {
             $('#mygallery_btn_select_file').on('click', function() {
                 var ids = [];
                 var filenames = [];
+                var paths = [];
                 $('.dorbitt_checkbox_image_gallery:checked').each(function() {
                     var id = $(this).attr('id');
                     var filename = $(this).data('name');
+                    var path = $(this).data('path');
 
                     ids.push(parseInt(id));
-                    filenames.push(filename)
-                    // console.log(filename)
+                    filenames.push(filename);
+                    paths.push(path);
+                    // console.log(path)7uj 
                 });
 
-                $ummu.gallery.ids = ids;
-                $ummu.gallery.filenames = filenames;
+                $ummu.mygallery.ids = ids;
+                $ummu.mygallery.filenames = filenames;
+                $ummu.mygallery.paths = paths;
                 
                 /*buat function dan custom sendiri di project masing-masing*/
-                app.views.set_gallery_selected_to_img(filenames)
+                if (app.views.set_selected_gallery_to_frame) {
+                    app.views.set_selected_gallery_to_frame(ids,filenames,paths);
+                }
+                // app.views.set_gallery_selected_to_img(filenames)
 
                 $('#modal_mygallery').modal('hide');
                 // console.log(ids)
@@ -2567,7 +2575,7 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox mr-2">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" />'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
                         '<label for="'+id+'" class="lbl_gallery">'+
                             '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
                             '<span class="cover-checkbox">'+
