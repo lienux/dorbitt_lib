@@ -65,6 +65,26 @@ class UmmuPhotos
         return json_decode($response, false);
     }
 
+    public function upload($params)
+    {
+        $payload = $params['payload'];
+        $token = $params['token'];
+        
+        $path = "api/mygallery/photos/upload";
+
+        $params = [
+            "path"           => $path,
+            "method"         => "POST",
+            "payload"        => $payload,
+            "module_code"    => "gallery_photos",
+            "token"          => $token
+        ];
+
+        $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
     // public function update($params)
     // {
     //     $id = $params['id'];

@@ -821,6 +821,7 @@ var $ummu = {
                     'processing': '<div class="spinner"></div>'
                 },  
                 beforeSend: function(e) {
+                    $('#modal_loader').modal('show')
                     // if (payload.type == 'delete') {
                     //     $('#loader_delete').show()
                     // }else{
@@ -944,6 +945,9 @@ var $ummu = {
                 },
                 success: function(response){
                     // console.log(response)
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseText);
@@ -965,13 +969,14 @@ var $ummu = {
                 },
                 "data": payload.data,
                 beforeSend: function(e) {
-                    if (payload.action == 'delete') {
-                        $('#loader_delete').show()
-                    }else if (payload.action == 'multiple_delete') {
-                        $('#loader_mulitple_delete').show()
-                    }else if (payload.action == 'insert' || payload.action == 'update') {
-                        $('#modal_loader_input').show()
-                    }
+                    // if (payload.action == 'delete') {
+                    //     $('#loader_delete').show()
+                    // }else if (payload.action == 'multiple_delete') {
+                    //     $('#loader_mulitple_delete').show()
+                    // }else if (payload.action == 'insert' || payload.action == 'update') {
+                    //     $('#modal_loader_input').show()
+                    // }
+                    $('.modal-loader').modal('show');
 
                     if(e && e.overrideMimeType) {
                         e.overrideMimeType('application/jsoncharset=UTF-8')
@@ -986,7 +991,10 @@ var $ummu = {
                     }else if (payload.action == 'insert' || payload.action == 'update') {
                         $('#modal_loader_input').hide()
                     }
-                    $('#modal_loader').modal('hide');
+
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
                 },
                 success: function(response){
                     // console.log(response)
@@ -997,6 +1005,34 @@ var $ummu = {
             });
 
             return jqXHR;
+        },
+
+        ummuUpload: function() {
+            var formData = new FormData();
+            formData.append('file_mygallery', $('#file_mygallery')[0].files[0]);
+            return $.ajax({
+                "url": $base_url + 'mygallery/create',
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": formData,
+                beforeSend: function(e) {
+                    $('#modal_loader').modal('show');
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            });
         },
 
         show: function(url, payload) {
@@ -1041,7 +1077,9 @@ var $ummu = {
                     $('#response_message').removeClass('text-success msg_animation');
                 },
                 complete: function(){
-                    $('#modal_loader_input').hide()
+                    setTimeout( function(){ 
+                        $('#modal_loader').modal('hide');
+                    },1000);
                 },
                 success: function(response){
                     // console.log(response)
@@ -1177,6 +1215,89 @@ var $ummu = {
 
         },
 
+        multiple_delete(url,rows) {
+            // console.log(rows)
+
+            $('#btn_approve').prop('disabled', true);
+            $('#modal_loader_approval').show();
+
+            var r = [];
+            $.each(rows, function( index, value ) {
+                r[index] = {};
+
+                r[index] = value.id;
+                // r[index].appv_remark = "by multiple approve";
+                // r[index].doc_number = value.doc_code;
+
+                // var d = [];
+                // $.each(value.detail, function( index2, value2) {
+                //     d[index2] = {};
+
+                //     // d[index2].status = 1;
+                //     // d[index2].comment = "by multiple approve";
+                //     // d[index2].part_code = value2.Prod_code;
+                //     // d[index2].part_qty = value2.part_qty;
+                //     // d[index2].harga = value2.harga;
+                //     // d[index2].disc = value2.Disc;
+                //     // d[index2].nomer = value2.nomer;
+                //     d[index2].id = value2.id;
+                // })
+
+                // r[index].details = d;
+            });
+
+            var payload = JSON.stringify(
+            {
+                "body": {
+                    "ids": r
+                }
+            });
+
+            console.log(payload)
+
+            // var payload = JSON.stringify(
+            // {
+            //     "body": {
+            //         "ids": $ummu.func.getIdSelections()
+            //     }
+            // });
+
+            var params = {
+                "type": "delete",
+                "action": "multiple_delete",
+                "data": payload,
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+
+            // // var url = $base_url + "admin/ruangan/delete";
+            var ummu = $ummu.ajax.ummay(url, params);
+            ummu.done(function(result) {
+                var response = JSON.parse(result);
+                // if (response.status==true) {
+                //     $globFunc.ch_message(response.message);
+                //     $table.bootstrapTable('remove', {
+                //         field: 'id',
+                //         values: $globFunc.getIdSelections()
+                //     })
+                //     $remove.prop('disabled', true)
+                // }else{
+                //     $('#modal_alert_input').html("");
+                //     var errors = response.errors;
+                //     $('#modal_alert_input').addClass('bg-danger');
+                //     for(let index in errors){
+                //         $('#modal_alert_input').append("<li>"+errors[index]+"</li>");
+                //     }
+                //     $('#modal_alert_input').fadeIn().delay(3000).fadeOut();
+                // }
+                // $('#modal_confirmation_multiple_delete').modal('hide')
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+        },
+
         wilayahIndonesia: {
             getRegencies: function(provincie_id,auto_slected) {
                 $.ajax({
@@ -1267,7 +1388,6 @@ var $ummu = {
         },
 
         masterData: {
-
         },    
 
         getRefStatusMahasiswa: function() {
@@ -1425,6 +1545,38 @@ var $ummu = {
             payslip_periode: {
                 create: function() {
                     // 
+                }
+            }
+        },
+
+        mygallery: {
+            photos: {
+                upload: function() {
+                    var formData = new FormData();
+                    formData.append('file_upload', $('#file_upload')[0].files[0]);
+                    return $.ajax({
+                        "url": $base_url + 'mygallery/photos/create',
+                        "method": "POST",
+                        "timeout": 0,
+                        "processData": false,
+                        "mimeType": "multipart/form-data",
+                        "contentType": false,
+                        "data": formData,
+                        beforeSend: function(e) {
+                            $('#modal_loader').modal('show');
+                            if(e && e.overrideMimeType) {
+                                e.overrideMimeType('application/jsoncharset=UTF-8')
+                            }
+                        },
+                        complete: function(){
+                            setTimeout( function(){ 
+                                $('.modal-loader').modal('hide');
+                            },1000);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.responseText);
+                        }
+                    });
                 }
             }
         }
@@ -1648,7 +1800,7 @@ var $ummu = {
         approval: {
             gsum: function() {
                 // $('#page_hide_spinner').show();
-                $('#modal_loader').modal('show');
+                // $('#modal_loader').modal('show');
                 var params = {
                     "type": "get",
                     "action": "get",
@@ -1671,7 +1823,7 @@ var $ummu = {
                     $ummu.localStorage.approval.sum.create(response);
                     $ummu.localStorage.approval.sum.show();
                     // $('#page_hide_spinner').hide();
-                    $('#modal_loader').modal('hide');
+                    // $('#modal_loader').modal('hide');
                 }).fail(function() {
                     // An error occurred
                 });
@@ -2446,7 +2598,7 @@ var $ummu = {
             $('.btn-show-mygallery').on('click', function() {
                 $('#modal_loader_gallery').show();
                 var dataImage = $(this).attr('data-image');
-                $ummu.mygallery.show();
+                $ummu.mygallery.photos.show_for_modal();
                 $('#modal_mygallery').modal('show');
                 // $ummu.gallery.input_id = input_id;
                 // $ummu.gallery.image_id = image_id;
@@ -2560,7 +2712,7 @@ var $ummu = {
                     var filename = data[index].filename;
                     var description = data[index].description;
                     var path = data[index].path;
-                    var path2 = data[index].path2;
+                    var file_url = data[index].file_url;
 
                     if(filename == ''){
                         var $filename = 'no_image.jpg';
@@ -2575,9 +2727,9 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox mr-2">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
                         '<label for="'+id+'" class="lbl_gallery">'+
-                            '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                            '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
                             '<span class="cover-checkbox">'+
                                 '<svg viewBox="0 0 12 10">'+
                                     '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
@@ -2787,6 +2939,263 @@ var $ummu = {
             }).fail(function() {
                 // An error occurred
             });
+        },
+
+        photos: {
+            show_for_modal: function() {
+                // if ($globalVar.page == 'gallery') {
+                //     var page = 'gallery/show';
+                // }else{
+                //     var page = $globalVar.page+'/show_gallery';
+                // }
+                var params = {
+                    "type": "get",
+                    "action": "get",
+                    "data": {
+                        "limit":0,
+                        "offset":0,
+                        "sort": "id",
+                        "order": "desc",
+                        "search": "",
+                        "created_by": true
+                    },
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/mygallery/photos/show';
+                var ali = $globalAjax.ummay(url,params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $('#album_gallery').empty();
+                    for(let index in data){
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
+                        var path = data[index].path;
+                        var file_url = data[index].file_url;
+
+                        if(filename == ''){
+                            var $filename = 'no_image.jpg';
+                        }else{
+                            var $filename = filename;
+                        }
+
+                        if (description == '' || description == null) {
+                            var description_ = filename;
+                        }else{
+                            var description_ = description;
+                        }
+
+                        var $element = '<div class="cont-checkbox mr-2">'+
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
+                            '<label for="'+id+'" class="lbl_gallery">'+
+                                '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                '<span class="cover-checkbox">'+
+                                    '<svg viewBox="0 0 12 10">'+
+                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                    '</svg>'+
+                                '</span>'+
+                                '<div class="info">'+ description_ +'</div>'+
+                            '</label>'+
+                        '</div>';
+                        $('#album_gallery').append($element);
+                    }
+                    // $('.pilih-berkas').click(function(){
+                    //     var $data_name = $(this).data('name');
+                    //     $ummu.mygallery.input_id.val($data_name)
+                    //     $('#modal_gallery').modal('hide')
+                    //     $ummu.mygallery.image_id.attr('src', path2)
+                    // })
+                    $('#modal_loader_gallery').hide();
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
+            show: function() {
+                // if ($globalVar.page == 'gallery') {
+                //     var page = 'gallery/show';
+                // }else{
+                //     var page = $globalVar.page+'/show_gallery';
+                // }
+                var params = {
+                    // "url": $base_url+'/mygallery/photos/show',
+                    "type": "get",
+                    "action": "get",
+                    "data": {
+                        "limit":0,
+                        "offset":0,
+                        "sort": "id",
+                        "order": "desc",
+                        "search": "",
+                        "created_by": true
+                    },
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/mygallery/photos/show';
+                var ali = $ummu.ajax.ummay(url, params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $('#album_gallery').empty();
+                    for(let index in data){
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
+                        var path = data[index].path;
+                        var file_url = data[index].file_url;
+
+                        if(filename == ''){
+                            var $filename = 'no_image.jpg';
+                        }else{
+                            var $filename = filename;
+                        }
+
+                        if (description == '' || description == null) {
+                            var description_ = filename;
+                        }else{
+                            var description_ = description;
+                        }
+
+                        // var $element = '<div class="cont-checkbox mr-2">'+
+                        //     '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
+                        //     '<label for="'+id+'" class="lbl_gallery">'+
+                        //         '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                        //         '<span class="cover-checkbox">'+
+                        //             '<svg viewBox="0 0 12 10">'+
+                        //                 '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                        //             '</svg>'+
+                        //         '</span>'+
+                        //         '<div class="info">'+ description_ +'</div>'+
+                        //     '</label>'+
+                        // '</div>';
+                        // // $('#album_gallery').append($element);
+
+                        var html = '<div class="col-md-2">'+
+                            '<div class="card mb-4 shadow-sm">'+
+                                // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
+                                //     '<title>Placeholder</title>'+
+                                //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
+                                // '</svg>'+
+                                '<img src="'+ file_url +'" class="img-thumbnail" alt="...">'+
+
+                                '<div class="card-body">'+
+                                    // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
+                                    '<div class="d-flex justify-content-between align-items-center">'+
+                                        '<div class="btn-group">'+
+                                            '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                                            '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
+                                        '</div>'+
+                                        '<small class="text-muted">9 mins</small>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+                        $('#mygallery_album_photos').append(html);
+                    }
+
+                    // console.log(response)
+
+                    // $('.pilih-berkas').click(function(){
+                    //     var $data_name = $(this).data('name');
+                    //     $ummu.mygallery.input_id.val($data_name)
+                    //     $('#modal_gallery').modal('hide')
+                    //     $ummu.mygallery.image_id.attr('src', path2)
+                    // })
+                    // $('#modal_loader_gallery').hide();
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
+            btn_mygallery_photos_submit: function() {
+                $('#btn_mygallery_photos_submit').on('click', function(){
+                    if ($('#file_upload').val() == '') {
+                        alert('Please choose file.');
+                    }else{
+                        var ali = $ummu.ajax.mygallery.photos.upload();
+                        ali.done(function(result) {
+                            var response = JSON.parse(result);
+                            console.log(response)
+
+                            var html = '<div class="col-md-2">'+
+                                '<div class="card mb-4 shadow-sm">'+
+                                    // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
+                                    //     '<title>Placeholder</title>'+
+                                    //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
+                                    // '</svg>'+
+                                    '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
+
+                                    '<div class="card-body">'+
+                                        // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
+                                        '<div class="d-flex justify-content-between align-items-center">'+
+                                            '<div class="btn-group">'+
+                                                '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                                                '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
+                                            '</div>'+
+                                            '<small class="text-muted">9 mins</small>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+                            $('#mygallery_album_photos').prepend(html);
+
+                            $('.custom-file label').html('Choose file');
+                            $('#file_upload').val('');
+                            // $globFunc.ch_message_modal_modal(response.message);
+                            // var data = response.rows;
+                            // $('#album_gallery').empty();
+                            // for(let index in data){
+                            //     var $id = data[index].id;
+                            //     var id = data[index].id;
+                            //     var filename = data[index].filename;
+                            //     var description = data[index].description;
+                            //     var path = data[index].path;
+                            //     var path2 = data[index].path2;
+
+                            //     if(filename == ''){
+                            //         var $filename = 'no_image.jpg';
+                            //     }else{
+                            //         var $filename = filename;
+                            //     }
+
+                            //     if (description == '' || description == null) {
+                            //         var description_ = filename;
+                            //     }else{
+                            //         var description_ = description;
+                            //     }
+
+                            //     var $element = '<div class="cont-checkbox mr-2">'+
+                            //         '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
+                            //         '<label for="'+id+'" class="lbl_gallery">'+
+                            //             '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                            //             '<span class="cover-checkbox">'+
+                            //                 '<svg viewBox="0 0 12 10">'+
+                            //                     '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                            //                 '</svg>'+
+                            //             '</span>'+
+                            //             '<div class="info">'+ description_ +'</div>'+
+                            //         '</label>'+
+                            //     '</div>';
+                            //     $('#album_gallery').append($element);
+                            // }
+                            // // $('.pilih-berkas').click(function(){
+                            // //     var $data_name = $(this).data('name');
+                            // //     $ummu.mygallery.input_id.val($data_name)
+                            // //     $('#modal_gallery').modal('hide')
+                            // //     $ummu.mygallery.image_id.attr('src', path2)
+                            // // })
+                            // $('#modal_loader_gallery').hide();
+                        })  
+                    }
+                })
+            }
         }
     },
 
@@ -3234,6 +3643,27 @@ var $ummu = {
                     '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
                 // return html;
                 $('#btn_std_shb').html(html);
+            },
+            dt: {
+                showhide1: function(){
+                    if ($ummu.dt.select.count() > 0) {
+                        table.button(3).disable();
+                        table.button(5).enable();
+                        table.button(6).enable();
+                    }else{
+                        table.button(3).enable();
+                        table.button(5).disable();
+                        table.button(6).disable();
+                    }
+                    $ummu.views.button.dt.showhide_edit();
+                },
+                showhide_edit: function(){
+                    if ($ummu.dt.select.count() == 1) {
+                        table.button(4).enable();
+                    }else{
+                        table.button(4).disable();
+                    }
+                }
             }
         },
 
@@ -3253,7 +3683,6 @@ var $ummu = {
                 $('#'+element_id).append("<option value='" + rows[index].id + "'>" + text + "</option>");
             }
         }
-
 
         // set_value_to_option_gedung: function(rows) {
         //     $('#gedung').empty();

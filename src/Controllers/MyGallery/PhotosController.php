@@ -5,13 +5,17 @@ namespace App\Controllers\MyGallery;
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use Dorbitt\UmmuPhotos;
+use Dorbitt\GviewsHelper;
+use Dorbitt\UmmuUpload;
 
 class PhotosController extends ResourceController
 {
     public function __construct()
     {
-        $this->request  = \Config\Services::request();
+        $this->request = \Config\Services::request();
         $this->ummu = new UmmuPhotos();
+        $this->gViews = new GviewsHelper();
+        $this->upload = new UmmuUpload();
     }
 
     public function index()
@@ -28,22 +32,22 @@ class PhotosController extends ResourceController
         $search = $this->request->getVar('search');
 
         $payload = [
-            "limit"     => (int)$limit,
-            "offset"    => (int)$offset,
-            "sort"      => (string)$sort,
-            "order"     => (string)$order,
-            "search"    => (string)$search,
-            "date"      => [
-                "from"  => "",
-                "to"    => ""
+            "limit" => (int) $limit,
+            "offset" => (int) $offset,
+            "sort" => (string) $sort,
+            "order" => (string) $order,
+            "search" => (string) $search,
+            "date" => [
+                "from" => "",
+                "to" => ""
             ],
             "created_by" => true
         ];
 
         $params = [
-            "id"             => $id,
-            "payload"        => $payload,
-            "token"          => session()->get('token')
+            "id" => $id,
+            "payload" => $payload,
+            "token" => session()->get('token')
         ];
 
         $response = $this->ummu->show($params);
@@ -53,68 +57,56 @@ class PhotosController extends ResourceController
 
     public function create()
     {
-        $body = $this->request->getJsonVar('body');
+        $upload = $this->upload->create();
 
-        $params = [
-            "payload"        => $body,
-            "token"          => session()->get('token')
-        ];
+        if ($upload['status'] == true) {
+            $filename = $upload['name'];
+            $folder = $upload['folder'];
+            $url = $upload['url'];
 
-        $response = $this->ummu->insert($params);
+            $body = [
+                "filename"  => $filename,
+                "folder"    => $folder,
+                "path"      => "",
+                "url"       => $url
+            ];
 
-        return $this->respond($response, 200);
-    }
+            $params = [
+                "payload"   => $body,
+                "token"     => session()->get('token')
+            ];
 
-    public function do_upload()
-    {
-        $param_name = $this->request->getFile('file_upload');
-        // $folder_name = $this->request->getVar('foldername');
-        $validationRule = [
-            'file_upload' => [
-                'label' => 'Image File',
-                'rules' => [
-                    'uploaded[file_upload]',
-                    'is_image[file_upload]',
-                    'mime_in[file_upload,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
-                    'max_size[file_upload,500]',
-                    // 'max_dims[foto_mahasiswa,1024,768]',
-                ],
-            ],
-        ];
+            $response = $this->ummu->insert($params);
 
-        $file = $this->request->getFile('file_upload');
-        
-        // if (! $this->validate($validationRule)) {
-        //     $data = [
-        //         'status'        => false,
-        //         'errors'        => $this->validator->getErrors()
-        //     ];
-        //     return $this->respond($data, 200);
-        // }
-
-        if (! $file->hasMoved()) {
-            $newName = $file->getRandomName();
-            // $file->move(FCPATH . $folder_name . '/', $newName);
-            $file->move(FCPATH . 'uploads/', $newName);
-            $data = [
-                'status'        => true,
-                'name'          => $newName,
-                // 'filepath'      => base_url() . $folder_name . '/'. $newName,
-                'filepath'      => base_url() . 'uploads/'. $newName,
-            ];            
-            return $this->respond($data, 200);
+            return $this->respond($response, 200);
         }
 
-        $data = [
-            'status'        => false,
-            'errors'        => 'The file has already been moved.'
-        ];
+        // // $file = $this->request->getFile('filename');
+        // // // $filepath = '/home/qroot/Documents/test_import.xlsx';
+        // // $filepath = $file;
 
-        // $data = [
-        //     'status'        => false,
-        //     'message'        => $param_name.' / '.$folder_name
-        // ];
-        return $this->respond($data, 200);
+        // // $body = [
+        // //     "file" => new \CURLFILE($filepath)
+        // // ];
+
+        // // $params = [
+        // //     "payload"        => $body,
+        // //     "token"          => session()->get('token')
+        // // ];
+
+        // // // $response = $this->ummu->excel_to_array($params);
+
+        // // // return $this->respond($response, 200);
+        // // // $body = $this->request->getJsonVar('body');
+
+        // // // $params = [
+        // // //     "payload" => $body,
+        // // //     "token" => session()->get('token')
+        // // // ];
+
+        // // // $response = $this->ummu->insert($params);
+
+        // return $this->respond($body, 200);
     }
 
     public function update($id = null)
@@ -125,9 +117,9 @@ class PhotosController extends ResourceController
 
     public function delete($id = null)
     {
-        $request = $this->client->request('DELETE',$this->curlHelper->url().'api/berangkas_file/delete/'.$id, [
-            'http_errors'   => false,
-            'headers'       => $this->curlHelper->headers2('berangkas'),
+        $request = $this->client->request('DELETE', $this->curlHelper->url() . 'api/berangkas_file/delete/' . $id, [
+            'http_errors' => false,
+            'headers' => $this->curlHelper->headers2('berangkas'),
         ]);
 
         $body = $request->getBody();

@@ -39,5 +39,15 @@ class GviewsHelper
     {
         return "../Gviews/partials/modals/loader";
     }
+
+    public function conten_photos()
+    {
+        return "../Gviews/contents/mygallery/photos";
+    }
+
+    public function modal_delete_confirm()
+    {
+        return "../Gviews/partials/modals/delete_confirm";
+    }
     
 }

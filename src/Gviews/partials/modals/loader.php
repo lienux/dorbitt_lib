@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal_loader" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: transparent;">
+<div class="modal fade modal-loader" id="modal_loader" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: transparent;">
 	<div class="modal-dialog modal-dialog-centered" style="background: transparent;">
 		<div class="modal-content border-0" style="background: transparent;">
 			<!-- <div class="modal-header">
@@ -12,7 +12,7 @@
 					<!-- <div class="spinner-border" role="status">
 						<span class="sr-only">Loading...</span>
 					</div> -->
-					<img src="<?=base_url('Gasset/loading-gif.gif')?>">
+					<img src="<?=base_url('Gasset/loading-gif.gif')?>" width="100px">
 				</div>
 			</div>
 			<!-- <div class="modal-footer">

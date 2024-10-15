@@ -38,33 +38,24 @@ class UmmuHazardReport
         return json_decode($response, false);
     }
 
-    // public function import($params)
-    // {
-    //     $filepath = $this->gHelp->upload();
+    public function insert($params)
+    {
+        $response = $this->curli->request4([
+            "path"           => $this->urli. "create",
+            "method"         => "POST",
+            "payload"        => $params["payload"],
+            "module_code"    => "she_hazard_report",
+            "token"          => $params["token"]
+        ]);
 
-    //     $payload = [
-    //         "path"           => $this->urli . "import",
-    //         "method"         => "POST",
-    //         "payload"        => array_merge(
-    //             array('file' => new \CURLFILE($filepath)),
-    //             $params['payload']
-    //         ),
-    //         "module_code"    => "she_hazard_report",
-    //         "token"          => $params['token']
-    //     ];
-
-    //     $response = $this->curli->form($payload);
-
-    //     unlink($filepath);
-
-    //     return json_decode($response, false);
-    // }
+        return json_decode($response, false);
+    }
 
     public function delete($params)
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "delete",
+                "path"           => $this->urli. "delete",
                 "method"         => "DELETE",
                 "payload"        => $params['payload'],
                 "module_code"    => "she_hazard_report",
@@ -79,7 +70,7 @@ class UmmuHazardReport
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "update",
+                "path"           => $this->urli. "update",
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => "she_hazard_report",
