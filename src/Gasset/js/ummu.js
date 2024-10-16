@@ -47,7 +47,7 @@ var $ummu = {
             $ummu.gallery.button();
             $ummu.events.onChangeFileGalleryUpload();
             $ummu.events.gallery.btn_show_gallery();
-            $ummu.events.gallery.btn_submit_file_upload();
+            // $ummu.events.gallery.btn_submit_file_upload();
             $ummu.mygallery.btn_show_mygallery();
             $ummu.mygallery.btn_select_file();
         }
@@ -3223,7 +3223,7 @@ var $ummu = {
                 //         alert('Silahkan pilih file terlebih dahulu.')
                 //     }
                 // })
-                $('#btn_submit_file_upload').on('click', function(){
+                $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
                     if ($('#file_upload').val() == '') {
                         alert('Please choose file.');
                     }else{
@@ -3232,30 +3232,48 @@ var $ummu = {
                             var response = JSON.parse(result);
                             console.log(response)
 
-                            // var html = '<div class="col-md-2">'+
-                            //     '<div class="card mb-4 shadow-sm">'+
-                            //         // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
-                            //         //     '<title>Placeholder</title>'+
-                            //         //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
-                            //         // '</svg>'+
-                            //         '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
+                            if (response.status == true) {
+                                var html = '<div class="cont-checkbox">'+
+                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" />'+
+                                    '<label for="'+ response.data.id +'" class="lbl_gallery">'+
+                                        '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                        '<span class="cover-checkbox">'+
+                                            '<svg viewBox="0 0 12 10">'+
+                                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                            '</svg>'+
+                                        '</span>'+
+                                        '<div class="info">'+ response.data.description +'</div>'+
+                                    '</label>'+
+                                '</div>';
+                                $('#album_gallery').prepend(html);
+                                $('.custom-file label').html('Choose file');
+                                $('#file_upload').val('');
+                            }
 
-                            //         '<div class="card-body">'+
-                            //             // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
-                            //             '<div class="d-flex justify-content-between align-items-center">'+
-                            //                 '<div class="btn-group">'+
-                            //                     '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
-                            //                     '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
-                            //                 '</div>'+
-                            //                 '<small class="text-muted">9 mins</small>'+
-                            //             '</div>'+
-                            //         '</div>'+
-                            //     '</div>'+
-                            // '</div>';
+
+                            // // var html = '<div class="col-md-2">'+
+                            // //     '<div class="card mb-4 shadow-sm">'+
+                            // //         // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
+                            // //         //     '<title>Placeholder</title>'+
+                            // //         //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
+                            // //         // '</svg>'+
+                            // //         '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
+
+                            // //         '<div class="card-body">'+
+                            // //             // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
+                            // //             '<div class="d-flex justify-content-between align-items-center">'+
+                            // //                 '<div class="btn-group">'+
+                            // //                     '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                            // //                     '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
+                            // //                 '</div>'+
+                            // //                 '<small class="text-muted">9 mins</small>'+
+                            // //             '</div>'+
+                            // //         '</div>'+
+                            // //     '</div>'+
+                            // // '</div>';
                             // $('#mygallery_album_photos').prepend(html);
 
-                            $('.custom-file label').html('Choose file');
-                            $('#file_upload').val('');
+                            
                             // $globFunc.ch_message_modal_modal(response.message);
                             // var data = response.rows;
                             // $('#album_gallery').empty();

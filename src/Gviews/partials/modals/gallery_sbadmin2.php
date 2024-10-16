@@ -203,7 +203,7 @@
     }
 </style>
 
-<div class="modal fade" id="modal_mygallery" tabindex="-1" style="z-index: 2000;">
+<div class="modal fade" id="modal_mygallery" tabindex="-1" stylez="z-index: 2000;">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
