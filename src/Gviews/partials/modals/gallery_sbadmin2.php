@@ -225,8 +225,8 @@
                                         </div> -->
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                <input type="file" class="custom-file-input" id="file_upload" aria-describedby="inputGroupFileAddon01">
+                                                <label class="custom-file-label" for="file_upload">Choose file</label>
                                             </div>
                                         </div>
                                         <input class="form-control forBtnClear" type="text" id="file_description" name="file_description" placeholder="Description">
