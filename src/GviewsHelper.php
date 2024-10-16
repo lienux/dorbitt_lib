@@ -45,9 +45,9 @@ class GviewsHelper
         return "../Gviews/contents/mygallery/photos";
     }
 
-    public function modal_delete_confirm()
+    public function modal_confirm()
     {
-        return "../Gviews/partials/modals/delete_confirm";
+        return "../Gviews/partials/modals/confirm";
     }
     
 }

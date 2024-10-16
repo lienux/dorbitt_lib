@@ -13,6 +13,9 @@
 						<span class="sr-only">Loading...</span>
 					</div> -->
 					<img src="<?=base_url('Gasset/loading-gif.gif')?>" width="100px">
+					<div>
+						<label id="text_loader"></label>
+					</div>
 				</div>
 			</div>
 			<!-- <div class="modal-footer">

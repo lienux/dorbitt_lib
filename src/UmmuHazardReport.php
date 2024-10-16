@@ -80,4 +80,19 @@ class UmmuHazardReport
 
         return json_decode($response, false);
     }
+
+    public function release($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli. "release",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => "she_hazard_report",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

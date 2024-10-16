@@ -32,7 +32,9 @@ var $ummu = {
         page_previous: null,
         errors: [],
         rows: null,
-        rad_external: 0
+        rad_external: 0,
+        show_col_images: localStorage.getItem('show_col_images'),
+        show_col_id: localStorage.getItem('show_col_id')
     },
 
     config: {
@@ -3849,6 +3851,10 @@ var $ummu = {
             getRow: function(tbName) {
                 return tbName.row({selected: true}).data();
             }
+        },
+        after_cud: function() {
+            $ummu.views.button.dt.showhide1();
+            $('#text_loader').html('');
         }
     },
 
