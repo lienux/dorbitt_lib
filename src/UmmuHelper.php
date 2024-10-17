@@ -3,13 +3,13 @@
 namespace Dorbitt;
 
 /**
-* =============================================
-* Author: Ummu
-* Website: https://ummukhairiyahyusna.com/
-* App: DORBITT LIB
-* Description: 
-* =============================================
-*/
+ * =============================================
+ * Author: Ummu
+ * Website: https://ummukhairiyahyusna.com/
+ * App: DORBITT LIB
+ * Description: 
+ * =============================================
+ */
 
 class UmmuHelper
 {
@@ -20,11 +20,11 @@ class UmmuHelper
 
     public function limit()
     {
-        $limit      = $this->request->getVar('limit');
-        
-        if (!$limit OR $limit=='undefined') {
+        $limit = $this->request->getVar('limit');
+
+        if (!$limit or $limit == 'undefined') {
             $limit = 0;
-        }else{
+        } else {
             $limit = $limit;
         }
 
@@ -33,11 +33,11 @@ class UmmuHelper
 
     public function offset()
     {
-        $offset     = $this->request->getVar('offset');
-        
-        if (!$offset OR $offset=='undefined' OR $this->search()) {
+        $offset = $this->request->getVar('offset');
+
+        if (!$offset or $offset == 'undefined' or $this->search()) {
             $offset = 0;
-        }else{
+        } else {
             $offset = $offset;
         }
 
@@ -48,13 +48,13 @@ class UmmuHelper
     {
         $sort = $this->request->getVar('sort');
         $order = $this->request->getVar('order');
-        
+
         if (isset($order['name'])) {
             $sort = $order['name'];
-        }else{
-            if (!$sort OR $sort=='undefined') {
+        } else {
+            if (!$sort or $sort == 'undefined') {
                 $sort = 0;
-            }else{
+            } else {
                 $sort = $sort;
             }
         }
@@ -68,10 +68,10 @@ class UmmuHelper
 
         if (isset($order['dir'])) {
             $order = $order['dir'];
-        }else{
-            if (!$order OR $order=='undefined') {
+        } else {
+            if (!$order or $order == 'undefined') {
                 $order = 0;
-            }else{
+            } else {
                 $order = $order;
             }
         }
@@ -81,7 +81,7 @@ class UmmuHelper
 
     public function search()
     {
-        $search     = $this->request->getVar('search');
+        $search = $this->request->getVar('search');
 
         if (isset($search['value'])) {
             $search = $search['value'];
@@ -103,11 +103,11 @@ class UmmuHelper
         $search = $this->request->getVar('search');
 
         $payload = [
-            "limit"     => $length,
-            "offset"    => $start,
-            "sort"      => $order[0]['name'],
-            "order"     => $order[0]['dir'],
-            "search"    => $search['value']
+            "limit" => $length,
+            "offset" => $start,
+            "sort" => $order[0]['name'],
+            "order" => $order[0]['dir'],
+            "search" => $search['value']
         ];
 
         return $payload;
@@ -129,11 +129,11 @@ class UmmuHelper
             if ($draw == 1) {
                 $sort = 'id';
                 $order = 'desc';
-            }else{
+            } else {
                 $sort = $columns[$column]['data'];
                 $order = $order[0]['dir'];
             }
-        }else{
+        } else {
             $sort = 'id';
             $order = 'desc';
         }
@@ -141,16 +141,16 @@ class UmmuHelper
         $search = $this->request->getVar('search');
         if ($search) {
             $search = $search['value'];
-        }else{
+        } else {
             $search = "";
         }
 
         $payload = [
-            "limit"     => $length,
-            "offset"    => $start,
-            "sort"      => $sort,
-            "order"     => $order,
-            "search"    => $search
+            "limit" => $length,
+            "offset" => $start,
+            "sort" => $sort,
+            "order" => $order,
+            "search" => $search
         ];
 
         return $payload;
@@ -170,21 +170,21 @@ class UmmuHelper
         if ($orderVar) {
             $column = $orderVar[0]['column'];
             $order = $orderVar[0]['dir'];
-        }else{
+        } else {
             $order = 'desc';
         }
 
         $columns = $this->request->getVar('columns');
         if ($columns) {
             $sort = $columns[$column]['data'];
-        }else{
+        } else {
             $sort = 'id';
         }
 
         if ($draw == 1) {
             $sort = 'id';
             $order = 'desc';
-        }else{
+        } else {
             $sort = $sort;
             $order = $order;
         }
@@ -192,16 +192,16 @@ class UmmuHelper
         $searchVar = $this->request->getVar('search');
         if ($searchVar) {
             $search = $searchVar['value'];
-        }else{
+        } else {
             $search = "";
         }
 
         $payload = [
-            "limit"     => $length,
-            "offset"    => $start,
-            "sort"      => $sort,
-            "order"     => $order,
-            "search"    => $search
+            "limit" => $length,
+            "offset" => $start,
+            "sort" => $sort,
+            "order" => $order,
+            "search" => $search
         ];
 
         return $payload;
@@ -221,7 +221,7 @@ class UmmuHelper
         if ($orderVar) {
             $column = $orderVar[0]['column'];
             $order = $orderVar[0]['dir'];
-        }else{
+        } else {
             $order = 'desc';
         }
 
@@ -229,17 +229,17 @@ class UmmuHelper
         if ($columns) {
             if (isset($column)) {
                 $sort = $columns[$column]['data'];
-            }else{
+            } else {
                 $sort = 'id';
             }
-        }else{
+        } else {
             $sort = 'id';
         }
 
         if ($draw == 1) {
             $sort = 'id';
             $order = 'desc';
-        }else{
+        } else {
             $sort = $sort;
             $order = $order;
         }
@@ -247,16 +247,16 @@ class UmmuHelper
         $searchVar = $this->request->getVar('search');
         if ($searchVar) {
             $search = $searchVar['value'];
-        }else{
+        } else {
             $search = "";
         }
 
         $payload = [
-            "limit"     => $length,
-            "offset"    => $start,
-            "sort"      => $sort,
-            "order"     => $order,
-            "search"    => $search
+            "limit" => $length,
+            "offset" => $start,
+            "sort" => $sort,
+            "order" => $order,
+            "search" => $search
         ];
 
         return $payload;
@@ -269,9 +269,9 @@ class UmmuHelper
         $count = count($builder);
 
         $response = [
-            "rows"          => $builder,
-            "total"         => $total,
-            "count"         => $count,
+            "rows" => $builder,
+            "total" => $total,
+            "count" => $count,
         ];
 
         return $response;
@@ -279,7 +279,7 @@ class UmmuHelper
 
     public function _total($builder)
     {
-        $total = $builder->countAllResults(false);        
+        $total = $builder->countAllResults(false);
         return $total;
     }
 
@@ -298,7 +298,7 @@ class UmmuHelper
     public function _rowsBui($builder)
     {
         $rows = $builder->limit($this->limit(), $this->offset())
-        ->get()->getResult();
+            ->get()->getResult();
         return $rows;
     }
 
@@ -314,11 +314,11 @@ class UmmuHelper
         $sort = $this->request->getJsonVar('sort');
 
         if (strpos($sort, ".")) {
-            $sort = explode(".",$sort);
+            $sort = explode(".", $sort);
             $sortCount = count($sort);
-            $sort = $sort[$sortCount-1];
+            $sort = $sort[$sortCount - 1];
         }
-        $order      = $this->request->getJsonVar('order');
+        $order = $this->request->getJsonVar('order');
 
         if ($sort && $order) {
             if ($allowedFields) {
@@ -326,7 +326,7 @@ class UmmuHelper
                     $builder = $builder->orderBy($sort, $order);
                 }
             }
-        }else{
+        } else {
             if ($allowedFields) {
                 if (in_array("id", $allowedFields)) {
                     $builder = $builder->orderBy('id', 'desc');
@@ -342,19 +342,19 @@ class UmmuHelper
         $sort = $this->request->getJsonVar('sort');
 
         if (strpos($sort, ".")) {
-            $sort = explode(".",$sort);
+            $sort = explode(".", $sort);
             $sortCount = count($sort);
-            $sort = $sort[$sortCount-1];
+            $sort = $sort[$sortCount - 1];
         }
-        $order      = $this->request->getJsonVar('order');
+        $order = $this->request->getJsonVar('order');
 
         if ($sort && $order) {
             if ($allowedFields) {
                 if (in_array($sort, $allowedFields)) {
-                    $builder = $builder->orderBy('a.'.$sort, $order);
+                    $builder = $builder->orderBy('a.' . $sort, $order);
                 }
             }
-        }else{
+        } else {
             if ($allowedFields) {
                 if (in_array("id", $allowedFields)) {
                     $builder = $builder->orderBy('a.id', 'desc');
@@ -370,10 +370,10 @@ class UmmuHelper
     {
         $fsl = [];
         foreach ($fields as $key => $value) {
-            $fsl[] = $alias.'.'.$value;
+            $fsl[] = $alias . '.' . $value;
         }
 
-        return implode(", ",$fsl);
+        return implode(", ", $fsl);
     }
 
     public function array_where($array, $field, $val)
@@ -407,7 +407,7 @@ class UmmuHelper
                 }
             }
 
-        }else{
+        } else {
 
             $rows = $array;
 
@@ -433,7 +433,7 @@ class UmmuHelper
                 }
             }
 
-        }else{
+        } else {
             $rows = $array;
         }
 
@@ -450,29 +450,29 @@ class UmmuHelper
             $offset = 0;
         }
 
-        if ($limit == 0 OR $limit == 'undefined') {
+        if ($limit == 0 or $limit == 'undefined') {
             $rows = $array;
-        }else{
+        } else {
             $rows = array_slice($array, $offset, $limit);
         }
 
         $response = [
-            "rows"      => $rows, 
-            "count"     => count($rows),
-            "total"     => count($array)
+            "rows" => $rows,
+            "count" => count($rows),
+            "total" => count($array)
         ];
 
         return $response;
     }
 
-    public function response_true($rows,$count,$total)
+    public function response_true($rows, $count, $total)
     {
         $response = [
-            "status"    => true,
-            "message"   => 'Get data success',
-            "rows"      => $rows,
-            "count"     => $count,
-            "total"     => $total
+            "status" => true,
+            "message" => 'Get data success',
+            "rows" => $rows,
+            "count" => $count,
+            "total" => $total
         ];
 
         return $response;
@@ -481,30 +481,30 @@ class UmmuHelper
     public function response_false()
     {
         $response = [
-            "status"    => false,
-            "message"   => 'Data not found.',
-            "rows"      => [],
+            "status" => false,
+            "message" => 'Data not found.',
+            "rows" => [],
         ];
 
         return $response;
     }
 
-    public function restrue($rows,$count,$total)
+    public function restrue($rows, $count, $total)
     {
         if ($count == 0) {
             $msg = 'Data not found';
-        }else{
+        } else {
             $msg = 'Get data success';
         }
 
         $response = [
-            "status"            => true,
-            "message"           => $msg,
-            "rows"              => $rows,
-            "count"             => $count,
-            "total"             => $total,
-            "recordsTotal"      => $total,
-            "recordsFiltered"   => $total,
+            "status" => true,
+            "message" => $msg,
+            "rows" => $rows,
+            "count" => $count,
+            "total" => $total,
+            "recordsTotal" => $total,
+            "recordsFiltered" => $total,
         ];
 
         return $response;
@@ -513,8 +513,8 @@ class UmmuHelper
     public function resfalse($builder)
     {
         $response = [
-            "status"    => false,
-            "message"   => $builder,
+            "status" => false,
+            "message" => $builder,
         ];
 
         return $response;
@@ -522,32 +522,43 @@ class UmmuHelper
 
     public function install_link($mode)
     {
-        if (is_link(FCPATH."uploads")) {
-            exec("rm -rf ".FCPATH."uploads");
+        if (is_link(FCPATH . "uploads")) {
+            exec("rm -rf " . FCPATH . "uploads");
         }
 
         // if (is_link(FCPATH."vendor/dorbitt-lib")) {
         //     exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
         // }
 
-        if (is_link(FCPATH."Gasset")) {
-            exec("rm -rf ".FCPATH."Gasset");
+        if (is_link(FCPATH . "Gasset")) {
+            exec("rm -rf " . FCPATH . "Gasset");
         }
 
-        if (is_link(APPPATH."Gviews")) {
-            exec("rm -rf ".APPPATH."Gviews");
+        if (is_link(APPPATH . "Gviews")) {
+            exec("rm -rf " . APPPATH . "Gviews");
         }
 
         if ($mode == 'dev') {
-            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
-            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset"." ".FCPATH."Gasset");
-            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gviews"." ".APPPATH."Gviews");
-        }else{
-            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
-            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
-            exec("sudo ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
+            exec("ln -s " . WRITEPATH . "uploads" . " " . FCPATH);
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset" . " " . FCPATH . "vendor/dorbitt-lib");
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gasset" . " " . FCPATH . "Gasset");
+            exec("ln -s /var/www/html/dorbitt/dorbitt_lib/src/Gviews" . " " . APPPATH . "Gviews");
+        } else {
+            exec("ln -s " . WRITEPATH . "uploads" . " " . FCPATH);
+            exec("sudo ln -s " . ROOTPATH . "vendor/dorbitt/lib/src/Gasset" . " " . FCPATH . "vendor/dorbitt-lib");
+            exec("sudo ln -s " . ROOTPATH . "vendor/dorbitt/lib/src/Gasset" . " " . FCPATH . "Gasset");
+            exec("sudo ln -s " . ROOTPATH . "vendor/dorbitt/lib/src/Gviews" . " " . APPPATH . "Gviews");
         }
+    }
+
+    public function token()
+    {
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if ($header) {
+            $token = explode(' ', $header)[1];
+        } else {
+            $token = 'Token Required';
+        }
+        return $token;
     }
 }
