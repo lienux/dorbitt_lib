@@ -3234,7 +3234,7 @@ var $ummu = {
 
                             if (response.status == true) {
                                 var html = '<div class="cont-checkbox">'+
-                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" />'+
+                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" data-path="'+ response.data.url +'"/>'+
                                     '<label for="'+ response.data.id +'" class="lbl_gallery">'+
                                         '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
                                         '<span class="cover-checkbox">'+
