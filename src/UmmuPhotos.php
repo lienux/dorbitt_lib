@@ -45,7 +45,7 @@ class UmmuPhotos
         return json_decode($response, false);
     }
 
-    public function insert($params)
+    public function create($params)
     {
         $payload = $params['payload'];
         $token = $params['token'];
@@ -63,6 +63,11 @@ class UmmuPhotos
         $response = $this->curli->request3($params);
 
         return json_decode($response, false);
+    }
+
+    public function insert($params)
+    {
+        return $this->create($params);
     }
 
     public function upload($params)

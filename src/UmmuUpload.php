@@ -82,4 +82,52 @@ class UmmuUpload
 
         return $data;
     }
+
+    public function create2($data)
+    {
+        // $validationRule = [
+        //     'file_upload' => [
+        //         'label' => 'Image File',
+        //         'rules' => [
+        //             'uploaded[file_upload]',
+        //             'is_image[file_upload]',
+        //             'mime_in[file_upload,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+        //             'max_size[file_upload,500]',
+        //             // 'max_dims[foto_mahasiswa,1024,768]',
+        //         ],
+        //     ],
+        // ];
+
+        // $file_upload = $this->request->getFile('file_upload');
+        $file_upload = $data;
+        $folder = date("Ymd");
+        $folder_path = FCPATH. 'uploads/' .$folder. '/';
+
+
+        // if (! $this->validate($validationRule)) {
+        //     $data = [
+        //         'status'        => false,
+        //         'errors'        => $this->validator->getErrors()
+        //     ];
+        //     return $this->respond($data, 200);
+        // }
+
+        if (!$file_upload->hasMoved()) {
+            $newName = $file_upload->getRandomName();
+            $file_upload->move($folder_path, $newName);
+            $data = [
+                'status'    => true,
+                'name'      => $newName,
+                'folder'    => $folder,
+                'url'       => base_url(). 'uploads/' .$folder. '/' .$newName,
+            ];
+        }else{
+            $data = [
+                'status' => false,
+                'errors' => 'The file has already been moved.'
+            ];
+        }
+
+        return $data;
+    }
 }
