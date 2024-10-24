@@ -283,6 +283,12 @@ class UmmuHelper
         return $total;
     }
 
+    public function _total2($builder)
+    {
+        $total = count($builder);
+        return $total;
+    }
+
     public function _limit($builder)
     {
         $limit = $builder->limit($this->limit(), $this->offset());

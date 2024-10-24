@@ -200,6 +200,9 @@ class UmmuCurl
         return $response;
     }
 
+    /**
+     * Bisa digunakan untuk ummum
+     * */
     public function ummu($params)
     {
         $url            = $params['url'];
