@@ -567,4 +567,13 @@ class UmmuHelper
         }
         return $token;
     }
+
+    public function msdbToken()
+    {
+        if ($this->request->isCLI()) {
+            return $this->request->getOption('msdb_token');
+        } else {
+            return $this->request->getVar("msdb_token");
+        }
+    }
 }

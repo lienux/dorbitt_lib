@@ -38,7 +38,6 @@ class Mailer
         $module_code = "email";
 
         $request = $this->curli->request($url,$method,$payload,$module_code,$token);
-
         return json_decode($request, false);
     }
 
@@ -49,7 +48,6 @@ class Mailer
         $module_code = "email";
 
         $request = $this->curli->request($url,$method,$payload,$module_code,$token);
-
         return json_decode($request, false);
     }
 }
