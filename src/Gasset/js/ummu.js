@@ -3821,7 +3821,7 @@ var $ummu = {
                 }
                 $('#'+element_id).append("<option value='" + rows[index].id + "'>" + text + "</option>");
             }
-        }
+        },
 
         // set_value_to_option_gedung: function(rows) {
         //     $('#gedung').empty();
@@ -3830,6 +3830,27 @@ var $ummu = {
         //         // $('#gedung').append("<option value='" + rows[index].id + "'>" + rows[index].kode + " - " + rows[index].name + "</option>");
         //     }
         // }
+
+        list_to_badge: function(index, row) {
+            
+            var html = row.kode + ' | ' + row.name
+            return html
+        },
+
+        emailFormatter: function(data) {
+            var email = "";
+            if (data) {
+                const array = data.split(',');
+                $.each(array , function(index, val) { 
+                    // console.log(index, val)
+                    email += '<a href="#" class="badge bg-primary">'+val+'</a><br> ';
+                    // var b += a;
+                });  
+                // console.log(email);
+
+                return email;      
+            }
+        }
     },
 
     formatter: {

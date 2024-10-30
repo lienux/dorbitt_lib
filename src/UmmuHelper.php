@@ -570,10 +570,20 @@ class UmmuHelper
 
     public function msdbToken()
     {
+        $msdb_token = getenv('msdb_token_default');
+
         if ($this->request->isCLI()) {
-            return $this->request->getOption('msdb_token');
+            $msdbTokenCli = $this->request->getOption('msdb_token');
+            if ($msdbTokenCli) {
+                $msdb_token = $msdbTokenCli;
+            }
         } else {
-            return $this->request->getVar("msdb_token");
+            $msdbTokenHttp = $this->request->getVar("msdb_token");
+            if ($msdbTokenHttp) {
+                $msdb_token = $msdbTokenHttp;
+            }
         }
+
+        return $msdb_token;
     }
 }
