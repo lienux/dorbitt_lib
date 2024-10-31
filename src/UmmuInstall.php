@@ -20,6 +20,7 @@ class UmmuInstall
 
     public function run($mode)
     {
+        $this->is_symlink();
         $this->link($mode);
         $this->mygallery($mode);
     }
