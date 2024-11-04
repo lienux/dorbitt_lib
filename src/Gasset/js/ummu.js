@@ -928,12 +928,14 @@ var $ummu = {
                     // $('#loader_delete').hide()
                     // $('#loader_mulitple_delete').hide()
                     // $('#modal_loader_input').hide()
-                },
-                success: function(response){
+
                     // console.log(response)
                     setTimeout( function(){ 
                         $('.modal-loader').modal('hide');
                     },1000);
+                },
+                success: function(response){
+                    // 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseText);
