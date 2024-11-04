@@ -897,6 +897,7 @@ var $ummu = {
                     'processing': '<div class="spinner"></div>'
                 },  
                 beforeSend: function(e) {
+                    $('#modal_loader').modal('show');
                     // if (payload.type == 'delete') {
                     //     $('#loader_delete').show()
                     // }else{
@@ -930,9 +931,13 @@ var $ummu = {
                 },
                 success: function(response){
                     // console.log(response)
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.responseText);
+                    $('#modal_loader').modal('hide');
                 }
             });
 
@@ -1659,6 +1664,54 @@ var $ummu = {
 
             // console.log(jam)
             return response;
+        },
+
+        countDate4: function(datetime1, datetime2) {
+            var inDetik = new Date(datetime2) - new Date(datetime1);
+            var inMenit = Math.floor(inDetik / 60000);
+            var inJam = Math.floor(inMenit / 60);
+            var inJamK = inMenit / 60;
+
+            return inJamK.toFixed(2);
+        },
+
+        datetime: {
+            jmlMenit: function(datetime1, datetime2) {
+                var inDetik = new Date(datetime2) - new Date(datetime1);
+                var inMenit = Math.floor(inDetik / 60000);
+
+                return inMenit;
+            },
+            jmlJam: function(datetime1, datetime2) {
+                var inDetik = new Date(datetime2) - new Date(datetime1);
+                var inMenit = Math.floor(inDetik / 60000);
+                var inJam = Math.floor(inMenit / 60);
+                var inJamK = inMenit / 60;
+
+                return inJamK.toFixed(2);
+            },
+            toText: function(datetime1, datetime2) {
+                var inDetik = new Date(datetime2) - new Date(datetime1);
+                var inMenit = Math.floor(inDetik / 60000);
+                var inJam = Math.floor(inMenit / 60);
+                var inHari = Math.floor(inJam / 24);
+
+                var menit = inMenit - (inJam * 60);
+                var jam = inJam - (inHari * 24);
+
+                var response = inHari + " day, " + jam + " hour, " + menit + " minute";
+
+                return response;
+            },
+        },
+
+        countDate4: function(datetime1, datetime2) {
+            var inDetik = new Date(datetime2) - new Date(datetime1);
+            var inMenit = Math.floor(inDetik / 60000);
+            var inJam = Math.floor(inMenit / 60);
+            var inJamK = inMenit / 60;
+
+            return inJamK.toFixed(2);
         },
 
         countMinute: function(datetime1, datetime2) {

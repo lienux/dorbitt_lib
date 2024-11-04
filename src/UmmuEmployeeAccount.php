@@ -79,7 +79,7 @@ class UmmuEmployeeAccount
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "update",
+                "path"           => $this->urli . "update/" . $params['id'],
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_account",
