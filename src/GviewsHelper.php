@@ -49,5 +49,9 @@ class GviewsHelper
     {
         return "../Gviews/partials/modals/confirm";
     }
-    
+
+    public function modal_info()
+    {
+        return "../Gviews/partials/modals/information";
+    }    
 }

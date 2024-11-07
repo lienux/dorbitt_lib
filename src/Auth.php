@@ -36,6 +36,20 @@ class Auth
         // return $response;
     }
 
+    public function login2($payload)
+    {
+        $params = [
+            "path"           => "auth/login/create",
+            "method"         => "POST",
+            "payload"        => $payload['payload'],
+            "headers"        => $payload['headers']
+        ];
+
+        $response = $this->curli->ummu2($params);
+
+        return $response;
+    }
+
     public function register($payload)
     {
         // 
