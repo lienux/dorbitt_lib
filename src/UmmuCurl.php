@@ -346,4 +346,46 @@ class UmmuCurl
 
         return $response;
     }
+
+    public function localsend_whatsapp($params)
+    {
+        $url = $params['url'];
+        $auth = $params['auth'];
+
+        if (!$url) {
+            $url = 'http://127.0.0.1:4000/';
+        }
+
+        if (!$auth) {
+            $auth = 'dW1tdXF1OnVtbXUuZXJwbmVzaWEuY29tL2QzdiEhIT8/Pz09PQ==';
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url . 'send',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>json_encode([
+            "number" => $params['number'],
+            "message" => $params['message']
+
+          ]),
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Authorization: Basic ' . $auth
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return $response;
+    }
 }
