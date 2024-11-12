@@ -44,4 +44,34 @@ class UmmuRef
 
         return json_decode($response, false);
     }
+
+    public function provinces($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/referensi/wilayah_indonesia/provinces",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => "ref_wilayah_indonesia",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+    public function regencies($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/referensi/wilayah_indonesia/regencies",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => "ref_wilayah_indonesia",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

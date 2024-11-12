@@ -36,6 +36,20 @@ class UmmuUpload
         return $filepath;
     }
 
+    public function path_upload($fileVar)
+    {
+        $ci_file        = new \CodeIgniter\Files\File($fileVar);
+
+        $filepath = '';
+        if ($ci_file->getBasename()) {
+            if (! $fileVar->hasMoved()) {
+                $filepath = WRITEPATH . 'uploads/' . $fileVar->store();
+            }
+        }
+
+        return $filepath;
+    }
+
     public function create()
     {
         $validationRule = [

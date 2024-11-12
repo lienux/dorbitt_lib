@@ -53,5 +53,10 @@ class GviewsHelper
     public function modal_info()
     {
         return "../Gviews/partials/modals/information";
+    }
+
+    public function modal_list_data($themes = null)
+    {
+        return "../Gviews/partials/modals/list_data";
     }    
 }

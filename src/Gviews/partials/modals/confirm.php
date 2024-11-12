@@ -1,21 +1,3 @@
-<!-- <div class="modal fade" id="modal_delete_confirm" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centeredz">
-        <div class="modal-content">
-            <div class="modal-header bg-secondary">
-                <h5 class="modal-title text-light" id="message_title">Confirmation</h5>
-                <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5>Are you sure you want to delete seletced items ?</h5>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="#" type="button" class="btn btn-primary" id="modal_btn_delete">Delete</a>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="modal fade" id="modal_delete_confirm" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog" id="modal_dialog">
         <div class="modal-content bg-light">
