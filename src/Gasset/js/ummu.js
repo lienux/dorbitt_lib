@@ -455,6 +455,11 @@ var $ummu = {
      
             angka_hasil = split[1] != undefined ? angka_hasil + ',' + split[1] : angka_hasil;
             return angka_hasil;            
+        },
+
+        companyNameFormatter: function(index, row) {
+            var html = '<span class="text-muted">' + row.company_name + '</span>';
+            return html
         }
     },
 
