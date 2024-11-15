@@ -343,6 +343,7 @@ var $ummu = {
                 })
             },
         },
+
         gallery: {
             btn_show_gallery: function() {
                 $('.btn_show_gallery').on('click', function(){
@@ -359,6 +360,15 @@ var $ummu = {
                     }
                 })
             }
+        },
+
+        form_applicant: function() {
+            $("#form_applicant").on("submit", function(event) {
+                // alert( "Handler for `submit` called." );
+                // $('#modal_loader').modal('show');
+                $(this).attr('disabled', true);
+                event.preventDefault();
+            });
         }
     },
 
