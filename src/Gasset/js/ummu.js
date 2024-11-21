@@ -3217,25 +3217,25 @@ var $ummu = {
                 });
             },
             btn_mygallery_photos_submit: function() {
-                $('#btn_mygallery_photos_submit').on('click', function(){
+                $('#btn_mygallery_photos_submit').on('click', function() {
                     if ($('#file_upload').val() == '') {
                         alert('Please choose file.');
-                    }else{
+                    } else {
                         var ali = $ummu.ajax.mygallery.photos.upload();
                         ali.done(function(result) {
                             var response = JSON.parse(result);
-                            console.log(response)
+                            console.log(response);
 
                             var html = '<div class="col-md-2">'+
                             '<div class="card mb-4 shadow-sm">'+
-                                    // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
-                                    //     '<title>Placeholder</title>'+
-                                    //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
-                                    // '</svg>'+
+                                // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
+                                //     '<title>Placeholder</title>'+
+                                //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
+                                // '</svg>'+
                             '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
 
                             '<div class="card-body">'+
-                                        // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
+                                    // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
                             '<div class="d-flex justify-content-between align-items-center">'+
                             '<div class="btn-group">'+
                             '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
@@ -3250,226 +3250,105 @@ var $ummu = {
 
                             $('.custom-file label').html('Choose file');
                             $('#file_upload').val('');
-                            // $globFunc.ch_message_modal_modal(response.message);
-                            // var data = response.rows;
-                            // $('#album_gallery').empty();
-                            // for(let index in data){
-                            //     var $id = data[index].id;
-                            //     var id = data[index].id;
-                            //     var filename = data[index].filename;
-                            //     var description = data[index].description;
-                            //     var path = data[index].path;
-                            //     var path2 = data[index].path2;
-
-                            //     if(filename == ''){
-                            //         var $filename = 'no_image.jpg';
-                            //     }else{
-                            //         var $filename = filename;
-                            //     }
-
-                            //     if (description == '' || description == null) {
-                            //         var description_ = filename;
-                            //     }else{
-                            //         var description_ = description;
-                            //     }
-
-                            //     var $element = '<div class="cont-checkbox mr-2">'+
-                            //         '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
-                            //         '<label for="'+id+'" class="lbl_gallery">'+
-                            //             '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            //             '<span class="cover-checkbox">'+
-                            //                 '<svg viewBox="0 0 12 10">'+
-                            //                     '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                            //                 '</svg>'+
-                            //             '</span>'+
-                            //             '<div class="info">'+ description_ +'</div>'+
-                            //         '</label>'+
-                            //     '</div>';
-                            //     $('#album_gallery').append($element);
-                            // }
-                            // // $('.pilih-berkas').click(function(){
-                            // //     var $data_name = $(this).data('name');
-                            // //     $ummu.mygallery.input_id.val($data_name)
-                            // //     $('#modal_gallery').modal('hide')
-                            // //     $ummu.mygallery.image_id.attr('src', path2)
-                            // // })
-                            // $('#modal_loader_gallery').hide();
                         })  
-}
-})
-},
-btn_mygallery_photos_submit_on_modal: function() {
-                // $('#btn_submit_file_upload').click(function() {
-                //     var file = $('#file_upload').val();
-                //     if(file != ''){
-                //         $ummu.upload.upload_file_gallery()
-                //     }else{
-                //         alert('Silahkan pilih file terlebih dahulu.')
-                //     }
-                // })
-    $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
-        if ($('#file_upload').val() == '') {
-            alert('Please choose file.');
-        }else{
-            var ali = $ummu.ajax.mygallery.photos.upload();
-            ali.done(function(result) {
-                var response = JSON.parse(result);
-                console.log(response)
+                    }
+                })
+            },
+            btn_mygallery_photos_submit_on_modal: function() {
+                $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
+                    if ($('#file_upload').val() == '') {
+                        alert('Please choose file.');
+                    }else{
+                        var ali = $ummu.ajax.mygallery.photos.upload();
+                        ali.done(function(result) {
+                            var response = JSON.parse(result);
+                            console.log(response)
 
-                if (response.status == true) {
-                    var html = '<div class="cont-checkbox">'+
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" data-path="'+ response.data.url +'"/>'+
-                    '<label for="'+ response.data.id +'" class="lbl_gallery">'+
-                    '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                    '<span class="cover-checkbox">'+
-                    '<svg viewBox="0 0 12 10">'+
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                    '</svg>'+
-                    '</span>'+
-                    '<div class="info">'+ response.data.description +'</div>'+
-                    '</label>'+
-                    '</div>';
-                    $('#album_gallery').prepend(html);
-                    $('.custom-file label').html('Choose file');
-                    $('#file_upload').val('');
-                }
+                            if (response.status == true) {
+                                var html = '<div class="cont-checkbox">'+
+                                '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" data-path="'+ response.data.url +'"/>'+
+                                '<label for="'+ response.data.id +'" class="lbl_gallery">'+
+                                '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                '<span class="cover-checkbox">'+
+                                '<svg viewBox="0 0 12 10">'+
+                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                '</svg>'+
+                                '</span>'+
+                                '<div class="info">'+ response.data.description +'</div>'+
+                                '</label>'+
+                                '</div>';
+                                $('#album_gallery').prepend(html);
+                                $('.custom-file label').html('Choose file');
+                                $('#file_upload').val('');
+                            }
+                        })  
+                    }
+                })
+            }
+        }
+    },
 
-
-                            // // var html = '<div class="col-md-2">'+
-                            // //     '<div class="card mb-4 shadow-sm">'+
-                            // //         // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
-                            // //         //     '<title>Placeholder</title>'+
-                            // //         //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
-                            // //         // '</svg>'+
-                            // //         '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
-
-                            // //         '<div class="card-body">'+
-                            // //             // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
-                            // //             '<div class="d-flex justify-content-between align-items-center">'+
-                            // //                 '<div class="btn-group">'+
-                            // //                     '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
-                            // //                     '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
-                            // //                 '</div>'+
-                            // //                 '<small class="text-muted">9 mins</small>'+
-                            // //             '</div>'+
-                            // //         '</div>'+
-                            // //     '</div>'+
-                            // // '</div>';
-                            // $('#mygallery_album_photos').prepend(html);
-
-
-                            // $globFunc.ch_message_modal_modal(response.message);
-                            // var data = response.rows;
-                            // $('#album_gallery').empty();
-                            // for(let index in data){
-                            //     var $id = data[index].id;
-                            //     var id = data[index].id;
-                            //     var filename = data[index].filename;
-                            //     var description = data[index].description;
-                            //     var path = data[index].path;
-                            //     var path2 = data[index].path2;
-
-                            //     if(filename == ''){
-                            //         var $filename = 'no_image.jpg';
-                            //     }else{
-                            //         var $filename = filename;
-                            //     }
-
-                            //     if (description == '' || description == null) {
-                            //         var description_ = filename;
-                            //     }else{
-                            //         var description_ = description;
-                            //     }
-
-                            //     var $element = '<div class="cont-checkbox mr-2">'+
-                            //         '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
-                            //         '<label for="'+id+'" class="lbl_gallery">'+
-                            //             '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            //             '<span class="cover-checkbox">'+
-                            //                 '<svg viewBox="0 0 12 10">'+
-                            //                     '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                            //                 '</svg>'+
-                            //             '</span>'+
-                            //             '<div class="info">'+ description_ +'</div>'+
-                            //         '</label>'+
-                            //     '</div>';
-                            //     $('#album_gallery').append($element);
-                            // }
-                            // // $('.pilih-berkas').click(function(){
-                            // //     var $data_name = $(this).data('name');
-                            // //     $ummu.mygallery.input_id.val($data_name)
-                            // //     $('#modal_gallery').modal('hide')
-                            // //     $ummu.mygallery.image_id.attr('src', path2)
-                            // // })
-                            // $('#modal_loader_gallery').hide();
-            })  
-}
-})
-}
-}
-},
-
-views: {
-    inputEmpty: function(){
+    views: {
+        inputEmpty: function(){
             // 
-    },
+        },
 
-    kosongkanForm: function(){
-        $('#form_input_ruangan textarea').val("");
-        $('#headerData .forBtnClear,select').val("");
-        $('.forBtnClear').val("");
-        $('#form_input_ruangan input,select').val("");
-        $('.chk').prop('checked', false);
-        $ummu.upload.ids = [];
-    },
+        kosongkanForm: function(){
+            $('#form_input_ruangan textarea').val("");
+            $('#headerData .forBtnClear,select').val("");
+            $('.forBtnClear').val("");
+            $('#form_input_ruangan input,select').val("");
+            $('.chk').prop('checked', false);
+            $ummu.upload.ids = [];
+        },
 
-    set_value_to_form: function(row,index) {            
-        $('#gedung').val(row.gedung_id).change();
-        $('#kode').val(row.kode);
-        $('#name').val(row.name);
-        $('#lantai').val(row.lantai);
-        $('#jumlah_seat').val(row.seat);
-        $('#type').val(row.type_id).change();
-        $('#category').val(row.room_category_id).change();
+        set_value_to_form: function(row,index) {            
+            $('#gedung').val(row.gedung_id).change();
+            $('#kode').val(row.kode);
+            $('#name').val(row.name);
+            $('#lantai').val(row.lantai);
+            $('#jumlah_seat').val(row.seat);
+            $('#type').val(row.type_id).change();
+            $('#category').val(row.room_category_id).change();
 
-        if (row.proyektor == 1) {
-            $('#proyektor').prop('checked', true);
-            globalVars.proyektor = 1
-        }else{
-            globalVars.proyektor = 0
-        }
+            if (row.proyektor == 1) {
+                $('#proyektor').prop('checked', true);
+                globalVars.proyektor = 1
+            }else{
+                globalVars.proyektor = 0
+            }
 
-        if (row.whiteboard == 1) {
-            $('#whiteboard').prop('checked', true);
-            globalVars.whiteboard = 1
-        }else{
-            globalVars.whiteboard = 0
-        }
+            if (row.whiteboard == 1) {
+                $('#whiteboard').prop('checked', true);
+                globalVars.whiteboard = 1
+            }else{
+                globalVars.whiteboard = 0
+            }
 
-        $('#carousel_foto_ruangan, #carousel_indicator').empty();
-        var rows = row.images;
-        if (rows) {
-            for(let index in rows){
-                if (index == 0) {
-                    var aktif = 'active';
-                }else{
-                    var aktif = '';
-                }
+            $('#carousel_foto_ruangan, #carousel_indicator').empty();
+            var rows = row.images;
+            if (rows) {
+                for(let index in rows){
+                    if (index == 0) {
+                        var aktif = 'active';
+                    }else{
+                        var aktif = '';
+                    }
 
-                var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
+                    var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
 
-                var html = '<div class="carousel-item '+aktif+'">'+
-                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+                    var html = '<div class="carousel-item '+aktif+'">'+
+                    '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                                 // '<div class="carousel-caption d-none d-md-block">'+
                                 //     '<h5>First slide label</h5>'+
                                 //     '<p>Some representative placeholder content for the first slide.</p>'+
                                 // '</div>'+
-                '</div>';
+                    '</div>';
 
-                $('#carousel_indicator').append(indicator);
-                $('#carousel_foto_ruangan').append(html);
-            }
-        }else{
+                    $('#carousel_indicator').append(indicator);
+                    $('#carousel_foto_ruangan').append(html);
+                }
+            }else{
                 // var html = '<div class="carousel-item active">'+
                 //                 '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                 //                 '<div class="carousel-caption d-none d-md-block">'+
@@ -3478,85 +3357,85 @@ views: {
                 //                 '</div>'+
                 //             '</div>';                
                 // $('#carousel_foto_ruangan').append(html)
-            app.Views.defautlFotoRuangan()
-        }
-    },
-
-    set_value_to_option_gedung: function(params) {
-        var rows = params.rows;
-        var element_id = params.element_id;
-        var kode = params.kode;
-
-        $('#'+element_id).empty();
-        $('#'+element_id).append("<option value='' selected disabled>Choose...</option>");
-        for(let index in rows){
-            if (kode == 1) {
-                var text = rows[index].kode + ' - ' + rows[index].name;
-            }else{
-                var text = rows[index].name;
+                app.Views.defautlFotoRuangan()
             }
-            $('#'+element_id).append("<option data-lantai='"+ rows[index].jumlah_lantai+"' value='" + rows[index].id + "'>" + text + "</option>");
-        }
-    },
+        },
 
-    set_value_to_table: function(method,id) {
-        var row = {
-            "id": id,
-            "gedung_name": $('#gedung option:selected').text(),
-            "lantai": $('#lantai').val(),
+        set_value_to_option_gedung: function(params) {
+            var rows = params.rows;
+            var element_id = params.element_id;
+            var kode = params.kode;
 
-            "kode": $('#kode').val(),
-            "name": $('#name').val(),
-            "type_id": $('#type').val(),
-            "type_name": $('#type option:selected').text(),
-            "room_category_id": $('#category').val(),
-            "category_name": $('#category option:selected').text(),
+            $('#'+element_id).empty();
+            $('#'+element_id).append("<option value='' selected disabled>Choose...</option>");
+            for(let index in rows){
+                if (kode == 1) {
+                    var text = rows[index].kode + ' - ' + rows[index].name;
+                }else{
+                    var text = rows[index].name;
+                }
+                $('#'+element_id).append("<option data-lantai='"+ rows[index].jumlah_lantai+"' value='" + rows[index].id + "'>" + text + "</option>");
+            }
+        },
 
-            "seat": $('#jumlah_seat').val(),
-            "proyektor": globalVars.proyektor,
-            "whiteboard": globalVars.whiteboard
-        }
+        set_value_to_table: function(method,id) {
+            var row = {
+                "id": id,
+                "gedung_name": $('#gedung option:selected').text(),
+                "lantai": $('#lantai').val(),
 
-        if (method == 'insert') {
-            $table.bootstrapTable('insertRow', {
-                index: 0,
-                row: row
-            })
-        }else{
-            $table.bootstrapTable('updateRow', {
-                index: globalVars.dataIndex,
-                row: row
-            })
-        }
-    },
+                "kode": $('#kode').val(),
+                "name": $('#name').val(),
+                "type_id": $('#type').val(),
+                "type_name": $('#type option:selected').text(),
+                "room_category_id": $('#category').val(),
+                "category_name": $('#category option:selected').text(),
 
-    set_gallery_selected_to_img: function(rows) {
+                "seat": $('#jumlah_seat').val(),
+                "proyektor": globalVars.proyektor,
+                "whiteboard": globalVars.whiteboard
+            }
+
+            if (method == 'insert') {
+                $table.bootstrapTable('insertRow', {
+                    index: 0,
+                    row: row
+                })
+            }else{
+                $table.bootstrapTable('updateRow', {
+                    index: globalVars.dataIndex,
+                    row: row
+                })
+            }
+        },
+
+        set_gallery_selected_to_img: function(rows) {
             // console.log(rows)
-        $('#carousel_foto_ruangan, #carousel_indicator').empty();
-        if (rows) {
-            for(let index in rows){
+            $('#carousel_foto_ruangan, #carousel_indicator').empty();
+            if (rows) {
+                for(let index in rows){
                     // console.log(index)
-                if (index == 0) {
-                    var aktif = 'active';
-                }else{
-                    var aktif = '';
-                }
+                    if (index == 0) {
+                        var aktif = 'active';
+                    }else{
+                        var aktif = '';
+                    }
 
-                var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
+                    var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
 
-                var html = 
-                '<div class="carousel-item '+aktif+'">'+
-                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+                    var html = 
+                    '<div class="carousel-item '+aktif+'">'+
+                    '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                                 // '<div class="carousel-caption d-none d-md-block">'+
                                 //     '<h5>First slide label</h5>'+
                                 //     '<p>Some representative placeholder content for the first slide.</p>'+
                                 // '</div>'+
-                '</div>';
+                    '</div>';
 
-                $('#carousel_indicator').append(indicator);
-                $('#carousel_foto_ruangan').append(html);
-            }
-        }else{
+                    $('#carousel_indicator').append(indicator);
+                    $('#carousel_foto_ruangan').append(html);
+                }
+            }else{
                 // var html = '<div class="carousel-item active">'+
                 //                 '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                 //                 '<div class="carousel-caption d-none d-md-block">'+
@@ -3565,100 +3444,100 @@ views: {
                 //                 '</div>'+
                 //             '</div>';                
                 // $('#carousel_foto_ruangan').append(html)
-            app.Views.defautlFotoRuangan()
-        }
-    },
-
-    defautlFotoRuangan: function(){
-        var html = '<div class="carousel-item active">'+
-        '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
-        '<div class="carousel-caption d-none d-md-block">'+
-        '<h5>First slide label</h5>'+
-        '<p>Some representative placeholder content for the first slide.</p>'+
-        '</div>'+
-        '</div>';                
-        $('#carousel_foto_ruangan').append(html)
-    },
-
-    images: {
-        default_dorbitt_avatar: function() {
-            var dorbitt_avatar = $('#dorbitt_avatar img').data('origin');
-            $('#dorbitt_avatar img').prop('src', dorbitt_avatar);
-        },
-
-        default_accset_avatar: function() {
-            var accset_avatar = $('#accset_avatar img').data('origin');
-            $('#accset_avatar img').prop('src', accset_avatar);
-            $('#avatar_filename').val('');
-        }
-    },
-
-    resdel() {
-        $('#response_deleted').modal('show');
-    },
-
-    modal: {
-        fullscreen: function(element_id) {
-            var el = $(element_id);
-            var hasClass = el.hasClass('modal-fullscreen');
-            console.log(hasClass)
-
-            if (hasClass == true) {
-                el.removeClass('modal-fullscreen');
-            }else{
-                el.addClass('modal-fullscreen');
+                app.Views.defautlFotoRuangan()
             }
         },
-        res_del: function() {
 
+        defautlFotoRuangan: function(){
+            var html = '<div class="carousel-item active">'+
+            '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+            '<div class="carousel-caption d-none d-md-block">'+
+            '<h5>First slide label</h5>'+
+            '<p>Some representative placeholder content for the first slide.</p>'+
+            '</div>'+
+            '</div>';                
+            $('#carousel_foto_ruangan').append(html)
         },
-        form_filter: function() {
-            var html = 
-            '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">'+
-            '<div class="modal-dialog modal-dialog-centeredz">'+
-            '<div class="modal-content">'+
-            '<div class="modal-header bg-secondary">'+
-            '<h5 class="modal-title text-light" id="message_title">Import</h5>'+
-            '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
-            '</div>'+
-            '<div class="alert text-light collapse" id="modal_alert_import"></div>'+
-            '<div class="collapse" id="loader">'+
-            '<div class="d-flex justify-content-center mt-2">'+
-            '<div class="spinner-border text-danger" role="status">'+
-            '<span class="sr-only">Loading...</span>'+
-            '</div>'+
-            '</div>'+
-            '</div>'+
-            '<div class="modal-body">'+
-            '<div id="form_import">'+
-            '<form enctype="multipart/form-data" id="form_import_file">'+
-            '<div class="col-md-12">'+
-            '<label class="form-label">File</label>'+
-            '<input class="form-control" type="file" name="file" id="file_import">'+
-            '</div>'+
-            '</form>'+
-            '</div>'+
-            '<div class="mt-3">'+
-            '<a class="text-sm" target="_blank" id="link_format_import">'+
-            '<i class="fas fa-file-excel"></i>'+
-            'Click for download format import file'+
-            '</a>'+
-            '</div>'+
-            '</div>'+
-            '<div class="modal-footer">'+
-            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
-            '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>'+
-            '</div>'+
-            '</div>'+
-            '</div>'+
-            '</div>';
-        }
-    },
 
-    approval: {
-        status_detail: function(status) {
-            $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('checked', false);
-            $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('disabled', false);
+        images: {
+            default_dorbitt_avatar: function() {
+                var dorbitt_avatar = $('#dorbitt_avatar img').data('origin');
+                $('#dorbitt_avatar img').prop('src', dorbitt_avatar);
+            },
+
+            default_accset_avatar: function() {
+                var accset_avatar = $('#accset_avatar img').data('origin');
+                $('#accset_avatar img').prop('src', accset_avatar);
+                $('#avatar_filename').val('');
+            }
+        },
+
+        resdel() {
+            $('#response_deleted').modal('show');
+        },
+
+        modal: {
+            fullscreen: function(element_id) {
+                var el = $(element_id);
+                var hasClass = el.hasClass('modal-fullscreen');
+                console.log(hasClass)
+
+                if (hasClass == true) {
+                    el.removeClass('modal-fullscreen');
+                }else{
+                    el.addClass('modal-fullscreen');
+                }
+            },
+            res_del: function() {
+
+            },
+            form_filter: function() {
+                var html = 
+                '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">'+
+                '<div class="modal-dialog modal-dialog-centeredz">'+
+                '<div class="modal-content">'+
+                '<div class="modal-header bg-secondary">'+
+                '<h5 class="modal-title text-light" id="message_title">Import</h5>'+
+                '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
+                '</div>'+
+                '<div class="alert text-light collapse" id="modal_alert_import"></div>'+
+                '<div class="collapse" id="loader">'+
+                '<div class="d-flex justify-content-center mt-2">'+
+                '<div class="spinner-border text-danger" role="status">'+
+                '<span class="sr-only">Loading...</span>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '<div class="modal-body">'+
+                '<div id="form_import">'+
+                '<form enctype="multipart/form-data" id="form_import_file">'+
+                '<div class="col-md-12">'+
+                '<label class="form-label">File</label>'+
+                '<input class="form-control" type="file" name="file" id="file_import">'+
+                '</div>'+
+                '</form>'+
+                '</div>'+
+                '<div class="mt-3">'+
+                '<a class="text-sm" target="_blank" id="link_format_import">'+
+                '<i class="fas fa-file-excel"></i>'+
+                'Click for download format import file'+
+                '</a>'+
+                '</div>'+
+                '</div>'+
+                '<div class="modal-footer">'+
+                '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+                '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            }
+        },
+
+        approval: {
+            status_detail: function(status) {
+                $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('checked', false);
+                $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('disabled', false);
 
                 if (status == 1) { //approve
                     $('.dorbitt-detail .rad-approve').prop('checked', true);
@@ -3762,33 +3641,6 @@ views: {
                     table.button(key).disable();
                 }
             },
-            // standard_shb() {
-            //     $('#dbtn_new').on('click', function(){
-            //         $('#dbtn_new').attr('disabled', true);
-            //         $('#dbtn_edit').attr('disabled', true);
-            //         $('#dbtn_del').attr('disabled', true);
-            //         $('#dbtn_can').attr('disabled', false);
-            //         $('#dbtn_save').attr('disabled', false);
-            //         $('#dbtn_print').attr('disabled', true);
-            //         $('#dbtn_close').attr('disabled', true);
-            //         $('.dis-able').attr('disabled', false);
-            //         $('.input-form').attr('readonly', false);
-            //     })
-
-            //     $('#dbtn_can').on('click', function(){
-            //         $('.dis-able').val('');
-            //         $('.cnclear').val('');
-            //         $('#dbtn_new').attr('disabled', false);
-            //         $('#dbtn_edit').attr('disabled', true);
-            //         $('#dbtn_del').attr('disabled', true);
-            //         $('#dbtn_can').attr('disabled', true);
-            //         $('#dbtn_save').attr('disabled', true);
-            //         $('#dbtn_print').attr('disabled', true);
-            //         $('#dbtn_close').attr('disabled', false);
-            //         $('.dis-able').attr('disabled', true);
-            //         $('.input-form').attr('readonly', true);
-            //     })
-            // },
             std_shb: {
                 onNew: function(){
                     $('#dbtn_new').attr('disabled', true);
@@ -3876,17 +3728,24 @@ views: {
                             table.button('#btn_edit').disable();
                             table.button('#btn_release').enable();
                             table.button('#btn_multi_delete').enable();
-                            // }
-                            table.button('#btn_approve').enable();
+                            
                         }else{
                             table.button('#btn_new').enable();
                             table.button('#btn_edit').enable();
                             table.button('#btn_release').disable();
                             table.button('#btn_multi_delete').disable();
-                            table.button('#btn_approve').disable();
-                            // }
                         }
                         $ummu.views.button.dt.showhide_edit();
+                    }
+
+                    if (a == 1) {
+                        if ($ummu.dt.select.count() > 0) {
+                            table.button('#btn_approve').enable();
+                            table.button('#btn_reject').enable();
+                        }else{
+                            table.button('#btn_approve').disable();
+                            table.button('#btn_reject').disable();
+                        }
                     }
                 },
                 showhide_edit: function(){
@@ -3915,14 +3774,6 @@ views: {
                 $('#'+element_id).append("<option value='" + rows[index].id + "'>" + text + "</option>");
             }
         },
-
-        // set_value_to_option_gedung: function(rows) {
-        //     $('#gedung').empty();
-        //     $('#gedung').append("<option value='' selected disabled>Choose...</option>");
-        //     for(let index in rows){
-        //         // $('#gedung').append("<option value='" + rows[index].id + "'>" + rows[index].kode + " - " + rows[index].name + "</option>");
-        //     }
-        // }
 
         list_to_badge: function(index, row) {
 
@@ -4006,6 +3857,13 @@ views: {
                 if (row) {
                     return row.operation_kode + ' | ' + row.operation_name;
                 }
+            }
+        },
+        checked_if_value: function (data) {
+            if (data == 1) {
+                return '<i class="fas fa-check text-success"></i>';
+            }else{
+                return '';
             }
         }
     },
