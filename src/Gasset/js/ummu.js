@@ -34,7 +34,8 @@ var $ummu = {
         rows: null,
         rad_external: 0,
         show_col_images: localStorage.getItem('show_col_images'),
-        show_col_id: localStorage.getItem('show_col_id')
+        show_col_id: localStorage.getItem('show_col_id'),
+        nav_tab: null
     },
 
     config: {
@@ -199,7 +200,7 @@ var $ummu = {
 
                 //     $ummu.upload.ids = ids;
                 //     $ummu.upload.filenames = filenames;
-                    
+
                 //     app.Views.set_gallery_selected_to_img(filenames)
 
                 //     $('#modal_gallery').modal('hide');
@@ -422,12 +423,12 @@ var $ummu = {
                 //     '<i class="fa fa-trash"></i>',
                 // '</a>   ',
                 '<a class="remove" href="javascript:void(0)" title="Remove">',
-                    '<i class="fa fa-trash"></i>',
+                '<i class="fa fa-trash"></i>',
                 '</a>  ',
                 '<a class="edit" href="javascript:void(0)" title="Edit">',
-                    '<i class="fas fa-edit"></i>',
+                '<i class="fas fa-edit"></i>',
                 '</a>'
-            ];
+                ];
         },
 
         detailFormatter: function(index, row) {
@@ -462,7 +463,7 @@ var $ummu = {
                 separator = sisa ? '-' : '';
                 angka_hasil += separator + ribuan.join('-');
             }
-     
+
             angka_hasil = split[1] != undefined ? angka_hasil + ',' + split[1] : angka_hasil;
             return angka_hasil;            
         },
@@ -545,9 +546,9 @@ var $ummu = {
                     $('#message_title').html(message);
                     for(let index in errors){
                         var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-                                        '<i class="bi bi-exclamation-octagon me-1"></i>'+
-                                        errors[index]+
-                                     '</div>';
+                        '<i class="bi bi-exclamation-octagon me-1"></i>'+
+                        errors[index]+
+                        '</div>';
                         $('#text_message').append($error);
                     }
                     $('#message_modal').modal('show');
@@ -612,9 +613,9 @@ var $ummu = {
                     $('#message_title').html(message);
                     for(let index in errors){
                         var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-                                        '<i class="bi bi-exclamation-octagon me-1"></i>'+
-                                        errors[index]+
-                                     '</div>';
+                        '<i class="bi bi-exclamation-octagon me-1"></i>'+
+                        errors[index]+
+                        '</div>';
                         $('#text_message').append($error);
                     }
                     $('#message_modal').modal('show');
@@ -1801,9 +1802,9 @@ var $ummu = {
                 return '';
             }else{
                 var d = new Date(data),
-                    month = '' + (d.getMonth() + 1),
-                    day = '' + d.getDate(),
-                    year = d.getFullYear();
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
                 if (month.length < 2) 
                     month = '0' + month;
@@ -1933,12 +1934,12 @@ var $ummu = {
     },
 
     upload: {
-            filename: null,
-            randomname: null,
-            input_id: null,
-            image_id: null,
-            ids: [],
-            filenames: [],
+        filename: null,
+        randomname: null,
+        input_id: null,
+        image_id: null,
+        ids: [],
+        filenames: [],
 
             /*findAll_berangkas: function() {
                 // $.ajax({
@@ -2074,304 +2075,304 @@ var $ummu = {
                     });
             },*/
 
-            button: function() {
-                $('#dorbitt_open_gallery').click(function() {
-                    var dataImage = $(this).attr('data-image');
-                    $ummu.upload.show_gallery();
-                    $('#modal_gallery').modal('show');
+        button: function() {
+            $('#dorbitt_open_gallery').click(function() {
+                var dataImage = $(this).attr('data-image');
+                $ummu.upload.show_gallery();
+                $('#modal_gallery').modal('show');
                     // $ummu.upload.input_id = input_id;
                     // $ummu.upload.image_id = image_id;
-                })
+            })
 
-                $('#dorbitt_open_gallery2').click(function() {
-                    var dataImage = $(this).attr('data-image');
-                    $ummu.upload.show_gallery2();
-                    $('#modal_gallery').modal('show');
+            $('#dorbitt_open_gallery2').click(function() {
+                var dataImage = $(this).attr('data-image');
+                $ummu.upload.show_gallery2();
+                $('#modal_gallery').modal('show');
                     // $ummu.upload.input_id = input_id;
                     // $ummu.upload.image_id = image_id;
-                })
+            })
 
-                $('#btn_select_file').click(function() {
-                    var ids = [];
-                    var filenames = [];
-                    $('.dorbitt_checkbox_image_gallery:checked').each(function() {
-                        var id = $(this).attr('id');
-                        var filename = $(this).data('name');
+            $('#btn_select_file').click(function() {
+                var ids = [];
+                var filenames = [];
+                $('.dorbitt_checkbox_image_gallery:checked').each(function() {
+                    var id = $(this).attr('id');
+                    var filename = $(this).data('name');
 
-                        ids.push(parseInt(id));
-                        filenames.push(filename)
+                    ids.push(parseInt(id));
+                    filenames.push(filename)
                         // console.log(filename)
-                    });
+                });
 
-                    $ummu.upload.ids = ids;
-                    $ummu.upload.filenames = filenames;
-                    
+                $ummu.upload.ids = ids;
+                $ummu.upload.filenames = filenames;
+
                     /*buat function dan custom sendiri di project masing-masing*/
-                    app.Views.set_gallery_selected_to_img(filenames)
+                app.Views.set_gallery_selected_to_img(filenames)
 
-                    $('#modal_gallery').modal('hide');
+                $('#modal_gallery').modal('hide');
                     // console.log(ids)
-                })
-            },
+            })
+        },
 
-            show_gallery: function() {
-                if ($globalVar.page == 'gallery') {
-                    var page = 'gallery/show';
-                }else{
-                    var page = $globalVar.page+'/show_gallery';
-                }
-                var params = {
-                    "type": "get",
-                    "action": "get",
-                    "data": {
-                        "limit":0,
-                        "offset":0,
-                        "sort": "id",
-                        "order": "desc",
-                        "search": "",
-                        "created_by": true
-                    },
-                    "cache": true,
-                    "contentType": "application/json",
-                    "dataType": "json"
-                };
-                var url = $base_url+'/admin/'+page;
-                var ali = $globalAjax.ummay(url,params);
-                ali.done(function(result) {
-                    var response = JSON.parse(result);
-                    $globFunc.ch_message_modal_modal(response.message);
-                    var data = response.rows;
-                    $('#album_gallery').empty();
-                    for(let index in data){
-                        var $id = data[index].id;
-                        var id = data[index].id;
-                        var filename = data[index].filename;
-                        var description = data[index].description;
-
-                        if(filename == ''){
-                            var $filename = 'no_image.jpg';
-                        }else{
-                            var $filename = filename;
-                        }
-
-                        if (description == '' || description == null) {
-                            var description_ = filename;
-                        }else{
-                            var description_ = description;
-                        }
-
-                        var $element = '<div class="cont-checkbox">'+
-                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-                            '<label for="'+id+'" class="lbl_gallery">'+
-                                '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                                '<span class="cover-checkbox">'+
-                                    '<svg viewBox="0 0 12 10">'+
-                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                    '</svg>'+
-                                '</span>'+
-                                '<div class="info">'+description_+'</div>'+
-                            '</label>'+
-                        '</div>';
-                        $('#album_gallery').append($element);
-                    }
-                    $('.pilih-berkas').click(function(){
-                        var $data_name = $(this).data('name');
-                        $ummu.upload.input_id.val($data_name)
-                        $('#modal_gallery').modal('hide')
-                        $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-                    })
-                }).fail(function() {
-                    // An error occurred
-                });
-            },
-
-            show_gallery2: function() {
+        show_gallery: function() {
+            if ($globalVar.page == 'gallery') {
                 var page = 'gallery/show';
-                var params = {
-                    "type": "get",
-                    "action": "get",
-                    "data": {
-                        "limit":0,
-                        "offset":0,
-                        "sort": "id",
-                        "order": "desc",
-                        "search": "",
-                        "created_by": true
-                    },
-                    "cache": true,
-                    "contentType": "application/json",
-                    "dataType": "json"
-                };
-                var url = $base_url+'/admin/'+page;
-                var ali = $globalAjax.ummay(url,params);
-                ali.done(function(result) {
-                    var response = JSON.parse(result);
-                    $globFunc.ch_message_modal_modal(response.message);
-                    var data = response.rows;
-                    $('#album_gallery').empty();
-                    for(let index in data){
-                        var $id = data[index].id;
-                        var id = data[index].id;
-                        var filename = data[index].filename;
-                        var description = data[index].description;
+            }else{
+                var page = $globalVar.page+'/show_gallery';
+            }
+            var params = {
+                "type": "get",
+                "action": "get",
+                "data": {
+                    "limit":0,
+                    "offset":0,
+                    "sort": "id",
+                    "order": "desc",
+                    "search": "",
+                    "created_by": true
+                },
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+            var url = $base_url+'/admin/'+page;
+            var ali = $globalAjax.ummay(url,params);
+            ali.done(function(result) {
+                var response = JSON.parse(result);
+                $globFunc.ch_message_modal_modal(response.message);
+                var data = response.rows;
+                $('#album_gallery').empty();
+                for(let index in data){
+                    var $id = data[index].id;
+                    var id = data[index].id;
+                    var filename = data[index].filename;
+                    var description = data[index].description;
 
-                        if(filename == ''){
-                            var $filename = 'no_image.jpg';
-                        }else{
-                            var $filename = filename;
-                        }
-
-                        if (description == '' || description == null) {
-                            var description_ = filename;
-                        }else{
-                            var description_ = description;
-                        }
-
-                        var $element = '<div class="cont-checkbox">'+
-                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-                            '<label for="'+id+'" class="lbl_gallery">'+
-                                '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                                '<span class="cover-checkbox">'+
-                                    '<svg viewBox="0 0 12 10">'+
-                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                    '</svg>'+
-                                '</span>'+
-                                '<div class="info">'+description_+'</div>'+
-                            '</label>'+
-                        '</div>';
-                        $('#album_gallery').append($element);
+                    if(filename == ''){
+                        var $filename = 'no_image.jpg';
+                    }else{
+                        var $filename = filename;
                     }
-                    $('.pilih-berkas').click(function(){
-                        var $data_name = $(this).data('name');
-                        $ummu.upload.input_id.val($data_name)
-                        $('#modal_gallery').modal('hide')
-                        $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
-                    })
-                }).fail(function() {
-                    // An error occurred
-                });
-            },
 
-            upload_file_gallery: function() {
-                var formData = new FormData();
-                formData.append('file_upload', $('#file_upload')[0].files[0]);
-                $.ajax({
-                    "url": $base_url + 'admin/gallery/do_upload',
-                    "method": "POST",
-                    "timeout": 0,
-                    "processData": false,
-                    "mimeType": "multipart/form-data",
-                    "contentType": false,
-                    "data": formData,
-                    beforeSend: function(e) {
-                        $('#modal_loader_submit_file').show()
-                        if(e && e.overrideMimeType) {
-                            e.overrideMimeType('application/jsoncharset=UTF-8')
-                        }
-                    },
-                    complete: function(){
-                        $('#modal_loader_submit_file').hide()
+                    if (description == '' || description == null) {
+                        var description_ = filename;
+                    }else{
+                        var description_ = description;
                     }
+
+                    var $element = '<div class="cont-checkbox">'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+description_+'</div>'+
+                    '</label>'+
+                    '</div>';
+                    $('#album_gallery').append($element);
+                }
+                $('.pilih-berkas').click(function(){
+                    var $data_name = $(this).data('name');
+                    $ummu.upload.input_id.val($data_name)
+                    $('#modal_gallery').modal('hide')
+                    $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
                 })
-                .done(function(result) {
-                    var response = JSON.parse(result);
+            }).fail(function() {
+                    // An error occurred
+            });
+        },
+
+        show_gallery2: function() {
+            var page = 'gallery/show';
+            var params = {
+                "type": "get",
+                "action": "get",
+                "data": {
+                    "limit":0,
+                    "offset":0,
+                    "sort": "id",
+                    "order": "desc",
+                    "search": "",
+                    "created_by": true
+                },
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+            var url = $base_url+'/admin/'+page;
+            var ali = $globalAjax.ummay(url,params);
+            ali.done(function(result) {
+                var response = JSON.parse(result);
+                $globFunc.ch_message_modal_modal(response.message);
+                var data = response.rows;
+                $('#album_gallery').empty();
+                for(let index in data){
+                    var $id = data[index].id;
+                    var id = data[index].id;
+                    var filename = data[index].filename;
+                    var description = data[index].description;
+
+                    if(filename == ''){
+                        var $filename = 'no_image.jpg';
+                    }else{
+                        var $filename = filename;
+                    }
+
+                    if (description == '' || description == null) {
+                        var description_ = filename;
+                    }else{
+                        var description_ = description;
+                    }
+
+                    var $element = '<div class="cont-checkbox">'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+description_+'</div>'+
+                    '</label>'+
+                    '</div>';
+                    $('#album_gallery').append($element);
+                }
+                $('.pilih-berkas').click(function(){
+                    var $data_name = $(this).data('name');
+                    $ummu.upload.input_id.val($data_name)
+                    $('#modal_gallery').modal('hide')
+                    $ummu.upload.image_id.attr('src', $base_url + 'uploads/' + $data_name)
+                })
+            }).fail(function() {
+                    // An error occurred
+            });
+        },
+
+        upload_file_gallery: function() {
+            var formData = new FormData();
+            formData.append('file_upload', $('#file_upload')[0].files[0]);
+            $.ajax({
+                "url": $base_url + 'admin/gallery/do_upload',
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": formData,
+                beforeSend: function(e) {
+                    $('#modal_loader_submit_file').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    $('#modal_loader_submit_file').hide()
+                }
+            })
+            .done(function(result) {
+                var response = JSON.parse(result);
                     // console.log(response)
                     // console.log(response.status)
-                    if(response.status==true){
+                if(response.status==true){
                         // $ummu.upload.randomname = response.name;
-                        var payload = JSON.stringify({
-                            "body": {
-                                "filename": response.name,
-                                "description": $('#file_description').val()
-                            }
-                        })
-                        $ummu.upload.insert_file_gallery(payload);
-                    }else{
-                        $('#modal_alert_submit_file').addClass('bg-success');
-                        $('#modal_alert_submit_file').html(response.errors.file_upload).fadeIn().delay(10000).fadeOut();
-                    }
-                }).fail(function() {
-                    // An error occurred
-                });
-            },
-
-            insert_file_gallery: function(payload) {            
-                $.ajax({
-                    "url": $base_url + 'admin/gallery/create',
-                    "method": "POST",
-                    "timeout": 0,
-                    "processData": false,
-                    "mimeType": "multipart/form-data",
-                    "contentType": false,
-                    "data": payload,
-                    beforeSend: function(e) {
-                        $('#modal_loader_submit_file').show()
-                        if(e && e.overrideMimeType) {
-                            e.overrideMimeType('application/jsoncharset=UTF-8')
+                    var payload = JSON.stringify({
+                        "body": {
+                            "filename": response.name,
+                            "description": $('#file_description').val()
                         }
-                    },
-                    complete: function(){
-                        $('#modal_loader_submit_file').hide()
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.responseText);
+                    })
+                    $ummu.upload.insert_file_gallery(payload);
+                }else{
+                    $('#modal_alert_submit_file').addClass('bg-success');
+                    $('#modal_alert_submit_file').html(response.errors.file_upload).fadeIn().delay(10000).fadeOut();
+                }
+            }).fail(function() {
+                    // An error occurred
+            });
+        },
+
+        insert_file_gallery: function(payload) {            
+            $.ajax({
+                "url": $base_url + 'admin/gallery/create',
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": payload,
+                beforeSend: function(e) {
+                    $('#modal_loader_submit_file').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
                     }
-                })
-                .done(function(result) {
+                },
+                complete: function(){
+                    $('#modal_loader_submit_file').hide()
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            })
+            .done(function(result) {
                     // console.log(result)
-                    var response = JSON.parse(result);
-                    if (response.status==true) {
-                        $('#modal_alert_submit_file').addClass('bg-success');
-                        $('#modal_alert_submit_file').html('Upload sukses').fadeIn().delay(10000).fadeOut();
-                        $ummu.upload.show_gallery();
-                        $('#upload_img_thumbnail').attr('src', $base_url + 'uploads/no_image.jpg');
-                        $('#file_upload, #file_description').val('');
-                    }else{
+                var response = JSON.parse(result);
+                if (response.status==true) {
+                    $('#modal_alert_submit_file').addClass('bg-success');
+                    $('#modal_alert_submit_file').html('Upload sukses').fadeIn().delay(10000).fadeOut();
+                    $ummu.upload.show_gallery();
+                    $('#upload_img_thumbnail').attr('src', $base_url + 'uploads/no_image.jpg');
+                    $('#file_upload, #file_description').val('');
+                }else{
                         // $('#message_alert').html("");
                         // var errors = response.message;
                         // for(let index in errors){
                         //     $('#message_alert').append("<li>"+errors[index]+"</li>");
                         // }
                         // $('#message_modal').modal('show');
-                    }
-                    $globFunc.ch_message_modal_modal(response.message);
-                }).fail(function() {
+                }
+                $globFunc.ch_message_modal_modal(response.message);
+            }).fail(function() {
                     // An error occurred
-                    console.log(create)
-                });
-            },
+                console.log(create)
+            });
+        },
 
-            hapus_file_gallery: function(id) {
-                $.ajax({
-                    "url": $base_url + "admin/gallery/delete/" + id,
-                    "method": "DELETE",
-                    "timeout": 0,
-                    beforeSend: function(e) {
-                        $('#modal_loader_gallery').show()
-                        if(e && e.overrideMimeType) {
-                            e.overrideMimeType('application/jsoncharset=UTF-8')
-                        }
-                    },
-                    complete: function(){
-                        $('#modal_loader_gallery').hide()
-                    },
-                    success: function(response){
+        hapus_file_gallery: function(id) {
+            $.ajax({
+                "url": $base_url + "admin/gallery/delete/" + id,
+                "method": "DELETE",
+                "timeout": 0,
+                beforeSend: function(e) {
+                    $('#modal_loader_gallery').show()
+                    if(e && e.overrideMimeType) {
+                        e.overrideMimeType('application/jsoncharset=UTF-8')
+                    }
+                },
+                complete: function(){
+                    $('#modal_loader_gallery').hide()
+                },
+                success: function(response){
                         // console.log(response)
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.responseText);
-                    }
-                })
-                .done(function(result) {
-                    var response = JSON.parse(result);
-                    console.log(response.status)
-                    if(response.status==true){
-                        $ummu.upload.show_gallery();
-                    }
-                }).fail(function() {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                }
+            })
+            .done(function(result) {
+                var response = JSON.parse(result);
+                console.log(response.status)
+                if(response.status==true){
+                    $ummu.upload.show_gallery();
+                }
+            }).fail(function() {
                     // An error occurred
-                });
-            }
+            });
+        }
     },
 
     gallery: {
@@ -2471,16 +2472,16 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-                        '<label for="'+id+'" class="lbl_gallery">'+
-                            '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            '<span class="cover-checkbox">'+
-                                '<svg viewBox="0 0 12 10">'+
-                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                '</svg>'+
-                            '</span>'+
-                            '<div class="info">'+description_+'</div>'+
-                        '</label>'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+description_+'</div>'+
+                    '</label>'+
                     '</div>';
                     $('#album_gallery').append($element);
                 }
@@ -2539,16 +2540,16 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-                        '<label for="'+id+'" class="lbl_gallery">'+
-                            '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            '<span class="cover-checkbox">'+
-                                '<svg viewBox="0 0 12 10">'+
-                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                '</svg>'+
-                            '</span>'+
-                            '<div class="info">'+description_+'</div>'+
-                        '</label>'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+description_+'</div>'+
+                    '</label>'+
                     '</div>';
                     $('#album_gallery').append($element);
                     $('#modal_loader_gallery').hide();
@@ -2770,7 +2771,7 @@ var $ummu = {
 
         //         $ummu.gallery.ids = ids;
         //         $ummu.gallery.filenames = filenames;
-                
+
         //         /*buat function dan custom sendiri di project masing-masing*/
         //         app.Views.set_gallery_selected_to_img(filenames)
 
@@ -2828,16 +2829,16 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox mr-2">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
-                        '<label for="'+id+'" class="lbl_gallery">'+
-                            '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            '<span class="cover-checkbox">'+
-                                '<svg viewBox="0 0 12 10">'+
-                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                '</svg>'+
-                            '</span>'+
-                            '<div class="info">'+ description_ +'</div>'+
-                        '</label>'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+ description_ +'</div>'+
+                    '</label>'+
                     '</div>';
                     $('#album_gallery').append($element);
                 }
@@ -2896,16 +2897,16 @@ var $ummu = {
                     }
 
                     var $element = '<div class="cont-checkbox">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
-                        '<label for="'+id+'" class="lbl_gallery">'+
-                            '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                            '<span class="cover-checkbox">'+
-                                '<svg viewBox="0 0 12 10">'+
-                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                '</svg>'+
-                            '</span>'+
-                            '<div class="info">'+description_+'</div>'+
-                        '</label>'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+$filename+'" />'+
+                    '<label for="'+id+'" class="lbl_gallery">'+
+                    '<img src="'+ $base_url +'uploads/'+ $filename + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+description_+'</div>'+
+                    '</label>'+
                     '</div>';
                     $('#album_gallery').append($element);
                     $('#modal_loader_gallery').hide();
@@ -3092,16 +3093,16 @@ var $ummu = {
                         }
 
                         var $element = '<div class="cont-checkbox mr-2">'+
-                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
-                            '<label for="'+id+'" class="lbl_gallery">'+
-                                '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                                '<span class="cover-checkbox">'+
-                                    '<svg viewBox="0 0 12 10">'+
-                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                    '</svg>'+
-                                '</span>'+
-                                '<div class="info">'+ description_ +'</div>'+
-                            '</label>'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
+                        '<label for="'+id+'" class="lbl_gallery">'+
+                        '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                        '<span class="cover-checkbox">'+
+                        '<svg viewBox="0 0 12 10">'+
+                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                        '</svg>'+
+                        '</span>'+
+                        '<div class="info">'+ description_ +'</div>'+
+                        '</label>'+
                         '</div>';
                         $('#album_gallery').append($element);
                     }
@@ -3180,24 +3181,24 @@ var $ummu = {
                         // // $('#album_gallery').append($element);
 
                         var html = '<div class="col-md-2">'+
-                            '<div class="card mb-4 shadow-sm">'+
+                        '<div class="card mb-4 shadow-sm">'+
                                 // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
                                 //     '<title>Placeholder</title>'+
                                 //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
                                 // '</svg>'+
-                                '<img src="'+ file_url +'" class="img-thumbnail" alt="...">'+
+                        '<img src="'+ file_url +'" class="img-thumbnail" alt="...">'+
 
-                                '<div class="card-body">'+
+                        '<div class="card-body">'+
                                     // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
-                                    '<div class="d-flex justify-content-between align-items-center">'+
-                                        '<div class="btn-group">'+
-                                            '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
-                                            '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
-                                        '</div>'+
-                                        '<small class="text-muted">9 mins</small>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>'+
+                        '<div class="d-flex justify-content-between align-items-center">'+
+                        '<div class="btn-group">'+
+                        '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                        '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
+                        '</div>'+
+                        '<small class="text-muted">9 mins</small>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
                         '</div>';
                         $('#mygallery_album_photos').append(html);
                     }
@@ -3226,24 +3227,24 @@ var $ummu = {
                             console.log(response)
 
                             var html = '<div class="col-md-2">'+
-                                '<div class="card mb-4 shadow-sm">'+
+                            '<div class="card mb-4 shadow-sm">'+
                                     // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
                                     //     '<title>Placeholder</title>'+
                                     //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
                                     // '</svg>'+
-                                    '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
+                            '<img src="'+ response.data.url +'" class="img-thumbnail" alt="...">'+
 
-                                    '<div class="card-body">'+
+                            '<div class="card-body">'+
                                         // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
-                                        '<div class="d-flex justify-content-between align-items-center">'+
-                                            '<div class="btn-group">'+
-                                                '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
-                                                '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
-                                            '</div>'+
-                                            '<small class="text-muted">9 mins</small>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
+                            '<div class="d-flex justify-content-between align-items-center">'+
+                            '<div class="btn-group">'+
+                            '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                            '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
+                            '</div>'+
+                            '<small class="text-muted">9 mins</small>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
                             '</div>';
                             $('#mygallery_album_photos').prepend(html);
 
@@ -3294,10 +3295,10 @@ var $ummu = {
                             // // })
                             // $('#modal_loader_gallery').hide();
                         })  
-                    }
-                })
-            },
-            btn_mygallery_photos_submit_on_modal: function() {
+}
+})
+},
+btn_mygallery_photos_submit_on_modal: function() {
                 // $('#btn_submit_file_upload').click(function() {
                 //     var file = $('#file_upload').val();
                 //     if(file != ''){
@@ -3306,32 +3307,32 @@ var $ummu = {
                 //         alert('Silahkan pilih file terlebih dahulu.')
                 //     }
                 // })
-                $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
-                    if ($('#file_upload').val() == '') {
-                        alert('Please choose file.');
-                    }else{
-                        var ali = $ummu.ajax.mygallery.photos.upload();
-                        ali.done(function(result) {
-                            var response = JSON.parse(result);
-                            console.log(response)
+    $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
+        if ($('#file_upload').val() == '') {
+            alert('Please choose file.');
+        }else{
+            var ali = $ummu.ajax.mygallery.photos.upload();
+            ali.done(function(result) {
+                var response = JSON.parse(result);
+                console.log(response)
 
-                            if (response.status == true) {
-                                var html = '<div class="cont-checkbox">'+
-                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" data-path="'+ response.data.url +'"/>'+
-                                    '<label for="'+ response.data.id +'" class="lbl_gallery">'+
-                                        '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                                        '<span class="cover-checkbox">'+
-                                            '<svg viewBox="0 0 12 10">'+
-                                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                                            '</svg>'+
-                                        '</span>'+
-                                        '<div class="info">'+ response.data.description +'</div>'+
-                                    '</label>'+
-                                '</div>';
-                                $('#album_gallery').prepend(html);
-                                $('.custom-file label').html('Choose file');
-                                $('#file_upload').val('');
-                            }
+                if (response.status == true) {
+                    var html = '<div class="cont-checkbox">'+
+                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+ response.data.id +'" data-name="'+ response.data.filename +'" data-path="'+ response.data.url +'"/>'+
+                    '<label for="'+ response.data.id +'" class="lbl_gallery">'+
+                    '<img src="'+ response.data.url +'?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                    '<span class="cover-checkbox">'+
+                    '<svg viewBox="0 0 12 10">'+
+                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                    '</svg>'+
+                    '</span>'+
+                    '<div class="info">'+ response.data.description +'</div>'+
+                    '</label>'+
+                    '</div>';
+                    $('#album_gallery').prepend(html);
+                    $('.custom-file label').html('Choose file');
+                    $('#file_upload').val('');
+                }
 
 
                             // // var html = '<div class="col-md-2">'+
@@ -3356,7 +3357,7 @@ var $ummu = {
                             // // '</div>';
                             // $('#mygallery_album_photos').prepend(html);
 
-                            
+
                             // $globFunc.ch_message_modal_modal(response.message);
                             // var data = response.rows;
                             // $('#album_gallery').empty();
@@ -3401,161 +3402,161 @@ var $ummu = {
                             // //     $ummu.mygallery.image_id.attr('src', path2)
                             // // })
                             // $('#modal_loader_gallery').hide();
-                        })  
-                    }
-                })
+            })  
+}
+})
+}
+}
+},
+
+views: {
+    inputEmpty: function(){
+            // 
+    },
+
+    kosongkanForm: function(){
+        $('#form_input_ruangan textarea').val("");
+        $('#headerData .forBtnClear,select').val("");
+        $('.forBtnClear').val("");
+        $('#form_input_ruangan input,select').val("");
+        $('.chk').prop('checked', false);
+        $ummu.upload.ids = [];
+    },
+
+    set_value_to_form: function(row,index) {            
+        $('#gedung').val(row.gedung_id).change();
+        $('#kode').val(row.kode);
+        $('#name').val(row.name);
+        $('#lantai').val(row.lantai);
+        $('#jumlah_seat').val(row.seat);
+        $('#type').val(row.type_id).change();
+        $('#category').val(row.room_category_id).change();
+
+        if (row.proyektor == 1) {
+            $('#proyektor').prop('checked', true);
+            globalVars.proyektor = 1
+        }else{
+            globalVars.proyektor = 0
+        }
+
+        if (row.whiteboard == 1) {
+            $('#whiteboard').prop('checked', true);
+            globalVars.whiteboard = 1
+        }else{
+            globalVars.whiteboard = 0
+        }
+
+        $('#carousel_foto_ruangan, #carousel_indicator').empty();
+        var rows = row.images;
+        if (rows) {
+            for(let index in rows){
+                if (index == 0) {
+                    var aktif = 'active';
+                }else{
+                    var aktif = '';
+                }
+
+                var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
+
+                var html = '<div class="carousel-item '+aktif+'">'+
+                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+                                // '<div class="carousel-caption d-none d-md-block">'+
+                                //     '<h5>First slide label</h5>'+
+                                //     '<p>Some representative placeholder content for the first slide.</p>'+
+                                // '</div>'+
+                '</div>';
+
+                $('#carousel_indicator').append(indicator);
+                $('#carousel_foto_ruangan').append(html);
             }
+        }else{
+                // var html = '<div class="carousel-item active">'+
+                //                 '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+                //                 '<div class="carousel-caption d-none d-md-block">'+
+                //                     '<h5>First slide label</h5>'+
+                //                     '<p>Some representative placeholder content for the first slide.</p>'+
+                //                 '</div>'+
+                //             '</div>';                
+                // $('#carousel_foto_ruangan').append(html)
+            app.Views.defautlFotoRuangan()
         }
     },
 
-    views: {
-        inputEmpty: function(){
-            // 
-        },
-        
-        kosongkanForm: function(){
-            $('#form_input_ruangan textarea').val("");
-            $('#headerData .forBtnClear,select').val("");
-            $('.forBtnClear').val("");
-            $('#form_input_ruangan input,select').val("");
-            $('.chk').prop('checked', false);
-            $ummu.upload.ids = [];
-        },
+    set_value_to_option_gedung: function(params) {
+        var rows = params.rows;
+        var element_id = params.element_id;
+        var kode = params.kode;
 
-        set_value_to_form: function(row,index) {            
-            $('#gedung').val(row.gedung_id).change();
-            $('#kode').val(row.kode);
-            $('#name').val(row.name);
-            $('#lantai').val(row.lantai);
-            $('#jumlah_seat').val(row.seat);
-            $('#type').val(row.type_id).change();
-            $('#category').val(row.room_category_id).change();
-
-            if (row.proyektor == 1) {
-                $('#proyektor').prop('checked', true);
-                globalVars.proyektor = 1
+        $('#'+element_id).empty();
+        $('#'+element_id).append("<option value='' selected disabled>Choose...</option>");
+        for(let index in rows){
+            if (kode == 1) {
+                var text = rows[index].kode + ' - ' + rows[index].name;
             }else{
-                globalVars.proyektor = 0
+                var text = rows[index].name;
             }
+            $('#'+element_id).append("<option data-lantai='"+ rows[index].jumlah_lantai+"' value='" + rows[index].id + "'>" + text + "</option>");
+        }
+    },
 
-            if (row.whiteboard == 1) {
-                $('#whiteboard').prop('checked', true);
-                globalVars.whiteboard = 1
-            }else{
-                globalVars.whiteboard = 0
-            }
+    set_value_to_table: function(method,id) {
+        var row = {
+            "id": id,
+            "gedung_name": $('#gedung option:selected').text(),
+            "lantai": $('#lantai').val(),
 
-            $('#carousel_foto_ruangan, #carousel_indicator').empty();
-            var rows = row.images;
-            if (rows) {
-                for(let index in rows){
-                    if (index == 0) {
-                        var aktif = 'active';
-                    }else{
-                        var aktif = '';
-                    }
+            "kode": $('#kode').val(),
+            "name": $('#name').val(),
+            "type_id": $('#type').val(),
+            "type_name": $('#type option:selected').text(),
+            "room_category_id": $('#category').val(),
+            "category_name": $('#category option:selected').text(),
 
-                    var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
+            "seat": $('#jumlah_seat').val(),
+            "proyektor": globalVars.proyektor,
+            "whiteboard": globalVars.whiteboard
+        }
 
-                    var html = '<div class="carousel-item '+aktif+'">'+
-                                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
-                                // '<div class="carousel-caption d-none d-md-block">'+
-                                //     '<h5>First slide label</h5>'+
-                                //     '<p>Some representative placeholder content for the first slide.</p>'+
-                                // '</div>'+
-                            '</div>';
+        if (method == 'insert') {
+            $table.bootstrapTable('insertRow', {
+                index: 0,
+                row: row
+            })
+        }else{
+            $table.bootstrapTable('updateRow', {
+                index: globalVars.dataIndex,
+                row: row
+            })
+        }
+    },
 
-                    $('#carousel_indicator').append(indicator);
-                    $('#carousel_foto_ruangan').append(html);
-                }
-            }else{
-                // var html = '<div class="carousel-item active">'+
-                //                 '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
-                //                 '<div class="carousel-caption d-none d-md-block">'+
-                //                     '<h5>First slide label</h5>'+
-                //                     '<p>Some representative placeholder content for the first slide.</p>'+
-                //                 '</div>'+
-                //             '</div>';                
-                // $('#carousel_foto_ruangan').append(html)
-                app.Views.defautlFotoRuangan()
-            }
-        },
-
-        set_value_to_option_gedung: function(params) {
-            var rows = params.rows;
-            var element_id = params.element_id;
-            var kode = params.kode;
-
-            $('#'+element_id).empty();
-            $('#'+element_id).append("<option value='' selected disabled>Choose...</option>");
-            for(let index in rows){
-                if (kode == 1) {
-                    var text = rows[index].kode + ' - ' + rows[index].name;
-                }else{
-                    var text = rows[index].name;
-                }
-                $('#'+element_id).append("<option data-lantai='"+ rows[index].jumlah_lantai+"' value='" + rows[index].id + "'>" + text + "</option>");
-            }
-        },
-
-        set_value_to_table: function(method,id) {
-            var row = {
-                "id": id,
-                "gedung_name": $('#gedung option:selected').text(),
-                "lantai": $('#lantai').val(),
-
-                "kode": $('#kode').val(),
-                "name": $('#name').val(),
-                "type_id": $('#type').val(),
-                "type_name": $('#type option:selected').text(),
-                "room_category_id": $('#category').val(),
-                "category_name": $('#category option:selected').text(),
-
-                "seat": $('#jumlah_seat').val(),
-                "proyektor": globalVars.proyektor,
-                "whiteboard": globalVars.whiteboard
-            }
-
-            if (method == 'insert') {
-                $table.bootstrapTable('insertRow', {
-                    index: 0,
-                    row: row
-                })
-            }else{
-                $table.bootstrapTable('updateRow', {
-                    index: globalVars.dataIndex,
-                    row: row
-                })
-            }
-        },
-
-        set_gallery_selected_to_img: function(rows) {
+    set_gallery_selected_to_img: function(rows) {
             // console.log(rows)
-            $('#carousel_foto_ruangan, #carousel_indicator').empty();
-            if (rows) {
-                for(let index in rows){
+        $('#carousel_foto_ruangan, #carousel_indicator').empty();
+        if (rows) {
+            for(let index in rows){
                     // console.log(index)
-                    if (index == 0) {
-                        var aktif = 'active';
-                    }else{
-                        var aktif = '';
-                    }
+                if (index == 0) {
+                    var aktif = 'active';
+                }else{
+                    var aktif = '';
+                }
 
-                    var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
+                var indicator = '<li data-target="#carouselExampleCaptions" data-slide-to="'+index+'" class="'+aktif+'"></li>';
 
-                    var html = 
-                            '<div class="carousel-item '+aktif+'">'+
-                                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+                var html = 
+                '<div class="carousel-item '+aktif+'">'+
+                '<img src="'+$base_url+'uploads/'+rows[index]+'" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                                 // '<div class="carousel-caption d-none d-md-block">'+
                                 //     '<h5>First slide label</h5>'+
                                 //     '<p>Some representative placeholder content for the first slide.</p>'+
                                 // '</div>'+
-                            '</div>';
+                '</div>';
 
-                    $('#carousel_indicator').append(indicator);
-                    $('#carousel_foto_ruangan').append(html);
-                }
-            }else{
+                $('#carousel_indicator').append(indicator);
+                $('#carousel_foto_ruangan').append(html);
+            }
+        }else{
                 // var html = '<div class="carousel-item active">'+
                 //                 '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
                 //                 '<div class="carousel-caption d-none d-md-block">'+
@@ -3564,100 +3565,100 @@ var $ummu = {
                 //                 '</div>'+
                 //             '</div>';                
                 // $('#carousel_foto_ruangan').append(html)
-                app.Views.defautlFotoRuangan()
+            app.Views.defautlFotoRuangan()
+        }
+    },
+
+    defautlFotoRuangan: function(){
+        var html = '<div class="carousel-item active">'+
+        '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
+        '<div class="carousel-caption d-none d-md-block">'+
+        '<h5>First slide label</h5>'+
+        '<p>Some representative placeholder content for the first slide.</p>'+
+        '</div>'+
+        '</div>';                
+        $('#carousel_foto_ruangan').append(html)
+    },
+
+    images: {
+        default_dorbitt_avatar: function() {
+            var dorbitt_avatar = $('#dorbitt_avatar img').data('origin');
+            $('#dorbitt_avatar img').prop('src', dorbitt_avatar);
+        },
+
+        default_accset_avatar: function() {
+            var accset_avatar = $('#accset_avatar img').data('origin');
+            $('#accset_avatar img').prop('src', accset_avatar);
+            $('#avatar_filename').val('');
+        }
+    },
+
+    resdel() {
+        $('#response_deleted').modal('show');
+    },
+
+    modal: {
+        fullscreen: function(element_id) {
+            var el = $(element_id);
+            var hasClass = el.hasClass('modal-fullscreen');
+            console.log(hasClass)
+
+            if (hasClass == true) {
+                el.removeClass('modal-fullscreen');
+            }else{
+                el.addClass('modal-fullscreen');
             }
         },
+        res_del: function() {
 
-        defautlFotoRuangan: function(){
-            var html = '<div class="carousel-item active">'+
-                            '<img src="'+$base_url+'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">'+
-                            '<div class="carousel-caption d-none d-md-block">'+
-                                '<h5>First slide label</h5>'+
-                                '<p>Some representative placeholder content for the first slide.</p>'+
-                            '</div>'+
-                        '</div>';                
-            $('#carousel_foto_ruangan').append(html)
         },
+        form_filter: function() {
+            var html = 
+            '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">'+
+            '<div class="modal-dialog modal-dialog-centeredz">'+
+            '<div class="modal-content">'+
+            '<div class="modal-header bg-secondary">'+
+            '<h5 class="modal-title text-light" id="message_title">Import</h5>'+
+            '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
+            '</div>'+
+            '<div class="alert text-light collapse" id="modal_alert_import"></div>'+
+            '<div class="collapse" id="loader">'+
+            '<div class="d-flex justify-content-center mt-2">'+
+            '<div class="spinner-border text-danger" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '<div class="modal-body">'+
+            '<div id="form_import">'+
+            '<form enctype="multipart/form-data" id="form_import_file">'+
+            '<div class="col-md-12">'+
+            '<label class="form-label">File</label>'+
+            '<input class="form-control" type="file" name="file" id="file_import">'+
+            '</div>'+
+            '</form>'+
+            '</div>'+
+            '<div class="mt-3">'+
+            '<a class="text-sm" target="_blank" id="link_format_import">'+
+            '<i class="fas fa-file-excel"></i>'+
+            'Click for download format import file'+
+            '</a>'+
+            '</div>'+
+            '</div>'+
+            '<div class="modal-footer">'+
+            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+            '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '</div>';
+        }
+    },
 
-        images: {
-            default_dorbitt_avatar: function() {
-                var dorbitt_avatar = $('#dorbitt_avatar img').data('origin');
-                $('#dorbitt_avatar img').prop('src', dorbitt_avatar);
-            },
-
-            default_accset_avatar: function() {
-                var accset_avatar = $('#accset_avatar img').data('origin');
-                $('#accset_avatar img').prop('src', accset_avatar);
-                $('#avatar_filename').val('');
-            }
-        },
-
-        resdel() {
-            $('#response_deleted').modal('show');
-        },
-
-        modal: {
-            fullscreen: function(element_id) {
-                var el = $(element_id);
-                var hasClass = el.hasClass('modal-fullscreen');
-                console.log(hasClass)
-
-                if (hasClass == true) {
-                    el.removeClass('modal-fullscreen');
-                }else{
-                    el.addClass('modal-fullscreen');
-                }
-            },
-            res_del: function() {
-
-            },
-            form_filter: function() {
-                var html = 
-                    '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">'+
-                    '<div class="modal-dialog modal-dialog-centeredz">'+
-                    '<div class="modal-content">'+
-                    '<div class="modal-header bg-secondary">'+
-                    '<h5 class="modal-title text-light" id="message_title">Import</h5>'+
-                    '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
-                    '</div>'+
-                    '<div class="alert text-light collapse" id="modal_alert_import"></div>'+
-                    '<div class="collapse" id="loader">'+
-                    '<div class="d-flex justify-content-center mt-2">'+
-                    '<div class="spinner-border text-danger" role="status">'+
-                    '<span class="sr-only">Loading...</span>'+
-                    '</div>'+
-                    '</div>'+
-                    '</div>'+
-                    '<div class="modal-body">'+
-                    '<div id="form_import">'+
-                    '<form enctype="multipart/form-data" id="form_import_file">'+
-                    '<div class="col-md-12">'+
-                    '<label class="form-label">File</label>'+
-                    '<input class="form-control" type="file" name="file" id="file_import">'+
-                    '</div>'+
-                    '</form>'+
-                    '</div>'+
-                    '<div class="mt-3">'+
-                    '<a class="text-sm" target="_blank" id="link_format_import">'+
-                    '<i class="fas fa-file-excel"></i>'+
-                    'Click for download format import file'+
-                    '</a>'+
-                    '</div>'+
-                    '</div>'+
-                    '<div class="modal-footer">'+
-                    '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
-                    '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>'+
-                    '</div>'+
-                    '</div>'+
-                    '</div>'+
-                    '</div>';
-            }
-        },
-
-        approval: {
-            status_detail: function(status) {
-                $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('checked', false);
-                $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('disabled', false);
+    approval: {
+        status_detail: function(status) {
+            $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('checked', false);
+            $('.dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject').prop('disabled', false);
 
                 if (status == 1) { //approve
                     $('.dorbitt-detail .rad-approve').prop('checked', true);
@@ -3698,29 +3699,29 @@ var $ummu = {
                     // Outstanding <span class="badge badge-pill badge-primary">0</span>
                     $('#dorbitt_tabs #outstanding-pill').html(
                         'Outstanding <span class="badge badge-pill badge-primary">'+data.jOutstanding+'</span>'
-                    );
+                        );
                     $('#dorbitt_tabs #pending-pill').html(
                         'Pending <span class="badge badge-pill badge-warning">'+data.jPending+'</span>'
-                    );
+                        );
                     $('#dorbitt_tabs #reject-pill').html(
                         'Reject <span class="badge badge-pill badge-danger">'+data.jReject+'</span>'
-                    );
+                        );
                 }else{
                     $('#dorbitt_tabs #outstanding-pill').html(
                         'Outstanding <div class="spinner-grow spinner-grow-sm text-primary" role="status">'+
-                            '<span class="sr-only">Loading...</span>'+
+                        '<span class="sr-only">Loading...</span>'+
                         '</div>'
-                    );
+                        );
                     $('#dorbitt_tabs #pending-pill').html(
                         'Pending <div class="spinner-grow spinner-grow-sm text-warning" role="status">'+
-                            '<span class="sr-only">Loading...</span>'+
+                        '<span class="sr-only">Loading...</span>'+
                         '</div>'
-                    );
+                        );
                     $('#dorbitt_tabs #reject-pill').html(
                         'Reject <div class="spinner-grow spinner-grow-sm text-danger" role="status">'+
-                            '<span class="sr-only">Loading...</span>'+
+                        '<span class="sr-only">Loading...</span>'+
                         '</div>'
-                    );
+                        );
                 }
             },
             button: {
@@ -3843,13 +3844,13 @@ var $ummu = {
                 // }
 
                 var html = 
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_new" '+snw+'><i class="fab fa-wpforms"></i> New</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_edit" disabled><i class="fal fa-edit"></i> Edit</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_del" disabled><i class="fal fa-trash-alt"></i> Del</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_can" disabled><i class="fal fa-times"></i> Can</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_save" disabled><i class="fal fa-save"></i> Save</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_print" disabled><i class="fal fa-print"></i> Print</button>'+
-                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_new" '+snw+'><i class="fab fa-wpforms"></i> New</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_edit" disabled><i class="fal fa-edit"></i> Edit</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_del" disabled><i class="fal fa-trash-alt"></i> Del</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_can" disabled><i class="fal fa-times"></i> Can</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_save" disabled><i class="fal fa-save"></i> Save</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_print" disabled><i class="fal fa-print"></i> Print</button>'+
+                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
                 // return html;
                 $('#btn_std_shb').html(html);
             },
@@ -3866,11 +3867,33 @@ var $ummu = {
                     }
                     $ummu.views.button.dt.showhide_edit();
                 },
+                showhide2: function(){
+                    var a = $ummu.vars.nav_tab;
+
+                    if (a === 0 || a === 3 ) {
+                        if ($ummu.dt.select.count() > 0) {
+                            table.button('#btn_new').disable();
+                            table.button('#btn_edit').disable();
+                            table.button('#btn_release').enable();
+                            table.button('#btn_multi_delete').enable();
+                            // }
+                            table.button('#btn_approve').enable();
+                        }else{
+                            table.button('#btn_new').enable();
+                            table.button('#btn_edit').enable();
+                            table.button('#btn_release').disable();
+                            table.button('#btn_multi_delete').disable();
+                            table.button('#btn_approve').disable();
+                            // }
+                        }
+                        $ummu.views.button.dt.showhide_edit();
+                    }
+                },
                 showhide_edit: function(){
                     if ($ummu.dt.select.count() == 1) {
-                        table.button(4).enable();
+                        table.button('#btn_edit').enable();
                     }else{
-                        table.button(4).disable();
+                        table.button('#btn_edit').disable();
                     }
                 }
             }
@@ -3902,7 +3925,7 @@ var $ummu = {
         // }
 
         list_to_badge: function(index, row) {
-            
+
             var html = row.kode + ' | ' + row.name
             return html
         },
@@ -3927,9 +3950,9 @@ var $ummu = {
         date: {
             dateToYmd: function(data) {
                 var d = new Date(data),
-                    month = '' + (d.getMonth() + 1),
-                    day = '' + d.getDate(),
-                    year = d.getFullYear();
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
                 if (month.length < 2) 
                     month = '0' + month;
@@ -3948,9 +3971,9 @@ var $ummu = {
                 var new_dmy = y + '-' + m + '-' + d;
 
                 var dt = new Date(new_dmy),
-                    month = '' + (dt.getMonth() + 1),
-                    day = '' + dt.getDate(),
-                    year = dt.getFullYear();
+                month = '' + (dt.getMonth() + 1),
+                day = '' + dt.getDate(),
+                year = dt.getFullYear();
 
                 if (month.length < 2) 
                     month = '0' + month;
@@ -4176,27 +4199,27 @@ var $ummu = {
         detele_confirm: function() {
             var html = 
             '<div class="modal fade" id="modal_confirm_delete" tabindex="-1">'+
-                '<div class="modal-dialog">'+
-                    '<div class="modal-content">'+
-                        '<div class="modal-header">'+
-                            '<h5 class="modal-title">Confirmation</h5>'+
-                            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
-                        '</div>'+
-                        '<div class="collapse" id="loader_delete">'+
-                            '<div class="d-flex justify-content-center mt-2">'+
-                                '<div class="spinner-border text-danger" role="status">'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="modal-body">'+
-                            'Are you sure to delete this data?'+
-                        '</div>'+
-                        '<div class="modal-footer">'+
-                            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
-                            '<a href="#" id="btn_delete" class="btn btn-danger" onclick="app.controllers.delete();">Delete</a>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>'+
+            '<div class="modal-dialog">'+
+            '<div class="modal-content">'+
+            '<div class="modal-header">'+
+            '<h5 class="modal-title">Confirmation</h5>'+
+            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
+            '</div>'+
+            '<div class="collapse" id="loader_delete">'+
+            '<div class="d-flex justify-content-center mt-2">'+
+            '<div class="spinner-border text-danger" role="status">'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '<div class="modal-body">'+
+            'Are you sure to delete this data?'+
+            '</div>'+
+            '<div class="modal-footer">'+
+            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+            '<a href="#" id="btn_delete" class="btn btn-danger" onclick="app.controllers.delete();">Delete</a>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
             '</div>';
 
             $('.ummu-html').html(html);
@@ -4368,9 +4391,9 @@ var $globFunc = {
     },
     date_ymd: function(data) {
         var d = new Date(data),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
         if (month.length < 2) 
             month = '0' + month;
@@ -4888,15 +4911,15 @@ var $datatable = {
                                 alert('Button activated');
                             }
                         }
-                    ]
+                        ]
                 }
             },
             columnDefs: [
-                {
-                    orderable: false,
-                    render: DataTable.render.select(),
-                    targets: 0
-                }
+            {
+                orderable: false,
+                render: DataTable.render.select(),
+                targets: 0
+            }
             ],
             fixedColumns: {
                 start: 2
@@ -4939,7 +4962,7 @@ var $datatable = {
                 { data: 'receive_name' },
                 { data: 'aprove_name' },
                 { data: 'doc_remark' }
-            ]
+                ]
         };
     }
 }
@@ -5654,7 +5677,7 @@ var $globalFormatter = {
 
     join_datetime: function(index, row)
     {
-        
+
     }
 }
 
@@ -5745,7 +5768,7 @@ var $globalEvents = {
 
             //     $globalUpload.ids = ids;
             //     $globalUpload.filenames = filenames;
-                
+
             //     // app.Views.set_gallery_selected_to_img(filenames)
 
             //     $('#modal_gallery').modal('hide');
@@ -5880,16 +5903,16 @@ var $globalViews = {
     modal: {
         message: function() {
             var html = '<div class="modal fade" id="message_modal" tabindex="-1" style="z-index: 2000;">'+
-                            '<div class="modal-dialog">'+
-                                '<div class="modal-content">'+
-                                    '<div class="modal-header bg-secondary">'+
-                                        '<h5 class="modal-title text-light" id="message_title">Messages</h5>'+
-                                        '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
-                                    '</div>'+
-                                    '<div class="alert" id="text_message"></div>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>';
+            '<div class="modal-dialog">'+
+            '<div class="modal-content">'+
+            '<div class="modal-header bg-secondary">'+
+            '<h5 class="modal-title text-light" id="message_title">Messages</h5>'+
+            '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>'+
+            '</div>'+
+            '<div class="alert" id="text_message"></div>'+
+            '</div>'+
+            '</div>'+
+            '</div>';
         }
     }
 }
