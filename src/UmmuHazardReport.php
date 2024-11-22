@@ -95,4 +95,34 @@ class UmmuHazardReport
 
         return json_decode($response, false);
     }
+
+    public function approve($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli. "approve",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => "she_hazard_report",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+    public function update_release($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli. "update_release",
+                "method"         => "PUT",
+                "payload"        => $params['payload'],
+                "module_code"    => "she_hazard_report",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

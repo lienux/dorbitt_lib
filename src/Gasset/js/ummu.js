@@ -35,7 +35,8 @@ var $ummu = {
         rad_external: 0,
         show_col_images: localStorage.getItem('show_col_images'),
         show_col_id: localStorage.getItem('show_col_id'),
-        nav_tab: null
+        nav_tab: null,
+        crud: null
     },
 
     config: {
@@ -1619,6 +1620,132 @@ var $ummu = {
                         }
                     });
                 }
+            }
+        },
+
+        hazard_report: {
+            release: function() {
+                var rows = $ummu.vars.rows;
+                var url = globalVar.pageUrl;
+                var r = [];
+                $.each(rows, function( index, value ) {
+                    r[index] = {};
+                    r[index] = value.id;
+                });
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "ids": r
+                    }
+                });
+
+                var params = {
+                    "url": url + 'release',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(params)
+
+                $('#text_loader').html('Release in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_release_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                        // An error occurred
+                    console.log(ummu)
+                });
+            },
+            approve: function() {
+                var rows = $ummu.vars.rows;
+                var url = globalVar.pageUrl;
+                var r = [];
+                $.each(rows, function( index, value ) {
+                    r[index] = {};
+                    r[index] = value.id;
+                });
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "ids": r
+                    }
+                });
+
+                var params = {
+                    "url": url + 'approve',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(params)
+
+                $('#text_loader').html('Approve in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_approve_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                        // An error occurred
+                    console.log(ummu)
+                });
+            },
+            reject: function() {
+                var rows = $ummu.vars.rows;
+                var url = globalVar.pageUrl;
+                var r = [];
+                $.each(rows, function( index, value ) {
+                    r[index] = {};
+                    r[index] = value.id;
+                });
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "ids": r
+                    }
+                });
+
+                var params = {
+                    "url": url + 'reject',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(params)
+
+                $('#text_loader').html('Reject in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_reject_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
             }
         }
     },
@@ -3721,6 +3848,7 @@ var $ummu = {
                 },
                 showhide2: function(){
                     var a = $ummu.vars.nav_tab;
+                    var crud = JSON.parse($ummu.vars.crud);
 
                     if (a === 0 || a === 3 ) {
                         if ($ummu.dt.select.count() > 0) {
@@ -3739,12 +3867,16 @@ var $ummu = {
                     }
 
                     if (a == 1) {
-                        if ($ummu.dt.select.count() > 0) {
-                            table.button('#btn_approve').enable();
-                            table.button('#btn_reject').enable();
-                        }else{
-                            table.button('#btn_approve').disable();
-                            table.button('#btn_reject').disable();
+                        if (crud) {
+                            if (crud.acc_admin == 1) {
+                                if ($ummu.dt.select.count() > 0) {
+                                    table.button('#btn_approve').enable();
+                                    table.button('#btn_reject').enable();
+                                }else{
+                                    table.button('#btn_approve').disable();
+                                    table.button('#btn_reject').disable();
+                                }
+                            }
                         }
                     }
                 },
@@ -3947,6 +4079,10 @@ var $ummu = {
                 }
             }
         }
+    },
+
+    bt: {
+        // 
     },
 
     dt: {

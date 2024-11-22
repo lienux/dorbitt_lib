@@ -586,4 +586,55 @@ class UmmuHelper
 
         return $msdb_token;
     }
+
+    public function crud_from_modules($modules, $nay)
+    {
+        if ($modules == 'dorbitt_modules') {
+            $modules = session()->get('dorbitt_modules');
+        }
+        else{
+            $modules = [];
+        }
+
+        $data = null;
+
+        if ($modules) {
+            foreach ($modules as $key => $value) {
+                if ($value->kode === $nay) {
+                    $data = $value->crud;
+                }
+            }
+
+            return $data;
+        }
+    }
+
+    public function crud_from_modules_name($modules, $nay)
+    {
+        if ($modules == 'dorbitt_modules') {
+            $modules = session()->get('dorbitt_modules');
+        }
+        else{
+            $modules = [];
+        }
+
+        $data = null;
+
+        if ($modules) {
+            foreach ($modules as $key => $value) {
+                if ($value->kode === $nay) {
+                    $data = $value->crud;
+                    $data = explode(',', $data);
+                    $data = [
+                        "acc_create" => (isset($data[0]) ? $data[0] : 0),
+                        "acc_read" => (isset($data[1]) ? $data[1] : 0),
+                        "acc_update" => (isset($data[2]) ? $data[2] : 0),
+                        "acc_delete" => (isset($data[3]) ? $data[3] : 0),
+                        "acc_admin" => (isset($data[4]) ? $data[4] : 0)
+                    ];
+                }
+            }
+            return $data;
+        }
+    }
 }
