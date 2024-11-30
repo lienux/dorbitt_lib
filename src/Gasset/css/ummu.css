@@ -39,3 +39,13 @@
     line-height: 0.5;
     border-radius: 0.2rem;
 }
+
+.bg-sap {
+    background-color: #34517d;
+}
+
+table.dataTable thead tr,
+table.dataTable thead tr > .dtfc-fixed-left {
+    background-color: #34517d;
+    color: #fff;
+}

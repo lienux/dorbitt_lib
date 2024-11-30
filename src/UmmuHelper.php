@@ -262,6 +262,49 @@ class UmmuHelper
         return $payload;
     }
 
+    public function dt_payload5($p_sort = null, $p_order = null)
+    {
+        $draw = $this->request->getVar('draw');
+        $length = $this->request->getVar('length');
+        if ($length == '-1') {
+            $length = 0;
+        }
+
+        $start = $this->request->getVar('start');
+        $columns = $this->request->getVar('columns');
+        $order = $this->request->getVar('order');
+        if ($p_sort AND $p_order) {
+            $sort = $p_sort;
+            $order = $p_order;
+        }else{
+            $column = $order[0]['column'];
+            if ($draw == 1) {
+                $sort = 'id';
+                $order = 'desc';
+            } else {
+                $sort = $columns[$column]['data'];
+                $order = $order[0]['dir'];
+            }
+        }
+
+        $search = $this->request->getVar('search');
+        if ($search) {
+            $search = $search['value'];
+        } else {
+            $search = "";
+        }
+
+        $payload = [
+            "limit" => $length,
+            "offset" => $start,
+            "sort" => $sort,
+            "order" => $order,
+            "search" => $search
+        ];
+
+        return $payload;
+    }
+
     public function totalcount($query)
     {
         $total = $query->countAllResults(false);

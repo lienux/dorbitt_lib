@@ -21,6 +21,8 @@ var $ummu = {
     },
 
     vars: {
+        base_url: null,
+        page_url: null,
         page: null,
         action: null,
         class: null,
@@ -36,7 +38,8 @@ var $ummu = {
         show_col_images: localStorage.getItem('show_col_images'),
         show_col_id: localStorage.getItem('show_col_id'),
         nav_tab: null,
-        crud: null
+        crud: null,
+        module_kode: null
     },
 
     config: {
@@ -52,6 +55,9 @@ var $ummu = {
             // $ummu.events.gallery.btn_submit_file_upload();
             $ummu.mygallery.btn_show_mygallery();
             $ummu.mygallery.btn_select_file();
+            // $('#btn_login').on('click', function(){
+
+            // })
         }
     },
 
@@ -780,7 +786,186 @@ var $ummu = {
         }
     },
 
+    auth: {
+        login: function(withMsdb = null){
+            $('#btn_login').on('click', function(){
+                var username = $('#username').val(),
+                password = $('#password').val(),
+                msdb = $('#msdb').val();
+
+                if (withMsdb == 'withMsdb') {
+                    if (msdb == null) {
+                        alert('Silahkan pilih company.');
+                    }else{
+                        var vars = '?username='+username+'&password='+password+'&msdb='+msdb,
+                        body = {
+                            "body": {
+                                "username": username,
+                                "password": password,
+                                "msdb": msdb
+                            }
+                        },
+                        payload = {
+                            "username": username,
+                            "password": password,
+                            "msdb": msdb
+                        };
+                    }
+                }else{
+                    var vars = '?username='+username+'&password='+password,
+                    body = {
+                        "body": {
+                            "username": username,
+                            "password": password
+                        }
+                    },
+                    payload = {
+                        "username": username,
+                        "password": password
+                    };
+                }
+
+                var url = $ummu.vars.base_url + 'auth/login/create'+vars;
+                var params = {
+                    "url": url,
+                    "type": "post",
+                    "action": "create",
+                    "data": null,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                console.log(params);
+
+                // var ummu = $ummu.ajax.auth.login(params);   
+                // ummu.done(function(result) {
+                //     console.log(result)
+                //     var response = result;
+                //     if (response.status == true) {
+                // //     $('#alert').html('<div class="alert alert-success">'+response.messages+'</div>');
+                // //     $('#username_area, #btn_next').addClass('collapse');
+                // //     $('#otp_area, #btn_verify_otp').removeClass('collapse');
+                // //     $('#username_change, #username_change2').val($('#username').val());
+                // //     $('#alert').html('');
+                //         window.location.replace($ummu.vars.base_url + 'admin');
+                //     }else{
+                // //     $('#alert').html('<div class="alert alert-danger">'+response.errors+'</div>');
+                // //     if (response.errors == 'You have already created an otp before.') {
+                // //         $('#username_area, #btn_next').addClass('collapse');
+                // //         $('#otp_area, #btn_verify_otp').removeClass('collapse');
+                // //         $('#username_change, #username_change2').val($('#username').val());
+                // //     }
+                //     }
+                // // $('#btn_next').removeClass('disabled');
+                //     setTimeout( function() { 
+                //         $('#modal_loader').modal('hide');
+                //     }, 1000 );
+                // }).fail(function() {
+                // // An error occurred
+                //     console.log(ummu)
+                // });
+            })
+        },
+        
+        login_with_msdb: function(){
+            $('#btn_login').on('click', function(){
+                var username = $('#username').val(),
+                password = $('#password').val(),
+                msdb = $('#msdb').val();
+
+                if (msdb == null) {
+                    alert('Silahkan pilih company.');
+                }else{
+                    var vars = '?username='+username+'&password='+password+'&msdb='+msdb,
+                    body = {
+                        "body": {
+                            "username": username,
+                            "password": password,
+                            "msdb": msdb
+                        }
+                    },
+                    payload = {
+                        "username": username,
+                        "password": password,
+                        "msdb": msdb
+                    };
+
+                    var url = $ummu.vars.base_url + 'auth/login/create'+vars;
+                    var params = {
+                        "url": url,
+                        "type": "post",
+                        "action": "create",
+                        "data": null,
+                        "cache": true,
+                        "contentType": "application/json",
+                        "dataType": "json"
+                    };
+
+                    // console.log(params);
+
+                    var ummu = $ummu.ajax.auth.login(params);   
+                    ummu.done(function(result) {
+                        // console.log(result)
+                        var response = result;
+                        if (response.status == true) {
+                            $('#alert').html('<div class="alert alert-success">'+response.message+'</div>');
+                            window.location.replace($ummu.vars.base_url + 'admin');
+                        }else{
+                            $('#alert').html('<div class="alert alert-danger">'+response.message+'</div>');
+                        }
+                        setTimeout( function() { 
+                            $('#modal_loader').modal('hide');
+                        }, 1000 );
+                    }).fail(function() {
+                    // An error occurred
+                        console.log(ummu)
+                    });
+                }
+
+            })
+        }
+    },
+
     ajax: {
+        auth: {
+            login: function(params) {
+                // console.log(params.data);
+                var jqXHR = $.ajax({
+                    "url": params.url,
+                    "method": params.type,
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": params.contentType,
+                    },
+                    "data": params.data,
+                    "prossesing": true,
+                    'language': {
+                        'loadingRecords': '&nbsp;',
+                        'processing': '<div class="spinner"></div>'
+                    },  
+                    beforeSend: function(e) {
+                        $('#modal_loader2').modal('show');
+                    },
+                    complete: function(){
+                        // 
+                    },
+                    success: function(response){
+                        // console.log(response)
+                        setTimeout( function(){ 
+                            $('.modal-loader2').modal('hide');
+                        },1000);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.responseText);
+                        $('#modal_loader2').modal('hide');
+                    }
+                });
+
+                return jqXHR;
+            }
+        },
+
         show0: function(url) {
             // console.log(payload);
             var jqXHR = $.ajax({
@@ -964,7 +1149,7 @@ var $ummu = {
         },
 
         ummu3: function(params) {
-            // console.log(payload);
+            // console.log(params.data);
             var jqXHR = $.ajax({
                 "url": params.url,
                 "method": params.type,
@@ -1253,7 +1438,7 @@ var $ummu = {
         },
 
         delete: function(url, params) {
-
+            // 
         },
 
         multiple_delete(url,rows) {
@@ -3834,6 +4019,56 @@ var $ummu = {
                 $('#btn_std_shb').html(html);
             },
             dt: {
+                crud: function(action = null){
+                    var crud = JSON.parse($ummu.vars.crud);
+                    var count_selc = $ummu.dt.select.count();
+
+                    if (crud) {
+                        if (crud.acc_create == 1) {
+                            if (count_selc == 1) {
+                                table.button('#btn_new').disable();
+                            }else if (count_selc > 1) {
+                                table.button('#btn_new').disable();
+                            }else{
+                                table.button('#btn_new').enable();
+                            }
+
+                            if (action == 'new') {
+                                $('.modal_btn_edit').prop('disabled', true);
+                                $('.modal_btn_save').prop('disabled', false);
+                            }
+                        }else{
+                            table.button('#btn_new').disable();
+                        }
+
+                        if (crud.acc_update == 1) {
+                            if (count_selc == 1) {
+                                table.button('#dt_btn_edit').enable();
+                            }else if (count_selc > 1) {
+                                table.button('#dt_btn_edit').disable();
+                            }else{
+                                table.button('#dt_btn_edit').disable();
+                            }
+
+                            if (action == 'edit') {
+                                $('.modal_btn_edit').prop('disabled', false);
+                                $('.modal_btn_save').prop('disabled', true);
+                            }
+                        }else{
+                            table.button('#dt_btn_edit').disable();
+                        }
+
+                        if (crud.acc_delete == 1) {
+                            if (count_selc > 0) {
+                                table.button('#dt_btn_delete').enable();
+                            }else{
+                                table.button('#dt_btn_delete').disable();
+                            }
+                        }else{
+                            table.button('#dt_btn_delete').disable();
+                        }
+                    }
+                },
                 showhide1: function(){
                     if ($ummu.dt.select.count() > 0) {
                         table.button(3).disable();
@@ -3887,6 +4122,16 @@ var $ummu = {
                         table.button('#btn_edit').disable();
                     }
                 }
+            },
+            hazard_report: {
+                on_modal_form_edit: function() {
+                    // console.log('ok');
+                    $('.modal_btn_edit').prop('disabled', true);
+                    $('.modal_btn_save').prop('disabled', false);
+                    $('#form_entry_data input, #form_entry_data button, select').prop("disabled", false);
+                    $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
+                    // $('#modal_btn_edit').prop('disabled', true);
+                }
             }
         },
 
@@ -3926,6 +4171,83 @@ var $ummu = {
 
                 return email;      
             }
+        },
+
+        hazard_report: {
+            // btn_edit: function() {
+            //     return '<button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit">Edit</button>';
+            // },
+            // btn_approve: function() {
+            //     return '<button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button>';
+            // },
+            // btn_save: function() {
+            //     return '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button>';
+            // },
+
+            button_in_modal_form: function() {
+                $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                $('.modal_btn_edit, .modal_btn_approve, .modal_btn_save').prop('disabled', true);
+                // <button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit">Edit</button>
+                // <button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button>
+                // <button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button>
+                var tab = $ummu.vars.nav_tab;
+                var crud = JSON.parse($ummu.vars.crud);
+
+                // if (/*tab === 0 || */tab === 3 ) {
+                //     if ($ummu.dt.select.count() > 0) {
+                //         table.button('#btn_new').disable();
+                //         table.button('#btn_edit').disable();
+                //         table.button('#btn_release').enable();
+                //         table.button('#btn_multi_delete').enable();
+
+                //     }else{
+                //         table.button('#btn_new').enable();
+                //         table.button('#btn_edit').enable();
+                //         table.button('#btn_release').disable();
+                //         table.button('#btn_multi_delete').disable();
+                //     }
+                //     // $ummu.views.button.dt.showhide_edit();
+                // }
+
+                /*var btnEdit = '<button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit" onclick="$ummu.views.button.hazard_report.on_modal_form_edit();">Edit</button> ';
+                var btnApprove = '<button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button> ';
+                var btnSave = '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button> ';*/
+                // console.log(crud);
+                // $('#insideButton').html(btnEdit + btnApprove + btnSave);
+
+                if (tab == 1) {
+                    if (crud) {
+                        if (crud.acc_admin == 1) {
+                            $('.modal_btn_approve').prop('disabled', false);
+                        }
+                    }
+                }
+
+                if (tab == 2) {
+                    // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                }
+                
+                if (tab == 3) {
+                    // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                    // $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
+                    // $('#insideButton').html(btnEdit + btnSave);
+                    $('.modal_btn_edit').prop('disabled', false);
+                }
+            },
+
+            btn_edit: function() {
+                $('.modal_btn_edit, .modal_btn_approve, .modal_btn_save').prop('disabled', true);
+                $('#form_entry_data input, #form_entry_data button, select').prop("disabled", false);
+                $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
+                $('.modal_btn_save').prop('disabled', false);
+            },
+
+            /*modal_btn_edit: function() {
+                var btnSave = '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button> ';
+                $('#form_entry_data input, #form_entry_data button, select').prop("disabled", false);
+                $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
+                $('#insideButton').html(btnSave);
+            }*/
         }
     },
 
@@ -3993,6 +4315,20 @@ var $ummu = {
         },
         checked_if_value: function (data) {
             if (data == 1) {
+                return '<i class="fas fa-check text-success"></i>';
+            }else{
+                return '';
+            }
+        }
+    },
+
+    render: {
+        checked_if_value: function(data, type, row) {
+            if (type === 'myExport') {
+                return data === 'on' ? 'Y' : '';
+            }
+
+            if (data === 'on') {
                 return '<i class="fas fa-check text-success"></i>';
             }else{
                 return '';
@@ -4268,7 +4604,7 @@ function resdel() {
 }
 
 /**
- * GLOBAL VARIABLE 
+* GLOBAL VARIABLE 
  * */
 var $globalVar = {
     page: null,
@@ -4277,7 +4613,7 @@ var $globalVar = {
 }
 
 /**
- * GLOBAL FUNCTION 
+* GLOBAL FUNCTION 
  * */
 var $globFunc = {
     ch_message: function(message) {
