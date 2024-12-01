@@ -21,6 +21,7 @@ var $ummu = {
     },
 
     vars: {
+        id: null,
         base_url: null,
         page_url: null,
         page: null,
@@ -39,7 +40,8 @@ var $ummu = {
         show_col_id: localStorage.getItem('show_col_id'),
         nav_tab: null,
         crud: null,
-        module_kode: null
+        module_kode: null,
+        site_project_kode: null
     },
 
     config: {

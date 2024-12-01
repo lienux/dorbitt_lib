@@ -68,9 +68,11 @@ class UmmuHazardReport
 
     public function update($params)
     {
+        $id = $params['id'];
+
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "update",
+                "path"           => $this->urli. "update/". $id,
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => "she_hazard_report",
