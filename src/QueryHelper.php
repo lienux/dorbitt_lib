@@ -348,4 +348,30 @@ class QueryHelper
 
         return $response;
     }
+
+    public function respon($rows,$count,$total)
+    {
+        if ($count == 0) {
+            $sts = false;
+            $msg = 'Data not found';
+            $code = 404;
+        }else{
+            $sts = true;
+            $msg = 'Get data success';
+            $code = 200;
+        }
+
+        $response = [
+            "status"            => $sts,
+            "message"           => $msg,
+            "rows"              => $rows,
+            "count"             => $count,
+            "total"             => $total,
+            "recordsTotal"      => $total,
+            "recordsFiltered"   => $total,
+            "scode"             => $code
+        ];
+
+        return $response;
+    }
 }

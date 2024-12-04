@@ -60,6 +60,10 @@ var $ummu = {
             // $('#btn_login').on('click', function(){
 
             // })
+            $('.nav-tabs .nav-link').on('click', function(){
+                var nav_tab_id = $(this).attr('id');
+                localStorage.setItem('nav_tab_id', nav_tab_id);
+            })
         }
     },
 
@@ -4186,54 +4190,60 @@ var $ummu = {
             //     return '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button>';
             // },
 
-            button_in_modal_form: function() {
+            button_in_modal_form: function(action = null) {
                 $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
                 $('.modal_btn_edit, .modal_btn_approve, .modal_btn_save').prop('disabled', true);
                 // <button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit">Edit</button>
                 // <button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button>
                 // <button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button>
-                var tab = $ummu.vars.nav_tab;
-                var crud = JSON.parse($ummu.vars.crud);
+                if (action == 'new') {
+                    $('.modal_btn_save').prop('disabled', false);
+                    $('#form_entry_data input, #form_entry_data button, select').prop("disabled", false);
+                    $('#tgl_penemuan, #waktu_penemuan').prop("disabled", true);
+                }else{
+                    var tab = $ummu.vars.nav_tab;
+                    var crud = JSON.parse($ummu.vars.crud);
 
-                // if (/*tab === 0 || */tab === 3 ) {
-                //     if ($ummu.dt.select.count() > 0) {
-                //         table.button('#btn_new').disable();
-                //         table.button('#btn_edit').disable();
-                //         table.button('#btn_release').enable();
-                //         table.button('#btn_multi_delete').enable();
+                    // if (/*tab === 0 || */tab === 3 ) {
+                    //     if ($ummu.dt.select.count() > 0) {
+                    //         table.button('#btn_new').disable();
+                    //         table.button('#btn_edit').disable();
+                    //         table.button('#btn_release').enable();
+                    //         table.button('#btn_multi_delete').enable();
 
-                //     }else{
-                //         table.button('#btn_new').enable();
-                //         table.button('#btn_edit').enable();
-                //         table.button('#btn_release').disable();
-                //         table.button('#btn_multi_delete').disable();
-                //     }
-                //     // $ummu.views.button.dt.showhide_edit();
-                // }
+                    //     }else{
+                    //         table.button('#btn_new').enable();
+                    //         table.button('#btn_edit').enable();
+                    //         table.button('#btn_release').disable();
+                    //         table.button('#btn_multi_delete').disable();
+                    //     }
+                    //     // $ummu.views.button.dt.showhide_edit();
+                    // }
 
-                /*var btnEdit = '<button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit" onclick="$ummu.views.button.hazard_report.on_modal_form_edit();">Edit</button> ';
-                var btnApprove = '<button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button> ';
-                var btnSave = '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button> ';*/
-                // console.log(crud);
-                // $('#insideButton').html(btnEdit + btnApprove + btnSave);
+                    /*var btnEdit = '<button type="button" class="btn btn-primary btn-edit" id="modal_btn_edit" onclick="$ummu.views.button.hazard_report.on_modal_form_edit();">Edit</button> ';
+                    var btnApprove = '<button type="button" class="btn btn-primary btn-approve" id="modal_btn_approve">Approve</button> ';
+                    var btnSave = '<button type="button" class="btn btn-primary btn-save" id="modal_btn_save">Save Change</button> ';*/
+                    // console.log(crud);
+                    // $('#insideButton').html(btnEdit + btnApprove + btnSave);
 
-                if (tab == 1) {
-                    if (crud) {
-                        if (crud.acc_admin == 1) {
-                            $('.modal_btn_approve').prop('disabled', false);
+                    if (tab == 1) {
+                        if (crud) {
+                            if (crud.acc_admin == 1) {
+                                $('.modal_btn_approve').prop('disabled', false);
+                            }
                         }
                     }
-                }
 
-                if (tab == 2) {
-                    // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
-                }
-                
-                if (tab == 3) {
-                    // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
-                    // $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
-                    // $('#insideButton').html(btnEdit + btnSave);
-                    $('.modal_btn_edit').prop('disabled', false);
+                    if (tab == 2) {
+                        // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                    }
+                    
+                    if (tab == 3) {
+                        // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                        // $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
+                        // $('#insideButton').html(btnEdit + btnSave);
+                        $('.modal_btn_edit').prop('disabled', false);
+                    }                    
                 }
             },
 

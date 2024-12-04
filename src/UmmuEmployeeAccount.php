@@ -38,6 +38,21 @@ class UmmuEmployeeAccount
         return json_decode($response, false);
     }
 
+    public function insert($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "create",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => "employee_account",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
     public function import($params)
     {
         $filepath = $this->gHelp->upload();
