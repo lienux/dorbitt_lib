@@ -40,9 +40,9 @@
             <div class="modal-body">
                 <div class="alert alert-danger text-sm" id="alert"></div>
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal_btn_delete">Delete</button>
-            </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

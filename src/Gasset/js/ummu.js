@@ -4437,7 +4437,7 @@ var $ummu = {
         },
 
         is_valid_date: function(value) {
-            if (moment(value, 'YYYY-MM-DD',true).isValid() == false) {
+            if (value == '0000-00-00' || moment(value, 'YYYY-MM-DD',true).isValid() == false) {
                 $ummu.vars.required_field.push(false);
                 return false;
             }
@@ -4456,12 +4456,12 @@ var $ummu = {
                 $('#modal_message #alert').html('');
 
                 var tgl_penemuan = $('#tgl_penemuan').val();
-                if ($ummu.validation.is_valid(tgl_penemuan) == false) {
+                if ($ummu.validation.is_valid_date(tgl_penemuan) == false) {
                     $('#modal_message #alert').append('<div>- Tanggal Penemuan not Valid</div>');
                 }
 
                 var waktu_penemuan = $('#waktu_penemuan').val();
-                if ($ummu.validation.is_valid(waktu_penemuan) == false) {
+                if ($ummu.validation.is_valid_time(waktu_penemuan) == false) {
                     $('#modal_message #alert').append('<div>- Waktu Penemuan not Valid</div>');
                 }
 
