@@ -41,7 +41,8 @@ var $ummu = {
         nav_tab: null,
         crud: null,
         module_kode: null,
-        site_project_kode: null
+        site_project_kode: null,
+        required_field: []
     },
 
     config: {
@@ -4424,6 +4425,103 @@ var $ummu = {
                     $('#name_msg_required').addClass('collapse');
                     $ummu.vars.errors = $ummu.func.removeItem($ummu.vars.errors, 'name');
                     return true;
+                }
+            }
+        },
+
+        is_valid: function(value) {
+            if (value == null || value == '' || value == 'undefined') {
+                $ummu.vars.required_field.push(false);
+                return false;
+            }
+        },
+
+        is_valid_date: function(value) {
+            if (moment(value, 'YYYY-MM-DD',true).isValid() == false) {
+                $ummu.vars.required_field.push(false);
+                return false;
+            }
+        },
+
+        is_valid_time: function(value) {
+            if (moment(value, 'HH:mm',true).isValid() == false) {
+                $ummu.vars.required_field.push(false);
+                return false;
+            }
+        },
+
+        hazard_report: {
+            insert: function() {
+                $ummu.vars.required_field = [];
+                $('#modal_message #alert').html('');
+
+                var tgl_penemuan = $('#tgl_penemuan').val();
+                if ($ummu.validation.is_valid(tgl_penemuan) == false) {
+                    $('#modal_message #alert').append('<div>- Tanggal Penemuan not Valid</div>');
+                }
+
+                var waktu_penemuan = $('#waktu_penemuan').val();
+                if ($ummu.validation.is_valid(waktu_penemuan) == false) {
+                    $('#modal_message #alert').append('<div>- Waktu Penemuan not Valid</div>');
+                }
+
+                var lokasi_temuan_id = $('#lokasi_penemuan').val();
+                if ($ummu.validation.is_valid(lokasi_temuan_id) == false) {
+                    $('#modal_message #alert').append('<div>- Lokasi temuan required.</div>');
+                }
+
+                var detail_lokasi = $('#detail_lokasi').val();
+                if ($ummu.validation.is_valid(detail_lokasi) == false) {
+                    $('#modal_message #alert').append('<div>- Detail lokasi required.</div>');
+                }
+
+                var jenis_temuan_id = $('#jenis_temuan').val();
+                if ($ummu.validation.is_valid(jenis_temuan_id) == false) {
+                    $('#modal_message #alert').append('<div>- Jenis temuan required.</div>');
+                }
+
+                var bahaya_ditemukan = $('#bahaya_ditemukan').val();
+                if ($ummu.validation.is_valid(bahaya_ditemukan) == false) {
+                    $('#modal_message #alert').append('<div>- Bahaya yang ditemukan required.</div>');
+                }
+
+                var penyebab_bahaya = $('#penyebab_bahaya').val();
+                if ($ummu.validation.is_valid(penyebab_bahaya) == false) {
+                    $('#modal_message #alert').append('<div>- Penyebab bahaya required.</div>');
+                }
+
+                var kode_bahaya_id = $('#kode_bahaya').val();
+                if ($ummu.validation.is_valid(kode_bahaya_id) == false) {
+                    $('#modal_message #alert').append('<div>- Kode bahayaq required.</div>');
+                }
+
+                var foto_temuan_id = $('#foto_temuan').attr('data-id');
+                if ($ummu.validation.is_valid(foto_temuan_id) == false) {
+                    $('#modal_message #alert').append('<div>- Foto temuan required.</div>');
+                }
+
+                var rincian_tindakan = $('#rincian_tindakan').val();
+                if ($ummu.validation.is_valid(rincian_tindakan) == false) {
+                    $('#modal_message #alert').append('<div>- Rincian tindakan required.</div>');
+                }
+
+                // var foto_perbaikan_id = $('#foto_perbaikan').attr('data-id');
+                // if (foto_perbaikan_id == 'undefined') {
+                //     $('#modal_message #alert').append('<div>- Foto perbaikan required.</div>');
+                // }
+
+                var status_id = $('input:radio[name=status]:checked').val();
+                if ($ummu.validation.is_valid(status_id) == false) {
+                    $('#modal_message #alert').append('<div>- Status required.</div>');
+                }
+
+                var nm_atasan = $('#nm_atasan').val();
+                if ($ummu.validation.is_valid(nm_atasan) == false) {
+                    $('#modal_message #alert').append('<div>- Nama atasan required.</div>');
+                }
+
+                if ($ummu.vars.required_field.includes(false)) {
+                    return false;
                 }
             }
         }
