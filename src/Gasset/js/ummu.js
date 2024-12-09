@@ -65,6 +65,36 @@ var $ummu = {
                 var nav_tab_id = $(this).attr('id');
                 localStorage.setItem('nav_tab_id', nav_tab_id);
             })
+
+            $('.datepicker000').datepicker({
+                dateFormat: 'yy-mm-dd',
+                uiLibrary: 'bootstrap4', 
+                modal: true, 
+                header: true, 
+                footer: true
+            });
+
+            $('#modal_filter').on('shown.bs.modal', function(){
+                let filter = JSON.parse(localStorage.getItem('filter'));
+                $('#date_from').val(filter.date_from);
+                $('#date_to').val(filter.date_to);
+            })
+
+            $('#modal_filter #btn_save_filter').on('click', function(){
+                var date_from = $('#date_from').val();
+                var date_to = $('#date_to').val();
+
+                var filter = {
+                    date_from: date_from,
+                    date_to: date_to
+                }
+
+                localStorage.setItem('filter', JSON.stringify(filter));
+                $('#modal_filter').modal('hide');
+                set_filter()
+                // console.log(filter)
+                // console.log(JSON.stringify(filter))
+            })
         }
     },
 

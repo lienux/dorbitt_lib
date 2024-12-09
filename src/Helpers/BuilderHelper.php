@@ -1,6 +1,6 @@
 <?php
 
-namespace Dorbitt;
+namespace Dorbitt\Helpers;
 
 /**
 * =============================================
@@ -43,12 +43,18 @@ class BuilderHelper
         $date       = $this->request->getJsonVar('date');
         $datetime   = $this->request->getJsonVar('datetime');
 
+        $selects    = $this->request->getJsonVar('selects');
+
         // $date = '10.21.2011';
         // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
 
         $builder        = $params['builder'];
         $id             = $params['id'];
         $search_params  = $params['search_params'];
+
+        if ($selects) {
+            $builder->select($selects);
+        }
 
         if (isset($params['company_id'])) {
             $company_id = $params['company_id'];
@@ -142,6 +148,7 @@ class BuilderHelper
         $from_date  = $this->request->getJsonVar('from_date');
         $to_date    = $this->request->getJsonVar('to_date');
         $date       = $this->request->getJsonVar('date');
+        $selects    = $this->request->getJsonVar('selects');
 
         // $date = '10.21.2011';
         // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
@@ -149,6 +156,10 @@ class BuilderHelper
         $builder        = $params['builder'];
         $id             = $params['id'];
         $search_params  = $params['search_params'];
+
+        if ($selects) {
+            $builder->select($selects);
+        }
 
         if (isset($params['company_id'])) {
             $company_id = $params['company_id'];
@@ -298,10 +309,15 @@ class BuilderHelper
         $search     = $this->request->getJsonVar('search');
 
         $date       = $this->request->getJsonVar('date');
+        $selects    = $this->request->getJsonVar('selects');
 
         $builder        = $params['builder'];
         $id             = $params['id'];
         $search_params  = $params['search_params'];
+
+        if ($selects) {
+            $builder->select($selects);
+        }
 
         if (isset($params['company_id'])) {
             $company_id = $params['company_id'];
