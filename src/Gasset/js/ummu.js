@@ -74,26 +74,42 @@ var $ummu = {
                 footer: true
             });
 
+            $('.clockpicker').clockpicker({
+                // placement: 'top',
+                autoclose: true,
+                align: 'left',
+                donetext: 'Done',
+                'default': 'now'
+            });
+
             $('#modal_filter').on('shown.bs.modal', function(){
-                let filter = JSON.parse(localStorage.getItem('filter'));
-                $('#date_from').val(filter.date_from);
-                $('#date_to').val(filter.date_to);
+                let date_from = localStorage.getItem('date_from');
+                let time_from = localStorage.getItem('time_from');
+
+                let date_to = localStorage.getItem('date_to');
+                let time_to = localStorage.getItem('time_to');
+
+                $('#date_from').val(date_from);
+                $('#time_from').val(time_from);
+
+                $('#date_to').val(date_to);
+                $('#time_to').val(time_to);
             })
 
             $('#modal_filter #btn_save_filter').on('click', function(){
                 var date_from = $('#date_from').val();
+                var time_from = $('#time_from').val();
                 var date_to = $('#date_to').val();
+                var time_to = $('#time_to').val();
 
-                var filter = {
-                    date_from: date_from,
-                    date_to: date_to
-                }
+                localStorage.setItem('date_from', date_from);
+                localStorage.setItem('time_from', time_from);
+                localStorage.setItem('date_to', date_to);
+                localStorage.setItem('time_to', time_to);
 
-                localStorage.setItem('filter', JSON.stringify(filter));
                 $('#modal_filter').modal('hide');
-                set_filter()
-                // console.log(filter)
-                // console.log(JSON.stringify(filter))
+
+                table.ajax.reload();
             })
         }
     },
@@ -4291,6 +4307,16 @@ var $ummu = {
                 $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
                 $('#insideButton').html(btnSave);
             }*/
+        },
+
+        dt: {
+            info_filter: function(filter) {
+                var html = 
+                '<span class=""><i class="fas fa-filter text-danger"></i> FILTER:</span> <br> '+
+                '<span class="text-info">From: </span><span class="badge badge-warning font-weight-normal">'+ filter.datetime_detail.from + 
+                '</span> <span class="text-info">To: </span><span class="badge badge-warning font-weight-normal">' + filter.datetime_detail.to + ' </span>';
+                table.column(0).footer().innerHTML = html
+            }
         }
     },
 

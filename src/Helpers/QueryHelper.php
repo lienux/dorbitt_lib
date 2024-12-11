@@ -11,11 +11,14 @@ namespace Dorbitt\Helpers;
 * =============================================
 */
 
+use Dorbitt\Helpers\DateTimeHelper;
+
 class QueryHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
+        $this->dtH = new DateTimeHelper();
     }
 
     public function limit()
@@ -369,7 +372,13 @@ class QueryHelper
             "total"             => $total,
             "recordsTotal"      => $total,
             "recordsFiltered"   => $total,
-            "scode"             => $code
+            "scode"             => $code,
+            // "filter"            => [
+            //     "search" => $this->request->getJsonVar("search"),
+            //     "datetime_detail" => [
+            //         "from" => $this->dtH->dt
+            //     ]
+            // ]
         ];
 
         return $response;
