@@ -18,6 +18,7 @@ class UmmuHelper
     public function __construct()
     {
         $this->request = \Config\Services::request();
+        helper('cookie');
     }
 
     public function autoHelper($page_kode = null)
