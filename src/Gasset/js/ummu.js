@@ -4142,7 +4142,7 @@ var $ummu = {
                             table.button('#dt_btn_delete').disable();
                         }
                     }else{
-                        table.button('#dt_btn_new').disable();
+                        table.button('#dt_btn_new').enable();
                         table.button('#dt_btn_edit').disable();
                         table.button('#dt_btn_delete').disable();
                     }
