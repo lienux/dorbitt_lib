@@ -365,14 +365,16 @@ class QueryHelper
         }
 
         $response = [
-            "status"            => $sts,
-            "message"           => $msg,
-            "rows"              => $rows,
-            "count"             => $count,
-            "total"             => $total,
-            "recordsTotal"      => $total,
-            "recordsFiltered"   => $total,
-            "scode"             => $code,
+            "status"                => $sts,
+            "message"               => $msg,
+            "rows"                  => $rows,
+            "count"                 => $count,
+            "total"                 => $total,
+            "recordsTotal"          => $total,
+            "recordsFiltered"       => $total,
+            "scode"                 => $code,
+            "total_count"           => $count,
+            "incomplete_results"    => false,
             // "filter"            => [
             //     "search" => $this->request->getJsonVar("search"),
             //     "datetime_detail" => [

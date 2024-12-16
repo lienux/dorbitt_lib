@@ -11,15 +11,21 @@ namespace Dorbitt;
 * =============================================
 */
 
-use Dorbitt\Curl;
-use Dorbitt\GlobalHelper;
+use Dorbitt\Helpers\CurlHelper;
+use Dorbitt\Helpers\UmmuHelper;
+use Dorbitt\Helpers\GlobalHelper;
 
 class UmmuHazardReportAchievement
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->kode = "she_hazard_report_achievement";
+
+        $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
+        $this->umHelp = new UmmuHelper();
+        
+        $this->umHelp->autoHelper($this->kode);
         $this->urli = 'api/she/hazard_report_achievement/';
     }
 
@@ -30,7 +36,7 @@ class UmmuHazardReportAchievement
                 "path"           => $this->urli . "show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
-                "module_code"    => "she_hazard_report_achievement",
+                "module_code"    => $this->kode,
                 "token"          => $params['token']
             ]
         );

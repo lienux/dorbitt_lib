@@ -3999,6 +3999,7 @@ var $ummu = {
                     $(element_id).prop('disabled', true);
                 }
             },
+
             delete_selected(key) {
                 if ($ummu.dt.select.count() > 0) {
                     table.button(key).enable();
@@ -4006,6 +4007,7 @@ var $ummu = {
                     table.button(key).disable();
                 }
             },
+
             std_shb: {
                 onNew: function(){
                     $('#dbtn_new').attr('disabled', true);
@@ -4032,6 +4034,7 @@ var $ummu = {
                     $('.input-form').attr('readonly', true);
                 }
             },
+
             standard_shb_on_select() {
                 $('#dbtn_new').attr('disabled', false);
                 $('#dbtn_edit').attr('disabled', false);
@@ -4041,6 +4044,7 @@ var $ummu = {
                 $('#dbtn_print').attr('disabled', false);
                 $('#dbtn_close').attr('disabled', false);
             },
+
             shb_btn_std(nw,edit,del,can,save,print,close) {
                 if (nw === false) {
                     snw = 'disabled'
@@ -4071,19 +4075,35 @@ var $ummu = {
                 // return html;
                 $('#btn_std_shb').html(html);
             },
+
             dt: {
-                crud: function(action = null){
-                    var crud = JSON.parse($ummu.vars.crud);
+                crud: function(action = null) {
+                    // var crud = JSON.parse($ummu.vars.crud);
+                    var text = $ummu.cookie.getCookie('crud');
+                    // var crud = text.replaceAll("-", ",");
+                    if (text != '' || text != 0) {
+                        var crud = text.split("-");
+                    }else{
+                        var crud = '';
+                    }
+
                     var count_selc = $ummu.dt.select.count();
+                    // console.log(crud);
+
+                    // c,rall,u,d,admin
+                    // 0,1   ,2,3,4
 
                     if (crud) {
-                        if (crud.acc_create == 1) {
+                        if (crud[0] == 1) {
                             if (count_selc == 1) {
                                 table.button('#btn_new').disable();
+                                table.button('#dt_btn_new').disable();
                             }else if (count_selc > 1) {
                                 table.button('#btn_new').disable();
+                                table.button('#dt_btn_new').disable();
                             }else{
                                 table.button('#btn_new').enable();
+                                table.button('#dt_btn_new').enable();
                             }
 
                             if (action == 'new') {
@@ -4092,9 +4112,10 @@ var $ummu = {
                             }
                         }else{
                             table.button('#btn_new').disable();
+                            table.button('#dt_btn_new').disable();
                         }
 
-                        if (crud.acc_update == 1) {
+                        if (crud[2] == 1) {
                             if (count_selc == 1) {
                                 table.button('#dt_btn_edit').enable();
                             }else if (count_selc > 1) {
@@ -4111,7 +4132,7 @@ var $ummu = {
                             table.button('#dt_btn_edit').disable();
                         }
 
-                        if (crud.acc_delete == 1) {
+                        if (crud[3] == 1) {
                             if (count_selc > 0) {
                                 table.button('#dt_btn_delete').enable();
                             }else{
@@ -4120,8 +4141,13 @@ var $ummu = {
                         }else{
                             table.button('#dt_btn_delete').disable();
                         }
+                    }else{
+                        table.button('#dt_btn_new').disable();
+                        table.button('#dt_btn_edit').disable();
+                        table.button('#dt_btn_delete').disable();
                     }
                 },
+
                 showhide1: function(){
                     if ($ummu.dt.select.count() > 0) {
                         table.button(3).disable();
@@ -4134,9 +4160,21 @@ var $ummu = {
                     }
                     $ummu.views.button.dt.showhide_edit();
                 },
+
                 showhide2: function(){
                     var a = $ummu.vars.nav_tab;
-                    var crud = JSON.parse($ummu.vars.crud);
+                    // var crud = JSON.parse($ummu.vars.crud);
+                    var text = $ummu.cookie.getCookie('crud');
+                    if (text != '' || text != 0) {
+                        var crud = text.split("-");
+                    }else{
+                        var crud = '';
+                    }
+
+                    // c,rall,u,d,admin
+                    // 0,1   ,2,3,4
+
+                    // console.log(crud)
 
                     if (a === 0 || a === 3 ) {
                         if ($ummu.dt.select.count() > 0) {
@@ -4144,7 +4182,7 @@ var $ummu = {
                             table.button('#btn_edit').disable();
                             table.button('#btn_release').enable();
                             table.button('#btn_multi_delete').enable();
-                            
+
                         }else{
                             table.button('#btn_new').enable();
                             table.button('#btn_edit').enable();
@@ -4156,7 +4194,7 @@ var $ummu = {
 
                     if (a == 1) {
                         if (crud) {
-                            if (crud.acc_admin == 1) {
+                            if (crud[4] == 1) {
                                 if ($ummu.dt.select.count() > 0) {
                                     table.button('#btn_approve').enable();
                                     table.button('#btn_reject').enable();
@@ -4168,6 +4206,7 @@ var $ummu = {
                         }
                     }
                 },
+
                 showhide_edit: function(){
                     if ($ummu.dt.select.count() == 1) {
                         table.button('#btn_edit').enable();
@@ -4176,6 +4215,7 @@ var $ummu = {
                     }
                 }
             },
+
             hazard_report: {
                 on_modal_form_edit: function() {
                     // console.log('ok');
@@ -4202,6 +4242,19 @@ var $ummu = {
                     var text = rows[index].name;
                 }
                 $('#'+element_id).append("<option value='" + rows[index].id + "'>" + text + "</option>");
+            }
+        },
+
+        select_option_append2: function(params) {
+            var rows = params.rows;
+            var element_id = params.element_id;
+            var id = "rows[index]."+params.id;
+            var name = "rows[index]."+params.name;
+
+            $('#'+element_id).empty();
+            $('#'+element_id).append("<option value='' selected disabled>Choose...</option>");
+            for(let index in rows){
+                $('#'+element_id).append("<option value='" + eval(id) + "'>" + eval(name) + "</option>");
             }
         },
 
@@ -4284,7 +4337,7 @@ var $ummu = {
                     if (tab == 2) {
                         // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
                     }
-                    
+
                     if (tab == 3) {
                         // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
                         // $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
@@ -4726,9 +4779,6 @@ var $ummu = {
 $(document).ready(function () {
     $ummu.register.apply();
 });
-
-
-
 
 
 

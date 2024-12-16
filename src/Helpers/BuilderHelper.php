@@ -52,7 +52,7 @@ class BuilderHelper
         $id             = $params['id'];
         $search_params  = $params['search_params'];
 
-        if ($selects) {
+        if ($selects and $selects != '*') {
             $builder->select($selects);
         }
 

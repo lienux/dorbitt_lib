@@ -15,18 +15,18 @@ use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use Dorbitt\Helpers\GlobalHelper;
 
-class UmmuHazardReport
+class UmmuPositions
 {
     public function __construct()
     {
-        $this->kode = "she_hazard_report";
+        $this->kode = "hcm_positions";
 
         $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
         $this->umHelp = new UmmuHelper();
         
         $this->umHelp->autoHelper($this->kode);
-        $this->urli = 'api/she/hazard_report/';
+        $this->urli = 'api/hcm/positions/';
     }
 
     public function show($params)
@@ -54,7 +54,8 @@ class UmmuHazardReport
             "token"          => $params["token"]
         ]);
 
-        return json_decode($response, false);
+        // return json_decode($response, false);
+        return $response;
     }
 
     public function delete($params)
@@ -79,51 +80,6 @@ class UmmuHazardReport
         $response = $this->curli->request4(
             [
                 "path"           => $this->urli. "update/". $id,
-                "method"         => "PUT",
-                "payload"        => $params['payload'],
-                "module_code"    => $this->kode,
-                "token"          => $params['token']
-            ]
-        );
-
-        return json_decode($response, false);
-    }
-
-    public function release($params)
-    {
-        $response = $this->curli->request4(
-            [
-                "path"           => $this->urli. "release",
-                "method"         => "POST",
-                "payload"        => $params['payload'],
-                "module_code"    => $this->kode,
-                "token"          => $params['token']
-            ]
-        );
-
-        return json_decode($response, false);
-    }
-
-    public function approve($params)
-    {
-        $response = $this->curli->request4(
-            [
-                "path"           => $this->urli. "approve",
-                "method"         => "POST",
-                "payload"        => $params['payload'],
-                "module_code"    => $this->kode,
-                "token"          => $params['token']
-            ]
-        );
-
-        return json_decode($response, false);
-    }
-
-    public function update_release($params)
-    {
-        $response = $this->curli->request4(
-            [
-                "path"           => $this->urli. "update_release",
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
