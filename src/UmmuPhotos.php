@@ -17,6 +17,8 @@ class UmmuPhotos
 {
     public function __construct()
     {
+        $this->kode = "gallery_photos";
+        $this->path = "api/mygallery/photos/";
         $this->curli = new Curl();
     }
 
@@ -27,16 +29,16 @@ class UmmuPhotos
         $token = $params['token'];
         
         if ($id) {
-            $path = "api/mygallery/photos/show/" . $id;
+            $path = $this->path . "show/" . $id;
         }else{
-            $path = "api/mygallery/photos/show";
+            $path = $this->path . "show";
         }
 
         $params = [
             "path"           => $path,
             "method"         => "GET",
             "payload"        => $payload,
-            "module_code"    => "gallery_photos",
+            "module_code"    => $this->kode,
             "token"          => $token
         ];
 
@@ -50,13 +52,13 @@ class UmmuPhotos
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/mygallery/photos/create";
+        $path = $this->path . "create";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "gallery_photos",
+            "module_code"    => $this->kode,
             "token"          => $token
         ];
 
@@ -75,13 +77,13 @@ class UmmuPhotos
         $payload = $params['payload'];
         $token = $params['token'];
         
-        $path = "api/mygallery/photos/upload";
+        $path = $this->path . "upload";
 
         $params = [
             "path"           => $path,
             "method"         => "POST",
             "payload"        => $payload,
-            "module_code"    => "gallery_photos",
+            "module_code"    => $this->kode,
             "token"          => $token
         ];
 
@@ -111,28 +113,28 @@ class UmmuPhotos
     //     return json_decode($response, false);
     // }
 
-    // public function delete($params)
-    // {
-    //     $id = $params['id'];
-    //     $payload = $params['payload'];
-    //     $token = $params['token'];
+    public function delete($params)
+    {
+        $id = $params['id'];
+        $payload = $params['payload'];
+        $token = $params['token'];
         
-    //     if ($id) {
-    //         $path = "api/gallery/delete/" . $id;
-    //     }else{
-    //         $path = "api/gallery/delete";
-    //     }
+        if ($id) {
+            $path = $this->path . "delete/" . $id;
+        }else{
+            $path = $this->path . "delete";
+        }
 
-    //     $params = [
-    //         "path"           => $path,
-    //         "method"         => "DELETE",
-    //         "payload"        => $payload,
-    //         "module_code"    => "gallery",
-    //         "token"          => $token
-    //     ];
+        $params = [
+            "path"           => $path,
+            "method"         => "DELETE",
+            "payload"        => $payload,
+            "module_code"    => $this->kode,
+            "token"          => $token
+        ];
 
-    //     $response = $this->curli->request3($params);
+        $response = $this->curli->request3($params);
 
-    //     return json_decode($response, false);
-    // }
+        return json_decode($response, false);
+    }
 }

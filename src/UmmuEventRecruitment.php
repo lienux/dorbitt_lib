@@ -17,6 +17,8 @@ class UmmuEventRecruitment
 {
     public function __construct()
     {
+        $this->kode = "event_recruitment";
+        $this->path = "api/hcm/event_recruitment/";
         $this->curli = new Curl();
     }
 
@@ -31,10 +33,10 @@ class UmmuEventRecruitment
         }
 
         $params = [
-            "path"           => "api/hcm/event_recruitment/show" . $id,
+            "path"           => $this->path. "show" . $id,
             "method"         => "GET",
             "payload"        => $params['payload'],
-            "module_code"    => "event_recruitment",
+            "module_code"    => $this->kode,
             "token"          => $params['token']
         ];
 
@@ -46,10 +48,10 @@ class UmmuEventRecruitment
     public function create($params)
     {
         $params = [
-            "path"           => "api/event_management/registration/create",
+            "path"           => $this->path. "create",
             "method"         => "POST",
             "payload"        => $params['payload'],
-            "module_code"    => "event_registration",
+            "module_code"    => $this->kode,
             "token"          => $params['token']
         ];
 
@@ -58,13 +60,93 @@ class UmmuEventRecruitment
         return json_decode($response, false);
     }
 
+    public function insert($params)
+    {
+        $params = [
+            "path"           => $this->path. "create",
+            "method"         => "POST",
+            "payload"        => $params['payload'],
+            "module_code"    => $this->kode,
+            "token"          => $params['token']
+        ];
+
+        $response = $this->curli->request4($params);
+
+        // return json_decode($response, false);
+        return $response;
+    }
+
+    public function update($params)
+    {
+        $id = $params['id'];
+
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path. "update/". $id,
+                "method"         => "PUT",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+    public function posting($params)
+    {
+        $id = $params['id'];
+
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path. "posting/". $id,
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+    public function unposting($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path. "unposting",
+                "method"         => "POST",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+    public function delete($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path. "delete",
+                "method"         => "DELETE",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
     public function create_applicants($params)
     {
         $params = [
-            "path"           => "api/hcm/event_recruitment/create_applicants",
+            "path"           => $this->path. "create_applicants",
             "method"         => "POST",
             "payload"        => $params['payload'],
-            "module_code"    => "event_recruitment",
+            "module_code"    => $this->kode,
             "token"          => $params['token']
         ];
 

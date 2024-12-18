@@ -117,14 +117,14 @@ class PhotosController extends ResourceController
 
     public function delete($id = null)
     {
-        $request = $this->client->request('DELETE', $this->curlHelper->url() . 'api/berangkas_file/delete/' . $id, [
-            'http_errors' => false,
-            'headers' => $this->curlHelper->headers2('berangkas'),
-        ]);
+        $params = [
+            "id" => $id,
+            "payload" => [],
+            "token" => session()->get('token')
+        ];
 
-        $body = $request->getBody();
-        $body = json_decode($body);
+        $response = $this->ummu->delete($params);
 
-        return $this->respond($body, 200);
+        return $this->respond($response, 200);
     }
 }

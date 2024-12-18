@@ -42,7 +42,10 @@ var $ummu = {
         crud: null,
         module_kode: null,
         site_project_kode: null,
-        required_field: []
+        required_field: [],
+        index: null,
+        element_id: null,
+        arrayqu: []
     },
 
     config: {
@@ -55,9 +58,8 @@ var $ummu = {
             $ummu.gallery.button();
             $ummu.events.onChangeFileGalleryUpload();
             $ummu.events.gallery.btn_show_gallery();
+            $ummu.mygallery.autoload();
             // $ummu.events.gallery.btn_submit_file_upload();
-            $ummu.mygallery.btn_show_mygallery();
-            $ummu.mygallery.btn_select_file();
             // $('#btn_login').on('click', function(){
 
             // })
@@ -110,7 +112,38 @@ var $ummu = {
                 $('#modal_filter').modal('hide');
 
                 table.ajax.reload();
-            })
+            });
+
+            $('.btn-add-to-list').on('click', function(){
+                if ($ummu.vars.index == null) {
+                    $ummu.vars.index = 0;
+                }else{
+                    $ummu.vars.index = $ummu.vars.index + 1;
+                }
+
+                var dataInputID = $(this).attr('data-inputid');
+                $ummu.vars.element_id = dataInputID + '_list';
+                var tVal = $('#'+dataInputID).val();
+                var text = '<li class="list-group-item d-flex justify-content-between align-items-center" style="padding:0px 0px 0px 10px;" id="index'+$ummu.vars.index+'">'+
+                '<span class="list-group-item-text">'+tVal+'</span>'+
+                '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.func.remove_element_by_index('+$ummu.vars.index+');"><i class="fas fa-trash-alt"></i></button>'+
+                '</li>';
+                if (tVal) {
+                    $('#'+dataInputID+'_list').append(text);
+                }
+                $('#'+dataInputID).val('');
+
+                // console.log(text)
+            });
+
+            // $('#txtSearchProdAssign').keypress(function (e) {
+            //     var key = e.which;
+            //     if(key == 13)  // the enter key code
+            //     {
+            //         $('input[name = butAssignProd]').click();
+            //         return false;  
+            //     }
+            // });
         }
     },
 
@@ -429,6 +462,16 @@ var $ummu = {
                 // $('#modal_loader').modal('show');
                 $(this).attr('disabled', true);
                 event.preventDefault();
+            });
+        },
+
+        enter: function(inputID,buttonID) {
+            var input = document.getElementById(inputID);
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById(buttonID).click();
+                }
             });
         }
     },
@@ -2295,6 +2338,20 @@ var $ummu = {
                     return sParameterName[1];
                 }
             }
+        },
+
+        remove_element_by_index: function(index) {
+            var tVal = $('#index'+index).val();
+            $('#index'+index).remove();
+            $ummu.vars.arrayqu = $ummu.func.removeItem($ummu.vars.arrayqu, tVal);
+        },
+
+        to_array_from_span_element_by_class: function($class) {
+            const arrayqu = [];
+            $('.' + $class).each(function() {
+                arrayqu.push($(this).text());
+            });
+            return arrayqu;
         }
     },
 
@@ -3060,19 +3117,21 @@ var $ummu = {
         ids: [],
         filenames: [],
         paths: [],
+        element_inputid: null,
+        element_imageid: null,
 
-        btn_show_mygallery: function(){
+        autoload: function() {
             $('.btn-show-mygallery').on('click', function() {
-                $('#modal_loader_gallery').show();
                 var dataImage = $(this).attr('data-image');
+                var dataInputID = $(this).attr('data-inputid');
+                var dataImageID = $(this).attr('data-imageid');
+                $ummu.mygallery.element_inputid = dataInputID;
+                $ummu.mygallery.element_imageid = dataImageID;
                 $ummu.mygallery.photos.show_for_modal();
+                $('#modal_loader_gallery').show();
                 $('#modal_mygallery').modal('show');
-                // $ummu.gallery.input_id = input_id;
-                // $ummu.gallery.image_id = image_id;
-            })
-        },
+            });
 
-        btn_select_file: function() {
             $('#mygallery_btn_select_file').on('click', function() {
                 var ids = [];
                 var filenames = [];
@@ -3085,65 +3144,19 @@ var $ummu = {
                     ids.push(parseInt(id));
                     filenames.push(filename);
                     paths.push(path);
-                    // console.log(path)7uj 
                 });
 
                 $ummu.mygallery.ids = ids;
                 $ummu.mygallery.filenames = filenames;
                 $ummu.mygallery.paths = paths;
-                
-                /*buat function dan custom sendiri di project masing-masing*/
-                if (app.views.set_selected_gallery_to_frame) {
-                    app.views.set_selected_gallery_to_frame(ids,filenames,paths);
-                }
-                // app.views.set_gallery_selected_to_img(filenames)
+
+                $('#'+$ummu.mygallery.element_inputid).val(filenames);
+                $('#'+$ummu.mygallery.element_inputid).attr('data-id',ids);
+                $('#'+$ummu.mygallery.element_imageid).attr('src',paths);
 
                 $('#modal_mygallery').modal('hide');
-                // console.log(ids)
             })
         },
-
-        // button: function() {
-        //     $('#dorbitt_open_gallery').click(function() {
-        //         $('#modal_loader_gallery').show();
-        //         var dataImage = $(this).attr('data-image');
-        //         $ummu.gallery.show();
-        //         $('#modal_gallery').modal('show');
-        //         // $ummu.gallery.input_id = input_id;
-        //         // $ummu.gallery.image_id = image_id;
-        //     })
-
-        //     $('#dorbitt_open_gallery2').click(function() {
-        //         $('#modal_loader_gallery').show();
-        //         var dataImage = $(this).attr('data-image');
-        //         $ummu.gallery.show2();
-        //         $('#modal_gallery').modal('show');
-        //         // $ummu.gallery.input_id = input_id;
-        //         // $ummu.gallery.image_id = image_id;
-        //     })
-
-        //     $('#btn_select_file').click(function() {
-        //         var ids = [];
-        //         var filenames = [];
-        //         $('.dorbitt_checkbox_image_gallery:checked').each(function() {
-        //             var id = $(this).attr('id');
-        //             var filename = $(this).data('name');
-
-        //             ids.push(parseInt(id));
-        //             filenames.push(filename)
-        //             // console.log(filename)
-        //         });
-
-        //         $ummu.gallery.ids = ids;
-        //         $ummu.gallery.filenames = filenames;
-
-        //         /*buat function dan custom sendiri di project masing-masing*/
-        //         app.Views.set_gallery_selected_to_img(filenames)
-
-        //         $('#modal_gallery').modal('hide');
-        //         // console.log(ids)
-        //     })
-        // },
 
         show: function() {
             // if ($globalVar.page == 'gallery') {
@@ -3409,6 +3422,106 @@ var $ummu = {
         },
 
         photos: {
+            show: function() {
+                // if ($globalVar.page == 'gallery') {
+                //     var page = 'gallery/show';
+                // }else{
+                //     var page = $globalVar.page+'/show_gallery';
+                // }
+                var params = {
+                    // "url": $base_url+'/mygallery/photos/show',
+                    "type": "get",
+                    "action": "get",
+                    "data": {
+                        "limit":0,
+                        "offset":0,
+                        "sort": "id",
+                        "order": "desc",
+                        "search": "",
+                        "created_by": true
+                    },
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/mygallery/photos/show';
+                var ali = $ummu.ajax.ummay(url, params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $('#album_gallery').empty();
+                    for(let index in data){
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
+                        var path = data[index].path;
+                        var file_url = data[index].file_url;
+
+                        if(filename == ''){
+                            var $filename = 'no_image.jpg';
+                        }else{
+                            var $filename = filename;
+                        }
+
+                        if (description == '' || description == null) {
+                            var description_ = filename;
+                        }else{
+                            var description_ = description;
+                        }
+
+                        // var $element = '<div class="cont-checkbox mr-2">'+
+                        //     '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
+                        //     '<label for="'+id+'" class="lbl_gallery">'+
+                        //         '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                        //         '<span class="cover-checkbox">'+
+                        //             '<svg viewBox="0 0 12 10">'+
+                        //                 '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                        //             '</svg>'+
+                        //         '</span>'+
+                        //         '<div class="info">'+ description_ +'</div>'+
+                        //     '</label>'+
+                        // '</div>';
+                        // // $('#album_gallery').append($element);
+
+                        var html = '<div class="col-md-2" id="mygallery_frame'+id+'">'+
+                        '<div class="card mb-4 shadow-sm">'+
+                                // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
+                                //     '<title>Placeholder</title>'+
+                                //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
+                                // '</svg>'+
+                        '<img src="'+ file_url +'" class="img-thumbnail" alt="...">'+
+
+                        '<div class="card-body">'+
+                                    // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
+                        '<div class="d-flex justify-content-between align-items-center">'+
+                        '<div class="btn-group">'+
+                        // '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
+                        '<button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>'+
+                        '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.mygallery.photos.delete('+id+');"><i class="fas fa-trash-alt"></i></button>'+
+                        '</div>'+
+                        '<small class="text-muted">9 mins</small>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>';
+                        $('#mygallery_album_photos').append(html);
+                    }
+
+                    // console.log(response)
+
+                    // $('.pilih-berkas').click(function(){
+                    //     var $data_name = $(this).data('name');
+                    //     $ummu.mygallery.input_id.val($data_name)
+                    //     $('#modal_gallery').modal('hide')
+                    //     $ummu.mygallery.image_id.attr('src', path2)
+                    // })
+                    // $('#modal_loader_gallery').hide();
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
             show_for_modal: function() {
                 // if ($globalVar.page == 'gallery') {
                 //     var page = 'gallery/show';
@@ -3482,105 +3595,6 @@ var $ummu = {
                     // An error occurred
                 });
             },
-            show: function() {
-                // if ($globalVar.page == 'gallery') {
-                //     var page = 'gallery/show';
-                // }else{
-                //     var page = $globalVar.page+'/show_gallery';
-                // }
-                var params = {
-                    // "url": $base_url+'/mygallery/photos/show',
-                    "type": "get",
-                    "action": "get",
-                    "data": {
-                        "limit":0,
-                        "offset":0,
-                        "sort": "id",
-                        "order": "desc",
-                        "search": "",
-                        "created_by": true
-                    },
-                    "cache": true,
-                    "contentType": "application/json",
-                    "dataType": "json"
-                };
-                var url = $base_url+'/mygallery/photos/show';
-                var ali = $ummu.ajax.ummay(url, params);
-                ali.done(function(result) {
-                    var response = JSON.parse(result);
-                    $globFunc.ch_message_modal_modal(response.message);
-                    var data = response.rows;
-                    $('#album_gallery').empty();
-                    for(let index in data){
-                        var $id = data[index].id;
-                        var id = data[index].id;
-                        var filename = data[index].filename;
-                        var description = data[index].description;
-                        var path = data[index].path;
-                        var file_url = data[index].file_url;
-
-                        if(filename == ''){
-                            var $filename = 'no_image.jpg';
-                        }else{
-                            var $filename = filename;
-                        }
-
-                        if (description == '' || description == null) {
-                            var description_ = filename;
-                        }else{
-                            var description_ = description;
-                        }
-
-                        // var $element = '<div class="cont-checkbox mr-2">'+
-                        //     '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ path2 +'" />'+
-                        //     '<label for="'+id+'" class="lbl_gallery">'+
-                        //         '<img src="'+ path2 + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                        //         '<span class="cover-checkbox">'+
-                        //             '<svg viewBox="0 0 12 10">'+
-                        //                 '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                        //             '</svg>'+
-                        //         '</span>'+
-                        //         '<div class="info">'+ description_ +'</div>'+
-                        //     '</label>'+
-                        // '</div>';
-                        // // $('#album_gallery').append($element);
-
-                        var html = '<div class="col-md-2">'+
-                        '<div class="card mb-4 shadow-sm">'+
-                                // '<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">'+
-                                //     '<title>Placeholder</title>'+
-                                //     '<rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>'+
-                                // '</svg>'+
-                        '<img src="'+ file_url +'" class="img-thumbnail" alt="...">'+
-
-                        '<div class="card-body">'+
-                                    // '<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>'+
-                        '<div class="d-flex justify-content-between align-items-center">'+
-                        '<div class="btn-group">'+
-                        '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>'+
-                        '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>'+
-                        '</div>'+
-                        '<small class="text-muted">9 mins</small>'+
-                        '</div>'+
-                        '</div>'+
-                        '</div>'+
-                        '</div>';
-                        $('#mygallery_album_photos').append(html);
-                    }
-
-                    // console.log(response)
-
-                    // $('.pilih-berkas').click(function(){
-                    //     var $data_name = $(this).data('name');
-                    //     $ummu.mygallery.input_id.val($data_name)
-                    //     $('#modal_gallery').modal('hide')
-                    //     $ummu.mygallery.image_id.attr('src', path2)
-                    // })
-                    // $('#modal_loader_gallery').hide();
-                }).fail(function() {
-                    // An error occurred
-                });
-            },
             btn_mygallery_photos_submit: function() {
                 $('#btn_mygallery_photos_submit').on('click', function() {
                     if ($('#file_upload').val() == '') {
@@ -3649,7 +3663,27 @@ var $ummu = {
                         })  
                     }
                 })
-            }
+            },
+            delete: function(id) {
+                var params = {
+                    "type": "delete",
+                    "action": "delete",
+                    "data": {},
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+                var url = $base_url+'/mygallery/photos/delete/'+id;
+                var ali = $ummu.ajax.ummay(url, params);
+                ali.done(function(result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $('#mygallery_frame'+id).remove();
+                    }
+                }).fail(function() {
+                    // An error occurred
+                });
+            },
         }
     },
 
@@ -4146,6 +4180,14 @@ var $ummu = {
                         table.button('#dt_btn_edit').disable();
                         table.button('#dt_btn_delete').disable();
                     }
+
+                    if ($ummu.vars.module_kode == 'event_recruitment') {
+                        if (count_selc == 1) {
+                            table.button('#dt_btn_open_recruitment').enable();
+                        }else{
+                            table.button('#dt_btn_open_recruitment').disable();
+                        }
+                    }
                 },
 
                 showhide1: function(){
@@ -4225,6 +4267,10 @@ var $ummu = {
                     $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
                     // $('#modal_btn_edit').prop('disabled', true);
                 }
+            },
+
+            recruitment: function() {
+                $('#dt_btn_open_recruitment').prop('disabled', true);
             }
         },
 
