@@ -25,7 +25,7 @@ class UmmuHazardReport
         $this->gHelp = new GlobalHelper();
         $this->umHelp = new UmmuHelper();
         
-        // $this->umHelp->autoHelper($this->kode);
+        $this->umHelp->autoHelper($this->kode);
         $this->urli = 'api/she/hazard_report/';
     }
 

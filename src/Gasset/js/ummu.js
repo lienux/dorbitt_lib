@@ -4122,7 +4122,7 @@ var $ummu = {
                     }
 
                     var count_selc = $ummu.dt.select.count();
-                    // console.log(crud);
+                    console.log(crud);
 
                     // c,rall,u,d,admin
                     // 0,1   ,2,3,4
@@ -4186,6 +4186,160 @@ var $ummu = {
                             table.button('#dt_btn_open_recruitment').enable();
                         }else{
                             table.button('#dt_btn_open_recruitment').disable();
+                        }
+                    }
+
+                    if ($ummu.vars.module_kode == 'she_hazard_report') {
+                        if (count_selc >= 1) {
+                            table.button('#btn_release').enable();
+                        }else{
+                            table.button('#btn_release').disable();
+                        }
+                    }
+
+                    // table.button('#btn_edit').disable();
+                    // table.button('#btn_approve').disable();
+                    // table.button('#btn_reject').disable();
+                    // table.button('#btn_release').disable();
+                    // table.button('#btn_multi_delete').disable();
+                },
+
+                crud_hzr: function(action = null) {
+                    // var crud = JSON.parse($ummu.vars.crud);
+                    var text = $ummu.cookie.getCookie('crud');
+                    var a = $ummu.vars.nav_tab;
+
+                    // var crud = text.replaceAll("-", ",");
+                    if (text != '' || text != 0) {
+                        var crud = text.split("-");
+                    }else{
+                        var crud = '';
+                    }
+
+                    var count_selc = $ummu.dt.select.count();
+                    // console.log(crud);
+                    // console.log(crud);
+                    // console.log(count_selc);
+
+                    // c,rall,u,d,admin
+                    // 0,1   ,2,3,4
+
+                    // if (crud) {
+                    //     if (crud[0] == 1) {
+                    //         if (count_selc == 1) {
+                    //             table.button('#btn_new').disable();
+                    //             table.button('#dt_btn_new').disable();
+                    //         }else if (count_selc > 1) {
+                    //             table.button('#btn_new').disable();
+                    //             table.button('#dt_btn_new').disable();
+                    //         }else{
+                    //             table.button('#btn_new').enable();
+                    //             table.button('#dt_btn_new').enable();
+                    //         }
+
+                    //         if (action == 'new') {
+                    //             $('.modal_btn_edit').prop('disabled', true);
+                    //             $('.modal_btn_save').prop('disabled', false);
+                    //         }
+                    //     }else{
+                    //         table.button('#btn_new').disable();
+                    //         table.button('#dt_btn_new').disable();
+                    //     }
+
+                    //     if (crud[2] == 1) {
+                    //         if (count_selc == 1) {
+                    //             table.button('#dt_btn_edit').enable();
+                    //         }else if (count_selc > 1) {
+                    //             table.button('#dt_btn_edit').disable();
+                    //         }else{
+                    //             table.button('#dt_btn_edit').disable();
+                    //         }
+
+                    //         if (action == 'edit') {
+                    //             $('.modal_btn_edit').prop('disabled', false);
+                    //             $('.modal_btn_save').prop('disabled', true);
+                    //         }
+                    //     }else{
+                    //         table.button('#dt_btn_edit').disable();
+                    //     }
+
+                    //     if (crud[3] == 1) {
+                    //         if (count_selc > 0) {
+                    //             table.button('#dt_btn_delete').enable();
+                    //         }else{
+                    //             table.button('#dt_btn_delete').disable();
+                    //         }
+                    //     }else{
+                    //         table.button('#dt_btn_delete').disable();
+                    //     }
+                    // }else{
+                    //     table.button('#dt_btn_new').enable();
+                    //     table.button('#dt_btn_edit').disable();
+                    //     table.button('#dt_btn_delete').disable();
+                    // }
+
+                    // if ($ummu.vars.module_kode == 'event_recruitment') {
+                    //     if (count_selc == 1) {
+                    //         table.button('#dt_btn_open_recruitment').enable();
+                    //     }else{
+                    //         table.button('#dt_btn_open_recruitment').disable();
+                    //     }
+                    // }
+
+                    // if ($ummu.vars.module_kode == 'she_hazard_report') {
+                    //     if (count_selc >= 1) {
+                    //         table.button('#btn_release').enable();
+                    //     }else{
+                    //         table.button('#btn_release').disable();
+                    //     }
+                    // }
+
+                    // table.button('#btn_edit').disable();
+                    // table.button('#btn_approve').disable();
+                    // table.button('#btn_reject').disable();
+                    // table.button('#btn_release').disable();
+                    // table.button('#btn_multi_delete').disable();
+
+                    
+
+                    // c,rall,u,d,admin
+                    // 0,1   ,2,3,4
+
+                    // console.log(crud)
+
+                    if (a === 0 || a === 3 ) {
+                        if ($ummu.dt.select.count() > 0) {
+                            table.button('#dt_btn_new').disable();
+                            table.button('#dt_btn_edit').disable();
+                            table.button('#dt_btn_release').enable();
+                            table.button('#dt_btn_delete').enable();
+
+                        }else{
+                            table.button('#dt_btn_new').enable();
+                            table.button('#dt_btn_edit').enable();
+                            table.button('#dt_btn_release').disable();
+                            table.button('#dt_btn_delete').disable();
+                        }
+                        // $ummu.views.button.dt.showhide_edit();
+
+                        if ($ummu.dt.select.count() == 1) {
+                            table.button('#dt_btn_edit').enable();
+                        }else{
+                            table.button('#dt_btn_edit').disable();
+                        }
+                    }
+
+                    if (a == 1) {
+                        if (crud) {
+                            if (crud[4] == 1) {
+                                if ($ummu.dt.select.count() > 0) {
+                                    table.button('#dt_btn_approve').enable();
+                                    table.button('#dt_btn_reject').enable();
+                                }else{
+                                    table.button('#dt_btn_approve').disable();
+                                    table.button('#dt_btn_reject').disable();
+                                }
+                            }
                         }
                     }
                 },

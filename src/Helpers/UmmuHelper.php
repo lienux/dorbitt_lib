@@ -30,7 +30,7 @@ class UmmuHelper
         if ($page_kode) {
             if ($modules) {
                 foreach ($modules as $key => $value) {
-                    if ($value->kode == $page_kode) {
+                    if ($value->kode === $page_kode) {
                         $data = $value->crud;
                         if ($data) {
                             $crud = str_replace(',','-',$data);
