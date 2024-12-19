@@ -90,7 +90,8 @@ class UmmuEventRecruitment
             ]
         );
 
-        return json_decode($response, false);
+        // return json_decode($response, false);
+        return $response;
     }
 
     public function posting($params)
