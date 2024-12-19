@@ -20,20 +20,16 @@ class UmmuHazardReport
     public function __construct()
     {
         $this->kode = "she_hazard_report";
-
         $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
-        $this->umHelp = new UmmuHelper();
-        
-        $this->umHelp->autoHelper($this->kode);
-        $this->urli = 'api/she/hazard_report/';
+        $this->path = 'api/she/hazard_report/';
     }
 
     public function show($params)
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "show",
+                "path"           => $this->path . "show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
@@ -47,7 +43,7 @@ class UmmuHazardReport
     public function insert($params)
     {
         $response = $this->curli->request4([
-            "path"           => $this->urli. "create",
+            "path"           => $this->path. "create",
             "method"         => "POST",
             "payload"        => $params["payload"],
             "module_code"    => $this->kode,
@@ -61,7 +57,7 @@ class UmmuHazardReport
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "delete",
+                "path"           => $this->path. "delete",
                 "method"         => "DELETE",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
@@ -78,7 +74,7 @@ class UmmuHazardReport
 
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "update/". $id,
+                "path"           => $this->path. "update/". $id,
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
@@ -93,7 +89,7 @@ class UmmuHazardReport
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "release",
+                "path"           => $this->path. "release",
                 "method"         => "POST",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
@@ -108,7 +104,7 @@ class UmmuHazardReport
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "approve",
+                "path"           => $this->path. "approve",
                 "method"         => "POST",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
@@ -123,7 +119,7 @@ class UmmuHazardReport
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli. "update_release",
+                "path"           => $this->path. "update_release",
                 "method"         => "PUT",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,

@@ -21,7 +21,7 @@ class UmmuHelper
         helper('cookie');
     }
 
-    public function autoHelper($page_kode = null)
+    public function vcrud($page_kode = null)
     {
         $modules = session()->get('dorbitt_modules');
 
@@ -50,6 +50,42 @@ class UmmuHelper
         $httpOnly = false;
         $sameSite = '';
         set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httpOnly, $sameSite);
+        return $page_kode;
+    }
+
+    public function autoHelper($page_kode = null)
+    {
+        $uri = service('uri');
+        $modKode =  $uri->getSegment(2);
+
+        $modules = session()->get('dorbitt_modules');
+
+        $crud = 0;
+
+        if ($page_kode) {
+            if ($modules) {
+                foreach ($modules as $key => $value) {
+                    if ($value->kode === $page_kode) {
+                        $data = $value->crud;
+                        if ($data) {
+                            $crud = str_replace(',','-',$data);
+                        }
+                    }
+                }
+            }
+        }
+
+        $name = 'crud';
+        $value = $crud;
+        $expire = 0;
+        $domain = '';
+        $path = '/';
+        $prefix = '';
+        $secure = '';
+        $httpOnly = false;
+        $sameSite = '';
+        set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httpOnly, $sameSite);
+        return $page_kode;
     }
 
     public function limit()
