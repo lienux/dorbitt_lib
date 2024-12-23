@@ -22,6 +22,7 @@ var $ummu = {
 
     vars: {
         id: null,
+        ids: null,
         base_url: null,
         page_url: null,
         page: null,
@@ -4841,7 +4842,96 @@ var $ummu = {
     },
 
     dt: {
+        load: function() {
+            $ummu.dt.var_id();
+            $ummu.dt.button.crud();
+
+            table.on('click', 'tbody tr td:first-child', function () {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on('dblclick', 'tbody tr', function () {
+                var row = table.row(this).data();
+                $ummu.vars.id = row.id;
+                // console.log(row);
+
+                // $ummu.vars.site_project_kode = row.site_project_kode;
+                // // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                // // $('#form_entry_data input').prop('disabled', true);
+                app.config.routes.dt_tbody_tr_dblclick(row);
+                // $ummu.views.hazard_report.button_in_modal_form();
+                // // $('#modal_btn_edit, #modal_btn_save')
+            });
+
+            table.on( 'select', function ( e, dt, type, indexes ) {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on( 'deselect', function ( e, dt, type, indexes ) {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on('mouseenter', 'td', function () {
+                let colIdx = table.cell(this).index().column;
+                table
+                .cells()
+                .nodes()
+                .each((el) => el.classList.remove('highlight'));
+
+                table
+                .column(colIdx)
+                .nodes()
+                .each((el) => el.classList.add('highlight'));
+            });
+        },
         select: {
+            load: function() {
+                // table.on('click', 'tbody tr td:first-child', function () {
+                //     if (table.row(':eq(0)').selected()) {
+                //         // $ummu.dt.button.crud();
+                //     }
+                //     else {
+                //         // $ummu.dt.button.crud();
+                //     }
+                // });
+
+                // table.on('dblclick', 'tbody tr', function () {
+                //     /*var row = table.row(this).data();
+                //     $ummu.vars.id = row.id;
+                //     $ummu.vars.site_project_kode = row.site_project_kode;
+                //     // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                //     // $('#form_entry_data input').prop('disabled', true);
+                //     app.controllers.edit(row);
+                //     $ummu.views.hazard_report.button_in_modal_form();
+                //     // $('#modal_btn_edit, #modal_btn_save')*/
+                // });
+
+                // table.on( 'select', function ( e, dt, type, indexes ) {
+                //     $ummu.dt.button.crud();
+                // });
+
+                // table.on( 'deselect', function ( e, dt, type, indexes ) {
+                //     $ummu.dt.button.crud();
+                // });
+
+                // table.on('mouseenter', 'td', function () {
+                //     let colIdx = table.cell(this).index().column;
+                //     table
+                //     .cells()
+                //     .nodes()
+                //     .each((el) => el.classList.remove('highlight'));
+
+                //     table
+                //     .column(colIdx)
+                //     .nodes()
+                //     .each((el) => el.classList.add('highlight'));
+                // });
+
+                // $ummu.dt.button.crud();
+            },
             count: function() {
                 return table.rows( { selected: true } ).count();
             },
@@ -4850,14 +4940,23 @@ var $ummu = {
             },
             getRow: function(tbName) {
                 return tbName.row({selected: true}).data();
-            }
-        },
-        after_cud: function() {
-            $ummu.views.button.dt.showhide1();
-            $('#text_loader').html('');
+            },
         },
         button: {
             crud: function() {
+                var count_selc = $ummu.dt.select.count();
+                if (count_selc == 1) {
+                    var rows = $ummu.dt.select.data();
+                    $ummu.vars.id = rows[0].id;
+                    // console.log(rows[0])
+                }else if (count_selc > 1) {
+                    var rows = $ummu.dt.select.data();
+                }else{
+                    $ummu.vars.id = null;
+                    $ummu.vars.ids = null;
+                }
+
+
                 // var crud = JSON.parse($ummu.vars.crud);
                 var text = $ummu.cookie.getCookie('crud');
                 var tab = $ummu.vars.nav_tab;
@@ -4867,9 +4966,57 @@ var $ummu = {
                 }else{
                     var crud = '';
                 }
-                var count_selc = $ummu.dt.select.count();
 
                 if (crud) {
+                    if (crud[0] == 1) {
+                        if (count_selc == 1) {
+                            table.button('#btn_new').disable();
+                            table.button('#dt_btn_new').disable();
+                        }else if (count_selc > 1) {
+                            table.button('#btn_new').disable();
+                            table.button('#dt_btn_new').disable();
+                        }else{
+                            table.button('#btn_new').enable();
+                            table.button('#dt_btn_new').enable();
+                        }
+
+                        // if (action == 'new') {
+                        //     $('.modal_btn_edit').prop('disabled', true);
+                        //     $('.modal_btn_save').prop('disabled', false);
+                        // }
+                    }else{
+                        table.button('#btn_new').disable();
+                        table.button('#dt_btn_new').disable();
+                    }
+
+                    if (crud[2] == 1) {
+                        if (count_selc == 1) {
+                            table.button('#dt_btn_edit').enable();
+                        }else if (count_selc > 1) {
+                            table.button('#dt_btn_edit').disable();
+                        }else{
+                            table.button('#dt_btn_edit').disable();
+                        }
+
+                        // if (action == 'edit') {
+                        //     $('.modal_btn_edit').prop('disabled', false);
+                        //     $('.modal_btn_save').prop('disabled', true);
+                        // }
+                    }else{
+                        table.button('#dt_btn_edit').disable();
+                    }
+
+                    if (crud[3] == 1) {
+                        if (count_selc > 0) {
+                            table.button('#dt_btn_delete').enable();
+                        }else{
+                            table.button('#dt_btn_delete').disable();
+                        }
+                    }else{
+                        table.button('#dt_btn_delete').disable();
+                    }
+                    
+
                     if ($ummu.vars.module_kode == 'she_hazard_report') {
                         // table.button('#dt_btn_new').disable();
                         table.button('#dt_btn_edit').disable();
@@ -5022,6 +5169,10 @@ var $ummu = {
                         //     table.button('#dt_btn_edit').disable();
                         // }
                     }
+                }else{
+                    table.button('#dt_btn_new').enable();
+                    table.button('#dt_btn_edit').disable();
+                    table.button('#dt_btn_delete').disable();
                 }
             },
             edit: function(){
@@ -5031,7 +5182,36 @@ var $ummu = {
                     table.button('#dt_btn_edit').disable();
                 }
             }            
-        }
+        },
+        after_cud: function() {
+            $ummu.views.button.dt.showhide1();
+            $('#text_loader').html('');
+        },
+        var_id: function() {
+            var count_selc = $ummu.dt.select.count();
+
+            if (count_selc == 1) {
+                var rows = $ummu.dt.select.data();
+                $ummu.vars.id = rows[0].id;
+                $ummu.vars.ids = null;
+
+                // console.log('sama dengan 1');
+            }
+
+            if (count_selc > 1) {
+                var rows = $ummu.dt.select.data();
+                $ummu.vars.id = null;
+
+                // console.log('lebih dari 1');
+            }
+
+            if (count_selc == 0) {
+                $ummu.vars.id = null;
+                $ummu.vars.ids = null;
+
+                // console.log('tidak ada yg terpilih');
+            }
+        },
     },
 
     localStorage: {

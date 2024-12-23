@@ -11,6 +11,10 @@ namespace Dorbitt\Helpers;
  * =============================================
  */
 
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Config\Services;
+
 class UmmuHelper
 {
     protected $helpers = ['cookie'];
@@ -768,5 +772,11 @@ class UmmuHelper
             }
             return $data;
         }
+    }
+
+    public function setopt()
+    {
+        $setopt = $this->request->header("Set-Option");
+        return $setopt->getValue();
     }
 }

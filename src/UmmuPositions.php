@@ -54,7 +54,6 @@ class UmmuPositions
             "token"          => $params["token"]
         ]);
 
-        // return json_decode($response, false);
         return $response;
     }
 
@@ -87,6 +86,6 @@ class UmmuPositions
             ]
         );
 
-        return json_decode($response, false);
+        return $response;
     }
 }
