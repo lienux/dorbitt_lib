@@ -30,7 +30,7 @@ class UmmuSaham
         //         "path"           => $this->urli . "show",
         //         "method"         => "GET",
         //         "payload"        => $params['payload'],
-        //         "module_code"    => "she_hazard_report",
+        //         "module_code"    => "saham_endofday",
         //         "token"          => $params['token']
         //     ]
         // );
@@ -42,7 +42,7 @@ class UmmuSaham
     {
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "endofday/show",
+                "path"           => $this->urli. "endofday/show",
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => "saham_endofday",
@@ -51,6 +51,19 @@ class UmmuSaham
         );
 
         return json_decode($response, false);
+    }
+
+    public function insert_endofday($params)
+    {
+        $response = $this->curli->request4([
+            "path"           => $this->urli. "endofday/create",
+            "method"         => "POST",
+            "payload"        => $params["payload"],
+            "module_code"    => "saham_endofday",
+            "token"          => $params["token"]
+        ]);
+
+        return $response;
     }
 
     public function insert($params)
