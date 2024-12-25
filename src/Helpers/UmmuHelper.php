@@ -440,7 +440,7 @@ class UmmuHelper
     public function _rowsBui($builder)
     {
         $rows = $builder->limit($this->limit(), $this->offset())
-            ->get()->getResult();
+        ->get()->getResult();
         return $rows;
     }
 
@@ -779,4 +779,25 @@ class UmmuHelper
         $setopt = $this->request->header("Set-Option");
         return $setopt->getValue();
     }
+
+    public function mailtextoarr($text)
+    {
+       // $text = trim($text,"\n"); //buang  a new line (line feed).
+       $text = str_replace(" ", "", $text); //buang semua character spasi
+       $text = trim(preg_replace('/\s+/', '', $text)); //buang character enter
+       $text = trim(preg_replace('/\s\s+/', '', $text)); //buang character enter
+       $text = str_replace(";;", ";", $text); //buang semua character spasi
+       if (substr($text,0,1) == ';') {
+           $text = ltrim($text, ';');
+       }
+       if (substr($text,-1) == ';') {
+           $text = substr($text, 0, -1);
+           // atau
+           // $text = substr_replace($text, '', -1);
+       }
+       $arr = explode(";", $text); //jadikan array
+       $arr = array_filter($arr); //buang array dengan isi kosong
+
+       return $arr;
+   }
 }

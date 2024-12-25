@@ -73,6 +73,20 @@ class BuilderHelper
             }
         }
 
+        if (isset($params['plant_id'])) {
+            $plant_id = $params['plant_id'];
+            if ($plant_id) {
+                $builder->where('plant_id', $plant_id);
+            }
+        }
+
+        if (isset($params['site_project_id'])) {
+            $site_project_id = $params['site_project_id'];
+            if ($site_project_id) {
+                $builder->where('site_project_id', $site_project_id);
+            }
+        }
+
         if ($id) {
 
             $builder->where('id',$id);
@@ -171,6 +185,20 @@ class BuilderHelper
         if (isset($params['account_id'])) {
             $account_id = $params['account_id'];
             $builder->where('created_by', $account_id);
+        }
+
+        if (isset($params['site_project_id'])) {
+            $site_project_id = $params['site_project_id'];
+            if ($site_project_id) {
+                $builder->where('site_project_id', $site_project_id);
+            }
+        }
+
+        if (isset($params['site_project_id'])) {
+            $site_project_id = $params['site_project_id'];
+            if ($site_project_id) {
+                $builder->where('site_project_id', $site_project_id);
+            }
         }
 
         if ($id) {
