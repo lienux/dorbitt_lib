@@ -11,119 +11,55 @@ namespace Dorbitt;
 * =============================================
 */
 
-use Dorbitt\Curl;
+use Dorbitt\Helpers\CurlHelper;
+use Dorbitt\Helpers\UmmuHelper;
+use Dorbitt\Helpers\GlobalHelper;
 
 class UmmuPomailer
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->kode = "po_mailer";
+        $this->curli = new CurlHelper();
+        $this->gHelp = new GlobalHelper();
+        $this->path = "api/purchase/po/po_mailer/";
     }
 
     public function show($params)
     {
         $id = $params['id'];
-        $payload = $params['payload'];
-        $token = $params['token'];
         
         if ($id) {
-            $path = "api/purchase/po/po_mailer/show/" . $id;
+            $show = "show/" . $id;
         }else{
-            $path = "api/purchase/po/po_mailer/show";
+            $show = "show";
         }
 
-        $params = [
-            "path"           => $path,
-            "method"         => "GET",
-            "payload"        => $payload,
-            "module_code"    => "po_mailer",
-            "token"          => $token
-        ];
-
-        $response = $this->curli->request3($params);
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path . $show,
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
 
         return json_decode($response, false);
     }
 
-    // public function show_gedung($params)
-    // {
-    //     $payload = $params['payload'];
-    //     $token = $params['token'];
-        
-    //     $path = "api/ruangan/show_gedung";
+    public function insert($params)
+    {
+        $response = $this->curli->request4([
+            "path"           => $this->path. "create",
+            "method"         => "POST",
+            "payload"        => $params["payload"],
+            "module_code"    => $this->kode,
+            "token"          => $params["token"]
+        ]);
 
-    //     $params = [
-    //         "path"           => $path,
-    //         "method"         => "GET",
-    //         "payload"        => $payload,
-    //         "module_code"    => "ruangan",
-    //         "token"          => $token
-    //     ];
-
-    //     $response = $this->curli->request3($params);
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function show_roomcateg($params)
-    // {
-    //     $payload = $params['payload'];
-    //     $token = $params['token'];
-        
-    //     $path = "api/ruangan/show_roomcateg";
-
-    //     $params = [
-    //         "path"           => $path,
-    //         "method"         => "GET",
-    //         "payload"        => $payload,
-    //         "module_code"    => "ruangan",
-    //         "token"          => $token
-    //     ];
-
-    //     $response = $this->curli->request3($params);
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function show_gallery($params)
-    // {
-    //     $payload = $params['payload'];
-    //     $token = $params['token'];
-        
-    //     $path = "api/ruangan/show_gallery";
-
-    //     $params = [
-    //         "path"           => $path,
-    //         "method"         => "GET",
-    //         "payload"        => $payload,
-    //         "module_code"    => "ruangan",
-    //         "token"          => $token
-    //     ];
-
-    //     $response = $this->curli->request3($params);
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function insert($params)
-    // {
-    //     $payload = $params['payload'];
-    //     $token = $params['token'];
-        
-    //     $path = "api/ruangan/create";
-
-    //     $params = [
-    //         "path"           => $path,
-    //         "method"         => "POST",
-    //         "payload"        => $payload,
-    //         "module_code"    => "ruangan",
-    //         "token"          => $token
-    //     ];
-
-    //     $response = $this->curli->request3($params);
-
-    //     return json_decode($response, false);
-    // }
+        return json_decode($response, false);
+    }
 
     // public function update($params)
     // {

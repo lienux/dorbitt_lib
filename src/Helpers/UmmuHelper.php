@@ -801,8 +801,9 @@ class UmmuHelper
        $email_arr = [];
        if ($arr) {
             foreach ($arr as $key => $value) {
-                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $email_arr[] = $value;
+                $em = filter_var($value, FILTER_SANITIZE_EMAIL); // Remove all illegal characters from email
+                if (filter_var($em, FILTER_VALIDATE_EMAIL)) { // Validate e-mail
+                    $email_arr[] = $em;
                 }
             }
        }
