@@ -12,13 +12,13 @@ namespace Dorbitt;
 */
 
 // use CodeIgniter\HTTP\IncomingRequest;
-use Dorbitt\Curl;
+use Dorbitt\Helpers\CurlHelper;
 
 class UmmuLogs
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->curli = new CurlHelper();
         $this->request  = \Config\Services::request();
     }
 
@@ -104,5 +104,19 @@ class UmmuLogs
         fwrite($fp, "IP Address: " . $ip . "<br>" . "\n");
         fwrite($fp, $headers . "<br>" . "\n");
         fwrite($fp, "Body: " . json_encode($text) . "<br>" . "\n");
+    }
+
+    public function create4($response)
+    {
+        if (!is_dir(FCPATH . "logs")) {
+            exec("sudo mkdir " . FCPATH . "logs");
+        }
+        if (!is_file(FCPATH . "logs/run_po_new_" . date("Y-m-d") . '.html')) {
+            exec("sudo touch " . FCPATH . "logs/run_po_new_" . date("Y-m-d") . '.html');
+        }
+        exec("sudo chmod -R 777 " . FCPATH . "logs/");
+        $fp = fopen('logs/run_po_new_' . date("Y-m-d") . '.html', 'a');
+        fwrite($fp, "<p>" . date("Y-m-d H:i:s") . "<br>" . "\n");
+        fwrite($fp, json_encode($response) . "<br>" . "\n");
     }
 }

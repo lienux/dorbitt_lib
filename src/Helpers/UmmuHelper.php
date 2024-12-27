@@ -782,32 +782,56 @@ class UmmuHelper
 
     public function mailtextoarr($text)
     {
-       // $text = trim($text,"\n"); //buang  a new line (line feed).
-       $text = str_replace(" ", "", $text); //buang semua character spasi
-       $text = trim(preg_replace('/\s+/', '', $text)); //buang character enter
-       $text = trim(preg_replace('/\s\s+/', '', $text)); //buang character enter
-       $text = str_replace(";;", ";", $text); //buang semua character spasi
-       if (substr($text,0,1) == ';') {
-           $text = ltrim($text, ';');
-       }
-       if (substr($text,-1) == ';') {
-           $text = substr($text, 0, -1);
-           // atau
-           // $text = substr_replace($text, '', -1);
-       }
-       $arr = explode(";", $text); //jadikan array
-       $arr = array_filter($arr); //buang array dengan isi kosong
+        $text = str_replace(" ", "", $text); //buang semua character spasi
+        $text = trim(preg_replace('/\s+/', '', $text)); //buang character enter
+        $text = trim(preg_replace('/\s\s+/', '', $text)); //buang character enter
+        $text = str_replace(";;", ";", $text); //buang semua character spasi
+        if (substr($text,0,1) == ';') {
+            $text = ltrim($text, ';');
+        }
+        if (substr($text,-1) == ';') {
+            $text = substr($text, 0, -1); // atau // $text = substr_replace($text, '', -1);
+        }
+        $arr = explode(";", $text); //jadikan array
+        $arr = array_filter($arr); //buang array dengan isi kosong
 
-       $email_arr = [];
-       if ($arr) {
+        $email_arr = [];
+        if ($arr) {
             foreach ($arr as $key => $value) {
                 $em = filter_var($value, FILTER_SANITIZE_EMAIL); // Remove all illegal characters from email
                 if (filter_var($em, FILTER_VALIDATE_EMAIL)) { // Validate e-mail
                     $email_arr[] = $em;
                 }
             }
-       }
+        }
 
-       return $email_arr;
-   }
+        return $email_arr;
+    }
+
+    public function smtp_error($message)
+    {
+        $smtp_error = null;
+
+        if (strpos($message, 'SMTP Error: Could not connect to SMTP host.') !== false) {
+            $smtp_error = "SMTP Error: Could not connect to SMTP host.";
+        }
+
+        if (strpos($message, 'SMTP Error: data not accepted.') !== false) {
+            $smtp_error = "SMTP Error: data not accepted.";
+        }
+
+        if (strpos($message, 'SMTP Error: Could not authenticate.') !== false) {
+            $smtp_error = "SMTP Error: Could not authenticate.";
+        }
+
+        if (strpos($message, 'SMTP server error: Called QUIT without being connected') !== false) {
+            $smtp_error = "SMTP server error: Called QUIT without being connected";
+        }
+
+        if (strpos($message, "Kuota pengiriman email anda sudah penuh") !== false) {
+            $smtp_error = "Kuota pengiriman email anda sudah penuh";
+        }
+
+        return $smtp_error;
+    }
 }
