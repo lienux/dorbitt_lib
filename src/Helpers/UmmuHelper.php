@@ -798,6 +798,15 @@ class UmmuHelper
        $arr = explode(";", $text); //jadikan array
        $arr = array_filter($arr); //buang array dengan isi kosong
 
-       return $arr;
+       $email_arr = [];
+       if ($arr) {
+            foreach ($arr as $key => $value) {
+                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $email_arr[] = $value;
+                }
+            }
+       }
+
+       return $email_arr;
    }
 }
