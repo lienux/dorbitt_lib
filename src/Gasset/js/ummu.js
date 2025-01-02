@@ -40,6 +40,7 @@ var $ummu = {
         show_col_images: localStorage.getItem('show_col_images'),
         show_col_id: localStorage.getItem('show_col_id'),
         nav_tab: null,
+        nav_tab_id: null,
         crud: null,
         module_kode: null,
         site_project_kode: null,
@@ -64,7 +65,7 @@ var $ummu = {
             // $('#btn_login').on('click', function(){
 
             // })
-            $('.nav-tabs .nav-link').on('click', function(){
+            $('nav .nav-tabs .nav-link').on('click', function(){
                 var nav_tab_id = $(this).attr('id');
                 localStorage.setItem('nav_tab_id', nav_tab_id);
             })
@@ -166,6 +167,7 @@ var $ummu = {
             //     $('#modal_confirmation_multiple_delete').modal('show')
             // })
         },
+
         onChangeFileGalleryUpload: function(){
             $('#file_upload').change(function() {
                 var $id = $('#upload_img_thumbnail');
@@ -474,7 +476,14 @@ var $ummu = {
                     document.getElementById(buttonID).click();
                 }
             });
-        }
+        },
+
+        nav_tabs: function() {
+            $('nav #nav-tab .nav-link').on('click', function(){
+                var id = $(this).attr('id');
+                console.log(id)
+            });
+        },
     },
 
     helpers: {
@@ -532,7 +541,7 @@ var $ummu = {
                 '<a class="edit" href="javascript:void(0)" title="Edit">',
                 '<i class="fas fa-edit"></i>',
                 '</a>'
-                ];
+            ];
         },
 
         detailFormatter: function(index, row) {
@@ -2006,6 +2015,90 @@ var $ummu = {
 
                 var params = {
                     "url": url + 'reject',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(params)
+
+                $('#text_loader').html('Reject in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_reject_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            }
+        },
+
+        applicant: {
+            approve: function() {
+                var rows = $ummu.vars.rows;
+                var url = globalVar.pageUrl;
+                var r = [];
+                $.each(rows, function( index, value ) {
+                    r[index] = {};
+                    r[index] = value.id;
+                });
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "ids": r
+                    }
+                });
+
+                var params = {
+                    "url": $ummu.vars.page_url + 'approve',
+                    "type": "put",
+                    "action": "update",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(params)
+
+                $('#text_loader').html('Approve in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_approve_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                        // An error occurred
+                    console.log(ummu)
+                });
+            },
+            reject: function() {
+                var rows = $ummu.vars.rows;
+                var r = [];
+                $.each(rows, function( index, value ) {
+                    r[index] = {};
+                    r[index] = value.id;
+                });
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "ids": r
+                    }
+                });
+
+                var params = {
+                    "url": $ummu.vars.page_url + 'reject',
                     "type": "put",
                     // "action": "insert",
                     "data": payload,
@@ -4571,7 +4664,7 @@ var $ummu = {
                 '</span> <span class="text-info">To: </span><span class="badge badge-warning font-weight-normal">' + filter.datetime_detail.to + ' </span>';
                 table.column(0).footer().innerHTML = html
             }
-        }
+        },
     },
 
     formatter: {
@@ -4889,33 +4982,34 @@ var $ummu = {
         },
         select: {
             load: function() {
-                // table.on('click', 'tbody tr td:first-child', function () {
-                //     if (table.row(':eq(0)').selected()) {
-                //         // $ummu.dt.button.crud();
-                //     }
-                //     else {
-                //         // $ummu.dt.button.crud();
-                //     }
-                // });
+                table.on('click', 'tbody tr td:first-child', function () {
+                    if (table.row(':eq(0)').selected()) {
+                        $ummu.dt.button.crud();
+                    }
+                    else {
+                        $ummu.dt.button.crud();
+                    }
+                    // console.log("OK")
+                });
 
-                // table.on('dblclick', 'tbody tr', function () {
-                //     /*var row = table.row(this).data();
-                //     $ummu.vars.id = row.id;
-                //     $ummu.vars.site_project_kode = row.site_project_kode;
-                //     // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
-                //     // $('#form_entry_data input').prop('disabled', true);
-                //     app.controllers.edit(row);
-                //     $ummu.views.hazard_report.button_in_modal_form();
-                //     // $('#modal_btn_edit, #modal_btn_save')*/
-                // });
+                table.on('dblclick', 'tbody tr', function () {
+                    /*var row = table.row(this).data();
+                    $ummu.vars.id = row.id;
+                    $ummu.vars.site_project_kode = row.site_project_kode;
+                    // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                    // $('#form_entry_data input').prop('disabled', true);
+                    app.controllers.edit(row);
+                    $ummu.views.hazard_report.button_in_modal_form();
+                    // $('#modal_btn_edit, #modal_btn_save')*/
+                });
 
-                // table.on( 'select', function ( e, dt, type, indexes ) {
-                //     $ummu.dt.button.crud();
-                // });
+                table.on( 'select', function ( e, dt, type, indexes ) {
+                    $ummu.dt.button.crud();
+                });
 
-                // table.on( 'deselect', function ( e, dt, type, indexes ) {
-                //     $ummu.dt.button.crud();
-                // });
+                table.on( 'deselect', function ( e, dt, type, indexes ) {
+                    $ummu.dt.button.crud();
+                });
 
                 // table.on('mouseenter', 'td', function () {
                 //     let colIdx = table.cell(this).index().column;
@@ -4944,6 +5038,13 @@ var $ummu = {
         },
         button: {
             crud: function() {
+                table.button('#dt_btn_edit').disable();
+                table.button('#dt_btn_release').disable();
+                table.button('#dt_btn_delete').disable();
+                table.button('#dt_btn_approve').disable();
+                table.button('#dt_btn_pending').disable();
+                table.button('#dt_btn_reject').disable();
+
                 var count_selc = $ummu.dt.select.count();
                 if (count_selc == 1) {
                     var rows = $ummu.dt.select.data();
@@ -4960,6 +5061,7 @@ var $ummu = {
                 // var crud = JSON.parse($ummu.vars.crud);
                 var text = $ummu.cookie.getCookie('crud');
                 var tab = $ummu.vars.nav_tab;
+                var nav_tab_id = localStorage.getItem('nav_tab_id');
                 // var crud = text.replaceAll("-", ",");
                 if (text != '' || text != 0) {
                     var crud = text.split("-");
@@ -5016,141 +5118,39 @@ var $ummu = {
                         table.button('#dt_btn_delete').disable();
                     }
                     
-
-                    if ($ummu.vars.module_kode == 'she_hazard_report') {
-                        // table.button('#dt_btn_new').disable();
-                        table.button('#dt_btn_edit').disable();
-                        table.button('#dt_btn_release').disable();
-                        table.button('#dt_btn_delete').disable();
-                        table.button('#dt_btn_approve').disable();
-                        table.button('#dt_btn_reject').disable();
-
-                        // console.log(crud);
-                        // console.log(crud);
-                        // console.log(count_selc);
-
-                        // c,rall,u,d,admin
-                        // 0,1   ,2,3,4
-
-                        // if (crud) {
-                        //     if (crud[0] == 1) {
-                        //         if (count_selc == 1) {
-                        //             table.button('#btn_new').disable();
-                        //             table.button('#dt_btn_new').disable();
-                        //         }else if (count_selc > 1) {
-                        //             table.button('#btn_new').disable();
-                        //             table.button('#dt_btn_new').disable();
-                        //         }else{
-                        //             table.button('#btn_new').enable();
-                        //             table.button('#dt_btn_new').enable();
-                        //         }
-
-                        //         if (action == 'new') {
-                        //             $('.modal_btn_edit').prop('disabled', true);
-                        //             $('.modal_btn_save').prop('disabled', false);
-                        //         }
-                        //     }else{
-                        //         table.button('#btn_new').disable();
-                        //         table.button('#dt_btn_new').disable();
-                        //     }
-
-                        //     if (crud[2] == 1) {
-                        //         if (count_selc == 1) {
-                        //             table.button('#dt_btn_edit').enable();
-                        //         }else if (count_selc > 1) {
-                        //             table.button('#dt_btn_edit').disable();
-                        //         }else{
-                        //             table.button('#dt_btn_edit').disable();
-                        //         }
-
-                        //         if (action == 'edit') {
-                        //             $('.modal_btn_edit').prop('disabled', false);
-                        //             $('.modal_btn_save').prop('disabled', true);
-                        //         }
-                        //     }else{
-                        //         table.button('#dt_btn_edit').disable();
-                        //     }
-
-                        //     if (crud[3] == 1) {
-                        //         if (count_selc > 0) {
-                        //             table.button('#dt_btn_delete').enable();
-                        //         }else{
-                        //             table.button('#dt_btn_delete').disable();
-                        //         }
-                        //     }else{
-                        //         table.button('#dt_btn_delete').disable();
-                        //     }
-                        // }else{
-                        //     table.button('#dt_btn_new').enable();
-                        //     table.button('#dt_btn_edit').disable();
-                        //     table.button('#dt_btn_delete').disable();
-                        // }
-
-                        // if ($ummu.vars.module_kode == 'event_recruitment') {
-                        //     if (count_selc == 1) {
-                        //         table.button('#dt_btn_open_recruitment').enable();
-                        //     }else{
-                        //         table.button('#dt_btn_open_recruitment').disable();
-                        //     }
-                        // }
-
-                        // if ($ummu.vars.module_kode == 'she_hazard_report') {
-                        //     if (count_selc >= 1) {
-                        //         table.button('#btn_release').enable();
-                        //     }else{
-                        //         table.button('#btn_release').disable();
-                        //     }
-                        // }
-
-                        // table.button('#btn_edit').disable();
-                        // table.button('#btn_approve').disable();
-                        // table.button('#btn_reject').disable();
-                        // table.button('#btn_release').disable();
-                        // table.button('#btn_multi_delete').disable();
-
-                        
-
-                        /** 
-                         * crud[0] = create
-                         * crud[1] = read all
-                         * crud[2] = update
-                         * crud[3] = delete
-                         * crud[4] = admin*/
-
-                        /**
-                         * jika tab Not Release atau Rejected List active */
-                        if (tab === 0 || tab === 3 ) {
+                    if ($ummu.vars.module_kode == '') {
+                        if (nav_tab_id == 'nav-release-tab') {
                             if ($ummu.dt.select.count() > 0) {
                                 // table.button('#dt_btn_new').disable();
                                 // table.button('#dt_btn_edit').disable();
-                                table.button('#dt_btn_release').enable();
+                                table.button('#dt_btn_approve').enable();
+                                table.button('#dt_btn_reject').enable();
                                 table.button('#dt_btn_delete').enable();
 
                             }
 
-                            if (crud[2] == 1) {
-                                $ummu.dt.button.edit();
-                            }
+                            // if (crud[2] == 1) {
+                            //     $ummu.dt.button.edit();
+                            // }
 
-                            if ($ummu.dt.select.count() == 1) {
-                                table.button('#dt_btn_edit').enable();
-                            }else{
-                                table.button('#dt_btn_edit').disable();
-                            }
+                            // if ($ummu.dt.select.count() == 1) {
+                            //     table.button('#dt_btn_edit').enable();
+                            // }else{
+                            //     table.button('#dt_btn_edit').disable();
+                            // }
+                            // console.log('nav-release-tab');
                         }
 
-                        /**
-                         * Jika tab Released List active */
-                        if (tab == 1) {
-                            /**
-                             * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
-                            if (crud[4] == 1) {
-                                if ($ummu.dt.select.count() > 0) {
-                                    table.button('#dt_btn_approve').enable();
-                                    table.button('#dt_btn_reject').enable();
-                                }
-                            }
-                        }
+                        // if (tab == 1) {
+                        //     /**
+                        //      * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+                        //     if (crud[4] == 1) {
+                        //         if ($ummu.dt.select.count() > 0) {
+                        //             table.button('#dt_btn_approve').enable();
+                        //             table.button('#dt_btn_reject').enable();
+                        //         }
+                        //     }
+                        // }
 
                         // if (crud[2] == 1) {
                         //     if (count_selc == 1) {
@@ -5169,10 +5169,163 @@ var $ummu = {
                         //     table.button('#dt_btn_edit').disable();
                         // }
                     }
+
+                    if ($ummu.vars.module_kode == 'she_hazard_report') {
+                            // table.button('#dt_btn_new').disable();
+                        table.button('#dt_btn_edit').disable();
+                        table.button('#dt_btn_release').disable();
+                        table.button('#dt_btn_delete').disable();
+                        table.button('#dt_btn_approve').disable();
+                        table.button('#dt_btn_reject').disable();
+
+                            // console.log(crud);
+                            // console.log(crud);
+                            // console.log(count_selc);
+
+                            // c,rall,u,d,admin
+                            // 0,1   ,2,3,4
+
+                            // if (crud) {
+                            //     if (crud[0] == 1) {
+                            //         if (count_selc == 1) {
+                            //             table.button('#btn_new').disable();
+                            //             table.button('#dt_btn_new').disable();
+                            //         }else if (count_selc > 1) {
+                            //             table.button('#btn_new').disable();
+                            //             table.button('#dt_btn_new').disable();
+                            //         }else{
+                            //             table.button('#btn_new').enable();
+                            //             table.button('#dt_btn_new').enable();
+                            //         }
+
+                            //         if (action == 'new') {
+                            //             $('.modal_btn_edit').prop('disabled', true);
+                            //             $('.modal_btn_save').prop('disabled', false);
+                            //         }
+                            //     }else{
+                            //         table.button('#btn_new').disable();
+                            //         table.button('#dt_btn_new').disable();
+                            //     }
+
+                            //     if (crud[2] == 1) {
+                            //         if (count_selc == 1) {
+                            //             table.button('#dt_btn_edit').enable();
+                            //         }else if (count_selc > 1) {
+                            //             table.button('#dt_btn_edit').disable();
+                            //         }else{
+                            //             table.button('#dt_btn_edit').disable();
+                            //         }
+
+                            //         if (action == 'edit') {
+                            //             $('.modal_btn_edit').prop('disabled', false);
+                            //             $('.modal_btn_save').prop('disabled', true);
+                            //         }
+                            //     }else{
+                            //         table.button('#dt_btn_edit').disable();
+                            //     }
+
+                            //     if (crud[3] == 1) {
+                            //         if (count_selc > 0) {
+                            //             table.button('#dt_btn_delete').enable();
+                            //         }else{
+                            //             table.button('#dt_btn_delete').disable();
+                            //         }
+                            //     }else{
+                            //         table.button('#dt_btn_delete').disable();
+                            //     }
+                            // }else{
+                            //     table.button('#dt_btn_new').enable();
+                            //     table.button('#dt_btn_edit').disable();
+                            //     table.button('#dt_btn_delete').disable();
+                            // }
+
+                            // if ($ummu.vars.module_kode == 'event_recruitment') {
+                            //     if (count_selc == 1) {
+                            //         table.button('#dt_btn_open_recruitment').enable();
+                            //     }else{
+                            //         table.button('#dt_btn_open_recruitment').disable();
+                            //     }
+                            // }
+
+                            // if ($ummu.vars.module_kode == 'she_hazard_report') {
+                            //     if (count_selc >= 1) {
+                            //         table.button('#btn_release').enable();
+                            //     }else{
+                            //         table.button('#btn_release').disable();
+                            //     }
+                            // }
+
+                            // table.button('#btn_edit').disable();
+                            // table.button('#btn_approve').disable();
+                            // table.button('#btn_reject').disable();
+                            // table.button('#btn_release').disable();
+                            // table.button('#btn_multi_delete').disable();
+
+                        
+
+                            /** 
+                             * crud[0] = create
+                             * crud[1] = read all
+                             * crud[2] = update
+                             * crud[3] = delete
+                             * crud[4] = admin*/
+
+                            /**
+                             * jika tab Not Release atau Rejected List active */
+                        if (tab === 0 || tab === 3 ) {
+                            if ($ummu.dt.select.count() > 0) {
+                                    // table.button('#dt_btn_new').disable();
+                                    // table.button('#dt_btn_edit').disable();
+                                table.button('#dt_btn_release').enable();
+                                table.button('#dt_btn_delete').enable();
+
+                            }
+
+                            if (crud[2] == 1) {
+                                $ummu.dt.button.edit();
+                            }
+
+                            if ($ummu.dt.select.count() == 1) {
+                                table.button('#dt_btn_edit').enable();
+                            }else{
+                                table.button('#dt_btn_edit').disable();
+                            }
+                        }
+
+                            /**
+                             * Jika tab Released List active */
+                        if (tab == 1) {
+                                /**
+                                 * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+                            if (crud[4] == 1) {
+                                if ($ummu.dt.select.count() > 0) {
+                                    table.button('#dt_btn_approve').enable();
+                                    table.button('#dt_btn_reject').enable();
+                                }
+                            }
+                        }
+
+                            // if (crud[2] == 1) {
+                            //     if (count_selc == 1) {
+                            //         table.button('#dt_btn_edit').enable();
+                            //     }else if (count_selc > 1) {
+                            //         table.button('#dt_btn_edit').disable();
+                            //     }else{
+                            //         table.button('#dt_btn_edit').disable();
+                            //     }
+
+                            //     if (action == 'edit') {
+                            //         $('.modal_btn_edit').prop('disabled', false);
+                            //         $('.modal_btn_save').prop('disabled', true);
+                            //     }
+                            // }else{
+                            //     table.button('#dt_btn_edit').disable();
+                            // }
+                    }
                 }else{
                     table.button('#dt_btn_new').enable();
-                    table.button('#dt_btn_edit').disable();
-                    table.button('#dt_btn_delete').disable();
+                    // table.button('#dt_btn_edit').disable();
+                    // table.button('#dt_btn_delete').disable();
                 }
             },
             edit: function(){
@@ -6013,15 +6166,15 @@ var $datatable = {
                                 alert('Button activated');
                             }
                         }
-                        ]
+                    ]
                 }
             },
             columnDefs: [
-            {
-                orderable: false,
-                render: DataTable.render.select(),
-                targets: 0
-            }
+                {
+                    orderable: false,
+                    render: DataTable.render.select(),
+                    targets: 0
+                }
             ],
             fixedColumns: {
                 start: 2
@@ -6064,7 +6217,7 @@ var $datatable = {
                 { data: 'receive_name' },
                 { data: 'aprove_name' },
                 { data: 'doc_remark' }
-                ]
+            ]
         };
     }
 }

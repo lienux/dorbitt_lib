@@ -64,4 +64,9 @@ class GviewsHelper
     {
         return "../Gviews/partials/modals/filter";
     } 
+
+    public function nav_tab()
+    {
+        return "../Gviews/partials/nav_tab";
+    }
 }

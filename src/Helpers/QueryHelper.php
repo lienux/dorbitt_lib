@@ -354,14 +354,14 @@ class QueryHelper
 
     public function respon($rows,$count,$total)
     {
-        if ($count == 0) {
-            $sts = false;
-            $msg = 'Data not found';
-            $code = 404;
-        }else{
+        if ($count > 0) {
             $sts = true;
             $msg = 'Get data success';
             $code = 200;
+        }else{
+            $sts = false;
+            $msg = 'Data not found';
+            $code = 404;
         }
 
         $response = [
