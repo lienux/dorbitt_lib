@@ -5425,7 +5425,11 @@ var $ummu = {
                 );
 
                 table.button().add(7,
-                    { extend: 'excel', className: 'py-1', text: '<i class="fas fa-file-excel text-success fa-lg"></i>' }
+                    { extend: 'excel', className: 'py-1', text: '<i class="fas fa-file-excel text-success fa-lg"></i>', 
+                        exportOptions: {
+                            orthogonal: "myExport"
+                        },
+                    }
                 );
 
                 table.button().add(8,
