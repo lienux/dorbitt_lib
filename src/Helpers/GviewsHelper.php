@@ -12,14 +12,16 @@ namespace Dorbitt\Helpers;
 */
 
 use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\HTTP\Files\UploadedFile;
-use CodeIgniter\Files\File;
+// use CodeIgniter\HTTP\Files\UploadedFile;
+// use CodeIgniter\Files\File;
+use JShrink\Minifier;
 
 class GviewsHelper 
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
+        $this->minifier = new \JShrink\Minifier();
     }
 
     public function modal_gallery($themes = null)
@@ -68,5 +70,16 @@ class GviewsHelper
     public function nav_tab()
     {
         return "../Gviews/partials/nav_tab";
+    }
+
+    public function nav_tab_doc_status()
+    {
+        return "../Gviews/partials/nav_tab_doc_status";
+    }
+
+    public function ummujs()
+    {
+        return $this->minifier->minify(file_get_contents(base_url("vendor/dorbitt-lib/js/ummu.js")));
+        // return "OK";
     }
 }

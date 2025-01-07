@@ -68,6 +68,7 @@ var $ummu = {
             $('nav .nav-tabs .nav-link').on('click', function(){
                 var nav_tab_id = $(this).attr('id');
                 localStorage.setItem('nav_tab_id', nav_tab_id);
+                $ummu.vars.nav_tab_id = nav_tab_id;
             })
 
             $('.datepicker000').datepicker({
@@ -4980,6 +4981,7 @@ var $ummu = {
                 .each((el) => el.classList.add('highlight'));
             });
         },
+
         select: {
             load: function() {
                 table.on('click', 'tbody tr td:first-child', function () {
@@ -5036,8 +5038,10 @@ var $ummu = {
                 return tbName.row({selected: true}).data();
             },
         },
+
         button: {
             crud: function() {
+                table.button('#dt_btn_new').disable();
                 table.button('#dt_btn_edit').disable();
                 table.button('#dt_btn_release').disable();
                 table.button('#dt_btn_delete').disable();
@@ -5058,37 +5062,19 @@ var $ummu = {
                 }
 
 
-                // var crud = JSON.parse($ummu.vars.crud);
-                var text = $ummu.cookie.getCookie('crud');
+                var text = $ummu.vars.crud;
                 var tab = $ummu.vars.nav_tab;
-                var nav_tab_id = localStorage.getItem('nav_tab_id');
-                // var crud = text.replaceAll("-", ",");
-                if (text != '' || text != 0) {
-                    var crud = text.split("-");
+                // var nav_tab_id = localStorage.getItem('nav_tab_id');
+                var nav_tab_id = $ummu.vars.nav_tab_id;
+                if (text != '' || text != 0 || text != null) {
+                    var crud = text.split(",");
                 }else{
                     var crud = '';
                 }
 
                 if (crud) {
                     if (crud[0] == 1) {
-                        if (count_selc == 1) {
-                            table.button('#btn_new').disable();
-                            table.button('#dt_btn_new').disable();
-                        }else if (count_selc > 1) {
-                            table.button('#btn_new').disable();
-                            table.button('#dt_btn_new').disable();
-                        }else{
-                            table.button('#btn_new').enable();
-                            table.button('#dt_btn_new').enable();
-                        }
-
-                        // if (action == 'new') {
-                        //     $('.modal_btn_edit').prop('disabled', true);
-                        //     $('.modal_btn_save').prop('disabled', false);
-                        // }
-                    }else{
-                        table.button('#btn_new').disable();
-                        table.button('#dt_btn_new').disable();
+                        table.button('#dt_btn_new').enable();
                     }
 
                     if (crud[2] == 1) {
@@ -5104,8 +5090,6 @@ var $ummu = {
                         //     $('.modal_btn_edit').prop('disabled', false);
                         //     $('.modal_btn_save').prop('disabled', true);
                         // }
-                    }else{
-                        table.button('#dt_btn_edit').disable();
                     }
 
                     if (crud[3] == 1) {
@@ -5114,19 +5098,16 @@ var $ummu = {
                         }else{
                             table.button('#dt_btn_delete').disable();
                         }
-                    }else{
-                        table.button('#dt_btn_delete').disable();
                     }
                     
                     if ($ummu.vars.module_kode == '') {
-                        if (nav_tab_id == 'nav-release-tab') {
+                        if (nav_tab_id == 'nav-released-tab') {
                             if ($ummu.dt.select.count() > 0) {
                                 // table.button('#dt_btn_new').disable();
                                 // table.button('#dt_btn_edit').disable();
                                 table.button('#dt_btn_approve').enable();
                                 table.button('#dt_btn_reject').enable();
                                 table.button('#dt_btn_delete').enable();
-
                             }
 
                             // if (crud[2] == 1) {
@@ -5171,11 +5152,12 @@ var $ummu = {
                     }
 
                     if ($ummu.vars.module_kode == 'she_hazard_report') {
-                            // table.button('#dt_btn_new').disable();
+                        table.button('#dt_btn_new').enable();
                         table.button('#dt_btn_edit').disable();
                         table.button('#dt_btn_release').disable();
                         table.button('#dt_btn_delete').disable();
                         table.button('#dt_btn_approve').disable();
+                        table.button('#dt_btn_pending').disable();
                         table.button('#dt_btn_reject').disable();
 
                             // console.log(crud);
@@ -5272,29 +5254,30 @@ var $ummu = {
 
                             /**
                              * jika tab Not Release atau Rejected List active */
-                        if (tab === 0 || tab === 3 ) {
+                        if (nav_tab_id == 'nav-notrelease-tab' || nav_tab_id == 'nav-rejected-tab' ) {
                             if ($ummu.dt.select.count() > 0) {
-                                    // table.button('#dt_btn_new').disable();
-                                    // table.button('#dt_btn_edit').disable();
                                 table.button('#dt_btn_release').enable();
-                                table.button('#dt_btn_delete').enable();
+
+                                if (crud[3] == 1) {
+                                    table.button('#dt_btn_delete').enable();
+                                }
 
                             }
 
-                            if (crud[2] == 1) {
-                                $ummu.dt.button.edit();
-                            }
+                            // if (crud[2] == 1) {
+                            //     $ummu.dt.button.edit();
+                            // }
 
-                            if ($ummu.dt.select.count() == 1) {
-                                table.button('#dt_btn_edit').enable();
-                            }else{
-                                table.button('#dt_btn_edit').disable();
-                            }
+                            // if ($ummu.dt.select.count() == 1) {
+                            //     table.button('#dt_btn_edit').enable();
+                            // }else{
+                            //     table.button('#dt_btn_edit').disable();
+                            // }
                         }
 
                             /**
                              * Jika tab Released List active */
-                        if (tab == 1) {
+                        if (nav_tab_id == 'nav-released-tab') {
                                 /**
                                  * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
                             if (crud[4] == 1) {
@@ -5322,10 +5305,37 @@ var $ummu = {
                             //     table.button('#dt_btn_edit').disable();
                             // }
                     }
-                }else{
-                    table.button('#dt_btn_new').enable();
-                    // table.button('#dt_btn_edit').disable();
-                    // table.button('#dt_btn_delete').disable();
+
+                    if ($ummu.vars.module_kode == 'hcm_applicants') {
+                        table.button('#dt_btn_new').enable();
+                        table.button('#dt_btn_edit').disable();
+                        table.button('#dt_btn_release').disable();
+                        table.button('#dt_btn_delete').disable();
+                        table.button('#dt_btn_approve').disable();
+                        table.button('#dt_btn_pending').disable();
+                        table.button('#dt_btn_reject').disable();                        
+
+                        /** 
+                         * crud[0] = create
+                         * crud[1] = read all
+                         * crud[2] = update
+                         * crud[3] = delete
+                         * crud[4] = admin*/
+                        /**
+
+                        /**
+                         * Jika tab Released List active */
+                        if (nav_tab_id == null || nav_tab_id == '' || nav_tab_id == 'nav-released-tab') {
+                            /**
+                             * pada tab Released List, dokument bisa diapprove dan direject */
+                            if (crud[4] == 1) {
+                                if ($ummu.dt.select.count() > 0) {
+                                    table.button('#dt_btn_approve').enable();
+                                    table.button('#dt_btn_reject').enable();
+                                }
+                            }
+                        }
+                    }
                 }
             },
             edit: function(){
@@ -5336,10 +5346,12 @@ var $ummu = {
                 }
             }            
         },
+
         after_cud: function() {
             $ummu.views.button.dt.showhide1();
             $('#text_loader').html('');
         },
+
         var_id: function() {
             var count_selc = $ummu.dt.select.count();
 
@@ -5365,6 +5377,165 @@ var $ummu = {
                 // console.log('tidak ada yg terpilih');
             }
         },
+
+        layout: {
+            button: function() {
+                table.button().add(0, 
+                    { extend: 'pageLength', className: 'py-1' }
+                );
+                table.button().add(1, 
+                    { 
+                        text: '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>'+
+                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                        attr: { id: 'btn_reload'}, 
+                        className: 'btn-showall-color py-1',
+                        action: function (e, dt, node, config) {
+                            table.ajax.reload();
+                        }
+                    }
+                );
+
+                table.button().add(2, 
+                    { extend: 'selectAll', className: 'py-1', 
+                        text: '<span class="d-none d-sm-block">Select all</span>'+
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>' 
+                    }
+                );
+
+                table.button().add(3, 
+                    { extend: 'selectNone', className: 'py-1',
+                        text: '<span class="d-none d-sm-block">Deselect all</span>'+
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>'
+                    }
+                );
+
+                table.button().add(4, 
+                    { className: 'py-1', attr: { id: 'dt_btn_filter'},
+                        text: '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>'+
+                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>'    
+                    }
+                );
+
+                table.button().add(5,
+                    { extend: 'copy', className: 'py-1', text: '<i class="fas fa-copy fa-lg"></i>' }
+                );
+
+                table.button().add(6,
+                    { extend: 'csv', className: 'py-1', text: '<i class="fas fa-file-csv text-info fa-lg"></i>' }
+                );
+
+                table.button().add(7,
+                    { extend: 'excel', className: 'py-1', text: '<i class="fas fa-file-excel text-success fa-lg"></i>' }
+                );
+
+                table.button().add(8,
+                    { extend: 'pdf', className: 'py-1', text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>' },
+                );
+
+                table.button().add(9,
+                    { extend: 'print', className: 'py-1', text: '<i class="fas fa-print text-primary fa-lg"></i>' }
+                );
+            },
+
+            button_crud: function() {
+                table.button().add(10, 
+                    {
+                        text: '<i class="fas fa-plus text-primary"></i> New',
+                        attr: { id: 'dt_btn_new'},
+                        className: 'btn-showall-color hidden collapse py-1 for-user',
+                        action: function (e, dt, node, config) {
+                            app.controllers.new();
+                        }
+                    }
+                ).disable();
+
+                table.button().add(11, 
+                    {
+                        text: '<i class="fas fa-edit"></i> Edit',
+                        attr: { id: 'dt_btn_edit'},
+                        className: 'btn-showall-color hidden collapse py-1 for-user',
+                        action: function (e, dt, node, config) {
+                            var rows = $ummu.dt.select.data();
+                            app.controllers.edit(rows[0]);
+                        }
+                    }
+                ).disable();
+
+                table.button().add(12, 
+                    {
+                        text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                        attr: { id: 'dt_btn_delete'},
+                        className: 'btn-showall-color hidden collapse py-1 for-user',
+                        action: function (e, dt, node, config) {
+                            var rows = $ummu.dt.select.data();
+                            $ummu.vars.rows = rows;
+                            $('#modal_delete_confirm').modal('show');
+                        }
+                    }
+                ).disable();
+            },
+
+            button_status: function(status) {
+                if (status) {
+                    if (status.includes('release') == true) {
+                        table.button().add(13,
+                            {
+                                text: '<i class="fas fa-share text-primary"></i> Release',
+                                attr: { id: 'dt_btn_release'},
+                                className: 'py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $('#modal_release_confirm').modal('show');
+                                }
+                            }
+                        ).disable();                        
+                    }
+
+                    if (status.includes('approve') == true) {
+                        table.button().add(14,
+                            { text: '<i class="fas fa-check text-success"></i> Approve', 
+                            attr: { id: 'dt_btn_approve'}, 
+                            className: 'py-1 dt-action',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $('#modal_approve_confirm').modal('show');
+                                }
+                            }
+                        ).disable();
+                    }
+
+                    if (status.includes('pending') == true) {
+                        table.button().add(15,
+                            { text: '<i class="fal fa-business-time text-warning"></i> Pending', 
+                            attr: { id: 'dt_btn_pending'}, 
+                            className: 'py-1 dt-action',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $('#modal_pending_confirm').modal('show');
+                                }
+                            }
+                        ).disable();
+                    }
+
+                    if (status.includes('reject') == true) {
+                        table.button().add(16,
+                            { text: '<i class="fas fa-times text-danger"></i> Reject', 
+                            attr: { id: 'dt_btn_reject'}, 
+                            className: 'py-1 dt-action',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $('#modal_reject_confirm').modal('show');
+                                }
+                            }
+                        ).disable();
+                    }
+                }
+            }
+        }
     },
 
     localStorage: {

@@ -29,32 +29,18 @@ class UmmuHelper
     {
         $modules = session()->get('dorbitt_modules');
 
-        $crud = 0;
+        $crud = [];
 
         if ($page_kode) {
             if ($modules) {
                 foreach ($modules as $key => $value) {
                     if ($value->kode === $page_kode) {
-                        $data = $value->crud;
-                        if ($data) {
-                            $crud = str_replace(',','-',$data);
-                        }
+                        $crud = $value->crud;
                     }
                 }
             }
         }
-
-        $name = 'crud';
-        $value = $crud;
-        $expire = 0;
-        $domain = '';
-        $path = '/';
-        $prefix = '';
-        $secure = '';
-        $httpOnly = false;
-        $sameSite = '';
-        set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httpOnly, $sameSite);
-        return $page_kode;
+        return $crud;
     }
 
     public function vcrud($page_kode = null)
