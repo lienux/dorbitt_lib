@@ -1291,6 +1291,47 @@ var $ummu = {
             return jqXHR;
         },
 
+        /**
+         * page_url otomatis dari ummu.vars
+         * dinamis modal_loader
+         * */
+        ummu4: function(params) {
+            var jqXHR = $.ajax({
+                "url": $ummu.vars.page_url + params.function,
+                "method": params.type,
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": params.contentType,
+                },
+                "data": params.data,
+                "prossesing": true,
+                'language': {
+                    'loadingRecords': '&nbsp;',
+                    'processing': '<div class="spinner"></div>'
+                },  
+                beforeSend: function(e) {
+                    if (params.loader == true) {
+                        $('#modal_loader').modal('show');
+                    }
+                },
+                complete: function(){
+                    // 
+                },
+                success: function(response){
+                    // console.log(response)
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    $('#modal_loader').modal('hide');
+                }
+            });
+
+            return jqXHR;
+        },
+
         ummay: function(url, payload) {
             // console.log(payload);
             var jqXHR = $.ajax({
@@ -4922,6 +4963,47 @@ var $ummu = {
                 var nm_atasan = $('#nm_atasan').val();
                 if ($ummu.validation.is_valid(nm_atasan) == false) {
                     $('#modal_message #alert').append('<div>- Nama atasan required.</div>');
+                }
+
+                if ($ummu.vars.required_field.includes(false)) {
+                    return false;
+                }
+            }
+        },
+
+        uom: {
+            insert: function() {
+                $ummu.vars.required_field = [];
+                $('#modal_message #alert').html('');
+
+                var material = $('#material').val();
+                if ($ummu.validation.is_valid(material) == false) {
+                    $('#modal_message #alert').append('<div>- Material required.</div>');
+                }
+
+                var uom = $('#uom').val();
+                if ($ummu.validation.is_valid(uom) == false) {
+                    $('#modal_message #alert').append('<div>- UoM required.</div>');
+                }
+                
+                var expired_date = $('#expired_date').val();
+                if ($ummu.validation.is_valid_date(expired_date) == false) {
+                    $('#modal_message #alert').append('<div>- Expired Date not Valid</div>');
+                }
+
+                var formularium_qty = $('#formularium_qty').val();
+                if ($ummu.validation.is_valid(formularium_qty) == false) {
+                    $('#modal_message #alert').append('<div>- Formularium Qty required.</div>');
+                }
+
+                var qty = $('#qty').val();
+                if ($ummu.validation.is_valid(qty) == false) {
+                    $('#modal_message #alert').append('<div>- Qty required.</div>');
+                }
+
+                var qty_on_site = $('#qty_on_site').val();
+                if ($ummu.validation.is_valid(qty_on_site) == false) {
+                    $('#modal_message #alert').append('<div>- Qty on site required.</div>');
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
