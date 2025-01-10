@@ -11,14 +11,14 @@ namespace Dorbitt\Helpers;
 * =============================================
 */
 
-use Dorbitt\Helpers\DateTimeHelper;
+// use Dorbitt\Helpers\DateTimeHelper;
 
 class QueryHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        $this->dtH = new DateTimeHelper();
+        // $this->dtH = new DateTimeHelper();
     }
 
     public function limit()
@@ -384,5 +384,26 @@ class QueryHelper
         ];
 
         return $response;
+    }
+
+    public function allowedFields()
+    {
+        return [
+            "id",
+            "company_id",
+
+            "site_project_id",
+            "site_project_kode",
+
+            "plant_id",
+            "plant_kode",
+
+            "departement_id",
+            "departement_kode",
+
+            "created_at","created_by",
+            "updated_at","updated_by",
+            "deleted_at","deleted_by"
+        ];
     }
 }

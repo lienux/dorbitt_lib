@@ -35,6 +35,7 @@ var $ummu = {
         urlParams: new URLSearchParams(window.location.search),
         page_previous: null,
         errors: [],
+        row: null,
         rows: null,
         rad_external: 0,
         show_col_images: localStorage.getItem('show_col_images'),
@@ -5523,42 +5524,56 @@ var $ummu = {
                 );
             },
 
-            button_crud: function() {
-                table.button().add(10, 
-                    {
-                        text: '<i class="fas fa-plus text-primary"></i> New',
-                        attr: { id: 'dt_btn_new'},
-                        className: 'btn-showall-color hidden collapse py-1 for-user',
-                        action: function (e, dt, node, config) {
-                            app.controllers.new();
-                        }
+            button_crud: function(crud) {
+                if (crud) {
+                    if (crud.includes('new') == true) {
+                        table.button().add(10, 
+                            {
+                                text: '<i class="fas fa-plus text-primary"></i> New',
+                                attr: { id: 'dt_btn_new'},
+                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    $ummu.vars.action = 'new';
+                                    app.controllers.new();
+                                }
+                            }
+                        ).disable();
                     }
-                ).disable();
 
-                table.button().add(11, 
-                    {
-                        text: '<i class="fas fa-edit"></i> Edit',
-                        attr: { id: 'dt_btn_edit'},
-                        className: 'btn-showall-color hidden collapse py-1 for-user',
-                        action: function (e, dt, node, config) {
-                            var rows = $ummu.dt.select.data();
-                            app.controllers.edit(rows[0]);
-                        }
+                    if (crud.includes('edit') == true) {
+                        table.button().add(11, 
+                            {
+                                text: '<i class="fas fa-edit"></i> Edit',
+                                attr: { id: 'dt_btn_edit'},
+                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'edit';
+                                    app.controllers.edit(rows[0]);
+                                }
+                            }
+                        ).disable();
                     }
-                ).disable();
 
-                table.button().add(12, 
-                    {
-                        text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
-                        attr: { id: 'dt_btn_delete'},
-                        className: 'btn-showall-color hidden collapse py-1 for-user',
-                        action: function (e, dt, node, config) {
-                            var rows = $ummu.dt.select.data();
-                            $ummu.vars.rows = rows;
-                            $('#modal_delete_confirm').modal('show');
-                        }
+                    if (crud.includes('delete') == true) {
+                        table.button().add(12, 
+                            {
+                                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                                attr: { id: 'dt_btn_delete'},
+                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'delete';
+                                    $('#modal_delete_confirm').modal('show');
+                                }
+                            }
+                        ).disable();
                     }
-                ).disable();
+                }
+
             },
 
             button_status: function(status) {
@@ -5619,6 +5634,68 @@ var $ummu = {
                             }
                         ).disable();
                     }
+                }
+            },
+
+            button_trx: function(trx) {
+                if (trx) {
+                    if (trx.includes('add') == true) {
+                        table.button().add(17,
+                            {
+                                text: '<i class="fas fa-file-plus text-primary"></i> Add',
+                                attr: { id: 'dt_btn_add'},
+                                className: 'py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'add';
+                                    app.controllers.add(rows[0]);
+                                }
+                            }
+                        ).disable();                        
+                    }
+
+                    // if (trx.includes('approve') == true) {
+                    //     table.button().add(14,
+                    //         { text: '<i class="fas fa-check text-success"></i> Approve', 
+                    //         attr: { id: 'dt_btn_approve'}, 
+                    //         className: 'py-1 dt-action',
+                    //             action: function (e, dt, node, config) {
+                    //                 var rows = $ummu.dt.select.data();
+                    //                 $ummu.vars.rows = rows;
+                    //                 $('#modal_approve_confirm').modal('show');
+                    //             }
+                    //         }
+                    //     ).disable();
+                    // }
+
+                    // if (trx.includes('pending') == true) {
+                    //     table.button().add(15,
+                    //         { text: '<i class="fal fa-business-time text-warning"></i> Pending', 
+                    //         attr: { id: 'dt_btn_pending'}, 
+                    //         className: 'py-1 dt-action',
+                    //             action: function (e, dt, node, config) {
+                    //                 var rows = $ummu.dt.select.data();
+                    //                 $ummu.vars.rows = rows;
+                    //                 $('#modal_pending_confirm').modal('show');
+                    //             }
+                    //         }
+                    //     ).disable();
+                    // }
+
+                    // if (trx.includes('reject') == true) {
+                    //     table.button().add(16,
+                    //         { text: '<i class="fas fa-times text-danger"></i> Reject', 
+                    //         attr: { id: 'dt_btn_reject'}, 
+                    //         className: 'py-1 dt-action',
+                    //             action: function (e, dt, node, config) {
+                    //                 var rows = $ummu.dt.select.data();
+                    //                 $ummu.vars.rows = rows;
+                    //                 $('#modal_reject_confirm').modal('show');
+                    //             }
+                    //         }
+                    //     ).disable();
+                    // }
                 }
             }
         }

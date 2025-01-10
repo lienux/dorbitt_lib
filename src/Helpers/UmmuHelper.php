@@ -850,6 +850,14 @@ class UmmuHelper
             $smtp_error = "Kuota pengiriman email anda sudah penuh";
         }
 
+        if (strpos($message, "Kuota pengiriman email anda sudah penuh") !== false) {
+            $smtp_error = "Kuota pengiriman email anda sudah penuh";
+        }
+
+        if (strpos($message, "Sender address rejected: Server configuration problem") !== false) {
+            $smtp_error = "Sender address rejected: Server configuration problem";
+        }
+
         return $smtp_error;
     }
 }
