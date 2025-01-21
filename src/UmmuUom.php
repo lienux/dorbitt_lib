@@ -19,14 +19,14 @@ class UmmuUom
 {
     public function __construct()
     {
-        $this->kode = "ms_unit_of_measure";
+        $this->kode = "unit_of_measure";
 
         $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
         $this->umHelp = new UmmuHelper();
         
         $this->umHelp->autoHelper($this->kode);
-        $this->urli = 'api/material/uom/';
+        $this->urli = 'api/uom/';
     }
 
     public function show($params)

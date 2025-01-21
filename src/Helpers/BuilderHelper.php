@@ -19,41 +19,41 @@ class BuilderHelper
     {
         $this->request = \Config\Services::request();
         $this->gHelp = new GlobalHelper();
+
+        /**
+         * Vars*/
+        $this->limit      = $this->request->getJsonVar('limit');
+        $this->offset     = $this->request->getJsonVar('offset');
+        $this->sort       = $this->request->getJsonVar('sort');
+        $this->withCreatedBy = $this->request->getJsonVar('created_by');
+
+        if (strpos($this->sort, ".")) {
+            // $sort = explode(".",$sort);
+            // $sortCount = count($sort);
+            // $sort = $sort[$sortCount-1];
+            $this->sort = null;
+        }
+
+        $this->order      = $this->request->getJsonVar('order');
+        $this->search     = $this->request->getJsonVar('search');
+
+        $this->from_date  = $this->request->getJsonVar('from_date');
+        $this->to_date    = $this->request->getJsonVar('to_date');
+        $this->date       = $this->request->getJsonVar('date');
+        $this->datetime   = $this->request->getJsonVar('datetime');
+
+        $this->selects    = $this->request->getJsonVar('selects');
+        $this->where      = $this->request->getJsonVar('where');
     }
 
     public function conditions($params)
     {
-        $limit      = $this->request->getJsonVar('limit');
-        $offset     = $this->request->getJsonVar('offset');
-        $sort       = $this->request->getJsonVar('sort');
-        $withCreatedBy = $this->request->getJsonVar('created_by');
-
-        if (strpos($sort, ".")) {
-            // $sort = explode(".",$sort);
-            // $sortCount = count($sort);
-            // $sort = $sort[$sortCount-1];
-            $sort = null;
-        }
-
-        $order      = $this->request->getJsonVar('order');
-        $search     = $this->request->getJsonVar('search');
-
-        $from_date  = $this->request->getJsonVar('from_date');
-        $to_date    = $this->request->getJsonVar('to_date');
-        $date       = $this->request->getJsonVar('date');
-        $datetime   = $this->request->getJsonVar('datetime');
-
-        $selects    = $this->request->getJsonVar('selects');
-
-        // $date = '10.21.2011';
-        // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
-
         $builder        = $params['builder'];
         $id             = $params['id'];
         $search_params  = $params['search_params'];
 
-        if ($selects and $selects != '*') {
-            $builder->select($selects);
+        if ($this->selects and $this->selects != '*') {
+            $builder->select($this->selects);
         }
 
         if (isset($params['company_id'])) {
@@ -65,9 +65,6 @@ class BuilderHelper
 
         if (isset($params['account_id'])) {
             $account_id = $params['account_id'];
-            // if ($withCreatedBy == true) {
-            //     $builder->where('created_by', $account_id);
-            // }
             if ($account_id) {
                 $builder->where('created_by', $account_id);
             }
@@ -88,19 +85,26 @@ class BuilderHelper
         }
 
         if ($id) {
-
             $builder->where('id',$id);
+        }
 
-        }else{
+        else{
+            if ($this->where) {
+                foreach ($this->where as $key => $value) {
+                    if ($value != "") {
+                        $builder->where($key,$value);
+                    }
+                }
+            }
 
-            if ($search AND $search_params) {
+            if ($this->search AND $search_params) {
                 // if ($search_params) {
                     $builder->groupStart();
-                        $builder->like($search_params[0],$search);
+                        $builder->like($search_params[0],$this->search);
                         if (count($search_params) > 1) {
                             foreach ($search_params as $key => $value) {
                                 if ($key != 0) {
-                                    $builder->orLike($value,$search);
+                                    $builder->orLike($value,$this->search);
                                 }
                             }
                         }
@@ -108,70 +112,48 @@ class BuilderHelper
                 // }
             }
 
-            if ($from_date) {
-                $builder->where('created_at >= ', $this->gHelp->dtfFormatter($from_date));
+            if ($this->from_date) {
+                $builder->where('created_at >= ', $this->gHelp->dtfFormatter($this->from_date));
             }
 
-            if ($to_date) {
-                $builder->where('created_at <= ', $this->gHelp->dttFormatter($to_date));
+            if ($this->to_date) {
+                $builder->where('created_at <= ', $this->gHelp->dttFormatter($this->to_date));
             }
 
-            if ($date) {
-                if ($date->from) {
-                    $builder->where('created_at >= ', $this->gHelp->dtfFormatter($date->from));
+            if ($this->date) {
+                if ($this->date->from) {
+                    $builder->where('created_at >= ', $this->gHelp->dtfFormatter($this->date->from));
                 }
 
-                if ($date->to) {
-                    $builder->where('created_at <= ', $this->gHelp->dttFormatter($date->to));
+                if ($this->date->to) {
+                    $builder->where('created_at <= ', $this->gHelp->dttFormatter($this->date->to));
                 }
             }
 
-            if ($datetime) {
-                if ($datetime->from) {
-                    $builder->where('created_at >= ', $this->gHelp->dtfFormatter($datetime->from));
+            if ($this->datetime) {
+                if ($this->datetime->from) {
+                    $builder->where('created_at >= ', $this->gHelp->dtfFormatter($this->datetime->from));
                 }
 
-                if ($datetime->to) {
-                    $builder->where('created_at <= ', $this->gHelp->dttFormatter($datetime->to));
+                if ($this->datetime->to) {
+                    $builder->where('created_at <= ', $this->gHelp->dttFormatter($this->datetime->to));
                 }
             }
         }
 
         $builder->where('deleted_at', null);
+        $builder->where('deleted_at IS NULL');
 
         return $builder;
     }
 
     public function conditions2($params)
     {
-        $limit      = $this->request->getJsonVar('limit');
-        $offset     = $this->request->getJsonVar('offset');
-        $sort       = $this->request->getJsonVar('sort');
-        $withCreatedBy = $this->request->getJsonVar('created_by');
-
-        if (strpos($sort, ".")) {
-            // $sort = explode(".",$sort);
-            // $sortCount = count($sort);
-            // $sort = $sort[$sortCount-1];
-            $sort = null;
-        }
-
-        $order      = $this->request->getJsonVar('order');
-        $search     = $this->request->getJsonVar('search');
-
-        $from_date  = $this->request->getJsonVar('from_date');
-        $to_date    = $this->request->getJsonVar('to_date');
-        $date       = $this->request->getJsonVar('date');
-        $selects    = $this->request->getJsonVar('selects');
-
-        // $date = '10.21.2011';
-        // echo date('Y-m-d', strtotime(str_replace('.', '/', $date)));
-
         $builder        = $params['builder'];
         $id             = $params['id'];
         $search_params  = $params['search_params'];
 
-        if ($selects) {
+        if ($this->selects and $this->selects != '*') {
             $builder->select($selects);
         }
 
@@ -187,10 +169,10 @@ class BuilderHelper
             $builder->where('created_by', $account_id);
         }
 
-        if (isset($params['site_project_id'])) {
-            $site_project_id = $params['site_project_id'];
-            if ($site_project_id) {
-                $builder->where('site_project_id', $site_project_id);
+        if (isset($params['plant_id'])) {
+            $plant_id = $params['plant_id'];
+            if ($plant_id) {
+                $builder->where('plant_id', $plant_id);
             }
         }
 
@@ -202,19 +184,26 @@ class BuilderHelper
         }
 
         if ($id) {
-
             $builder->where('id',$id);
+        }
 
-        }else{
+        else{
+            if ($this->where) {
+                foreach ($this->where as $key => $value) {
+                    if ($value != "") {
+                        $builder->where($key,$value);
+                    }
+                }
+            }
 
-            if ($search AND $search_params) {
+            if ($this->search AND $search_params) {
                 // if ($search_params) {
                     $builder->groupStart();
-                        $builder->like($search_params[0],$search);
+                        $builder->like($search_params[0],$this->search);
                         if (count($search_params) > 1) {
                             foreach ($search_params as $key => $value) {
                                 if ($key != 0) {
-                                    $builder->orLike($value,$search);
+                                    $builder->orLike($value,$this->search);
                                 }
                             }
                         }
@@ -222,26 +211,27 @@ class BuilderHelper
                 // }
             }
 
-            if ($from_date) {
-                $builder->where('created_at >=', $this->gHelp->dtfFormatter($from_date));
+            if ($this->from_date) {
+                $builder->where('created_at >=', $this->gHelp->dtfFormatter($this->from_date));
             }
 
-            if ($to_date) {
-                $builder->where('created_at <=', $this->gHelp->dttFormatter($to_date));
+            if ($this->to_date) {
+                $builder->where('created_at <=', $this->gHelp->dttFormatter($this->to_date));
             }
 
-            if ($date) {
-                if ($date->from) {
-                    $builder->where('created_at >=', $this->gHelp->dtfFormatter($date->from));
+            if ($this->date) {
+                if ($this->date->from) {
+                    $builder->where('created_at >=', $this->gHelp->dtfFormatter($this->date->from));
                 }
 
-                if ($date->to) {
-                    $builder->where('created_at <=', $this->gHelp->dttFormatter($date->to));
+                if ($this->date->to) {
+                    $builder->where('created_at <=', $this->gHelp->dttFormatter($this->date->to));
                 }
             }
         }
 
         $builder->where('deleted_at', null);
+        $builder->where('deleted_at IS NULL');
 
         return $builder;
     }
@@ -337,6 +327,8 @@ class BuilderHelper
         $search     = $this->request->getJsonVar('search');
 
         $date       = $this->request->getJsonVar('date');
+
+        $where      = $this->request->getJsonVar('where');
         $selects    = $this->request->getJsonVar('selects');
 
         $builder        = $params['builder'];
@@ -358,7 +350,17 @@ class BuilderHelper
 
             $builder->where('id',$id);
 
-        }else{
+        }
+
+        else{
+
+            if ($where) {
+                foreach ($where as $key => $value) {
+                    if ($value != "") {
+                        $builder->where($key,$value);
+                    }
+                }
+            }
 
             if ($search) {
                 if ($search_params) {
@@ -475,6 +477,7 @@ class BuilderHelper
         $search     = $this->request->getJsonVar('search');
 
         $date       = $this->request->getJsonVar('date');
+        $where      = $this->request->getJsonVar('where');
 
         $builder        = $params['builder'];
         $id             = $params['id'];
@@ -625,11 +628,18 @@ class BuilderHelper
         }
 
         if ($id) {
-
             $builder->where('id',$id);
+        }
 
-        }else{
-
+        else{
+            if ($this->where) {
+                foreach ($this->where as $key => $value) {
+                    if ($value != "") {
+                        $builder->where($key,$value);
+                    }
+                }
+            }
+            
             if ($search) {
                 if ($search_params) {
                     $builder->groupStart();

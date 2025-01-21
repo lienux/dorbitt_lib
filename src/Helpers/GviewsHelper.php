@@ -82,4 +82,43 @@ class GviewsHelper
         return $this->minifier->minify(file_get_contents(base_url("vendor/dorbitt-lib/js/ummu.js")));
         // return "OK";
     }
+
+    public function web_data()
+    {
+        $name = getenv('web.name');
+        $favicon = getenv('web.favicon');
+        $tmp = getenv('web.tmp');
+        $title = getenv('web.title');
+        $logo = getenv('web.logo');
+
+        if(!$name) {
+            $name = 'ERPNESIA';
+        }
+
+        if(!$favicon) {
+            $favicon = 'dorbitt_favicon.ico';
+        }
+
+        if(!$logo) {
+            $logo = 'dorbitt.png';
+        }
+
+        if(!$tmp) { 
+            $tmp = 'arsha'; 
+        }
+
+        if(!$title) {
+            $title = 'ERPNESIA';
+        }
+
+        $data = [
+            "name"      => $name,
+            "logo"      => $logo,
+            "favicon"   => $favicon,
+            "tmp"       => $tmp,
+            "title"     => $title
+        ];
+
+        return $data;
+    }
 }

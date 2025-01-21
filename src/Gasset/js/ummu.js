@@ -48,7 +48,13 @@ var $ummu = {
         required_field: [],
         index: null,
         element_id: null,
-        arrayqu: []
+        arrayqu: [],
+        kode: null,
+        select2: {
+            id: null,
+            text: null,
+            name: null
+        }
     },
 
     config: {
@@ -66,11 +72,20 @@ var $ummu = {
             // $('#btn_login').on('click', function(){
 
             // })
+            $('#btn_max').on('click', function() {
+                var modalid = $(this).data('modalid');
+                if (modalid == undefined) {
+                    $ummu.views.modal.fullscreen('#modal_form #modal_dialog');
+                }else{
+                    $ummu.views.modal.fullscreen(modalid + ' #modal_dialog');
+                }
+            });
+
             $('nav .nav-tabs .nav-link').on('click', function(){
                 var nav_tab_id = $(this).attr('id');
                 localStorage.setItem('nav_tab_id', nav_tab_id);
                 $ummu.vars.nav_tab_id = nav_tab_id;
-            })
+            });
 
             $('.datepicker000').datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -499,6 +514,31 @@ var $ummu = {
                 });
 
                 return USDollar.format(data);
+            },
+
+            id: function(data) {
+                // let USDollar = new Intl.NumberFormat('en-US', {
+                //     minimumFractionDigits: 2,
+                //     // style: 'currency',
+                //     // currency: ' ',
+                // });
+
+                return new Intl.NumberFormat("id-ID", {
+                    minimumFractionDigits: 2,
+                    // style: "currency",
+                    // currency: "IDR"
+                }).format(data);
+
+                // return USDollar.format(data);
+            },
+
+            id2: function(data) {
+                return new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR"
+                }).format(data);
+
+                // return USDollar.format(data);
             }
 
             // // format number to British pounds
@@ -586,6 +626,18 @@ var $ummu = {
         companyNameFormatter: function(index, row) {
             var html = '<span class="text-muted">' + row.company_name + '</span>';
             return html
+        },
+
+        select2: {
+            gentext: function(rows) {
+                var data = $.map(rows, function (obj) {
+                    obj.text = obj.text || obj.name; // replace name with the property used for the text
+                  
+                    return obj;
+                });
+
+                return data;
+            }
         }
     },
 
@@ -5011,6 +5063,47 @@ var $ummu = {
                     return false;
                 }
             }
+        },
+
+        medicine_stock: {
+            insert: function() {
+                $ummu.vars.required_field = [];
+                $('#modal_message #alert').html('');
+
+                var material = $('#material').val();
+                if ($ummu.validation.is_valid(material) == false) {
+                    $('#modal_message #alert').append('<div>- Material required.</div>');
+                }
+
+                var uom = $('#uom').val();
+                if ($ummu.validation.is_valid(uom) == false) {
+                    $('#modal_message #alert').append('<div>- UoM required.</div>');
+                }
+                
+                var expired_date = $('#expired_date').val();
+                if ($ummu.validation.is_valid_date(expired_date) == false) {
+                    $('#modal_message #alert').append('<div>- Expired Date not Valid</div>');
+                }
+
+                // var formularium_qty = $('#formularium_qty').val();
+                // if ($ummu.validation.is_valid(formularium_qty) == false) {
+                //     $('#modal_message #alert').append('<div>- Formularium Qty required.</div>');
+                // }
+
+                var qty = $('#qty').val();
+                if ($ummu.validation.is_valid(qty) == false) {
+                    $('#modal_message #alert').append('<div>- Qty required.</div>');
+                }
+
+                // var qty_on_site = $('#qty_on_site').val();
+                // if ($ummu.validation.is_valid(qty_on_site) == false) {
+                //     $('#modal_message #alert').append('<div>- Qty on site required.</div>');
+                // }
+
+                if ($ummu.vars.required_field.includes(false)) {
+                    return false;
+                }
+            }
         }
     },
 
@@ -5068,12 +5161,14 @@ var $ummu = {
         select: {
             load: function() {
                 table.on('click', 'tbody tr td:first-child', function () {
-                    if (table.row(':eq(0)').selected()) {
-                        $ummu.dt.button.crud();
-                    }
-                    else {
-                        $ummu.dt.button.crud();
-                    }
+                    // if (table.row(':eq(0)').selected()) {
+                    //     $ummu.dt.button.crud();
+                    // }
+                    // else {
+                    //     $ummu.dt.button.crud();
+                    // }
+                    $ummu.dt.button.crud();
+                    $ummu.dt.button.trx();
                     // console.log("OK")
                 });
 
@@ -5090,10 +5185,12 @@ var $ummu = {
 
                 table.on( 'select', function ( e, dt, type, indexes ) {
                     $ummu.dt.button.crud();
+                    $ummu.dt.button.trx();
                 });
 
                 table.on( 'deselect', function ( e, dt, type, indexes ) {
                     $ummu.dt.button.crud();
+                    $ummu.dt.button.trx();
                 });
 
                 // table.on('mouseenter', 'td', function () {
@@ -5427,7 +5524,310 @@ var $ummu = {
                 }else{
                     table.button('#dt_btn_edit').disable();
                 }
-            }            
+            },
+            trx: function() {
+                table.button('#dt_btn_history').disable();
+                // table.button('#dt_btn_edit').disable();
+                // table.button('#dt_btn_release').disable();
+                // table.button('#dt_btn_delete').disable();
+                // table.button('#dt_btn_approve').disable();
+                // table.button('#dt_btn_pending').disable();
+                // table.button('#dt_btn_reject').disable();
+
+                var count_selc = $ummu.dt.select.count();
+                if (count_selc == 1) {
+                    var rows = $ummu.dt.select.data();
+                    $ummu.vars.id = rows[0].id;
+                    table.button('#dt_btn_history').enable();
+                    // console.log(rows[0])
+                }
+                else{
+                    table.button('#dt_btn_history').disable();
+                }
+                // else if (count_selc > 1) {
+                //     var rows = $ummu.dt.select.data();
+                // }else{
+                //     $ummu.vars.id = null;
+                //     $ummu.vars.ids = null;
+                // }
+
+
+                // var text = $ummu.vars.crud;
+                // var tab = $ummu.vars.nav_tab;
+                // // var nav_tab_id = localStorage.getItem('nav_tab_id');
+                // var nav_tab_id = $ummu.vars.nav_tab_id;
+                // if (text != '' || text != 0 || text != null) {
+                //     var crud = text.split(",");
+                // }else{
+                //     var crud = '';
+                // }
+
+                // if (crud) {
+                //     if (crud[0] == 1) {
+                //         table.button('#dt_btn_new').enable();
+                //     }
+
+                //     if (crud[2] == 1) {
+                //         if (count_selc == 1) {
+                //             table.button('#dt_btn_edit').enable();
+                //         }else if (count_selc > 1) {
+                //             table.button('#dt_btn_edit').disable();
+                //         }else{
+                //             table.button('#dt_btn_edit').disable();
+                //         }
+
+                //         // if (action == 'edit') {
+                //         //     $('.modal_btn_edit').prop('disabled', false);
+                //         //     $('.modal_btn_save').prop('disabled', true);
+                //         // }
+                //     }
+
+                //     if (crud[3] == 1) {
+                //         if (count_selc > 0) {
+                //             table.button('#dt_btn_delete').enable();
+                //         }else{
+                //             table.button('#dt_btn_delete').disable();
+                //         }
+                //     }
+                    
+                //     if ($ummu.vars.module_kode == '') {
+                //         if (nav_tab_id == 'nav-released-tab') {
+                //             if ($ummu.dt.select.count() > 0) {
+                //                 // table.button('#dt_btn_new').disable();
+                //                 // table.button('#dt_btn_edit').disable();
+                //                 table.button('#dt_btn_approve').enable();
+                //                 table.button('#dt_btn_reject').enable();
+                //                 table.button('#dt_btn_delete').enable();
+                //             }
+
+                //             // if (crud[2] == 1) {
+                //             //     $ummu.dt.button.edit();
+                //             // }
+
+                //             // if ($ummu.dt.select.count() == 1) {
+                //             //     table.button('#dt_btn_edit').enable();
+                //             // }else{
+                //             //     table.button('#dt_btn_edit').disable();
+                //             // }
+                //             // console.log('nav-release-tab');
+                //         }
+
+                //         // if (tab == 1) {
+                //         //     /**
+                //         //      * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+                //         //     if (crud[4] == 1) {
+                //         //         if ($ummu.dt.select.count() > 0) {
+                //         //             table.button('#dt_btn_approve').enable();
+                //         //             table.button('#dt_btn_reject').enable();
+                //         //         }
+                //         //     }
+                //         // }
+
+                //         // if (crud[2] == 1) {
+                //         //     if (count_selc == 1) {
+                //         //         table.button('#dt_btn_edit').enable();
+                //         //     }else if (count_selc > 1) {
+                //         //         table.button('#dt_btn_edit').disable();
+                //         //     }else{
+                //         //         table.button('#dt_btn_edit').disable();
+                //         //     }
+
+                //         //     if (action == 'edit') {
+                //         //         $('.modal_btn_edit').prop('disabled', false);
+                //         //         $('.modal_btn_save').prop('disabled', true);
+                //         //     }
+                //         // }else{
+                //         //     table.button('#dt_btn_edit').disable();
+                //         // }
+                //     }
+
+                //     if ($ummu.vars.module_kode == 'she_hazard_report') {
+                //         table.button('#dt_btn_new').enable();
+                //         table.button('#dt_btn_edit').disable();
+                //         table.button('#dt_btn_release').disable();
+                //         table.button('#dt_btn_delete').disable();
+                //         table.button('#dt_btn_approve').disable();
+                //         table.button('#dt_btn_pending').disable();
+                //         table.button('#dt_btn_reject').disable();
+
+                //             // console.log(crud);
+                //             // console.log(crud);
+                //             // console.log(count_selc);
+
+                //             // c,rall,u,d,admin
+                //             // 0,1   ,2,3,4
+
+                //             // if (crud) {
+                //             //     if (crud[0] == 1) {
+                //             //         if (count_selc == 1) {
+                //             //             table.button('#btn_new').disable();
+                //             //             table.button('#dt_btn_new').disable();
+                //             //         }else if (count_selc > 1) {
+                //             //             table.button('#btn_new').disable();
+                //             //             table.button('#dt_btn_new').disable();
+                //             //         }else{
+                //             //             table.button('#btn_new').enable();
+                //             //             table.button('#dt_btn_new').enable();
+                //             //         }
+
+                //             //         if (action == 'new') {
+                //             //             $('.modal_btn_edit').prop('disabled', true);
+                //             //             $('.modal_btn_save').prop('disabled', false);
+                //             //         }
+                //             //     }else{
+                //             //         table.button('#btn_new').disable();
+                //             //         table.button('#dt_btn_new').disable();
+                //             //     }
+
+                //             //     if (crud[2] == 1) {
+                //             //         if (count_selc == 1) {
+                //             //             table.button('#dt_btn_edit').enable();
+                //             //         }else if (count_selc > 1) {
+                //             //             table.button('#dt_btn_edit').disable();
+                //             //         }else{
+                //             //             table.button('#dt_btn_edit').disable();
+                //             //         }
+
+                //             //         if (action == 'edit') {
+                //             //             $('.modal_btn_edit').prop('disabled', false);
+                //             //             $('.modal_btn_save').prop('disabled', true);
+                //             //         }
+                //             //     }else{
+                //             //         table.button('#dt_btn_edit').disable();
+                //             //     }
+
+                //             //     if (crud[3] == 1) {
+                //             //         if (count_selc > 0) {
+                //             //             table.button('#dt_btn_delete').enable();
+                //             //         }else{
+                //             //             table.button('#dt_btn_delete').disable();
+                //             //         }
+                //             //     }else{
+                //             //         table.button('#dt_btn_delete').disable();
+                //             //     }
+                //             // }else{
+                //             //     table.button('#dt_btn_new').enable();
+                //             //     table.button('#dt_btn_edit').disable();
+                //             //     table.button('#dt_btn_delete').disable();
+                //             // }
+
+                //             // if ($ummu.vars.module_kode == 'event_recruitment') {
+                //             //     if (count_selc == 1) {
+                //             //         table.button('#dt_btn_open_recruitment').enable();
+                //             //     }else{
+                //             //         table.button('#dt_btn_open_recruitment').disable();
+                //             //     }
+                //             // }
+
+                //             // if ($ummu.vars.module_kode == 'she_hazard_report') {
+                //             //     if (count_selc >= 1) {
+                //             //         table.button('#btn_release').enable();
+                //             //     }else{
+                //             //         table.button('#btn_release').disable();
+                //             //     }
+                //             // }
+
+                //             // table.button('#btn_edit').disable();
+                //             // table.button('#btn_approve').disable();
+                //             // table.button('#btn_reject').disable();
+                //             // table.button('#btn_release').disable();
+                //             // table.button('#btn_multi_delete').disable();
+
+                        
+
+                //             /** 
+                //              * crud[0] = create
+                //              * crud[1] = read all
+                //              * crud[2] = update
+                //              * crud[3] = delete
+                //              * crud[4] = admin*/
+
+                //             /**
+                //              * jika tab Not Release atau Rejected List active */
+                //         if (nav_tab_id == 'nav-notrelease-tab' || nav_tab_id == 'nav-rejected-tab' ) {
+                //             if ($ummu.dt.select.count() > 0) {
+                //                 table.button('#dt_btn_release').enable();
+
+                //                 if (crud[3] == 1) {
+                //                     table.button('#dt_btn_delete').enable();
+                //                 }
+
+                //             }
+
+                //             // if (crud[2] == 1) {
+                //             //     $ummu.dt.button.edit();
+                //             // }
+
+                //             // if ($ummu.dt.select.count() == 1) {
+                //             //     table.button('#dt_btn_edit').enable();
+                //             // }else{
+                //             //     table.button('#dt_btn_edit').disable();
+                //             // }
+                //         }
+
+                //             /**
+                //              * Jika tab Released List active */
+                //         if (nav_tab_id == 'nav-released-tab') {
+                //                 /**
+                //                  * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+                //             if (crud[4] == 1) {
+                //                 if ($ummu.dt.select.count() > 0) {
+                //                     table.button('#dt_btn_approve').enable();
+                //                     table.button('#dt_btn_reject').enable();
+                //                 }
+                //             }
+                //         }
+
+                //             // if (crud[2] == 1) {
+                //             //     if (count_selc == 1) {
+                //             //         table.button('#dt_btn_edit').enable();
+                //             //     }else if (count_selc > 1) {
+                //             //         table.button('#dt_btn_edit').disable();
+                //             //     }else{
+                //             //         table.button('#dt_btn_edit').disable();
+                //             //     }
+
+                //             //     if (action == 'edit') {
+                //             //         $('.modal_btn_edit').prop('disabled', false);
+                //             //         $('.modal_btn_save').prop('disabled', true);
+                //             //     }
+                //             // }else{
+                //             //     table.button('#dt_btn_edit').disable();
+                //             // }
+                //     }
+
+                //     if ($ummu.vars.module_kode == 'hcm_applicants') {
+                //         table.button('#dt_btn_new').enable();
+                //         table.button('#dt_btn_edit').disable();
+                //         table.button('#dt_btn_release').disable();
+                //         table.button('#dt_btn_delete').disable();
+                //         table.button('#dt_btn_approve').disable();
+                //         table.button('#dt_btn_pending').disable();
+                //         table.button('#dt_btn_reject').disable();                        
+
+                //         /** 
+                //          * crud[0] = create
+                //          * crud[1] = read all
+                //          * crud[2] = update
+                //          * crud[3] = delete
+                //          * crud[4] = admin*/
+                //         /**
+
+                //         /**
+                //          * Jika tab Released List active */
+                //         if (nav_tab_id == null || nav_tab_id == '' || nav_tab_id == 'nav-released-tab') {
+                //             /**
+                //              * pada tab Released List, dokument bisa diapprove dan direject */
+                //             if (crud[4] == 1) {
+                //                 if ($ummu.dt.select.count() > 0) {
+                //                     table.button('#dt_btn_approve').enable();
+                //                     table.button('#dt_btn_reject').enable();
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+            }
         },
 
         after_cud: function() {
@@ -5573,7 +5973,6 @@ var $ummu = {
                         ).disable();
                     }
                 }
-
             },
 
             button_status: function(status) {
@@ -5650,6 +6049,22 @@ var $ummu = {
                                     $ummu.vars.row = rows[0];
                                     $ummu.vars.action = 'add';
                                     app.controllers.add(rows[0]);
+                                }
+                            }
+                        ).disable();                        
+                    }
+
+                    if (trx.includes('history') == true) {
+                        table.button().add(18,
+                            {
+                                text: '<i class="fas fa-receipt text-primary"></i> Hisotry',
+                                attr: { id: 'dt_btn_history'},
+                                className: 'py-1 for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'get';
+                                    app.controllers.history(rows[0]);
                                 }
                             }
                         ).disable();                        
