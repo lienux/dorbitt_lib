@@ -11,36 +11,57 @@ namespace Dorbitt;
 * =============================================
 */
 
-use Dorbitt\Curl;
+use Dorbitt\Helpers\CurlHelper;
+use Dorbitt\Helpers\UmmuHelper;
+use Dorbitt\Helpers\GlobalHelper;
 
 class UmmuMechanicActivity
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->kode = "pm_mechanic_activity";
+
+        $this->curli = new CurlHelper();
+        $this->gHelp = new GlobalHelper();
+        $this->umHelp = new UmmuHelper();
+        
+        $this->umHelp->autoHelper($this->kode);
+        $this->urli = 'api/pm/mechanic_activity/';
     }
 
     public function show($params)
     {
-        $id = $params['id'];
-        $payload = $params['payload'];
-        $token = $params['token'];
+        // $id = $params['id'];
+        // $payload = $params['payload'];
+        // $token = $params['token'];
         
-        if ($id) {
-            $path = "api/pm/mechanic_activity/show/" . $id;
-        }else{
-            $path = "api/pm/mechanic_activity/show";
-        }
+        // if ($id) {
+        //     $path = "api/pm/mechanic_activity/show/" . $id;
+        // }else{
+        //     $path = "api/pm/mechanic_activity/show";
+        // }
 
-        $params = [
-            "path"           => $path,
-            "method"         => "GET",
-            "payload"        => $payload,
-            "module_code"    => "pm_mechanic_activity",
-            "token"          => $token
-        ];
+        // $params = [
+        //     "path"           => $path,
+        //     "method"         => "GET",
+        //     "payload"        => $payload,
+        //     "module_code"    => "pm_mechanic_activity",
+        //     "token"          => $token
+        // ];
 
-        $response = $this->curli->request3($params);
+        // $response = $this->curli->request3($params);
+
+        // return json_decode($response, false);
+
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "show",
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
 
         return json_decode($response, false);
     }
@@ -126,6 +147,21 @@ class UmmuMechanicActivity
         ];
 
         $response = $this->curli->request3($params);
+
+        return json_decode($response, false);
+    }
+
+    public function show_reason($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "show_reason",
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
 
         return json_decode($response, false);
     }

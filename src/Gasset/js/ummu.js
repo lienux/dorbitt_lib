@@ -54,6 +54,39 @@ var $ummu = {
             id: null,
             text: null,
             name: null
+        },
+
+        mode_form: null,
+        dataIndex: null,
+        woID: null,
+
+        date_start: null,
+        date_end: null,
+
+        time_start: null,
+        time_end: null,
+
+        min_time: null,
+        max_time: null,
+
+        dNow: new Date().toISOString().slice(0,10),
+        tNow: new Date().toTimeString().slice(0,8),
+
+
+        identity: {
+            account_id: null,
+            nikaryawan: null,
+            name: null,
+
+            plant_id: null,
+            plant_kode: null,
+            plant_name: null,
+            plant: null,
+
+            lokasi_temuan_id: null,
+            site_project_kode: null,
+            site_project_name: null,
+            site_project: null
         }
     },
 
@@ -72,12 +105,13 @@ var $ummu = {
             // $('#btn_login').on('click', function(){
 
             // })
-            $('#btn_max').on('click', function() {
+            $('.btn-max').on('click', function() {
                 var modalid = $(this).data('modalid');
+                console.log(modalid)
                 if (modalid == undefined) {
                     $ummu.views.modal.fullscreen('#modal_form #modal_dialog');
                 }else{
-                    $ummu.views.modal.fullscreen(modalid + ' #modal_dialog');
+                    $ummu.views.modal.fullscreen('#'+modalid + ' #modal_dialog');
                 }
             });
 
@@ -2541,6 +2575,490 @@ var $ummu = {
                 arrayqu.push($(this).text());
             });
             return arrayqu;
+        },
+
+        mechanic_activity: {
+            dateStart: function() {
+                $('#date_start').change(function() {
+                    var date_start = $('#date_start').val();
+                    var date_end = $('#date_end').val();
+                    var time_start = $('#time_start').val();
+                    var time_end = $('#time_end').val();
+
+                    /**
+                     * jika tgl yg dipilih lebih besar dari tgl end, maka kosongkan tgl end
+                     */
+                    if (date_start > date_end) {
+                        $('#date_end').val("");
+                        $('#time_end').val('__:__');
+                    }
+                    var minDateEnd = date_start;
+
+                    if (date_start == $ummu.vars.date_start) {
+                        $('#time_start').val('__:__');
+
+                        var minTimeStart = $ummu.vars.time_start;
+                        if ($ummu.vars.time_end) {
+                            var maxTimeStart = $ummu.vars.time_end;
+                        }else{
+                            var maxTimeStart = '23:59';
+                        }
+
+                        if (date_start == $ummu.vars.dNow) {
+                            var minTimeStart = $ummu.vars.time_start;
+                            var maxTimeStart = $ummu.vars.time_end;
+
+                            // var minTimeEnd = '00:00';
+                            // var maxTimeEnd = '23:59';
+
+                            var minDateEnd = date_start;
+                            if ($ummu.vars.date_end == null) {
+                                var maxDateEnd = $ummu.vars.dNow
+                            }else{
+                                var maxDateEnd = $ummu.vars.date_end
+                            }
+                        }
+                    }else{
+                        if (date_start == $ummu.vars.dNow) {
+                            var minTimeStart = '00:00';
+                            var maxTimeStart = $ummu.vars.tNow;
+
+                            var minDateEnd = date_start;
+                            var maxDateEnd = date_start;
+                        }
+                        else{
+
+                        }
+                    }
+
+
+                    /**
+                     * Jika tidak ada tgl yg dipilih
+                     * */
+                    if (date_start == null || date_start == "____-__-__" || date_start == "") {
+                        var minDateEnd = $ummu.vars.date_start;
+                        if ($ummu.vars.date_end == null) {
+                            var maxDateEnd = $ummu.vars.dNow
+                        }else{
+                            var maxDateEnd = $ummu.vars.date_end
+                        }
+                    }
+
+                    // /**
+                        //  * jika tgl yg dipilih sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+                        //  * */
+                        // if (date_start == $ummu.vars.date_start && $ummu.vars.date_start == $ummu.vars.dNow) {
+
+                        //     var minTimeStart = $ummu.vars.time_start;
+                        //     var maxTimeStart = $ummu.vars.time_end;
+
+                        //     // var minTimeEnd = '00:00';
+                        //     // var maxTimeEnd = '23:59';
+
+                        //     var minDateEnd = date_start;
+                        //     if ($ummu.vars.date_end == null) {
+                        //         var maxDateEnd = $ummu.vars.dNow
+                        //     }else{
+                        //         var maxDateEnd = $ummu.vars.date_end
+                        //     }
+
+                        // }
+
+                        // /**
+                        //  * jika tgl yg dipilih tidak sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+                        //  * */
+                        // if (date_start != $ummu.vars.date_start && date_start == $ummu.vars.dNow) {
+
+                        //     var minTimeStart = '00:00';
+                        //     var maxTimeStart = $ummu.vars.tNow;
+
+                        //     // var minTimeEnd = '00:00';
+                        //     // var maxTimeEnd = $ummu.vars.tNow;
+
+                        //     var minDateEnd = date_start;
+                        //     var maxDateEnd = date_start;
+
+                    // }
+
+                    /**
+                     * jika tgl yg dipilih lebih besar dari tgl yg ditentukan oleh SAP, dan jika tgl yg dipilih lebih kecil dari tgl sekarang
+                     * */
+                    if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow) {
+                        var minTimeStart = '00:00';
+                        var maxTimeStart = '23:59';
+
+                        // var minTimeEnd = '00:00';
+                        // var maxTimeEnd = '23:59';
+
+                        var minDateEnd = date_start;
+                        if ($ummu.vars.date_end == null) {
+                            var maxDateEnd = $ummu.vars.dNow
+                        }else{
+                            var maxDateEnd = $ummu.vars.date_end
+                        }
+                    }
+
+
+                    /*if (date_start == $ummu.vars.dNow) {
+
+                        if (date_start == $ummu.vars.date_start) {
+
+                            var minTimeStart = $ummu.vars.time_start;
+                            var maxTimeStart = $ummu.vars.time_end;
+
+                            // var minTimeEnd = '00:00';
+                            // var maxTimeEnd = '23:59';
+
+                            var minDateEnd = date_start;
+                            if ($ummu.vars.date_end == null) {
+                                var maxDateEnd = $ummu.vars.dNow
+                            }else{
+                                var maxDateEnd = $ummu.vars.date_end
+                            }
+
+                        }else{
+
+                            var minTimeStart = '00:00';
+                            var maxTimeStart = $ummu.vars.tNow;
+
+                            // var minTimeEnd = '00:00';
+                            // var maxTimeEnd = $ummu.vars.tNow;
+
+                            var minDateEnd = date_start;
+                            var maxDateEnd = date_start;
+                        
+                        }
+                    }*/
+
+                    
+
+                    /*if (date_start == $ummu.vars.date_start) {
+                        var mintimestart = $ummu.vars.time_start
+                    }else{
+                        var mintimestart = '00:00'
+                    }*/
+
+                    $('#time_start').datetimepicker({
+                        minTime: minTimeStart,
+                        maxTime: maxTimeStart
+                    });
+
+                    $('#date_end').datetimepicker({
+                        minDate: minDateEnd,
+                        maxDate: maxDateEnd
+                    });
+                });
+            },
+
+            timeStart: function() {
+                $('#time_start').change(function(){
+                    var date_start = $('#date_start').val();
+                    var date_end = $('#date_end').val();
+                    var time_start = $('#time_start').val();
+                    var time_end = $('#time_end').val();
+
+                    if (date_start == null || date_start == "____-__-__" || date_start == "") {
+                        $('#message_modal').modal('show');
+                        $('#message_title').html("Validations");
+                        $('#text_message').html('<div class="alert alert-danger" role="alert">'+
+                                                    'isi DateStart terlebih dahulu'+
+                                                '</div>');
+                        $(this).val("__:__");
+                    }
+                })
+            },
+
+            dateEnd: function() {
+                // var date_start = $('#date_start').val();
+                // var date_end = $('#date_end').val();
+
+                // if (date_start == date_end) {
+                //     var mintimeend = $ummu.vars.time_start
+                //     // var maxtimeend = '23:00'
+                // }else{
+                //     var mintimeend = '00:00'
+                // }
+
+                // if (date_end == $ummu.vars.d) {
+                //     var maxtimeend = $ummu.vars.t
+                // }
+
+                // $('#time_end').datetimepicker({
+                //     minTime:mintimeend,
+                //     maxTime:maxtimeend
+                // });
+
+                // $('#date_end').on('change', function() {
+                //     var date_start = $('#date_start').val();
+                //     var date_end = $('#date_end').val();
+
+                //     /**
+                //      * jika tgl yg dipilih lebih besar dari tgl end, maka kosongkan tgl end
+                //      */
+                //     if (date_start > date_end) {
+                //         $('#date_end').val("");
+                //     }
+                //     var minDateEnd = date_start;
+
+                //     /**
+                //      * Jika tidak tgl yg dipilih
+                //      * */
+                //     if (date_start == null || date_start == "____-__-__" || date_start == "") {
+                //         var minDateEnd = $ummu.vars.date_start;
+                //         if ($ummu.vars.date_end == null) {
+                //             var maxDateEnd = $ummu.vars.dNow
+                //         }else{
+                //             var maxDateEnd = $ummu.vars.date_end
+                //         }
+                //     }
+
+                //     /**
+                //      * jika tgl yg dipilih sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+                //      * */
+                //     if (date_start == $ummu.vars.date_start && $ummu.vars.date_start == $ummu.vars.dNow) {
+
+                //         var minTimeStart = $ummu.vars.time_start;
+                //         var maxTimeStart = $ummu.vars.time_end;
+
+                //         // var minTimeEnd = '00:00';
+                //         // var maxTimeEnd = '23:59';
+
+                //         var minDateEnd = date_start;
+                //         if ($ummu.vars.date_end == null) {
+                //             var maxDateEnd = $ummu.vars.dNow
+                //         }else{
+                //             var maxDateEnd = $ummu.vars.date_end
+                //         }
+
+                //     }
+
+                //     /**
+                //      * jika tgl yg dipilih tidak sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+                //      * */
+                //     if (date_start != $ummu.vars.date_start && date_start == $ummu.vars.dNow) {
+
+                //         var minTimeStart = '00:00';
+                //         var maxTimeStart = $ummu.vars.tNow;
+
+                //         // var minTimeEnd = '00:00';
+                //         // var maxTimeEnd = $ummu.vars.tNow;
+
+                //         var minDateEnd = date_start;
+                //         var maxDateEnd = date_start;
+
+                //     }
+
+                //     /**
+                //      * jika tgl yg dipilih lebih besar dari tgl yg ditentukan oleh SAP, dan jika tgl yg dipilih lebih kecil dari tgl sekarang
+                //      * */
+                //     if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow) {
+
+                //         var minTimeStart = '00:00';
+                //         var maxTimeStart = '23:59';
+
+                //         // var minTimeEnd = '00:00';
+                //         // var maxTimeEnd = '23:59';
+
+                //         var minDateEnd = date_start;
+                //         if ($ummu.vars.date_end == null) {
+                //             var maxDateEnd = $ummu.vars.dNow
+                //         }else{
+                //             var maxDateEnd = $ummu.vars.date_end
+                //         }
+
+                //     }
+
+
+                //     // if (date_start == $ummu.vars.dNow) {
+
+                //     //     if (date_start == $ummu.vars.date_start) {
+
+                //     //         var minTimeStart = $ummu.vars.time_start;
+                //     //         var maxTimeStart = $ummu.vars.time_end;
+
+                //     //         // var minTimeEnd = '00:00';
+                //     //         // var maxTimeEnd = '23:59';
+
+                //     //         var minDateEnd = date_start;
+                //     //         if ($ummu.vars.date_end == null) {
+                //     //             var maxDateEnd = $ummu.vars.dNow
+                //     //         }else{
+                //     //             var maxDateEnd = $ummu.vars.date_end
+                //     //         }
+
+                //     //     }else{
+
+                //     //         var minTimeStart = '00:00';
+                //     //         var maxTimeStart = $ummu.vars.tNow;
+
+                //     //         // var minTimeEnd = '00:00';
+                //     //         // var maxTimeEnd = $ummu.vars.tNow;
+
+                //     //         var minDateEnd = date_start;
+                //     //         var maxDateEnd = date_start;
+                        
+                //     //     }
+                //     // }
+
+                    
+
+                //     // if (date_start == $ummu.vars.date_start) {
+                //     //     var mintimestart = $ummu.vars.time_start
+                //     // }else{
+                //     //     var mintimestart = '00:00'
+                //     // }
+
+                //     $('#time_start').datetimepicker({
+                //         minTime: minTimeStart,
+                //         maxTime: maxTimeStart
+                //     });
+
+                //     $('#date_end').datetimepicker({
+                //         minDate: minDateEnd,
+                //         maxDate: maxDateEnd
+                //     });
+                // });
+
+                $('#date_end').change(function() {
+                    var date_start = $('#date_start').val();
+                    var date_end = $('#date_end').val();
+                    var time_start = $('#time_start').val();
+                    var time_end = $('#time_end').val();
+
+                    // var minTimeStart = $ummu.vars.time_start;
+                    // if ($ummu.vars.time_end) {
+                    //     var maxTimeStart = $ummu.vars.time_end;
+                    // }else{
+                    //     var maxTimeStart = '23:59';
+                    // }
+
+                    $('#time_end').val("__:__");
+
+                    if (time_start == null || time_start == "__:__" || time_start == "") {
+                        $('#message_modal').modal('show');
+                        $('#message_title').html("Validations");
+                        $('#text_message').html('<div class="alert alert-danger" role="alert">'+
+                                                    'Isi TimeStart terlebih dahulu'+
+                                                '</div>');
+                        $(this).val("____-__-__");
+                    }
+
+                    // if (date_end == date_start) {
+                    //     if (date_end == $ummu.vars.date_start) {
+                    //         if (date_end == $ummu.vars.dNow) {
+                    //             $('#time_end').datetimepicker({
+                    //                 minTime: time_start,
+                    //                 maxTime: $ummu.vars.tNow
+                    //             });
+                    //         }else{
+                    //             $('#time_end').datetimepicker({
+                    //                 minTime: time_start,
+                    //                 maxTime: '23:59'
+                    //             });
+                    //         }
+                    //     }else{
+                    //         if (date_end == $ummu.vars.dNow) {
+                    //             $('#time_end').datetimepicker({
+                    //                 minTime: time_start,
+                    //                 maxTime: $ummu.vars.tNow
+                    //             });
+                    //         }else{
+                    //             $('#time_end').datetimepicker({
+                    //                 minTime: time_start,
+                    //                 maxTime: '23:59'
+                    //             });
+                    //         }
+                    //     }
+
+                    //     // if (date_end == $ummu.vars.dNow) {
+                    //     //     $('#time_end').datetimepicker({
+                    //     //         minTime: time_start,
+                    //     //         maxTime: $ummu.vars.tNow
+                    //     //     });
+                    //     // }
+
+                    //     // if (date_end == ) {
+                    //     //     $('#time_end').datetimepicker({
+                    //     //         minTime: time_start,
+                    //     //         maxTime: '23:59'
+                    //     //     });
+                    //     // }
+
+                    //     // if (date_end == $ummu.vars.dNow) {
+                    //     //     $('#time_end').datetimepicker({
+                    //     //         minTime: time_start,
+                    //     //         maxTime: $ummu.vars.time_end
+                    //     //     });
+                    //     // }
+                    // }
+
+                    if (date_end == date_start || date_end == $ummu.vars.date_end || date_end == $ummu.vars.dNow) {
+                        var min_time = time_start;
+                    }else{
+                        var min_time = $ummu.vars.min_time
+                    }
+
+                    if (date_end == $ummu.vars.dNow || date_end == $ummu.vars.date_end) {
+                        var max_time = $ummu.vars.tNow;
+                    }else{
+                        if ($ummu.vars.time_end) {
+                            var max_time = $ummu.vars.time_end;
+                        }else{
+                            var max_time = '23:59';
+                        }
+                    }
+
+                    // if (date_end == $ummu.vars.dNow) {
+                    //     var max_time = $ummu.vars.tNow;
+                    // }
+
+                    $('#time_end').datetimepicker({
+                        minTime: min_time,
+                        maxTime: max_time
+                    });
+                })
+            },
+
+            timeEnd: function() {
+                $('#time_end').change(function(){
+                    var date_start = $('#date_start').val();
+                    var date_end = $('#date_end').val();
+                    var time_start = $('#time_start').val();
+                    var time_end = $('#time_end').val();
+                    // $('#time_end').change(function(){
+                    //     // $('#time_start').datetimepicker({
+                    //     //     minTime: minTimeStart,
+                    //     //     maxTime: maxTimeStart
+                    //     // });
+                    //     if (date_end == null || date_end == "____-__-__" || date_end == "") {
+                    //         $('#message_modal').modal('show');
+                    //         $('#message_title').html("Validations");
+                    //         $('#text_message').html('<div class="alert alert-danger" role="alert">'+
+                    //                                     'isi DateEnd terlebih dahulu'+
+                    //                                 '</div>');
+                    //         $(this).val("__:__");
+                    //     }
+                    // })
+                    var workstart = date_start+' '+time_start;
+                    var workend = date_end+' '+time_end;
+
+                    var datetime1 = date_start+' '+time_start;
+                    var datetime2 = date_end+' '+time_end;
+
+                    var jmlMenit = $ummu.func.datetime.jmlMenit(datetime1, datetime2);
+                    var jmlJam = $ummu.func.datetime.jmlJam(datetime1, datetime2);
+                    var toText = $ummu.func.datetime.toText(datetime1, datetime2);
+
+                    $('#duration').val(jmlMenit);
+                    $('#duration2').val(jmlJam.replace('.', ','));
+                    $('#duration_text').val(toText);
+
+                    // console.log(countdate)
+                    // console.log(workstart)
+                    // console.log(workend)
+                })
+                // console.log("OK")
+            }
         }
     },
 
@@ -4935,14 +5453,14 @@ var $ummu = {
         },
 
         is_valid_date: function(value) {
-            if (value == '0000-00-00' || moment(value, 'YYYY-MM-DD',true).isValid() == false) {
+            if (value == '0000-00-00' || moment(value, 'YYYY-MM-DD',true).isValid() == false || value === '____-__-__') {
                 $ummu.vars.required_field.push(false);
                 return false;
             }
         },
 
         is_valid_time: function(value) {
-            if (moment(value, 'HH:mm',true).isValid() == false) {
+            if (moment(value, 'HH:mm',true).isValid() == false || value === '__:__') {
                 $ummu.vars.required_field.push(false);
                 return false;
             }
@@ -5103,6 +5621,114 @@ var $ummu = {
                 if ($ummu.vars.required_field.includes(false)) {
                     return false;
                 }
+            }
+        },
+
+        mechanic_activity: {
+            insert: function() {
+                $ummu.vars.required_field = [];
+                $('#modal_message #alert').html('');
+
+                // if ($ummu.validation.is_valid($('#plant').val()) == false) {
+                //     $('#modal_message #alert').append('<div>- Plant required.</div>');
+                // }
+
+                if ($ummu.validation.is_valid($('#employee').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Mechanic required.</div>');
+                }
+
+                if ($ummu.validation.is_valid($('#reason').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Reason required.</div>');
+                }
+
+                if ($ummu.validation.is_valid($('#techIdNo').val()) == false) {
+                    $('#modal_message #alert').append('<div>- techIdNo required.</div>');
+                }
+
+
+                if ($ummu.validation.is_valid($('#wo_number').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Order Number required.</div>');
+                }
+
+                if ($ummu.validation.is_valid($('#operation').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Operation required.</div>');
+                }
+                
+
+                if ($ummu.validation.is_valid_date($('#date_start').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Work Start Date required.</div>');
+                }
+
+                if ($ummu.validation.is_valid_time($('#time_start').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Work Start Time required.</div>');
+                }
+
+                if ($ummu.validation.is_valid_date($('#date_end').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Work End Date required.</div>');
+                }
+
+                if ($ummu.validation.is_valid_time($('#time_end').val()) == false) {
+                    $('#modal_message #alert').append('<div>- Work End Time required.</div>');
+                }
+
+
+                if ($ummu.vars.required_field.includes(false)) {
+                    return false;
+                }
+
+
+
+
+
+                // if ($('#plant').val() === null) {
+                //     $ummu.vars.errors.push("plant")
+                // }
+
+                // if ($('#wo_number').val() === null) {
+                //     $ummu.vars.errors.push("wo_number")
+                // }
+
+                // if ($('#wo_number').val() === null) {
+                //     $ummu.vars.errors.push("wo_number")
+                // }
+
+                // if ($('#techIdNo').val() === null) {
+                //     $ummu.vars.errors.push("techIdNo")
+                // }
+
+                // if ($('#operation').val() === null) {
+                //     $ummu.vars.errors.push("operation")
+                // }
+
+                // if ($('#employee').val() === null) {
+                //     $ummu.vars.errors.push("mechanic")
+                // }
+
+                // if ($('#reason').val() === null) {
+                //     $ummu.vars.errors.push("reason")
+                // }
+
+                // var date_start = $('#date_start').val();
+                // if (date_start === null || date_start === '____-__-__') {
+                //     $ummu.vars.errors.push("date_start")
+                // }
+
+                // var time_start = $('#time_start').val();
+                // if (time_start === null || time_start === '__:__') {
+                //     $ummu.vars.errors.push("time_start")
+                // }
+
+                // var date_end = $('#date_end').val();
+                // if (date_end === null || date_end === '____-__-__') {
+                //     $ummu.vars.errors.push("date_end")
+                // }
+
+                // var time_end = $('#time_end').val();
+                // if (time_end === null || time_end === '__:__') {
+                //     $ummu.vars.errors.push("time_end")
+                // }
+
+                // return $ummu.vars.errors;
             }
         }
     },

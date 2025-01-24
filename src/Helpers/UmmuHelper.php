@@ -860,4 +860,25 @@ class UmmuHelper
 
         return $smtp_error;
     }
+
+    public function page_header($data_page, $page)
+    {
+        $page_header = "404 Error";
+
+        // $data_page = [
+        //     "contact" => "Contact",
+        //     "gallery" => "Gallery",
+        //     "certificate" => "Certificate"
+        // ];
+
+        if ($data_page) {
+            foreach ($data_page as $key => $value) {
+                if ($key == $page) {
+                    $page_header = $value;
+                }
+            }
+        }
+
+        return $page_header;
+    }
 }

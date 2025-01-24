@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="form-row">
                     <label for="date_from" class="text-info">DateTime Start</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text rounded-0"><i class="fa-solid fa-calendar-days"></i></span>
                         <input type="text" class="form-control datepicker000" id="date_from" name="date_from">
                         <span class="input-group-text rounded-0"><i class="fas fa-clock"></i></span>
@@ -20,7 +20,7 @@
                     </div>
 
                     <label for="date_from" class="text-info">DateTime End</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text rounded-0"><i class="fa-solid fa-calendar-days"></i></span>
                         <input type="text" class="form-control datepicker000" id="date_to" name="date_to">
                         <span class="input-group-text rounded-0"><i class="fas fa-clock"></i></span>
@@ -28,8 +28,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btn_save_filter">Save Change</button>
+            <div class="modal-footer py-1">
+                <button type="button" class="btn btn-sm btn-primary" id="btn_save_filter">Save Filter</button>
             </div>
         </div>
     </div>

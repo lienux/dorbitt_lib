@@ -40,7 +40,7 @@
             <div class="modal-body">
                 <div class="alert alert-danger text-sm" id="alert"></div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer py-1">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
