@@ -87,7 +87,9 @@ var $ummu = {
             site_project_kode: null,
             site_project_name: null,
             site_project: null
-        }
+        },
+
+        toggle_sidebar: localStorage.getItem('toggle_sidebar'),
     },
 
     config: {
@@ -535,6 +537,14 @@ var $ummu = {
                 console.log(id)
             });
         },
+
+        btn: {
+            toggle_sidebar: function() {
+                $('.toggle-sidebar-btn').on('click', function(){
+                    $ummu.ls.toggle_sidebar();
+                })
+            }
+        }
     },
 
     helpers: {
@@ -672,7 +682,7 @@ var $ummu = {
 
                 return data;
             }
-        }
+        },
     },
 
     controllers: {
@@ -2085,6 +2095,7 @@ var $ummu = {
                     console.log(ummu)
                 });
             },
+
             approve: function() {
                 var rows = $ummu.vars.rows;
                 var url = globalVar.pageUrl;
@@ -2126,24 +2137,44 @@ var $ummu = {
                     console.log(ummu)
                 });
             },
+
             reject: function() {
                 var rows = $ummu.vars.rows;
                 var url = globalVar.pageUrl;
                 var r = [];
+                var dn = [];
+                var phone = [];
+                var body = [];
+
                 $.each(rows, function( index, value ) {
                     r[index] = {};
+                    dn[index] = {};
+                    phone[index] = {};
+
                     r[index] = value.id;
+                    dn[index] = value.document_number;
+                    phone[index] = value.phone_number;
+
+                    body[index] = {
+                        "id": value.id,
+                        "document_number": value.document_number,
+                        "phone_number": value.phone_number
+                    }
                 });
 
                 var payload = JSON.stringify(
                 {
-                    "body": {
-                        "ids": r
-                    }
+                    // "body": {
+                    //     "ids": r,
+                    //     "doc_number": dn,
+                    //     "phone_number": phone
+                    // }
+
+                    "body": body
                 });
 
                 var params = {
-                    "url": url + 'reject',
+                    "url": $ummu.vars.page_url + 'reject',
                     "type": "put",
                     // "action": "insert",
                     "data": payload,
@@ -2152,7 +2183,7 @@ var $ummu = {
                     "dataType": "json"
                 };
 
-                // console.log(params)
+                // console.log(payload)
 
                 $('#text_loader').html('Reject in process...');
                 var ummu = $ummu.ajax.ummu3(params);
@@ -5278,6 +5309,17 @@ var $ummu = {
                 table.column(0).footer().innerHTML = html
             }
         },
+
+        sidebar: {
+            show_or_hide: function() {
+                var toggle_sidebar = localStorage.getItem("toggle_sidebar");
+                if (toggle_sidebar == 1) {
+                    $('body').addClass('toggle-sidebar');
+                }else{
+                    $('body').removeClass('toggle-sidebar');
+                }
+            }
+        }
     },
 
     formatter: {
@@ -5317,9 +5359,11 @@ var $ummu = {
                 return [year, month, day].join('-');
             },
         },
+
         duration_menit: function(data) {
             return data + ' menit';
         },
+
         is_release: function(data) {
             if (data == 1) {
                 return '<i class="fas fa-check-square text-success"></i>';
@@ -5327,6 +5371,7 @@ var $ummu = {
                 return '';
             }
         },
+
         active: function(data) {
             if (data == 1) {
                 return '<i class="fas fa-check-square text-success"></i>';
@@ -5334,6 +5379,7 @@ var $ummu = {
                 return '';
             }
         },
+
         sap: {
             operation: function(index, row) {
                 // console.log(row)
@@ -5342,12 +5388,53 @@ var $ummu = {
                 }
             }
         },
+
         checked_if_value: function (data) {
             if (data == 1) {
                 return '<i class="fas fa-check text-success"></i>';
             }else{
                 return '';
             }
+        },
+
+        img_on_bt: function(data) {
+            // console.log(data)
+            if (data) {
+                var res = '<img src="' +data+ '" class="img-thumbnail">';
+            }else{
+                var res = '<img src="' +$base_url+ 'uploads/no_image.jpg' + '" class="img-thumbnail">';
+                // var res = '<img src="' +$base_url+ 'uploads/no_image.jpg">';
+            }
+
+            return res;
+        },
+
+        obj_to_badge: function(data) {
+            // console.log(data)
+            var r = [];
+            // $.each(data, function( index, value ) {
+            //     r[index] = {};
+            //     if (index == 0) {
+            //         r[index] = '<span class="badge bg-primary">'+value.name+'</span>';
+            //     }else{
+            //         r[index] = '<br><span class="badge bg-primary">'+value.name+'</span>';
+            //     }
+            // });
+            $.each(data, function( index, value ) {
+                r[index] = {};
+                if (index == 0) {
+                    r[index] = (index+1) +'. '+ value.name;
+                }else{
+                    r[index] = '<br>'+ (index+1) +'. '+ value.name;
+                }
+            });
+            return '<div style="overflow-y:scroll; max-height:100px !important;">'+ r +'</div>';
+        },
+
+        opr_detail: function() {
+            return '<a class="row-detail" id="row_detail" href="javascript:void(0)" title="Detail">'+
+                    '<i class="fas fa-caret-right"></i>'+
+                '</a>';
         }
     },
 
@@ -5734,7 +5821,134 @@ var $ummu = {
     },
 
     bt: {
-        // 
+        initTable: function() {
+            $table.bootstrapTable({
+                locale: 'en-US',
+            })
+            $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table', function () {
+                $('#remove').prop('disabled', !$table.bootstrapTable('getSelections').length);
+                $('#view').prop('disabled', $table.bootstrapTable('getSelections').length != 1);
+                $('#new').prop('disabled', $table.bootstrapTable('getSelections').length);
+                // save your data, here just save the current page
+                seldata: dataections = $globFunc.getIdSelections();
+            })
+            $table.on('all.bs.table', function (e, name, args) {
+                console.log(name, args)
+            })
+            $('#remove').click(function () {
+                app.Controllers.remove();
+                // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
+                // $('#modal_confirmation_multiple_delete').modal('show')
+            })
+            $('#view').click(function () {
+                // $('#modal_form').modal('show')
+                app.Controllers.view();
+            })
+        },
+
+        responseHandler:function(res) {
+            $.each(res.rows, function (i, row) {
+                row.state = $.inArray(row.id, selections) !== -1
+            })
+            return res
+        },
+
+        detailFormatter: function(index, row) {
+            var html = []
+            $.each(row, function (key, value) {
+                html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+            })
+            return html
+        },
+
+        formatTotalPrice: function(data) {
+            var field = this.field
+            return '$' + data.map(function (row) {
+                return +row[field].substring(1)
+            }).reduce(function (sum, i) {
+                return sum + i
+            }, 0)
+        },
+
+        operateFormatter: function() {
+            return [
+                // '<a class="like" href="javascript:void(0)" title="Like">',
+                //     '<i class="fa fa-heart"></i>',
+                // '</a>  ',
+                // '<a href="#" id="add" class="remove" data-bs-toggle="modal" data-bs-target="#modal_confirmation">',
+                //     '<i class="fa fa-trash"></i>',
+                // '</a>   ',
+                '<a class="remove" href="javascript:void(0)" title="Remove">',
+                    '<i class="fa fa-trash"></i>',
+                '</a>  ',
+                '<a class="edit" href="javascript:void(0)" title="Edit">',
+                    '<i class="fas fa-edit"></i>',
+                '</a>'
+            ];
+        },
+
+        button: {
+            crud: function() {
+                return {
+                    // btnUsersAdd: {
+                    //     text: 'Highlight Users',
+                    //     icon: 'fa-users',
+                    //     event: function () {
+                    //         alert('Do some stuff to e.g. search all users which has logged in the last week')
+                    //     },
+                    //     attributes: {
+                    //         title: 'Search all users which has logged in the last week'
+                    //     }
+                    // },
+                    btn_new: {
+                        text: 'Add new row',
+                        icon: 'far fa-plus',
+                        event: function () {
+                            $('#modal_form').modal('show');
+                        },
+                        attributes: {
+                            title: 'Add a new row to the table'
+                        }
+                    },
+                    btn_edit: {
+                        text: 'Edit row',
+                        icon: 'far fa-edit',
+                        event: function () {
+                            $('#modal_form').modal('show');
+                        },
+                        attributes: {
+                            title: 'Edit a row from table'
+                        }
+                    },
+                    btn_delete: {
+                        text: 'Delete rows',
+                        icon: 'far fa-trash',
+                        event: function () {
+                            // $('#modal_form').modal('show');
+                        },
+                        attributes: {
+                            title: 'Delete a row from table'
+                        }
+                    }
+                }
+            },
+            sortable: function() {
+                var buttonsOrder = [
+                    "paginationSwitch",
+                    "refresh",
+                    "toggle",
+                    "fullscreen",
+                    "columns",
+                    "export",
+                    "btn_new",
+                    "btn_edit",
+                    "btn_delete"
+                ];
+                $('#btUmmu').bootstrapTable('refreshOptions', {
+                    buttonsOrder: buttonsOrder
+                })
+            }
+        }
     },
 
     dt: {
@@ -6792,6 +7006,17 @@ var $ummu = {
         referensi: JSON.parse(localStorage.getItem('referensi')),
     },
 
+    ls: {
+        toggle_sidebar: function() {
+            var a = localStorage.getItem("toggle_sidebar");
+            if (a == 1) {
+                localStorage.setItem("toggle_sidebar", 0);
+            }else{
+                localStorage.setItem("toggle_sidebar", 1);
+            }
+        },
+    },
+
     cookie: {
         setCookie: function(cname, cvalue, exdays) {
             const d = new Date();
@@ -6856,6 +7081,14 @@ var $ummu = {
             '</div>';
 
             $('.ummu-html').html(html);
+        }
+    },
+
+    button: {
+        btn_modal_form: function() {
+            // <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+            // <button type="button" class="btn btn-sm btn-warning" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>
+            // <button type="button" class="btn btn-sm btn-primary btn-save" disabled><i class="fas fa-save"></i> Save changes</button>
         }
     }
 }
