@@ -41,16 +41,16 @@
         .cont-checkbox {
             width: 150px;
             height: 150px;
-            border-radius: var(--border-radius);
+            /*border-radius: var(--border-radius);
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
             background: white;
-            transition: transform var(--transition);
+            transition: transform var(--transition);*/
         }
 
-        .cont-checkbox:first-of-type {
+        /*.cont-checkbox:first-of-type {
             margin-bottom: 0.75rem;
             margin-right: 0.75rem;
-        }
+        }*/
 
         .cont-checkbox:active {
             transform: scale(0.9);
@@ -212,6 +212,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+
                     <div class="col-lg-2">
                         <div class="card">
                             <div class="card-body">
@@ -248,6 +249,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-10">
                         <div class="card">
                             <div class="card-body">
@@ -259,19 +261,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="album bg-body-tertiary">
-                                    <div class="container">
+                                <div class="">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-sm btn-primary" id="mygallery_btn_select_file">Select File</button>
+                                </div>
+                                <!-- <div class="album bg-body-tertiary"> -->
+                                    <!-- <div class="container"> -->
+                                    <div class="p-3">
                                         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3" id="album_gallery"></div>
                                     </div>
-                                </div>
+                                <!-- </div> -->
                             </div>
-                            <div class="card-footer text-end">
+                            <!-- <div class="card-footer text-end"> -->
                                 <!-- <button type="button" class="btn btn-sm btn-danger">Delete</button> -->
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-sm btn-primary" id="mygallery_btn_select_file">Select File</button>
-                            </div>
+                                <!-- <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-primary" id="mygallery_btn_select_file">Select File</button> -->
+                            <!-- </div> -->
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

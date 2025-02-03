@@ -26,9 +26,18 @@ class UmmuEmployeeSalary
 
     public function show($params)
     {
+        $id = $params['id'];
+
+        if ($id) {
+            $show = 'show/' . $id;
+        }else{
+            $show = 'show';
+        }
+
         $response = $this->curli->request4(
             [
-                "path"           => $this->urli . "show",
+                // "path"           => $this->urli . "show" . $id,
+                "path"           => $this->urli . $show,
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => "employee_salary",

@@ -90,6 +90,32 @@ var $ummu = {
         },
 
         toggle_sidebar: localStorage.getItem('toggle_sidebar'),
+
+        dt: {
+            nth_child_onclick: null,
+        },
+
+        hcm: {
+            payroll: {
+                gapok: null,
+                rapel_gaji: null,
+                lain_lain: null,
+                insentif_produksi: null,
+                insentif_kehadiran: null,
+                tj_kesetaraan: null,
+                tj_acting: null,
+                potongan_jamsostek_jht: null,
+                potongan_jamsostek_jp: null,
+                potongan_kasbon: null,
+                potongan_tiket: null,
+                total_tunjangan: null,
+                total_potongan: null,
+                gaji_bruto: null,
+                gaji_netto: null,
+                saldo_kasbon: null,
+                qrcode: null,
+            }
+        }
     },
 
     config: {
@@ -3870,6 +3896,17 @@ var $ummu = {
                 $('#modal_mygallery').modal('show');
             });
 
+            $('.img-show-mygallery').on('click', function() {
+                var dataImage = $(this).attr('data-image');
+                var dataInputID = $(this).attr('data-inputid');
+                var dataImageID = $(this).attr('data-imageid');
+                $ummu.mygallery.element_inputid = dataInputID;
+                $ummu.mygallery.element_imageid = dataImageID;
+                $ummu.mygallery.photos.show_for_modal();
+                $('#modal_loader_gallery').show();
+                $('#modal_mygallery').modal('show');
+            });
+
             $('#mygallery_btn_select_file').on('click', function() {
                 var ids = [];
                 var filenames = [];
@@ -3944,17 +3981,18 @@ var $ummu = {
                         var description_ = description;
                     }
 
-                    var $element = '<div class="cont-checkbox mr-2">'+
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
-                    '<label for="'+id+'" class="lbl_gallery">'+
-                    '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                    '<span class="cover-checkbox">'+
-                    '<svg viewBox="0 0 12 10">'+
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                    '</svg>'+
-                    '</span>'+
-                    '<div class="info">'+ description_ +'</div>'+
-                    '</label>'+
+                    var $element =
+                    '<div class="cont-checkbox mr-2z">'+
+                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
+                        '<label for="'+id+'" class="lbl_gallery">'+
+                            '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                            '<span class="cover-checkbox">'+
+                                '<svg viewBox="0 0 12 10">'+
+                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                '</svg>'+
+                            '</span>'+
+                            '<div class="info">'+ description_ +'</div>'+
+                        '</label>'+
                     '</div>';
                     $('#album_gallery').append($element);
                 }
@@ -4260,12 +4298,8 @@ var $ummu = {
                     // An error occurred
                 });
             },
+
             show_for_modal: function() {
-                // if ($globalVar.page == 'gallery') {
-                //     var page = 'gallery/show';
-                // }else{
-                //     var page = $globalVar.page+'/show_gallery';
-                // }
                 var params = {
                     "type": "get",
                     "action": "get",
@@ -4308,17 +4342,18 @@ var $ummu = {
                             var description_ = description;
                         }
 
-                        var $element = '<div class="cont-checkbox mr-2">'+
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
-                        '<label for="'+id+'" class="lbl_gallery">'+
-                        '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
-                        '<span class="cover-checkbox">'+
-                        '<svg viewBox="0 0 12 10">'+
-                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
-                        '</svg>'+
-                        '</span>'+
-                        '<div class="info">'+ description_ +'</div>'+
-                        '</label>'+
+                        var $element = 
+                        '<div class="cont-checkbox p-2">'+
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="'+id+'" data-name="'+ filename +'" data-path="'+ file_url +'" />'+
+                            '<label for="'+id+'" class="lbl_gallery">'+
+                                '<img src="'+ file_url + '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>'+
+                                '<span class="cover-checkbox">'+
+                                    '<svg viewBox="0 0 12 10">'+
+                                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>'+
+                                    '</svg>'+
+                                '</span>'+
+                                '<div class="info">'+ description_ +'</div>'+
+                            '</label>'+
                         '</div>';
                         $('#album_gallery').append($element);
                     }
@@ -4333,6 +4368,7 @@ var $ummu = {
                     // An error occurred
                 });
             },
+
             btn_mygallery_photos_submit: function() {
                 $('#btn_mygallery_photos_submit').on('click', function() {
                     if ($('#file_upload').val() == '') {
@@ -4371,6 +4407,7 @@ var $ummu = {
                     }
                 })
             },
+
             btn_mygallery_photos_submit_on_modal: function() {
                 $('#modal_mygallery #btn_submit_file_upload').on('click', function(){
                     if ($('#file_upload').val() == '') {
@@ -4402,6 +4439,7 @@ var $ummu = {
                     }
                 })
             },
+
             delete: function(id) {
                 var params = {
                     "type": "delete",
@@ -5298,6 +5336,30 @@ var $ummu = {
                 $('#tgl_penemuan, #waktu_penemuan').prop('disabled', true);
                 $('#insideButton').html(btnSave);
             }*/
+
+            layout: function() {
+                table.buttons('.dt-btn-ummu').remove();
+
+                if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
+                    $ummu.dt.layout.button(['btn_select_all','btn_select_none'])
+                    // table.column(0).visible(true)
+                    // table.column(1).visible(false)
+                    $ummu.dt.nth_child_onclick = 3
+                }else{
+                    $ummu.dt.layout.button()
+                    // table.column(0).visible(false)
+                    // table.column(1).visible(true)
+                    $ummu.dt.nth_child_onclick = 2
+                }
+
+                $ummu.dt.layout.button_crud(['new'])
+                if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
+                    var btn_status = ['approve','reject']
+                    $ummu.dt.layout.button_status(btn_status)
+                }
+
+                $ummu.dt.button.crud();
+            },
         },
 
         dt: {
@@ -6702,53 +6764,84 @@ var $ummu = {
         },
 
         layout: {
-            button: function() {
+            button: function(btn) {
                 table.button().add(0, 
-                    { extend: 'pageLength', className: 'py-1' }
+                    { 
+                        extend: 'pageLength', 
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_page_length' }
+                    }
                 );
+
                 table.button().add(1, 
                     { 
                         text: '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>'+
                             '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
-                        attr: { id: 'btn_reload'}, 
-                        className: 'btn-showall-color py-1',
+                        attr: { id: 'btn_reload' }, 
+                        className: 'btn-showall-color py-1 dt-btn-ummu',
                         action: function (e, dt, node, config) {
                             table.ajax.reload();
                         }
                     }
                 );
 
-                table.button().add(2, 
-                    { extend: 'selectAll', className: 'py-1', 
-                        text: '<span class="d-none d-sm-block">Select all</span>'+
-                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>' 
-                    }
-                );
+                if (btn && btn.includes('btn_select_all') == true) {
+                    table.button().add(2, 
+                        { 
+                            extend: 'selectAll', 
+                            className: 'py-1 dt-btn-ummu',
+                            attr: { id: 'btn_select_all' },
+                            text: '<span class="d-none d-sm-block">Select all</span>'+
+                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>' 
+                        }
+                    );
+                }
 
-                table.button().add(3, 
-                    { extend: 'selectNone', className: 'py-1',
-                        text: '<span class="d-none d-sm-block">Deselect all</span>'+
-                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>'
-                    }
-                );
+                if (btn && btn.includes('btn_select_none') == true) {
+                    table.button().add(3, 
+                        { 
+                            extend: 'selectNone', 
+                            className: 'py-1 dt-btn-ummu',
+                            attr: { id: 'btn_select_none' },
+                            text: '<span class="d-none d-sm-block">Deselect all</span>'+
+                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>'
+                        }
+                    );
+                };
 
                 table.button().add(4, 
-                    { className: 'py-1', attr: { id: 'dt_btn_filter'},
+                    { 
+                        className: 'py-1 dt-btn-ummu', 
+                        attr: { id: 'dt_btn_filter'},
                         text: '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>'+
                         '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>'    
                     }
                 );
 
                 table.button().add(5,
-                    { extend: 'copy', className: 'py-1', text: '<i class="fas fa-copy fa-lg"></i>' }
+                    { 
+                        extend: 'copy', 
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_copy' },
+                        text: '<i class="fas fa-copy fa-lg"></i>' 
+                    }
                 );
 
                 table.button().add(6,
-                    { extend: 'csv', className: 'py-1', text: '<i class="fas fa-file-csv text-info fa-lg"></i>' }
+                    { 
+                        extend: 'csv', 
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_csv' },
+                        text: '<i class="fas fa-file-csv text-info fa-lg"></i>' 
+                    }
                 );
 
                 table.button().add(7,
-                    { extend: 'excel', className: 'py-1', text: '<i class="fas fa-file-excel text-success fa-lg"></i>', 
+                    { 
+                        extend: 'excel', 
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_excel' },
+                        text: '<i class="fas fa-file-excel text-success fa-lg"></i>', 
                         exportOptions: {
                             orthogonal: "myExport"
                         },
@@ -6756,11 +6849,21 @@ var $ummu = {
                 );
 
                 table.button().add(8,
-                    { extend: 'pdf', className: 'py-1', text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>' },
+                    { 
+                        extend: 'pdf',
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_pdf' },
+                        text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>' 
+                    },
                 );
 
                 table.button().add(9,
-                    { extend: 'print', className: 'py-1', text: '<i class="fas fa-print text-primary fa-lg"></i>' }
+                    { 
+                        extend: 'print', 
+                        className: 'py-1 dt-btn-ummu',
+                        attr: { id: 'btn_print' },
+                        text: '<i class="fas fa-print text-primary fa-lg"></i>' 
+                    }
                 );
             },
 
@@ -6771,7 +6874,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-plus text-primary"></i> New',
                                 attr: { id: 'dt_btn_new'},
-                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                className: 'btn-showall-color hidden collapse py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     $ummu.vars.action = 'new';
                                     app.controllers.new();
@@ -6785,7 +6888,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-edit"></i> Edit',
                                 attr: { id: 'dt_btn_edit'},
-                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                className: 'btn-showall-color hidden collapse py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.row = rows[0];
@@ -6801,7 +6904,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
                                 attr: { id: 'dt_btn_delete'},
-                                className: 'btn-showall-color hidden collapse py-1 for-user',
+                                className: 'btn-showall-color hidden collapse py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
@@ -6822,7 +6925,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-share text-primary"></i> Release',
                                 attr: { id: 'dt_btn_release'},
-                                className: 'py-1 for-user',
+                                className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
@@ -6836,7 +6939,7 @@ var $ummu = {
                         table.button().add(14,
                             { text: '<i class="fas fa-check text-success"></i> Approve', 
                             attr: { id: 'dt_btn_approve'}, 
-                            className: 'py-1 dt-action',
+                            className: 'py-1 dt-btn-ummu dt-action',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
@@ -6850,7 +6953,7 @@ var $ummu = {
                         table.button().add(15,
                             { text: '<i class="fal fa-business-time text-warning"></i> Pending', 
                             attr: { id: 'dt_btn_pending'}, 
-                            className: 'py-1 dt-action',
+                            className: 'py-1 dt-btn-ummu dt-action',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
@@ -6864,7 +6967,7 @@ var $ummu = {
                         table.button().add(16,
                             { text: '<i class="fas fa-times text-danger"></i> Reject', 
                             attr: { id: 'dt_btn_reject'}, 
-                            className: 'py-1 dt-action',
+                            className: 'py-1 dt-btn-ummu dt-action',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
@@ -6883,7 +6986,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-file-plus text-primary"></i> Add',
                                 attr: { id: 'dt_btn_add'},
-                                className: 'py-1 for-user',
+                                className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.row = rows[0];
@@ -6899,7 +7002,7 @@ var $ummu = {
                             {
                                 text: '<i class="fas fa-receipt text-primary"></i> Hisotry',
                                 attr: { id: 'dt_btn_history'},
-                                className: 'py-1 for-user',
+                                className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.row = rows[0];
@@ -6914,7 +7017,7 @@ var $ummu = {
                     //     table.button().add(14,
                     //         { text: '<i class="fas fa-check text-success"></i> Approve', 
                     //         attr: { id: 'dt_btn_approve'}, 
-                    //         className: 'py-1 dt-action',
+                    //         className: 'py-1 dt-btn-ummu dt-action',
                     //             action: function (e, dt, node, config) {
                     //                 var rows = $ummu.dt.select.data();
                     //                 $ummu.vars.rows = rows;
@@ -6928,7 +7031,7 @@ var $ummu = {
                     //     table.button().add(15,
                     //         { text: '<i class="fal fa-business-time text-warning"></i> Pending', 
                     //         attr: { id: 'dt_btn_pending'}, 
-                    //         className: 'py-1 dt-action',
+                    //         className: 'py-1 dt-btn-ummu dt-action',
                     //             action: function (e, dt, node, config) {
                     //                 var rows = $ummu.dt.select.data();
                     //                 $ummu.vars.rows = rows;
@@ -6942,7 +7045,7 @@ var $ummu = {
                     //     table.button().add(16,
                     //         { text: '<i class="fas fa-times text-danger"></i> Reject', 
                     //         attr: { id: 'dt_btn_reject'}, 
-                    //         className: 'py-1 dt-action',
+                    //         className: 'py-1 dt-btn-ummu dt-action',
                     //             action: function (e, dt, node, config) {
                     //                 var rows = $ummu.dt.select.data();
                     //                 $ummu.vars.rows = rows;
@@ -6952,6 +7055,10 @@ var $ummu = {
                     //     ).disable();
                     // }
                 }
+            },
+
+            column: {
+
             }
         }
     },
@@ -7089,6 +7196,53 @@ var $ummu = {
             // <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
             // <button type="button" class="btn btn-sm btn-warning" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>
             // <button type="button" class="btn btn-sm btn-primary btn-save" disabled><i class="fas fa-save"></i> Save changes</button>
+        },
+
+        hazard_report: {
+            modal_form: function(crud) {
+                $('#modal_form .modal-footer').html('');
+                var btn_back =  '<button type="button" class="btn btn-sm btn-secondary btn-back" id="btn_back">'+
+                                    '<i class="fas fa-chevron-left"></i> Back'+
+                                '</button>';
+
+                var btn_edit =  '<button type="button" class="btn btn-sm btn-primary btn-edit modal_btn_edit" id="modal_btn_edit">'+
+                                    '<i class="fas fa-edit"></i> Edit'+
+                                '</button>';
+
+                var approve =   '<button type="button" class="btn btn-sm btn-primary btn-approve modal_btn_approve" id="modal_btn_approve">'+
+                                    '<i class="fas fa-check"></i> Approve'+
+                                '</button>';
+
+                var reject =   '<button type="button" class="btn btn-sm btn-danger btn-approve modal_btn_reject" id="modal_btn_reject">'+
+                                    '<i class="fas fa-times"></i> Reject'+
+                                '</button>';
+
+                var save =  '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_save" id="modal_btn_save">'+
+                                '<i class="fas fa-save"></i> Save Change'+
+                            '</button>';
+
+                if (crud) {
+                    if (crud.includes('back') == true) {
+                        $('#modal_form .modal-footer').append(btn_back);
+                    }
+
+                    if (crud.includes('edit') == true) {
+                        $('#modal_form .modal-footer').append(btn_edit);
+                    }
+
+                    if (crud.includes('approve') == true) {
+                        $('#modal_form .modal-footer').append(approve);
+                    }
+
+                    if (crud.includes('reject') == true) {
+                        $('#modal_form .modal-footer').append(reject);
+                    }
+
+                    if (crud.includes('save') == true) {
+                        $('#modal_form .modal-footer').append(save);
+                    }
+                }
+            }
         }
     }
 }
