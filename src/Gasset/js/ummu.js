@@ -2184,7 +2184,8 @@ var $ummu = {
                     body[index] = {
                         "id": value.id,
                         "document_number": value.document_number,
-                        "phone_number": value.phone_number
+                        "phone_number": value.phone_number,
+                        "remark": $('#modal_reject_confirm #remark').val()
                     }
                 });
 
@@ -5660,10 +5661,10 @@ var $ummu = {
                     $('#modal_message #alert').append('<div>- Kode bahayaq required.</div>');
                 }
 
-                var foto_temuan_id = $('#foto_temuan').attr('data-id');
-                if ($ummu.validation.is_valid(foto_temuan_id) == false) {
-                    $('#modal_message #alert').append('<div>- Foto temuan required.</div>');
-                }
+                // var foto_temuan_id = $('#foto_temuan').attr('data-id');
+                // if ($ummu.validation.is_valid(foto_temuan_id) == false) {
+                //     $('#modal_message #alert').append('<div>- Foto temuan required.</div>');
+                // }
 
                 var rincian_tindakan = $('#rincian_tindakan').val();
                 if ($ummu.validation.is_valid(rincian_tindakan) == false) {
@@ -5683,6 +5684,19 @@ var $ummu = {
                 var nm_atasan = $('#nm_atasan').val();
                 if ($ummu.validation.is_valid(nm_atasan) == false) {
                     $('#modal_message #alert').append('<div>- Nama atasan required.</div>');
+                }
+
+                if ($ummu.vars.required_field.includes(false)) {
+                    return false;
+                }
+            },
+            reject: function() {
+                $ummu.vars.required_field = [];
+                $('#modal_message #alert').html('');
+
+                var remark = $('#modal_reject_confirm #remark').val();
+                if ($ummu.validation.is_valid(remark) == false) {
+                    $('#modal_message #alert').append('<div>- Remark required</div>');
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
