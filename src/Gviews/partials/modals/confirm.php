@@ -102,7 +102,11 @@
                     <div class="col-10">
                         <h5>Are you sure you want to reject seletced items ?</h5>
                     </div>
-                </div>                
+                </div> 
+                <div class="form-group mt-2">
+                    <label for="remark">Remark :</label>
+                    <textarea class="form-control" id="remark" rows="2"></textarea>
+                </div>              
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btn_do_reject">Reject</button>
