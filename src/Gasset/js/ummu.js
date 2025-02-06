@@ -2115,6 +2115,7 @@ var $ummu = {
                     // var response = JSON.parse(result);
                     // console.log(result)
                     table.rows('.selected').remove().draw();
+                    $ummu.views.hazard_report.layout();
                     // $ummu.dt.after_cud();
                 }).fail(function() {
                         // An error occurred
@@ -2157,6 +2158,7 @@ var $ummu = {
                     // var response = JSON.parse(result);
                     // console.log(result)
                     table.rows('.selected').remove().draw();
+                    $ummu.views.hazard_report.layout();
                     // $ummu.dt.after_cud();
                 }).fail(function() {
                         // An error occurred
@@ -2219,6 +2221,7 @@ var $ummu = {
                     // var response = JSON.parse(result);
                     // console.log(result)
                     table.rows('.selected').remove().draw();
+                    $ummu.views.hazard_report.layout();
                     // $ummu.dt.after_cud();
                 }).fail(function() {
                     // An error occurred

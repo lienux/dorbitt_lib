@@ -27,9 +27,17 @@ class UmmuHazardReport
 
     public function show($params)
     {
+        $id = $params['id'];
+
+        if ($id) {
+            $show = "show/".$id;
+        }else{
+            $show = "show";
+        }
+
         $response = $this->curli->request4(
             [
-                "path"           => $this->path . "show",
+                "path"           => $this->path . $show,
                 "method"         => "GET",
                 "payload"        => $params['payload'],
                 "module_code"    => $this->kode,
