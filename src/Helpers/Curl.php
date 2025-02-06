@@ -20,7 +20,7 @@ class Curl
         }elseif (getenv("CI_DORBITT")=="testing") {
             $this->url = "http://testing-api.dorbitt.com/";
         }else{
-            $this->url = "https://api.dorbitt.com/";
+            $this->url = "https://openintegrasi.com/";
         }
 
         if (getenv("DORBITT_TOKEN")) {
