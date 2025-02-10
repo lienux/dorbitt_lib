@@ -115,7 +115,9 @@ var $ummu = {
                 saldo_kasbon: null,
                 qrcode: null,
             }
-        }
+        },
+
+        no_image_path: 'uploads/no_image.jpg',
     },
 
     config: {
@@ -2123,14 +2125,20 @@ var $ummu = {
                 });
             },
 
-            approve: function() {
+            approve: function(a) {
                 var rows = $ummu.vars.rows;
+                var row = $ummu.vars.row;
                 var url = globalVar.pageUrl;
                 var r = [];
-                $.each(rows, function( index, value ) {
-                    r[index] = {};
-                    r[index] = value.id;
-                });
+
+                if (a == rows) {
+                    $.each(rows, function( index, value ) {
+                        r[index] = {};
+                        r[index] = value.id;
+                    });
+                }else{
+                    r = [row.id]
+                }
 
                 var payload = JSON.stringify(
                 {
@@ -2149,7 +2157,7 @@ var $ummu = {
                     "dataType": "json"
                 };
 
-                // console.log(params)
+                // console.log(r)
 
                 $('#text_loader').html('Approve in process...');
                 var ummu = $ummu.ajax.ummu3(params);
@@ -2160,13 +2168,136 @@ var $ummu = {
                     table.rows('.selected').remove().draw();
                     $ummu.views.hazard_report.layout();
                     // $ummu.dt.after_cud();
+                    $('#modal_form').modal('hide');
                 }).fail(function() {
                         // An error occurred
                     console.log(ummu)
                 });
             },
 
-            reject: function() {
+            reject: function(a) {
+                var rows = $ummu.vars.rows;
+                var row = $ummu.vars.row;
+                var url = globalVar.pageUrl;
+
+                if (a == 'rows') {
+                    var r = [];
+                    var dn = [];
+                    var phone = [];
+                    var body = [];
+
+                    $.each(rows, function( index, value ) {
+                        r[index] = {};
+                        dn[index] = {};
+                        phone[index] = {};
+
+                        r[index] = value.id;
+                        dn[index] = value.document_number;
+                        phone[index] = value.phone_number;
+
+                        body[index] = {
+                            "id": value.id,
+                            "document_number": value.document_number,
+                            "phone_number": value.phone_number,
+                            "remark": $('#modal_reject_confirm #remark').val()
+                        }
+                    });
+
+                    var payload = JSON.stringify(
+                    {
+                        // "body": {
+                        //     "ids": r,
+                        //     "doc_number": dn,
+                        //     "phone_number": phone
+                        // }
+
+                        "body": body
+                    });
+                }else{
+                    body = [
+                        {
+                            "id": row.id,
+                            "document_number": row.document_number,
+                            "phone_number": row.phone_number,
+                            "remark": $('#modal_reject_confirm #remark').val()
+                        }
+                    ];
+
+                    var payload = JSON.stringify(
+                    {
+                        "body": body
+                    });
+                }
+
+                var params = {
+                    "url": $ummu.vars.page_url + 'reject',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(payload)
+
+                $('#text_loader').html('Reject in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_reject_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    $ummu.views.hazard_report.layout();
+                    $('#modal_form').modal('hide');
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            },
+
+            reject_one: function() {
+                var row = $ummu.vars.row;
+
+                var payload = JSON.stringify(
+                {
+                    "body": {
+                        "id": row.id,
+                        "document_number": row.document_number,
+                        "phone_number": row.phone_number,
+                        "remark": $('#modal_reject_confirm #remark').val()
+                    }
+                });
+
+                var params = {
+                    "url": $ummu.vars.page_url + 'reject',
+                    "type": "put",
+                    // "action": "insert",
+                    "data": payload,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json"
+                };
+
+                // console.log(payload)
+
+                $('#text_loader').html('Reject in process...');
+                var ummu = $ummu.ajax.ummu3(params);
+                $('#modal_reject_confirm').modal('hide');
+                ummu.done(function(result) {
+                    // var response = JSON.parse(result);
+                    // console.log(result)
+                    table.rows('.selected').remove().draw();
+                    $ummu.views.hazard_report.layout();
+                    // $ummu.dt.after_cud();
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            },
+
+            reject_do: function() {
                 var rows = $ummu.vars.rows;
                 var url = globalVar.pageUrl;
                 var r = [];
@@ -4481,6 +4612,15 @@ var $ummu = {
             $ummu.upload.ids = [];
         },
 
+        clear_modal_form: function() {
+            $('#modal_form .htmlcl').html("");
+            $('#modal_form .valcl').val("")
+            $('#modal_form .textareacl').val("")
+            $('#modal_form .select2cl').val(null).trigger('change')
+            $('#modal_form .radiocl').prop('checked', false)
+            $('#modal_form .imgcl').prop('src', $ummu.vars.base_url + $ummu.vars.no_image_path)
+        },
+
         set_value_to_form: function(row,index) {            
             $('#gedung').val(row.gedung_id).change();
             $('#kode').val(row.kode);
@@ -5363,6 +5503,14 @@ var $ummu = {
                 }
 
                 $ummu.dt.button.crud();
+            },
+
+            clearForm: function(){
+                $('#status').html("");
+                $('#modal_form input').val("")
+                $('#modal_form textarea').val("")
+                $('.status').prop('checked', false)
+                $('#modal_form, select').val(null).trigger('change')
             },
         },
 
