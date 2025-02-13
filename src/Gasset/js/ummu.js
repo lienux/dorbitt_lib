@@ -72,7 +72,6 @@ var $ummu = {
         dNow: new Date().toISOString().slice(0,10),
         tNow: new Date().toTimeString().slice(0,8),
 
-
         identity: {
             account_id: null,
             nikaryawan: null,
@@ -113,11 +112,17 @@ var $ummu = {
                 gaji_bruto: null,
                 gaji_netto: null,
                 saldo_kasbon: null,
-                qrcode: null,
+                qrcode: null
             }
         },
 
         no_image_path: 'uploads/no_image.jpg',
+
+        safety: {
+            hazard_report: {
+                document_number: null
+            }
+        }
     },
 
     config: {
@@ -6956,8 +6961,8 @@ var $ummu = {
                             extend: 'selectAll', 
                             className: 'py-1 dt-btn-ummu',
                             attr: { id: 'btn_select_all' },
-                            text: '<span class="d-none d-sm-block">Select all</span>'+
-                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>' 
+                            text:   '<span class="d-none d-sm-block">Select all</span>'+
+                                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>' 
                         }
                     );
                 }
@@ -6968,8 +6973,8 @@ var $ummu = {
                             extend: 'selectNone', 
                             className: 'py-1 dt-btn-ummu',
                             attr: { id: 'btn_select_none' },
-                            text: '<span class="d-none d-sm-block">Deselect all</span>'+
-                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>'
+                            text:   '<span class="d-none d-sm-block">Deselect all</span>'+
+                                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>'
                         }
                     );
                 };
@@ -6979,7 +6984,10 @@ var $ummu = {
                         className: 'py-1 dt-btn-ummu', 
                         attr: { id: 'dt_btn_filter'},
                         text: '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>'+
-                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>'    
+                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                        action: function (e, dt, node, config) {
+                            $('#modal_filter').modal('show');
+                        }
                     }
                 );
 
