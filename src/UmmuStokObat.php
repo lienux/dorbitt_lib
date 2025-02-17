@@ -118,4 +118,19 @@ class UmmuStokObat
 
         return json_decode($response, false);
     }
+
+    public function show_uom($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli . "show_uom",
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

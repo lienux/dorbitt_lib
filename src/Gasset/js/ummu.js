@@ -4023,6 +4023,7 @@ var $ummu = {
         paths: [],
         element_inputid: null,
         element_imageid: null,
+        show_mygallery: null,
 
         autoload: function() {
             $('.btn-show-mygallery').on('click', function() {
@@ -4037,14 +4038,16 @@ var $ummu = {
             });
 
             $('.img-show-mygallery').on('click', function() {
-                var dataImage = $(this).attr('data-image');
-                var dataInputID = $(this).attr('data-inputid');
-                var dataImageID = $(this).attr('data-imageid');
-                $ummu.mygallery.element_inputid = dataInputID;
-                $ummu.mygallery.element_imageid = dataImageID;
-                $ummu.mygallery.photos.show_for_modal();
-                $('#modal_loader_gallery').show();
-                $('#modal_mygallery').modal('show');
+                if ($ummu.mygallery.show_mygallery == true) {
+                    var dataImage = $(this).attr('data-image');
+                    var dataInputID = $(this).attr('data-inputid');
+                    var dataImageID = $(this).attr('data-imageid');
+                    $ummu.mygallery.element_inputid = dataInputID;
+                    $ummu.mygallery.element_imageid = dataImageID;
+                    $ummu.mygallery.photos.show_for_modal();
+                    $('#modal_loader_gallery').show();
+                    $('#modal_mygallery').modal('show');
+                }
             });
 
             $('#mygallery_btn_select_file').on('click', function() {
@@ -5538,7 +5541,7 @@ var $ummu = {
                     $('body').removeClass('toggle-sidebar');
                 }
             }
-        }
+        },
     },
 
     formatter: {
@@ -6610,10 +6613,12 @@ var $ummu = {
                 if (count_selc == 1) {
                     var rows = $ummu.dt.select.data();
                     $ummu.vars.id = rows[0].id;
+                    table.button('#dt_btn_tambah_stok').enable();
                     table.button('#dt_btn_history').enable();
                     // console.log(rows[0])
                 }
                 else{
+                    table.button('#dt_btn_tambah_stok').disable();
                     table.button('#dt_btn_history').disable();
                 }
                 // else if (count_selc > 1) {
@@ -7170,8 +7175,24 @@ var $ummu = {
                         ).disable();                        
                     }
 
-                    if (trx.includes('history') == true) {
+                    if (trx.includes('tambah_stok') == true) {
                         table.button().add(18,
+                            {
+                                text: '<i class="fas fa-file-plus text-primary"></i> Tambah Stok',
+                                attr: { id: 'dt_btn_tambah_stok'},
+                                className: 'py-1 dt-btn-ummu for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'tambah';
+                                    app.controllers.tambah_stok(rows[0]);
+                                }
+                            }
+                        ).disable();                        
+                    }
+
+                    if (trx.includes('history') == true) {
+                        table.button().add(19,
                             {
                                 text: '<i class="fas fa-receipt text-primary"></i> Hisotry',
                                 attr: { id: 'dt_btn_history'},
@@ -7185,6 +7206,8 @@ var $ummu = {
                             }
                         ).disable();                        
                     }
+
+                    
 
                     // if (trx.includes('approve') == true) {
                     //     table.button().add(14,
@@ -7231,7 +7254,7 @@ var $ummu = {
             },
 
             column: {
-
+                // 
             }
         }
     },
