@@ -7183,7 +7183,7 @@ var $ummu = {
                     if (trx.includes('tambah_stok') == true) {
                         table.button().add(18,
                             {
-                                text: '<i class="fas fa-file-plus text-primary"></i> Tambah Stok',
+                                text: '<i class="far fa-boxes fa-lg"></i> Add Stock',
                                 attr: { id: 'dt_btn_tambah_stok'},
                                 className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
@@ -7199,7 +7199,7 @@ var $ummu = {
                     if (trx.includes('history') == true) {
                         table.button().add(19,
                             {
-                                text: '<i class="fas fa-receipt text-primary"></i> Hisotry',
+                                text: '<i class="far fa-file-medical-alt fa-lg"></i> Hisotry',
                                 attr: { id: 'dt_btn_history'},
                                 className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
