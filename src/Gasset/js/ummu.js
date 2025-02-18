@@ -37,6 +37,7 @@ var $ummu = {
         errors: [],
         row: null,
         rows: null,
+        is_row: null,
         rad_external: 0,
         show_col_images: localStorage.getItem('show_col_images'),
         show_col_id: localStorage.getItem('show_col_id'),
@@ -120,6 +121,7 @@ var $ummu = {
 
         safety: {
             hazard_report: {
+                data: null,
                 document_number: null
             }
         }
@@ -2130,19 +2132,19 @@ var $ummu = {
                 });
             },
 
-            approve: function(a) {
+            approve: function() {
                 var rows = $ummu.vars.rows;
                 var row = $ummu.vars.row;
                 var url = globalVar.pageUrl;
                 var r = [];
 
-                if (a == rows) {
+                if ($ummu.vars.is_row == true) {
+                    r = [row.id]
+                }else{
                     $.each(rows, function( index, value ) {
                         r[index] = {};
                         r[index] = value.id;
                     });
-                }else{
-                    r = [row.id]
                 }
 
                 var payload = JSON.stringify(
@@ -2180,12 +2182,27 @@ var $ummu = {
                 });
             },
 
-            reject: function(a) {
+            reject: function() {
                 var rows = $ummu.vars.rows;
                 var row = $ummu.vars.row;
                 var url = globalVar.pageUrl;
 
-                if (a == 'rows') {
+                if ($ummu.vars.is_row == true) {
+                    body = [
+                        {
+                            "id": row.id,
+                            "document_number": row.document_number,
+                            "phone_number": row.phone_number,
+                            "remark": $('#modal_reject_confirm #remark').val()
+                        }
+                    ];
+
+                    var payload = JSON.stringify(
+                    {
+                        "body": body
+                    });
+                }
+                else{
                     var r = [];
                     var dn = [];
                     var phone = [];
@@ -2207,26 +2224,6 @@ var $ummu = {
                             "remark": $('#modal_reject_confirm #remark').val()
                         }
                     });
-
-                    var payload = JSON.stringify(
-                    {
-                        // "body": {
-                        //     "ids": r,
-                        //     "doc_number": dn,
-                        //     "phone_number": phone
-                        // }
-
-                        "body": body
-                    });
-                }else{
-                    body = [
-                        {
-                            "id": row.id,
-                            "document_number": row.document_number,
-                            "phone_number": row.phone_number,
-                            "remark": $('#modal_reject_confirm #remark').val()
-                        }
-                    ];
 
                     var payload = JSON.stringify(
                     {
@@ -7121,6 +7118,7 @@ var $ummu = {
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
+                                    $ummu.vars.is_row = false;
                                     $('#modal_approve_confirm').modal('show');
                                 }
                             }
@@ -7149,6 +7147,7 @@ var $ummu = {
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.rows = rows;
+                                    $ummu.vars.is_row = false;
                                     $('#modal_reject_confirm').modal('show');
                                 }
                             }
@@ -7413,9 +7412,9 @@ var $ummu = {
                                     '<i class="fas fa-times"></i> Reject'+
                                 '</button>';
 
-                var save =  '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_save" id="modal_btn_save">'+
-                                '<i class="fas fa-save"></i> Save Change'+
-                            '</button>';
+                var save =      '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_save" id="modal_btn_save">'+
+                                    '<i class="fas fa-save"></i> Save Change'+
+                                '</button>';
 
                 if (crud) {
                     if (crud.includes('back') == true) {
