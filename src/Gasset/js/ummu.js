@@ -5937,6 +5937,13 @@ var $ummu = {
                 //     $('#modal_message #alert').append('<div>- Qty on site required.</div>');
                 // }
 
+                var unit_price = $('#unit_price').val();
+                var material_price = $('#material_price').val();
+
+                if (unit_price > material_price) {
+                    $('#modal_message #alert').append('<div>- Unit Price exceeds the limit.</div>');
+                }
+
                 if ($ummu.vars.required_field.includes(false)) {
                     return false;
                 }
