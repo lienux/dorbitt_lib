@@ -6313,7 +6313,6 @@ var $ummu = {
                     $ummu.vars.ids = null;
                 }
 
-
                 var text = $ummu.vars.crud;
                 var tab = $ummu.vars.nav_tab;
                 // var nav_tab_id = localStorage.getItem('nav_tab_id');
@@ -6326,7 +6325,9 @@ var $ummu = {
 
                 if (crud) {
                     if (crud[0] == 1) {
-                        table.button('#dt_btn_new').enable();
+                        if (count_selc < 1) {
+                            table.button('#dt_btn_new').enable();
+                        }
                     }
 
                     if (crud[2] == 1) {
@@ -6589,6 +6590,8 @@ var $ummu = {
                         }
                     }
                 }
+
+                // console.log('ok gas')
             },
             edit: function(){
                 if ($ummu.dt.select.count() == 1) {
@@ -6952,7 +6955,10 @@ var $ummu = {
                         attr: { id: 'btn_reload' }, 
                         className: 'btn-showall-color py-1 dt-btn-ummu',
                         action: function (e, dt, node, config) {
-                            table.ajax.reload();
+                            table.ajax.reload(function(){
+                                $ummu.dt.button.crud();
+                                $ummu.dt.button.trx();
+                            });
                         }
                     }
                 );
