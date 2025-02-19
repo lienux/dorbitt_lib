@@ -2191,7 +2191,7 @@ var $ummu = {
                     body = [
                         {
                             "id": row.id,
-                            "document_number": row.document_number,
+                            "document_number": row.nomor_dokumen,
                             "phone_number": row.phone_number,
                             "remark": $('#modal_reject_confirm #remark').val()
                         }
@@ -5938,7 +5938,7 @@ var $ummu = {
                 // }
 
                 var unit_price = $('#unit_price').val();
-                var material_price = $('#material_price').val();
+                var material_price = $('#material_price').data('ori');
 
                 if (unit_price > material_price) {
                     $('#modal_message #alert').append('<div>- Unit Price exceeds the limit.</div>');
@@ -6620,12 +6620,14 @@ var $ummu = {
                 if (count_selc == 1) {
                     var rows = $ummu.dt.select.data();
                     $ummu.vars.id = rows[0].id;
-                    table.button('#dt_btn_tambah_stok').enable();
+                    table.button('#dt_btn_stock_addition').enable();
+                    table.button('#dt_btn_stock_taking').enable();
                     table.button('#dt_btn_history').enable();
                     // console.log(rows[0])
                 }
                 else{
-                    table.button('#dt_btn_tambah_stok').disable();
+                    table.button('#dt_btn_stock_addition').disable();
+                    table.button('#dt_btn_stock_taking').disable();
                     table.button('#dt_btn_history').disable();
                 }
                 // else if (count_selc > 1) {
@@ -7187,16 +7189,32 @@ var $ummu = {
                         ).disable();                        
                     }
 
-                    if (trx.includes('tambah_stok') == true) {
+                    if (trx.includes('stock_addition') == true) {
                         table.button().add(18,
                             {
-                                text: '<i class="far fa-boxes fa-lg"></i> Add Stock',
-                                attr: { id: 'dt_btn_tambah_stok'},
+                                text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
+                                attr: { id: 'dt_btn_stock_addition'},
                                 className: 'py-1 dt-btn-ummu for-user',
                                 action: function (e, dt, node, config) {
                                     var rows = $ummu.dt.select.data();
                                     $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = 'tambah';
+                                    $ummu.vars.action = 'addition';
+                                    app.controllers.tambah_stok(rows[0]);
+                                }
+                            }
+                        ).disable();                        
+                    }
+
+                    if (trx.includes('stock_taking') == true) {
+                        table.button().add(19,
+                            {
+                                text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
+                                attr: { id: 'dt_btn_stock_taking'},
+                                className: 'py-1 dt-btn-ummu for-user',
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = 'taking';
                                     app.controllers.tambah_stok(rows[0]);
                                 }
                             }
@@ -7204,7 +7222,7 @@ var $ummu = {
                     }
 
                     if (trx.includes('history') == true) {
-                        table.button().add(19,
+                        table.button().add(20,
                             {
                                 text: '<i class="far fa-file-medical-alt fa-lg"></i> Hisotry',
                                 attr: { id: 'dt_btn_history'},
