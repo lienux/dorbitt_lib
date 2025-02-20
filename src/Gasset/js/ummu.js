@@ -51,6 +51,7 @@ var $ummu = {
         element_id: null,
         arrayqu: [],
         kode: null,
+
         select2: {
             id: null,
             text: null,
@@ -193,11 +194,13 @@ var $ummu = {
                 var time_from = $('#time_from').val();
                 var date_to = $('#date_to').val();
                 var time_to = $('#time_to').val();
+                var site_project_kode = $('#site_project_kode').val();
 
                 localStorage.setItem('date_from', date_from);
                 localStorage.setItem('time_from', time_from);
                 localStorage.setItem('date_to', date_to);
                 localStorage.setItem('time_to', time_to);
+                localStorage.setItem('site_project_kode', site_project_kode);
 
                 $('#modal_filter').modal('hide');
 
@@ -711,6 +714,17 @@ var $ummu = {
             gentext: function(rows) {
                 var data = $.map(rows, function (obj) {
                     obj.text = obj.text || obj.name; // replace name with the property used for the text
+                  
+                    return obj;
+                });
+
+                return data;
+            },
+
+            gentext_siteherp: function(rows) {
+                var data = $.map(rows, function (obj) {
+                    obj.id = obj.id || obj.region_code; // replace name with the property used for the text
+                    obj.text = obj.text || obj.region_name + ' ( ' + obj.region_code + ' )'; // replace name with the property used for the text
                   
                     return obj;
                 });
@@ -1430,6 +1444,48 @@ var $ummu = {
         ummu4: function(params) {
             var jqXHR = $.ajax({
                 "url": $ummu.vars.page_url + params.function,
+                "method": params.type,
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": params.contentType,
+                },
+                "data": params.data,
+                "prossesing": true,
+                'language': {
+                    'loadingRecords': '&nbsp;',
+                    'processing': '<div class="spinner"></div>'
+                },  
+                beforeSend: function(e) {
+                    if (params.loader == true) {
+                        $('#modal_loader').modal('show');
+                    }
+                },
+                complete: function(){
+                    // 
+                },
+                success: function(response){
+                    // console.log(response)
+                    setTimeout( function(){ 
+                        $('.modal-loader').modal('hide');
+                    },1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    $('#modal_loader').modal('hide');
+                }
+            });
+
+            return jqXHR;
+        },
+
+        /**
+         * page_url manual dari params
+         * dinamis modal_loader
+         * */
+        ummu5: function(params) {
+            // console.log(params.data);
+            var jqXHR = $.ajax({
+                "url": params.url,
                 "method": params.type,
                 "timeout": 0,
                 "headers": {

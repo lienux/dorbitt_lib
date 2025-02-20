@@ -9,28 +9,63 @@
                     </button>
                 </div>
             </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <label for="date_from" class="text-info">DateTime Start</label>
-                    <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text rounded-0"><i class="fa-solid fa-calendar-days"></i></span>
-                        <input type="text" class="form-control datepicker000" id="date_from" name="date_from">
-                        <span class="input-group-text rounded-0"><i class="fas fa-clock"></i></span>
-                        <input type="text" class="form-control clockpicker" id="time_from" name="time_from">
-                    </div>
 
-                    <label for="date_from" class="text-info">DateTime End</label>
-                    <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text rounded-0"><i class="fa-solid fa-calendar-days"></i></span>
-                        <input type="text" class="form-control datepicker000" id="date_to" name="date_to">
-                        <span class="input-group-text rounded-0"><i class="fas fa-clock"></i></span>
-                        <input type="text" class="form-control clockpicker" id="time_to" name="time_to">
+            <div class="modal-body">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <label class="text-info mb-0">Created Start</label>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="text" class="form-control" id="date_from"
+                                name="date_from" readonly disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
+                                    id="btn_show_date"><i
+                                    class="fa-solid fa-calendar-days"></i></button>
+                                </div>
+
+                                <input type="text" class="form-control" id="time_from"
+                                name="time_from" readonly disabled>
+                                <div class="input-group-addon input-group-append">
+                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
+                                    id="btn_show_time"><i class="fas fa-clock"></i></button>
+                                </div>
+                            </div>
+
+                            <label class="text-info mb-0">Created End</label>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="text" class="form-control" id="date_to"
+                                name="date_to" readonly disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
+                                    id="btn_show_date"><i
+                                    class="fa-solid fa-calendar-days"></i></button>
+                                </div>
+
+                                <input type="text" class="form-control" id="time_to"
+                                name="time_to" readonly disabled>
+                                <div class="input-group-addon input-group-append">
+                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
+                                    id="btn_show_time"><i class="fas fa-clock"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer py-1">
-                <button type="button" class="btn btn-sm btn-primary" id="btn_save_filter">Save Filter</button>
-            </div>
+
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <label class="text-info mb-0">Site</label>
+                        <select class="custom-select custom-select-sm" id="site_project_kode">
+                          <option value="" selected>Choose...</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+
+          <div class="modal-footer py-1">
+            <button type="button" class="btn btn-sm btn-primary" id="btn_save_filter">Save Filter</button>
         </div>
     </div>
+</div>
 </div>
