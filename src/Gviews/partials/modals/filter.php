@@ -16,37 +16,37 @@
                         <div class="form-row">
                             <label class="text-info mb-0">Created Start</label>
                             <div class="input-group input-group-sm mb-2">
-                                <input type="text" class="form-control" id="date_from"
+                                <input type="text" class="form-control ummu-datepicker" id="date_from"
                                 name="date_from" readonly disabled>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
-                                    id="btn_show_date"><i
+                                    <button class="btn btn-outline-secondary dis-able endis btn-show-date" type="button"
+                                    id="btn_show_date" data-inputid="date_from"><i
                                     class="fa-solid fa-calendar-days"></i></button>
                                 </div>
 
-                                <input type="text" class="form-control" id="time_from"
+                                <input type="text" class="form-control ummu-clockpicker" id="time_from"
                                 name="time_from" readonly disabled>
                                 <div class="input-group-addon input-group-append">
-                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
-                                    id="btn_show_time"><i class="fas fa-clock"></i></button>
+                                    <button class="btn btn-outline-secondary dis-able endis btn-show-time" type="button"
+                                    id="btn_show_time" data-inputid="time_from"><i class="fas fa-clock"></i></button>
                                 </div>
                             </div>
 
                             <label class="text-info mb-0">Created End</label>
                             <div class="input-group input-group-sm mb-2">
-                                <input type="text" class="form-control" id="date_to"
+                                <input type="text" class="form-control ummu-datepicker" id="date_to"
                                 name="date_to" readonly disabled>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
-                                    id="btn_show_date"><i
+                                    <button class="btn btn-outline-secondary dis-able endis btn-show-date" type="button"
+                                    id="btn_show_date" data-inputid="date_to"><i
                                     class="fa-solid fa-calendar-days"></i></button>
                                 </div>
 
-                                <input type="text" class="form-control" id="time_to"
+                                <input type="text" class="form-control ummu-clockpicker" id="time_to"
                                 name="time_to" readonly disabled>
                                 <div class="input-group-addon input-group-append">
-                                    <button class="btn btn-outline-secondary dis-able endis" type="button"
-                                    id="btn_show_time"><i class="fas fa-clock"></i></button>
+                                    <button class="btn btn-outline-secondary dis-able endis btn-show-time" type="button"
+                                    id="btn_show_time" data-inputid="time_to"><i class="fas fa-clock"></i></button>
                                 </div>
                             </div>
                         </div>

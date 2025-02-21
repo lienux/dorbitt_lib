@@ -237,6 +237,35 @@ var $ummu = {
             //         return false;  
             //     }
             // });
+
+            $('.ummu-clockpicker').clockpicker({
+                // placement: 'top',
+                autoclose: true,
+                align: 'left',
+                donetext: 'Done',
+                'default': 'now'
+            });
+
+            $('.ummu-datepicker').datepicker({ 
+                dateFormat: 'yy-mm-dd',
+                uiLibrary: 'bootstrap4', 
+                modal: true, 
+                header: true, 
+                footer: true
+            });
+
+            $('.btn-show-date').on('click', function() {
+                var id = $(this).data('inputid');
+
+                $('#'+id).datepicker('show');
+            });
+
+            $('.btn-show-time').on('click', function(e){
+                var id = $(this).data('inputid');
+
+                e.stopPropagation();
+                $('#'+id).clockpicker('show');
+            });
         }
     },
 
