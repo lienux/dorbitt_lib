@@ -200,6 +200,9 @@ class CurlHelper
         return $response;
     }
 
+    /**
+     * Full url dari params
+     * */
     public function ummu($params)
     {
         $url            = $params['url'];
@@ -229,6 +232,8 @@ class CurlHelper
         return json_decode($response, false);
     }
 
+    /**
+     * url hanya path saja*/
     public function ummu2($params)
     {
         $path           = $params['path'];
@@ -249,6 +254,59 @@ class CurlHelper
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_HTTPHEADER => $headers,
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return json_decode($response, false);
+    }
+
+    /**
+     * Full url dari params
+     * Tanpa SSL
+     * auth basic
+     * */
+    public function ummu3($params)
+    {
+        $url            = $params['url'];
+        $method         = $params['method'];
+        $payload        = $params['payload'];
+        $headers        = $params['headers'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            // CURLOPT_HTTPHEADER => array(
+            //     "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
+            //     "Accept-Language:en-US,en;q=0.5"
+            // ),
+            // CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
+
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            // CURLOPT_HTTPHEADER => $headers,
+            // CURLOPT_HTTPHEADER => array(
+            //     'Content-Type: application/json',
+            //     'dataType: json',
+            //     'Authorization: Basic SENfQUxJOmQzdkhpbGxjb24hISFAIyQl'
+            // ),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'dataType: json',
+                'Authorization: Basic '.$headers['auth']
+            ),
         ));
 
         $response = curl_exec($curl);
