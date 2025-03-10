@@ -1546,7 +1546,7 @@ var $ummu = {
       return jqXHR;
     },
 
-    /**
+    /*
      * page_url otomatis dari ummu.vars
      * dinamis modal_loader
      * */
@@ -3088,157 +3088,160 @@ var $ummu = {
 
     mechanic_activity: {
       dateStart: function () {
-        // $("#date_start").change(function () {
-        //   var date_start = $("#date_start").val();
-        //   var date_end = $("#date_end").val();
-        //   var time_start = $("#time_start").val();
-        //   var time_end = $("#time_end").val();
-        //   /*jika tgl yg dipilih lebih besar dari tgl end, maka kosongkan tgl end*/
-        //   if (date_start > date_end) {
-        //     $("#date_end").val("");
-        //     $("#time_end").val("__:__");
-        //   }
-        //   var minDateEnd = date_start;
-        //   if (date_start == $ummu.vars.date_start) {
-        //     $("#time_start").val("__:__");
-        //     var minTimeStart = $ummu.vars.time_start;
-        //     if ($ummu.vars.time_end) {
-        //       var maxTimeStart = $ummu.vars.time_end;
-        //     } else {
-        //       var maxTimeStart = "23:59";
-        //     }
-        //     if (date_start == $ummu.vars.dNow) {
-        //       var minTimeStart = $ummu.vars.time_start;
-        //       var maxTimeStart = $ummu.vars.time_end;
-        //       // var minTimeEnd = '00:00';
-        //       // var maxTimeEnd = '23:59';
-        //       var minDateEnd = date_start;
-        //       if ($ummu.vars.date_end == null) {
-        //         var maxDateEnd = $ummu.vars.dNow;
-        //       } else {
-        //         var maxDateEnd = $ummu.vars.date_end;
-        //       }
-        //     }
-        //   } else {
-        //     if (date_start == $ummu.vars.dNow) {
-        //       var minTimeStart = "00:00";
-        //       var maxTimeStart = $ummu.vars.tNow;
-        //       var minDateEnd = date_start;
-        //       var maxDateEnd = date_start;
-        //     } else {
-        //     }
-        //   }
-        //   /*Jika tidak ada tgl yg dipilih*/
-        //   if (date_start == null || date_start == "____-__-__" || date_start == "") {
-        //     var minDateEnd = $ummu.vars.date_start;
-        //     if ($ummu.vars.date_end == null) {
-        //       var maxDateEnd = $ummu.vars.dNow;
-        //     } else {
-        //       var maxDateEnd = $ummu.vars.date_end;
-        //     }
-        //   }
-        //   // /**
-        //   //  * jika tgl yg dipilih sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
-        //   //  * */
-        //   // if (date_start == $ummu.vars.date_start && $ummu.vars.date_start == $ummu.vars.dNow) {
-        //   //     var minTimeStart = $ummu.vars.time_start;
-        //   //     var maxTimeStart = $ummu.vars.time_end;
-        //   //     // var minTimeEnd = '00:00';
-        //   //     // var maxTimeEnd = '23:59';
-        //   //     var minDateEnd = date_start;
-        //   //     if ($ummu.vars.date_end == null) {
-        //   //         var maxDateEnd = $ummu.vars.dNow
-        //   //     }else{
-        //   //         var maxDateEnd = $ummu.vars.date_end
-        //   //     }
-        //   // }
-        //   // /**
-        //   //  * jika tgl yg dipilih tidak sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
-        //   //  * */
-        //   // if (date_start != $ummu.vars.date_start && date_start == $ummu.vars.dNow) {
-        //   //     var minTimeStart = '00:00';
-        //   //     var maxTimeStart = $ummu.vars.tNow;
-        //   //     // var minTimeEnd = '00:00';
-        //   //     // var maxTimeEnd = $ummu.vars.tNow;
-        //   //     var minDateEnd = date_start;
-        //   //     var maxDateEnd = date_start;
-        //   // }
-        //   /**
-        //    * jika tgl yg dipilih lebih besar dari tgl yg ditentukan oleh SAP, dan jika tgl yg dipilih lebih kecil dari tgl sekarang
-        //    * */
-        //   if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow ) {
-        //     var minTimeStart = "00:00";
-        //     var maxTimeStart = "23:59";
-        //     // var minTimeEnd = '00:00';
-        //     // var maxTimeEnd = '23:59';
-        //     var minDateEnd = date_start;
-        //     if ($ummu.vars.date_end == null) {
-        //       var maxDateEnd = $ummu.vars.dNow;
-        //     } else {
-        //       var maxDateEnd = $ummu.vars.date_end;
-        //     }
-        //   }
-        //   // /*if (date_start == $ummu.vars.dNow) {
-        //   //               if (date_start == $ummu.vars.date_start) {
-        //   //                   var minTimeStart = $ummu.vars.time_start;
-        //   //                   var maxTimeStart = $ummu.vars.time_end;
-        //   //                   // var minTimeEnd = '00:00';
-        //   //                   // var maxTimeEnd = '23:59';
-        //   //                   var minDateEnd = date_start;
-        //   //                   if ($ummu.vars.date_end == null) {
-        //   //                       var maxDateEnd = $ummu.vars.dNow
-        //   //                   }else{
-        //   //                       var maxDateEnd = $ummu.vars.date_end
-        //   //                   }
-        //   //               }else{
-        //   //                   var minTimeStart = '00:00';
-        //   //                   var maxTimeStart = $ummu.vars.tNow;
-        //   //                   // var minTimeEnd = '00:00';
-        //   //                   // var maxTimeEnd = $ummu.vars.tNow;
-        //   //                   var minDateEnd = date_start;
-        //   //                   var maxDateEnd = date_start;
-        //   //               }
-        //   //           }*/
-        //   // /*if (date_start == $ummu.vars.date_start) {
-        //   //               var mintimestart = $ummu.vars.time_start
-        //   //           }else{
-        //   //               var mintimestart = '00:00'
-        //   //           }*/
-        //   $("#time_start").datetimepicker({
-        //     minTime: minTimeStart,
-        //     maxTime: maxTimeStart,
-        //   });
-        //   $("#date_end").datetimepicker({
-        //     minDate: minDateEnd,
-        //     maxDate: maxDateEnd,
-        //   });
+        $("#date_start").change(function () {
+          var date_start = $("#date_start").val();
+          var date_end = $("#date_end").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
+
+          /*jika tgl yg dipilih lebih besar dari tgl end, maka kosongkan tgl end*/
+          if (date_start > date_end) {
+            $("#date_end").val("");
+            $("#time_end").val("__:__");
+          }
+
+          var minDateEnd = date_start;
+
+          if (date_start == $ummu.vars.date_start) {
+            $("#time_start").val("__:__");
+
+            var minTimeStart = $ummu.vars.time_start;
+            
+            if ($ummu.vars.time_end) {
+              var maxTimeStart = $ummu.vars.time_end;
+            } else {
+              var maxTimeStart = "23:59";
+            }
+
+            if (date_start == $ummu.vars.dNow) {
+              var minTimeStart = $ummu.vars.time_start;
+              var maxTimeStart = $ummu.vars.time_end;
+              // var minTimeEnd = '00:00';
+              // var maxTimeEnd = '23:59';
+              var minDateEnd = date_start;
+              if ($ummu.vars.date_end == null) {
+                var maxDateEnd = $ummu.vars.dNow;
+              } else {
+                var maxDateEnd = $ummu.vars.date_end;
+              }
+            }
+          } else {
+            if (date_start == $ummu.vars.dNow) {
+              var minTimeStart = "00:00";
+              var maxTimeStart = $ummu.vars.tNow;
+              var minDateEnd = date_start;
+              var maxDateEnd = date_start;
+            }
+          }
+
+          /*Jika tidak ada tgl yg dipilih*/
+          if (date_start == null || date_start == "____-__-__" || date_start == "") {
+            var minDateEnd = $ummu.vars.date_start;
+            if ($ummu.vars.date_end == null) {
+              var maxDateEnd = $ummu.vars.dNow;
+            } else {
+              var maxDateEnd = $ummu.vars.date_end;
+            }
+          }
+
+          // /**
+          //  * jika tgl yg dipilih sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+          //  * */
+          // if (date_start == $ummu.vars.date_start && $ummu.vars.date_start == $ummu.vars.dNow) {
+          //     var minTimeStart = $ummu.vars.time_start;
+          //     var maxTimeStart = $ummu.vars.time_end;
+          //     // var minTimeEnd = '00:00';
+          //     // var maxTimeEnd = '23:59';
+          //     var minDateEnd = date_start;
+          //     if ($ummu.vars.date_end == null) {
+          //         var maxDateEnd = $ummu.vars.dNow
+          //     }else{
+          //         var maxDateEnd = $ummu.vars.date_end
+          //     }
+          // }
+          // /**
+          //  * jika tgl yg dipilih tidak sama dengan tgl dari SAP, dan jika tgl yg dipilih sama dengan tgl sekarang
+          //  * */
+          // if (date_start != $ummu.vars.date_start && date_start == $ummu.vars.dNow) {
+          //     var minTimeStart = '00:00';
+          //     var maxTimeStart = $ummu.vars.tNow;
+          //     // var minTimeEnd = '00:00';
+          //     // var maxTimeEnd = $ummu.vars.tNow;
+          //     var minDateEnd = date_start;
+          //     var maxDateEnd = date_start;
+          // }
+          /**
+           * jika tgl yg dipilih lebih besar dari tgl yg ditentukan oleh SAP, dan jika tgl yg dipilih lebih kecil dari tgl sekarang
+           * */
+
+          if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow ) {
+            var minTimeStart = "00:00";
+            var maxTimeStart = "23:59";
+            // var minTimeEnd = '00:00';
+            // var maxTimeEnd = '23:59';
+            var minDateEnd = date_start;
+            if ($ummu.vars.date_end == null) {
+              var maxDateEnd = $ummu.vars.dNow;
+            } else {
+              var maxDateEnd = $ummu.vars.date_end;
+            }
+          }
+        });
+
+        // /*if (date_start == $ummu.vars.dNow) {
+        //               if (date_start == $ummu.vars.date_start) {
+        //                   var minTimeStart = $ummu.vars.time_start;
+        //                   var maxTimeStart = $ummu.vars.time_end;
+        //                   // var minTimeEnd = '00:00';
+        //                   // var maxTimeEnd = '23:59';
+        //                   var minDateEnd = date_start;
+        //                   if ($ummu.vars.date_end == null) {
+        //                       var maxDateEnd = $ummu.vars.dNow
+        //                   }else{
+        //                       var maxDateEnd = $ummu.vars.date_end
+        //                   }
+        //               }else{
+        //                   var minTimeStart = '00:00';
+        //                   var maxTimeStart = $ummu.vars.tNow;
+        //                   // var minTimeEnd = '00:00';
+        //                   // var maxTimeEnd = $ummu.vars.tNow;
+        //                   var minDateEnd = date_start;
+        //                   var maxDateEnd = date_start;
+        //               }
+        //           }*/
+        // /*if (date_start == $ummu.vars.date_start) {
+        //               var mintimestart = $ummu.vars.time_start
+        //           }else{
+        //               var mintimestart = '00:00'
+        //           }*/
+
+        // $("#time_start").datetimepicker({
+        //   minTime: minTimeStart,
+        //   maxTime: maxTimeStart,
+        // });
+        // $("#date_end").datetimepicker({
+        //   minDate: minDateEnd,
+        //   maxDate: maxDateEnd,
         // });
       },
-    },
 
-    timeStart: function () {
-      $("#time_start").change(function () {
-        var date_start = $("#date_start").val();
-        var date_end = $("#date_end").val();
-        var time_start = $("#time_start").val();
-        var time_end = $("#time_end").val();
+      timeStart: function () {
+        $("#time_start").change(function () {
+          var date_start = $("#date_start").val();
+          var date_end = $("#date_end").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
 
-        if (
-          date_start == null ||
-          date_start == "____-__-__" ||
-          date_start == ""
-          ) {
-          $("#message_modal").modal("show");
-        $("#message_title").html("Validations");
-        $("#text_message").html(
-          '<div class="alert alert-danger" role="alert">isi DateStart terlebih dahulu</div>'
-          );
-        $(this).val("__:__");
-      }
-    });
-    },
+          if (date_start == null || date_start == "____-__-__" || date_start == "") {
+            $("#message_modal").modal("show");
+            $("#message_title").html("Validations");
+            $("#text_message").html('<div class="alert alert-danger" role="alert">isi DateStart terlebih dahulu</div>');
+            $(this).val("__:__");
+          }
+        });
+      },
 
-    dateEnd: function () {
+      dateEnd: function () {
       // var date_start = $('#date_start').val();
       // var date_end = $('#date_end').val();
 
@@ -3386,11 +3389,11 @@ var $ummu = {
       //     });
       // });
 
-      $("#date_end").change(function () {
-        var date_start = $("#date_start").val();
-        var date_end = $("#date_end").val();
-        var time_start = $("#time_start").val();
-        var time_end = $("#time_end").val();
+        $("#date_end").change(function () {
+          var date_start = $("#date_start").val();
+          var date_end = $("#date_end").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
 
         // var minTimeStart = $ummu.vars.time_start;
         // if ($ummu.vars.time_end) {
@@ -3399,18 +3402,18 @@ var $ummu = {
         //     var maxTimeStart = '23:59';
         // }
 
-        $("#time_end").val("__:__");
+          $("#time_end").val("__:__");
 
-        if (time_start == null || time_start == "__:__" || time_start == "") {
-          $("#message_modal").modal("show");
-          $("#message_title").html("Validations");
-          $("#text_message").html(
-            '<div class="alert alert-danger" role="alert">' +
-            "Isi TimeStart terlebih dahulu" +
-            "</div>"
-            );
-          $(this).val("____-__-__");
-        }
+          if (time_start == null || time_start == "__:__" || time_start == "") {
+            $("#message_modal").modal("show");
+            $("#message_title").html("Validations");
+            $("#text_message").html(
+              '<div class="alert alert-danger" role="alert">' +
+              "Isi TimeStart terlebih dahulu" +
+              "</div>"
+              );
+            $(this).val("____-__-__");
+          }
 
         // if (date_end == date_start) {
         //     if (date_end == $ummu.vars.date_start) {
@@ -3461,43 +3464,43 @@ var $ummu = {
         //     // }
         // }
 
-        if (
-          date_end == date_start ||
-          date_end == $ummu.vars.date_end ||
-          date_end == $ummu.vars.dNow
-          ) {
-          var min_time = time_start;
-      } else {
-        var min_time = $ummu.vars.min_time;
-      }
-
-      if (date_end == $ummu.vars.dNow || date_end == $ummu.vars.date_end) {
-        var max_time = $ummu.vars.tNow;
-      } else {
-        if ($ummu.vars.time_end) {
-          var max_time = $ummu.vars.time_end;
+          if (
+            date_end == date_start ||
+            date_end == $ummu.vars.date_end ||
+            date_end == $ummu.vars.dNow
+            ) {
+            var min_time = time_start;
         } else {
-          var max_time = "23:59";
+          var min_time = $ummu.vars.min_time;
         }
-      }
+
+        if (date_end == $ummu.vars.dNow || date_end == $ummu.vars.date_end) {
+          var max_time = $ummu.vars.tNow;
+        } else {
+          if ($ummu.vars.time_end) {
+            var max_time = $ummu.vars.time_end;
+          } else {
+            var max_time = "23:59";
+          }
+        }
 
         // if (date_end == $ummu.vars.dNow) {
         //     var max_time = $ummu.vars.tNow;
         // }
 
-      $("#time_end").datetimepicker({
-        minTime: min_time,
-        maxTime: max_time,
+        $("#time_end").datetimepicker({
+          minTime: min_time,
+          maxTime: max_time,
+        });
       });
-    });
-    },
+      },
 
-    timeEnd: function () {
-      $("#time_end").change(function () {
-        var date_start = $("#date_start").val();
-        var date_end = $("#date_end").val();
-        var time_start = $("#time_start").val();
-        var time_end = $("#time_end").val();
+      timeEnd: function () {
+        $("#time_end").change(function () {
+          var date_start = $("#date_start").val();
+          var date_end = $("#date_end").val();
+          var time_start = $("#time_start").val();
+          var time_end = $("#time_end").val();
         // $('#time_end').change(function(){
         //     // $('#time_start').datetimepicker({
         //     //     minTime: minTimeStart,
@@ -3512,25 +3515,26 @@ var $ummu = {
         //         $(this).val("__:__");
         //     }
         // })
-        var workstart = date_start + " " + time_start;
-        var workend = date_end + " " + time_end;
+          var workstart = date_start + " " + time_start;
+          var workend = date_end + " " + time_end;
 
-        var datetime1 = date_start + " " + time_start;
-        var datetime2 = date_end + " " + time_end;
+          var datetime1 = date_start + " " + time_start;
+          var datetime2 = date_end + " " + time_end;
 
-        var jmlMenit = $ummu.func.datetime.jmlMenit(datetime1, datetime2);
-        var jmlJam = $ummu.func.datetime.jmlJam(datetime1, datetime2);
-        var toText = $ummu.func.datetime.toText(datetime1, datetime2);
+          var jmlMenit = $ummu.func.datetime.jmlMenit(datetime1, datetime2);
+          var jmlJam = $ummu.func.datetime.jmlJam(datetime1, datetime2);
+          var toText = $ummu.func.datetime.toText(datetime1, datetime2);
 
-        $("#duration").val(jmlMenit);
-        $("#duration2").val(jmlJam.replace(".", ","));
-        $("#duration_text").val(toText);
+          $("#duration").val(jmlMenit);
+          $("#duration2").val(jmlJam.replace(".", ","));
+          $("#duration_text").val(toText);
 
         // console.log(countdate)
         // console.log(workstart)
         // console.log(workend)
-      });
+        });
       // console.log("OK")
+      },
     },
   },
 
