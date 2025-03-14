@@ -134,4 +134,20 @@ class DateTimeHelper
             return date('Y-m-d', $month_end) . ' 23:59:59';
         }
     }
+
+    public function xsd_to_time($a)
+    {
+        $b = str_replace("T",",",$a);
+        
+        $c = explode(",",$b);
+        $d = $c[1];
+
+        $e = str_replace("H",":",$d);
+        $f = str_replace("M",":",$e);
+        $g = str_replace("M",":",$f);
+
+        $h = str_replace("S","",$g);
+
+        return $h;
+    }
 }

@@ -90,6 +90,7 @@ var $ummu = {
 
       lokasi_temuan_id: null,
       site_project_kode: null,
+      site_project_kode2: null,
       site_project_name: null,
       site_project: null,
     },
@@ -169,21 +170,45 @@ var $ummu = {
         $ummu.vars.nav_tab_id = nav_tab_id;
       });
 
-      $(".datepicker000").datepicker({
-        dateFormat: "yy-mm-dd",
-        uiLibrary: "bootstrap4",
-        modal: true,
-        header: true,
-        footer: true,
-      });
+      // if ( $.isFunction($.fn.lettering) ) {
+      //     $(".cs-text-cut").lettering('words');
+      // }
 
-      $(".clockpicker").clockpicker({
+      if(typeof jQuery.fn.datepicker !== "undefined") {
+        $(".datepicker000").datepicker({
+          dateFormat: "yy-mm-dd",
+          uiLibrary: "bootstrap4",
+          modal: true,
+          header: true,
+          footer: true,
+        });
+
+        $(".ummu-datepicker").datepicker({
+          dateFormat: "yy-mm-dd",
+          uiLibrary: "bootstrap4",
+          modal: true,
+          header: true,
+          footer: true,
+        });
+      };
+
+      if(typeof jQuery.fn.clockpicker !== "undefined") {
+        $(".clockpicker").clockpicker({
+          // placement: 'top',
+          autoclose: true,
+          align: "left",
+          donetext: "Done",
+          default: "now",
+        });
+
+        $(".ummu-clockpicker").clockpicker({
         // placement: 'top',
-        autoclose: true,
-        align: "left",
-        donetext: "Done",
-        default: "now",
-      });
+          autoclose: true,
+          align: "left",
+          donetext: "Done",
+          default: "now",
+        });
+      };
 
       $("#modal_filter").on("shown.bs.modal", function () {
         let date_from = localStorage.getItem("date_from");
@@ -254,22 +279,6 @@ var $ummu = {
       //         return false;
       //     }
       // });
-
-      $(".ummu-clockpicker").clockpicker({
-        // placement: 'top',
-        autoclose: true,
-        align: "left",
-        donetext: "Done",
-        default: "now",
-      });
-
-      $(".ummu-datepicker").datepicker({
-        dateFormat: "yy-mm-dd",
-        uiLibrary: "bootstrap4",
-        modal: true,
-        header: true,
-        footer: true,
-      });
 
       $(".btn-show-date").on("click", function () {
         var id = $(this).data("inputid");
@@ -4459,6 +4468,14 @@ var $ummu = {
         }
       });
 
+      $(".dorbitt_checkbox_image_gallery").on("click", function() {
+        var id = $(this).attr("id");
+        var filename = $(this).data("name");
+        var path = $(this).data("path");
+
+        alert('ok')
+      });
+
       $("#mygallery_btn_select_file").on("click", function () {
         var ids = [];
         var filenames = [];
@@ -4473,15 +4490,19 @@ var $ummu = {
           paths.push(path);
         });
 
-        $ummu.mygallery.ids = ids;
-        $ummu.mygallery.filenames = filenames;
-        $ummu.mygallery.paths = paths;
+        if (ids.length > 0) {
+          $ummu.mygallery.ids = ids;
+          $ummu.mygallery.filenames = filenames;
+          $ummu.mygallery.paths = paths;
 
-        $("#" + $ummu.mygallery.element_inputid).val(filenames);
-        $("#" + $ummu.mygallery.element_inputid).attr("data-id", ids);
-        $("#" + $ummu.mygallery.element_imageid).attr("src", paths);
-
-        $("#modal_mygallery").modal("hide");
+          $("#" + $ummu.mygallery.element_inputid).val(filenames);
+          $("#" + $ummu.mygallery.element_inputid).attr("data-id", ids);
+          $("#" + $ummu.mygallery.element_imageid).attr("src", paths);          
+          $("#modal_mygallery").modal("hide");
+        }else{
+          alert('Please select one or more.');
+        }
+        // console.log(ids.length)
       });
     },
 
