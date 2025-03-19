@@ -6226,6 +6226,32 @@ var $ummu = {
 
         return [year, month, day].join("-");
       },
+      formatMicrosoftJSONDate: function(microsoftDate) {
+        /*// Use a regular expression to extract the number inside /Date(...)
+        var timestamp = parseInt(microsoftDate.replace(/[^0-9]/g, ''), 10);
+
+        // Create a new Date object with the timestamp
+        var date = new Date(timestamp);
+
+        // Format the date to a readable string (e.g., YYYY-MM-DD)
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+        var day = date.getDate().toString().padStart(2, '0');*/
+
+
+        var timestamp = parseInt(microsoftDate.replace(/[^0-9]/g, ''), 10);
+        var date = new Date(timestamp);
+
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        var seconds = date.getSeconds().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+        // return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      }
     },
 
     duration_menit: function (data) {
