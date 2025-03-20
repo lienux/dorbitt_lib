@@ -814,6 +814,8 @@ var $ummu = {
         return data;
       },
     },
+
+    // text_to_array
   },
 
   controllers: {
@@ -1641,6 +1643,7 @@ var $ummu = {
     /**
      * body = form-data 
      * url = otomatis dari $ummu.vars.page_url
+     * method = custom
     * */
     ummu6: function (params) {
       return $.ajax({
@@ -6331,6 +6334,45 @@ var $ummu = {
         r +
         "</div>"
         );
+    },
+
+    arr_to_badge: function (data) {
+      // console.log(data)
+      var r = [];
+
+      /*$.each(data, function( index, value ) {
+          r[index] = {};
+          if (index == 0) {
+              r[index] = '<span class="badge bg-primary">'+value+'</span>';
+          }else{
+              r[index] = '<br><span class="badge bg-primary">'+value+'</span>';
+          }
+      });*/
+
+      if (data.length > 0) {
+        $.each(data, function (index, value) {
+          r[index] = {};
+
+          if (index == 0) {
+            r[index] = '<span class="badge badge-pill bg-primary text-light">1</span> ' + value;
+          } else {
+            r[index] = '<br> <span class="badge badge-pill bg-primary text-light">' + (index + 1) + '</span> ' + value;
+          }
+        });
+
+        // return (
+        //   '<div style="overflow-y:scroll; max-height:100px !important;">' +
+        //   r +
+        //   "</div>"
+        //   );
+         return (r);
+      }else{
+        return '';
+      }
+
+      // return data.length;
+
+
     },
 
     opr_detail: function () {
