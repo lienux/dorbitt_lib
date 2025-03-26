@@ -98,6 +98,7 @@ var $ummu = {
     account: {
       id: null,
       role: null,
+      level_id: null,
     },
 
     dt: {
@@ -791,6 +792,17 @@ var $ummu = {
         return data;
       },
 
+      gentext2: function (rows) {
+        var data = $.map(rows, function (obj) {
+          obj.id = obj.id || obj.act_number;
+          obj.text = obj.text || obj.opr_short_text;
+
+          return obj;
+        });
+
+        return data;
+      },
+
       gentext_siteherp: function (rows) {
         var data = $.map(rows, function (obj) {
           obj.id = obj.id || obj.region_code; // replace name with the property used for the text
@@ -814,8 +826,6 @@ var $ummu = {
         return data;
       },
     },
-
-    // text_to_array
   },
 
   controllers: {
@@ -6254,6 +6264,19 @@ var $ummu = {
 
         return `${year}-${month}-${day}`;
         // return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      },
+      MsJsonDate: function(microsoftDate) {
+        var timestamp = parseInt(microsoftDate.replace(/[^0-9]/g, ''), 10);
+        var date = new Date(timestamp);
+
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        var seconds = date.getSeconds().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
       }
     },
 
@@ -6365,7 +6388,7 @@ var $ummu = {
         //   r +
         //   "</div>"
         //   );
-         return (r);
+        return (r);
       }else{
         return '';
       }
@@ -7877,6 +7900,21 @@ var $ummu = {
                 $ummu.vars.row = rows[0];
                 $ummu.vars.action = "delete";
                 $("#modal_delete_confirm").modal("show");
+              },
+            })
+            .disable();
+          }
+
+          if (crud.includes("import") == true) {
+            table
+            .button()
+            .add(13, {
+              text: '<i class="fas fa-file-excel text-success"></i> Import',
+              attr: { id: "dt_btn_import" },
+              className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
+              action: function (e, dt, node, config) {
+                $ummu.vars.action = "import";
+                app.controllers.import();
               },
             })
             .disable();

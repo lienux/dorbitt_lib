@@ -305,8 +305,49 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'dataType: json',
-                'Authorization: Basic '.$headers['auth']
+                'Authorization: Basic '.$headers['auth'],
+                'Cookie: SAP_SESSIONID_DS4_240=dHhdUh2tXdEt2TNuixRRozsRELMJKBHwrvMAUFaTR3Q%3d; sap-usercontext=sap-client=240'
             ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return json_decode($response, false);
+    }
+
+
+    /**
+     * Full url from params
+     * Tanpa SSL
+     * auth basic
+     * headers from params
+     * */
+    public function ummu4($params)
+    {
+        $url            = $params['url'];
+        $method         = $params['method'];
+        $payload        = $params['payload'];
+        $headers        = $params['headers'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => $headers,
         ));
 
         $response = curl_exec($curl);
