@@ -6935,6 +6935,12 @@ var $ummu = {
       ];
     },
 
+    getIdSelections: function () {
+      return $.map($table.bootstrapTable('getSelections'), function (row) {
+          return row.id
+      })
+    },
+
     button: {
       crud: function () {
         return {
