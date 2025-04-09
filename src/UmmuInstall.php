@@ -59,73 +59,127 @@ class UmmuInstall
         $this->create_symlink();
     }
 
+    // public function is_symlink()
+    // {
+    //     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    //         if (is_link(FCPATH."uploads")) {
+    //             exec("rmdir /s  ".FCPATH."uploads");
+    //         }
+
+    //         if (is_link(FCPATH."vendor/dorbitt-lib")) {
+    //             exec("rmdir /s  ".FCPATH."vendor/dorbitt-lib");
+    //         }
+
+    //         if (is_link(FCPATH."Gasset")) {
+    //             exec("rmdir /s  ".FCPATH."Gasset");
+    //         }
+
+    //         if (is_link(APPPATH."Gviews")) {
+    //             exec("rmdir /s  ".APPPATH."Gviews");
+    //         }
+
+    //         if (!is_dir(FCPATH."vendor")) {
+    //             exec("mkdir ". FCPATH ."vendor");
+    //         }
+
+    //         if (is_link(APPPATH."Controllers/MyGallery")) {
+    //             exec("rmdir /s  ".APPPATH."Controllers/MyGallery");
+    //         }
+    //     }else{
+    //         if (is_link(FCPATH."uploads")) {
+    //             exec("rm -rf ".FCPATH."uploads");
+    //         }
+
+    //         if (is_link(FCPATH."vendor/dorbitt-lib")) {
+    //             exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
+    //         }
+
+    //         if (is_link(FCPATH."Gasset")) {
+    //             exec("rm -rf ".FCPATH."Gasset");
+    //         }
+
+    //         if (is_link(APPPATH."Gviews")) {
+    //             exec("rm -rf ".APPPATH."Gviews");
+    //         }
+
+    //         if (!is_dir(FCPATH."vendor")) {
+    //             exec("mkdir ". FCPATH ."vendor");
+    //         }
+
+    //         if (is_link(APPPATH."Controllers/MyGallery")) {
+    //             exec("rm -rf ".APPPATH."Controllers/MyGallery");
+    //         }
+    //     }
+    // }
+
+    // public function create_symlink()
+    // {
+    //     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    //         exec("mklink /d ".WRITEPATH."uploads"." ".FCPATH);
+    //         exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
+    //         exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
+    //         exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
+    //         exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
+    //     } else {
+    //         exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
+    //         exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
+    //         exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
+    //         exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
+    //         exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
+    //     }
+    // }
+
     public function is_symlink()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            if (is_link(FCPATH."uploads")) {
-                exec("rmdir /s  ".FCPATH."uploads");
-            }
+        $upload = FCPATH."uploads";
+        if (is_link($upload) OR is_dir($upload)) {
+            rmdir($upload);
+        }elseif (is_file($upload)) {
+            unlink($upload);
+        }
 
-            if (is_link(FCPATH."vendor/dorbitt-lib")) {
-                exec("rmdir /s  ".FCPATH."vendor/dorbitt-lib");
-            }
+        $lib = FCPATH."vendor/dorbitt-lib";
+        if (is_link($lib) or is_dir($lib)) {
+            rmdir($lib);
+        }elseif(is_file($lib)){
+            unlink($lib);
+        }
 
-            if (is_link(FCPATH."Gasset")) {
-                exec("rmdir /s  ".FCPATH."Gasset");
-            }
+        $gAsset = FCPATH."Gasset";
+        if (is_link($gAsset)) {
+            rmdir($gAsset);
+        }elseif(is_file($gAsset)){
+            unlink($gAsset);
+        }
 
-            if (is_link(APPPATH."Gviews")) {
-                exec("rmdir /s  ".APPPATH."Gviews");
-            }
+        $gViews = APPPATH."Gviews";
+        if (is_link($gViews)) {
+            rmdir($gViews);
+        }elseif(is_file($gViews)){
+            unlink($gViews);
+        }
 
-            if (!is_dir(FCPATH."vendor")) {
-                exec("mkdir ". FCPATH ."vendor");
-            }
+        $vendor = FCPATH."vendor";
+        if (!is_dir($vendor)) {
+            rmdir($vendor);
+        }elseif(is_file($vendor)){
+            unlink($vendor);
+        }
 
-            if (is_link(APPPATH."Controllers/MyGallery")) {
-                exec("rmdir /s  ".APPPATH."Controllers/MyGallery");
-            }
-        }else{
-            if (is_link(FCPATH."uploads")) {
-                exec("rm -rf ".FCPATH."uploads");
-            }
-
-            if (is_link(FCPATH."vendor/dorbitt-lib")) {
-                exec("rm -rf ".FCPATH."vendor/dorbitt-lib");
-            }
-
-            if (is_link(FCPATH."Gasset")) {
-                exec("rm -rf ".FCPATH."Gasset");
-            }
-
-            if (is_link(APPPATH."Gviews")) {
-                exec("rm -rf ".APPPATH."Gviews");
-            }
-
-            if (!is_dir(FCPATH."vendor")) {
-                exec("mkdir ". FCPATH ."vendor");
-            }
-
-            if (is_link(APPPATH."Controllers/MyGallery")) {
-                exec("rm -rf ".APPPATH."Controllers/MyGallery");
-            }
+        $myGallery = APPPATH."Controllers/MyGallery";
+        if (is_link($myGallery)) {
+            rmdir($myGallery);
+        }elseif(is_file($myGallery)){
+            unlink($myGallery);
         }
     }
 
     public function create_symlink()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            exec("mklink /d ".WRITEPATH."uploads"." ".FCPATH);
-            exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
-            exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
-            exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
-            exec("mklink /d ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
-        } else {
-            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
-        }
-        }
+        symlink(WRITEPATH."uploads", FCPATH."uploads");
+        symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."vendor/dorbitt-lib");
+        symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset");
+        symlink(ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews");
+        symlink(ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery");
+    }
 }
