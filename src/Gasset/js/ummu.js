@@ -155,6 +155,10 @@ var $ummu = {
       // $('#btn_login').on('click', function(){
 
       // })
+      if ( typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage' ) {
+        bsCustomFileInput.init();
+      }
+      
       $(".btn-max").on("click", function () {
         var modalid = $(this).data("modalid");
         console.log(modalid);
@@ -6937,7 +6941,7 @@ var $ummu = {
 
     getIdSelections: function () {
       return $.map($table.bootstrapTable('getSelections'), function (row) {
-          return row.id
+        return row.id
       })
     },
 
@@ -8028,7 +8032,7 @@ var $ummu = {
                 var rows = $ummu.dt.select.data();
                 $ummu.vars.row = rows[0];
                 $ummu.vars.action = "addition";
-                app.controllers.tambah_stok(rows[0]);
+                app.controllers.stock_addition(rows[0]);
               },
             })
             .disable();
@@ -8045,7 +8049,7 @@ var $ummu = {
                 var rows = $ummu.dt.select.data();
                 $ummu.vars.row = rows[0];
                 $ummu.vars.action = "taking";
-                app.controllers.tambah_stok(rows[0]);
+                app.controllers.stock_taking(rows[0]);
               },
             })
             .disable();
