@@ -881,4 +881,16 @@ class UmmuHelper
 
         return $page_header;
     }
+
+    public function is_jsonVar()
+    {
+        $getJsonVar = $this->request->getJsonVar();
+        $getVar = $this->request->getVar();
+
+        if ($getJsonVar == null) {
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

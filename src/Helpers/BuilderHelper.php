@@ -12,6 +12,7 @@ namespace Dorbitt\Helpers;
 */
 
 use Dorbitt\GlobalHelper;
+use Dorbitt\Helpers\UmmuHelper;
 
 class BuilderHelper
 {
@@ -19,6 +20,7 @@ class BuilderHelper
     {
         $this->request = \Config\Services::request();
         $this->gHelp = new GlobalHelper();
+        $this->UmHelp = new UmmuHelper();
 
         /**
          * Vars*/
@@ -319,17 +321,32 @@ class BuilderHelper
 
     public function conditions0($params)
     {
-        $limit      = $this->request->getJsonVar('limit');
-        $offset     = $this->request->getJsonVar('offset');
-        $sort       = $this->request->getJsonVar('sort');
+        if ($this->UmHelp->is_jsonVar() == true) {
+            $limit      = $this->request->getJsonVar('limit');
+            $offset     = $this->request->getJsonVar('offset');
+            $sort       = $this->request->getJsonVar('sort');
 
-        $order      = $this->request->getJsonVar('order');
-        $search     = $this->request->getJsonVar('search');
+            $order      = $this->request->getJsonVar('order');
+            $search     = $this->request->getJsonVar('search');
 
-        $date       = $this->request->getJsonVar('date');
+            $date       = $this->request->getJsonVar('date');
 
-        $where      = $this->request->getJsonVar('where');
-        $selects    = $this->request->getJsonVar('selects');
+            $where      = $this->request->getJsonVar('where');
+            $selects    = $this->request->getJsonVar('selects');
+        }else{
+            $limit      = $this->request->getVar('limit');
+            $offset     = $this->request->getVar('offset');
+            $sort       = $this->request->getVar('sort');
+
+            $order      = $this->request->getVar('order');
+            $search     = $this->request->getVar('search');
+
+            $date       = $this->request->getVar('date');
+
+            $where      = $this->request->getVar('where');
+            $selects    = $this->request->getVar('selects');
+        }
+
 
         $builder        = $params['builder'];
         $id             = $params['id'];
@@ -347,9 +364,7 @@ class BuilderHelper
         }
 
         if ($id) {
-
             $builder->where('id',$id);
-
         }
 
         else{
@@ -393,17 +408,26 @@ class BuilderHelper
 
     public function withJoin0($params)
     {
-        $limit      = $this->request->getJsonVar('limit');
-        $offset     = $this->request->getJsonVar('offset');
-        $sort       = $this->request->getJsonVar('sort');
+        if ($this->UmHelp->is_jsonVar() == true) {
+            $limit      = $this->request->getJsonVar('limit');
+            $offset     = $this->request->getJsonVar('offset');
+            $sort       = $this->request->getJsonVar('sort');
+            $order      = $this->request->getJsonVar('order');
+            $search     = $this->request->getJsonVar('search');
+            $date       = $this->request->getJsonVar('date');
+        }else{
+            $limit      = $this->request->getVar('limit');
+            $offset     = $this->request->getVar('offset');
+            $sort       = $this->request->getVar('sort');
+            $order      = $this->request->getVar('order');
+            $search     = $this->request->getVar('search');
+            $date       = $this->request->getVar('date');
+        }
 
         if (strpos($sort, ".")) {
             $sort = null;
         }
 
-        $order      = $this->request->getJsonVar('order');
-        $search     = $this->request->getJsonVar('search');
-        $date       = $this->request->getJsonVar('date');
 
         $builder            = $params['builder'];
         $id                 = $params['id'];
@@ -469,15 +493,27 @@ class BuilderHelper
      * */
     public function conditions_hill($params)
     {
-        $limit      = $this->request->getJsonVar('limit');
-        $offset     = $this->request->getJsonVar('offset');
-        $sort       = $this->request->getJsonVar('sort');
+        if ($this->UmHelp->is_jsonVar() == true) {
+            $limit      = $this->request->getJsonVar('limit');
+            $offset     = $this->request->getJsonVar('offset');
+            $sort       = $this->request->getJsonVar('sort');
 
-        $order      = $this->request->getJsonVar('order');
-        $search     = $this->request->getJsonVar('search');
+            $order      = $this->request->getJsonVar('order');
+            $search     = $this->request->getJsonVar('search');
 
-        $date       = $this->request->getJsonVar('date');
-        $where      = $this->request->getJsonVar('where');
+            $date       = $this->request->getJsonVar('date');
+            $where      = $this->request->getJsonVar('where');
+        }else{
+            $limit      = $this->request->getVar('limit');
+            $offset     = $this->request->getVar('offset');
+            $sort       = $this->request->getVar('sort');
+
+            $order      = $this->request->getVar('order');
+            $search     = $this->request->getVar('search');
+
+            $date       = $this->request->getVar('date');
+            $where      = $this->request->getVar('where');
+        }
 
         $builder        = $params['builder'];
         $id             = $params['id'];

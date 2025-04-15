@@ -5962,10 +5962,7 @@ var $ummu = {
           // console.log('ok');
           $(".modal_btn_edit").prop("disabled", true);
           $(".modal_btn_save").prop("disabled", false);
-          $("#form_entry_data input, #form_entry_data button, select").prop(
-            "disabled",
-            false
-            );
+          $("#form_entry_data input, #form_entry_data button, select").prop("disabled", false);
           $("#tgl_penemuan, #waktu_penemuan").prop("disabled", true);
           // $('#modal_btn_edit').prop('disabled', true);
         },
@@ -6162,6 +6159,10 @@ var $ummu = {
         $(".status").prop("checked", false);
         $("#modal_form, select").val(null).trigger("change");
       },
+
+      endis_form_edit: function () {
+        // $('')
+      }
     },
 
     dt: {
@@ -8319,6 +8320,11 @@ var $ummu = {
         '<i class="fas fa-save"></i> Save Change' +
         "</button>";
 
+        var cancel =
+        '<button type="button" class="btn btn-sm btn-secondary btn-cancel modal_btn_cancel" id="modal_btn_cancel">' +
+        '<i class="fas fa-undo"></i> Cancel' +
+        "</button>";
+
         if (crud) {
           if (crud.includes("back") == true) {
             $("#modal_form .modal-footer").append(btn_back);
@@ -8338,6 +8344,10 @@ var $ummu = {
 
           if (crud.includes("save") == true) {
             $("#modal_form .modal-footer").append(save);
+          }
+
+          if (crud.includes("cancel") == true) {
+            $("#modal_form .modal-footer").append(cancel);
           }
         }
       },
