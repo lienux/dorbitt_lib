@@ -6132,21 +6132,29 @@ var $ummu = {
         table.buttons(".dt-btn-ummu").remove();
 
         if ($ummu.vars.nav_tab_id == "nav-released-tab") {
+          var btn_status = ["approve", "reject"];
+          
           $ummu.dt.layout.button(["btn_select_all", "btn_select_none"]);
+          $ummu.dt.layout.button_crud(["new"]);
+          $ummu.dt.layout.button_status(btn_status);
           // table.column(0).visible(true)
           // table.column(1).visible(false)
-          $ummu.dt.nth_child_onclick = 3;
-        } else {
+          $ummu.vars.dt.nth_child_onclick = 3;
+        } 
+
+        if ($ummu.vars.nav_tab_id == "nav-approved-tab") {
+
           $ummu.dt.layout.button();
-          // table.column(0).visible(false)
-          // table.column(1).visible(true)
-          $ummu.dt.nth_child_onclick = 2;
+          $ummu.dt.layout.button_crud(["new"]);
+          $ummu.vars.dt.nth_child_onclick = 2;
         }
 
-        $ummu.dt.layout.button_crud(["new"]);
-        if ($ummu.vars.nav_tab_id == "nav-released-tab") {
-          var btn_status = ["approve", "reject"];
-          $ummu.dt.layout.button_status(btn_status);
+        if ($ummu.vars.nav_tab_id == "nav-rejected-tab") {
+          $ummu.dt.layout.button(["btn_select_none"]);
+          $ummu.dt.layout.button_crud(["new","edit"]);
+          // table.column(0).visible(false)
+          // table.column(1).visible(true)
+          $ummu.vars.dt.nth_child_onclick = 2;
         }
 
         $ummu.dt.button.crud();
@@ -7247,81 +7255,81 @@ var $ummu = {
             // c,rall,u,d,admin
             // 0,1   ,2,3,4
 
-            // if (crud) {
-            //     if (crud[0] == 1) {
-            //         if (count_selc == 1) {
-            //             table.button('#btn_new').disable();
-            //             table.button('#dt_btn_new').disable();
-            //         }else if (count_selc > 1) {
-            //             table.button('#btn_new').disable();
-            //             table.button('#dt_btn_new').disable();
-            //         }else{
-            //             table.button('#btn_new').enable();
-            //             table.button('#dt_btn_new').enable();
-            //         }
+            /*if (crud) {
+                if (crud[0] == 1) {
+                    if (count_selc == 1) {
+                        table.button('#btn_new').disable();
+                        table.button('#dt_btn_new').disable();
+                    }else if (count_selc > 1) {
+                        table.button('#btn_new').disable();
+                        table.button('#dt_btn_new').disable();
+                    }else{
+                        table.button('#btn_new').enable();
+                        table.button('#dt_btn_new').enable();
+                    }
 
-            //         if (action == 'new') {
-            //             $('.modal_btn_edit').prop('disabled', true);
-            //             $('.modal_btn_save').prop('disabled', false);
-            //         }
-            //     }else{
-            //         table.button('#btn_new').disable();
-            //         table.button('#dt_btn_new').disable();
-            //     }
+                    if (action == 'new') {
+                        $('.modal_btn_edit').prop('disabled', true);
+                        $('.modal_btn_save').prop('disabled', false);
+                    }
+                }else{
+                    table.button('#btn_new').disable();
+                    table.button('#dt_btn_new').disable();
+                }
 
-            //     if (crud[2] == 1) {
-            //         if (count_selc == 1) {
-            //             table.button('#dt_btn_edit').enable();
-            //         }else if (count_selc > 1) {
-            //             table.button('#dt_btn_edit').disable();
-            //         }else{
-            //             table.button('#dt_btn_edit').disable();
-            //         }
+                if (crud[2] == 1) {
+                    if (count_selc == 1) {
+                        table.button('#dt_btn_edit').enable();
+                    }else if (count_selc > 1) {
+                        table.button('#dt_btn_edit').disable();
+                    }else{
+                        table.button('#dt_btn_edit').disable();
+                    }
 
-            //         if (action == 'edit') {
-            //             $('.modal_btn_edit').prop('disabled', false);
-            //             $('.modal_btn_save').prop('disabled', true);
-            //         }
-            //     }else{
-            //         table.button('#dt_btn_edit').disable();
-            //     }
+                    if (action == 'edit') {
+                        $('.modal_btn_edit').prop('disabled', false);
+                        $('.modal_btn_save').prop('disabled', true);
+                    }
+                }else{
+                    table.button('#dt_btn_edit').disable();
+                }
 
-            //     if (crud[3] == 1) {
-            //         if (count_selc > 0) {
-            //             table.button('#dt_btn_delete').enable();
-            //         }else{
-            //             table.button('#dt_btn_delete').disable();
-            //         }
-            //     }else{
-            //         table.button('#dt_btn_delete').disable();
-            //     }
-            // }else{
-            //     table.button('#dt_btn_new').enable();
-            //     table.button('#dt_btn_edit').disable();
-            //     table.button('#dt_btn_delete').disable();
-            // }
+                if (crud[3] == 1) {
+                    if (count_selc > 0) {
+                        table.button('#dt_btn_delete').enable();
+                    }else{
+                        table.button('#dt_btn_delete').disable();
+                    }
+                }else{
+                    table.button('#dt_btn_delete').disable();
+                }
+            }else{
+                table.button('#dt_btn_new').enable();
+                table.button('#dt_btn_edit').disable();
+                table.button('#dt_btn_delete').disable();
+            }
 
-            // if ($ummu.vars.module_kode == 'event_recruitment') {
-            //     if (count_selc == 1) {
-            //         table.button('#dt_btn_open_recruitment').enable();
-            //     }else{
-            //         table.button('#dt_btn_open_recruitment').disable();
-            //     }
-            // }
+            if ($ummu.vars.module_kode == 'event_recruitment') {
+                if (count_selc == 1) {
+                    table.button('#dt_btn_open_recruitment').enable();
+                }else{
+                    table.button('#dt_btn_open_recruitment').disable();
+                }
+            }
 
-            // if ($ummu.vars.module_kode == 'she_hazard_report') {
-            //     if (count_selc >= 1) {
-            //         table.button('#btn_release').enable();
-            //     }else{
-            //         table.button('#btn_release').disable();
-            //     }
-            // }
+            if ($ummu.vars.module_kode == 'she_hazard_report') {
+                if (count_selc >= 1) {
+                    table.button('#btn_release').enable();
+                }else{
+                    table.button('#btn_release').disable();
+                }
+            }
 
-            // table.button('#btn_edit').disable();
-            // table.button('#btn_approve').disable();
-            // table.button('#btn_reject').disable();
-            // table.button('#btn_release').disable();
-            // table.button('#btn_multi_delete').disable();
+            table.button('#btn_edit').disable();
+            table.button('#btn_approve').disable();
+            table.button('#btn_reject').disable();
+            table.button('#btn_release').disable();
+            table.button('#btn_multi_delete').disable();*/
 
             /**
              * crud[0] = create
@@ -7332,16 +7340,22 @@ var $ummu = {
 
             /**
              * jika tab Not Release atau Rejected List active */
-            if (
-              nav_tab_id == "nav-notrelease-tab" ||
-              nav_tab_id == "nav-rejected-tab"
-              ) {
+            if (nav_tab_id == "nav-notrelease-tab" || nav_tab_id == "nav-rejected-tab") {
               if ($ummu.dt.select.count() > 0) {
                 table.button("#dt_btn_release").enable();
 
                 if (crud[3] == 1) {
                   table.button("#dt_btn_delete").enable();
                 }
+              }
+
+              if ($ummu.dt.select.count() == 1) {
+                // table.button("#dt_btn_release").enable();
+                table.button("#dt_btn_edit").enable();
+
+                // if (crud[3] == 1) {
+                //   table.button("#dt_btn_delete").enable();
+                // }
               }
 
               // if (crud[2] == 1) {
@@ -8320,6 +8334,11 @@ var $ummu = {
         '<i class="fas fa-save"></i> Save Change' +
         "</button>";
 
+        var update =
+        '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_update" id="modal_btn_update">' +
+        '<i class="fas fa-save"></i> Update Change' +
+        "</button>";
+
         var cancel =
         '<button type="button" class="btn btn-sm btn-secondary btn-cancel modal_btn_cancel" id="modal_btn_cancel">' +
         '<i class="fas fa-undo"></i> Cancel' +
@@ -8344,6 +8363,10 @@ var $ummu = {
 
           if (crud.includes("save") == true) {
             $("#modal_form .modal-footer").append(save);
+          }
+
+          if (crud.includes("update") == true) {
+            $("#modal_form .modal-footer").append(update);
           }
 
           if (crud.includes("cancel") == true) {
