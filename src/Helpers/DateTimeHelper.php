@@ -150,4 +150,30 @@ class DateTimeHelper
 
         return $h;
     }
+
+    public function calc_age($tgl_lahir)
+    {
+        $tanggal_lahir = new \DateTime($tgl_lahir);
+        $sekarang = new \DateTime("today");
+        if ($tanggal_lahir > $sekarang) { 
+            $thn = "0";
+            $bln = "0";
+            $tgl = "0";
+        }
+        $thn = $sekarang->diff($tanggal_lahir)->y;
+        $bln = $sekarang->diff($tanggal_lahir)->m;
+        $tgl = $sekarang->diff($tanggal_lahir)->d;
+        $jml_bulan = ($thn*12)+$bln;
+        //echo $thn." tahun ".$bln." bulan ".$tgl." hari";
+        // echo ($thn*12)+$bln." bulan ".$tgl." hari";
+        return [
+            "tahun" => $thn,
+            "bulan" => $bln,
+            "hari"  => $tgl,
+            "jml_bulan" => $jml_bulan,
+            "text"  => $thn." tahun ".$bln." bulan ".$tgl." hari",
+            "text2" => $jml_bulan." bulan ".$tgl." hari"
+        ];
+        // return new \DateTime('today');
+    }
 }
