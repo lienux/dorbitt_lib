@@ -100,5 +100,18 @@ class UmmuEmail
         ]);
 
         return json_decode($response, false);
+    }
+
+    public function dorbitt_send($params)
+    {
+        $response = $this->curli->request4([
+            "path"           => $this->urli. "dorbitt_send",
+            "method"         => "POST",
+            "payload"        => $params["payload"],
+            "module_code"    => $this->kode,
+            "token"          => $params["token"]
+        ]);
+
+        return json_decode($response, false);
     }    
 }
