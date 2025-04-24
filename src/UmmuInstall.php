@@ -127,6 +127,13 @@ class UmmuInstall
             }elseif(is_file($myGallery)){
                 unlink($myGallery);
             }
+
+            $gModels = APPPATH."Gmodels";
+            if (is_link($gModels)) {
+                rmdir($gModels);
+            }elseif(is_file($gModels)){
+                unlink($gModels);
+            }
         }else{
             if (is_link(FCPATH."uploads")) {
                 exec("rm -rf ".FCPATH."uploads");
@@ -151,6 +158,10 @@ class UmmuInstall
             if (is_link(APPPATH."Controllers/MyGallery")) {
                 exec("rm -rf ".APPPATH."Controllers/MyGallery");
             }
+
+            if (is_link(APPPATH."Gmodels")) {
+                exec("rm -rf ".APPPATH."Gmodels");
+            }
         }
     }
 
@@ -162,12 +173,14 @@ class UmmuInstall
             symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset");
             symlink(ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews");
             symlink(ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery");
+            symlink(ROOTPATH."vendor/dorbitt/lib/src/Gmodels", APPPATH."Gmodels");
         } else {
             exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
             exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
             exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
             exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
             exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
+            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gmodels"." ".APPPATH."Gmodels");
         }
     }
 
@@ -241,3 +254,4 @@ class UmmuInstall
     //         exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
     //     }
     // }
+}
