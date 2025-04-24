@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Builder\Safety;
+namespace App\Gbuilder\Safety;
 
 use Dorbitt\UmmuHelper;
 use Dorbitt\UmmuHazardReport;
-use App\Models\Safety\HazardReportQueueMailModel;
-use App\Models\Safety\HazardReportNumberModel;
+use App\Gmodels\Safety\HazardReportQueueMailModel;
+use App\Gmodels\Safety\HazardReportNumberModel;
 
 class HazardReportBuilder
 {
@@ -50,7 +50,8 @@ class HazardReportBuilder
             ->where('used_at IS NULL')
             ->where('YEAR(created_at)', date('Y'))
             ->where('MONTH(created_at)', date('m'))
-            ->first();
+            ->get()
+            ->getFirstRow();
 
         return $builder;
     }
@@ -63,7 +64,8 @@ class HazardReportBuilder
             ->where('used_at IS NULL')
             ->where('YEAR(created_at)', date('Y'))
             ->where('MONTH(created_at)', date('m'))
-            ->first();
+            ->get()
+            ->getFirstRow();
 
         return $builder;
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Safety;
+namespace App\Gmodels\Safety;
 
 use CodeIgniter\Model;
 
 class HazardReportNumberModel extends Model
 {
-    protected $DBGroup = 'iescm';
+    protected $DBGroup = 'openerpid';
     protected $table = 'hazard_report_number';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
@@ -45,4 +45,9 @@ class HazardReportNumberModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    public function __construct()
+    {
+        $this->DBGroup = (getenv('DBGroup')) ? getenv('DBGroup') : 'dorbitt_she';
+    }
 }

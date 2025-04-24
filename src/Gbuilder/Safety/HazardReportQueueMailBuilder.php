@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Builder\Safety;
+namespace App\Gbuilder\Safety;
 
 use Dorbitt\UmmuHelper;
 use Dorbitt\UmmuHazardReport;
-use App\Models\Safety\HazardReportQueueMailModel;
+use App\Gmodels\Safety\HazardReportQueueMailModel;
 
 class HazardReportQueueMailBuilder
 {

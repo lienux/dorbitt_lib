@@ -8,18 +8,17 @@ use Dorbitt\Helpers\UmmuHelper;
 use Dorbitt\UmmuPhotos;
 use Dorbitt\UmmuUpload;
 
-use App\Gbuilder\Safety\LpaBuilder;
+use App\Gbuilder\Safety\HazardReportBuilder;
 
-class LpaController extends ResourceController
+class HazardReportController extends ResourceController
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        $this->qHelp = new QueryHelper();
+        $this->qHelp = new UmmuHelper();
+        $this->qBuilder = new HazardReportBuilder();
         $this->umUpl = new UmmuUpload();
         $this->umPhot = new UmmuPhotos();
-
-        $this->qBuilder = new LpaBuilder();
     }
 
     /**
@@ -39,42 +38,22 @@ class LpaController extends ResourceController
      */
     public function show($id = null)
     {
-        $show_detail_orang_terlibat = $this->request->getJsonVar('show_detail_orang_terlibat');
-        $show_detail_foto = $this->request->getJsonVar('show_detail_foto');
-        $show_detail_kerusakan = $this->request->getJsonVar('show_detail_kerusakan');
-        $show_detail_unit = $this->request->getJsonVar('show_detail_unit');
-
         $builder = $this->qBuilder->show($id);
-        $total = $this->qHelp->_total($builder);
-        $rows = $this->qHelp->_rowsBui($builder);
-        $count = count($rows);
+        if ($builder->status == true) {
+            $rows = $builder->rows;
+            if ($rows) {
+                foreach ($rows as $key => $value) {
+                    if (!$value->foto_temuan_url) {
+                        $rows[$key]->foto_temuan_url = getenv('api-url') . 'uploads/no_image.jpg';
+                    }
 
-        if ($rows) {
-            foreach ($rows as $key => $value) {
-                if ($show_detail_orang_terlibat) {
-                    $orang = $this->qBuilder->show_d_orang($value->id);
-                    $rows[$key]->orang_terlibat = $orang;
-                }
-
-                if ($show_detail_foto) {
-                    $foto = $this->qBuilder->show_d_foto($value->id);
-                    $rows[$key]->foto = $foto;
-                }
-
-                if ($show_detail_kerusakan) {
-                    $kerusakan = $this->qBuilder->show_d_kerusakan($value->id);
-                    $rows[$key]->kerusakan = $kerusakan;
-                }
-
-                if ($show_detail_unit) {
-                    $unit = $this->qBuilder->show_d_unit($value->id);
-                    $rows[$key]->unit = $unit;
+                    if (!$value->foto_perbaikan_url) {
+                        $rows[$key]->foto_perbaikan_url = getenv('api-url') . 'uploads/no_image.jpg';
+                    }
                 }
             }
         }
-
-        $response = $this->qHelp->respon($rows, $count, $total);
-        return $this->respond($response, 200);
+        return $this->respond($builder, 200);
     }
 
     /**
@@ -82,6 +61,48 @@ class LpaController extends ResourceController
      *
      * @return mixed
      */
+    public function new()
+    {
+        $site = $this->request->getJsonVar('site');
+        $nik = $this->request->getJsonVar('nik');
+
+        $payload = [
+            "site" => $site,
+            "nik" => $nik
+        ];
+
+        $show_number_unused = $this->qBuilder->show_number_unused($nik, $site);
+        if ($show_number_unused) { /* jika ada nomor dokumen yang belum digunakan pada bulan dan tahun yang sama dengan sekarang */
+            $row = $show_number_unused;
+            $number = $row->number;
+            
+        } else {
+
+            $getLastRow = $this->qBuilder->getLastRow();
+            if ($getLastRow) {
+                $seq = $getLastRow->seq;
+                $seq = $seq + 1;
+            } else {
+                $seq = 1;
+            }
+
+            $n = sprintf('%06d', $seq);
+            $number = $site . 'HZR' . date('Ym') . $n;
+
+            $payload = [
+                "seq" => $seq,
+                "site" => $site,
+                "nik" => $nik,
+                "number" => $number
+            ];
+            $insert_number = $this->qBuilder->insert_number($payload);
+        }
+
+        $response = [$number];
+
+        return $this->respond($response, 200);
+    }
+
     public function number_document()
     {
         $site = $this->request->getJsonVar('site');
@@ -95,29 +116,9 @@ class LpaController extends ResourceController
         $show_number_unused = $this->qBuilder->show_number_unused($nik, $site);
         if ($show_number_unused) { /* jika ada nomor dokumen yang belum digunakan pada bulan dan tahun yang sama dengan sekarang */
             $row = $show_number_unused;
-            $number = $row['number'];
+            $number = $row->number;
+
         } else {
-            // $show_new = $this->qBuilder->show_new($nik, $site); /* ambil row yang belum ada nomor dokumen nya */
-
-            // if ($show_new) { /* jika ada, maka tampilkan seq */
-            //     $seq = $show_new['seq'];
-            // } else {
-            //     // $getLastRow = $this->qBuilder->getLastRow();
-            //     // if ($getLastRow) {
-            //     // }else{
-            //     $create_seq = $this->qBuilder->create_id($payload);
-            //     $seq = $create_seq;
-            //     // }
-            // }
-            // $n = sprintf('%08d', $id);
-            // $number = $site . 'HZR' . date('Ym') . $n;
-
-            // $payload = [
-            //     "number" => $number
-            // ];
-            // $update_new = $this->qBuilder->update_new($id, $payload);
-
-
 
             $getLastRow = $this->qBuilder->getLastRow();
             if ($getLastRow) {
