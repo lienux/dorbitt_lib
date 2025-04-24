@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class LpadFotoModel extends Model
 {
-    protected $DBGroup = 'dorbitt_she';
+    protected $DBGroup = 'openerpid';
     protected $table = 'lpa_d_foto';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
@@ -47,4 +47,9 @@ class LpadFotoModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    public function __construct()
+    {
+        $this->DBGroup = (getenv('DBGroup')) ? getenv('DBGroup') : 'dorbitt_she';
+    }
 }

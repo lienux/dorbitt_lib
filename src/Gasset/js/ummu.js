@@ -7930,6 +7930,25 @@ var $ummu = {
             .disable();
           }
 
+          if (crud.includes("delete2") == true) {
+            table
+            .button()
+            .add(12, {
+              text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+              attr: { id: "dt_btn_delete" },
+              className:
+              "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+              action: function (e, dt, node, config) {
+                var rows = $ummu.dt.select.data();
+                $ummu.vars.rows = rows;
+                $ummu.vars.row = rows[0];
+                $ummu.vars.action = "delete2";
+                app.controllers.delete(rows[0]);
+              },
+            })
+            .disable();
+          }
+
           if (crud.includes("import") == true) {
             table
             .button()

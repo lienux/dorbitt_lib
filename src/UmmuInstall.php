@@ -134,6 +134,21 @@ class UmmuInstall
             }elseif(is_file($gModels)){
                 unlink($gModels);
             }
+
+            $gControllers = APPPATH."Gcontrollers";
+            if (is_link($gControllers)) {
+                rmdir($gControllers);
+            }elseif(is_file($gControllers)){
+                unlink($gControllers);
+            }
+
+            $gBuilder = APPPATH."Gbuilder";
+            if (is_link($gBuilder)) {
+                rmdir($gBuilder);
+            }elseif(is_file($gBuilder)){
+                unlink($gBuilder);
+            }
+
         }else{
             if (is_link(FCPATH."uploads")) {
                 exec("rm -rf ".FCPATH."uploads");
@@ -162,25 +177,69 @@ class UmmuInstall
             if (is_link(APPPATH."Gmodels")) {
                 exec("rm -rf ".APPPATH."Gmodels");
             }
+
+            if (is_link(APPPATH."Gcontrollers")) {
+                exec("rm -rf ".APPPATH."Gcontrollers");
+            }
+
+            if (is_link(APPPATH."Gbuilder")) {
+                exec("rm -rf ".APPPATH."Gbuilder");
+            }
         }
     }
 
     public function create_symlink()
     {
+        // $uploads = WRITEPATH."uploads", FCPATH."uploads";
+        // $assetlib = ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."vendor/dorbitt-lib";
+        // $gAsset = ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset";
+        // $gViews = ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews";
+        // $myGallery = ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery";
+        // $gModels = ROOTPATH."vendor/dorbitt/lib/src/Gmodels", APPPATH."Gmodels";
+        // $gControllers = ROOTPATH."vendor/dorbitt/lib/src/Gcontrollers", APPPATH."Gcontrollers";
+
+        $uploads = [WRITEPATH."uploads", FCPATH."uploads"];
+        $assetlib = [ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."vendor/dorbitt-lib"];
+        $gAsset = [ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset"];
+        $gViews = [ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews"];
+        $myGallery = [ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery"];
+        $gModels = [ROOTPATH."vendor/dorbitt/lib/src/Gmodels", APPPATH."Gmodels"];
+        $gControllers = [ROOTPATH."vendor/dorbitt/lib/src/Gcontrollers", APPPATH."Gcontrollers"];
+        $gBuilder = [ROOTPATH."vendor/dorbitt/lib/src/Gbuilder", APPPATH."Gbuilder"];
+
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            symlink(WRITEPATH."uploads", FCPATH."uploads");
-            symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."vendor/dorbitt-lib");
-            symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset");
-            symlink(ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews");
-            symlink(ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery");
-            symlink(ROOTPATH."vendor/dorbitt/lib/src/Gmodels", APPPATH."Gmodels");
+            // symlink(WRITEPATH."uploads", FCPATH."uploads");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."vendor/dorbitt-lib");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Gasset", FCPATH."Gasset");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Gviews", APPPATH."Gviews");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH."Controllers/MyGallery");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Gmodels", APPPATH."Gmodels");
+            // symlink(ROOTPATH."vendor/dorbitt/lib/src/Gcontrollers", APPPATH."Gcontrollers");
+            symlink($uploads[0], $uploads[1]);
+            symlink($assetlib[0], $assetlib[1]);
+            symlink($gAsset[0], $gAsset[1]);
+            symlink($gViews[0], $gViews[1]);
+            symlink($myGallery[0], $myGallery[1]);
+            symlink($gModels[0], $gModels[1]);
+            symlink($gControllers[0], $gControllers[1]);
+            symlink($gBuilder[0], $gBuilder[1]);
         } else {
-            exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
-            exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gmodels"." ".APPPATH."Gmodels");
+            // exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."Gasset");
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gviews"." ".APPPATH."Gviews");
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Controllers/MyGallery"." ".APPPATH."Controllers/MyGallery");
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gmodels"." ".APPPATH."Gmodels");
+            // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gcontrollers"." ".APPPATH."Gcontrollers");
+
+            exec("ln -s ".$uploads[0]." ".$uploads[1]);
+            exec("ln -s ".$assetlib[0]." ".$assetlib[1]);
+            exec("ln -s ".$gAsset[0]." ".$gAsset[1]);
+            exec("ln -s ".$gViews[0]." ".$gViews[1]);
+            exec("ln -s ".$myGallery[0]." ".$myGallery[1]);
+            exec("ln -s ".$gModels[0]." ".$gModels[1]);
+            exec("ln -s ".$gControllers[0]." ".$gControllers[1]);
+            exec("ln -s ".$gBuilder[0]." ".$gBuilder[1]);
         }
     }
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Gmodels\Safety;
+namespace App\Models\Safety;
 
 use CodeIgniter\Model;
 
-class LpadUnitModel extends Model
+class HazardReportNumberModel extends Model
 {
-    protected $DBGroup = 'openerpid';
-    protected $table = 'lpa_d_unit';
+    protected $DBGroup = 'iescm';
+    protected $table = 'hazard_report_number';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $insertID = 0;
@@ -15,18 +15,11 @@ class LpadUnitModel extends Model
     protected $useSoftDeletes = true;
     protected $protectFields = true;
     protected $allowedFields = [
-        "id",
-        "company_id",
-        "lpa_id",
-        "tipe_equipment_kendaraan",
-        "model_serial",
-        "nama_or_tipe",
-        "aset_perusahaan",
-        "keterangan_aset_tipe",
-        "detail_kerusakan_kerugian_tipe",
-        "created_at",
-        "updated_at",
-        "deleted_at"
+        "seq",
+        "site",
+        "number",
+        "nik",
+        "used_at"
     ];
 
     // Dates
@@ -52,9 +45,4 @@ class LpadUnitModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
-
-    public function __construct()
-    {
-        $this->DBGroup = (getenv('DBGroup')) ? getenv('DBGroup') : 'dorbitt_she';
-    }
 }
