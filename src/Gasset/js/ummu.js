@@ -1778,8 +1778,8 @@ var $ummu = {
         timeout: 0,
         headers: {
           "Content-Type": payload.contentType,
-          'Msdb-Token': windows.settings.msdbToken || null,
-          'Authorization': windows.settings.token || null
+          'Msdb-Token': window.settings.msdbToken || null,
+          'Authorization': window.settings.token || null
         },
         data: payload.data,
         beforeSend: function (e) {
