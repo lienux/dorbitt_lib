@@ -2,6 +2,7 @@
 
 namespace App\Gbuilder\Safety;
 
+use Dorbitt\Helpers\IdentityHelper;
 use Dorbitt\Helpers\BuilderHelper;
 use Dorbitt\Helpers\QueryHelper;
 use Dorbitt\UmmuHelper;
@@ -23,6 +24,7 @@ class LpaBuilder
         $this->db = \Config\Database::connect();
         $this->iescm = \Config\Database::connect('iescm');
         $this->request = \Config\Services::request();
+        $this->identify = new IdentityHelper();
         $this->bHelp = new BuilderHelper();
         $this->qHelp = new QueryHelper();
         $this->umHelp = new UmmuHelper();

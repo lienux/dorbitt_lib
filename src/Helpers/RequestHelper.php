@@ -66,4 +66,16 @@ class RequestHelper
 
         return $ssl_option;
     }
+
+    public function myToken()
+    {
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) {
+            $token = null;
+        }else{
+            $token = explode(' ', $header)[1];
+        }
+
+        return $token;
+    }
 }

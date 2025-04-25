@@ -154,4 +154,17 @@ class Auth
         return json_decode($response, false);
         // return $response;
     }
+
+    public function is_token($params)
+    {
+        $response = $this->curli->request4([
+            "path"           => "auth/is_token",
+            "method"         => "POST",
+            "payload"        => null,
+            "module_code"    => null,
+            "token"          => $params["token"]
+        ]);
+
+        return json_decode($response, false);
+    }
 }

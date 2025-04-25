@@ -1770,6 +1770,57 @@ var $ummu = {
       return jqXHR;
     },
 
+    ummay2: function (url, payload) {
+      // console.log(payload);
+      var jqXHR = $.ajax({
+        url: url,
+        method: payload.type,
+        timeout: 0,
+        headers: {
+          "Content-Type": payload.contentType,
+          'Msdb-Token': windows.settings.msdbToken || null,
+          'Authorization': windows.settings.token || null
+        },
+        data: payload.data,
+        beforeSend: function (e) {
+          // if (payload.action == 'delete') {
+          //     $('#loader_delete').show()
+          // }else if (payload.action == 'multiple_delete') {
+          //     $('#loader_mulitple_delete').show()
+          // }else if (payload.action == 'insert' || payload.action == 'update') {
+          //     $('#modal_loader_input').show()
+          // }
+          $(".modal-loader").modal("show");
+
+          if (e && e.overrideMimeType) {
+            e.overrideMimeType("application/jsoncharset=UTF-8");
+          }
+          // $('#response_message').removeClass('text-success msg_animation');
+        },
+        complete: function () {
+          if (payload.action == "delete") {
+            $("#loader_delete").hide();
+          } else if (payload.action == "multiple_delete") {
+            $("#loader_mulitple_delete").hide();
+          } else if (payload.action == "insert" || payload.action == "update") {
+            $("#modal_loader_input").hide();
+          }
+
+          setTimeout(function () {
+            $(".modal-loader").modal("hide");
+          }, 1000);
+        },
+        success: function (response) {
+          // console.log(response)
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.responseText);
+        },
+      });
+
+      return jqXHR;
+    },
+
     ummuUpload: function () {
       var formData = new FormData();
       formData.append("file_mygallery", $("#file_mygallery")[0].files[0]);
