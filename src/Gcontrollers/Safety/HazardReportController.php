@@ -3,6 +3,7 @@
 namespace App\Gcontrollers\Safety;
 
 use CodeIgniter\RESTful\ResourceController;
+use Dorbitt\Helpers\IdentityHelper;
 use Dorbitt\Helpers\QueryHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use Dorbitt\UmmuPhotos;
@@ -15,6 +16,7 @@ class HazardReportController extends ResourceController
     public function __construct()
     {
         $this->request = \Config\Services::request();
+        $this->identity = new IdentityHelper();
         $this->qHelp = new UmmuHelper();
         $this->qBuilder = new HazardReportBuilder();
         $this->umUpl = new UmmuUpload();
@@ -71,10 +73,17 @@ class HazardReportController extends ResourceController
             "nik" => $nik
         ];
 
-        $show_number_unused = $this->qBuilder->show_number_unused($nik, $site);
+        // $show_number_unused = $this->qBuilder->show_number_unused($nik, $site); /* ambil nomor dokumen berdasarkan nik dan site */
+        $show_number_unused = $this->qBuilder->show_number_unused_by_accountid($this->identity->account_id()); /* ambil nomor dokumen berdasarkan account_id */
         if ($show_number_unused) { /* jika ada nomor dokumen yang belum digunakan pada bulan dan tahun yang sama dengan sekarang */
             $row = $show_number_unused;
             $number = $row->number;
+
+            $payload = [
+                "site" => $site,
+                "nik" => $nik,
+                "number" => $number
+            ];
             
         } else {
 
@@ -93,57 +102,58 @@ class HazardReportController extends ResourceController
                 "seq" => $seq,
                 "site" => $site,
                 "nik" => $nik,
-                "number" => $number
+                "number" => $number,
+                "created_by" => $this->identity->account_id()
             ];
             $insert_number = $this->qBuilder->insert_number($payload);
         }
 
         $response = [$number];
 
-        return $this->respond($response, 200);
+        return $this->respond($payload, 200);
     }
 
-    public function number_document()
-    {
-        $site = $this->request->getJsonVar('site');
-        $nik = $this->request->getJsonVar('nik');
+    // public function number_document()
+    // {
+    //     $site = $this->request->getJsonVar('site');
+    //     $nik = $this->request->getJsonVar('nik');
 
-        $payload = [
-            "site" => $site,
-            "nik" => $nik
-        ];
+    //     $payload = [
+    //         "site" => $site,
+    //         "nik" => $nik
+    //     ];
 
-        $show_number_unused = $this->qBuilder->show_number_unused($nik, $site);
-        if ($show_number_unused) { /* jika ada nomor dokumen yang belum digunakan pada bulan dan tahun yang sama dengan sekarang */
-            $row = $show_number_unused;
-            $number = $row->number;
+    //     $show_number_unused = $this->qBuilder->show_number_unused($nik, $site);
+    //     if ($show_number_unused) { /* jika ada nomor dokumen yang belum digunakan pada bulan dan tahun yang sama dengan sekarang */
+    //         $row = $show_number_unused;
+    //         $number = $row->number;
 
-        } else {
+    //     } else {
 
-            $getLastRow = $this->qBuilder->getLastRow();
-            if ($getLastRow) {
-                $seq = $getLastRow->seq;
-                $seq = $seq + 1;
-            } else {
-                $seq = 1;
-            }
+    //         $getLastRow = $this->qBuilder->getLastRow();
+    //         if ($getLastRow) {
+    //             $seq = $getLastRow->seq;
+    //             $seq = $seq + 1;
+    //         } else {
+    //             $seq = 1;
+    //         }
 
-            $n = sprintf('%06d', $seq);
-            $number = $site . 'HZR' . date('Ym') . $n;
+    //         $n = sprintf('%06d', $seq);
+    //         $number = $site . 'HZR' . date('Ym') . $n;
 
-            $payload = [
-                "seq" => $seq,
-                "site" => $site,
-                "nik" => $nik,
-                "number" => $number
-            ];
-            $insert_number = $this->qBuilder->insert_number($payload);
-        }
+    //         $payload = [
+    //             "seq" => $seq,
+    //             "site" => $site,
+    //             "nik" => $nik,
+    //             "number" => $number
+    //         ];
+    //         $insert_number = $this->qBuilder->insert_number($payload);
+    //     }
 
-        $response = [$number];
+    //     $response = [$number];
 
-        return $this->respond($response, 200);
-    }
+    //     return $this->respond($response, 200);
+    // }
 
     public function used_number($number)
     {

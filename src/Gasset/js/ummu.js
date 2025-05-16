@@ -47,6 +47,7 @@ var $ummu = {
     arrayqu: [],
     kode: null,
     status_id: null,
+    token: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,

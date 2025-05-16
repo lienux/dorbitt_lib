@@ -19,7 +19,8 @@ class HazardReportNumberModel extends Model
         "site",
         "number",
         "nik",
-        "used_at"
+        "used_at",
+        "created_by"
     ];
 
     // Dates

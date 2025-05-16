@@ -64,6 +64,20 @@ class HazardReportBuilder
             ->where('used_at IS NULL')
             ->where('YEAR(created_at)', date('Y'))
             ->where('MONTH(created_at)', date('m'))
+            ->where('deleted_at IS NULL')
+            ->get()
+            ->getFirstRow();
+
+        return $builder;
+    }
+
+    public function show_number_unused_by_accountid($account_id)
+    {
+        $builder = $this->mNum
+            ->where('used_at IS NULL')
+            ->where('YEAR(created_at)', date('Y'))
+            ->where('MONTH(created_at)', date('m'))
+            ->where('deleted_at IS NULL')
             ->get()
             ->getFirstRow();
 
@@ -101,7 +115,7 @@ class HazardReportBuilder
         return $this->mNum->insert($payload);
     }
 
-    function used_number($number)
+    public function used_number($number)
     {
         return $this->mNum
             ->where('number', $number)
