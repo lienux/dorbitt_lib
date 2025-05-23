@@ -50,9 +50,11 @@ class UmmuUpload
         return $filepath;
     }
 
-    public function create()
+    public function create($file_upload = null)
     {
-        $file_upload = $this->request->getFile('file_upload');
+        if ($file_upload == null) {
+            $file_upload = $this->request->getFile('file_upload');
+        }
         $folder = date("Ymd");
         $folder_path = FCPATH. 'uploads/' .$folder. '/';
 

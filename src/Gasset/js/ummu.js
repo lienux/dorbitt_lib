@@ -298,6 +298,19 @@ var $ummu = {
         e.stopPropagation();
         $("#" + id).clockpicker("show");
       });
+
+      // if (typeof app.autoload.goodseval_status != "undefined") {
+      //   $("input[type=radio][name=status]").change(function () {
+      //     if (this.id == "close") {
+      //       $("#close_status_formGroup").removeClass("collapse");
+      //       $("#evidence_formGroup").removeClass("collapse");
+      //     } else {
+      //       $("#close_status_formGroup").addClass("collapse");
+      //       $("#evidence_formGroup").addClass("collapse");
+      //     }
+      //     console.log(this.id);
+      //   });
+      // }
     },
   },
 
@@ -3614,6 +3627,15 @@ var $ummu = {
       // console.log("OK")
       },
     },
+
+    goods_evaluation: {
+      close_status: function() {
+        $("input[type=radio][name=status]").change(function () {
+          $ummu.views.goods_evaluation.close_status(this.id)
+          // console.log(this.id);
+        });
+      }
+    },
   },
 
   upload: {
@@ -6269,6 +6291,18 @@ var $ummu = {
       }
 
       $('#modal_message').modal('show');
+    },
+
+    goods_evaluation: {
+      close_status: function(s) {
+        if (s == "close" || s == 4) {
+          $("#close_status_formGroup").removeClass("collapse");
+          $("#evidence_formGroup").removeClass("collapse");
+        } else {
+          $("#close_status_formGroup").addClass("collapse");
+          $("#evidence_formGroup").addClass("collapse");
+        }
+      },
     },
   },
 
