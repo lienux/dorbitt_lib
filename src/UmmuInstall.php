@@ -149,6 +149,13 @@ class UmmuInstall
                 unlink($gBuilder);
             }
 
+            $gCommand = APPPATH . "Commands/Ummu";
+            if (is_link($gCommand)) {
+                rmdir($gCommand);
+            } elseif (is_file($gCommand)) {
+                unlink($gCommand);
+            }
+
         } else {
             if (is_link(FCPATH . "uploads")) {
                 exec("rm -rf " . FCPATH . "uploads");
@@ -185,6 +192,10 @@ class UmmuInstall
             if (is_link(APPPATH . "Gbuilder")) {
                 exec("rm -rf " . APPPATH . "Gbuilder");
             }
+
+            if (is_link(APPPATH . "Commands/Ummu")) {
+                exec("rm -rf " . APPPATH . "Commands/Ummu");
+            }
         }
     }
 
@@ -206,6 +217,7 @@ class UmmuInstall
         $gModels = [ROOTPATH . "vendor/dorbitt/lib/src/Gmodels", APPPATH . "Gmodels"];
         $gControllers = [ROOTPATH . "vendor/dorbitt/lib/src/Gcontrollers", APPPATH . "Gcontrollers"];
         $gBuilder = [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"];
+        $gCommand = [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"];
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // symlink(WRITEPATH."uploads", FCPATH."uploads");
@@ -223,6 +235,7 @@ class UmmuInstall
             symlink($gModels[0], $gModels[1]);
             symlink($gControllers[0], $gControllers[1]);
             symlink($gBuilder[0], $gBuilder[1]);
+            symlink($gCommand[0], $gCommand[1]);
         } else {
             // exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
             // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
@@ -240,6 +253,7 @@ class UmmuInstall
             exec("ln -s " . $gModels[0] . " " . $gModels[1]);
             exec("ln -s " . $gControllers[0] . " " . $gControllers[1]);
             exec("ln -s " . $gBuilder[0] . " " . $gBuilder[1]);
+            exec("ln -s " . $gCommand[0] . " " . $gCommand[1]);
         }
     }
 

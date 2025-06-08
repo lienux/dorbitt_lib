@@ -8179,7 +8179,7 @@ var $ummu = {
             table
             .button()
             .add(20, {
-              text: '<i class="far fa-file-medical-alt fa-lg"></i> Hisotry',
+              text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
               attr: { id: "dt_btn_history" },
               className: "py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
