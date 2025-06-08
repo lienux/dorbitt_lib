@@ -208,7 +208,7 @@ class UmmuInstall
                 exec("mkdir " . FCPATH . "vendor");
             }
 
-            if (!is_link(WRITEPATH . "ummuLogs")) {
+            if (!is_dir(WRITEPATH . "ummuLogs")) {
                 exec("mkdir " . WRITEPATH . "ummuLogs");
             }
         }
@@ -233,6 +233,7 @@ class UmmuInstall
         $gControllers = [ROOTPATH . "vendor/dorbitt/lib/src/Gcontrollers", APPPATH . "Gcontrollers"];
         $gBuilder = [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"];
         $gCommand = [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"];
+        $ummuLogs = [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // symlink(WRITEPATH."uploads", FCPATH."uploads");
@@ -251,6 +252,7 @@ class UmmuInstall
             symlink($gControllers[0], $gControllers[1]);
             symlink($gBuilder[0], $gBuilder[1]);
             symlink($gCommand[0], $gCommand[1]);
+            symlink($ummuLogs[0], $ummuLogs[1]);
         } else {
             // exec("ln -s ".WRITEPATH."uploads"." ".FCPATH);
             // exec("ln -s ".ROOTPATH."vendor/dorbitt/lib/src/Gasset"." ".FCPATH."vendor/dorbitt-lib");
@@ -269,6 +271,7 @@ class UmmuInstall
             exec("ln -s " . $gControllers[0] . " " . $gControllers[1]);
             exec("ln -s " . $gBuilder[0] . " " . $gBuilder[1]);
             exec("ln -s " . $gCommand[0] . " " . $gCommand[1]);
+            exec("ln -s " . $ummuLogs[0] . " " . $ummuLogs[1]);
         }
     }
 
