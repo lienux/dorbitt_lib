@@ -149,7 +149,7 @@ class UmmuInstall
                 exec("mkdir " . FCPATH . "vendor");
             }
 
-            if (!is_link(FCPATH . "ummuLogs")) {
+            if (is_link(FCPATH . "ummuLogs")) {
                 exec("rm -rf " . FCPATH . "ummuLogs");
             }
         }
