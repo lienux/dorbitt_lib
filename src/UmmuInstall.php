@@ -208,8 +208,8 @@ class UmmuInstall
                 exec("mkdir " . FCPATH . "vendor");
             }
 
-            if (!is_dir(WRITEPATH . "ummuLogs")) {
-                exec("mkdir " . WRITEPATH . "ummuLogs");
+            if (!is_link(WRITEPATH . "ummuLogs")) {
+                exec("rm -rf " . WRITEPATH . "ummuLogs");
             }
         }
     }
