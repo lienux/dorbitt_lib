@@ -159,9 +159,9 @@ class UmmuInstall
                 unlink($vendor);
             }
 
-            $ummuLogs = WRITEPATH . "ummuLogs";
-            if (!is_dir($ummuLogs)) {
-                mkdir($ummuLogs);
+            $ummuLogs = FCPATH . "ummuLogs";
+            if (!is_link($ummuLogs)) {
+                unlink($ummuLogs);
             }
 
         } else {
@@ -208,8 +208,8 @@ class UmmuInstall
                 exec("mkdir " . FCPATH . "vendor");
             }
 
-            if (!is_link(WRITEPATH . "ummuLogs")) {
-                exec("rm -rf " . WRITEPATH . "ummuLogs");
+            if (!is_link(FCPATH . "ummuLogs")) {
+                exec("rm -rf " . FCPATH . "ummuLogs");
             }
         }
     }
