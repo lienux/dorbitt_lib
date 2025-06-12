@@ -82,4 +82,19 @@ class UmmuPayslip
 
         return json_decode($response, false);
     }
+
+    public function show_periode($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => "api/hcm/payroll/payslip/show_periode",
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => "payslip",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }

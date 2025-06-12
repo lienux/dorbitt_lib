@@ -48,6 +48,7 @@ var $ummu = {
     kode: null,
     status_id: null,
     token: null,
+    otp: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
