@@ -78,6 +78,9 @@ var $ummu = {
       id: null,
       text: null,
       name: null,
+      data: null,
+      change: null,
+      rows: null
     },
 
     identity: {
@@ -105,6 +108,8 @@ var $ummu = {
 
     dt: {
       nth_child_onclick: null,
+      row: null,
+      rows: null
     },
 
     hcm: {
@@ -140,6 +145,10 @@ var $ummu = {
       // formData: new FormData().append("file_upload",$("#file_upload")[0].files[0]),
       // $ummu.vars.file.formData.append("file_description", $("#file_description").val()),
     },
+
+    select_option: {
+      on_change: null,
+    }
   },
 
   config: {
