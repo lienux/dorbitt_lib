@@ -21,6 +21,8 @@ var $ummu = {
   },
 
   vars: {
+    response: null,
+    response2: null,
     id: null,
     ids: null,
     base_url: null,
@@ -39,6 +41,7 @@ var $ummu = {
     nav_tab: null,
     nav_tab_id: null,
     crud: null,
+    crud_name: null,
     module_kode: null,
     site_project_kode: null,
     required_field: [],
@@ -8491,6 +8494,16 @@ var $ummu = {
       },
     },
   },
+
+  privileges: {
+    create: null,
+    read_all: null,
+    update: null,
+    delete: null,
+    approve: null,
+    reject: null,
+    pending: null,
+  }
 };
 
 $(document).ready(function () {

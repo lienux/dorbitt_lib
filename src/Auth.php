@@ -72,6 +72,23 @@ class Auth
         return $response;
     }
 
+    public function get_otp_email($payload)
+    {
+        $params = [
+            "path"           => "auth/otp/email",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "headers"        => array(
+                'Content-Type: application/json',
+                'Company-Token: '.getenv('company_token')
+            )
+        ];
+
+        $response = $this->curli->ummu2_v1_20250704($params);
+
+        return $response;
+    }
+
     public function login_with_phone($payload)
     {
         $params = [

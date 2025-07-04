@@ -72,9 +72,19 @@ class GviewsHelper
         return "../Gviews/partials/nav_tab";
     }
 
+    public function nav_tab_approve_status()
+    {
+        return "../Gviews/partials/nav_tab_approve_status";
+    }
+
     public function nav_tab_doc_status()
     {
         return "../Gviews/partials/nav_tab_doc_status";
+    }
+
+    public function nav_tab_doc_status2()
+    {
+        return "../Gviews/partials/nav_tab_doc_status2";
     }
 
     public function ummujs()
