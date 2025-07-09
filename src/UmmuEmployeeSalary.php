@@ -101,4 +101,19 @@ class UmmuEmployeeSalary
 
         return json_decode($response, false);
     }
+
+    public function create_pdf($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->urli. "create_pdf/". $params['id'],
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => "employee_salary",
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
 }
