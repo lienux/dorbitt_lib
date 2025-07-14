@@ -134,6 +134,18 @@ var $ummu = {
         gaji_netto: null,
         saldo_kasbon: null,
         qrcode: null,
+
+        payslip: {
+          show: {
+            periode_id: null,
+            row: null
+          },
+
+          pdf: {
+            periode_id: null,
+            url: null
+          }
+        }
       },
     },
 
@@ -151,7 +163,19 @@ var $ummu = {
 
     select_option: {
       on_change: null,
-    }
+    },
+
+    // payslip: {
+    //   show: {
+    //     periode_id: null,
+    //     row: null
+    //   },
+
+    //   pdf: {
+    //     periode_id: null,
+    //     url: null
+    //   }
+    // }
   },
 
   config: {
@@ -6506,8 +6530,6 @@ var $ummu = {
       }
 
       // return data.length;
-
-
     },
 
     opr_detail: function () {
@@ -6517,6 +6539,23 @@ var $ummu = {
         "</a>"
         );
     },
+
+    goods_evaluation: {
+      status: function(row) {
+        if (row.status_id == 2) {
+          return '<span class="badge badge-warning">'+row.fekb_number+'</span>';
+        } 
+        else if (row.status_id == 3) {
+          return '<span class="badge badge-primary">'+row.fekb_number+'</span>';
+        }
+        else if (row.status_id == 4) {
+          return '<span class="badge badge-success">'+row.fekb_number+'</span>';
+        }
+        else {
+          return '<span class="badge badge-secondary">'+row.fekb_number+'</span>';
+        }
+      }
+    }
   },
 
   render: {
@@ -7537,6 +7576,90 @@ var $ummu = {
 
         // console.log('ok gas')
       },
+
+      crud2: function () {
+        // table.button("#dt_btn_new").disable();
+        table.button("#dt_btn_edit").disable();
+        table.button("#dt_btn_delete").disable();
+
+        var count_selc = $ummu.dt.select.count();
+
+        if (count_selc == 0) {
+          $ummu.vars.id = null;
+          $ummu.vars.ids = null;
+          table.button("#dt_btn_new").enable();
+          table.button("#dt_btn_edit").disable();
+          table.button("#dt_btn_delete").disable();
+        }
+
+        if (count_selc == 1) {
+          var rows = $ummu.dt.select.data();
+          $ummu.vars.row = rows[0];
+          $ummu.vars.id = rows[0].id;
+          table.button("#dt_btn_new").disable();
+          table.button("#dt_btn_edit").enable();
+          table.button("#dt_btn_delete").enable();
+        }
+
+        if(count_selc > 1) {
+          var rows = $ummu.dt.select.data();
+          table.button("#dt_btn_new").disable();
+          table.button("#dt_btn_edit").disable();
+          table.button("#dt_btn_delete").enable();
+        }
+
+        // else if (count_selc > 1) {
+        // }
+
+        // else {
+        //   $ummu.vars.id = null;
+        //   $ummu.vars.ids = null;
+        // }
+
+        /*var text = $ummu.vars.crud;
+        var tab = $ummu.vars.nav_tab;
+        // var nav_tab_id = localStorage.getItem('nav_tab_id');
+        var nav_tab_id = $ummu.vars.nav_tab_id;
+        if (text != "" || text != 0 || text != null) {
+          var crud = text.split(",");
+        } else {
+          var crud = "";
+        }
+
+        if (crud) {
+          if (crud[0] == 1) {
+            if (count_selc < 1) {
+              table.button("#dt_btn_new").enable();
+            }
+          }
+
+          if (crud[2] == 1) {
+            if (count_selc == 1) {
+              table.button("#dt_btn_edit").enable();
+            } else if (count_selc > 1) {
+              table.button("#dt_btn_edit").disable();
+            } else {
+              table.button("#dt_btn_edit").disable();
+            }
+
+            // if (action == 'edit') {
+            //     $('.modal_btn_edit').prop('disabled', false);
+            //     $('.modal_btn_save').prop('disabled', true);
+            // }
+          }
+
+          if (crud[3] == 1) {
+            if (count_selc > 0) {
+              table.button("#dt_btn_delete").enable();
+            } else {
+              table.button("#dt_btn_delete").disable();
+            }
+          }
+        }*/
+
+        // console.log('ok gas')
+      },
+
       edit: function () {
         if ($ummu.dt.select.count() == 1) {
           table.button("#dt_btn_edit").enable();
@@ -7544,6 +7667,7 @@ var $ummu = {
           table.button("#dt_btn_edit").disable();
         }
       },
+
       trx: function () {
         table.button("#dt_btn_history").disable();
         // table.button('#dt_btn_edit').disable();
@@ -7881,6 +8005,113 @@ var $ummu = {
     },
 
     layout: {
+      button0: function (btn) {
+        table.button().add(0, {
+          extend: "pageLength",
+          className: "py-1 dt-btn-ummu",
+          attr: { id: "btn_page_length" },
+        });
+
+        if (btn && btn.includes("btn_reload") == true) {
+          table.button().add(1, {
+            text:
+            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+            attr: { id: "btn_reload" },
+            className: "btn-showall-color py-1 dt-btn-ummu",
+            action: function (e, dt, node, config) {
+              table.ajax.reload(function () {
+                $ummu.dt.button.crud();
+                $ummu.dt.button.trx();
+              });
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_select_all") == true) {
+          table.button().add(2, {
+            extend: "selectAll",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_select_all" },
+            text:
+            '<span class="d-none d-sm-block">Select all</span>' +
+            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+          });
+        }
+
+        if (btn && btn.includes("btn_select_none") == true) {
+          table.button().add(3, {
+            extend: "selectNone",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_select_none" },
+            text:
+            '<span class="d-none d-sm-block">Deselect all</span>' +
+            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+          });
+        }
+
+        if (btn && btn.includes("btn_filter") == true) {
+          table.button().add(4, {
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "dt_btn_filter" },
+            text:
+            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+            action: function (e, dt, node, config) {
+              $("#modal_filter").modal("show");
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_copy") == true) {
+          table.button().add(5, {
+            extend: "copy",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_copy" },
+            text: '<i class="fas fa-copy fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_csv") == true) {
+          table.button().add(6, {
+            extend: "csv",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_csv" },
+            text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_excel") == true) {
+          table.button().add(7, {
+            extend: "excel",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_excel" },
+            text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+            exportOptions: {
+              orthogonal: "myExport",
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_pdf") == true) {
+          table.button().add(8, {
+            extend: "pdf",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_pdf" },
+            text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_print") == true) {
+          table.button().add(9, {
+            extend: "print",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_print" },
+            text: '<i class="fas fa-print text-primary fa-lg"></i>',
+          });
+        }
+      },
+
       button: function (btn) {
         table.button().add(0, {
           extend: "pageLength",

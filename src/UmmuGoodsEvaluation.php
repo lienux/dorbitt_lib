@@ -19,10 +19,16 @@ class UmmuGoodsEvaluation
 {
     public function __construct()
     {
-        $this->kode = "goods_evaluation";
         $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
+
+        $this->kode = "goods_evaluation";
+        $this->kode_create = "goods_evaluation_create";
+        $this->kode_process = "goods_evaluation_process";
+
         $this->path = 'api/inventory/goods_evaluation/';
+        $this->path_create = 'api/inventory/goods_evaluation_create/';
+        $this->path_process = 'api/inventory/goods_evaluation_process/';
     }
 
     public function show($params)
@@ -136,5 +142,68 @@ class UmmuGoodsEvaluation
         );
 
         return json_decode($response, false);
+    }
+
+
+
+    /**
+     * UPDATE STATUS ZONE*/
+    public function zoneprocess_show($params)
+    {
+        $id = $params['id'];
+
+        if ($id) {
+            $show = "show/".$id;
+        }else{
+            $show = "show";
+        }
+
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path_process . $show,
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode_process,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+
+
+    /**
+     * CREATE ZONE*/
+    public function zonecreate_show($params)
+    {
+        $id = $params['id'];
+
+        if ($id) {
+            $show = "show/".$id;
+        }else{
+            $show = "show";
+        }
+
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path_create . $show,
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode_create,
+                "token"          => $params['token']
+            ]
+        );
+
+        return json_decode($response, false);
+    }
+
+
+
+    /**
+     * MONITORING ZONE*/
+    public function monitoring_show()
+    {
+        // 
     }
 }
