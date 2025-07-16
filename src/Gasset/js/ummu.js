@@ -52,6 +52,9 @@ var $ummu = {
     status_id: null,
     token: null,
     otp: null,
+    currentAgent: null,
+    agentIs: null,
+    platformIs: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -164,18 +167,6 @@ var $ummu = {
     select_option: {
       on_change: null,
     },
-
-    // payslip: {
-    //   show: {
-    //     periode_id: null,
-    //     row: null
-    //   },
-
-    //   pdf: {
-    //     periode_id: null,
-    //     url: null
-    //   }
-    // }
   },
 
   config: {
@@ -348,6 +339,46 @@ var $ummu = {
       //     console.log(this.id);
       //   });
       // }
+
+      $("#nav_tab_doc_status_2 #nav_open_tab").on("click", function () {
+        console.log('nav open tab on openapi2 lib');
+        if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_open !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_open is OK.');
+          app.controllers.navtab2.show_by_status_open();
+        }else{
+          console.log('plese create function app.controllers.navtab2.show_by_status_open.');
+        }
+      });
+
+      $("#nav_tab_doc_status_2 #nav_pending_tab").on("click", function () {
+        console.log('nav pending tab on openapi2 lib')
+        if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_pending !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_pending is OK.');
+          app.controllers.navtab2.show_by_status_pending();
+        }else{
+          console.log('plese create function app.controllers.navtab2.show_by_status_pending.');
+        }
+      });
+
+      $("#nav_tab_doc_status_2 #nav_onprogress_tab").on("click", function () {
+        console.log('nav onprogress tab on openapi2 lib')
+        if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_onprogress !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_onprogress is OK.');
+          app.controllers.navtab2.show_by_status_onprogress();
+        }else{
+          console.log('plese create function app.controllers.navtab2.show_by_status_onprogress.');
+        }
+      });
+
+      $("#nav_tab_doc_status_2 #nav_close_tab").on("click", function () {
+        console.log('nav close tab on openapi2 lib')
+        if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_close !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_close is OK.');
+          app.controllers.navtab2.show_by_status_close();
+        }else{
+          console.log('plese create function app.controllers.navtab2.show_by_status_close.');
+        }
+      });
     },
   },
 
@@ -2866,6 +2897,22 @@ var $ummu = {
   },
 
   func: {
+    copyText:function(element_id) {
+      // Get the text field
+      var copyText = document.getElementById(element_id);
+
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+
+       // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+
+      // Alert the copied text
+      // alert("Copied the text: " + copyText.value);
+      $("#"+element_id+"_alert_copy").html("Text has been copied.");
+    },
+
     ch_message: function (message) {
       const text = '<i class="fas fa-info-circle"></i> ' + message + " . . .";
       $("#response_message").html(text).addClass("text-success msg_animation");
@@ -5516,7 +5563,9 @@ var $ummu = {
           el.addClass("modal-fullscreen");
         }
       },
+
       res_del: function () {},
+
       form_filter: function () {
         var html =
         '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">' +
@@ -5558,6 +5607,15 @@ var $ummu = {
         "</div>" +
         "</div>";
       },
+
+      loader: function() {
+        if(typeof app.views.loader !== "undefined") {
+          console.log('function app.view.loader is OK.');
+          app.views.loader("show");
+        }else{
+          console.log('plese create function app.views.loader for auto loader show');
+        }
+      }
     },
 
     approval: {
