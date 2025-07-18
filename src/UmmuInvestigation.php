@@ -11,15 +11,18 @@ namespace Dorbitt;
 * =============================================
 */
 
-use Dorbitt\Curl;
-use Dorbitt\GlobalHelper;
+use Dorbitt\Helpers\CurlHelper;
+use Dorbitt\Helpers\UmmuHelper;
+use Dorbitt\Helpers\GlobalHelper;
 
 class UmmuInvestigation
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->curli = new CurlHelper();
         $this->gHelp = new GlobalHelper();
+
+        $this->kode = "she_investigation";
         $this->urli = 'api/she/investigation/';
     }
 
@@ -38,76 +41,18 @@ class UmmuInvestigation
         return json_decode($response, false);
     }
 
-    // public function show($params)
-    // {
-    //     $response = $this->curli->request4(
-    //         [
-    //             "path"           => $this->urli . "show",
-    //             "method"         => "GET",
-    //             "payload"        => $params['payload'],
-    //             "module_code"    => "she_hazard_report",
-    //             "token"          => $params['token']
-    //         ]
-    //     );
+    public function approval_queue($params)
+    {
+        $response = $this->curli->request4(
+            [
+                "path"           => $this->path,
+                "method"         => "GET",
+                "payload"        => $params['payload'],
+                "module_code"    => $this->kode,
+                "token"          => $params['token']
+            ]
+        );
 
-    //     return json_decode($response, false);
-    // }
-
-    // public function insert($params)
-    // {
-    //     $response = $this->curli->request4([
-    //         "path"           => $this->urli. "create",
-    //         "method"         => "POST",
-    //         "payload"        => $params["payload"],
-    //         "module_code"    => "she_hazard_report",
-    //         "token"          => $params["token"]
-    //     ]);
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function delete($params)
-    // {
-    //     $response = $this->curli->request4(
-    //         [
-    //             "path"           => $this->urli. "delete",
-    //             "method"         => "DELETE",
-    //             "payload"        => $params['payload'],
-    //             "module_code"    => "she_hazard_report",
-    //             "token"          => $params['token']
-    //         ]
-    //     );
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function update($params)
-    // {
-    //     $response = $this->curli->request4(
-    //         [
-    //             "path"           => $this->urli. "update",
-    //             "method"         => "PUT",
-    //             "payload"        => $params['payload'],
-    //             "module_code"    => "she_hazard_report",
-    //             "token"          => $params['token']
-    //         ]
-    //     );
-
-    //     return json_decode($response, false);
-    // }
-
-    // public function release($params)
-    // {
-    //     $response = $this->curli->request4(
-    //         [
-    //             "path"           => $this->urli. "release",
-    //             "method"         => "POST",
-    //             "payload"        => $params['payload'],
-    //             "module_code"    => "she_hazard_report",
-    //             "token"          => $params['token']
-    //         ]
-    //     );
-
-    //     return json_decode($response, false);
-    // }
+        return json_decode($response, false);
+    }
 }
