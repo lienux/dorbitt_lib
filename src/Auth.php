@@ -58,7 +58,7 @@ class Auth
     public function get_otp_sms($payload)
     {
         $params = [
-            "path"           => "auth/otp/sms/create",
+            "path"           => "auth/otp/sms",
             "method"         => "POST",
             "payload"        => $payload,
             "headers"        => array(
@@ -67,7 +67,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2($params);
+        $response = $this->curli->ummu2_v1_20250704($params);
 
         return $response;
     }

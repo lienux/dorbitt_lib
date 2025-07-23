@@ -7264,6 +7264,7 @@ var $ummu = {
     select: {
       load: function () {
         table.on("click", "tbody tr td:first-child", function () {
+          console.log("table click td:first-child.")
           // if (table.row(':eq(0)').selected()) {
           //     $ummu.dt.button.crud();
           // }
@@ -7287,11 +7288,13 @@ var $ummu = {
         });
 
         table.on("select", function (e, dt, type, indexes) {
+          console.log("table select.")
           $ummu.dt.button.crud();
           $ummu.dt.button.trx();
         });
 
         table.on("deselect", function (e, dt, type, indexes) {
+          console.log("table deselect.")
           $ummu.dt.button.crud();
           $ummu.dt.button.trx();
         });
@@ -7311,12 +7314,15 @@ var $ummu = {
 
         // $ummu.dt.button.crud();
       },
+
       count: function () {
         return table.rows({ selected: true }).count();
       },
+
       data: function () {
         return table.rows({ selected: true }).data();
       },
+
       getRow: function (tbName) {
         return tbName.row({ selected: true }).data();
       },
@@ -8029,6 +8035,30 @@ var $ummu = {
         //     }
         // }
       },
+
+      remove: function(btn) {
+        table.buttons(btn).remove();
+      },
+
+      removeIn: function(btn) {
+        btn.forEach(function(btn, index) {
+          table.buttons(`${btn}`).remove();
+        });
+      },
+
+      removeClassIn: function(btn) {
+        btn.forEach(function(btn, index) {
+          var elid = `.${btn}`;
+          table.buttons(elid).remove();
+        });
+      },
+
+      removeIdIn: function(btn) {
+        btn.forEach(function(btn, index) {
+          var elid = `#${btn}`;
+          table.buttons(elid).remove();
+        });
+      }
     },
 
     after_cud: function () {
@@ -8542,6 +8572,1328 @@ var $ummu = {
         //
       },
     },
+
+    v2: {
+      load: function () {
+        $ummu.dt.v2.var_id();
+        $ummu.dt.v2.button.crud();
+
+        table.on("click", "tbody tr td:first-child", function () {
+          console.log("table click first-child td.");
+          $ummu.dt.v2.var_id();
+          $ummu.dt.v2.button.crud();
+        });
+
+        table.on("dblclick", "tbody tr", function () {
+          console.log("table dblclick on tr.")
+          var row = table.row(this).data();
+          $ummu.vars.id = row.id;
+          // console.log(row);
+
+          // $ummu.vars.site_project_kode = row.site_project_kode;
+          // // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+          // // $('#form_entry_data input').prop('disabled', true);
+          app.config.routes.dt_tbody_tr_dblclick(row);
+          // $ummu.views.hazard_report.button_in_modal_form();
+          // // $('#modal_btn_edit, #modal_btn_save')
+        });
+
+        table.on("select", function (e, dt, type, indexes) {
+          $ummu.dt.v2.var_id();
+          $ummu.dt.v2.button.crud();
+        });
+
+        table.on("deselect", function (e, dt, type, indexes) {
+          $ummu.dt.v2.var_id();
+          $ummu.dt.v2.button.crud();
+        });
+
+        table.on("mouseenter", "td", function () {
+          let colIdx = table.cell(this).index().column;
+          table
+          .cells()
+          .nodes()
+          .each((el) => el.classList.remove("highlight"));
+
+          table
+          .column(colIdx)
+          .nodes()
+          .each((el) => el.classList.add("highlight"));
+        });
+      },
+
+      select: {
+        load: function () {
+          table.on("click", "tbody tr td:first-child", function () {
+            // if (table.row(':eq(0)').selected()) {
+            //     $ummu.dt.button.crud();
+            // }
+            // else {
+            //     $ummu.dt.button.crud();
+            // }
+            $ummu.dt.v2.button.crud();
+            $ummu.dt.v2.button.trx();
+            // console.log("OK")
+          });
+
+          table.on("dblclick", "tbody tr", function () {
+            /*var row = table.row(this).data();
+                      $ummu.vars.id = row.id;
+                      $ummu.vars.site_project_kode = row.site_project_kode;
+                      // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+                      // $('#form_entry_data input').prop('disabled', true);
+                      app.controllers.edit(row);
+                      $ummu.views.hazard_report.button_in_modal_form();
+                      // $('#modal_btn_edit, #modal_btn_save')*/
+          });
+
+          table.on("select", function (e, dt, type, indexes) {
+            console.log("table select.")
+            $ummu.dt.v2.button.crud2();
+            $ummu.dt.v2.button.trx();
+          });
+
+          table.on("deselect", function (e, dt, type, indexes) {
+            console.log("table deselect.")
+            $ummu.dt.v2.button.crud();
+            $ummu.dt.v2.button.trx();
+          });
+        },
+
+        count: function () {
+          return table.rows({ selected: true }).count();
+        },
+
+        data: function () {
+          return table.rows({ selected: true }).data();
+        },
+
+        getRow: function (tbName) {
+          return tbName.row({ selected: true }).data();
+        },
+      },
+
+      button: {
+        crud: function () {
+          table.button("#dt_btn_new").disable();
+          table.button("#dt_btn_edit").disable();
+          table.button("#dt_btn_release").disable();
+          table.button("#dt_btn_delete").disable();
+          table.button("#dt_btn_approve").disable();
+          table.button("#dt_btn_pending").disable();
+          table.button("#dt_btn_reject").disable();
+
+          var count_selc = $ummu.dt.select.count();
+          if (count_selc == 1) {
+            var rows = $ummu.dt.select.data();
+            $ummu.vars.id = rows[0].id;
+            // console.log(rows[0])
+          } else if (count_selc > 1) {
+            var rows = $ummu.dt.select.data();
+          } else {
+            $ummu.vars.id = null;
+            $ummu.vars.ids = null;
+          }
+
+          var text = $ummu.vars.crud;
+          var tab = $ummu.vars.nav_tab;
+          // var nav_tab_id = localStorage.getItem('nav_tab_id');
+          var nav_tab_id = $ummu.vars.nav_tab_id;
+          if (text != "" || text != 0 || text != null) {
+            var crud = text.split(",");
+          } else {
+            var crud = "";
+          }
+
+          if (crud) {
+            if (crud[0] == 1) {
+              if (count_selc < 1) {
+                table.button("#dt_btn_new").enable();
+              }
+            }
+
+            if (crud[2] == 1) {
+              if (count_selc == 1) {
+                table.button("#dt_btn_edit").enable();
+              } else if (count_selc > 1) {
+                table.button("#dt_btn_edit").disable();
+              } else {
+                table.button("#dt_btn_edit").disable();
+              }
+
+              // if (action == 'edit') {
+              //     $('.modal_btn_edit').prop('disabled', false);
+              //     $('.modal_btn_save').prop('disabled', true);
+              // }
+            }
+
+            if (crud[3] == 1) {
+              if (count_selc > 0) {
+                table.button("#dt_btn_delete").enable();
+              } else {
+                table.button("#dt_btn_delete").disable();
+              }
+            }
+
+            if ($ummu.vars.module_kode == "") {
+              if (nav_tab_id == "nav-released-tab") {
+                if ($ummu.dt.select.count() > 0) {
+                  // table.button('#dt_btn_new').disable();
+                  // table.button('#dt_btn_edit').disable();
+                  table.button("#dt_btn_approve").enable();
+                  table.button("#dt_btn_reject").enable();
+                  table.button("#dt_btn_delete").enable();
+                }
+
+                // if (crud[2] == 1) {
+                //     $ummu.dt.button.edit();
+                // }
+
+                // if ($ummu.dt.select.count() == 1) {
+                //     table.button('#dt_btn_edit').enable();
+                // }else{
+                //     table.button('#dt_btn_edit').disable();
+                // }
+                // console.log('nav-release-tab');
+              }
+
+              // if (tab == 1) {
+              //     /**
+              //      * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+              //     if (crud[4] == 1) {
+              //         if ($ummu.dt.select.count() > 0) {
+              //             table.button('#dt_btn_approve').enable();
+              //             table.button('#dt_btn_reject').enable();
+              //         }
+              //     }
+              // }
+
+              // if (crud[2] == 1) {
+              //     if (count_selc == 1) {
+              //         table.button('#dt_btn_edit').enable();
+              //     }else if (count_selc > 1) {
+              //         table.button('#dt_btn_edit').disable();
+              //     }else{
+              //         table.button('#dt_btn_edit').disable();
+              //     }
+
+              //     if (action == 'edit') {
+              //         $('.modal_btn_edit').prop('disabled', false);
+              //         $('.modal_btn_save').prop('disabled', true);
+              //     }
+              // }else{
+              //     table.button('#dt_btn_edit').disable();
+              // }
+            }
+
+            if ($ummu.vars.module_kode == "she_hazard_report") {
+              table.button("#dt_btn_new").enable();
+              table.button("#dt_btn_edit").disable();
+              table.button("#dt_btn_release").disable();
+              table.button("#dt_btn_delete").disable();
+              table.button("#dt_btn_approve").disable();
+              table.button("#dt_btn_pending").disable();
+              table.button("#dt_btn_reject").disable();
+
+              // console.log(crud);
+              // console.log(crud);
+              // console.log(count_selc);
+
+              // c,rall,u,d,admin
+              // 0,1   ,2,3,4
+
+              /*if (crud) {
+                  if (crud[0] == 1) {
+                      if (count_selc == 1) {
+                          table.button('#btn_new').disable();
+                          table.button('#dt_btn_new').disable();
+                      }else if (count_selc > 1) {
+                          table.button('#btn_new').disable();
+                          table.button('#dt_btn_new').disable();
+                      }else{
+                          table.button('#btn_new').enable();
+                          table.button('#dt_btn_new').enable();
+                      }
+
+                      if (action == 'new') {
+                          $('.modal_btn_edit').prop('disabled', true);
+                          $('.modal_btn_save').prop('disabled', false);
+                      }
+                  }else{
+                      table.button('#btn_new').disable();
+                      table.button('#dt_btn_new').disable();
+                  }
+
+                  if (crud[2] == 1) {
+                      if (count_selc == 1) {
+                          table.button('#dt_btn_edit').enable();
+                      }else if (count_selc > 1) {
+                          table.button('#dt_btn_edit').disable();
+                      }else{
+                          table.button('#dt_btn_edit').disable();
+                      }
+
+                      if (action == 'edit') {
+                          $('.modal_btn_edit').prop('disabled', false);
+                          $('.modal_btn_save').prop('disabled', true);
+                      }
+                  }else{
+                      table.button('#dt_btn_edit').disable();
+                  }
+
+                  if (crud[3] == 1) {
+                      if (count_selc > 0) {
+                          table.button('#dt_btn_delete').enable();
+                      }else{
+                          table.button('#dt_btn_delete').disable();
+                      }
+                  }else{
+                      table.button('#dt_btn_delete').disable();
+                  }
+              }else{
+                  table.button('#dt_btn_new').enable();
+                  table.button('#dt_btn_edit').disable();
+                  table.button('#dt_btn_delete').disable();
+              }
+
+              if ($ummu.vars.module_kode == 'event_recruitment') {
+                  if (count_selc == 1) {
+                      table.button('#dt_btn_open_recruitment').enable();
+                  }else{
+                      table.button('#dt_btn_open_recruitment').disable();
+                  }
+              }
+
+              if ($ummu.vars.module_kode == 'she_hazard_report') {
+                  if (count_selc >= 1) {
+                      table.button('#btn_release').enable();
+                  }else{
+                      table.button('#btn_release').disable();
+                  }
+              }
+
+              table.button('#btn_edit').disable();
+              table.button('#btn_approve').disable();
+              table.button('#btn_reject').disable();
+              table.button('#btn_release').disable();
+              table.button('#btn_multi_delete').disable();*/
+
+              /**
+               * crud[0] = create
+               * crud[1] = read all
+               * crud[2] = update
+               * crud[3] = delete
+               * crud[4] = admin*/
+
+              /**
+               * jika tab Not Release atau Rejected List active */
+              if (nav_tab_id == "nav-notrelease-tab" || nav_tab_id == "nav-rejected-tab") {
+                if ($ummu.dt.select.count() > 0) {
+                  table.button("#dt_btn_release").enable();
+
+                  if (crud[3] == 1) {
+                    table.button("#dt_btn_delete").enable();
+                  }
+                }
+
+                if ($ummu.dt.select.count() == 1) {
+                  // table.button("#dt_btn_release").enable();
+                  table.button("#dt_btn_edit").enable();
+
+                  // if (crud[3] == 1) {
+                  //   table.button("#dt_btn_delete").enable();
+                  // }
+                }
+
+                // if (crud[2] == 1) {
+                //     $ummu.dt.button.edit();
+                // }
+
+                // if ($ummu.dt.select.count() == 1) {
+                //     table.button('#dt_btn_edit').enable();
+                // }else{
+                //     table.button('#dt_btn_edit').disable();
+                // }
+              }
+
+              /**
+               * Jika tab Released List active */
+              if (nav_tab_id == "nav-released-tab") {
+                /**
+                 * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+                if (crud[4] == 1) {
+                  if ($ummu.dt.select.count() > 0) {
+                    table.button("#dt_btn_approve").enable();
+                    table.button("#dt_btn_reject").enable();
+                  }
+                }
+              }
+
+              // if (crud[2] == 1) {
+              //     if (count_selc == 1) {
+              //         table.button('#dt_btn_edit').enable();
+              //     }else if (count_selc > 1) {
+              //         table.button('#dt_btn_edit').disable();
+              //     }else{
+              //         table.button('#dt_btn_edit').disable();
+              //     }
+
+              //     if (action == 'edit') {
+              //         $('.modal_btn_edit').prop('disabled', false);
+              //         $('.modal_btn_save').prop('disabled', true);
+              //     }
+              // }else{
+              //     table.button('#dt_btn_edit').disable();
+              // }
+            }
+
+            if ($ummu.vars.module_kode == "hcm_applicants") {
+              table.button("#dt_btn_new").enable();
+              table.button("#dt_btn_edit").disable();
+              table.button("#dt_btn_release").disable();
+              table.button("#dt_btn_delete").disable();
+              table.button("#dt_btn_approve").disable();
+              table.button("#dt_btn_pending").disable();
+              table.button("#dt_btn_reject").disable();
+
+              /**
+               * crud[0] = create
+               * crud[1] = read all
+               * crud[2] = update
+               * crud[3] = delete
+               * crud[4] = admin*/
+              /**
+
+                          /**
+                           * Jika tab Released List active */
+              if (
+                nav_tab_id == null ||
+                nav_tab_id == "" ||
+                nav_tab_id == "nav-released-tab"
+                ) {
+                /**
+                 * pada tab Released List, dokument bisa diapprove dan direject */
+                if (crud[4] == 1) {
+                  if ($ummu.dt.select.count() > 0) {
+                    table.button("#dt_btn_approve").enable();
+                    table.button("#dt_btn_reject").enable();
+                  }
+                }
+              }
+            }
+          }
+
+          // console.log('ok gas')
+        },
+
+        crud2: function () {
+          // table.button("#dt_btn_new").disable();
+          table.button("#dt_btn_edit").disable();
+          table.button("#dt_btn_delete").disable();
+
+          var count_selc = $ummu.dt.select.count();
+
+          if (count_selc == 0) {
+            $ummu.vars.id = null;
+            $ummu.vars.ids = null;
+            table.button("#dt_btn_new").enable();
+            table.button("#dt_btn_edit").disable();
+            table.button("#dt_btn_delete").disable();
+          }
+
+          if (count_selc == 1) {
+            var rows = $ummu.dt.select.data();
+            $ummu.vars.row = rows[0];
+            $ummu.vars.id = rows[0].id;
+            table.button("#dt_btn_new").disable();
+            table.button("#dt_btn_edit").enable();
+            table.button("#dt_btn_delete").enable();
+          }
+
+          if(count_selc > 1) {
+            var rows = $ummu.dt.select.data();
+            table.button("#dt_btn_new").disable();
+            table.button("#dt_btn_edit").disable();
+            table.button("#dt_btn_delete").enable();
+          }
+
+          // else if (count_selc > 1) {
+          // }
+
+          // else {
+          //   $ummu.vars.id = null;
+          //   $ummu.vars.ids = null;
+          // }
+
+          /*var text = $ummu.vars.crud;
+          var tab = $ummu.vars.nav_tab;
+          // var nav_tab_id = localStorage.getItem('nav_tab_id');
+          var nav_tab_id = $ummu.vars.nav_tab_id;
+          if (text != "" || text != 0 || text != null) {
+            var crud = text.split(",");
+          } else {
+            var crud = "";
+          }
+
+          if (crud) {
+            if (crud[0] == 1) {
+              if (count_selc < 1) {
+                table.button("#dt_btn_new").enable();
+              }
+            }
+
+            if (crud[2] == 1) {
+              if (count_selc == 1) {
+                table.button("#dt_btn_edit").enable();
+              } else if (count_selc > 1) {
+                table.button("#dt_btn_edit").disable();
+              } else {
+                table.button("#dt_btn_edit").disable();
+              }
+
+              // if (action == 'edit') {
+              //     $('.modal_btn_edit').prop('disabled', false);
+              //     $('.modal_btn_save').prop('disabled', true);
+              // }
+            }
+
+            if (crud[3] == 1) {
+              if (count_selc > 0) {
+                table.button("#dt_btn_delete").enable();
+              } else {
+                table.button("#dt_btn_delete").disable();
+              }
+            }
+          }*/
+
+          // console.log('ok gas')
+        },
+
+        edit: function () {
+          if ($ummu.dt.select.count() == 1) {
+            table.button("#dt_btn_edit").enable();
+          } else {
+            table.button("#dt_btn_edit").disable();
+          }
+        },
+
+        trx: function () {
+          table.button("#dt_btn_history").disable();
+          // table.button('#dt_btn_edit').disable();
+          // table.button('#dt_btn_release').disable();
+          // table.button('#dt_btn_delete').disable();
+          // table.button('#dt_btn_approve').disable();
+          // table.button('#dt_btn_pending').disable();
+          // table.button('#dt_btn_reject').disable();
+
+          var count_selc = $ummu.dt.select.count();
+          if (count_selc == 1) {
+            var rows = $ummu.dt.select.data();
+            $ummu.vars.id = rows[0].id;
+            table.button("#dt_btn_stock_addition").enable();
+            table.button("#dt_btn_stock_taking").enable();
+            table.button("#dt_btn_history").enable();
+            // console.log(rows[0])
+          } else {
+            table.button("#dt_btn_stock_addition").disable();
+            table.button("#dt_btn_stock_taking").disable();
+            table.button("#dt_btn_history").disable();
+          }
+          // else if (count_selc > 1) {
+          //     var rows = $ummu.dt.select.data();
+          // }else{
+          //     $ummu.vars.id = null;
+          //     $ummu.vars.ids = null;
+          // }
+
+          // var text = $ummu.vars.crud;
+          // var tab = $ummu.vars.nav_tab;
+          // // var nav_tab_id = localStorage.getItem('nav_tab_id');
+          // var nav_tab_id = $ummu.vars.nav_tab_id;
+          // if (text != '' || text != 0 || text != null) {
+          //     var crud = text.split(",");
+          // }else{
+          //     var crud = '';
+          // }
+
+          // if (crud) {
+          //     if (crud[0] == 1) {
+          //         table.button('#dt_btn_new').enable();
+          //     }
+
+          //     if (crud[2] == 1) {
+          //         if (count_selc == 1) {
+          //             table.button('#dt_btn_edit').enable();
+          //         }else if (count_selc > 1) {
+          //             table.button('#dt_btn_edit').disable();
+          //         }else{
+          //             table.button('#dt_btn_edit').disable();
+          //         }
+
+          //         // if (action == 'edit') {
+          //         //     $('.modal_btn_edit').prop('disabled', false);
+          //         //     $('.modal_btn_save').prop('disabled', true);
+          //         // }
+          //     }
+
+          //     if (crud[3] == 1) {
+          //         if (count_selc > 0) {
+          //             table.button('#dt_btn_delete').enable();
+          //         }else{
+          //             table.button('#dt_btn_delete').disable();
+          //         }
+          //     }
+
+          //     if ($ummu.vars.module_kode == '') {
+          //         if (nav_tab_id == 'nav-released-tab') {
+          //             if ($ummu.dt.select.count() > 0) {
+          //                 // table.button('#dt_btn_new').disable();
+          //                 // table.button('#dt_btn_edit').disable();
+          //                 table.button('#dt_btn_approve').enable();
+          //                 table.button('#dt_btn_reject').enable();
+          //                 table.button('#dt_btn_delete').enable();
+          //             }
+
+          //             // if (crud[2] == 1) {
+          //             //     $ummu.dt.button.edit();
+          //             // }
+
+          //             // if ($ummu.dt.select.count() == 1) {
+          //             //     table.button('#dt_btn_edit').enable();
+          //             // }else{
+          //             //     table.button('#dt_btn_edit').disable();
+          //             // }
+          //             // console.log('nav-release-tab');
+          //         }
+
+          //         // if (tab == 1) {
+          //         //     /**
+          //         //      * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+          //         //     if (crud[4] == 1) {
+          //         //         if ($ummu.dt.select.count() > 0) {
+          //         //             table.button('#dt_btn_approve').enable();
+          //         //             table.button('#dt_btn_reject').enable();
+          //         //         }
+          //         //     }
+          //         // }
+
+          //         // if (crud[2] == 1) {
+          //         //     if (count_selc == 1) {
+          //         //         table.button('#dt_btn_edit').enable();
+          //         //     }else if (count_selc > 1) {
+          //         //         table.button('#dt_btn_edit').disable();
+          //         //     }else{
+          //         //         table.button('#dt_btn_edit').disable();
+          //         //     }
+
+          //         //     if (action == 'edit') {
+          //         //         $('.modal_btn_edit').prop('disabled', false);
+          //         //         $('.modal_btn_save').prop('disabled', true);
+          //         //     }
+          //         // }else{
+          //         //     table.button('#dt_btn_edit').disable();
+          //         // }
+          //     }
+
+          //     if ($ummu.vars.module_kode == 'she_hazard_report') {
+          //         table.button('#dt_btn_new').enable();
+          //         table.button('#dt_btn_edit').disable();
+          //         table.button('#dt_btn_release').disable();
+          //         table.button('#dt_btn_delete').disable();
+          //         table.button('#dt_btn_approve').disable();
+          //         table.button('#dt_btn_pending').disable();
+          //         table.button('#dt_btn_reject').disable();
+
+          //             // console.log(crud);
+          //             // console.log(crud);
+          //             // console.log(count_selc);
+
+          //             // c,rall,u,d,admin
+          //             // 0,1   ,2,3,4
+
+          //             // if (crud) {
+          //             //     if (crud[0] == 1) {
+          //             //         if (count_selc == 1) {
+          //             //             table.button('#btn_new').disable();
+          //             //             table.button('#dt_btn_new').disable();
+          //             //         }else if (count_selc > 1) {
+          //             //             table.button('#btn_new').disable();
+          //             //             table.button('#dt_btn_new').disable();
+          //             //         }else{
+          //             //             table.button('#btn_new').enable();
+          //             //             table.button('#dt_btn_new').enable();
+          //             //         }
+
+          //             //         if (action == 'new') {
+          //             //             $('.modal_btn_edit').prop('disabled', true);
+          //             //             $('.modal_btn_save').prop('disabled', false);
+          //             //         }
+          //             //     }else{
+          //             //         table.button('#btn_new').disable();
+          //             //         table.button('#dt_btn_new').disable();
+          //             //     }
+
+          //             //     if (crud[2] == 1) {
+          //             //         if (count_selc == 1) {
+          //             //             table.button('#dt_btn_edit').enable();
+          //             //         }else if (count_selc > 1) {
+          //             //             table.button('#dt_btn_edit').disable();
+          //             //         }else{
+          //             //             table.button('#dt_btn_edit').disable();
+          //             //         }
+
+          //             //         if (action == 'edit') {
+          //             //             $('.modal_btn_edit').prop('disabled', false);
+          //             //             $('.modal_btn_save').prop('disabled', true);
+          //             //         }
+          //             //     }else{
+          //             //         table.button('#dt_btn_edit').disable();
+          //             //     }
+
+          //             //     if (crud[3] == 1) {
+          //             //         if (count_selc > 0) {
+          //             //             table.button('#dt_btn_delete').enable();
+          //             //         }else{
+          //             //             table.button('#dt_btn_delete').disable();
+          //             //         }
+          //             //     }else{
+          //             //         table.button('#dt_btn_delete').disable();
+          //             //     }
+          //             // }else{
+          //             //     table.button('#dt_btn_new').enable();
+          //             //     table.button('#dt_btn_edit').disable();
+          //             //     table.button('#dt_btn_delete').disable();
+          //             // }
+
+          //             // if ($ummu.vars.module_kode == 'event_recruitment') {
+          //             //     if (count_selc == 1) {
+          //             //         table.button('#dt_btn_open_recruitment').enable();
+          //             //     }else{
+          //             //         table.button('#dt_btn_open_recruitment').disable();
+          //             //     }
+          //             // }
+
+          //             // if ($ummu.vars.module_kode == 'she_hazard_report') {
+          //             //     if (count_selc >= 1) {
+          //             //         table.button('#btn_release').enable();
+          //             //     }else{
+          //             //         table.button('#btn_release').disable();
+          //             //     }
+          //             // }
+
+          //             // table.button('#btn_edit').disable();
+          //             // table.button('#btn_approve').disable();
+          //             // table.button('#btn_reject').disable();
+          //             // table.button('#btn_release').disable();
+          //             // table.button('#btn_multi_delete').disable();
+
+          //             /**
+          //              * crud[0] = create
+          //              * crud[1] = read all
+          //              * crud[2] = update
+          //              * crud[3] = delete
+          //              * crud[4] = admin*/
+
+          //             /**
+          //              * jika tab Not Release atau Rejected List active */
+          //         if (nav_tab_id == 'nav-notrelease-tab' || nav_tab_id == 'nav-rejected-tab' ) {
+          //             if ($ummu.dt.select.count() > 0) {
+          //                 table.button('#dt_btn_release').enable();
+
+          //                 if (crud[3] == 1) {
+          //                     table.button('#dt_btn_delete').enable();
+          //                 }
+
+          //             }
+
+          //             // if (crud[2] == 1) {
+          //             //     $ummu.dt.button.edit();
+          //             // }
+
+          //             // if ($ummu.dt.select.count() == 1) {
+          //             //     table.button('#dt_btn_edit').enable();
+          //             // }else{
+          //             //     table.button('#dt_btn_edit').disable();
+          //             // }
+          //         }
+
+          //             /**
+          //              * Jika tab Released List active */
+          //         if (nav_tab_id == 'nav-released-tab') {
+          //                 /**
+          //                  * pada tab Released List, dokument tidak bisa dilakukan Edit, Release dan Delete */
+          //             if (crud[4] == 1) {
+          //                 if ($ummu.dt.select.count() > 0) {
+          //                     table.button('#dt_btn_approve').enable();
+          //                     table.button('#dt_btn_reject').enable();
+          //                 }
+          //             }
+          //         }
+
+          //             // if (crud[2] == 1) {
+          //             //     if (count_selc == 1) {
+          //             //         table.button('#dt_btn_edit').enable();
+          //             //     }else if (count_selc > 1) {
+          //             //         table.button('#dt_btn_edit').disable();
+          //             //     }else{
+          //             //         table.button('#dt_btn_edit').disable();
+          //             //     }
+
+          //             //     if (action == 'edit') {
+          //             //         $('.modal_btn_edit').prop('disabled', false);
+          //             //         $('.modal_btn_save').prop('disabled', true);
+          //             //     }
+          //             // }else{
+          //             //     table.button('#dt_btn_edit').disable();
+          //             // }
+          //     }
+
+          //     if ($ummu.vars.module_kode == 'hcm_applicants') {
+          //         table.button('#dt_btn_new').enable();
+          //         table.button('#dt_btn_edit').disable();
+          //         table.button('#dt_btn_release').disable();
+          //         table.button('#dt_btn_delete').disable();
+          //         table.button('#dt_btn_approve').disable();
+          //         table.button('#dt_btn_pending').disable();
+          //         table.button('#dt_btn_reject').disable();
+
+          //         /**
+          //          * crud[0] = create
+          //          * crud[1] = read all
+          //          * crud[2] = update
+          //          * crud[3] = delete
+          //          * crud[4] = admin*/
+          //         /**
+
+          //         /**
+          //          * Jika tab Released List active */
+          //         if (nav_tab_id == null || nav_tab_id == '' || nav_tab_id == 'nav-released-tab') {
+          //             /**
+          //              * pada tab Released List, dokument bisa diapprove dan direject */
+          //             if (crud[4] == 1) {
+          //                 if ($ummu.dt.select.count() > 0) {
+          //                     table.button('#dt_btn_approve').enable();
+          //                     table.button('#dt_btn_reject').enable();
+          //                 }
+          //             }
+          //         }
+          //     }
+          // }
+        },
+      },
+
+      after_cud: function () {
+        $ummu.views.button.dt.showhide1();
+        $("#text_loader").html("");
+      },
+
+      var_id: function () {
+        var count_selc = $ummu.dt.select.count();
+
+        if (count_selc == 1) {
+          var rows = $ummu.dt.select.data();
+          $ummu.vars.id = rows[0].id;
+          $ummu.vars.ids = null;
+
+          // console.log('sama dengan 1');
+        }
+
+        if (count_selc > 1) {
+          var rows = $ummu.dt.select.data();
+          $ummu.vars.id = null;
+
+          // console.log('lebih dari 1');
+        }
+
+        if (count_selc == 0) {
+          $ummu.vars.id = null;
+          $ummu.vars.ids = null;
+
+          // console.log('tidak ada yg terpilih');
+        }
+      },
+
+      layout: {
+        button0: function (btn) {
+          table.button().add(0, {
+            extend: "pageLength",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_page_length" },
+          });
+
+          if (btn && btn.includes("btn_reload") == true) {
+            table.button().add(1, {
+              text:
+              '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+              '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+              attr: { id: "btn_reload" },
+              className: "btn-showall-color py-1 dt-btn-ummu",
+              action: function (e, dt, node, config) {
+                table.ajax.reload(function () {
+                  $ummu.dt.button.crud();
+                  $ummu.dt.button.trx();
+                });
+              },
+            });
+          }
+
+          if (btn && btn.includes("btn_select_all") == true) {
+            table.button().add(2, {
+              extend: "selectAll",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_select_all" },
+              text:
+              '<span class="d-none d-sm-block">Select all</span>' +
+              '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+            });
+          }
+
+          if (btn && btn.includes("btn_select_none") == true) {
+            table.button().add(3, {
+              extend: "selectNone",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_select_none" },
+              text:
+              '<span class="d-none d-sm-block">Deselect all</span>' +
+              '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+            });
+          }
+
+          if (btn && btn.includes("btn_filter") == true) {
+            table.button().add(4, {
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "dt_btn_filter" },
+              text:
+              '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+              '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+              action: function (e, dt, node, config) {
+                $("#modal_filter").modal("show");
+              },
+            });
+          }
+
+          if (btn && btn.includes("btn_copy") == true) {
+            table.button().add(5, {
+              extend: "copy",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_copy" },
+              text: '<i class="fas fa-copy fa-lg"></i>',
+            });
+          }
+
+          if (btn && btn.includes("btn_csv") == true) {
+            table.button().add(6, {
+              extend: "csv",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_csv" },
+              text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+            });
+          }
+
+          if (btn && btn.includes("btn_excel") == true) {
+            table.button().add(7, {
+              extend: "excel",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_excel" },
+              text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+              exportOptions: {
+                orthogonal: "myExport",
+              },
+            });
+          }
+
+          if (btn && btn.includes("btn_pdf") == true) {
+            table.button().add(8, {
+              extend: "pdf",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_pdf" },
+              text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+            });
+          }
+
+          if (btn && btn.includes("btn_print") == true) {
+            table.button().add(9, {
+              extend: "print",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_print" },
+              text: '<i class="fas fa-print text-primary fa-lg"></i>',
+            });
+          }
+        },
+
+        button: function (btn) {
+          table.button().add(0, {
+            extend: "pageLength",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_page_length" },
+          });
+
+          table.button().add(1, {
+            text:
+            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+            attr: { id: "btn_reload" },
+            className: "btn-showall-color py-1 dt-btn-ummu",
+            action: function (e, dt, node, config) {
+              table.ajax.reload(function () {
+                $ummu.dt.button.crud();
+                $ummu.dt.button.trx();
+              });
+            },
+          });
+
+          if (btn && btn.includes("btn_select_all") == true) {
+            table.button().add(2, {
+              extend: "selectAll",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_select_all" },
+              text:
+              '<span class="d-none d-sm-block">Select all</span>' +
+              '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+            });
+          }
+
+          if (btn && btn.includes("btn_select_none") == true) {
+            table.button().add(3, {
+              extend: "selectNone",
+              className: "py-1 dt-btn-ummu",
+              attr: { id: "btn_select_none" },
+              text:
+              '<span class="d-none d-sm-block">Deselect all</span>' +
+              '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+            });
+          }
+
+          table.button().add(4, {
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "dt_btn_filter" },
+            text:
+            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+            action: function (e, dt, node, config) {
+              $("#modal_filter").modal("show");
+            },
+          });
+
+          table.button().add(5, {
+            extend: "copy",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_copy" },
+            text: '<i class="fas fa-copy fa-lg"></i>',
+          });
+
+          table.button().add(6, {
+            extend: "csv",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_csv" },
+            text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+          });
+
+          table.button().add(7, {
+            extend: "excel",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_excel" },
+            text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+            exportOptions: {
+              orthogonal: "myExport",
+            },
+          });
+
+          table.button().add(8, {
+            extend: "pdf",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_pdf" },
+            text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+          });
+
+          table.button().add(9, {
+            extend: "print",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_print" },
+            text: '<i class="fas fa-print text-primary fa-lg"></i>',
+          });
+        },
+
+        button_crud: function (crud) {
+          if (crud) {
+            if (crud.includes("new") == true) {
+              table
+              .button()
+              .add(10, {
+                text: '<i class="fas fa-plus text-primary"></i> New',
+                attr: { id: "dt_btn_new" },
+                className:
+                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  $ummu.vars.action = "new";
+                  app.controllers.new();
+                },
+              })
+              .disable();
+            }
+
+            if (crud.includes("edit") == true) {
+              table
+              .button()
+              .add(11, {
+                text: '<i class="fas fa-edit"></i> Edit',
+                attr: { id: "dt_btn_edit" },
+                className:
+                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "edit";
+                  app.controllers.edit(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            if (crud.includes("delete") == true) {
+              table
+              .button()
+              .add(12, {
+                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                attr: { id: "dt_btn_delete" },
+                className:
+                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "delete";
+                  $("#modal_delete_confirm").modal("show");
+                },
+              })
+              .disable();
+            }
+
+            if (crud.includes("delete2") == true) {
+              table
+              .button()
+              .add(12, {
+                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                attr: { id: "dt_btn_delete" },
+                className:
+                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "delete2";
+                  app.controllers.delete(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            if (crud.includes("import") == true) {
+              table
+              .button()
+              .add(13, {
+                text: '<i class="fas fa-file-excel text-success"></i> Import',
+                attr: { id: "dt_btn_import" },
+                className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
+                action: function (e, dt, node, config) {
+                  $ummu.vars.action = "import";
+                  app.controllers.import();
+                },
+              })
+              .disable();
+            }
+          }
+        },
+
+        button_status: function (status) {
+          if (status) {
+            if (status.includes("release") == true) {
+              table
+              .button()
+              .add(13, {
+                text: '<i class="fas fa-share text-primary"></i> Release',
+                attr: { id: "dt_btn_release" },
+                className: "py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $("#modal_release_confirm").modal("show");
+                },
+              })
+              .disable();
+            }
+
+            if (status.includes("approve") == true) {
+              table
+              .button()
+              .add(14, {
+                text: '<i class="fas fa-check text-success"></i> Approve',
+                attr: { id: "dt_btn_approve" },
+                className: "py-1 dt-btn-ummu dt-action",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $ummu.vars.is_row = false;
+                  $("#modal_approve_confirm").modal("show");
+                },
+              })
+              .disable();
+            }
+
+            if (status.includes("pending") == true) {
+              table
+              .button()
+              .add(15, {
+                text: '<i class="fal fa-business-time text-warning"></i> Pending',
+                attr: { id: "dt_btn_pending" },
+                className: "py-1 dt-btn-ummu dt-action",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $("#modal_pending_confirm").modal("show");
+                },
+              })
+              .disable();
+            }
+
+            if (status.includes("reject") == true) {
+              table
+              .button()
+              .add(16, {
+                text: '<i class="fas fa-times text-danger"></i> Reject',
+                attr: { id: "dt_btn_reject" },
+                className: "py-1 dt-btn-ummu dt-action",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.rows = rows;
+                  $ummu.vars.is_row = false;
+                  $("#modal_reject_confirm").modal("show");
+                },
+              })
+              .disable();
+            }
+          }
+        },
+
+        button_trx: function (trx) {
+          if (trx) {
+            if (trx.includes("add") == true) {
+              table
+              .button()
+              .add(17, {
+                text: '<i class="fas fa-file-plus text-primary"></i> Add',
+                attr: { id: "dt_btn_add" },
+                className: "py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "add";
+                  app.controllers.add(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            if (trx.includes("stock_addition") == true) {
+              table
+              .button()
+              .add(18, {
+                text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
+                attr: { id: "dt_btn_stock_addition" },
+                className: "py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "addition";
+                  app.controllers.stock_addition(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            if (trx.includes("stock_taking") == true) {
+              table
+              .button()
+              .add(19, {
+                text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
+                attr: { id: "dt_btn_stock_taking" },
+                className: "py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "taking";
+                  app.controllers.stock_taking(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            if (trx.includes("history") == true) {
+              table
+              .button()
+              .add(20, {
+                text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
+                attr: { id: "dt_btn_history" },
+                className: "py-1 dt-btn-ummu for-user",
+                action: function (e, dt, node, config) {
+                  var rows = $ummu.dt.select.data();
+                  $ummu.vars.row = rows[0];
+                  $ummu.vars.action = "get";
+                  app.controllers.history(rows[0]);
+                },
+              })
+              .disable();
+            }
+
+            // if (trx.includes('approve') == true) {
+            //     table.button().add(14,
+            //         { text: '<i class="fas fa-check text-success"></i> Approve',
+            //         attr: { id: 'dt_btn_approve'},
+            //         className: 'py-1 dt-btn-ummu dt-action',
+            //             action: function (e, dt, node, config) {
+            //                 var rows = $ummu.dt.select.data();
+            //                 $ummu.vars.rows = rows;
+            //                 $('#modal_approve_confirm').modal('show');
+            //             }
+            //         }
+            //     ).disable();
+            // }
+
+            // if (trx.includes('pending') == true) {
+            //     table.button().add(15,
+            //         { text: '<i class="fal fa-business-time text-warning"></i> Pending',
+            //         attr: { id: 'dt_btn_pending'},
+            //         className: 'py-1 dt-btn-ummu dt-action',
+            //             action: function (e, dt, node, config) {
+            //                 var rows = $ummu.dt.select.data();
+            //                 $ummu.vars.rows = rows;
+            //                 $('#modal_pending_confirm').modal('show');
+            //             }
+            //         }
+            //     ).disable();
+            // }
+
+            // if (trx.includes('reject') == true) {
+            //     table.button().add(16,
+            //         { text: '<i class="fas fa-times text-danger"></i> Reject',
+            //         attr: { id: 'dt_btn_reject'},
+            //         className: 'py-1 dt-btn-ummu dt-action',
+            //             action: function (e, dt, node, config) {
+            //                 var rows = $ummu.dt.select.data();
+            //                 $ummu.vars.rows = rows;
+            //                 $('#modal_reject_confirm').modal('show');
+            //             }
+            //         }
+            //     ).disable();
+            // }
+          }
+        },
+
+        column: {
+          //
+        },
+      },
+    }
   },
 
   localStorage: {
@@ -8792,7 +10144,11 @@ var $ummu = {
     approve: null,
     reject: null,
     pending: null,
-  }
+  },
+
+  loader: function (modal) {
+    $("#modal_loader").modal(modal);
+  },
 };
 
 $(document).ready(function () {
