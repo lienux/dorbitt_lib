@@ -7573,7 +7573,7 @@ var $ummu = {
                 $ummu.vars.action = "import";
 
                 console.log('dt button import')
-                if(typeof app.controllers.edit !== "undefined") {
+                if(typeof app.controllers.import !== "undefined") {
                   console.log('function app.controllers.import is OK.');
                   app.controllers.import();
                 }else{
