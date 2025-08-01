@@ -395,6 +395,26 @@ var $ummu = {
       //     $ummu.loader('hide');
       //   // }
       // });
+
+      $(document).on("click", ".btn-in-modal", function () {
+        var id = $(this).attr("id");
+        
+        if (id == "modal_btn_save") {
+          app.controllers.create();
+        } 
+
+        if (id == "modal_btn_update") {
+          app.controllers.update();
+        } 
+
+        if (id == "modal_btn_save_and_next") {
+          app.controllers.save_and_next();
+        }
+
+        if (id == "modal_btn_back") {
+          app.controllers.back();
+        }
+      });
     },
   },
 
@@ -3733,6 +3753,23 @@ var $ummu = {
         $("input[type=radio][name=status]").change(function () {
           $ummu.views.goods_evaluation.close_status(this.id)
           // console.log(this.id);
+        });
+      }
+    },
+
+    surat_tugas: {
+      jenis_perjalanan: function() {
+        $("input[type=radio][name=jenis_perjalanan]").change(function () {
+          // $ummu.views.goods_evaluation.close_status(this.id)
+          // console.log(this.id);
+          console.log('radio name=jenis_perjalanan');
+          // if(typeof app.controllers.jenis_perjalanan !== "undefined" && typeof app.controllers.navtab2.show_by_status_open !== "undefined") {
+          if(typeof app.controllers.jenis_perjalanan !== "undefined") {
+            console.log('function app.controllers.jenis_perjalanan is OK.');
+            app.controllers.jenis_perjalanan(this.id);
+          }else{
+            console.log('plese create function app.controllers.jenis_perjalanan.');
+          }
         });
       }
     },
@@ -10775,20 +10812,37 @@ var $ummu = {
   button: {
     btn_modal_form: function (crud) {
       $("#modal_form .modal-footer").html("");
+
       var btn_close =
-      '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>';
+      '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" data-bs-dismiss="modal">Close</button>';
+
+      var btn_back =
+      '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" id="modal_btn_back"><i class="fas fa-chevron-double-left"></i> Back</button>';
+
       var btn_edit =
-      '<button type="button" class="btn btn-sm btn-warning" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>';
+      '<button type="button" class="btn btn-sm btn-warning btn-in-modal" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>';
+
       var btn_save =
-      '<button type="button" class="btn btn-sm btn-primary modal-btn-save"><i class="fas fa-save"></i> Save changes</button>';
+      '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save"><i class="fas fa-save"></i> Save changes</button>';
+
+      var btn_save_and_next =
+      '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save" id="modal_btn_save_and_next">Save and Next <i class="fas fa-chevron-double-right"></i></button>';
 
       if (crud) {
         if (crud.includes("close") == true) {
           $("#modal_form .modal-footer").append(btn_close);
         }
 
+        if (crud.includes("back") == true) {
+          $("#modal_form .modal-footer").append(btn_back);
+        }
+
         if (crud.includes("save") == true) {
           $("#modal_form .modal-footer").append(btn_save);
+        }
+
+        if (crud.includes("save_and_next") == true) {
+          $("#modal_form .modal-footer").append(btn_save_and_next);
         }
 
         if (crud.includes("edit") == true) {
