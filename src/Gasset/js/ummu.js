@@ -415,6 +415,17 @@ var $ummu = {
           app.controllers.back();
         }
       });
+
+      $(".ummu-datepicker").change(function () {
+        var element_id = $(this).attr("id");
+        console.log('class ummu-datepicker is change OK.');
+        if(typeof app.controllers.change_ummu_datepicker !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_open is OK.');
+          app.controllers.change_ummu_datepicker(element_id);
+        }else{
+          console.log('plese create function app.controllers.change_ummu_datepicker.');
+        }
+      });
     },
   },
 
@@ -3036,6 +3047,7 @@ var $ummu = {
 
         return inMenit;
       },
+
       jmlJam: function (datetime1, datetime2) {
         var inDetik = new Date(datetime2) - new Date(datetime1);
         var inMenit = Math.floor(inDetik / 60000);
@@ -3044,6 +3056,7 @@ var $ummu = {
 
         return inJamK.toFixed(2);
       },
+
       toText: function (datetime1, datetime2) {
         var inDetik = new Date(datetime2) - new Date(datetime1);
         var inMenit = Math.floor(inDetik / 60000);
@@ -3059,14 +3072,28 @@ var $ummu = {
       },
     },
 
-    countDate4: function (datetime1, datetime2) {
-      var inDetik = new Date(datetime2) - new Date(datetime1);
-      var inMenit = Math.floor(inDetik / 60000);
-      var inJam = Math.floor(inMenit / 60);
-      var inJamK = inMenit / 60;
+    date: {
+      jmlHari: function (date1, date2) {
+        var datetime1 = date1 + ' 00:00:00';
+        var datetime2 = date2 + ' 23:59:59';
 
-      return inJamK.toFixed(2);
+        var inDetik = new Date(datetime2) - new Date(datetime1);
+        var inMenit = Math.floor(inDetik / 60000);
+        var inJam = Math.floor(inMenit / 60);
+        var inHari = Math.floor(inJam / 24);
+
+        return inHari;
+      },
     },
+
+    // countDate4: function (datetime1, datetime2) {
+    //   var inDetik = new Date(datetime2) - new Date(datetime1);
+    //   var inMenit = Math.floor(inDetik / 60000);
+    //   var inJam = Math.floor(inMenit / 60);
+    //   var inJamK = inMenit / 60;
+
+    //   return inJamK.toFixed(2);
+    // },
 
     countMinute: function (datetime1, datetime2) {
       var inDetik = new Date(datetime2) - new Date(datetime1);
