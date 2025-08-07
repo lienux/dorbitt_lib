@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal_btn_delete">Delete</button>
+                <button type="button" class="btn btn-primary btn-in-modal" id="modal_btn_delete">Delete</button>
             </div>
         </div>
     </div>

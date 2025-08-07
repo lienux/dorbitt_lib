@@ -414,6 +414,10 @@ var $ummu = {
         if (id == "modal_btn_back") {
           app.controllers.back();
         }
+
+        if (id == "modal_btn_delete") {
+          app.controllers.delete();
+        }
       });
 
       $(".ummu-datepicker").change(function () {
@@ -10965,6 +10969,20 @@ var $ummu = {
 
   loader: function (modal) {
     $("#modal_loader").modal(modal);
+  },
+
+  loaderShow: function() {
+    $("#modal_loader").modal("show");
+  },
+
+  loaderHide: function (intvl) {
+    if (intvl) {
+      setTimeout(function () {
+        $("#modal_loader").modal("hide");
+      }, intvl);
+    }else{
+      $("#modal_loader").modal("hide");
+    }
   },
 };
 
