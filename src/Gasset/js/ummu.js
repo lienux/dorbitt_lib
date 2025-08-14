@@ -246,6 +246,20 @@ var $ummu = {
         });
       };
 
+      if(typeof jQuery.fn.summernote !== "undefined") {
+        $('#modal_form').on('shown.bs.modal', function() {
+          $('.ummu-summernote-onModal').summernote({
+            // airMode: true,
+            dialogsInBody: true,
+            // minHeight: 150,
+            height: 150, //set editable area's height
+            codemirror: { // codemirror options
+              theme: 'monokai'
+            }
+          });
+        });
+      };
+
       $("#modal_filter").on("shown.bs.modal", function () {
         let date_from = localStorage.getItem("date_from");
         let time_from = localStorage.getItem("time_from");
