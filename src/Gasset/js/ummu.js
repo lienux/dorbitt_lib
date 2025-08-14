@@ -1,5 +1,6 @@
 var $referensi = localStorage.getItem("referensi");
 var $ref = JSON.parse($referensi);
+var $listdata_tableID = $("#modal_list_datatable #tb_list_data");
 
 var $ummu = {
   register: function () {
@@ -113,6 +114,7 @@ var $ummu = {
     },
 
     dt: {
+      new: null,
       nth_child_onclick: null,
       row: null,
       rows: null
@@ -439,6 +441,13 @@ var $ummu = {
             $ummu.func.formatCurrency($(this), "blur");
           }
       });
+
+      $(".ummubtn-showmodal-listdata").on("click", function(){
+        app.controllers.on_show_modal($(this).attr("id"));
+
+        /*call to dorbitt_lib/src/Gviews/partials/modal/list_data.php*/
+        $("#modal_list_datatable").modal("show");
+      })
     },
   },
 
@@ -3885,6 +3894,21 @@ var $ummu = {
             app.controllers.jenis_perjalanan(this.id);
           }else{
             console.log('plese create function app.controllers.jenis_perjalanan.');
+          }
+        });
+      },
+
+      tujuan_category: function() {
+        $("input[type=radio][name=tujuan_category]").change(function () {
+          // $ummu.views.goods_evaluation.close_status(this.id)
+          // console.log(this.id);
+          console.log('radio name=tujuan_category');
+          // if(typeof app.controllers.tujuan_category !== "undefined" && typeof app.controllers.navtab2.show_by_status_open !== "undefined") {
+          if(typeof app.controllers.tujuan_category !== "undefined") {
+            console.log('function app.controllers.tujuan_category is OK.');
+            app.controllers.tujuan_category(this.id);
+          }else{
+            console.log('plese create function app.controllers.tujuan_category.');
           }
         });
       }
@@ -7538,6 +7562,113 @@ var $ummu = {
         }
       },
 
+      button_custom: function (tb,btn) {
+        tb.button().add(0, {
+          extend: "pageLength",
+          className: "py-1 dt-btn-ummu",
+          attr: { id: "btn_page_length" },
+        });
+
+        if (btn && btn.includes("btn_reload") == true) {
+          tb.button().add(1, {
+            text:
+            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+            attr: { id: "btn_reload" },
+            className: "btn-showall-color py-1 dt-btn-ummu",
+            action: function (e, dt, node, config) {
+              tb.ajax.reload(function () {
+                $ummu.dt.button.crud();
+                $ummu.dt.button.trx();
+              });
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_select_all") == true) {
+          tb.button().add(2, {
+            extend: "selectAll",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_select_all" },
+            text:
+            '<span class="d-none d-sm-block">Select all</span>' +
+            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+          });
+        }
+
+        if (btn && btn.includes("btn_select_none") == true) {
+          tb.button().add(3, {
+            extend: "selectNone",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_select_none" },
+            text:
+            '<span class="d-none d-sm-block">Deselect all</span>' +
+            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+          });
+        }
+
+        if (btn && btn.includes("btn_filter") == true) {
+          tb.button().add(4, {
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "dt_btn_filter" },
+            text:
+            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+            action: function (e, dt, node, config) {
+              $("#modal_filter").modal("show");
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_copy") == true) {
+          tb.button().add(5, {
+            extend: "copy",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_copy" },
+            text: '<i class="fas fa-copy fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_csv") == true) {
+          tb.button().add(6, {
+            extend: "csv",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_csv" },
+            text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_excel") == true) {
+          tb.button().add(7, {
+            extend: "excel",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_excel" },
+            text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+            exportOptions: {
+              orthogonal: "myExport",
+            },
+          });
+        }
+
+        if (btn && btn.includes("btn_pdf") == true) {
+          tb.button().add(8, {
+            extend: "pdf",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_pdf" },
+            text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+          });
+        }
+
+        if (btn && btn.includes("btn_print") == true) {
+          tb.button().add(9, {
+            extend: "print",
+            className: "py-1 dt-btn-ummu",
+            attr: { id: "btn_print" },
+            text: '<i class="fas fa-print text-primary fa-lg"></i>',
+          });
+        }
+      },
+
       button: function (btn) {
         table.button().add(0, {
           extend: "pageLength",
@@ -10923,6 +11054,35 @@ var $ummu = {
 
       $(".ummu-html").html(html);
     },
+
+    list_data: function() {
+      // var html = '<div class="modal fade" id="modal_list_datatablez" tabindex="-1" data-bs-backdrop="static">'+
+      // '<div class="modal-dialog" id="modal_dialog">'+
+      // '<div class="modal-content bg-light">'+
+      // '<div class="modal-header bg-secondary py-2 text-light">'+
+      // '<h6 class="modal-title"><i class="fas fa-database"></i> List Data</h6>'+
+      // '<div class="">'+
+      // '<button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">'+
+      // '<i class="fa-light fa-rectangle-xmark"></i>'+
+      // '</button>'+
+      // '</div>'+
+      // '</div>'+
+      // '<div class="modal-body">'+
+      // '<div class="table-responsive">'+
+      // '<table class="table table-sm table-striped table-bordered text-sm text-nowrap" id="modal_datatable_list_site_project" width="100%" cellspacing="0">'+
+      // '</table>'+
+      // '</div>'+
+      // '</div>'+
+      // '<div class="modal-footer p-0">'+
+      // '<!-- <button type="button" class="btn btn-primary" id="modal_btn_release">Release</button> -->'+
+      // '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>'+
+      // '</div>'+
+      // '</div>'+
+      // '</div>'+
+      // '</div>';
+
+      // $('.ummu-html').html(html);
+    }
   },
 
   button: {

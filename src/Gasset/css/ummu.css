@@ -229,3 +229,72 @@ table.dataTable thead tr > .dtfc-fixed-left {
   color: #3e4f6f;
   font-size: 15px;
 }
+
+.modal-right .modal-dialog {
+    position: fixed;
+    right: 0;
+    margin: 0; /* Remove default margin */
+    height: 100%; /* Make modal fill height */
+    transform: translate(0, 0); /* Reset any default transforms */
+    width: 400px;
+    max-width: 400px;
+}
+
+.modal-right .modal-content {
+    height: 100%; /* Make content fill height */
+    border-radius: 0; /* Remove default border-radius for full height */
+}
+
+
+
+
+.btn-purple {
+  color: #fff;
+  background-color: #800080;
+  border-color: #800080;
+}
+
+.btn-purple:hover {
+  color: #fff;
+  background-color: #5E0C5E;
+  border-color: #2653d4;
+}
+
+.btn-purple:focus, .btn-purple.focus {
+  color: #fff;
+  background-color: #5E0C5E;
+  border-color: #4D0E4D;
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+}
+
+.btn-purple.disabled, .btn-purple:disabled {
+  color: #fff;
+  background-color: #800080;
+  border-color: #800080;
+}
+
+.btn-purple:not(:disabled):not(.disabled):active, .btn-purple:not(:disabled):not(.disabled).active,
+.show > .btn-purple.dropdown-toggle {
+  color: #fff;
+  background-color: #4D0E4D;
+  border-color: #244ec9;
+}
+
+.btn-purple:not(:disabled):not(.disabled):active:focus, .btn-purple:not(:disabled):not(.disabled).active:focus,
+.show > .btn-purple.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+}
+
+.bg-purple {
+  background-color: #800080 !important;
+}
+
+a.bg-purple:hover, a.bg-purple:focus,
+button.bg-purple:hover,
+button.bg-purple:focus {
+  background-color: #4D0E4D !important;
+}
+
+.border-left-purple {
+  border-left: 0.25rem solid #800080 !important;
+}
