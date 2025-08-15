@@ -1410,29 +1410,26 @@ var $ummu = {
       $("#btn_login").on("click", function () {
         var username = $("#username").val(),
         password = $("#password").val(),
-        msdb = $("#msdb").val();
+        msdb = $("#msdb").val(),
+        toMcp = $("#login_to_mcp").is(":checked");
 
         if (msdb == null) {
           alert("Silahkan pilih company.");
         } else {
-          var vars =
-          "?username=" +
-          username +
-          "&password=" +
-          password +
-          "&msdb=" +
-          msdb,
+          var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp,
           body = {
             body: {
               username: username,
               password: password,
               msdb: msdb,
+              toMcp: toMcp,
             },
           },
           payload = {
             username: username,
             password: password,
             msdb: msdb,
+            toMcp: toMcp,
           };
 
           var url = $ummu.vars.base_url + "auth/login/create" + vars;
