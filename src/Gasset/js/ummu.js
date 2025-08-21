@@ -416,23 +416,48 @@ var $ummu = {
         var id = $(this).attr("id");
         
         if (id == "modal_btn_save") {
-          app.controllers.create();
+          if(typeof app.controllers.create !== "undefined") {
+            console.log('function app.controllers.create is OK.');
+            app.controllers.create();
+          }else{
+            console.log('plese create function app.controllers.create.');
+          }
         } 
 
         if (id == "modal_btn_update") {
-          app.controllers.update();
+          if(typeof app.controllers.update !== "undefined") {
+            console.log('function app.controllers.update is OK.');
+            app.controllers.update();
+          }else{
+            console.log('plese update function app.controllers.update.');
+          }
         } 
 
         if (id == "modal_btn_save_and_next") {
-          app.controllers.save_and_next();
+          if(typeof app.controllers.save_and_next !== "undefined") {
+            console.log('function app.controllers.save_and_next is OK.');
+            app.controllers.save_and_next();
+          }else{
+            console.log('plese save_and_next function app.controllers.save_and_next.');
+          }
         }
 
         if (id == "modal_btn_back") {
-          app.controllers.back();
+          if(typeof app.controllers.back !== "undefined") {
+            console.log('function app.controllers.back is OK.');
+            app.controllers.back();
+          }else{
+            console.log('plese back function app.controllers.back.');
+          }
         }
 
         if (id == "modal_btn_delete") {
-          app.controllers.delete();
+          if(typeof app.controllers.delete !== "undefined") {
+            console.log('function app.controllers.delete is OK.');
+            app.controllers.delete();
+          }else{
+            console.log('plese delete function app.controllers.delete.');
+          }
         }
       });
 
