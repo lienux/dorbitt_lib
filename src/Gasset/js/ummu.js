@@ -486,6 +486,10 @@ var $ummu = {
 
         /*call to dorbitt_lib/src/Gviews/partials/modal/list_data.php*/
         $("#modal_list_datatable").modal("show");
+      });
+
+      $("#config_settings").on('click', function(){
+        $('#modal_form_settings').modal('show');
       })
     },
   },
