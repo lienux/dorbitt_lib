@@ -1662,6 +1662,53 @@ var $ummu = {
       return jqXHR;
     },
 
+    /*
+     * Dibuat untuk kebutuhan Bootstrap Table
+     * paket hanya payload, contoh otomatis params bootstrap-table
+     * page_url otomatis dari ummu.vars tiggal tambahkan show saja
+     * otomatis modal_loader
+     * */
+    ummuBTshow: function (payload) {
+      var jqXHR = $.ajax({
+        url: $ummu.vars.page_url + "show",
+        method: payload.type,
+        timeout: 0,
+        headers: {
+          "Content-Type": payload.contentType,
+        },
+        data: payload.data,
+        prossesing: true,
+        language: {
+          loadingRecords: "&nbsp;",
+          processing: '<div class="spinner"></div>',
+        },
+        beforeSend: function (e) {
+          $("#modal_loader").modal("show");
+
+          if (e && e.overrideMimeType) {
+            e.overrideMimeType("application/jsoncharset=UTF-8");
+          }
+          // $(
+          //   "#response_message, #response_message_modal, #response_message_modal_modal"
+          //   ).removeClass("text-success msg_animation");
+        },
+        complete: function () {
+          setTimeout(function () {
+            $(".modal-loader").modal("hide");
+          }, 1000);
+        },
+        success: function (response) {
+          // console.log(response)
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.responseText);
+          $("#modal_loader").modal("hide");
+        },
+      });
+
+      return jqXHR;
+    },
+
     ummu2: function (params) {
       // console.log(payload);
       var jqXHR = $.ajax({
@@ -7298,37 +7345,73 @@ var $ummu = {
       $table.bootstrapTable({
         locale: "en-US",
       });
-      $table.on(
-        "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
-        function () {
-          $("#remove").prop(
-            "disabled",
-            !$table.bootstrapTable("getSelections").length
-            );
-          $("#view").prop(
-            "disabled",
-            $table.bootstrapTable("getSelections").length != 1
-            );
-          $("#new").prop(
-            "disabled",
-            $table.bootstrapTable("getSelections").length
-            );
-          // save your data, here just save the current page
-          seldata: dataections = $globFunc.getIdSelections();
-        }
-        );
-      $table.on("all.bs.table", function (e, name, args) {
-        console.log(name, args);
+
+      $table.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
+          $ummu.vars.row = $ummu.bt.select.getRows()[0]
+          $ummu.vars.rows = $ummu.bt.select.getRows()
+          $ummu.vars.id = $ummu.bt.select.getIds()[0]
+          $ummu.vars.ids = $ummu.bt.select.getIds()
+
+          $("#remove").prop("disabled",!$ummu.bt.select.length())
+          $("#view").prop("disabled",$ummu.bt.select.length() != 1)
+          $("#new").prop("disabled",$ummu.bt.select.length())
+
+          if ($ummu.bt.select.length() >= 1) {
+              $('#remove').removeClass('btn-secondary').addClass('btn-danger')
+          }else{
+              $('#remove').removeClass('btn-danger').addClass('btn-secondary')
+          }
+
+          if ($ummu.bt.select.length() == 1) {
+              $('#btn_edit').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
+              $('#btn_modules').removeClass('btn-secondary').addClass('btn-info').prop('disabled', false)
+          }else{
+              $('#btn_edit').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
+              $('#btn_modules').removeClass('btn-info').addClass('btn-secondary').prop('disabled', true)
+          }
       });
+
+      $table.on("all.bs.table", function (e, name, args) {
+        console.log(name, args)
+      });
+
       $("#remove").click(function () {
-        app.Controllers.remove();
+        app.Controllers.remove()
         // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
         // $('#modal_confirmation_multiple_delete').modal('show')
       });
       $("#view").click(function () {
         // $('#modal_form').modal('show')
-        app.Controllers.view();
+        app.Controllers.view()
       });
+
+      $ummu.bt.filterControl.style()
+      $table.on("load-success.bs.table", function(){
+        $ummu.bt.filterControl.style()
+      });
+    },
+
+    select: {
+      length: function() {
+        return $table.bootstrapTable('getSelections').length
+      },
+
+      getIds: function() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+          return row.id
+        })
+      },
+
+      getRows: function() {
+        return $table.bootstrapTable('getSelections')
+      }
+    },
+
+    filterControl: {
+      style: function() {
+        $(".filter-control .search-input").addClass("form-control-sm rounded-0 border-0 border-top")
+        .prop("placeholder", "Search")
+      }
     },
 
     responseHandler: function (res) {
