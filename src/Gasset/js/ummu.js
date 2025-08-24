@@ -7389,6 +7389,9 @@ var $ummu = {
       $table.on("load-success.bs.table", function(){
         $ummu.bt.filterControl.style()
       });
+      $table.on("toggle.bs.table", function(){
+        $ummu.bt.filterControl.style()        
+      });
     },
 
     select: {
