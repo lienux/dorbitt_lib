@@ -7413,7 +7413,7 @@ var $ummu = {
     filterControl: {
       style: function() {
         $(".filter-control .search-input").addClass("form-control-sm rounded-0 border-0 border-top")
-        .prop("placeholder", "Search")
+        .prop("placeholder", "Filter")
       }
     },
 
