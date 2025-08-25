@@ -28,11 +28,13 @@ class UmmuInstall
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $upload = FCPATH . "uploads";
-            if (is_link($upload) or is_dir($upload)) {
-                unlink($upload);
-            } elseif (is_file($upload)) {
+            if (is_link($upload)) {
+                // unlink($upload);
                 rmdir($upload);
             }
+            // elseif (is_file($upload) or is_dir($upload)) {
+            //     rmdir($upload);
+            // }
 
             $lib = FCPATH . "vendor/dorbitt-lib";
             if (is_link($lib) or is_dir($lib)) {
@@ -85,25 +87,30 @@ class UmmuInstall
 
             $gCommand = APPPATH . "Commands/Ummu";
             if (is_link($gCommand)) {
-                unlink($gCommand);
-            } elseif (is_file($gCommand)) {
                 rmdir($gCommand);
-            }
+            } 
+            // elseif (is_file($gCommand)) {
+            // }
 
 
             /**
              * Create Folder*/
             $vendor = FCPATH . "vendor";
-            if (is_dir($vendor)) {
-                unlink($vendor);
-            } elseif (is_file($vendor)) {
+            if (!is_dir($vendor)) {
                 mkdir($vendor);
+            } elseif (is_file($vendor)) {
+                unlink($vendor);
             }
 
-            $ummuLogs = FCPATH . "ummuLogs";
-            if (is_link($ummuLogs)) {
-                unlink($ummuLogs);
+            $ummuLogs = WRITEPATH . "ummuLogs";
+            if (!is_dir($ummuLogs)) {
+                mkdir($ummuLogs);
             }
+
+            // $ummuLogsP = FCPATH . "ummuLogs";
+            // if (is_link($ummuLogsP)) {
+            //     unlink($ummuLogsP);
+            // }
 
         } else {
             if (is_link(FCPATH . "uploads")) {
@@ -167,6 +174,7 @@ class UmmuInstall
         $gBuilder = [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"];
         $gCommand = [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"];
         $ummuLogs = [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
+        $ummuLogs2 = [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             symlink($uploads[0], $uploads[1]);
