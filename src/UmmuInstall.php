@@ -85,23 +85,23 @@ class UmmuInstall
 
             $gCommand = APPPATH . "Commands/Ummu";
             if (is_link($gCommand)) {
-                rmdir($gCommand);
-            } elseif (is_file($gCommand)) {
                 unlink($gCommand);
+            } elseif (is_file($gCommand)) {
+                rmdir($gCommand);
             }
 
 
             /**
              * Create Folder*/
             $vendor = FCPATH . "vendor";
-            if (!is_dir($vendor)) {
-                mkdir($vendor);
-            } elseif (is_file($vendor)) {
+            if (is_dir($vendor)) {
                 unlink($vendor);
+            } elseif (is_file($vendor)) {
+                mkdir($vendor);
             }
 
             $ummuLogs = FCPATH . "ummuLogs";
-            if (!is_link($ummuLogs)) {
+            if (is_link($ummuLogs)) {
                 unlink($ummuLogs);
             }
 
