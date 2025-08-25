@@ -20,98 +20,35 @@ class UmmuInstall
 
     public function run()
     {
-        $this->is_symlink();
-        $this->create_symlink();
+        $this->mk_dir();
+        $this->rm_dir();
+        $this->sym_link();
     }
 
-    public function is_symlink()
+    public function rm_dir()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $upload = FCPATH . "uploads";
-            if (is_link($upload)) {
-                // unlink($upload);
-                rmdir($upload);
+            $array = [
+                FCPATH . "uploads",
+                FCPATH . "vendor/dorbitt-lib",
+                FCPATH . "Gasset",
+                FCPATH . "ummuLogs",
+                APPPATH . "Gviews",
+                APPPATH . "Controllers/MyGallery",
+                APPPATH . "Gmodels",
+                APPPATH . "Gcontrollers",
+                APPPATH . "Gbuilder",
+                APPPATH . "Commands/Ummu"
+            ];
+
+            foreach ($array as $key => $value) {
+                if (file_exists($value)) {
+                    if (is_link($value) or is_dir($value)) {
+                        // unlink($file);
+                        rmdir($value);
+                    }
+                }
             }
-            // elseif (is_file($upload) or is_dir($upload)) {
-            //     rmdir($upload);
-            // }
-
-            $lib = FCPATH . "vendor/dorbitt-lib";
-            if (is_link($lib) or is_dir($lib)) {
-                rmdir($lib);
-            } elseif (is_file($lib)) {
-                unlink($lib);
-            }
-
-            $gAsset = FCPATH . "Gasset";
-            if (is_link($gAsset)) {
-                rmdir($gAsset);
-            } elseif (is_file($gAsset)) {
-                unlink($gAsset);
-            }
-
-            $gViews = APPPATH . "Gviews";
-            if (is_link($gViews)) {
-                rmdir($gViews);
-            } elseif (is_file($gViews)) {
-                unlink($gViews);
-            }
-
-            $myGallery = APPPATH . "Controllers/MyGallery";
-            if (is_link($myGallery)) {
-                rmdir($myGallery);
-            } elseif (is_file($myGallery)) {
-                unlink($myGallery);
-            }
-
-            $gModels = APPPATH . "Gmodels";
-            if (is_link($gModels)) {
-                rmdir($gModels);
-            } elseif (is_file($gModels)) {
-                unlink($gModels);
-            }
-
-            $gControllers = APPPATH . "Gcontrollers";
-            if (is_link($gControllers)) {
-                rmdir($gControllers);
-            } elseif (is_file($gControllers)) {
-                unlink($gControllers);
-            }
-
-            $gBuilder = APPPATH . "Gbuilder";
-            if (is_link($gBuilder)) {
-                rmdir($gBuilder);
-            } elseif (is_file($gBuilder)) {
-                unlink($gBuilder);
-            }
-
-            $gCommand = APPPATH . "Commands/Ummu";
-            if (is_link($gCommand)) {
-                rmdir($gCommand);
-            } 
-            // elseif (is_file($gCommand)) {
-            // }
-
-
-            /**
-             * Create Folder*/
-            $vendor = FCPATH . "vendor";
-            if (!is_dir($vendor)) {
-                mkdir($vendor);
-            } elseif (is_file($vendor)) {
-                unlink($vendor);
-            }
-
-            $ummuLogs = WRITEPATH . "ummuLogs";
-            if (!is_dir($ummuLogs)) {
-                mkdir($ummuLogs);
-            }
-
-            // $ummuLogsP = FCPATH . "ummuLogs";
-            // if (is_link($ummuLogsP)) {
-            //     unlink($ummuLogsP);
-            // }
-
         } else {
             if (is_link(FCPATH . "uploads")) {
                 exec("rm -rf " . FCPATH . "uploads");
@@ -162,7 +99,7 @@ class UmmuInstall
         }
     }
 
-    public function create_symlink()
+    public function sym_link()
     {
         $uploads = [WRITEPATH . "uploads", FCPATH . "uploads"];
         $assetlib = [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "vendor/dorbitt-lib"];
@@ -174,7 +111,6 @@ class UmmuInstall
         $gBuilder = [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"];
         $gCommand = [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"];
         $ummuLogs = [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
-        $ummuLogs2 = [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             symlink($uploads[0], $uploads[1]);
@@ -198,6 +134,20 @@ class UmmuInstall
             exec("ln -s " . $gBuilder[0] . " " . $gBuilder[1]);
             exec("ln -s " . $gCommand[0] . " " . $gCommand[1]);
             exec("ln -s " . $ummuLogs[0] . " " . $ummuLogs[1]);
+        }
+    }
+
+    private function mk_dir()
+    {
+        $vendor = FCPATH . "vendor";
+        if (!is_dir($vendor)) {
+            mkdir($vendor);
+            // unlink($vendor);
+        }
+
+        $ummuLogs = WRITEPATH . "ummuLogs";
+        if (!is_dir($ummuLogs)) {
+            mkdir($ummuLogs);
         }
     }
 }
