@@ -7352,21 +7352,24 @@ var $ummu = {
           $ummu.vars.id = $ummu.bt.select.getIds()[0]
           $ummu.vars.ids = $ummu.bt.select.getIds()
 
-          $("#remove").prop("disabled",!$ummu.bt.select.length())
-          $("#view").prop("disabled",$ummu.bt.select.length() != 1)
-          $("#new").prop("disabled",$ummu.bt.select.length())
+          // $("#remove").prop("disabled",!$ummu.bt.select.length())
+          $('button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length())
+          // $("#view").prop("disabled",$ummu.bt.select.length() != 1)
+          // $("#new").prop("disabled",$ummu.bt.select.length())
 
           if ($ummu.bt.select.length() >= 1) {
-              $('#remove').removeClass('btn-secondary').addClass('btn-danger')
+              // $('#remove').removeClass('btn-secondary').addClass('btn-danger')
+              $('button[name=btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
           }else{
-              $('#remove').removeClass('btn-danger').addClass('btn-secondary')
+              // $('#remove').removeClass('btn-danger').addClass('btn-secondary')
+              $('button[name=btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
           }
 
           if ($ummu.bt.select.length() == 1) {
-              $('#btn_edit').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
+              $('button[name=btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
               $('#btn_modules').removeClass('btn-secondary').addClass('btn-info').prop('disabled', false)
           }else{
-              $('#btn_edit').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
+              $('button[name=btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
               $('#btn_modules').removeClass('btn-info').addClass('btn-secondary').prop('disabled', true)
           }
       });
@@ -7392,29 +7395,8 @@ var $ummu = {
       $table.on("toggle.bs.table", function(){
         $ummu.bt.filterControl.style()        
       });
-    },
 
-    select: {
-      length: function() {
-        return $table.bootstrapTable('getSelections').length
-      },
-
-      getIds: function() {
-        return $.map($table.bootstrapTable('getSelections'), function (row) {
-          return row.id
-        })
-      },
-
-      getRows: function() {
-        return $table.bootstrapTable('getSelections')
-      }
-    },
-
-    filterControl: {
-      style: function() {
-        $(".filter-control .search-input").addClass("form-control-sm rounded-0 border-0 border-top")
-        .prop("placeholder", "Filter")
-      }
+      $('button[name=btn_new]').removeClass('btn-secondary')
     },
 
     responseHandler: function (res) {
@@ -7469,19 +7451,32 @@ var $ummu = {
       })
     },
 
+    select: {
+      length: function() {
+        return $table.bootstrapTable('getSelections').length
+      },
+
+      getIds: function() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+          return row.id
+        })
+      },
+
+      getRows: function() {
+        return $table.bootstrapTable('getSelections')
+      }
+    },
+
+    filterControl: {
+      style: function() {
+        $(".filter-control .search-input").addClass("text-danger form-control-sm rounded-0 border-0 border-top")
+        .prop("placeholder", "Filter")
+      }
+    },
+
     button: {
       crud: function () {
         return {
-          // btnUsersAdd: {
-          //     text: 'Highlight Users',
-          //     icon: 'fa-users',
-          //     event: function () {
-          //         alert('Do some stuff to e.g. search all users which has logged in the last week')
-          //     },
-          //     attributes: {
-          //         title: 'Search all users which has logged in the last week'
-          //     }
-          // },
           btn_new: {
             text: "Add new row",
             icon: "far fa-plus",
@@ -7490,6 +7485,7 @@ var $ummu = {
             },
             attributes: {
               title: "Add a new row to the table",
+              class: "btn-primary"
             },
           },
           btn_edit: {
@@ -7500,6 +7496,7 @@ var $ummu = {
             },
             attributes: {
               title: "Edit a row from table",
+              disabled: 'true'
             },
           },
           btn_delete: {
@@ -7510,10 +7507,50 @@ var $ummu = {
             },
             attributes: {
               title: "Delete a row from table",
+              disabled: 'true'
             },
           },
-        };
+        }
+
+        // return {
+        //   btnAdd: {
+        //     text: 'Add new row',
+        //     icon: 'bi-plus-lg',
+        //     event () {
+        //       alert('Do some stuff to e.g. add a new row')
+        //     },
+        //     attributes: {
+        //       title: 'Add a new row to the table',
+        //       // class: 'btn-primary'
+        //     }
+        //   },
+        //   btnEdit: {
+        //     text: 'Edit row',
+        //     icon: 'bi-pencil',
+        //     event () {
+        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
+        //     },
+        //     attributes: {
+        //       title: 'Edit row',
+        //       disabled: 'true',
+        //       // class: 'btn-warning'
+        //     }
+        //   },
+        //   btnDelete: {
+        //     text: 'Delete row',
+        //     icon: 'bi-trash',
+        //     event () {
+        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
+        //     },
+        //     attributes: {
+        //       title: 'Delete row',
+        //       disabled: 'true',
+        //       // class: 'btn-danger'
+        //     }
+        //   },
+        // }
       },
+
       sortable: function () {
         var buttonsOrder = [
           "paginationSwitch",
