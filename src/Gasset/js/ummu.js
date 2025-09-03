@@ -6679,6 +6679,33 @@ var $ummu = {
         }
       },
     },
+
+    transportasiMilikSiapa_option: function(arr) {
+      var elID = $("#transportasi_milikSiapa");
+      var dinas = $("<option>").val(1).text("Kendaraan Operasional Dinas");
+      var pribadi = $("<option>").val(2).text("Kendaraan Pribadi");
+      var umum = $("<option>").val(3).text("Transportasi Umum");
+
+      // $("#transportasi").append($("<option>").val(7).text("Kendaraan Pribadi"));
+      
+      if ($.inArray('dinas', arr)) {
+        $(elID).append(dinas);
+      }
+
+      if ($.inArray('pribadi', arr)) {
+        $(elID).append(pribadi);
+      }
+
+      if ($.inArray('umum', arr)) {
+        $(elID).append(umum);
+      }
+
+      // <option value="1">Kendaraan Dinas</option>
+      // <option value="2">Pesawat</option>
+      // <option value="3">Kapal Laut</option>
+      // <option value="4">Kereta Api</option>
+      // <option value="100">Lain-lain</option>
+    },
   },
 
   formatter: {
@@ -11397,6 +11424,7 @@ var $ummu = {
 $(document).ready(function () {
   $ummu.register.apply();
 });
+
 
 function resdel() {
   $("#response_deleted").modal("show");
