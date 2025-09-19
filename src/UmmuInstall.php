@@ -20,8 +20,8 @@ class UmmuInstall
 
     public function run()
     {
-        $this->mk_dir();
         $this->rm_dir();
+        $this->mk_dir();
         $this->sym_link();
     }
 
@@ -30,6 +30,7 @@ class UmmuInstall
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $array = [
                 FCPATH . "uploads",
+                FCPATH . "export",
                 FCPATH . "vendor/dorbitt-lib",
                 FCPATH . "Gasset",
                 FCPATH . "ummuLogs",
@@ -52,6 +53,14 @@ class UmmuInstall
         } else {
             if (is_link(FCPATH . "uploads")) {
                 exec("rm -rf " . FCPATH . "uploads");
+            }
+
+            if (is_link(FCPATH . "export")) {
+                exec("rm -rf " . FCPATH . "export");
+            }
+
+            if (is_link(FCPATH . "import")) {
+                exec("rm -rf " . FCPATH . "import");
             }
 
             if (is_link(FCPATH . "vendor/dorbitt-lib")) {
@@ -87,11 +96,11 @@ class UmmuInstall
             }
 
 
-            /**
-             * Create Folder*/
-            if (!is_dir(FCPATH . "vendor")) {
-                exec("mkdir " . FCPATH . "vendor");
-            }
+            // /**
+            //  * Create Folder*/
+            // if (!is_dir(FCPATH . "vendor")) {
+            //     exec("mkdir " . FCPATH . "vendor");
+            // }
 
             if (is_link(FCPATH . "ummuLogs")) {
                 exec("rm -rf " . FCPATH . "ummuLogs");
@@ -99,9 +108,29 @@ class UmmuInstall
         }
     }
 
+    private function mk_dir()
+    {
+        $vendor = FCPATH . "vendor";
+        if (!is_dir($vendor)) {
+            mkdir($vendor);
+        }
+
+        $ummuLogs = WRITEPATH . "ummuLogs";
+        if (!is_dir($ummuLogs)) {
+            mkdir($ummuLogs);
+        }
+
+        $export = WRITEPATH . "export";
+        if (!is_dir($export)) {
+            mkdir($export);
+        }
+    }
+
     public function sym_link()
     {
         $uploads = [WRITEPATH . "uploads", FCPATH . "uploads"];
+        $export = [WRITEPATH . "export", FCPATH . "export"];
+        $import = [WRITEPATH . "import", FCPATH . "import"];
         $assetlib = [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "vendor/dorbitt-lib"];
         $gAsset = [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "Gasset"];
         $gViews = [ROOTPATH . "vendor/dorbitt/lib/src/Gviews", APPPATH . "Gviews"];
@@ -114,6 +143,7 @@ class UmmuInstall
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             symlink($uploads[0], $uploads[1]);
+            symlink($export[0], $export[1]);
             symlink($assetlib[0], $assetlib[1]);
             symlink($gAsset[0], $gAsset[1]);
             symlink($gViews[0], $gViews[1]);
@@ -125,6 +155,8 @@ class UmmuInstall
             symlink($ummuLogs[0], $ummuLogs[1]);
         } else {
             exec("ln -s " . $uploads[0] . " " . $uploads[1]);
+            exec("ln -s " . $export[0] . " " . $export[1]);
+            exec("ln -s " . $import[0] . " " . $import[1]);
             exec("ln -s " . $assetlib[0] . " " . $assetlib[1]);
             exec("ln -s " . $gAsset[0] . " " . $gAsset[1]);
             exec("ln -s " . $gViews[0] . " " . $gViews[1]);
@@ -134,20 +166,6 @@ class UmmuInstall
             exec("ln -s " . $gBuilder[0] . " " . $gBuilder[1]);
             exec("ln -s " . $gCommand[0] . " " . $gCommand[1]);
             exec("ln -s " . $ummuLogs[0] . " " . $ummuLogs[1]);
-        }
-    }
-
-    private function mk_dir()
-    {
-        $vendor = FCPATH . "vendor";
-        if (!is_dir($vendor)) {
-            mkdir($vendor);
-            // unlink($vendor);
-        }
-
-        $ummuLogs = WRITEPATH . "ummuLogs";
-        if (!is_dir($ummuLogs)) {
-            mkdir($ummuLogs);
         }
     }
 }

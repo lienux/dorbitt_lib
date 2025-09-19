@@ -19,6 +19,57 @@ var $ummu = {
         app.Controllers.username();
       },
     },
+
+    toPage: {
+      new: function() {
+        $ummu.vars.action = "new";
+
+        console.log('button new')
+        if(typeof app.controllers.new !== "undefined") {
+          console.log('function app.controllers.new is OK.');
+          app.controllers.new();
+        }else{
+          console.log('plese create function app.controllers.new');
+        }
+      },
+
+      edit: function(rows) {
+        $ummu.vars.row = rows[0];
+        $ummu.vars.action = "edit";
+
+        console.log('button edit')
+        if(typeof app.controllers.edit !== "undefined") {
+          console.log('function app.controllers.edit is OK.');
+          app.controllers.edit(rows[0]);
+        }else{
+          console.log('plese create function app.controllers.edit');
+        }
+      },
+
+      delete: function(rows) {
+        $ummu.vars.rows = rows;
+        $ummu.vars.row = rows[0];
+        $ummu.vars.action = "delete";
+
+        console.log('button delete')
+        if(typeof app.controllers.edit !== "undefined") {
+          console.log('function app.controllers.delete is OK.');
+          app.controllers.delete(rows);
+        }else{
+          console.log('plese create function app.controllers.delete');
+        }
+      },
+
+      clickID: function(row) {
+        console.log('click field id')
+        if(typeof app.controllers.clickID !== "undefined") {
+          console.log('function app.controllers.clickID is OK.');
+          app.controllers.clickID(row);
+        }else{
+          console.log('plese create function app.controllers.clickID');
+        }
+      },
+    }
   },
 
   vars: {
@@ -6920,7 +6971,15 @@ var $ummu = {
           return '<span class="badge badge-secondary">'+row.fekb_number+'</span>';
         }
       }
-    }
+    },
+
+    btID: function (index, row) {
+      return '<a href="javascript:void(0)" title="Detail" id="dorbitt_btn_id">' + 
+        '<div class="d-flex justify-content-between align-items-center">'+
+          row.id + '<i class="bi bi-link-45deg"></i>'+
+        '</div>'+
+      '</a>';
+    },
   },
 
   render: {
@@ -7424,6 +7483,19 @@ var $ummu = {
       });
 
       $('button[name=btn_new]').removeClass('btn-secondary')
+
+      $table.on('click-row.bs.table', function (e, row, $element, field) {
+        // console.log('Row clicked:', row);
+        // console.log('Clicked element:', $element);
+        // console.log('Clicked field:', field);
+
+        if (field === 'id') {
+          $ummu.routes.toPage.clickID(row)
+        }
+
+        // You can perform actions here based on the clicked row data
+        // For example, display row details in a modal or navigate to a new page
+      });
     },
 
     responseHandler: function (res) {
@@ -7502,80 +7574,60 @@ var $ummu = {
     },
 
     button: {
-      crud: function () {
-        return {
-          btn_new: {
-            text: "Add new row",
-            icon: "far fa-plus",
-            event: function () {
-              $("#modal_form").modal("show");
-            },
-            attributes: {
-              title: "Add a new row to the table",
-              class: "btn-primary"
-            },
-          },
-          btn_edit: {
-            text: "Edit row",
-            icon: "far fa-edit",
-            event: function () {
-              $("#modal_form").modal("show");
-            },
-            attributes: {
-              title: "Edit a row from table",
-              disabled: 'true'
-            },
-          },
-          btn_delete: {
-            text: "Delete rows",
-            icon: "far fa-trash",
-            event: function () {
-              // $('#modal_form').modal('show');
-            },
-            attributes: {
-              title: "Delete a row from table",
-              disabled: 'true'
-            },
-          },
+      crud: function (crud) {
+        const params = {};
+
+        if (!crud) {
+          var crud = $crud
         }
 
-        // return {
-        //   btnAdd: {
-        //     text: 'Add new row',
-        //     icon: 'bi-plus-lg',
-        //     event () {
-        //       alert('Do some stuff to e.g. add a new row')
-        //     },
-        //     attributes: {
-        //       title: 'Add a new row to the table',
-        //       // class: 'btn-primary'
-        //     }
-        //   },
-        //   btnEdit: {
-        //     text: 'Edit row',
-        //     icon: 'bi-pencil',
-        //     event () {
-        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
-        //     },
-        //     attributes: {
-        //       title: 'Edit row',
-        //       disabled: 'true',
-        //       // class: 'btn-warning'
-        //     }
-        //   },
-        //   btnDelete: {
-        //     text: 'Delete row',
-        //     icon: 'bi-trash',
-        //     event () {
-        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
-        //     },
-        //     attributes: {
-        //       title: 'Delete row',
-        //       disabled: 'true',
-        //       // class: 'btn-danger'
-        //     }
-        //   },
-        // }
+        if (Array.isArray(crud)) {
+          if (crud.includes("new")) {
+            params.btn_new = {
+              text: "Add new row",
+              icon: "far fa-plus",
+              event: function () {
+                $ummu.routes.toPage.new()
+              },
+              attributes: {
+                title: "Add a new row to the table",
+                class: "btn-primary"
+              },
+            }
+          }
+
+          if (crud.includes("edit")) {
+            params.btn_edit = {
+              text: "Edit row",
+              icon: "far fa-edit",
+              event: function () {
+                var rows = $ummu.bt.select.getRows();
+                $ummu.routes.toPage.edit(rows)
+              },
+              attributes: {
+                title: "Edit a row from table",
+                disabled: 'true'
+              },
+            }
+          }
+
+          if (crud.includes("delete")) {
+            params.btn_delete = {
+              text: "Delete rows",
+              icon: "far fa-trash",
+              event: function () {
+                var rows = $ummu.bt.select.getRows();
+                $ummu.routes.toPage.delete(rows)
+              },
+              attributes: {
+                title: "Delete a row from table",
+                disabled: 'true'
+              },
+            }
+          }
+        }
+
+        return params;
       },
 
       sortable: function () {
@@ -7959,15 +8011,16 @@ var $ummu = {
               className:
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
-                $ummu.vars.action = "new";
+                // $ummu.vars.action = "new";
 
-                console.log('dt button new')
-                if(typeof app.controllers.new !== "undefined") {
-                  console.log('function app.controllers.new is OK.');
-                  app.controllers.new();
-                }else{
-                  console.log('plese create function app.controllers.new');
-                }
+                // console.log('dt button new')
+                // if(typeof app.controllers.new !== "undefined") {
+                //   console.log('function app.controllers.new is OK.');
+                //   app.controllers.new();
+                // }else{
+                //   console.log('plese create function app.controllers.new');
+                // }
+                $ummu.routes.toPage.new()
               },
             })
             .disable();
@@ -7983,16 +8036,17 @@ var $ummu = {
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 var rows = $ummu.dt.select.data();
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "edit";
+                // $ummu.vars.row = rows[0];
+                // $ummu.vars.action = "edit";
 
-                console.log('dt button edit')
-                if(typeof app.controllers.edit !== "undefined") {
-                  console.log('function app.controllers.edit is OK.');
-                  app.controllers.edit(rows[0]);
-                }else{
-                  console.log('plese create function app.controllers.edit');
-                }
+                // console.log('dt button edit')
+                // if(typeof app.controllers.edit !== "undefined") {
+                //   console.log('function app.controllers.edit is OK.');
+                //   app.controllers.edit(rows[0]);
+                // }else{
+                //   console.log('plese create function app.controllers.edit');
+                // }
+                $ummu.routes.toPage.edit(rows)
               },
             })
             .disable();
@@ -8027,10 +8081,11 @@ var $ummu = {
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 var rows = $ummu.dt.select.data();
-                $ummu.vars.rows = rows;
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "delete2";
-                app.controllers.delete(rows[0]);
+                // $ummu.vars.rows = rows;
+                // $ummu.vars.row = rows[0];
+                // $ummu.vars.action = "delete2";
+                // app.controllers.delete(rows[0]);
+                $ummu.routes.toPage.delete(rows)
               },
             })
             .disable();
@@ -8042,7 +8097,7 @@ var $ummu = {
             .add(13, {
               text: '<i class="fas fa-file-excel text-success"></i> Import',
               attr: { id: "dt_btn_import" },
-              className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
+              className: "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 $ummu.vars.action = "import";
 

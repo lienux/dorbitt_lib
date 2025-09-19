@@ -16,10 +16,13 @@ class Curl
     public function __construct()
     {
         if (getenv("CI_OPENAPI2")=="development") {
+            $this->bURL = "http://localhost:8080/";
             $this->url = "http://localhost:8080/v1/";
         }elseif (getenv("CI_OPENAPI2")=="testing") {
+            $this->bURL = "http://testing.openapi2.com/";
             $this->url = "http://testing.openapi2.com/v1/";
         }else{
+            $this->bURL = "https://openapi2.com/";
             $this->url = "https://openapi2.com/v1/";
         }
 
@@ -33,7 +36,7 @@ class Curl
     public function valcurl()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$this->url);
+        curl_setopt($ch, CURLOPT_URL,$this->bURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
         $curlresult=curl_exec ($ch);
         curl_close ($ch);
