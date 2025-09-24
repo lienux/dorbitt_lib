@@ -610,6 +610,32 @@ var $ummu = {
 
         $ummu.button.id = elID
       })
+
+      $('#btnApp_herp').on('click', function(){
+        window.location.href = $base_url + 'auth';
+      })
+
+      $('#btnApp_iescm').on('click', function(){
+        window.location.href = $base_url + 'auth/login/phone';
+      })
+
+      $('#btnApp_mcpr').on('click', function(){
+        window.location.href = $base_url + 'auth/login_mcp';
+      })
+
+      if ($ummu.vars.login_module == 'herp') {
+        $('#btnApp_herp').removeClass('btn-primary').prop('disabled', true)
+        $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
+      }else if ($ummu.vars.login_module == 'iescm') {
+        $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_iescm').removeClass('btn-primary').prop('disabled', true)
+        $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
+      } else {
+        $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_mcpr').removeClass('btn-primary').prop('disabled', true)
+      }
     },
   },
 
