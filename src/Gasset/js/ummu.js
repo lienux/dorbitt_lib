@@ -611,22 +611,22 @@ var $ummu = {
         $ummu.button.id = elID
       })
 
-      $('#btnApp_herp').on('click', function(){
-        window.location.href = $base_url + 'auth';
-      })
-
-      $('#btnApp_iescm').on('click', function(){
-        window.location.href = $base_url + 'auth/login/phone';
-      })
-
-      $('#btnApp_mcpr').on('click', function(){
-        window.location.href = $base_url + 'auth/login_mcp';
+      $("#QQ_btnToLoginModule button").on('click', function(){
+        if ($(this).attr('id') == 'btnApp_herp') {
+          window.location.href = $base_url + 'auth';
+        }
+        if ($(this).attr('id') == 'btnApp_iescm') {
+          window.location.href = $base_url + 'auth/login/phone';
+        }
+        if ($(this).attr('id') == 'btnApp_mcpr') {
+          window.location.href = $base_url + 'auth/login_mcp';
+        }
       })
 
       if ($ummu.vars.login_module == 'herp') {
-        $('#btnApp_herp').removeClass('btn-primary').prop('disabled', true)
-        $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
-        $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
+        $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
+        $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#QQ_btnToLoginModule #btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
       }else if ($ummu.vars.login_module == 'iescm') {
         $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
         $('#btnApp_iescm').removeClass('btn-primary').prop('disabled', true)
