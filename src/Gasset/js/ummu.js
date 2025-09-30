@@ -119,6 +119,8 @@ var $ummu = {
     platformIs: null,
     last_id: null,
     login_module: null,
+    initTable: null,
+    initTable2: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -7643,7 +7645,7 @@ var $ummu = {
         $ummu.bt.filterControl.style()
       });
 
-      $tableID.on("toggle.bs.table", function(){
+      $tableID.on("reset-view.bs.table", function(){
         $ummu.bt.filterControl.style()        
       });
 
@@ -7653,6 +7655,10 @@ var $ummu = {
         // console.log('Row clicked:', row);
         // console.log('Clicked element:', $element);
         // console.log('Clicked field:', field);
+        var table_id = $tableID[0].id
+        // var table_id = params.target.id
+        // console.log(table_id)
+        // console.log(table_id)
 
         if (field === 'id') {
           $ummu.vars.id = row.id

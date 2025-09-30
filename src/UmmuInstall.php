@@ -15,7 +15,7 @@ class UmmuInstall
 {
     public function __construct()
     {
-        $this->request = \Config\Services::request();
+        // $this->request = \Config\Services::request();
     }
 
     public function run()
