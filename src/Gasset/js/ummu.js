@@ -239,13 +239,15 @@ var $ummu = {
   config: {
     autoload: function () {
       // app.Events.initTable()
+      $ummu.gallery.button();
       $ummu.events.onClick.dorbittButton();
       $ummu.events.onChange.dorbittCheckBox();
       $ummu.events.onChange.dorbittRadio();
       $ummu.events.onChange.selectOption();
-      $ummu.gallery.button();
       $ummu.events.onChangeFileGalleryUpload();
       $ummu.events.gallery.btn_show_gallery();
+      $ummu.events.onChange.inputFile_onChange_fileUpload();
+      $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal();
       $ummu.mygallery.autoload();
       // $ummu.events.gallery.btn_submit_file_upload();
       // $('#btn_login').on('click', function(){

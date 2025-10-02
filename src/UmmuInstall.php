@@ -173,19 +173,19 @@ class UmmuInstall
 
     public function path_dir()
     {
-        // return [
-        //     "uploads" => [WRITEPATH . "uploads", FCPATH . "uploads"],
-        //     "export" => [WRITEPATH . "export", FCPATH . "export"],
-        //     "import" => [WRITEPATH . "import", FCPATH . "import"],
-        //     "assetlib" => [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "vendor/dorbitt-lib"],
-        //     "gAsset" => [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "Gasset"],
-        //     "gViews" => [ROOTPATH . "vendor/dorbitt/lib/src/Gviews", APPPATH . "Gviews"],
-        //     "myGallery" => [ROOTPATH . "vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH . "Controllers/MyGallery"],
-        //     "gModels" => [ROOTPATH . "vendor/dorbitt/lib/src/Gmodels", APPPATH . "Gmodels"],
-        //     "gControllers" => [ROOTPATH . "vendor/dorbitt/lib/src/Gcontrollers", APPPATH . "Gcontrollers"],
-        //     "gBuilder" => [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"],
-        //     "gCommand" => [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"],
-        //     "ummuLogs" => [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"];
-        // ];
+        return [
+            "uploads" => [WRITEPATH . "uploads", FCPATH . "uploads"],
+            "export" => [WRITEPATH . "export", FCPATH . "export"],
+            "import" => [WRITEPATH . "import", FCPATH . "import"],
+            "assetlib" => [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "vendor/dorbitt-lib"],
+            "gAsset" => [ROOTPATH . "vendor/dorbitt/lib/src/Gasset", FCPATH . "Gasset"],
+            "gViews" => [ROOTPATH . "vendor/dorbitt/lib/src/Gviews", APPPATH . "Gviews"],
+            "myGallery" => [ROOTPATH . "vendor/dorbitt/lib/src/Controllers/MyGallery", APPPATH . "Controllers/MyGallery"],
+            "gModels" => [ROOTPATH . "vendor/dorbitt/lib/src/Gmodels", APPPATH . "Gmodels"],
+            "gControllers" => [ROOTPATH . "vendor/dorbitt/lib/src/Gcontrollers", APPPATH . "Gcontrollers"],
+            "gBuilder" => [ROOTPATH . "vendor/dorbitt/lib/src/Gbuilder", APPPATH . "Gbuilder"],
+            "gCommand" => [ROOTPATH . "vendor/dorbitt/lib/src/Commands/Ummu", APPPATH . "Commands/Ummu"],
+            "ummuLogs" => [WRITEPATH . "ummuLogs", FCPATH . "ummuLogs"],
+        ];
     }
 }
