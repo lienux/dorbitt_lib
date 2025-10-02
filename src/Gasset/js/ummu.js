@@ -477,55 +477,6 @@ var $ummu = {
       //   // }
       // });
 
-      $(document).on("click", ".btn-in-modal", function () {
-        var id = $(this).attr("id");
-        
-        if (id == "modal_btn_save") {
-          if(typeof app.controllers.create !== "undefined") {
-            console.log('function app.controllers.create is OK.');
-            app.controllers.create();
-          }else{
-            console.log('plese create function app.controllers.create.');
-          }
-        } 
-
-        if (id == "modal_btn_update") {
-          if(typeof app.controllers.update !== "undefined") {
-            console.log('function app.controllers.update is OK.');
-            app.controllers.update();
-          }else{
-            console.log('plese update function app.controllers.update.');
-          }
-        } 
-
-        if (id == "modal_btn_save_and_next") {
-          if(typeof app.controllers.save_and_next !== "undefined") {
-            console.log('function app.controllers.save_and_next is OK.');
-            app.controllers.save_and_next();
-          }else{
-            console.log('plese save_and_next function app.controllers.save_and_next.');
-          }
-        }
-
-        if (id == "modal_btn_back") {
-          if(typeof app.controllers.back !== "undefined") {
-            console.log('function app.controllers.back is OK.');
-            app.controllers.back();
-          }else{
-            console.log('plese back function app.controllers.back.');
-          }
-        }
-
-        if (id == "modal_btn_delete") {
-          if(typeof app.controllers.delete !== "undefined") {
-            console.log('function app.controllers.delete is OK.');
-            app.controllers.delete();
-          }else{
-            console.log('plese delete function app.controllers.delete.');
-          }
-        }
-      });
-
       $(".ummu-datepicker").change(function () {
         var element_id = $(this).attr("id");
         console.log('class ummu-datepicker is change OK.');
@@ -638,6 +589,55 @@ var $ummu = {
         $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
         $('#btnApp_mcpr').removeClass('btn-primary').prop('disabled', true)
       }
+
+      $(document).on("click", ".btn-in-modal", function () {
+        var id = $(this).attr("id");
+        
+        if (id == "modal_btn_save") {
+          if(typeof app.controllers.create !== "undefined") {
+            console.log('function app.controllers.create is OK.');
+            app.controllers.create();
+          }else{
+            console.log('plese create function app.controllers.create.');
+          }
+        } 
+
+        if (id == "modal_btn_update") {
+          if(typeof app.controllers.update !== "undefined") {
+            console.log('function app.controllers.update is OK.');
+            app.controllers.update();
+          }else{
+            console.log('plese update function app.controllers.update.');
+          }
+        } 
+
+        if (id == "modal_btn_save_and_next") {
+          if(typeof app.controllers.save_and_next !== "undefined") {
+            console.log('function app.controllers.save_and_next is OK.');
+            app.controllers.save_and_next();
+          }else{
+            console.log('plese save_and_next function app.controllers.save_and_next.');
+          }
+        }
+
+        if (id == "modal_btn_back") {
+          if(typeof app.controllers.back !== "undefined") {
+            console.log('function app.controllers.back is OK.');
+            app.controllers.back();
+          }else{
+            console.log('plese back function app.controllers.back.');
+          }
+        }
+
+        if (id == "modal_btn_delete") {
+          if(typeof app.controllers.delete !== "undefined") {
+            console.log('function app.controllers.delete is OK.');
+            app.controllers.delete();
+          }else{
+            console.log('plese delete function app.controllers.delete.');
+          }
+        }
+      });
     },
   },
 
