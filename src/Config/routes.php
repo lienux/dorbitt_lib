@@ -24,3 +24,20 @@ $routes->group('admin', function($routes) {
         // // $routes->put('update_by_profile', 'AccountsController::update_by_profile');
     });
 });
+
+$routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
+    $routes->group('photos', ['namespace' => 'Dorbitt\Controllers\MyGallery'], static function ($routes) {
+        $routes->get('/', 'PhotosController::index');
+        $routes->get('show', 'PhotosController::show');
+        $routes->post('create', 'PhotosController::create');
+        $routes->post('upload', 'PhotosController::upload');
+        $routes->delete('delete/(:num)', 'PhotosController::delete/$1');
+    });
+});
+
+$routes->group('ummu', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('session', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('show', 'DorbittController::session_show');
+        $routes->get('destroy', 'DorbittController::session_destroy');
+    });
+});
