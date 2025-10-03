@@ -140,4 +140,9 @@ class GviewsHelper
             '../../vendor/dorbitt/lib/src/Gviews/partials/modals/list_data',
         ];
     }
+
+    public function ummujs2()
+    {
+        return "../../vendor/dorbitt/lib/src/Gviews/ummujs";
+    }
 }
