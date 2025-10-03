@@ -3,7 +3,7 @@
 		<div class="modal-content border-0 shadow-none" style="background: transparent;">
 			<div class="modal-body" style="background: transparent;">
 				<div class="text-center text-light">
-					<img src="<?=base_url('Gasset/loading-gif.gif')?>" width="150px">
+					<img src="https://cdn.openapi2.com/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
 					<div>
 						<label id="text_loader"></label>
 					</div>
