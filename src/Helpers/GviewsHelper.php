@@ -3,20 +3,20 @@
 namespace Dorbitt\Helpers;
 
 /**
-* =============================================
-* Author: Ummu
-* Website: https://ummukhairiyahyusna.com/
-* App: DORBITT LIB
-* Description: 
-* =============================================
-*/
+ * =============================================
+ * Author: Ummu
+ * Website: https://ummukhairiyahyusna.com/
+ * App: DORBITT LIB
+ * Description: 
+ * =============================================
+ */
 
 use CodeIgniter\HTTP\IncomingRequest;
 // use CodeIgniter\HTTP\Files\UploadedFile;
 // use CodeIgniter\Files\File;
 use JShrink\Minifier;
 
-class GviewsHelper 
+class GviewsHelper
 {
     public function __construct()
     {
@@ -27,64 +27,62 @@ class GviewsHelper
     public function modal_gallery($themes = null)
     {
         if ($themes == 'niceadmin') {
-            return "../Gviews/partials/modals/gallery_niceAdmin";
-        }
-        elseif ($themes == 'sbadmin2') {
-            return "../Gviews/partials/modals/gallery_sbadmin2";
-        }
-        else{
+            return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/gallery_niceAdmin";
+        } elseif ($themes == 'sbadmin2') {
+            return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/gallery_sbadmin2";
+        } else {
             // 
         }
     }
 
     public function modal_loader()
     {
-        return "../Gviews/partials/modals/loader";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/loader";
     }
 
     public function conten_photos()
     {
-        return "../Gviews/contents/mygallery/photos";
+        return "../../vendor/dorbitt/lib/src/Gviews/contents/mygallery/photos";
     }
 
     public function modal_confirm()
     {
-        return "../Gviews/partials/modals/confirm";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/confirm";
     }
 
     public function modal_info()
     {
-        return "../Gviews/partials/modals/information";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/information";
     }
 
     public function modal_list_data($themes = null)
     {
-        return "../Gviews/partials/modals/list_data";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/list_data";
     }
 
     public function modal_filter()
     {
-        return "../Gviews/partials/modals/filter";
-    } 
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/modals/filter";
+    }
 
     public function nav_tab()
     {
-        return "../Gviews/partials/nav_tab";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/nav_tab";
     }
 
     public function nav_tab_approve_status()
     {
-        return "../Gviews/partials/nav_tab_approve_status";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/nav_tab_approve_status";
     }
 
     public function nav_tab_doc_status()
     {
-        return "../Gviews/partials/nav_tab_doc_status";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/nav_tab_doc_status";
     }
 
     public function nav_tab_doc_status2()
     {
-        return "../Gviews/partials/nav_tab_doc_status2";
+        return "../../vendor/dorbitt/lib/src/Gviews/partials/nav_tab_doc_status2";
     }
 
     public function ummujs()
@@ -101,34 +99,50 @@ class GviewsHelper
         $title = getenv('web.title');
         $logo = getenv('web.logo');
 
-        if(!$name) {
+        if (!$name) {
             $name = 'ERPNESIA';
         }
 
-        if(!$favicon) {
+        if (!$favicon) {
             $favicon = 'dorbitt_favicon.ico';
         }
 
-        if(!$logo) {
+        if (!$logo) {
             $logo = 'dorbitt.png';
         }
 
-        if(!$tmp) { 
-            $tmp = 'arsha'; 
+        if (!$tmp) {
+            $tmp = 'arsha';
         }
 
-        if(!$title) {
+        if (!$title) {
             $title = 'ERPNESIA';
         }
 
         $data = [
-            "name"      => $name,
-            "logo"      => $logo,
-            "favicon"   => $favicon,
-            "tmp"       => $tmp,
-            "title"     => $title
+            "name" => $name,
+            "logo" => $logo,
+            "favicon" => $favicon,
+            "tmp" => $tmp,
+            "title" => $title
         ];
 
         return $data;
+    }
+
+    public function partialsInclude()
+    {
+        return [
+            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/loader',
+            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/confirm',
+            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/information',
+            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/gallery_sbadmin2',
+            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/list_data',
+        ];
+    }
+
+    public function ummujs2()
+    {
+        return "../../vendor/dorbitt/lib/src/Gviews/ummujs";
     }
 }

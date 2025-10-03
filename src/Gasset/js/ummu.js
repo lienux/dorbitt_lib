@@ -19,6 +19,67 @@ var $ummu = {
         app.Controllers.username();
       },
     },
+
+    toPage: {
+      new: function(table_id) {
+        $ummu.vars.action = "new";
+
+        console.log('button new')
+        if(typeof app.controllers.new !== "undefined") {
+          console.log('function app.controllers.new is OK.');
+          app.controllers.new(table_id);
+        }else{
+          console.log('plese create function app.controllers.new');
+        }
+      },
+
+      edit: function(rows) {
+        $ummu.vars.row = rows[0];
+        $ummu.vars.action = "edit";
+
+        console.log('button edit')
+        if(typeof app.controllers.edit !== "undefined") {
+          console.log('function app.controllers.edit is OK.');
+          app.controllers.edit(rows[0]);
+        }else{
+          console.log('plese create function app.controllers.edit');
+        }
+      },
+
+      delete: function(rows) {
+        $ummu.vars.rows = rows;
+        $ummu.vars.row = rows[0];
+        $ummu.vars.action = "delete";
+
+        console.log('button delete')
+        if(typeof app.controllers.edit !== "undefined") {
+          console.log('function app.controllers.delete is OK.');
+          app.controllers.delete(rows);
+        }else{
+          console.log('plese create function app.controllers.delete');
+        }
+      },
+
+      clickID: function(row) {
+        console.log('click field id')
+        if(typeof app.controllers.clickID !== "undefined") {
+          console.log('function app.controllers.clickID is OK.');
+          app.controllers.clickID(row);
+        }else{
+          console.log('plese create function app.controllers.clickID');
+        }
+      },
+
+      on_bs_refresh: function(table_id, params) {
+        console.log('on_bs_refresh click')
+        if(typeof app.controllers.on_bs_refresh !== "undefined") {
+          console.log('function app.controllers.on_bs_refresh is OK.');
+          app.controllers.on_bs_refresh(table_id, params)
+        }else{
+          console.log('plese create function app.controllers.on_bs_refresh');
+        }
+      },
+    }
   },
 
   vars: {
@@ -56,6 +117,10 @@ var $ummu = {
     currentAgent: null,
     agentIs: null,
     platformIs: null,
+    last_id: null,
+    login_module: null,
+    initTable: null,
+    initTable2: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -174,13 +239,15 @@ var $ummu = {
   config: {
     autoload: function () {
       // app.Events.initTable()
+      $ummu.gallery.button();
       $ummu.events.onClick.dorbittButton();
       $ummu.events.onChange.dorbittCheckBox();
       $ummu.events.onChange.dorbittRadio();
       $ummu.events.onChange.selectOption();
-      $ummu.gallery.button();
       $ummu.events.onChangeFileGalleryUpload();
       $ummu.events.gallery.btn_show_gallery();
+      $ummu.events.onChange.inputFile_onChange_fileUpload();
+      $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal();
       $ummu.mygallery.autoload();
       // $ummu.events.gallery.btn_submit_file_upload();
       // $('#btn_login').on('click', function(){
@@ -412,6 +479,119 @@ var $ummu = {
       //   // }
       // });
 
+      $(".ummu-datepicker").change(function () {
+        var element_id = $(this).attr("id");
+        console.log('class ummu-datepicker is change OK.');
+        if(typeof app.controllers.change_ummu_datepicker !== "undefined") {
+          console.log('function app.controllers.navtab2.show_by_status_open is OK.');
+          app.controllers.change_ummu_datepicker(element_id);
+        }else{
+          console.log('plese create function app.controllers.change_ummu_datepicker.');
+        }
+      });
+
+      $("input[data-type='currency']").on({
+          keyup: function() {
+            $ummu.func.formatCurrency($(this));
+          },
+          blur: function() { 
+            $ummu.func.formatCurrency($(this), "blur");
+          }
+      });
+
+      $(".ummubtn-showmodal-listdata").on("click", function(){
+        app.controllers.on_show_modal($(this).attr("id"));
+
+        /*call to dorbitt_lib/src/Gviews/partials/modal/list_data.php*/
+        $("#modal_list_datatable").modal("show");
+      });
+
+      $("#config_settings").on('click', function(){
+        $('#modal_form_settings').modal('show');
+      })
+
+      $(".sb-toolbar button").on('click', function(){
+        // // var element_id = $(this).attr("id");
+        // // console.log('class ummu-datepicker is change OK.');
+        // if(typeof app.controllers.new !== "undefined") {
+        //   console.log('function app.controllers.new is OK.');
+        //   app.controllers.new();
+        // }else{
+        //   console.log('plese create function app.controllers.new.');
+        // }
+
+        var elID = $(this).attr('id')
+        // console.log(elID)
+
+        if (elID == 'btn_new') {
+          $("#table-tab").addClass("disabled")
+          $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
+          $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+          $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+          $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
+          $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+          app.controllers.sbNew()
+        }
+
+        else if(elID == 'btn_edit') {
+          $("#table-tab").addClass("disabled")
+          $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
+          $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+          $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+          $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
+          $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+          app.controllers.sbEdit()
+        }
+
+        else if(elID == 'btn_cancle') {
+          if ($ummu.button.id == 'btn_new') {
+            $("#table-tab").removeClass("disabled")
+            $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+            $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+            $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+            $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+            $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            app.controllers.sbCancleNew()
+          }else if ($ummu.button.id == 'btn_edit') {
+            $("#table-tab").removeClass("disabled")
+            $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+            $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
+            $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
+            $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+            $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            app.controllers.sbCancleEdit()
+          }
+        }
+
+        $ummu.button.id = elID
+      })
+
+      $("#QQ_btnToLoginModule button").on('click', function(){
+        if ($(this).attr('id') == 'btnApp_herp') {
+          window.location.href = $base_url + 'auth';
+        }
+        if ($(this).attr('id') == 'btnApp_iescm') {
+          window.location.href = $base_url + 'auth/login/phone';
+        }
+        if ($(this).attr('id') == 'btnApp_mcpr') {
+          window.location.href = $base_url + 'auth/login_mcp';
+        }
+      })
+
+      if ($ummu.vars.login_module == 'herp') {
+        $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
+        $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#QQ_btnToLoginModule #btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
+      }else if ($ummu.vars.login_module == 'iescm') {
+        $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_iescm').removeClass('btn-primary').prop('disabled', true)
+        $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
+      } else {
+        $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_mcpr').removeClass('btn-primary').prop('disabled', true)
+      }
+
       $(document).on("click", ".btn-in-modal", function () {
         var id = $(this).attr("id");
         
@@ -460,37 +640,6 @@ var $ummu = {
           }
         }
       });
-
-      $(".ummu-datepicker").change(function () {
-        var element_id = $(this).attr("id");
-        console.log('class ummu-datepicker is change OK.');
-        if(typeof app.controllers.change_ummu_datepicker !== "undefined") {
-          console.log('function app.controllers.navtab2.show_by_status_open is OK.');
-          app.controllers.change_ummu_datepicker(element_id);
-        }else{
-          console.log('plese create function app.controllers.change_ummu_datepicker.');
-        }
-      });
-
-      $("input[data-type='currency']").on({
-          keyup: function() {
-            $ummu.func.formatCurrency($(this));
-          },
-          blur: function() { 
-            $ummu.func.formatCurrency($(this), "blur");
-          }
-      });
-
-      $(".ummubtn-showmodal-listdata").on("click", function(){
-        app.controllers.on_show_modal($(this).attr("id"));
-
-        /*call to dorbitt_lib/src/Gviews/partials/modal/list_data.php*/
-        $("#modal_list_datatable").modal("show");
-      });
-
-      $("#config_settings").on('click', function(){
-        $('#modal_form_settings').modal('show');
-      })
     },
   },
 
@@ -1445,13 +1594,14 @@ var $ummu = {
         if (msdb == null) {
           alert("Silahkan pilih company.");
         } else {
-          var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp,
+          var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
           body = {
             body: {
               username: username,
               password: password,
               msdb: msdb,
               toMcp: toMcp,
+              login_module: $ummu.vars.login_module
             },
           },
           payload = {
@@ -1459,6 +1609,7 @@ var $ummu = {
             password: password,
             msdb: msdb,
             toMcp: toMcp,
+            login_module: $ummu.vars.login_module
           };
 
           var url = $ummu.vars.base_url + "auth/login/create" + vars;
@@ -1671,6 +1822,53 @@ var $ummu = {
     ummuBTshow: function (payload) {
       var jqXHR = $.ajax({
         url: $ummu.vars.page_url + "show",
+        method: payload.type,
+        timeout: 0,
+        headers: {
+          "Content-Type": payload.contentType,
+        },
+        data: payload.data,
+        prossesing: true,
+        language: {
+          loadingRecords: "&nbsp;",
+          processing: '<div class="spinner"></div>',
+        },
+        beforeSend: function (e) {
+          $("#modal_loader").modal("show");
+
+          if (e && e.overrideMimeType) {
+            e.overrideMimeType("application/jsoncharset=UTF-8");
+          }
+          // $(
+          //   "#response_message, #response_message_modal, #response_message_modal_modal"
+          //   ).removeClass("text-success msg_animation");
+        },
+        complete: function () {
+          setTimeout(function () {
+            $(".modal-loader").modal("hide");
+          }, 1000);
+        },
+        success: function (response) {
+          // console.log(response)
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.responseText);
+          $("#modal_loader").modal("hide");
+        },
+      });
+
+      return jqXHR;
+    },
+
+    /*
+     * Dibuat untuk kebutuhan Bootstrap Table
+     * paket rFunc dan payload, payload otomatis params bootstrap-table
+     * page_url otomatis dari ummu.vars tiggal tambahkan rFunc saja
+     * otomatis modal_loader
+     * */
+    ummuBTshowFunc: function (rFunc, payload) {
+      var jqXHR = $.ajax({
+        url: $ummu.vars.page_url + rFunc,
         method: payload.type,
         timeout: 0,
         headers: {
@@ -6679,6 +6877,33 @@ var $ummu = {
         }
       },
     },
+
+    transportasiMilikSiapa_option: function(arr) {
+      var elID = $("#transportasi_milikSiapa");
+      var dinas = $("<option>").val(1).text("Kendaraan Operasional Dinas");
+      var pribadi = $("<option>").val(2).text("Kendaraan Pribadi");
+      var umum = $("<option>").val(3).text("Transportasi Umum");
+
+      // $("#transportasi").append($("<option>").val(7).text("Kendaraan Pribadi"));
+      
+      if ($.inArray('dinas', arr)) {
+        $(elID).append(dinas);
+      }
+
+      if ($.inArray('pribadi', arr)) {
+        $(elID).append(pribadi);
+      }
+
+      if ($.inArray('umum', arr)) {
+        $(elID).append(umum);
+      }
+
+      // <option value="1">Kendaraan Dinas</option>
+      // <option value="2">Pesawat</option>
+      // <option value="3">Kapal Laut</option>
+      // <option value="4">Kereta Api</option>
+      // <option value="100">Lain-lain</option>
+    },
   },
 
   formatter: {
@@ -6893,7 +7118,15 @@ var $ummu = {
           return '<span class="badge badge-secondary">'+row.fekb_number+'</span>';
         }
       }
-    }
+    },
+
+    btID: function (index, row) {
+      return '<a href="javascript:void(0)" title="Detail" id="dorbitt_btn_id">' + 
+        '<div class="d-flex justify-content-between align-items-center">'+
+          row.id + '<i class="bi bi-link-45deg"></i>'+
+        '</div>'+
+      '</a>';
+    },
   },
 
   render: {
@@ -7341,12 +7574,32 @@ var $ummu = {
   },
 
   bt: {
-    initTable: function () {
-      $table.bootstrapTable({
+    initTable: function ($tableID) {
+      $tableID.bootstrapTable({
         locale: "en-US",
+        // buttons: {
+        //   myCustomButton: {
+        //     text: 'My Button',
+        //     icon: 'fas fa-plus', // Example icon
+        //     attributes: {
+        //       title: 'Click to perform an action'
+        //     },
+        //     event: {
+        //       'click': function () {
+        //         // You can access data or other elements here
+        //         // For example, if you need to get selected rows:
+        //         const selectedRows = $('#yourTableId').bootstrapTable('getSelections');
+                
+        //         // Call a function with parameters
+        //         performAction(selectedRows, 'some_other_param'); 
+        //       }
+        //     }
+        //   }
+        // },
+        // buttons: $ummu.bt.button.crud($tableID[0].id)
       });
 
-      $table.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
+      $tableID.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
           $ummu.vars.row = $ummu.bt.select.getRows()[0]
           $ummu.vars.rows = $ummu.bt.select.getRows()
           $ummu.vars.id = $ummu.bt.select.getIds()[0]
@@ -7374,7 +7627,7 @@ var $ummu = {
           }
       });
 
-      $table.on("all.bs.table", function (e, name, args) {
+      $tableID.on("all.bs.table", function (e, name, args) {
         console.log(name, args)
       });
 
@@ -7383,20 +7636,55 @@ var $ummu = {
         // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
         // $('#modal_confirmation_multiple_delete').modal('show')
       });
+
       $("#view").click(function () {
         // $('#modal_form').modal('show')
         app.Controllers.view()
       });
 
       $ummu.bt.filterControl.style()
-      $table.on("load-success.bs.table", function(){
+      $tableID.on("load-success.bs.table", function(){
         $ummu.bt.filterControl.style()
       });
-      $table.on("toggle.bs.table", function(){
+
+      $tableID.on("reset-view.bs.table", function(){
         $ummu.bt.filterControl.style()        
       });
 
       $('button[name=btn_new]').removeClass('btn-secondary')
+
+      $tableID.on('click-row.bs.table', function (e, row, $element, field) {
+        // console.log('Row clicked:', row);
+        // console.log('Clicked element:', $element);
+        // console.log('Clicked field:', field);
+        var table_id = $tableID[0].id
+        // var table_id = params.target.id
+        // console.log(table_id)
+        // console.log(table_id)
+
+        if (field === 'id') {
+          $ummu.vars.id = row.id
+          $ummu.routes.toPage.clickID(row)
+          $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
+          $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
+        }
+
+        // You can perform actions here based on the clicked row data
+        // For example, display row details in a modal or navigate to a new page
+      });
+
+      $tableID.on('refresh.bs.table', function (params) {
+        // var table_id = $tableID[0].id
+        var table_id = params.target.id
+        // console.log($tableID[0].id)
+        // console.log('Table refreshed!');
+        // console.log('Refresh parameters:', params);
+        // // You can add custom logic here, for example:
+        // // $('#someOtherElement').text('Table last refreshed at: ' + new Date().toLocaleTimeString());
+        $ummu.routes.toPage.on_bs_refresh(table_id, params)
+        // console.log(e)
+        // console.log(params)
+      });
     },
 
     responseHandler: function (res) {
@@ -7475,80 +7763,69 @@ var $ummu = {
     },
 
     button: {
-      crud: function () {
-        return {
-          btn_new: {
-            text: "Add new row",
-            icon: "far fa-plus",
-            event: function () {
-              $("#modal_form").modal("show");
-            },
-            attributes: {
-              title: "Add a new row to the table",
-              class: "btn-primary"
-            },
-          },
-          btn_edit: {
-            text: "Edit row",
-            icon: "far fa-edit",
-            event: function () {
-              $("#modal_form").modal("show");
-            },
-            attributes: {
-              title: "Edit a row from table",
-              disabled: 'true'
-            },
-          },
-          btn_delete: {
-            text: "Delete rows",
-            icon: "far fa-trash",
-            event: function () {
-              // $('#modal_form').modal('show');
-            },
-            attributes: {
-              title: "Delete a row from table",
-              disabled: 'true'
-            },
-          },
+      crud: function (crud) {
+        console.log(crud)
+        const params = {};
+
+        if (!crud) {
+          var crud = $crud
         }
 
-        // return {
-        //   btnAdd: {
-        //     text: 'Add new row',
-        //     icon: 'bi-plus-lg',
-        //     event () {
-        //       alert('Do some stuff to e.g. add a new row')
-        //     },
-        //     attributes: {
-        //       title: 'Add a new row to the table',
-        //       // class: 'btn-primary'
-        //     }
-        //   },
-        //   btnEdit: {
-        //     text: 'Edit row',
-        //     icon: 'bi-pencil',
-        //     event () {
-        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
-        //     },
-        //     attributes: {
-        //       title: 'Edit row',
-        //       disabled: 'true',
-        //       // class: 'btn-warning'
-        //     }
-        //   },
-        //   btnDelete: {
-        //     text: 'Delete row',
-        //     icon: 'bi-trash',
-        //     event () {
-        //       alert('Do some stuff to e.g. search all users which has logged in the last week')
-        //     },
-        //     attributes: {
-        //       title: 'Delete row',
-        //       disabled: 'true',
-        //       // class: 'btn-danger'
-        //     }
-        //   },
-        // }
+        if (Array.isArray(crud)) {
+          if (crud.includes("new")) {
+            params.btn_new = {
+              text: "Add new row",
+              icon: "far fa-plus",
+              event: function () {
+                // var parentTableId = $(this).parents('table').prevObject[0].$el.get(0).id;
+                var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
+                $ummu.vars.element_id = parentTableId
+                $ummu.routes.toPage.new()
+                // console.log(parentTableId)
+              },
+              attributes: {
+                title: "Add a new row to the table",
+                class: "btn-primary"
+              },
+            }
+          }
+
+          if (crud.includes("edit")) {
+            params.btn_edit = {
+              text: "Edit row",
+              icon: "far fa-edit",
+              event: function () {
+                var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
+                var rows = $ummu.bt.select.getRows();
+                $ummu.vars.element_id = parentTableId
+                $ummu.routes.toPage.edit(rows)
+              },
+              attributes: {
+                title: "Edit a row from table",
+                disabled: 'true'
+              },
+            }
+          }
+
+          if (crud.includes("delete")) {
+            params.btn_delete = {
+              text: "Delete rows",
+              icon: "far fa-trash",
+              event: function () {
+                var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
+                var rows = $ummu.bt.select.getRows();
+                $ummu.vars.element_id = parentTableId
+                $ummu.routes.toPage.delete(rows)
+              },
+              attributes: {
+                title: "Delete a row from table",
+                disabled: 'true'
+              },
+            }
+          }
+        }
+
+        return params;
       },
 
       sortable: function () {
@@ -7932,15 +8209,16 @@ var $ummu = {
               className:
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
-                $ummu.vars.action = "new";
+                // $ummu.vars.action = "new";
 
-                console.log('dt button new')
-                if(typeof app.controllers.new !== "undefined") {
-                  console.log('function app.controllers.new is OK.');
-                  app.controllers.new();
-                }else{
-                  console.log('plese create function app.controllers.new');
-                }
+                // console.log('dt button new')
+                // if(typeof app.controllers.new !== "undefined") {
+                //   console.log('function app.controllers.new is OK.');
+                //   app.controllers.new();
+                // }else{
+                //   console.log('plese create function app.controllers.new');
+                // }
+                $ummu.routes.toPage.new()
               },
             })
             .disable();
@@ -7956,16 +8234,17 @@ var $ummu = {
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 var rows = $ummu.dt.select.data();
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "edit";
+                // $ummu.vars.row = rows[0];
+                // $ummu.vars.action = "edit";
 
-                console.log('dt button edit')
-                if(typeof app.controllers.edit !== "undefined") {
-                  console.log('function app.controllers.edit is OK.');
-                  app.controllers.edit(rows[0]);
-                }else{
-                  console.log('plese create function app.controllers.edit');
-                }
+                // console.log('dt button edit')
+                // if(typeof app.controllers.edit !== "undefined") {
+                //   console.log('function app.controllers.edit is OK.');
+                //   app.controllers.edit(rows[0]);
+                // }else{
+                //   console.log('plese create function app.controllers.edit');
+                // }
+                $ummu.routes.toPage.edit(rows)
               },
             })
             .disable();
@@ -8000,10 +8279,11 @@ var $ummu = {
               "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 var rows = $ummu.dt.select.data();
-                $ummu.vars.rows = rows;
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "delete2";
-                app.controllers.delete(rows[0]);
+                // $ummu.vars.rows = rows;
+                // $ummu.vars.row = rows[0];
+                // $ummu.vars.action = "delete2";
+                // app.controllers.delete(rows[0]);
+                $ummu.routes.toPage.delete(rows)
               },
             })
             .disable();
@@ -8015,7 +8295,7 @@ var $ummu = {
             .add(13, {
               text: '<i class="fas fa-file-excel text-success"></i> Import',
               attr: { id: "dt_btn_import" },
-              className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
+              className: "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
               action: function (e, dt, node, config) {
                 $ummu.vars.action = "import";
 
@@ -11249,6 +11529,8 @@ var $ummu = {
   },
 
   button: {
+    id: null,
+
     btn_modal_form: function (crud) {
       $("#modal_form .modal-footer").html("");
 
@@ -11397,6 +11679,7 @@ var $ummu = {
 $(document).ready(function () {
   $ummu.register.apply();
 });
+
 
 function resdel() {
   $("#response_deleted").modal("show");

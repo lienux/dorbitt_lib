@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\MyGallery;
+namespace Dorbitt\Controllers\MyGallery;
 
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;

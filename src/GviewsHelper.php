@@ -59,4 +59,9 @@ class GviewsHelper
     {
         return "../Gviews/partials/modals/list_data";
     }
+
+    public function ummujs()
+    {
+        return "../Gviews/ummujs";
+    }
 }

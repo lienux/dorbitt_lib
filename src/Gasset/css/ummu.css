@@ -308,3 +308,35 @@ button.bg-purple:focus {
   padding: 10px 20px;
   word-break: break-all;
 }
+
+
+
+/*Center and crop thumbnails with CSS*/
+.ummu-thumbnail {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 100px;
+}
+.ummu-thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.ummu-thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
+/*<div class="thumbnail">
+  <img src="landscape-img.jpg" alt="Image" />
+</div>
+<div class="thumbnail">
+  <img src="portrait-img.jpg" class="portrait" alt="Image" />
+</div>*/
