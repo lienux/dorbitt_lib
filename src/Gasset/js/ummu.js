@@ -87,6 +87,9 @@ var $ummu = {
     response2: null,
     id: null,
     ids: null,
+    id_onClick: null,
+    id_onCheck: null,
+    ids_onChheck: null,
     base_url: null,
     page_url: null,
     page: null,
@@ -7604,6 +7607,8 @@ var $ummu = {
           $ummu.vars.rows = $ummu.bt.select.getRows()
           $ummu.vars.id = $ummu.bt.select.getIds()[0]
           $ummu.vars.ids = $ummu.bt.select.getIds()
+          $ummu.vars.id_onCheck = $ummu.bt.select.getIds()[0]
+          $ummu.vars.ids_onCheck = $ummu.bt.select.getIds()
 
           // $("#remove").prop("disabled",!$ummu.bt.select.length())
           $('button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length())
@@ -7664,6 +7669,7 @@ var $ummu = {
 
         if (field === 'id') {
           $ummu.vars.id = row.id
+          $ummu.vars.id_onClick = row.id
           $ummu.routes.toPage.clickID(row)
           $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
           $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
