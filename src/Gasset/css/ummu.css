@@ -1,25 +1,25 @@
 .bg-gradient-1 {
-    background-color: #3F51B5;
-    background-image: linear-gradient(181deg, #673AB7 10%, #FF5722 100%);
-    background-size: cover;
+  background-color: #3F51B5;
+  background-image: linear-gradient(181deg, #673AB7 10%, #FF5722 100%);
+  background-size: cover;
 }
 
 .bg-disabled {
-    background-color: #e9ecef;
-    opacity: 1;
+  background-color: #e9ecef;
+  opacity: 1;
 }
 
 .form-control-xs {
-    height: calc(1em + 0.3rem + 1px);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.700rem;
-    line-height: 0.5;
-    border-radius: 0.2
+  height: calc(1em + 0.3rem + 1px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.700rem;
+  line-height: 0.5;
+  border-radius: 0.2
 }
 
 .input-group-xs > .form-control:not(textarea),
 .input-group-xs > .custom-select {
-    height: calc(1.5em + 0.3rem + 2px);
+  height: calc(1.5em + 0.3rem + 2px);
 }
 
 .input-group-xs > .form-control,
@@ -28,31 +28,31 @@
 .input-group-xs > .input-group-append > .input-group-text,
 .input-group-xs > .input-group-prepend > .btn,
 .input-group-xs > .input-group-append > .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.700rem;
-    line-height: 0.5;
-    border-radius: 0.2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.700rem;
+  line-height: 0.5;
+  border-radius: 0.2rem;
 }
 
 .input-group-xs > .custom-select {
-    padding-right: 1.75rem;
+  padding-right: 1.75rem;
 }
 
 .btn-xs, .btn-group-xs > .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.700rem;
-    line-height: 0.5;
-    border-radius: 0.2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.700rem;
+  line-height: 0.5;
+  border-radius: 0.2rem;
 }
 
 .bg-sap {
-    background-color: #34517d;
+  background-color: #34517d;
 }
 
 table.dataTable thead tr,
 table.dataTable thead tr > .dtfc-fixed-left {
-    background-color: #34517d;
-    color: #fff;
+  background-color: #34517d;
+  color: #fff;
 }
 
 
@@ -340,3 +340,138 @@ button.bg-purple:focus {
 <div class="thumbnail">
   <img src="portrait-img.jpg" class="portrait" alt="Image" />
 </div>*/
+
+
+
+.ummu-modal-full-leftscreen {
+  /*width: 100vw;*/
+  width: 375px;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+}
+.ummu-modal-full-leftscreen .modal-content {
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+.ummu-modal-full-leftscreen .modal-header {
+  border-radius: 0;
+}
+.ummu-modal-full-leftscreen .modal-body {
+  overflow-y: auto;
+}
+.ummu-modal-full-leftscreen .modal-footer {
+  border-radius: 0;
+}
+
+@media (max-width: 575.98px) {
+  .ummu-modal-full-leftscreen-sm-down {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+  .ummu-modal-full-leftscreen-sm-down .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-sm-down .modal-header {
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-sm-down .modal-body {
+    overflow-y: auto;
+  }
+  .ummu-modal-full-leftscreen-sm-down .modal-footer {
+    border-radius: 0;
+  }
+}
+@media (max-width: 767.98px) {
+  .ummu-modal-full-leftscreen-md-down {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+  .ummu-modal-full-leftscreen-md-down .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-md-down .modal-header {
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-md-down .modal-body {
+    overflow-y: auto;
+  }
+  .ummu-modal-full-leftscreen-md-down .modal-footer {
+    border-radius: 0;
+  }
+}
+@media (max-width: 991.98px) {
+  .ummu-modal-full-leftscreen-lg-down {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+  .ummu-modal-full-leftscreen-lg-down .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-lg-down .modal-header {
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-lg-down .modal-body {
+    overflow-y: auto;
+  }
+  .ummu-modal-full-leftscreen-lg-down .modal-footer {
+    border-radius: 0;
+  }
+}
+@media (max-width: 1199.98px) {
+  .ummu-modal-full-leftscreen-xl-down {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+  .ummu-modal-full-leftscreen-xl-down .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-xl-down .modal-header {
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-xl-down .modal-body {
+    overflow-y: auto;
+  }
+  .ummu-modal-full-leftscreen-xl-down .modal-footer {
+    border-radius: 0;
+  }
+}
+@media (max-width: 1399.98px) {
+  .ummu-modal-full-leftscreen-xxl-down {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+  .ummu-modal-full-leftscreen-xxl-down .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-xxl-down .modal-header {
+    border-radius: 0;
+  }
+  .ummu-modal-full-leftscreen-xxl-down .modal-body {
+    overflow-y: auto;
+  }
+  .ummu-modal-full-leftscreen-xxl-down .modal-footer {
+    border-radius: 0;
+  }
+}

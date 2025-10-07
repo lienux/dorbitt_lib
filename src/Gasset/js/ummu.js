@@ -87,6 +87,9 @@ var $ummu = {
     response2: null,
     id: null,
     ids: null,
+    id_onClick: null,
+    id_onCheck: null,
+    ids_onChheck: null,
     base_url: null,
     page_url: null,
     page: null,
@@ -121,6 +124,7 @@ var $ummu = {
     login_module: null,
     initTable: null,
     initTable2: null,
+    parentTableID: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -7604,6 +7608,8 @@ var $ummu = {
           $ummu.vars.rows = $ummu.bt.select.getRows()
           $ummu.vars.id = $ummu.bt.select.getIds()[0]
           $ummu.vars.ids = $ummu.bt.select.getIds()
+          $ummu.vars.id_onCheck = $ummu.bt.select.getIds()[0]
+          $ummu.vars.ids_onCheck = $ummu.bt.select.getIds()
 
           // $("#remove").prop("disabled",!$ummu.bt.select.length())
           $('button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length())
@@ -7664,6 +7670,7 @@ var $ummu = {
 
         if (field === 'id') {
           $ummu.vars.id = row.id
+          $ummu.vars.id_onClick = row.id
           $ummu.routes.toPage.clickID(row)
           $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
           $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
@@ -7780,6 +7787,7 @@ var $ummu = {
                 // var parentTableId = $(this).parents('table').prevObject[0].$el.get(0).id;
                 var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
                 $ummu.vars.element_id = parentTableId
+                $ummu.vars.parentTableID = parentTableId
                 $ummu.routes.toPage.new()
                 // console.log(parentTableId)
               },
@@ -8116,7 +8124,8 @@ var $ummu = {
           attr: { id: "btn_page_length" },
         });
 
-        table.button().add(1, {
+        /*Reload*/
+        table.button().add(1, { 
           text:
           '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
           '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
@@ -8130,7 +8139,8 @@ var $ummu = {
           },
         });
 
-        table.button().add(2, {
+        /*Select all*/
+        table.button().add(2, { 
           extend: "selectAll",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_select_all" },
@@ -8139,7 +8149,8 @@ var $ummu = {
           '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
         });
 
-        table.button().add(3, {
+        /*Deselect all*/
+        table.button().add(3, { 
           extend: "selectNone",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_select_none" },
@@ -8148,7 +8159,8 @@ var $ummu = {
           '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
         });
 
-        table.button().add(4, {
+        /*Fillter*/
+        table.button().add(4, { 
           className: "py-1 dt-btn-ummu",
           attr: { id: "dt_btn_filter" },
           text:
@@ -8159,21 +8171,24 @@ var $ummu = {
           },
         });
 
-        table.button().add(5, {
+        /*coppy*/
+        table.button().add(5, { 
           extend: "copy",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_copy" },
           text: '<i class="fas fa-copy fa-lg"></i>',
         });
 
-        table.button().add(6, {
+        /*csv*/
+        table.button().add(6, { 
           extend: "csv",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_csv" },
           text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
         });
 
-        table.button().add(7, {
+        /*excel*/
+        table.button().add(7, { 
           extend: "excel",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_excel" },
@@ -8183,14 +8198,16 @@ var $ummu = {
           },
         });
 
-        table.button().add(8, {
+        /*pdf*/
+        table.button().add(8, { 
           extend: "pdf",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_pdf" },
           text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
         });
 
-        table.button().add(9, {
+        /*print*/
+        table.button().add(9, { 
           extend: "print",
           className: "py-1 dt-btn-ummu",
           attr: { id: "btn_print" },
