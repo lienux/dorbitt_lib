@@ -12,16 +12,12 @@ namespace Dorbitt\Helpers;
  */
 
 use CodeIgniter\HTTP\IncomingRequest;
-// use CodeIgniter\HTTP\Files\UploadedFile;
-// use CodeIgniter\Files\File;
-use JShrink\Minifier;
 
-class GviewsHelper
+class ViewsHelper
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        $this->minifier = new \JShrink\Minifier();
     }
 
     public function modal_gallery($themes = null)
@@ -85,12 +81,6 @@ class GviewsHelper
         return "../../vendor/dorbitt/lib/src/Gviews/partials/nav_tab_doc_status2";
     }
 
-    public function ummujs()
-    {
-        return $this->minifier->minify(file_get_contents(base_url("vendor/dorbitt-lib/js/ummu.js")));
-        // return "OK";
-    }
-
     public function web_data()
     {
         $name = getenv('web.name');
@@ -133,12 +123,12 @@ class GviewsHelper
     public function partialsInclude()
     {
         return [
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/loader',
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/confirm',
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/information',
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/gallery_sbadmin2',
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/list_data',
-            '../../vendor/dorbitt/lib/src/Gviews/partials/modals/filter',
+            // '../../vendor/dorbitt/lib/src/Views/partials/modals/loader',
+            // '../../vendor/dorbitt/lib/src/Views/partials/modals/confirm',
+            // '../../vendor/dorbitt/lib/src/Views/partials/modals/information',
+            // '../../vendor/dorbitt/lib/src/Views/partials/modals/gallery_sbadmin2',
+            // '../../vendor/dorbitt/lib/src/Views/partials/modals/list_data',
+            '../../vendor/dorbitt/lib/src/Views/partials/modals',
         ];
     }
 
