@@ -15,15 +15,19 @@ class Curl
 {
     public function __construct()
     {
-        if (getenv("CI_OPENAPI2")=="development") {
-            $this->bURL = "http://localhost:8080/";
-            $this->url = "http://localhost:8080/v1/";
-        }elseif (getenv("CI_OPENAPI2")=="testing") {
-            $this->bURL = "http://testing.openapi2.com/";
-            $this->url = "http://testing.openapi2.com/v1/";
+        if (getenv("CI_OPENAPI2_PRIVATE")) {
+            $this->url = 'https://'.getenv('CI_OPENAPI2_PRIVATE').".openapi2.com/v1/";
         }else{
-            $this->bURL = "https://openapi2.com/";
-            $this->url = "https://openapi2.com/v1/";
+            if (getenv("CI_OPENAPI2")=="development") {
+                $this->bURL = "http://localhost:8080/";
+                $this->url = "http://localhost:8080/v1/";
+            }elseif (getenv("CI_OPENAPI2")=="testing") {
+                $this->bURL = "http://testing.openapi2.com/";
+                $this->url = "http://testing.openapi2.com/v1/";
+            }else{
+                $this->bURL = "https://openapi2.com/";
+                $this->url = "https://openapi2.com/v1/";
+            }
         }
 
         if (getenv("DORBITT_TOKEN")) {
