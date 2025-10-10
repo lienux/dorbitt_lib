@@ -17,24 +17,33 @@ class CurlHelper
     {
         $v = "v1/";
 
-        if (getenv("CI_OPENAPI2_CUSTOM")) {
-            $this->url = getenv("CI_OPENAPI2_CUSTOM"). $v;
+        // if (getenv("CI_OPENAPI2_CUSTOM")) {
+        //     $this->url = getenv("CI_OPENAPI2_CUSTOM"). $v;
+        // }else{
+        //     if (getenv("CI_OPENAPI2_PRIVATE")) {
+        //         $this->url = 'https://'.getenv('CI_OPENAPI2_PRIVATE').".openapi2.com/". $v;
+        //     }else{
+        //         if (getenv("CI_OPENAPI2")=="development") {
+        //             $this->url = "http://localhost:8080/". $v;
+        //         }elseif (getenv("CI_OPENAPI2")=="staging") {
+        //             $this->url = "https://staging.openapi2.com/". $v;
+        //         }else{
+        //             if (getenv("CI_OPENAPI2_SPARK") == true) {
+        //                 $this->url = "https://spark.openapi2.com/". $v;
+        //             }else{
+        //                 $this->url = "https://openapi2.com/". $v;
+        //             }
+        //         }
+        //     }
+        // }
+
+        if (getenv("CI_OPENAPI2")=="development") {
+            $this->url = "http://localhost:8080/". $v;
+        }elseif (getenv("CI_OPENAPI2")=="staging") {
+            $this->url = "https://staging.openapi2.com/". $v;
         }else{
-            if (getenv("CI_OPENAPI2_PRIVATE")) {
-                $this->url = 'https://'.getenv('CI_OPENAPI2_PRIVATE').".openapi2.com/". $v;
-            }else{
-                if (getenv("CI_OPENAPI2")=="development") {
-                    $this->url = "http://localhost:8080/". $v;
-                }elseif (getenv("CI_OPENAPI2")=="staging") {
-                    $this->url = "https://staging.openapi2.com/". $v;
-                }else{
-                    if (getenv("CI_OPENAPI2_SPARK") == true) {
-                        $this->url = "https://spark.openapi2.com/". $v;
-                    }else{
-                        $this->url = "https://openapi2.com/". $v;
-                    }
-                }
-            }
+            // $this->url = "https://openapi2.com/". $v;
+            $this->url = "https://spark.openapi2.com/". $v;
         }
 
         if (getenv("DORBITT_TOKEN")) {
