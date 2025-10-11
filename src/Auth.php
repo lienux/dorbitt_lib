@@ -11,13 +11,13 @@ namespace Dorbitt;
 * =============================================
 */
 
-use Dorbitt\Curl;
+use Dorbitt\Helpers\CurlHelper;
 
 class Auth
 {
     public function __construct()
     {
-        $this->curli = new Curl();
+        $this->cH = new CurlHelper();
     }
 
     public function login($payload)
@@ -30,7 +30,7 @@ class Auth
             "token"          => null
         ];
 
-        $response = $this->curli->request3($params);
+        $response = $this->cH->request3($params);
 
         return json_decode($response, false);
         // return $response;
@@ -45,7 +45,7 @@ class Auth
             "headers"        => $payload['headers']
         ];
 
-        $response = $this->curli->ummu2($params);
+        $response = $this->cH->ummu2($params);
 
         return $response;
     }
@@ -67,7 +67,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2_v1_20250704($params);
+        $response = $this->cH->ummu2_v1_20250704($params);
 
         return $response;
     }
@@ -84,7 +84,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2_v1_20250704($params);
+        $response = $this->cH->ummu2_v1_20250704($params);
 
         return $response;
     }
@@ -101,7 +101,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2_v1_20250704($params);
+        $response = $this->cH->ummu2_v1_20250704($params);
 
         return $response;
     }
@@ -119,7 +119,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2($params);
+        $response = $this->cH->ummu2($params);
 
         return $response;
     }
@@ -136,7 +136,7 @@ class Auth
             )
         ];
 
-        $response = $this->curli->ummu2($params);
+        $response = $this->cH->ummu2($params);
 
         return $response;
     }
@@ -151,7 +151,7 @@ class Auth
             "token"          => null
         ];
 
-        $response = $this->curli->request3($params);
+        $response = $this->cH->request3($params);
 
         return json_decode($response, false);
         // return $response;
@@ -167,7 +167,7 @@ class Auth
             "token"          => null
         ];
 
-        $response = $this->curli->request3($params);
+        $response = $this->cH->request3($params);
 
         return json_decode($response, false);
         // return $response;
@@ -183,7 +183,7 @@ class Auth
             "token"          => null
         ];
 
-        $response = $this->curli->request3($params);
+        $response = $this->cH->request3($params);
 
         return json_decode($response, false);
         // return $response;
@@ -191,7 +191,7 @@ class Auth
 
     public function is_token($params)
     {
-        $response = $this->curli->request4([
+        $response = $this->cH->request4([
             "path"           => "auth/is_token",
             "method"         => "POST",
             "payload"        => null,
@@ -217,7 +217,7 @@ class Auth
             "token"          => $token
         ];
 
-        $response = $this->curli->request3($params);
+        $response = $this->cH->request3($params);
 
         return json_decode($response, false);
     }
