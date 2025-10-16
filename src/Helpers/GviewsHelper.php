@@ -146,4 +146,13 @@ class GviewsHelper
     {
         return "../../vendor/dorbitt/lib/src/Gviews/ummujs";
     }
+
+    public function ummujsInclude()
+    {
+        if (getenv('CI_OPENAPI2') == 'development') {
+            return $ummujs = "http://localhost/dorbitt/dorbitt_lib/src/Gasset/js/ummu.js?time=" . date('YmdHis');
+        }else{
+            return $ummujs = "https://cdn.openapi2.com/ummu.js?time=" . date('YmdHis');
+        }
+    }
 }
