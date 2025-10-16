@@ -1659,6 +1659,59 @@ var $ummu = {
         }
       });
     },
+
+    login_without_msdb: function () {
+      $("#btn_login").on("click", function () {
+        var username = $("#username").val(),
+        password = $("#password").val(),
+        vars ="?username=" +username +"&password=" +password +"&login_module=" +$ummu.vars.login_module,
+        body = {
+          body: {
+            username: username,
+            password: password,
+            login_module: $ummu.vars.login_module
+          },
+        },
+        payload = {
+          username: username,
+          password: password,
+          login_module: $ummu.vars.login_module
+        };
+
+        var url = $ummu.vars.base_url + "auth/login/create_without_msdb" + vars;
+        var params = {
+          url: url,
+          type: "post",
+          action: "create",
+          data: null,
+          cache: true,
+          contentType: "application/json",
+          dataType: "json",
+        };
+
+        console.log(params);
+
+        var ummu = $ummu.ajax.auth.login(params);
+        ummu
+        .done(function (result) {
+            // console.log(result)
+          var response = result;
+          if (response.status == true) {
+            $("#alert").html('<div class="alert alert-success">' +response.message +"</div>");
+            window.location.replace($ummu.vars.base_url + "admin");
+          } else {
+            $("#alert").html('<div class="alert alert-danger">' +response.message +"</div>");
+          }
+          setTimeout(function () {
+            $("#modal_loader").modal("hide");
+          }, 1000);
+        })
+        .fail(function () {
+            // An error occurred
+          console.log(ummu);
+        });
+      });
+    },
   },
 
   ajax: {
