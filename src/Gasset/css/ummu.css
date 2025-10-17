@@ -236,8 +236,8 @@ table.dataTable thead tr > .dtfc-fixed-left {
     margin: 0; /* Remove default margin */
     height: 100%; /* Make modal fill height */
     transform: translate(0, 0); /* Reset any default transforms */
-    width: 400px;
-    max-width: 400px;
+    width: 500px;
+    max-width: 500px;
 }
 
 .modal-right .modal-content {
