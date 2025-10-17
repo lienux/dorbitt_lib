@@ -150,7 +150,7 @@ class GviewsHelper
     public function ummucssInclude()
     {
         if (getenv('CI_OPENAPI2') == 'development') {
-            return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/css/ummu.js?time=" . date('YmdHis');
+            return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/css/ummu.css?time=" . date('YmdHis');
         }else{
             return "https://cdn.openapi2.web.id/ummu.css?time=" . date('YmdHis');
         }
