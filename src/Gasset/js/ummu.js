@@ -582,6 +582,10 @@ var $ummu = {
         }
       })
 
+      $("#btn_show_datepicker").on("click", function () {
+        $("#" + $(this).data('inputid')).datepicker("show");
+      })
+
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
         $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
@@ -13572,3 +13576,90 @@ var $globalViews = {
     },
   },
 };
+
+
+var $app = {
+  controllers: {
+    show_site_project: function () {
+      if ($ummu.vars.dt.new == null) {
+        $ummu.vars.dt.new = new DataTable(
+          $listdata_tableID,
+          $app.dt.siteprojectConfig()
+        );
+      }
+
+      $ummu.vars.dt.new.on("click", "tbody tr td:nth-child(1)", function () {
+        var row = $ummu.vars.dt.new.row(this).data();
+        console.log(row);
+        $("#ummu_site_project_input")
+          .val(row.region_name)
+          .attr("data-kode", row.region_code);
+        $("#modal_list_datatable").modal("hide");
+      });
+    },
+  },
+
+  dt: {
+    siteprojectConfig: function () {
+      return {
+        ajax: {
+          dataSrc: "rows",
+          url: $base_url + "herp/site_project/showDync/region_code,region_name",
+          data: function (d) {
+            // d.myKey = "myValue";
+            // d.custom = $('#myInput').val();
+            // d.release = [0];
+            // etc
+          },
+        },
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        keys: true,
+        deferLoading: 57,
+        // lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+        lengthMenu: [10, 50, 100, 1000],
+        layout: {
+          topStart: {
+            buttons: [
+              {
+                extend: "pageLength",
+                className: "py-1 dt-btn-ummu",
+                attr: { id: "btn_page_length" },
+              },
+              {
+                text: '<i class="fas fa-sync-alt"></i>',
+                attr: { id: "btn_reload" },
+                className: "btn-showall-color py-1 dt-btn-ummu",
+                action: function (e, dt, node, config) {
+                  $ummu.vars.dt.new.ajax.reload();
+                },
+              },
+            ],
+          },
+        },
+        order: [[0, "desc"]],
+        scrollCollapse: true,
+        scrollX: true,
+        scrollY: 500,
+        columns: [
+          {
+            title: "Code",
+            data: "region_code",
+            render: function (data, type, row) {
+              return (
+                '<a href="javascript:void(0);"><div><span class="">' +
+                data +
+                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+              );
+            },
+          },
+          { title: "Name", data: "region_name" },
+        ],
+        drawCallback: function (settings) {
+          var api = this.api();
+        },
+      };
+    },
+  }
+}
