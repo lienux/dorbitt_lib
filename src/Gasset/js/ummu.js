@@ -586,6 +586,10 @@ var $ummu = {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
 
+      $("#btn_get_data").on('click', function(){
+        app.events.get_data();
+      })
+
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
         $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
