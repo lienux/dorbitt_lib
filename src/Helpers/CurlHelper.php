@@ -44,7 +44,7 @@ class CurlHelper
             $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
         }else{
             // $this->url = "https://openapi2.com/". $v;
-            $this->url = "https://spark.openapi2.my.id/". $v;
+            $this->url = "https://spark.openapi2.web.id/". $v;
         }
 
         if (getenv("DORBITT_TOKEN")) {
