@@ -12,7 +12,7 @@
 					<!-- <div class="spinner-border" role="status">
 						<span class="sr-only">Loading...</span>
 					</div> -->
-					<img src="https://cdn.openapi2.com/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
+					<img src="https://cdn.openapi2.web.id/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
 					<div>
 						<label id="text_loader"></label>
 					</div>
@@ -32,7 +32,7 @@
 		<div class="modal-content border-0 shadow-none" style="background: transparent;">
 			<div class="modal-body" style="background: transparent;">
 				<div class="text-center text-light">
-					<img src="https://cdn.openapi2.com/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
+					<img src="https://cdn.openapi2.web.id/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
 					<div>
 						<label id="text_loader2"></label>
 					</div>
