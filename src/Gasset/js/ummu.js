@@ -125,6 +125,7 @@ var $ummu = {
     initTable: null,
     initTable2: null,
     parentTableID: null,
+    rows_on_getData: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -183,6 +184,7 @@ var $ummu = {
     },
 
     dt: {
+      init: null,
       new: null,
       nth_child_onclick: null,
       row: null,
@@ -238,6 +240,11 @@ var $ummu = {
     select_option: {
       on_change: null,
     },
+
+    mining: {
+      rowsModif: null,
+      rowsData: null
+    }
   },
 
   config: {
@@ -275,6 +282,14 @@ var $ummu = {
         var nav_tab_id = $(this).attr("id");
         localStorage.setItem("nav_tab_id", nav_tab_id);
         $ummu.vars.nav_tab_id = nav_tab_id;
+
+        console.log('nav-tabs click');
+        if(typeof app.controllers.on_navTab_click !== "undefined") {
+          console.log('function app.controllers.on_navTab_click is OK.');
+          app.controllers.on_navTab_click(nav_tab_id);
+        }else{
+          console.log('plese create function app.controllers.on_navTab_click.');
+        }
       });
 
       // if ( $.isFunction($.fn.lettering) ) {
@@ -587,7 +602,13 @@ var $ummu = {
       })
 
       $("#btn_get_data").on('click', function(){
-        app.events.get_data();
+        console.log('btn get data');
+        if(typeof app.controllers.on_btn_get_data_click !== "undefined") {
+          console.log('function app.controllers.on_btn_get_data_click is OK.');
+          app.controllers.on_btn_get_data_click();
+        }else{
+          console.log('plese create function app.controllers.on_btn_get_data_click.');
+        }
       })
 
       if ($ummu.vars.login_module == 'herp') {
@@ -1141,6 +1162,72 @@ var $ummu = {
     companyNameFormatter: function (index, row) {
       var html = '<span class="text-muted">' + row.company_name + "</span>";
       return html;
+    },
+
+    miningShiftDefault: {
+      all: function() {
+        return [
+          "07:00 - 08:00",
+          "08:00 - 09:00",
+          "09:00 - 10:00",
+          "10:00 - 11:00",
+          "11:00 - 12:00",
+          "12:00 - 13:00",
+          "13:00 - 14:00",
+          "14:00 - 15:00",
+          "15:00 - 16:00",
+          "16:00 - 17:00",
+          "17:00 - 18:00",
+          "18:00 - 19:00",
+
+          "19:00 - 19:00",
+          "20:00 - 19:00",
+          "21:00 - 19:00",
+          "22:00 - 19:00",
+          "23:00 - 00:00",
+          "00:00 - 01:00",
+          "01:00 - 02:00",
+          "02:00 - 03:00",
+          "03:00 - 04:00",
+          "04:00 - 05:00",
+          "05:00 - 06:00",
+          "06:00 - 07:00",
+        ];
+      },
+
+      day: function() {
+        return [
+          "06:00 - 07:00",
+          "07:00 - 08:00",
+          "08:00 - 09:00",
+          "09:00 - 10:00",
+          "10:00 - 11:00",
+          "11:00 - 12:00",
+          "12:00 - 13:00",
+          "13:00 - 14:00",
+          "14:00 - 15:00",
+          "15:00 - 16:00",
+          "16:00 - 17:00",
+          "17:00 - 18:00",
+        ];
+      },
+
+      night: function() {
+        return [
+          "18:00 - 19:00",
+          "19:00 - 19:00",
+          "20:00 - 19:00",
+          "21:00 - 19:00",
+          "22:00 - 19:00",
+          "23:00 - 00:00",
+          "00:00 - 01:00",
+          "01:00 - 02:00",
+          "02:00 - 03:00",
+          "03:00 - 04:00",
+          "04:00 - 05:00",
+          "05:00 - 06:00",
+        ];
+      }
     },
 
     select2: {
@@ -2076,7 +2163,7 @@ var $ummu = {
     },
 
     /*
-     * page_url otomatis dari ummu.vars
+     * page_url otomatis dari ummu.vars, tinggal kirimkan saja function berikutnya melalui params
      * dinamis modal_loader
      * */
     ummu4: function (params) {
@@ -7917,6 +8004,8 @@ var $ummu = {
   },
 
   dt: {
+    init: null,
+    
     load: function () {
       $ummu.dt.var_id();
       $ummu.dt.button.crud();
