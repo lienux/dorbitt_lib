@@ -16,32 +16,34 @@ class CurlHelper
     public function __construct()
     {
         $v = "v1/";
+        $openapi2URL = getenv("CI_OPENAPI2");
 
-        // if (getenv("CI_OPENAPI2_CUSTOM")) {
-        //     $this->url = getenv("CI_OPENAPI2_CUSTOM"). $v;
-        // }else{
-        //     if (getenv("CI_OPENAPI2_PRIVATE")) {
-        //         $this->url = 'https://'.getenv('CI_OPENAPI2_PRIVATE').".openapi2.com/". $v;
-        //     }else{
-        //         if (getenv("CI_OPENAPI2")=="development") {
-        //             $this->url = "http://localhost:8080/". $v;
-        //         }elseif (getenv("CI_OPENAPI2")=="staging") {
-        //             $this->url = "https://staging.openapi2.com/". $v;
-        //         }else{
-        //             if (getenv("CI_OPENAPI2_SPARK") == true) {
-        //                 $this->url = "https://spark.openapi2.com/". $v;
-        //             }else{
-        //                 $this->url = "https://openapi2.com/". $v;
-        //             }
-        //         }
-        //     }
-        // }
+        /*if (getenv("CI_OPENAPI2_CUSTOM")) {
+            $this->url = getenv("CI_OPENAPI2_CUSTOM"). $v;
+        }else{
+            if (getenv("CI_OPENAPI2_PRIVATE")) {
+                $this->url = 'https://'.getenv('CI_OPENAPI2_PRIVATE').".openapi2.com/". $v;
+            }else{
+                if (getenv("CI_OPENAPI2")=="development") {
+                    $this->url = "http://localhost:8080/". $v;
+                }elseif (getenv("CI_OPENAPI2")=="staging") {
+                    $this->url = "https://staging.openapi2.com/". $v;
+                }else{
+                    if (getenv("CI_OPENAPI2_SPARK") == true) {
+                        $this->url = "https://spark.openapi2.com/". $v;
+                    }else{
+                        $this->url = "https://openapi2.com/". $v;
+                    }
+                }
+            }
+        }*/
 
-        if (getenv("CI_OPENAPI2")=="development") {
+        if ($openapi2URL == "development") {
             $this->url = "http://localhost:8080/". $v;
-        }elseif (getenv("CI_OPENAPI2")=="staging") {
+        }elseif ($openapi2URL == "staging") {
             // $this->url = "https://staging.openapi2.com/". $v;
-            $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
+            // $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
+            $this->url = "https://staging.openapi2.web.id/". $v;
         }else{
             // $this->url = "https://openapi2.com/". $v;
             $this->url = "https://spark.openapi2.web.id/". $v;
