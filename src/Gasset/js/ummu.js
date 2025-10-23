@@ -244,6 +244,12 @@ var $ummu = {
     mining: {
       rowsModif: null,
       rowsData: null
+    },
+
+    listData: {
+      rows: null,
+      selectID: null,
+      selectKode: null,
     }
   },
 
@@ -13681,6 +13687,12 @@ var $app = {
         );
       }
 
+      $ummu.vars.dt.new.on('xhr', function () {
+          var response = $ummu.vars.dt.new.ajax.json();
+          localStorage.setItem('site_project', JSON.stringify(response));
+          // console.log(response)
+      });
+
       $ummu.vars.dt.new.on("click", "tbody tr td:nth-child(1)", function () {
         var row = $ummu.vars.dt.new.row(this).data();
         console.log(row);
@@ -13688,6 +13700,7 @@ var $app = {
           .val(row.region_name)
           .attr("data-kode", row.region_code);
         $("#modal_list_datatable").modal("hide");
+        $ummu.vars.listData.selectKode = row.region_code;
       });
     },
   },
@@ -13703,6 +13716,7 @@ var $app = {
             // d.custom = $('#myInput').val();
             // d.release = [0];
             // etc
+            // console.log(d)
           },
         },
         processing: true,
@@ -13749,9 +13763,16 @@ var $app = {
           },
           { title: "Name", data: "region_name" },
         ],
-        drawCallback: function (settings) {
+        drawCallback: function (data, callback, settings) {
           var api = this.api();
+          // JSON.parse(localStorage.getItem('dataTablesData'))
+          // console.log(callback)
         },
+        // ajax: function (data, callback, settings) {
+        //   callback(
+        //     // JSON.parse(localStorage.getItem('dataTablesData'))
+        //   );
+        // },
       };
     },
   }
