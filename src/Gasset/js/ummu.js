@@ -243,7 +243,11 @@ var $ummu = {
 
     mining: {
       rowsModif: null,
-      rowsData: null
+      rowsData: null,
+      timeAll: [],
+      timeD: [],
+      timeN: [],
+      timeShift: null,
     },
 
     listData: {
@@ -1173,6 +1177,7 @@ var $ummu = {
     miningShiftDefault: {
       all: function() {
         return [
+          "06:00 - 07:00",
           "07:00 - 08:00",
           "08:00 - 09:00",
           "09:00 - 10:00",
@@ -1184,12 +1189,12 @@ var $ummu = {
           "15:00 - 16:00",
           "16:00 - 17:00",
           "17:00 - 18:00",
-          "18:00 - 19:00",
 
-          "19:00 - 19:00",
-          "20:00 - 19:00",
-          "21:00 - 19:00",
-          "22:00 - 19:00",
+          "18:00 - 19:00",
+          "19:00 - 20:00",
+          "20:00 - 21:00",
+          "21:00 - 22:00",
+          "22:00 - 23:00",
           "23:00 - 00:00",
           "00:00 - 01:00",
           "01:00 - 02:00",
@@ -1197,7 +1202,6 @@ var $ummu = {
           "03:00 - 04:00",
           "04:00 - 05:00",
           "05:00 - 06:00",
-          "06:00 - 07:00",
         ];
       },
 
@@ -1221,10 +1225,10 @@ var $ummu = {
       night: function() {
         return [
           "18:00 - 19:00",
-          "19:00 - 19:00",
-          "20:00 - 19:00",
-          "21:00 - 19:00",
-          "22:00 - 19:00",
+          "19:00 - 20:00",
+          "20:00 - 21:00",
+          "21:00 - 22:00",
+          "22:00 - 23:00",
           "23:00 - 00:00",
           "00:00 - 01:00",
           "01:00 - 02:00",
@@ -1598,6 +1602,67 @@ var $ummu = {
       .fail(function () {
           // An error occurred
       });
+    },
+
+    show_site_project: function () {
+      var lcg = localStorage.getItem('ummu_site_project')
+      // console.log(JSON.parse(lcg))
+
+      if (lcg) {
+        if ($ummu.dt.init_sitePorject == null) {
+          $ummu.dt.init_sitePorject = new DataTable(
+            $listdata_tableID, {
+            columns: [
+              {
+                title: "Code",
+                data: "region_code",
+                render: function (data, type, row) {
+                  return (
+                    '<a href="javascript:void(0);"><div><span class="">' +
+                    data +
+                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                  );
+                },
+              },
+              { title: "Name", data: "region_name" },
+            ],
+            data: JSON.parse(lcg).rows,
+            layout: {
+              topStart: {
+                buttons: [
+                  {
+                    extend: "pageLength",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_page_length" },
+                  },
+                  {
+                    text: '<i class="fas fa-sync-alt"></i>',
+                    attr: { id: "btn_reload" },
+                    className: "btn-showall-color py-1 dt-btn-ummu",
+                    action: function (e, dt, node, config) {
+                      // $ummu.dt.init_sitePorject.ajax.reload();
+
+                      /*Destroy and Re-create*/
+                      $ummu.dt.init_sitePorject.destroy();
+                      $ummu.dt.create_siteProject()
+                    },
+                  },
+                ],
+              },
+            },
+          });
+        }else{
+          $ummu.dt.init_sitePorject.clear().rows.add(JSON.parse(lcg).rows).draw();
+        }
+      }else{
+        if ($ummu.dt.init_sitePorject == null) {
+          $ummu.dt.create_siteProject()
+        }else{
+          $ummu.dt.init_sitePorject.clear().rows.add(JSON.parse(lcg).rows).draw();
+        }
+      }
+
+      $ummu.dt.events.initSitePorject_onClick();
     },
   },
 
@@ -8011,6 +8076,15 @@ var $ummu = {
 
   dt: {
     init: null,
+    init_sitePorject: null,
+
+    is_init: function(tableID) {
+      if ($.fn.DataTable.isDataTable(tableID)) {
+        return true;
+      }else{
+        return false;
+      }
+    },
     
     load: function () {
       $ummu.dt.var_id();
@@ -11529,6 +11603,241 @@ var $ummu = {
           //
         },
       },
+    },
+
+    create_siteProject: function() {
+      $ummu.dt.init_sitePorject = new DataTable(
+        $listdata_tableID,
+        $ummu.dt.siteprojectConfig()
+      );
+
+      $ummu.dt.init_sitePorject.on('xhr', function () {
+          var response = $ummu.dt.init_sitePorject.ajax.json();
+          if (response.status == true) {
+            localStorage.setItem('ummu_site_project', JSON.stringify(response));
+          }
+      });
+    },
+
+    siteprojectConfig: function () {
+      return {
+        ajax: {
+          dataSrc: "rows",
+          url: $base_url + "aini/site_project/showDync/region_code,region_name",
+          data: function (d) {
+            // d.myKey = "myValue";
+            // d.custom = $('#myInput').val();
+            // d.release = [0];
+            // etc
+          },
+        },
+        processing: true,
+        // serverSide: true,
+        responsive: true,
+        keys: true,
+        deferLoading: 57,
+        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+        layout: {
+          topStart: {
+            buttons: [
+              {
+                extend: "pageLength",
+                className: "py-1 dt-btn-ummu",
+                attr: { id: "btn_page_length" },
+              },
+              {
+                text: '<i class="fas fa-sync-alt"></i>',
+                attr: { id: "btn_reload" },
+                className: "btn-showall-color py-1 dt-btn-ummu",
+                action: function (e, dt, node, config) {
+                  $ummu.dt.init_sitePorject.ajax.reload();
+                },
+              },
+            ],
+          },
+        },
+        order: [[0, "desc"]],
+        scrollCollapse: true,
+        scrollX: true,
+        scrollY: 500,
+        columns: [
+          {
+            title: "Code",
+            data: "region_code",
+            render: function (data, type, row) {
+              return (
+                '<a href="javascript:void(0);"><div><span class="">' +
+                data +
+                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+              );
+            },
+          },
+          { title: "Name", data: "region_name" },
+        ],
+        drawCallback: function (data, callback, settings) {
+          var api = this.api();
+        },
+      };
+    },
+
+    events: {
+      initSitePorject_onClick: function() {
+        if ($ummu.dt.init_sitePorject !== null) {
+          $ummu.dt.init_sitePorject.on("click", "tbody tr td:nth-child(1)", function () {
+            var row = $ummu.dt.init_sitePorject.row(this).data();
+            console.log(row);
+            $("#ummu_site_project_input")
+              .val(row.region_name)
+              .attr("data-kode", row.region_code);
+            $("#modal_list_datatable").modal("hide");
+            $ummu.vars.listData.selectKode = row.region_code;
+          });
+        }
+      }
+    },
+
+    columns: {
+      show_hourly_ob_monitoring_config_columns: function (data) {
+        let columns = [
+          { data: null },
+          { data: "unit_loader" },
+          { data: "model_no" },
+          { data: "loc_name" },
+          { data: "tot_Rit", class: "text-right" },
+          { data: "bcm_tot", class: "text-right" },
+          { data: "distance_tot", class: "text-right" },
+
+          { data: "rit_07", class: "text-right" },
+          { data: "bcm_07", class: "text-right" },
+          { data: "distance_07", class: "text-right" },
+          { data: "unit_tot07", class: "text-right" },
+
+          { data: "rit_08", class: "text-right" },
+          { data: "bcm_08", class: "text-right" },
+          { data: "distance_08", class: "text-right" },
+          { data: "unit_tot08", class: "text-right" },
+
+          { data: "rit_09", class: "text-right" },
+          { data: "bcm_09", class: "text-right" },
+          { data: "distance_09", class: "text-right" },
+          { data: "unit_tot09", class: "text-right" },
+
+          { data: "rit_10", class: "text-right" },
+          { data: "bcm_10", class: "text-right" },
+          { data: "distance_10", class: "text-right" },
+          { data: "unit_tot10", class: "text-right" },
+
+          { data: "rit_11", class: "text-right" },
+          { data: "bcm_11", class: "text-right" },
+          { data: "distance_11", class: "text-right" },
+          { data: "unit_tot11", class: "text-right" },
+
+          { data: "rit_12", class: "text-right" },
+          { data: "bcm_12", class: "text-right" },
+          { data: "distance_12", class: "text-right" },
+          { data: "unit_tot12", class: "text-right" },
+
+          { data: "rit_13", class: "text-right" },
+          { data: "bcm_13", class: "text-right" },
+          { data: "distance_13", class: "text-right" },
+          { data: "unit_tot13", class: "text-right" },
+
+          { data: "rit_14", class: "text-right" },
+          { data: "bcm_14", class: "text-right" },
+          { data: "distance_14", class: "text-right" },
+          { data: "unit_tot14", class: "text-right" },
+
+          { data: "rit_15", class: "text-right" },
+          { data: "bcm_15", class: "text-right" },
+          { data: "distance_15", class: "text-right" },
+          { data: "unit_tot15", class: "text-right" },
+
+          { data: "rit_16", class: "text-right" },
+          { data: "bcm_16", class: "text-right" },
+          { data: "distance_16", class: "text-right" },
+          { data: "unit_tot16", class: "text-right" },
+
+          { data: "rit_17", class: "text-right" },
+          { data: "bcm_17", class: "text-right" },
+          { data: "distance_17", class: "text-right" },
+          { data: "unit_tot17", class: "text-right" },
+
+          { data: "rit_18", class: "text-right" },
+          { data: "bcm_18", class: "text-right" },
+          { data: "distance_18", class: "text-right" },
+          { data: "unit_tot18", class: "text-right" },
+
+          { data: "rit_19", class: "text-right" },
+          { data: "bcm_19", class: "text-right" },
+          { data: "distance_19", class: "text-right" },
+          { data: "unit_tot19", class: "text-right" },
+
+          { data: "rit_20", class: "text-right" },
+          { data: "bcm_20", class: "text-right" },
+          { data: "distance_20", class: "text-right" },
+          { data: "unit_tot20", class: "text-right" },
+
+          { data: "rit_21", class: "text-right" },
+          { data: "bcm_21", class: "text-right" },
+          { data: "distance_21", class: "text-right" },
+          { data: "unit_tot21", class: "text-right" },
+
+          { data: "rit_22", class: "text-right" },
+          { data: "bcm_22", class: "text-right" },
+          { data: "distance_22", class: "text-right" },
+          { data: "unit_tot22", class: "text-right" },
+
+          { data: "rit_23", class: "text-right" },
+          { data: "bcm_23", class: "text-right" },
+          { data: "distance_23", class: "text-right" },
+          { data: "unit_tot23", class: "text-right" },
+
+          { data: "rit_24", class: "text-right" },
+          { data: "bcm_24", class: "text-right" },
+          { data: "distance_24", class: "text-right" },
+          { data: "unit_tot24", class: "text-right" },
+
+          { data: "rit_01", class: "text-right" },
+          { data: "bcm_01", class: "text-right" },
+          { data: "distance_01", class: "text-right" },
+          { data: "unit_tot01", class: "text-right" },
+
+          { data: "rit_02", class: "text-right" },
+          { data: "bcm_02", class: "text-right" },
+          { data: "distance_02", class: "text-right" },
+          { data: "unit_tot02", class: "text-right" },
+
+          { data: "rit_03", class: "text-right" },
+          { data: "bcm_03", class: "text-right" },
+          { data: "distance_03", class: "text-right" },
+          { data: "unit_tot03", class: "text-right" },
+
+          { data: "rit_04", class: "text-right" },
+          { data: "bcm_04", class: "text-right" },
+          { data: "distance_04", class: "text-right" },
+          { data: "unit_tot04", class: "text-right" },
+
+          { data: "rit_05", class: "text-right" },
+          { data: "bcm_05", class: "text-right" },
+          { data: "distance_05", class: "text-right" },
+          { data: "unit_tot05", class: "text-right" },
+
+          { data: "rit_06", class: "text-right" },
+          { data: "bcm_06", class: "text-right" },
+          { data: "distance_06", class: "text-right" },
+          { data: "unit_tot06", class: "text-right" },
+
+          { data: "cat_name" },
+        ];
+        // if (data && data.length > 0) {
+        //   Object.keys(data[0]).forEach((key) => {
+        //     // columns.push({ data: key, title: key.replace(/_/g, " ") }); // Customize title
+        //     columns.push({ data: key, class: "text-right" });
+        //   });
+        // }
+
+        return columns;
+      },
     }
   },
 
@@ -13679,101 +13988,122 @@ var $globalViews = {
 
 var $app = {
   controllers: {
-    show_site_project: function () {
-      if ($ummu.vars.dt.new == null) {
-        $ummu.vars.dt.new = new DataTable(
-          $listdata_tableID,
-          $app.dt.siteprojectConfig()
-        );
-      }
+    // show_site_project: function () {
+    //   var lcg = localStorage.getItem('ummu_site_project')
 
-      $ummu.vars.dt.new.on('xhr', function () {
-          var response = $ummu.vars.dt.new.ajax.json();
-          localStorage.setItem('site_project', JSON.stringify(response));
-          // console.log(response)
-      });
+    //   if (lcg) {
+    //     // console.log(JSON.parse(lcg))
+    //     new DataTable($listdata_tableID, {
+    //         columns: [
+    //           {
+    //             title: "Code",
+    //             data: "region_code",
+    //             render: function (data, type, row) {
+    //               return (
+    //                 '<a href="javascript:void(0);"><div><span class="">' +
+    //                 data +
+    //                 '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+    //               );
+    //             },
+    //           },
+    //           { title: "Name", data: "region_name" },
+    //         ],
+    //         data: JSON.parse(lcg).rows
+    //     });
+    //   }else{
+    //     if ($ummu.vars.dt.new == null) {
+    //       $ummu.vars.dt.new = new DataTable(
+    //         $listdata_tableID,
+    //         $app.dt.siteprojectConfig()
+    //       );
 
-      $ummu.vars.dt.new.on("click", "tbody tr td:nth-child(1)", function () {
-        var row = $ummu.vars.dt.new.row(this).data();
-        console.log(row);
-        $("#ummu_site_project_input")
-          .val(row.region_name)
-          .attr("data-kode", row.region_code);
-        $("#modal_list_datatable").modal("hide");
-        $ummu.vars.listData.selectKode = row.region_code;
-      });
-    },
+    //       $ummu.vars.dt.new.on('xhr', function () {
+    //           var response = $ummu.vars.dt.new.ajax.json();
+    //           localStorage.setItem('ummu_site_project', JSON.stringify(response));
+    //       });
+
+    //       $app.dt.onClick();
+    //     }else{
+
+    //     }
+    //   }
+    // },
   },
 
   dt: {
-    siteprojectConfig: function () {
-      return {
-        ajax: {
-          dataSrc: "rows",
-          url: $base_url + "herp/site_project/showDync/region_code,region_name",
-          data: function (d) {
-            // d.myKey = "myValue";
-            // d.custom = $('#myInput').val();
-            // d.release = [0];
-            // etc
-            // console.log(d)
-          },
-        },
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        keys: true,
-        deferLoading: 57,
-        // lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-        lengthMenu: [10, 50, 100, 1000],
-        layout: {
-          topStart: {
-            buttons: [
-              {
-                extend: "pageLength",
-                className: "py-1 dt-btn-ummu",
-                attr: { id: "btn_page_length" },
-              },
-              {
-                text: '<i class="fas fa-sync-alt"></i>',
-                attr: { id: "btn_reload" },
-                className: "btn-showall-color py-1 dt-btn-ummu",
-                action: function (e, dt, node, config) {
-                  $ummu.vars.dt.new.ajax.reload();
-                },
-              },
-            ],
-          },
-        },
-        order: [[0, "desc"]],
-        scrollCollapse: true,
-        scrollX: true,
-        scrollY: 500,
-        columns: [
-          {
-            title: "Code",
-            data: "region_code",
-            render: function (data, type, row) {
-              return (
-                '<a href="javascript:void(0);"><div><span class="">' +
-                data +
-                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-              );
-            },
-          },
-          { title: "Name", data: "region_name" },
-        ],
-        drawCallback: function (data, callback, settings) {
-          var api = this.api();
-          // JSON.parse(localStorage.getItem('dataTablesData'))
-          // console.log(callback)
-        },
-        // ajax: function (data, callback, settings) {
-        //   callback(
-        //     // JSON.parse(localStorage.getItem('dataTablesData'))
-        //   );
-        // },
-      };
-    },
+    // siteprojectConfig: function () {
+    //   return {
+    //     ajax: {
+    //       dataSrc: "rows",
+    //       url: $base_url + "herp/site_project/showDync/region_code,region_name",
+    //       data: function (d) {
+    //         // d.myKey = "myValue";
+    //         // d.custom = $('#myInput').val();
+    //         // d.release = [0];
+    //         // etc
+    //       },
+    //     },
+    //     processing: true,
+    //     // serverSide: true,
+    //     responsive: true,
+    //     keys: true,
+    //     deferLoading: 57,
+    //     lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+    //     layout: {
+    //       topStart: {
+    //         buttons: [
+    //           {
+    //             extend: "pageLength",
+    //             className: "py-1 dt-btn-ummu",
+    //             attr: { id: "btn_page_length" },
+    //           },
+    //           {
+    //             text: '<i class="fas fa-sync-alt"></i>',
+    //             attr: { id: "btn_reload" },
+    //             className: "btn-showall-color py-1 dt-btn-ummu",
+    //             action: function (e, dt, node, config) {
+    //               $ummu.vars.dt.new.ajax.reload();
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //     order: [[0, "desc"]],
+    //     scrollCollapse: true,
+    //     scrollX: true,
+    //     scrollY: 500,
+    //     columns: [
+    //       {
+    //         title: "Code",
+    //         data: "region_code",
+    //         render: function (data, type, row) {
+    //           return (
+    //             '<a href="javascript:void(0);"><div><span class="">' +
+    //             data +
+    //             '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+    //           );
+    //         },
+    //       },
+    //       { title: "Name", data: "region_name" },
+    //     ],
+    //     drawCallback: function (data, callback, settings) {
+    //       var api = this.api();
+    //     },
+    //   };
+    // },
+
+    // events: {
+    //   onClick: function() {
+    //     $ummu.vars.dt.new.on("click", "tbody tr td:nth-child(1)", function () {
+    //       var row = $ummu.vars.dt.new.row(this).data();
+    //       console.log(row);
+    //       $("#ummu_site_project_input")
+    //         .val(row.region_name)
+    //         .attr("data-kode", row.region_code);
+    //       $("#modal_list_datatable").modal("hide");
+    //       $ummu.vars.listData.selectKode = row.region_code;
+    //     });
+    //   }
+    // }
   }
 }
