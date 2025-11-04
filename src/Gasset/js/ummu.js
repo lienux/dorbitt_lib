@@ -607,11 +607,11 @@ var $ummu = {
         }
       })
 
-      $("#btn_show_datepicker").on("click", function () {
+      $(".btn-show-datepicker").on("click", function () {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
-
-      $(".btn-show-datepicker").on("click", function () {
+      
+      $("#btn_show_datepicker").on("click", function () {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
 
