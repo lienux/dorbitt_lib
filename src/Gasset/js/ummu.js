@@ -611,7 +611,7 @@ var $ummu = {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
 
-      $("btn-show-datepicker").on("click", function () {
+      $(".btn-show-datepicker").on("click", function () {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
 
