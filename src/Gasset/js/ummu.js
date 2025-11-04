@@ -611,6 +611,10 @@ var $ummu = {
         $("#" + $(this).data('inputid')).datepicker("show");
       })
 
+      $("btn-show-datepicker").on("click", function () {
+        $("#" + $(this).data('inputid')).datepicker("show");
+      })
+
       $("#btn_get_data").on('click', function(){
         console.log('btn get data');
         if(typeof app.controllers.on_btn_get_data_click !== "undefined") {
