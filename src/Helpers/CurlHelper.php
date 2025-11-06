@@ -46,7 +46,7 @@ class CurlHelper
             $this->url = "https://staging.openapi2.web.id/". $v;
         }else{
             // $this->url = "https://openapi2.com/". $v;
-            $this->url = "https://spark.openapi2.web.id/". $v;
+            $this->url = "https://openapi2.com/". $v;
         }
 
         if (getenv("DORBITT_TOKEN")) {
