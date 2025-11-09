@@ -47,6 +47,7 @@
             <tr>
                 <th data-field="state" data-checkbox="true" ></th>
                 <th data-sortable="true" data-field="id" data-formatter="$ummu.formatter.btID">ID</th>
+                <th data-sortable="true" data-field="kode" data-filter-control="input">Kode</th>
                 <th data-sortable="true" data-field="name" data-filter-control="input">Name</th>
             </tr>
         </thead>

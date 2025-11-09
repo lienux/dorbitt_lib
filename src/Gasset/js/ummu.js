@@ -60,11 +60,11 @@ var $ummu = {
         }
       },
 
-      clickID: function(row) {
-        console.log('click field id')
+      clickID: function(table_id, row) {
+        console.log('click field id on ' + table_id)
         if(typeof app.controllers.clickID !== "undefined") {
           console.log('function app.controllers.clickID is OK.');
-          app.controllers.clickID(row);
+          app.controllers.clickID(table_id, row);
         }else{
           console.log('plese create function app.controllers.clickID');
         }
@@ -181,6 +181,14 @@ var $ummu = {
       id: null,
       role: null,
       level_id: null,
+    },
+
+    dismod: {
+      id: null,
+    },
+
+    enmod: {
+      id: null,
     },
 
     dt: {
@@ -7802,6 +7810,8 @@ var $ummu = {
 
   bt: {
     initTable: function ($tableID) {
+      var table_id = $tableID[0].id;
+
       $tableID.bootstrapTable({
         locale: "en-US",
         // buttons: {
@@ -7886,7 +7896,7 @@ var $ummu = {
         // console.log('Row clicked:', row);
         // console.log('Clicked element:', $element);
         // console.log('Clicked field:', field);
-        var table_id = $tableID[0].id
+        // var table_id = $tableID[0].id
         // var table_id = params.target.id
         // console.log(table_id)
         // console.log(table_id)
@@ -7894,7 +7904,7 @@ var $ummu = {
         if (field === 'id') {
           $ummu.vars.id = row.id
           $ummu.vars.id_onClick = row.id
-          $ummu.routes.toPage.clickID(row)
+          $ummu.routes.toPage.clickID(table_id, row)
           $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
           $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
         }
