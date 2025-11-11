@@ -11842,7 +11842,17 @@ var $ummu = {
 
         return columns;
       },
-    }
+    },
+
+    addCell: function(tr, content, colSpan = 1, d) {
+      let td = document.createElement('td');
+  
+      td.colSpan = colSpan;
+      td.textContent = content;
+      td.className = d;
+  
+      tr.appendChild(td);
+    },
   },
 
   localStorage: {
