@@ -11844,7 +11844,7 @@ var $ummu = {
       },
     },
 
-    addCell: function(tr, content, colSpan = 1, d) {
+    addCell: function(tr, content, colSpan = 1, d = '') {
       let td = document.createElement('td');
   
       td.colSpan = colSpan;
