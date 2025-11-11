@@ -3934,6 +3934,17 @@ var $ummu = {
       input[0].setSelectionRange(caret_pos, caret_pos);
     },
 
+    parseInt: function(a) {
+      const b = parseInt(a)
+      if (b === 'NaN') {
+        var c = 0;
+      }else{
+        var c = a;
+      }
+
+      return c;
+    },
+
     mechanic_activity: {
       dateStart: function () {
         $("#date_start").change(function () {
