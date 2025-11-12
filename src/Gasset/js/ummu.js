@@ -3936,7 +3936,7 @@ var $ummu = {
 
     parseInt: function(a) {
       const b = parseInt(a)
-      if (b === 'NaN') {
+      if (b === NaN) {
         var c = 0;
       }else{
         var c = a;
