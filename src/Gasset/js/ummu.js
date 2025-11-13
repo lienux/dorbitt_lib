@@ -260,6 +260,14 @@ var $ummu = {
 
   config: {
     autoload: function () {
+      let currentDate = new Date();
+      // console.log(currentDate); // e.g., Thu Nov 13 2025 16:48:00 GMT+0700 (Western Indonesia Time)
+      // console.log(currentDate.getFullYear()); // e.g., 2025
+      // console.log(currentDate.getMonth());    // e.g., 10 (November is 0-indexed)
+      // console.log(currentDate.getDate());     // e.g., 13
+      let current_firs_date = current.getFullYear + '-' + current.getMonth + '-01';
+      let current_date = current.getFullYear + '-' + current.getMonth + '-' + current.getDate;
+
       // app.Events.initTable()
       $ummu.gallery.button();
       $ummu.events.onClick.dorbittButton();
@@ -533,6 +541,9 @@ var $ummu = {
           console.log('plese create function app.controllers.change_ummu_datepicker.');
         }
       });
+
+      $(".ummu-datepicker-default-from").val(current_firs_date);
+      $(".ummu-datepicker-default-to").val(current_date);
 
       $("input[data-type='currency']").on({
           keyup: function() {
