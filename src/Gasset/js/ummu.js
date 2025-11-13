@@ -537,8 +537,8 @@ var $ummu = {
         }
       });
 
-      $(".ummu-datepicker-default-from").val(current_firs_date);
-      $(".ummu-datepicker-default-to").val(current_date);
+      $(".ummu-datepicker-default-from").val($ummu.vars.firstDate);
+      $(".ummu-datepicker-default-to").val($ummu.vars.currentDate);
 
       $("input[data-type='currency']").on({
           keyup: function() {
