@@ -288,7 +288,7 @@ var $ummu = {
         }
       });
 
-      $("nav .nav-tabs .nav-link").on("click", function () {
+      $(".ummu-nav .nav-tabs .nav-link").on("click", function () {
         var nav_tab_id = $(this).attr("id");
         localStorage.setItem("nav_tab_id", nav_tab_id);
         $ummu.vars.nav_tab_id = nav_tab_id;
@@ -3936,7 +3936,7 @@ var $ummu = {
 
     parseInt: function(a) {
       const b = parseInt(a)
-      if (b === 'NaN') {
+      if (b === NaN) {
         var c = 0;
       }else{
         var c = a;
