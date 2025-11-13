@@ -265,8 +265,8 @@ var $ummu = {
       // console.log(currentDate.getFullYear()); // e.g., 2025
       // console.log(currentDate.getMonth());    // e.g., 10 (November is 0-indexed)
       // console.log(currentDate.getDate());     // e.g., 13
-      let current_firs_date = current.getFullYear + '-' + current.getMonth + '-01';
-      let current_date = current.getFullYear + '-' + current.getMonth + '-' + current.getDate;
+      let current_firs_date = currentDate.getFullYear + '-' + currentDate.getMonth + '-01';
+      let current_date = currentDate.getFullYear + '-' + currentDate.getMonth + '-' + currentDate.getDate;
 
       // app.Events.initTable()
       $ummu.gallery.button();
