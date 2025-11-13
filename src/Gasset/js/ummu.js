@@ -105,6 +105,7 @@ var $ummu = {
     rad_external: 0,
     nav_tab: null,
     nav_tab_id: null,
+    nav_child_tab_id: null,
     crud: null,
     crud_name: null,
     module_kode: null,
@@ -297,6 +298,20 @@ var $ummu = {
         if(typeof app.controllers.on_navTab_click !== "undefined") {
           console.log('function app.controllers.on_navTab_click is OK.');
           app.controllers.on_navTab_click(nav_tab_id);
+        }else{
+          console.log('plese create function app.controllers.on_navTab_click.');
+        }
+      });
+
+      $(".ummu-nav-child .nav-tabs .nav-link").on("click", function () {
+        var nav_child_tab_id = $(this).attr("id");
+        localStorage.setItem("nav_child_tab_id", nav_child_tab_id);
+        $ummu.vars.nav_child_tab_id = nav_child_tab_id;
+
+        console.log('nav-child-tabs click');
+        if(typeof app.controllers.on_navTab_click !== "undefined") {
+          console.log('function app.controllers.on_navTab_click is OK.');
+          app.controllers.on_navTab_click(nav_child_tab_id);
         }else{
           console.log('plese create function app.controllers.on_navTab_click.');
         }
