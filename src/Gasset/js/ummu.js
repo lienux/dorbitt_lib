@@ -149,6 +149,9 @@ var $ummu = {
     min_time: null,
     max_time: null,
 
+    newDate: new Date(),
+    firstDate: $ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + '-01',
+    currentDate: $ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + $ummu.vars.newDate.getDate,
     dNow: new Date().toISOString().slice(0, 10),
     tNow: new Date().toTimeString().slice(0, 8),
 
@@ -260,14 +263,6 @@ var $ummu = {
 
   config: {
     autoload: function () {
-      let currentDate = new Date();
-      // console.log(currentDate); // e.g., Thu Nov 13 2025 16:48:00 GMT+0700 (Western Indonesia Time)
-      // console.log(currentDate.getFullYear()); // e.g., 2025
-      // console.log(currentDate.getMonth());    // e.g., 10 (November is 0-indexed)
-      // console.log(currentDate.getDate());     // e.g., 13
-      let current_firs_date = currentDate.getFullYear + '-' + currentDate.getMonth + '-01';
-      let current_date = currentDate.getFullYear + '-' + currentDate.getMonth + '-' + currentDate.getDate;
-
       // app.Events.initTable()
       $ummu.gallery.button();
       $ummu.events.onClick.dorbittButton();
