@@ -150,8 +150,8 @@ var $ummu = {
     max_time: null,
 
     newDate: new Date(),
-    firstDate: $ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + '-01',
-    currentDate: $ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + $ummu.vars.newDate.getDate,
+    firstDate: new Date().getFullYear + '-' + new Date().getMonth + '-01',
+    currentDate: new Date().getFullYear + '-' + new Date().getMonth + new Date().getDate,
     dNow: new Date().toISOString().slice(0, 10),
     tNow: new Date().toTimeString().slice(0, 8),
 
