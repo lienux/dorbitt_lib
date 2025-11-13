@@ -150,8 +150,6 @@ var $ummu = {
     max_time: null,
 
     newDate: new Date(),
-    firstDate: new Date().getFullYear + '-' + new Date().getMonth + '-01',
-    currentDate: new Date().getFullYear + '-' + new Date().getMonth + new Date().getDate,
     dNow: new Date().toISOString().slice(0, 10),
     tNow: new Date().toTimeString().slice(0, 8),
 
@@ -537,8 +535,8 @@ var $ummu = {
         }
       });
 
-      $(".ummu-datepicker-default-from").val($ummu.vars.firstDate);
-      $(".ummu-datepicker-default-to").val($ummu.vars.currentDate);
+      $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + '-01');
+      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear + '-' + $ummu.vars.newDate.getMonth + '-' + $ummu.vars.newDate.getDate);
 
       $("input[data-type='currency']").on({
           keyup: function() {
