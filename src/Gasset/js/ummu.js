@@ -8193,6 +8193,14 @@ var $ummu = {
         return false;
       }
     },
+
+    init_destroy: function(init = null) {
+      if (init === null) {
+        $ummu.dt.init.destroy()
+      }else{
+        init.destroy()
+      }
+    },
     
     load: function () {
       $ummu.dt.var_id();
