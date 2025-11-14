@@ -2267,7 +2267,17 @@ var $ummu = {
     /*
      * page_url otomatis dari ummu.vars, tinggal kirimkan saja function berikutnya melalui params
      * dinamis modal_loader
+     * contoh params di bawah
      * */
+    /*
+    var params = {
+      "type": "POST",
+      "data": payload,
+      "cache": true,
+      "contentType": "application/json",
+      "dataType": "json",
+      "loader": treu,
+    };*/
     ummu4: function (params) {
       var jqXHR = $.ajax({
         url: $ummu.vars.page_url + params.function,
@@ -2413,6 +2423,60 @@ var $ummu = {
         },
       });
     },
+
+    /*
+     * page_url otomatis dari ummu.vars.page_url, tinggal kirimkan saja function berikutnya melalui params
+     * dinamis modal_loader
+     * contoh params di bawah
+     * */
+    /*
+    var params = {
+      "function": "create"
+      "method": "POST",
+      "data": payload,
+      "cache": true,
+      "contentType": "application/json",
+      "dataType": "json",
+      "loader": true,
+    };*/
+    ummu8: function (params) {
+      // var jqXHR = $.ajax({
+      //   url: $ummu.vars.page_url + params.function,
+      //   method: params.method,
+      //   timeout: 0,
+      //   headers: {
+      //     "Content-Type": params.contentType,
+      //   },
+      //   data: params.data,
+      //   prossesing: true,
+      //   language: {
+      //     loadingRecords: "&nbsp;",
+      //     processing: '<div class="spinner"></div>',
+      //   },
+      //   beforeSend: function (e) {
+      //     if (params.loader == true) {
+      //       $("#modal_loader").modal("show");
+      //     }
+      //   },
+      //   complete: function () {
+      //     //
+      //   },
+      //   success: function (response) {
+      //     // console.log(response)
+      //     setTimeout(function () {
+      //       $(".modal-loader").modal("hide");
+      //     }, 1000);
+      //   },
+      //   error: function (xhr, ajaxOptions, thrownError) {
+      //     alert(xhr.responseText);
+      //     $("#modal_loader").modal("hide");
+      //   },
+      // });
+
+      // return jqXHR;
+      return params;
+    },
+
 
     ummay: function (url, payload) {
       // console.log(payload);
