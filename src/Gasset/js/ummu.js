@@ -9065,8 +9065,7 @@ var $ummu = {
           className: "py-1 dt-btn-ummu",
           attr: { id: "dt_btn_setting" },
           text:
-          '<span class="d-none d-sm-block"><i class="far fa-cogs"></i> Settings</span>' +
-          '<span class="d-block d-sm-none"><i class="far fa-cogs fa-lg"></i></span>',
+          '<i class="fas fa-cogs text-secondary fa-lg"></i>',
           action: function (e, dt, node, config) {
             $("#modal_setting_dt").modal("show");
           },
