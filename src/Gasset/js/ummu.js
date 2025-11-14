@@ -9060,6 +9060,17 @@ var $ummu = {
           attr: { id: "btn_print" },
           text: '<i class="fas fa-print text-primary fa-lg"></i>',
         });
+
+        init.button().add(10, {
+          className: "py-1 dt-btn-ummu",
+          attr: { id: "dt_btn_setting" },
+          text:
+          '<span class="d-none d-sm-block"><i class="far fa-cogs"></i> Settings</span>' +
+          '<span class="d-block d-sm-none"><i class="far fa-cogs fa-lg"></i></span>',
+          action: function (e, dt, node, config) {
+            $("#modal_setting_dt").modal("show");
+          },
+        });
       },
     },
 
