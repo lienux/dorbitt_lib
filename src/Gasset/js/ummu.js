@@ -543,8 +543,8 @@ var $ummu = {
         }
       });
 
-      $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + $ummu.vars.newDate.getMonth() + '-01');
-      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + $ummu.vars.newDate.getMonth() + '-' + $ummu.vars.newDate.getDate());
+      $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-01');
+      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-' + $ummu.vars.newDate.getDate());
 
       $("input[data-type='currency']").on({
           keyup: function() {
