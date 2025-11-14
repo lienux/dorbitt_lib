@@ -11965,6 +11965,16 @@ var $ummu = {
   
       tr.appendChild(td);
     },
+
+    config: {
+      select: function() {
+        return {
+          style: "multi+shift",
+          selector: "td:first-child",
+          headerCheckbox: "select-page",
+        }
+      },
+    }
   },
 
   localStorage: {
