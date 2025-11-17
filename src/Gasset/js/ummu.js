@@ -8246,6 +8246,28 @@ var $ummu = {
         .nodes()
         .each((el) => el.classList.add("highlight"));
       });
+
+      table.on('preXhr.dt', function(e, settings, data) {
+          // Display a loading spinner or message
+          console.log('AJAX request is about to be sent.');
+          $('#loadingIndicator').show();
+          $('#modal_loader').modal('show');
+      });
+
+      table.on('xhr.dt', function(e, settings, json, xhr) {
+          // Hide the loading spinner or message
+          console.log('AJAX request completed.');
+          $('#loadingIndicator').hide();
+          $('#modal_loader').modal('hide');
+          // You can also inspect the returned JSON data here
+          console.log(json);
+      });
+
+      table.on('error.dt', function(e, settings, techNote, message) {
+          console.error('DataTables error:', message);
+          // Display an error message to the user
+          alert('An error occurred while loading data.');
+      });
     },
 
     layout: {
