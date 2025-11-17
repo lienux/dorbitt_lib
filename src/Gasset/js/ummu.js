@@ -8271,49 +8271,49 @@ var $ummu = {
     },
 
     load_with_init: function (init) {
-      $ummu.dt.var_id();
-      $ummu.dt.button.crud();
+      // $ummu.dt.var_id();
+      // $ummu.dt.button.crud();
 
-      init.on("click", "tbody tr td:first-child", function () {
-        $ummu.dt.var_id();
-        $ummu.dt.button.crud();
-      });
+      // init.on("click", "tbody tr td:first-child", function () {
+      //   $ummu.dt.var_id();
+      //   $ummu.dt.button.crud();
+      // });
 
-      init.on("dblclick", "tbody tr", function () {
-        var row = init.row(this).data();
-        $ummu.vars.id = row.id;
-        // console.log(row);
+      // init.on("dblclick", "tbody tr", function () {
+      //   var row = init.row(this).data();
+      //   $ummu.vars.id = row.id;
+      //   // console.log(row);
 
-        // $ummu.vars.site_project_kode = row.site_project_kode;
-        // // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
-        // // $('#form_entry_data input').prop('disabled', true);
-        app.config.routes.dt_tbody_tr_dblclick(row);
-        // $ummu.views.hazard_report.button_in_modal_form();
-        // // $('#modal_btn_edit, #modal_btn_save')
-      });
+      //   // $ummu.vars.site_project_kode = row.site_project_kode;
+      //   // // $('#form_entry_data input, #form_entry_data button, select').prop("disabled", true);
+      //   // // $('#form_entry_data input').prop('disabled', true);
+      //   app.config.routes.dt_tbody_tr_dblclick(row);
+      //   // $ummu.views.hazard_report.button_in_modal_form();
+      //   // // $('#modal_btn_edit, #modal_btn_save')
+      // });
 
-      init.on("select", function (e, dt, type, indexes) {
-        $ummu.dt.var_id();
-        $ummu.dt.button.crud();
-      });
+      // init.on("select", function (e, dt, type, indexes) {
+      //   $ummu.dt.var_id();
+      //   $ummu.dt.button.crud();
+      // });
 
-      init.on("deselect", function (e, dt, type, indexes) {
-        $ummu.dt.var_id();
-        $ummu.dt.button.crud();
-      });
+      // init.on("deselect", function (e, dt, type, indexes) {
+      //   $ummu.dt.var_id();
+      //   $ummu.dt.button.crud();
+      // });
 
-      init.on("mouseenter", "td", function () {
-        let colIdx = init.cell(this).index().column;
-        init
-        .cells()
-        .nodes()
-        .each((el) => el.classList.remove("highlight"));
+      // init.on("mouseenter", "td", function () {
+      //   let colIdx = init.cell(this).index().column;
+      //   init
+      //   .cells()
+      //   .nodes()
+      //   .each((el) => el.classList.remove("highlight"));
 
-        init
-        .column(colIdx)
-        .nodes()
-        .each((el) => el.classList.add("highlight"));
-      });
+      //   init
+      //   .column(colIdx)
+      //   .nodes()
+      //   .each((el) => el.classList.add("highlight"));
+      // });
 
       init.on('preXhr.dt', function(e, settings, data) {
           // Display a loading spinner or message
