@@ -26,7 +26,6 @@
 	</div>
 </div>
 
-
 <div class="modal fade modal-loader2" id="modal_loader2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content border-0 shadow-none" style="background: transparent;">
@@ -41,7 +40,6 @@
 		</div>
 	</div>
 </div>
-
 
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -61,4 +59,19 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade modal-loader" id="modal_loader_dt" data-bs-backdrop="static" data-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: transparent; z-index: 2000;">
+	<div class="modal-dialog modal-dialog-centered" style="background: transparent;">
+		<div class="modal-content border-0 shadow-none" style="background: transparent;">
+			<div class="modal-body" style="background: transparent;">
+				<div class="text-center text-light">
+					<img src="https://cdn.openapi2.com/dorbitt_lib/src/Gasset/loading-gif.gif" width="150px">
+					<div>
+						<label id="text_loader"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

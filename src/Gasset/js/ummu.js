@@ -12273,6 +12273,14 @@ var $ummu = {
         }
       },
     }
+
+    loader_show: function() {
+      $("#modal_loader_dt").modal("show");
+    },
+
+    loader_hide: function() {
+      $("#modal_loader_dt").modal("hide");
+    },
   },
 
   localStorage: {
