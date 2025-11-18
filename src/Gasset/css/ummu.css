@@ -285,12 +285,24 @@ table.dataTable thead tr > .dtfc-fixed-left {
   box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
 }
 
+/*Background*/
 .bg-purple {
   background-color: #800080 !important;
   color: #fff;
 }
 
 a.bg-purple:hover, a.bg-purple:focus,
+button.bg-purple:hover,
+button.bg-purple:focus {
+  background-color: #4D0E4D !important;
+}
+
+.bg-y-purple {
+  background-color: #FF6BFF !important;
+  color: #000000;
+}
+
+a.bg-y-purple:hover, a.bg-purple:focus,
 button.bg-purple:hover,
 button.bg-purple:focus {
   background-color: #4D0E4D !important;

@@ -12281,6 +12281,10 @@ var $ummu = {
     loader_hide: function() {
       $("#modal_loader_dt").modal("hide");
     },
+
+    endRender_class: function() {
+      return 'text-right font-weight-bold bg-purple text-light';
+    },
   },
 
   localStorage: {
