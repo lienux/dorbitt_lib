@@ -12283,7 +12283,7 @@ var $ummu = {
     },
 
     endRender_class: function() {
-      return 'text-right font-weight-bold bg-purple text-light';
+      return 'text-right font-weight-bold bg-purple py-2';
     },
   },
 
