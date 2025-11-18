@@ -12272,7 +12272,7 @@ var $ummu = {
           headerCheckbox: "select-page",
         }
       },
-    }
+    },
 
     loader_show: function() {
       $("#modal_loader_dt").modal("show");
