@@ -40,10 +40,10 @@ class CurlHelper
 
         if ($openapi2URL == "development") {
             $this->url = "http://localhost:8080/". $v;
-        }elseif ($openapi2URL == "staging") {
-            $this->url = "https://staging.openapi2.com/". $v;
-            // $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
-            // $this->url = "https://staging.openapi2.web.id/". $v;
+        // }elseif ($openapi2URL == "staging") {
+        //     $this->url = "https://staging.openapi2.com/". $v;
+        //     // $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
+        //     // $this->url = "https://staging.openapi2.web.id/". $v;
         }else{
             // $this->url = "https://openapi2.com/". $v;
             $this->url = "https://openapi2.com/". $v;
