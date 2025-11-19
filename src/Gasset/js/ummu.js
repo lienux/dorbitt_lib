@@ -7913,7 +7913,7 @@ var $ummu = {
 
   bt: {
     initTable: function ($tableID) {
-      var table_id = $tableID[0].id;
+      // var table_id = $tableID[0].id;
 
       $tableID.bootstrapTable({
         locale: "en-US",
@@ -7999,7 +7999,7 @@ var $ummu = {
         // console.log('Row clicked:', row);
         // console.log('Clicked element:', $element);
         // console.log('Clicked field:', field);
-        // var table_id = $tableID[0].id
+        var table_id = $tableID[0].id
         // var table_id = params.target.id
         // console.log(table_id)
         // console.log(table_id)

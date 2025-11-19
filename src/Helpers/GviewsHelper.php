@@ -18,10 +18,15 @@ use JShrink\Minifier;
 
 class GviewsHelper
 {
+    public $minifier;
+
     public function __construct()
     {
         $this->request = \Config\Services::request();
-        $this->minifier = new \JShrink\Minifier();
+
+        if (class_exists('JShrink\Minifier')) {
+            $this->minifier = new \JShrink\Minifier();
+        }
     }
 
     public function modal_gallery($themes = null)
@@ -139,6 +144,7 @@ class GviewsHelper
             '../../vendor/dorbitt/lib/src/Gviews/partials/modals/gallery_sbadmin2',
             '../../vendor/dorbitt/lib/src/Gviews/partials/modals/list_data',
             '../../vendor/dorbitt/lib/src/Gviews/partials/modals/filter',
+            '../../vendor/dorbitt/lib/src/Views/partials/modals',
         ];
     }
 

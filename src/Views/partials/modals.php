@@ -40,7 +40,7 @@
         data-filter-control="true"
         data-pagination="true"
         data-page-list="[10, 25, 50, 100]"
-        data-side-pagination="server"
+        zdata-side-pagination="server"
 
         data-response-handler="$ummu.bt.responseHandler" class="text-nowrap table-sm">
         <thead>
