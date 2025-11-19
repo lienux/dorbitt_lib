@@ -7118,19 +7118,28 @@ var $ummu = {
           $ummu.vars.dt.nth_child_onclick = 3;
         } 
 
-        if ($ummu.vars.nav_tab_id == "nav-approved-tab") {
+        else if ($ummu.vars.nav_tab_id == "nav-approved-tab") {
 
           $ummu.dt.layout.button();
           $ummu.dt.layout.button_crud(["new"]);
           $ummu.vars.dt.nth_child_onclick = 2;
         }
 
-        if ($ummu.vars.nav_tab_id == "nav-rejected-tab") {
+        else if ($ummu.vars.nav_tab_id == "nav-rejected-tab") {
           $ummu.dt.layout.button(["btn_select_none"]);
           $ummu.dt.layout.button_crud(["new","edit"]);
           // table.column(0).visible(false)
           // table.column(1).visible(true)
           $ummu.vars.dt.nth_child_onclick = 2;
+        }
+
+        else {
+          var btn_status = ["approve", "reject"];
+          
+          $ummu.dt.layout.button(["btn_select_all", "btn_select_none"]);
+          $ummu.dt.layout.button_crud(["new"]);
+          $ummu.dt.layout.button_status(btn_status);
+          $ummu.vars.dt.nth_child_onclick = 3;
         }
 
         $ummu.dt.button.crud();
