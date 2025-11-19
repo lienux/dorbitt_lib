@@ -1,4 +1,4 @@
-<nav>
+<nav class="ummu-nav">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-released-tab" data-toggle="tab" data-target="#nav-released" type="button"
             role="tab" aria-controls="nav-released" aria-selected="true">
