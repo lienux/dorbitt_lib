@@ -521,3 +521,9 @@ button.bg-purple:focus {
   user-select: none;
   opacity: 0.25;
 }*/
+
+
+.text-purple {
+  --bs-text-opacity: 1;
+  color: #800080 !important;
+}
