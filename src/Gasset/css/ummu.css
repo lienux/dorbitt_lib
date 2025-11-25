@@ -545,7 +545,7 @@ button.bg-purple:focus {
 .ummu-nav-child .nav-tabs .nav-item.show .nav-link {
     border-top-style: solid;
     border-top-width: 3px;
-    border-top-color: #4F0080;
+    border-top-color: #ffc107;
 }
 
 .ummu-breadcrumb {
