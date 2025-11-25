@@ -540,3 +540,10 @@ button.bg-purple:focus {
     border-top-width: 3px;
     border-top-color: #800080;
 }
+
+.ummu-nav-child .nav-tabs .nav-link.active,
+.ummu-nav-child .nav-tabs .nav-item.show .nav-link {
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #4F0080;
+}
