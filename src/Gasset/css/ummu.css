@@ -547,3 +547,18 @@ button.bg-purple:focus {
     border-top-width: 3px;
     border-top-color: #4F0080;
 }
+
+.ummu-breadcrumb {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* padding: 0.3rem; */
+    padding: 0px;
+    margin-bottom: 0.75rem;
+    list-style: none;
+    /* background-color: #e9ecef; */
+    background-color: unset;
+    border-radius: 0.25rem;
+    /* margin: 0px; */
+}
