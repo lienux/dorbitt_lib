@@ -533,3 +533,10 @@ button.bg-purple:focus {
   --bs-text-opacity: 1;
   color: #800080 !important;
 }
+
+.ummu-nav-tabs .nav-tabs .nav-link.active,
+.ummu-nav-tabs .nav-tabs .nav-item.show .nav-link {
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #800080;
+}
