@@ -130,6 +130,7 @@ var $ummu = {
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
+    url: new URL(window.location.href),
     urlParams: new URLSearchParams(window.location.search),
     show_col_images: localStorage.getItem("show_col_images"),
     show_col_id: localStorage.getItem("show_col_id"),
@@ -264,7 +265,7 @@ var $ummu = {
       rows: null,
       selectID: null,
       selectKode: null,
-    }
+    },
   },
 
   config: {
@@ -2440,41 +2441,41 @@ var $ummu = {
       "loader": true,
     };*/
     ummu8: function (params) {
-      // var jqXHR = $.ajax({
-      //   url: $ummu.vars.page_url + params.function,
-      //   method: params.method,
-      //   timeout: 0,
-      //   headers: {
-      //     "Content-Type": params.contentType,
-      //   },
-      //   data: params.data,
-      //   prossesing: true,
-      //   language: {
-      //     loadingRecords: "&nbsp;",
-      //     processing: '<div class="spinner"></div>',
-      //   },
-      //   beforeSend: function (e) {
-      //     if (params.loader == true) {
-      //       $("#modal_loader").modal("show");
-      //     }
-      //   },
-      //   complete: function () {
-      //     //
-      //   },
-      //   success: function (response) {
-      //     // console.log(response)
-      //     setTimeout(function () {
-      //       $(".modal-loader").modal("hide");
-      //     }, 1000);
-      //   },
-      //   error: function (xhr, ajaxOptions, thrownError) {
-      //     alert(xhr.responseText);
-      //     $("#modal_loader").modal("hide");
-      //   },
-      // });
+      var jqXHR = $.ajax({
+        url: $ummu.vars.page_url + params.function,
+        method: params.method,
+        timeout: 0,
+        headers: {
+          "Content-Type": params.contentType,
+        },
+        data: params.data,
+        prossesing: true,
+        language: {
+          loadingRecords: "&nbsp;",
+          processing: '<div class="spinner"></div>',
+        },
+        beforeSend: function (e) {
+          if (params.loader == true) {
+            $("#modal_loader").modal("show");
+          }
+        },
+        complete: function () {
+          //
+        },
+        success: function (response) {
+          // console.log(response)
+          setTimeout(function () {
+            $(".modal-loader").modal("hide");
+          }, 1000);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.responseText);
+          $("#modal_loader").modal("hide");
+        },
+      });
 
-      // return jqXHR;
-      return params;
+      return jqXHR;
+      // return params;
     },
 
 
@@ -4527,6 +4528,18 @@ var $ummu = {
         });
       }
     },
+
+    url_parameter: {
+      add: function(newParam, newValue) {
+        $ummu.vars.url.searchParams.delete(newParam);
+        $ummu.vars.url.searchParams.append(newParam, newValue);
+        window.history.pushState({}, '', $ummu.vars.url); //pushState Or use replaceState()
+      },
+      remove: function(paramToRemove) {
+        $ummu.vars.url.searchParams.delete(paramToRemove);
+        window.history.pushState({}, '', $ummu.vars.url); //pushState Or use replaceState()
+      }
+    }
   },
 
   upload: {
@@ -7912,9 +7925,11 @@ var $ummu = {
   },
 
   bt: {
+    /**
+     * contoh: 
+     * $tableID = $('#tbAccount')
+     * */
     initTable: function ($tableID) {
-      // var table_id = $tableID[0].id;
-
       $tableID.bootstrapTable({
         locale: "en-US",
         // buttons: {
@@ -7939,6 +7954,8 @@ var $ummu = {
         // buttons: $ummu.bt.button.crud($tableID[0].id)
       });
 
+      var table_id = $tableID[0].id;
+
       $tableID.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
           $ummu.vars.row = $ummu.bt.select.getRows()[0]
           $ummu.vars.rows = $ummu.bt.select.getRows()
@@ -7946,6 +7963,8 @@ var $ummu = {
           $ummu.vars.ids = $ummu.bt.select.getIds()
           $ummu.vars.id_onCheck = $ummu.bt.select.getIds()[0]
           $ummu.vars.ids_onCheck = $ummu.bt.select.getIds()
+
+          console.log(table_id)
 
           // $("#remove").prop("disabled",!$ummu.bt.select.length())
           $('button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length())
@@ -7973,18 +7992,6 @@ var $ummu = {
         console.log(name, args)
       });
 
-      $("#remove").click(function () {
-        app.Controllers.remove()
-        // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
-        // $('#modal_confirmation_multiple_delete').modal('show')
-      });
-
-      $("#view").click(function () {
-        // $('#modal_form').modal('show')
-        app.Controllers.view()
-      });
-
-      $ummu.bt.filterControl.style()
       $tableID.on("load-success.bs.table", function(){
         $ummu.bt.filterControl.style()
       });
@@ -7992,8 +7999,6 @@ var $ummu = {
       $tableID.on("reset-view.bs.table", function(){
         $ummu.bt.filterControl.style()        
       });
-
-      $('button[name=btn_new]').removeClass('btn-secondary')
 
       $tableID.on('click-row.bs.table', function (e, row, $element, field) {
         // console.log('Row clicked:', row);
@@ -8028,6 +8033,21 @@ var $ummu = {
         // console.log(e)
         // console.log(params)
       });
+
+      $ummu.bt.filterControl.style()
+
+      $("#remove").click(function () {
+        app.Controllers.remove()
+        // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
+        // $('#modal_confirmation_multiple_delete').modal('show')
+      });
+
+      $("#view").click(function () {
+        // $('#modal_form').modal('show')
+        app.Controllers.view()
+      });
+
+      $('button[name=btn_new]').removeClass('btn-secondary');
     },
 
     responseHandler: function (res) {
