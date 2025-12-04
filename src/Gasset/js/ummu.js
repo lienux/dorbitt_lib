@@ -60,6 +60,20 @@ var $ummu = {
         }
       },
 
+      delete2: function($table_id, ids) {
+        // $ummu.vars.rows = rows;
+        // $ummu.vars.row = rows[0];
+        $ummu.vars.action = "delete";
+
+        console.log('button delete')
+        if(typeof app.controllers.edit !== "undefined") {
+          console.log('function app.controllers.delete is OK.');
+          app.controllers.delete2($table_id, ids);
+        }else{
+          console.log('plese create function app.controllers.delete');
+        }
+      },
+
       clickID: function(table_id, row) {
         console.log('click field id on ' + table_id)
         if(typeof app.controllers.clickID !== "undefined") {
@@ -2431,7 +2445,7 @@ var $ummu = {
      * contoh params di bawah
      * */
     /*
-    var params = {
+    contoh: params = {
       "function": "create"
       "method": "POST",
       "data": payload,
@@ -7955,35 +7969,36 @@ var $ummu = {
       });
 
       var table_id = $tableID[0].id;
+      var $table_id = $('#'+table_id);
 
       $tableID.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
-          $ummu.vars.row = $ummu.bt.select.getRows()[0]
-          $ummu.vars.rows = $ummu.bt.select.getRows()
-          $ummu.vars.id = $ummu.bt.select.getIds()[0]
-          $ummu.vars.ids = $ummu.bt.select.getIds()
-          $ummu.vars.id_onCheck = $ummu.bt.select.getIds()[0]
-          $ummu.vars.ids_onCheck = $ummu.bt.select.getIds()
+          $ummu.vars.row = $ummu.bt.select.getRows($table_id)[0]
+          $ummu.vars.rows = $ummu.bt.select.getRows($table_id)
+          $ummu.vars.id = $ummu.bt.select.getIds($table_id)[0]
+          $ummu.vars.ids = $ummu.bt.select.getIds($table_id)
+          $ummu.vars.id_onCheck = $ummu.bt.select.getIds($table_id)[0]
+          $ummu.vars.ids_onCheck = $ummu.bt.select.getIds($table_id)
 
-          console.log(table_id)
+          // console.log($table_id)
 
           // $("#remove").prop("disabled",!$ummu.bt.select.length())
-          $('button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length())
+          $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length($table_id))
           // $("#view").prop("disabled",$ummu.bt.select.length() != 1)
           // $("#new").prop("disabled",$ummu.bt.select.length())
 
-          if ($ummu.bt.select.length() >= 1) {
+          if ($ummu.bt.select.length($table_id) >= 1) {
               // $('#remove').removeClass('btn-secondary').addClass('btn-danger')
-              $('button[name=btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
+              $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
           }else{
               // $('#remove').removeClass('btn-danger').addClass('btn-secondary')
-              $('button[name=btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
+              $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
           }
 
-          if ($ummu.bt.select.length() == 1) {
-              $('button[name=btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
+          if ($ummu.bt.select.length($table_id) == 1) {
+              $('div[data-tableid='+table_id+']' + ' button[name=btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
               $('#btn_modules').removeClass('btn-secondary').addClass('btn-info').prop('disabled', false)
           }else{
-              $('button[name=btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
+              $('div[data-tableid='+table_id+']' + ' button[name=btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
               $('#btn_modules').removeClass('btn-info').addClass('btn-secondary').prop('disabled', true)
           }
       });
@@ -8036,85 +8051,56 @@ var $ummu = {
 
       $ummu.bt.filterControl.style()
 
-      $("#remove").click(function () {
+      $('div[data-tableid='+table_id+']' + "#remove").click(function () {
         app.Controllers.remove()
         // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
         // $('#modal_confirmation_multiple_delete').modal('show')
       });
 
-      $("#view").click(function () {
+      $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').click(function () {
+        var ids = $ummu.bt.select.getIds($table_id);
+        // console.log(ids)
+        // app.Controllers.remove()
+        // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
+        // $('#modal_confirmation_multiple_delete').modal('show')
+        $ummu.routes.toPage.delete2($table_id, ids)
+      });
+
+      $('div[data-tableid='+table_id+']' + "#view").click(function () {
         // $('#modal_form').modal('show')
         app.Controllers.view()
       });
 
-      $('button[name=btn_new]').removeClass('btn-secondary');
-    },
-
-    responseHandler: function (res) {
-      $.each(res.rows, function (i, row) {
-        row.state = $.inArray(row.id, selections) !== -1;
-      });
-      return res;
-    },
-
-    detailFormatter: function (index, row) {
-      var html = [];
-      $.each(row, function (key, value) {
-        html.push("<p><b>" + key + ":</b> " + value + "</p>");
-      });
-      return html;
-    },
-
-    formatTotalPrice: function (data) {
-      var field = this.field;
-      return (
-        "$" +
-        data
-        .map(function (row) {
-          return +row[field].substring(1);
-        })
-        .reduce(function (sum, i) {
-          return sum + i;
-        }, 0)
-        );
-    },
-
-    operateFormatter: function () {
-      return [
-        // '<a class="like" href="javascript:void(0)" title="Like">',
-        //     '<i class="fa fa-heart"></i>',
-        // '</a>  ',
-        // '<a href="#" id="add" class="remove" data-bs-toggle="modal" data-bs-target="#modal_confirmation">',
-        //     '<i class="fa fa-trash"></i>',
-        // '</a>   ',
-        '<a class="remove" href="javascript:void(0)" title="Remove">',
-        '<i class="fa fa-trash"></i>',
-        "</a>  ",
-        '<a class="edit" href="javascript:void(0)" title="Edit">',
-        '<i class="fas fa-edit"></i>',
-        "</a>",
-      ];
-    },
-
-    getIdSelections: function () {
-      return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.id
-      })
+      $('div[data-tableid='+table_id+']' + 'button[name=btn_new]').removeClass('btn-secondary');
     },
 
     select: {
-      length: function() {
-        return $table.bootstrapTable('getSelections').length
+      length: function($table_id) {
+        if ($table_id) {
+          return $table_id.bootstrapTable('getSelections').length
+        }else{
+          return $table.bootstrapTable('getSelections').length
+        }
       },
 
-      getIds: function() {
-        return $.map($table.bootstrapTable('getSelections'), function (row) {
-          return row.id
-        })
+      getIds: function($table_id) {
+        if ($table_id) {
+          return $.map($table_id.bootstrapTable('getSelections'), function (row) {
+            return row.id
+          })
+        }else{
+          return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+          })
+        }
       },
 
-      getRows: function() {
-        return $table.bootstrapTable('getSelections')
+      getRows: function($table_id) {
+        if ($table_id) {
+          return $table_id.bootstrapTable('getSelections')
+        }else{
+          return $table.bootstrapTable('getSelections')
+        }
       }
     },
 
@@ -8208,6 +8194,58 @@ var $ummu = {
           buttonsOrder: buttonsOrder,
         });
       },
+    },
+
+    responseHandler: function (res) {
+      $.each(res.rows, function (i, row) {
+        row.state = $.inArray(row.id, selections) !== -1;
+      });
+      return res;
+    },
+
+    detailFormatter: function (index, row) {
+      var html = [];
+      $.each(row, function (key, value) {
+        html.push("<p><b>" + key + ":</b> " + value + "</p>");
+      });
+      return html;
+    },
+
+    formatTotalPrice: function (data) {
+      var field = this.field;
+      return (
+        "$" +
+        data
+        .map(function (row) {
+          return +row[field].substring(1);
+        })
+        .reduce(function (sum, i) {
+          return sum + i;
+        }, 0)
+        );
+    },
+
+    operateFormatter: function () {
+      return [
+        // '<a class="like" href="javascript:void(0)" title="Like">',
+        //     '<i class="fa fa-heart"></i>',
+        // '</a>  ',
+        // '<a href="#" id="add" class="remove" data-bs-toggle="modal" data-bs-target="#modal_confirmation">',
+        //     '<i class="fa fa-trash"></i>',
+        // '</a>   ',
+        '<a class="remove" href="javascript:void(0)" title="Remove">',
+        '<i class="fa fa-trash"></i>',
+        "</a>  ",
+        '<a class="edit" href="javascript:void(0)" title="Edit">',
+        '<i class="fas fa-edit"></i>',
+        "</a>",
+      ];
+    },
+
+    getIdSelections: function () {
+      return $.map($table.bootstrapTable('getSelections'), function (row) {
+        return row.id
+      })
     },
   },
 
