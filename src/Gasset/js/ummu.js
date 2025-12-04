@@ -141,6 +141,7 @@ var $ummu = {
     initTable2: null,
     parentTableID: null,
     rows_on_getData: null,
+    modal_id_show: null,
 
     msdbToken: localStorage.getItem("msdbToken"),
     urlpath: window.location.href,
@@ -665,6 +666,12 @@ var $ummu = {
         }else{
           console.log('plese create function app.controllers.on_btn_get_data_click.');
         }
+      })
+
+      $("#ummu_modal_delete_confirm #modal_btn_delete").on('click', function(){
+        var ids = $(this).data('ids')
+        var $table_id = $(this).data('tableid')
+        $ummu.routes.toPage.delete2($table_id, ids)
       })
 
       if ($ummu.vars.login_module == 'herp') {
@@ -8075,10 +8082,16 @@ var $ummu = {
       $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').click(function () {
         var ids = $ummu.bt.select.getIds($table_id);
         // console.log(ids)
+        // console.log($table_id)
         // app.Controllers.remove()
         // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
-        // $('#modal_confirmation_multiple_delete').modal('show')
-        $ummu.routes.toPage.delete2($table_id, ids)
+        $('#ummu_modal_delete_confirm #message_data').html('')
+        $('#ummu_modal_delete_confirm #message_data').html('id = ' + ids.join(", "))
+        $('#ummu_modal_delete_confirm #modal_btn_delete').data('tableid', $table_id)
+        $('#ummu_modal_delete_confirm #modal_btn_delete').data('ids', ids)
+        $('#ummu_modal_delete_confirm').modal('show')
+        $ummu.vars.modal_id_show = $('#ummu_modal_delete_confirm')
+        // $ummu.routes.toPage.delete2($table_id, ids)
       });
 
       $('div[data-tableid='+table_id+']' + "#view").click(function () {
@@ -8087,6 +8100,14 @@ var $ummu = {
       });
 
       $('div[data-tableid='+table_id+']' + 'button[name=btn_new]').removeClass('btn-secondary');
+    },
+
+    remove: function($table_id) {
+      // $table_id = $("#table");
+      $table_id.bootstrapTable('remove', {
+        field: 'id',
+        values: $ummu.bt.select.getIds($table_id)
+      })
     },
 
     select: {
