@@ -29,14 +29,7 @@ class Curl
 
     public function valcurl()
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$this->url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        $curlresult=curl_exec ($ch);
-        curl_close ($ch);
-        
-        if (!preg_match("/OK/i", $curlresult))
-        return "The curl action has FAILED! (OUTPUT of curl is: ".$curlresult."), please check your internet connection";
+        return $this->ch->ping_host_api();
     }
 
     public function request($url,$method,$payload,$module_code,$token = null)

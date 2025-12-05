@@ -13,6 +13,10 @@ namespace Dorbitt\Helpers;
 
 class CurlHelper
 {
+    public $host_api;
+    public $url;
+    public $token;
+
     public function __construct()
     {
         $v = "v1/";
@@ -39,14 +43,13 @@ class CurlHelper
         }*/
 
         if ($openapi2URL == "development") {
-            $this->url = "http://localhost:8080/". $v;
+            $this->url = "http://localhost:8080/";
+            $this->host_api = "http://localhost:8080/";
         // }elseif ($openapi2URL == "staging") {
-        //     $this->url = "https://staging.openapi2.com/". $v;
-        //     // $this->url = "https://campodeiform-tyesha-nonextracted.ngrok-free.dev/api/";
-        //     // $this->url = "https://staging.openapi2.web.id/". $v;
+            // $this->host_api = "https://staging.openapi2.com/";
         }else{
-            // $this->url = "https://openapi2.com/". $v;
-            $this->url = "https://openapi2.com/". $v;
+            $this->url = "https://openapi2.com/";
+            $this->host_api = "https://openapi2.com/";
         }
 
         if (getenv("DORBITT_TOKEN")) {
@@ -56,22 +59,38 @@ class CurlHelper
         }
     }
 
+    public function api()
+    {
+        return $this->host_api . 'v1/';
+    }
+
     public function endpoint()
     {
-
-        return $this->url;
+        return $this->host_api . 'v1/';
     }
 
     public function valcurl()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$this->url);
+        curl_setopt($ch, CURLOPT_URL,$this->host_api);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
         $curlresult=curl_exec ($ch);
         curl_close ($ch);
         
         if (!preg_match("/OK/i", $curlresult))
-        return "The curl action has FAILED! (OUTPUT of curl is: ".$curlresult."), please check your internet connection";
+        return "The curl action has FAILED! (OUTPUT of curl is: ".$curlresult."), please check your internet connection, for connection to ".$this->host_api;
+    }
+
+    public function ping_host_api()
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$this->host_api);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        $curlresult=curl_exec ($ch);
+        curl_close ($ch);
+        
+        if (!preg_match("/OK/i", $curlresult))
+        return "The curl action has FAILED! ". "<p>OUTPUT of curl is: ".$curlresult. "<p>Please check your internet connection, for connection to API Host ".$this->host_api;
     }
 
     public function request($url,$method,$payload,$module_code,$token = null)
