@@ -4058,6 +4058,21 @@ var $ummu = {
       return c;
     },
 
+    table2excel: function(table_id, name) {
+      if(typeof jQuery.fn.table2excel !== "undefined") {
+        $("#"+table_id).table2excel({
+          // exclude: ".bg-info",
+          name:"Sheet1",
+          filename: name,
+          fileext:".xls",
+          exclude_img: true,
+          exclude_links: true,
+          exclude_inputs: true,
+          // filename: name + ".xls"
+        });
+      }
+    },
+
     mechanic_activity: {
       dateStart: function () {
         $("#date_start").change(function () {

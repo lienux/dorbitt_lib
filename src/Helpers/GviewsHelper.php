@@ -148,6 +148,11 @@ class GviewsHelper
         ];
     }
 
+    public function include_rangeDate_site()
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/filter_rangedate_site';
+    }
+
     public function ummujs2()
     {
         return "../../vendor/dorbitt/lib/src/Gviews/ummujs";

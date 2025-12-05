@@ -55,6 +55,12 @@ table.dataTable thead tr > .dtfc-fixed-left {
   color: #fff;
 }
 
+.tb-dt1 thead tr,
+.tb-dt1 thead tr > .dtfc-fixed-left {
+  background-color: #34517d;
+  color: #fff;
+}
+
 
 
 .accordion {
@@ -526,4 +532,33 @@ button.bg-purple:focus {
 .text-purple {
   --bs-text-opacity: 1;
   color: #800080 !important;
+}
+
+.ummu-nav .nav-tabs .nav-link.active,
+.ummu-nav .nav-tabs .nav-item.show .nav-link {
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #800080;
+}
+
+.ummu-nav-child .nav-tabs .nav-link.active,
+.ummu-nav-child .nav-tabs .nav-item.show .nav-link {
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-top-color: #ffc107;
+}
+
+.ummu-breadcrumb {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* padding: 0.3rem; */
+    padding: 0px;
+    margin-bottom: 0.75rem;
+    list-style: none;
+    /* background-color: #e9ecef; */
+    background-color: unset;
+    border-radius: 0.25rem;
+    /* margin: 0px; */
 }
