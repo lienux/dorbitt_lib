@@ -33,6 +33,18 @@ var $ummu = {
         }
       },
 
+      save_selected: function(table_id) {
+        $ummu.vars.action = "save";
+
+        console.log('button save_selected')
+        if(typeof app.controllers.save_selected !== "undefined") {
+          console.log('function app.controllers.save_selected is OK.');
+          app.controllers.save_selected(table_id);
+        }else{
+          console.log('plese create function app.controllers.save_selected');
+        }
+      },
+
       edit: function(rows) {
         $ummu.vars.row = rows[0];
         $ummu.vars.action = "edit";
@@ -151,6 +163,13 @@ var $ummu = {
     show_col_id: localStorage.getItem("show_col_id"),
     toggle_sidebar: localStorage.getItem("toggle_sidebar"),
     no_image_path: "uploads/no_image.jpg",
+    show_data_empty: {
+      "status": true,
+      "message": "Get data success.",
+      "rows": [],
+      "total": 0,
+      "count": 0
+    },
 
     mode_form: null,
     dataIndex: null,
@@ -319,7 +338,7 @@ var $ummu = {
         localStorage.setItem("nav_tab_id", nav_tab_id);
         $ummu.vars.nav_tab_id = nav_tab_id;
 
-        console.log('nav-tabs click');
+        console.log('nav-tabs '+nav_tab_id+' click');
         if(typeof app.controllers.on_navTab_click !== "undefined") {
           console.log('function app.controllers.on_navTab_click is OK.');
           app.controllers.on_navTab_click(nav_tab_id);
@@ -3187,6 +3206,16 @@ var $ummu = {
       return $.ajax(settings);
     },
 
+    show_data_empty: function() {
+      return {
+          "status": true,
+          "message": "Get data success.",
+          "rows": [],
+          "total": 0,
+          "count": 0
+        }
+    },
+
     payroll: {
       payslip_periode: {
         create: function () {
@@ -3594,6 +3623,14 @@ var $ummu = {
   },
 
   func: {
+    isNull: function($element_id) {
+      if ($element_id.val() == "" || $element_id.val() == null || $element_id == 'undefined') {
+        return true
+      }else{
+        return false
+      }
+    },
+
     copyText:function(element_id) {
       // Get the text field
       var copyText = document.getElementById(element_id);
@@ -8004,23 +8041,26 @@ var $ummu = {
           // console.log($table_id)
 
           // $("#remove").prop("disabled",!$ummu.bt.select.length())
-          $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').prop("disabled",!$ummu.bt.select.length($table_id))
+          $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').prop("disabled",!$ummu.bt.select.length($table_id))
+          $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').prop("disabled",!$ummu.bt.select.length($table_id))
           // $("#view").prop("disabled",$ummu.bt.select.length() != 1)
           // $("#new").prop("disabled",$ummu.bt.select.length())
 
           if ($ummu.bt.select.length($table_id) >= 1) {
               // $('#remove').removeClass('btn-secondary').addClass('btn-danger')
-              $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').removeClass('btn-secondary').addClass('btn-primary')
           }else{
               // $('#remove').removeClass('btn-danger').addClass('btn-secondary')
-              $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').addClass('btn-primary').removeClass('btn-secondary')
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
           }
 
           if ($ummu.bt.select.length($table_id) == 1) {
-              $('div[data-tableid='+table_id+']' + ' button[name=btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
               $('#btn_modules').removeClass('btn-secondary').addClass('btn-info').prop('disabled', false)
           }else{
-              $('div[data-tableid='+table_id+']' + ' button[name=btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
+              $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
               $('#btn_modules').removeClass('btn-info').addClass('btn-secondary').prop('disabled', true)
           }
       });
@@ -8079,27 +8119,32 @@ var $ummu = {
         // $('#modal_confirmation_multiple_delete').modal('show')
       });
 
-      $('div[data-tableid='+table_id+']' + ' button[name=btn_delete]').click(function () {
-        var ids = $ummu.bt.select.getIds($table_id);
-        // console.log(ids)
-        // console.log($table_id)
-        // app.Controllers.remove()
-        // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
-        $('#ummu_modal_delete_confirm #message_data').html('')
-        $('#ummu_modal_delete_confirm #message_data').html('id = ' + ids.join(", "))
-        $('#ummu_modal_delete_confirm #modal_btn_delete').data('tableid', $table_id)
-        $('#ummu_modal_delete_confirm #modal_btn_delete').data('ids', ids)
-        $('#ummu_modal_delete_confirm').modal('show')
-        $ummu.vars.modal_id_show = $('#ummu_modal_delete_confirm')
-        // $ummu.routes.toPage.delete2($table_id, ids)
-      });
-
       $('div[data-tableid='+table_id+']' + "#view").click(function () {
         // $('#modal_form').modal('show')
         app.Controllers.view()
       });
 
-      $('div[data-tableid='+table_id+']' + 'button[name=btn_new]').removeClass('btn-secondary');
+      $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').click(function () {
+        var ids = $ummu.bt.select.getIds($table_id);
+        // console.log(ids)
+        // console.log($table_id)
+        // app.Controllers.remove()
+        // $('#btn_multiple_delete').attr('onclick','Routes.multiple_delete();')
+        if (ids.length == 0) {
+          $ummu.modal.ummu_msg('Please select one or more rows in the table list to delete.')
+        }else{
+          $('#ummu_modal_delete_confirm #message_data').html('')
+          $('#ummu_modal_delete_confirm #message_data').html('id = ' + ids.join(", "))
+          $('#ummu_modal_delete_confirm #modal_btn_delete').data('tableid', $table_id)
+          $('#ummu_modal_delete_confirm #modal_btn_delete').data('ids', ids)
+          $('#ummu_modal_delete_confirm').modal('show')
+          $ummu.vars.modal_id_show = $('#ummu_modal_delete_confirm')
+          // $ummu.routes.toPage.delete2($table_id, ids)
+        }
+      });
+
+      $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_new]').removeClass('btn-secondary')
+      $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-primary')
     },
 
     remove: function($table_id) {
@@ -8131,6 +8176,12 @@ var $ummu = {
         }
       },
 
+      get_module_id: function($table_id) {
+        return $.map($table_id.bootstrapTable('getSelections'), function (row) {
+          return row.module_id
+        })
+      },
+
       getRows: function($table_id) {
         if ($table_id) {
           return $table_id.bootstrapTable('getSelections')
@@ -8158,7 +8209,7 @@ var $ummu = {
 
         if (Array.isArray(crud)) {
           if (crud.includes("new")) {
-            params.btn_new = {
+            params.bt_btn_new = {
               text: "Add new row",
               icon: "far fa-plus",
               event: function () {
@@ -8176,8 +8227,36 @@ var $ummu = {
             }
           }
 
+          if (crud.includes("save_selected")) {
+            params.bt_btn_save_selected = {
+              text: "Save selected row",
+              icon: "fas fa-save",
+              event: function () {
+                // var parentTableId = $(this).parents('table').prevObject[0].$el.get(0).id;
+                var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
+                var ids = $ummu.bt.select.getIds($('#'+parentTableId));
+                // console.log(parentTableId)
+
+                $ummu.vars.element_id = parentTableId
+                $ummu.vars.parentTableID = parentTableId
+
+                // var rows = $ummu.bt.select.getRows($('#'+parentTableId));
+                // console.log(rows)
+                if (ids.length === 0) {
+                  $ummu.modal.ummu_msg('Please select one or more rows in the table list to save.')
+                }else{
+                  $ummu.routes.toPage.save_selected(parentTableId)
+                }
+              },
+              attributes: {
+                title: "Save selected row",
+                disabled: 'true'
+              },
+            }
+          }
+
           if (crud.includes("edit")) {
-            params.btn_edit = {
+            params.bt_btn_edit = {
               text: "Edit row",
               icon: "far fa-edit",
               event: function () {
@@ -8194,7 +8273,7 @@ var $ummu = {
           }
 
           if (crud.includes("delete")) {
-            params.btn_delete = {
+            params.bt_btn_delete = {
               text: "Delete rows",
               icon: "far fa-trash",
               event: function () {
@@ -12556,7 +12635,12 @@ var $ummu = {
       // '</div>';
 
       // $('.ummu-html').html(html);
-    }
+    },
+
+    ummu_msg: function(msg) {
+      $('#ummu_modal_message #alert').html(msg)
+      $('#ummu_modal_message').modal('show')
+    },
   },
 
   button: {
@@ -12686,6 +12770,20 @@ var $ummu = {
     approve: null,
     reject: null,
     pending: null,
+  },
+
+  $: {
+    id: $('#id'),
+    account_id: $('#account_id'),
+    company_id: $('#company_id'),
+    company: $('#company'),
+    name: $('#name'),
+    nik: $('#nik'),
+    username: $('#username'),
+    password: $('#password'),
+
+    ummu_modalMsg: $('#ummu_modal_message'),
+    modal_dismod: $('#modal_dismod'),
   },
 
   loader: function (modal) {
