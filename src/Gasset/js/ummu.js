@@ -579,7 +579,7 @@ var $ummu = {
       });
 
       $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-01');
-      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-' + $ummu.vars.newDate.getDate());
+      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-' + String($ummu.vars.newDate.getDate()).padStart(2, '0'));
 
       $("input[data-type='currency']").on({
           keyup: function() {
