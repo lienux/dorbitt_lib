@@ -221,4 +221,22 @@ class Auth
 
         return json_decode($response, false);
     }
+
+    public function phone_number_find($payload)
+    {
+        $params = [
+            "path"           => "auth/phone_number/find",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "headers"        => array(
+                'Content-Type: application/json',
+                'App-Id: ' . getenv('app.id'),
+                'Company-Token: ' . getenv('app.company_token')
+            )
+        ];
+
+        $response = $this->cH->ummu2($params);
+
+        return $response;
+    }
 }
