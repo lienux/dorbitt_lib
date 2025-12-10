@@ -693,6 +693,8 @@ var $ummu = {
         $ummu.routes.toPage.delete2($table_id, ids)
       })
 
+      $(".canvasjs-chart-credit").html('canvas.omdoo.id')
+
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
         $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
