@@ -3627,6 +3627,13 @@ var $ummu = {
   },
 
   func: {
+    google_charts: function(draw) {
+        google.charts.load('current', {
+          'packages': ['corechart']
+      });
+      google.charts.setOnLoadCallback(draw);
+    },
+
     isNull: function($element_id) {
       if ($element_id.val() == "" || $element_id.val() == null || $element_id == 'undefined') {
         return true
