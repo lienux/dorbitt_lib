@@ -3626,14 +3626,23 @@ var $ummu = {
     },
   },
 
-  func: {
-    google_charts: function(draw) {
+  google: {
+    chart: {
+      init: function(draw) {
         google.charts.load('current', {
           'packages': ['corechart']
-      });
-      google.charts.setOnLoadCallback(draw);
-    },
+        });
+        google.charts.setOnLoadCallback(draw);
+      },
 
+      drawCombo: function(data, options, element_id) {
+        var chart = new google.visualization.ComboChart(element_id);
+        chart.draw(data, options);
+      }
+    }
+  },
+
+  func: {
     isNull: function($element_id) {
       if ($element_id.val() == "" || $element_id.val() == null || $element_id == 'undefined') {
         return true
