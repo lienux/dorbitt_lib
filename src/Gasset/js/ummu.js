@@ -754,6 +754,8 @@ var $ummu = {
             console.log('plese delete function app.controllers.delete.');
           }
         }
+
+        $(".canvasjs-chart-credit").html('canvas.omdoo.id')
       });
     },
   },
