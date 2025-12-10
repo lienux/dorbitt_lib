@@ -3638,6 +3638,11 @@ var $ummu = {
       drawCombo: function(data, options, element_id) {
         var chart = new google.visualization.ComboChart(element_id);
         chart.draw(data, options);
+      },
+
+      drawBar: function(data, options, element_id) {
+        var chart = new google.visualization.BarChart(element_id);
+        chart.draw(data, options);
       }
     }
   },
