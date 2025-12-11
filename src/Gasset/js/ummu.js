@@ -578,8 +578,8 @@ var $ummu = {
         }
       });
 
-      $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-01');
-      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + ($ummu.vars.newDate.getMonth()+1) + '-' + $ummu.vars.newDate.getDate());
+      $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth()+1).padStart(2, '0') + '-01');
+      $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth()+1).padStart(2, '0') + '-' + String($ummu.vars.newDate.getDate()).padStart(2, '0'));
 
       $("input[data-type='currency']").on({
           keyup: function() {
@@ -745,6 +745,7 @@ var $ummu = {
       });
       /**
        * END AUTH*/
+      $(".canvasjs-chart-credit").html('canvas.omdoo.id')
 
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
@@ -807,6 +808,8 @@ var $ummu = {
             console.log('plese delete function app.controllers.delete.');
           }
         }
+
+        $(".canvasjs-chart-credit").html('canvas.omdoo.id')
       });
     },
   },
@@ -3740,6 +3743,27 @@ var $ummu = {
         });
       },
     },
+  },
+
+  google: {
+    chart: {
+      init: function(draw) {
+        google.charts.load('current', {
+          'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(draw);
+      },
+
+      drawCombo: function(data, options, element_id) {
+        const chart = new google.visualization.ComboChart(document.getElementById(element_id));
+        chart.draw(data, options);
+      },
+
+      drawBar: function(data, options, element_id) {
+        const chart = new google.visualization.BarChart(document.getElementById(element_id));
+        chart.draw(data, options);
+      }
+    }
   },
 
   func: {
