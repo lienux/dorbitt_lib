@@ -239,4 +239,21 @@ class Auth
 
         return $response;
     }
+
+    public function company_profile()
+    {
+        $params = [
+            "path"      => "company_profile",
+            "method"    => "GET",
+            "payload"   => [],
+            "headers"   => array(
+                'Content-Type: application/json',
+                'Company-Token: '.getenv('app.company_token')
+            )
+        ];
+
+        $response = $this->cH->ummu2($params);
+
+        return $response;
+    }
 }

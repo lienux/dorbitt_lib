@@ -693,6 +693,59 @@ var $ummu = {
         $ummu.routes.toPage.delete2($table_id, ids)
       })
 
+      /**
+       * AUTH*/
+      $ummu.$.auth_btnNext.on("click", function () {
+        $ummu.$.auth_alert.html("");
+        if ($ummu.$.auth_phoneNumber.val()) {
+          $(this).addClass("disabled");
+          $ummu.$.auth_loaderNextStep.removeClass("collapse");
+          $ummu.ajax.auth.cek_phone();
+        } else {
+          $("#alert").html(
+            '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
+          );
+        }
+      });
+      $ummu.$.auth_btnGet_otpWa.on("click", function () {
+        $ummu.$.auth_alert.html("");
+        if ($ummu.$.auth_phoneNumber.val()) {
+          $(this).addClass("disabled");
+          $ummu.$.auth_loaderGetOtpWA.removeClass("collapse");
+          app.controllers.get_otp_wa();
+        } else {
+          $("#alert").html(
+            '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
+          );
+        }
+      });
+      $ummu.$.auth_btnGet_otpEmail.on("click", function () {
+        $("#alert").html("");
+        if ($("#phone_number").val()) {
+          $(".btn-next").prop("disabled", true);
+          $("#loader_get_otp_email").removeClass("collapse");
+          app.controllers.get_otp_email();
+        } else {
+          $("#alert").html(
+            '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
+          );
+        }
+      });
+      $ummu.$.auth_btnGet_otpSms.on("click", function () {
+        $("#alert").html("");
+        if ($("#phone_number").val()) {
+          $(".btn-next").prop("disabled", true);
+          $("#loader_get_otp_sms").removeClass("collapse");
+          app.controllers.get_otp_sms();
+        } else {
+          $("#alert").html(
+            '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
+          );
+        }
+      });
+      /**
+       * END AUTH*/
+
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
         $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
@@ -1988,6 +2041,73 @@ var $ummu = {
         });
 
         return jqXHR;
+      },
+
+      cek_phone: function () {
+        var payload = JSON.stringify({
+          phone_number: $("#phone_number").val()
+        });
+
+        var url = $ummu.$.base_url + "auth/phone_number/find";
+        var params = {
+          url: url,
+          type: "post",
+          action: "create",
+          data: payload,
+          cache: true,
+          contentType: "application/json",
+          dataType: "json",
+        };
+
+        // console.log(JSON.parse(payload))
+        // console.log(params)
+
+        var ummu = $ummu.ajax.ummu3(params);
+        ummu
+          .done(function (result) {
+            // console.log(result)
+            // var response = JSON.parse(result);
+            var response = result;
+            $ummu.vars.response = response;
+
+            if (response.status == true) {
+              // $("#phone_number").prop("disabled", true);
+              // $("#phone_number").prop("readonly", true);
+              // $("#phone_number_ok").val($("#phone_number").val());
+              // // get_otp();
+              // $("#loader_next_step, #btn_next_step").addClass("collapse");
+              // // $("#btn_next_step").addClass("collapse");
+              // $("#form_get_otp").removeClass("collapse");
+              // if (conf_get_otp_wa == "false") {
+              //   $("#btn_get_otp_wa").prop("disabled", true);
+              //   $("#text_get_otp_wa")
+              //     .removeClass("collapse")
+              //     .html(conf_get_otp_wa_text);
+              // }
+              // var email = response.data.email;
+              // if (!email) {
+              //   $("#btn_get_otp_email").prop("disabled", true);
+              // }
+              // if (response.data.is_password != 1) {
+              //   $("#btn_login_with_password").prop("disabled", true);
+              //   $("#text_login_with_password")
+              //     .removeClass("collapse")
+              //     .html("You haven't created a password yet.");
+              // }
+              // app.views.cek_phone();
+              $ummu.views.after_cek_phone_true()
+            } else {
+              $("#alert").html(
+                '<div class="alert alert-danger">' + response.messages + "</div>"
+              );
+              $("#loader_next_step").addClass("collapse");
+              $("#btn_next_step").removeClass("disabled");
+            }
+          })
+          .fail(function () {
+            // An error occurred
+            console.log(ummu);
+          });
       },
     },
 
@@ -6190,6 +6310,50 @@ var $ummu = {
   },
 
   views: {
+    after_cek_phone_true: function () {
+      var response = $ummu.vars.response;
+      $ummu.$.auth_alert.html("");
+      $ummu.$.auth_btnNext.prop("disabled", false);
+      $ummu.$.auth_elmnHide.addClass("collapse");
+      $ummu.$.auth_formShow.removeClass("collapse");
+      $ummu.$.auth_phoneNumber.prop("disabled", true);
+      $ummu.$.auth_phoneNumber.prop("readonly", true);
+      $ummu.$.auth_phoneNumberOK.val($("#phone_number").val());
+
+      if (conf_get_otp_wa == "false") {
+        $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa").prop("disabled", true);
+        $("#ummu_auth #page_login_with_phone_number #text_get_otp_wa")
+          .removeClass("collapse")
+          .html(conf_get_otp_wa_text);
+      } else {
+        $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa").prop("disabled", false).removeClass("disabled");
+        $("#ummu_auth #page_login_with_phone_number #text_get_otp_wa").addClass("collapse").html(conf_get_otp_wa_text);
+      }
+
+      var email = response.data.email
+      var is_password = response.data.is_password
+
+      if (!email) {
+        $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email").prop("disabled", true);
+        $("#ummu_auth #page_login_with_phone_number #text_get_otp_email")
+          .removeClass("collapse")
+          .html("No email registered.");
+      }
+
+      if (is_password == 1) {
+        $("#form_login_with_phone_password").removeClass('collapse');
+      }
+
+      // $("#btn_get_otp_sms").prop("disabled", true);
+
+      if (response.data.is_password != 1) {
+        $("#ummu_auth #page_login_with_phone_number #btn_login_with_password").prop("disabled", true);
+        $("#ummu_auth #page_login_with_phone_number #text_login_with_password")
+          .removeClass("collapse")
+          .html("You haven't created a password yet.");
+      }
+    },
+
     inputEmpty: function () {
       //
     },
@@ -12773,6 +12937,7 @@ var $ummu = {
   },
 
   $: {
+    base_url: newURL().origin + '/',
     id: $('#id'),
     account_id: $('#account_id'),
     company_id: $('#company_id'),
@@ -12784,6 +12949,20 @@ var $ummu = {
 
     ummu_modalMsg: $('#ummu_modal_message'),
     modal_dismod: $('#modal_dismod'),
+
+    /**
+     * parameter after cek phone number = true*/
+    auth_alert: $("#ummu_auth #page_login_with_phone_number #alert"),
+    auth_btnNext: $("#ummu_auth #page_login_with_phone_number #btn_next_step"),
+    auth_elmnHide: $("#ummu_auth #page_login_with_phone_number .hideAfterCheckPhoneNumber"),
+    auth_formShow: $("#ummu_auth #page_login_with_phone_number #form_cek_phone, #ummu_auth #page_login_with_phone_number #form_get_otp"),
+    auth_phoneNumber: $("#ummu_auth #page_login_with_phone_number #phone_number"),
+    auth_phoneNumberOK: $("#ummu_auth #page_login_with_phone_number #phone_number_ok"),
+    auth_btnGet_otpWa: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa"),
+    auth_btnGet_otpEmail: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email"),
+    auth_btnGet_otpSms: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_sms"),
+    auth_loaderNextStep: $("#ummu_auth #page_login_with_phone_number #loader_next_step"),
+    auth_loaderGetOtpWA: $("#ummu_auth #page_login_with_phone_number #loader_get_otp_wa"),
   },
 
   loader: function (modal) {
@@ -12803,6 +12982,10 @@ var $ummu = {
       $("#modal_loader").modal("hide");
     }
   },
+
+  newURL: function() {
+    return new URL(window.location.href)
+  }
 };
 
 $(document).ready(function () {
@@ -12812,6 +12995,10 @@ $(document).ready(function () {
 
 function resdel() {
   $("#response_deleted").modal("show");
+}
+
+function newURL() {
+  return new URL(window.location.href)
 }
 
 /**
