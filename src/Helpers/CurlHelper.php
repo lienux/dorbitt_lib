@@ -285,6 +285,16 @@ class CurlHelper
 
     /**
      * url hanya path saja*/
+    // CONTOH: 
+    // $params = [
+    //   "path"      => "company_profile",
+    //   "method"    => "GET",
+    //   "payload"   => [],
+    //   "headers"   => array(
+    //     'Content-Type: application/json',
+    //     'Company-Token: '.getenv('app.company_token')
+    //   )
+    // ];
     public function ummu2($params)
     {
         $path           = $params['path'];
