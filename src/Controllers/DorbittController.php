@@ -7,9 +7,9 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\Files\File;
 use CodeIgniter\HTTP\Files\UploadedFile;
-use App\Builder\Approval\ApprovalBuilder;
+// use App\Builder\Approval\ApprovalBuilder;
 use Dorbitt\GviewsHelper;
-use App\Helpers\GlobalHelper;
+// use App\Helpers\GlobalHelper;
 
 class DorbittController extends ResourceController
 {
@@ -18,9 +18,9 @@ class DorbittController extends ResourceController
     // $this->syshab = \Config\Database::connect('syshab');
     // $this->dorbitt = new DorbitT();
     $this->request = \Config\Services::request();
-    $this->qbAppv = new ApprovalBuilder();
+    // $this->qbAppv = new ApprovalBuilder();
     $this->gViews = new GviewsHelper();
-    $this->gHelp = new GlobalHelper();
+    // $this->gHelp = new GlobalHelper();
   }
 
   public function index()
