@@ -104,7 +104,7 @@ class CurlHelper
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . $url,
+            CURLOPT_URL => $this->api() . $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -144,7 +144,7 @@ class CurlHelper
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . $url,
+            CURLOPT_URL => $this->api() . $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -181,7 +181,7 @@ class CurlHelper
             $token = session()->get('token');
         }
 
-        $url_ = $this->url . $path;
+        $url_ = $this->api() . $path;
 
         $curl = curl_init();
 
@@ -228,7 +228,7 @@ class CurlHelper
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url . $path,
+            CURLOPT_URL => $this->api() . $path,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -334,7 +334,7 @@ class CurlHelper
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->url. $path,
+            CURLOPT_URL => $this->api(). $path,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -505,7 +505,7 @@ class CurlHelper
             $token = session()->get('token');
         }
 
-        $url_ = $this->url . $path;
+        $url_ = $this->api() . $path;
 
         $curl = curl_init();
 
