@@ -133,7 +133,7 @@ class Auth
             "headers"        => array(
                 'Content-Type: application/json',
                 'App-Id: ' . getenv('app_id'),
-                'Company-Token: ' . getenv('app.company_token')
+                'Company-Token: ' . getenv('company_token')
             )
         ];
 
@@ -232,7 +232,7 @@ class Auth
             "headers"        => array(
                 'Content-Type: application/json',
                 'App-Id: ' . getenv('app.id'),
-                'Company-Token: ' . getenv('app.company_token')
+                'Company-Token: ' . getenv('company_token')
             )
         ];
 
@@ -249,7 +249,7 @@ class Auth
             "payload"   => [],
             "headers"   => array(
                 'Content-Type: application/json',
-                'Company-Token: '.getenv('app.company_token')
+                'Company-Token: '.getenv('company_token')
             )
         ];
 
