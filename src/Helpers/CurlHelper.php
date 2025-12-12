@@ -116,7 +116,8 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $tokenz
+                'Authorization: Bearer ' . $tokenz,
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -156,7 +157,8 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $token
+                'Authorization: Bearer ' . $token,
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -198,7 +200,8 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $token
+                'Authorization: Bearer ' . $token,
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -240,7 +243,8 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $token
+                'Authorization: Bearer ' . $token,
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -396,7 +400,8 @@ class CurlHelper
                 'Content-Type: application/json',
                 'dataType: json',
                 'Authorization: Basic '.$headers['auth'],
-                'Cookie: SAP_SESSIONID_DS4_240=dHhdUh2tXdEt2TNuixRRozsRELMJKBHwrvMAUFaTR3Q%3d; sap-usercontext=sap-client=240'
+                'Cookie: SAP_SESSIONID_DS4_240=dHhdUh2tXdEt2TNuixRRozsRELMJKBHwrvMAUFaTR3Q%3d; sap-usercontext=sap-client=240',
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -461,7 +466,8 @@ class CurlHelper
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
+                'Content-Type: application/json',
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
@@ -522,7 +528,8 @@ class CurlHelper
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: multipart/form-data',
                 'Module-Code: '. $module_code,
-                'Authorization: Bearer ' . $token
+                'Authorization: Bearer ' . $token,
+                'Company-Token: ' . getenv('company_token')
             ),
         ));
 
