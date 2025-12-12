@@ -745,6 +745,7 @@ var $ummu = {
       });
       /**
        * END AUTH*/
+      
       $(".canvasjs-chart-credit").html('canvas.omdoo.id')
 
       if ($ummu.vars.login_module == 'herp') {

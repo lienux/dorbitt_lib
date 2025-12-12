@@ -132,7 +132,8 @@ class Auth
             "payload"        => $payload,
             "headers"        => array(
                 'Content-Type: application/json',
-                'App-Id: ' . getenv('app_id')
+                'App-Id: ' . getenv('app_id'),
+                'Company-Token: ' . getenv('app.company_token')
             )
         ];
 
