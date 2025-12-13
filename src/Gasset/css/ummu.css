@@ -562,3 +562,17 @@ button.bg-purple:focus {
     border-radius: 0.25rem;
     /* margin: 0px; */
 }
+
+
+.with-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.with-line:before,
+.with-line:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #800080;
+  margin: auto;
+}
