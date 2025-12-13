@@ -136,4 +136,9 @@ class ViewsHelper
     {
         return "../../vendor/dorbitt/lib/src/Gviews/ummujs";
     }
+
+    public function ummuView($path)
+    {
+        return "../../vendor/dorbitt/lib/src/Views/" . $path;
+    }
 }

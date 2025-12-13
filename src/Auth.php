@@ -20,6 +20,11 @@ class Auth
         $this->cH = new CurlHelper();
     }
 
+    public function form_check_phoneNumber()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/pages/auth/form_check_phoneNumber";
+    }
+
     public function login($payload)
     {
         $params = [
@@ -114,8 +119,8 @@ class Auth
             "payload"        => $payload,
             "headers"        => array(
                 'Content-Type: application/json',
-                // 'Company-Token: '.getenv('company_token'),
-                'App-Id: ' . getenv('app_id')
+                'App-Id: ' . getenv('app_id'),
+                'Company-Token: '.getenv('company_token'),
             )
         ];
 
