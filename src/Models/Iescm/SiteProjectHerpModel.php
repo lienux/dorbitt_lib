@@ -1,15 +1,15 @@
 <?php
 
-namespace Dorbitt\Models\Herp;
+namespace Dorbitt\Models\Iescm;
 
 use CodeIgniter\Model;
 
-class SiteProjectModel extends Model
+class SiteProjectHerpModel extends Model
 {
     protected $DBGroup = 'herp';
     protected $table = 'ms_jobsite';
     protected $primaryKey = 'region_code';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $insertID = 0;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
@@ -17,7 +17,7 @@ class SiteProjectModel extends Model
     protected $allowedFields = [];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';

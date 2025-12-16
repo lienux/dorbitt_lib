@@ -1,13 +1,13 @@
 <?php
 
-namespace Dorbitt\Builder\Herp;
+namespace Dorbitt\Builder\Iescm;
 
 use Dorbitt\Helpers\BuilderHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use Dorbitt\UmmuSiteProject;
-use App\Models\Herp\SiteProjectModel;
+use Dorbitt\Models\Iescm\SiteProjectHerpModel;
 
-class SiteProjectBuilder
+class SiteProjectHerpBuilder
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class SiteProjectBuilder
         $this->bHelp = new BuilderHelper();
         $this->qHelp = new UmmuHelper();
         $this->ummu = new UmmuSiteProject();
-        $this->model = new SiteProjectModel();
+        $this->model = new SiteProjectHerpModel();
     }
 
     private function qbAlya()
@@ -105,10 +105,12 @@ class SiteProjectBuilder
 
     public function get()
     {
-        $builder = $this->herp->table($this->model->table)
-        ->select()
-        ->get()
-        ->getResultArray();
+        // $builder = $this->herp->table($this->model->table)
+        // ->select()
+        // ->get()
+        // ->getResultArray();
+
+        $builder = $this->model->findAll();
 
         return $builder;
     }
