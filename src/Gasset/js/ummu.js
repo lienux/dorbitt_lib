@@ -3949,22 +3949,32 @@ var $ummu = {
 
   google: {
     chart: {
-      init: function(draw) {
+      init: function(drawVisualization) {
         google.charts.load('current', {
           'packages': ['corechart']
         });
-        google.charts.setOnLoadCallback(draw);
+        google.charts.setOnLoadCallback(drawVisualization);
       },
 
-      drawCombo: function(data, options, element_id) {
+      draw_ComboChart: function(data, options, element_id) {
         const chart = new google.visualization.ComboChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
 
-      drawBar: function(data, options, element_id) {
+      draw_BarChart: function(data, options, element_id) {
         const chart = new google.visualization.BarChart(document.getElementById(element_id));
         chart.draw(data, options);
-      }
+      },
+
+      draw_ColumnChart: function(data, options, element_id) {
+        var chart = new google.charts.Bar(document.getElementById(element_id));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      },
+
+      draw_LineChart: function(data, options, element_id) {
+        const chart = new google.visualization.LineChart(document.getElementById(element_id));
+        chart.draw(data, options);
+      },
     }
   },
 

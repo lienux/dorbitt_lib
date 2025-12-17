@@ -49,6 +49,11 @@ $routes->group('admin', function($routes) {
         // $routes->get('show_roles', 'AccountsController::show_roles');
         // // $routes->put('update_by_profile', 'AccountsController::update_by_profile');
     });
+
+    $routes->group('file_pomailer', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'FilePomailerController::index');
+        $routes->get('show', 'FilePomailerController::show');
+    });
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
