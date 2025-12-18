@@ -40,7 +40,7 @@ class FilePomailerController extends ResourceController
     $crud = $this->uHelp->index($this->kode);
     $data = [
         'navlink' => $this->kode,
-        'page_title' => 'Surat Tugas Online',
+        'page_title' => 'List PDF PO Mailer',
         'group' => ['purchasing'],
         // 'tmp' => $this->gHelp->tmp(),
         'module_kode' => $this->kode,
