@@ -186,6 +186,7 @@ var $ummu = {
     max_time: null,
 
     newDate: new Date(),
+    fdNow: new Date($ummu.vars.newDate.getFullYear(), $ummu.vars.newDate.getMonth(), 1),
     dNow: new Date().toISOString().slice(0, 10),
     tNow: new Date().toTimeString().slice(0, 8),
 
