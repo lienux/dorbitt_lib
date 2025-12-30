@@ -1749,8 +1749,8 @@ var $ummu = {
       $ummu.$.auth_btnNext.on("click", function () {
         $ummu.$.auth_alert.html("");
         if ($ummu.$.auth_phoneNumber.val()) {
-          $ummu.$.auth_phoneNumber.addClass("disabled");
           $(this).addClass("disabled");
+          $ummu.$.auth_phoneNumber.addClass("disabled").prop('disabled', true);
           $ummu.$.auth_loaderNextStep.removeClass("collapse");
           $ummu.ajax.auth.cek_phone();
         } else {
@@ -1801,8 +1801,14 @@ var $ummu = {
 
       $("#ummu_auth #page_login_with_phone_number #btn_login").on("click", function () {
         $(this).addClass("disabled");
+        $("#ummu_auth #page_login_with_phone_number #password").addClass("disabled").prop("disabled", true);
+        $("#ummu_auth #page_login_with_phone_number #form_get_otp button").addClass("disabled");
         $("#ummu_auth #page_login_with_phone_number #loader_login").removeClass("collapse");
-        $ummu.ajax.auth.login();
+        payload = {
+          username: $ummu.$.auth_phoneNumber,
+          password: $ummu.$.auth_password,
+        };
+        // $ummu.ajax.auth.login_phoneNumber_password();
       });
 
       $("#ummu_auth #page_login_with_phone_number #btn_back").on("click", function () {
@@ -2082,6 +2088,42 @@ var $ummu = {
         return jqXHR;
       },
 
+      login_phoneNumber_password: function (params) {
+        // console.log(params.data);
+        var jqXHR = $.ajax({
+          url: params.url,
+          method: params.type,
+          timeout: 0,
+          headers: {
+            "Content-Type": params.contentType,
+          },
+          data: params.data,
+          prossesing: true,
+          language: {
+            loadingRecords: "&nbsp;",
+            processing: '<div class="spinner"></div>',
+          },
+          beforeSend: function (e) {
+            $("#modal_loader2").modal("show");
+          },
+          complete: function () {
+            //
+          },
+          success: function (response) {
+            // console.log(response)
+            setTimeout(function () {
+              $(".modal-loader2").modal("hide");
+            }, 1000);
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.responseText);
+            $("#modal_loader2").modal("hide");
+          },
+        });
+
+        return jqXHR;
+      },
+
       cek_phone: function () {
         var payload = JSON.stringify({
           phone_number: $ummu.$.auth_phoneNumber.val()
@@ -2114,6 +2156,7 @@ var $ummu = {
               $ummu.$.auth_alert.html(
                 '<div class="alert alert-danger">' + response.messages + "</div>"
               );
+              $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
               $("#loader_next_step").addClass("collapse");
               $("#btn_next_step").removeClass("disabled");
             }
@@ -3957,22 +4000,22 @@ var $ummu = {
         google.charts.setOnLoadCallback(drawVisualization);
       },
 
-      draw_ComboChart: function(data, options, element_id) {
+      drawCombo: function(data, options, element_id) {
         const chart = new google.visualization.ComboChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
 
-      draw_BarChart: function(data, options, element_id) {
+      drawBar: function(data, options, element_id) {
         const chart = new google.visualization.BarChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
 
-      draw_ColumnChart: function(data, options, element_id) {
+      drawColumn: function(data, options, element_id) {
         var chart = new google.charts.Bar(document.getElementById(element_id));
         chart.draw(data, google.charts.Bar.convertOptions(options));
       },
 
-      draw_LineChart: function(data, options, element_id) {
+      drawLine: function(data, options, element_id) {
         const chart = new google.visualization.LineChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
@@ -13204,6 +13247,7 @@ var $ummu = {
     auth_elmnHide: $("#ummu_auth #page_login_with_phone_number .hideAfterCheckPhoneNumber"),
     auth_formShow: $("#ummu_auth #page_login_with_phone_number #form_cek_phone, #ummu_auth #page_login_with_phone_number #form_get_otp"),
     auth_phoneNumber: $("#ummu_auth #page_login_with_phone_number #phone_number"),
+    auth_password: $("#ummu_auth #page_login_with_phone_number #password"),
     auth_phoneNumberOK: $("#ummu_auth #page_login_with_phone_number #phone_number_ok"),
     auth_loaderNextStep: $("#ummu_auth #page_login_with_phone_number #loader_next_step"),
     auth_loaderGetOtpWA: $("#ummu_auth #page_login_with_phone_number #loader_get_otp_wa"),
@@ -15184,22 +15228,3 @@ var $app = {
     // }
   }
 }
-
-// var $auth = {
-//     $alert: $("#ummu_auth #alert"),
-//     $div_btn_next_step: $("#ummu_auth #page_login_with_phone_number #div_btn_next_step"),
-//     $div_btn_login: $("#ummu_auth #page_login_with_phone_number #div_btn_login"),
-//     $btn_get_otp_wa: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa"),
-//     $btn_get_otp_email: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email"),
-//     $btn_get_otp_sms: $("#ummu_auth #page_login_with_phone_number #btn_get_otp_sms"),
-//     $form_get_otp: $("#ummu_auth #page_login_with_phone_number #form_get_otp"),
-//     $div_check_remember_me: $("#ummu_auth #page_login_with_phone_number #div_check_remember_me"),
-//     $link_register: $("#ummu_auth #page_login_with_phone_number #link_register"),
-//     $form_cek_phone: $("#ummu_auth #page_login_with_phone_number #form_cek_phone"),
-//     $page_login_with_phone_number: $("#ummu_auth #page_login_with_phone_number #form_cek_phone #$page_login_with_phone_number"),
-//     $: $("#ummu_auth #page_login_with_phone_number #phone_number"),
-//     $: $("#ummu_auth #page_login_with_phone_number #phone_number_ok"),
-//     $: $("#ummu_auth #page_login_with_phone_number #loader_next_step"),
-//     $: $("#ummu_auth #page_login_with_phone_number #loader_get_otp_wa"),
-//     $: $("#ummu_auth #page_login_with_phone_number #form_login_with_phone_password"),
-// }

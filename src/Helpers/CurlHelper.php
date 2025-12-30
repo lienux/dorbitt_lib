@@ -323,9 +323,30 @@ class CurlHelper
 
         $response = curl_exec($curl);
 
+        /*// Check for cURL errors
+        if (curl_errno($curl)) {
+            echo 'Curl error: ' . curl_error($curl);
+        } else {
+            // Get the HTTP status code
+            $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            echo "HTTP Status Code: " . $http_code;
+            // You can now process the $response string and the $http_code
+        }*/
+
+        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        // Close the cURL session
         curl_close($curl);
 
-        return json_decode($response, false);
+        if ($http_code == 500) {
+            return (object)[
+                "status"    => false,
+                "messages"   => "db_connection failed @".$this->host_api . " Please contact maintenance support." 
+            ];
+        } else {
+            return json_decode($response, false);
+        }
     }
 
     public function ummu2_v1_20250704($params)

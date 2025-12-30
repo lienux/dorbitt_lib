@@ -113,6 +113,7 @@ $routes->group('ummu', ['namespace' => 'Dorbitt\Controllers'], static function (
     });
 
     $routes->get('company_profile', 'UmmuController::company_profile');
+    
     $routes->group('session', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('show', 'DorbittController::session_show');
         $routes->get('destroy', 'DorbittController::session_destroy');
