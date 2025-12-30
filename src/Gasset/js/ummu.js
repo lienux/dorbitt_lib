@@ -3999,22 +3999,22 @@ var $ummu = {
         google.charts.setOnLoadCallback(drawVisualization);
       },
 
-      draw_ComboChart: function(data, options, element_id) {
+      drawCombo: function(data, options, element_id) {
         const chart = new google.visualization.ComboChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
 
-      draw_BarChart: function(data, options, element_id) {
+      drawBar: function(data, options, element_id) {
         const chart = new google.visualization.BarChart(document.getElementById(element_id));
         chart.draw(data, options);
       },
 
-      draw_ColumnChart: function(data, options, element_id) {
+      drawColumn: function(data, options, element_id) {
         var chart = new google.charts.Bar(document.getElementById(element_id));
         chart.draw(data, google.charts.Bar.convertOptions(options));
       },
 
-      draw_LineChart: function(data, options, element_id) {
+      drawLine: function(data, options, element_id) {
         const chart = new google.visualization.LineChart(document.getElementById(element_id));
         chart.draw(data, options);
       },

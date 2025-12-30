@@ -160,7 +160,7 @@ class GviewsHelper
 
     public function ummucssInclude()
     {
-        if (getenv('CI_OPENAPI2') == 'development') {
+        if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/css/ummu.css?time=" . date('YmdHis');
         }else{
             return "https://cdn.openapi2.com/ummu.css?time=" . date('YmdHis');
@@ -169,7 +169,7 @@ class GviewsHelper
 
     public function ummujsInclude()
     {
-        if (getenv('CI_OPENAPI2') == 'development') {
+        if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/js/ummu.js?time=" . date('YmdHis');
         }else{
             return "https://cdn.openapi2.com/ummu.js?time=" . date('YmdHis');
