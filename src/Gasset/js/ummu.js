@@ -13253,6 +13253,17 @@ var $ummu = {
     auth_formLoginPhonePassword: $("#ummu_auth #page_login_with_phone_number #form_login_with_phone_password"),
   },
 
+  date: {
+    now: new Date(),
+    newDate: new Date(),
+    dNow: new Date().toISOString().slice(0, 10),
+    tNow: new Date().toTimeString().slice(0, 8),
+    yyyy: new Date().getFullYear(),
+    mm: String(new Date().getMonth() + 1).padStart(2, '0'),
+    dd: String(new Date().getDate()).padStart(2, '0'),
+    YMD: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0'),
+  },
+
   loader: function (modal) {
     $("#modal_loader").modal(modal);
   },
