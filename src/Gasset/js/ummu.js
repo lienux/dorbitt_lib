@@ -697,6 +697,10 @@ var $ummu = {
       
       $(".canvasjs-chart-credit").html('canvas.omdoo.id')
 
+      // $("#ummu_btn_filter").on('click', function(){
+      //   console.log('ok gassssssssssssss')
+      // })
+
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
         $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
