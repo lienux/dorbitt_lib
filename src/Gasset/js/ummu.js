@@ -186,6 +186,7 @@ var $ummu = {
     max_time: null,
 
     newDate: new Date(),
+    fdNow: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     dNow: new Date().toISOString().slice(0, 10),
     tNow: new Date().toTimeString().slice(0, 8),
 
@@ -695,6 +696,10 @@ var $ummu = {
       })
       
       $(".canvasjs-chart-credit").html('canvas.omdoo.id')
+
+      // $("#ummu_btn_filter").on('click', function(){
+      //   console.log('ok gassssssssssssss')
+      // })
 
       if ($ummu.vars.login_module == 'herp') {
         $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
@@ -13262,6 +13267,8 @@ var $ummu = {
     mm: String(new Date().getMonth() + 1).padStart(2, '0'),
     dd: String(new Date().getDate()).padStart(2, '0'),
     YMD: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0'),
+    yesterday: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate() - 1).padStart(2, '0'),
+    yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
   },
 
   loader: function (modal) {
