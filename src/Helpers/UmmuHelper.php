@@ -893,4 +893,15 @@ class UmmuHelper
             return true;
         }
     }
+
+    public function generateRandomUsername($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.date('Ymd');
+        $charactersLength = strlen($characters);
+        $randomUsername = '';
+        for ($i = 0; $i < $length; $i++) {
+            // Use random_int for better randomness (requires PHP 7.0+)
+            $randomUsername .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomUsername;
+    }
 }

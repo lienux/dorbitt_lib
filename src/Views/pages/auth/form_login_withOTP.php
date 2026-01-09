@@ -2,7 +2,7 @@
     use Dorbitt\Helpers\EncrypterHelper;
     $encrypter = new EncrypterHelper();
     $session = session();
-    $phone_number_encrypt = $_GET['phone_number'];
+    $phone_number_encrypt = $_GET['n'];
     $phone_number = $encrypter->decrypt($phone_number_encrypt);
 ?>
 <?= $this->extend('layout/auth') ?>
@@ -16,7 +16,7 @@
 <div id="alert"></div>
 
 <div class="" id="page_login_with_phone_number">
-    <div class="row g-3 needs-validation" id="form_cek_phone">
+    <div class="row g-3 needs-validation" id="form_login_otp">
         <div class="form-group label">
             <label for="phone_number" class="form-label mb-0">Phone number</label>
             <input type="tel" name="phone_number" class="form-control disabled" id="phone_number" placeholder="e.g. 085853383750" value="<?=$phone_number?>" required disabled readonly>
@@ -36,46 +36,9 @@
         </div>
     </div>
 
-    <div class="row needs-validation collapse" id="form_get_otp">
-        <div class="with-line my-3">Login with OTP</div>
-        <div class="mb-2">
-            <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_email">
-                <img src="<?= base_url("gmail_icon.png") ?>" alt="" style="width: 30px;">
-                <span class="pl-2">Send OTP to Email</span>
-                <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                    aria-hidden="true" id="loader_get_otp_email"></span>
-            </button>
-            <div class="text-danger font-italic collapse" id="text_get_otp_email" style="font-size:10px;">
-            </div>
-        </div>
-
-        <div class="mb-2">
-            <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_wa">
-                <img src="<?= base_url("whatsapp_icon.png") ?>" alt="" style="width: 30px;">
-                <span class="pl-2">Send OTP to Whatsapp</span>
-                <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                    aria-hidden="true" id="loader_get_otp_wa"></span>
-            </button>
-            <div class="text-danger font-italic collapse" id="text_get_otp_wa" style="font-size:10px;">
-            </div>
-        </div>
-
-        <div class="mb-2">
-            <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_sms">
-                <img src="<?= base_url("sms_icon.png") ?>" alt="" style="width: 30px;">
-                <span class="pl-2">Send OTP to SMS</span>
-                <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                    aria-hidden="true" id="loader_get_otp_sms"></span>
-            </button>
-            <div class="text-danger font-italic collapse" id="text_get_otp_sms" style="font-size:10px;"> SMS is
-                temporarily unusable
-            </div>
-        </div>
-    </div>
-
     <div class="text-left" id="div_btn_back">
         <hr>
-        <a class="small" href="<?=base_url('auth/phone_number/login_password?phone_number=' . $phone_number_encrypt)?>">
+        <a class="small" href="<?=base_url('auth/phone_number/login_password?n=' . $phone_number_encrypt)?>">
             <i class="fa-solid fa-angles-left"></i>
             Back
         </a>

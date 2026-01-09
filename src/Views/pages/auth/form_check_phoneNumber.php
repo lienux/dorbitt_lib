@@ -1,8 +1,11 @@
 <?php 
     use Dorbitt\Helpers\EncrypterHelper;
+    use Dorbitt\Helpers\ViewsHelper;
+
     $encrypter = new EncrypterHelper();
+    $vH = new ViewsHelper();
 ?>
-<?= $this->extend('layout/auth') ?>
+<?= $this->extend($vH->ummuView('layout/auth')) ?>
 
 <?= $this->section('content') ?>
 <div class="pt-4 pb-2">
@@ -19,7 +22,7 @@
             <input type="tel" name="phone_number" class="form-control" id="phone_number" placeholder="e.g. 085853383750" required>
         </div>
 
-        <div class="form-group label collapse" id="div_input_password">
+        <!-- <div class="form-group label collapse" id="div_input_password">
             <label for="password" class="form-label mb-0">Password</label>
             <input type="text" name="password" id="password" class="form-control" autocomplete="new-password">
         </div>
@@ -31,7 +34,7 @@
 
         <div class="form-group label collapse" id="info_belum_punya_password">
             <div class="alertz text-danger">You don't have a password, please login using OTP.</div>
-        </div>
+        </div> -->
 
         <div class="col-12" id="div_check_remember_me">
             <div class="form-check">
