@@ -54,6 +54,10 @@ $routes->group('admin', function($routes) {
         $routes->get('/', 'FilePomailerController::index');
         $routes->get('show', 'FilePomailerController::show');
     });
+
+    $routes->group('passage_plan', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'PassagePlanController::index');
+    });
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {

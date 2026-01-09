@@ -266,3 +266,46 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 AQMe@(hfXs#G
 
 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
+
+
+
+
+
+ALTER TABLE ms_client
+ADD `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+ADD `deleted_at` datetime DEFAULT NULL,
+ADD `created_by` int DEFAULT NULL,
+ADD `updated_by` int DEFAULT NULL,
+ADD `deleted_by` int DEFAULT NULL;
+
+
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `ms_location` (
+  `id` int NOT NULL,
+  `is_testing` tinyint(1) DEFAULT NULL,
+  `company_id` int DEFAULT NULL,
+  `kode` varchar(10) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `deleted_by` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `ms_equipment`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `ms_equipment`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+COMMIT;
+
+INSERT INTO `ms_location` (`id`, `is_testing`, `company_id`, `kode`, `name`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`) VALUES
+('', NULL, 23, NULL, 'TELAN',NULL,NULL,NULL,NULL,NULL,NULL),
+('', NULL, 23, NULL, 'KM 99',NULL,NULL,NULL,NULL,NULL,NULL);
