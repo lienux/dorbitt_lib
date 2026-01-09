@@ -63,7 +63,7 @@ class LoginController extends ResourceController
         $phone_number = $this->request->getVar('phone_number');
         $phone_number_encrypt = $this->encrypter->encrypt($phone_number);
 
-        $text = 'auth/phone_number/login_password?phone_number=' . $phone_number_encrypt;
+        $text = 'auth/phone_number/login_password?n=' . $phone_number_encrypt;
         return redirect()->to($text);
         // return $text;
         // return $this->encrypter->decrypt($phone_number_encrypt);
@@ -71,7 +71,7 @@ class LoginController extends ResourceController
 
     public function login_password()
     {
-        $phone_number_encrypt = $this->request->getVar('phone_number');
+        $phone_number_encrypt = $this->request->getVar('n');
         $phone_number = $this->encrypter->decrypt($phone_number_encrypt);
         // return $this->encrypter->decrypt($phone_number);
         // return $phone_number;
@@ -638,10 +638,10 @@ class LoginController extends ResourceController
 
     public function create_otpSuccess()
     {
-        $phone_number = $this->request->getVar('phone_number');
+        $phone_number = $this->request->getVar('n');
         $phone_number_encrypt = $this->encrypter->encrypt($phone_number);
 
-        $text = 'auth/phone_number/login_otp?phone_number=' . $phone_number_encrypt;
+        $text = 'auth/phone_number/login_otp?n=' . $phone_number_encrypt;
         return redirect()->to($text);
     }
 

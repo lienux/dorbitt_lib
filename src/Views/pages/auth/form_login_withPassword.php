@@ -2,7 +2,7 @@
     use Dorbitt\Helpers\EncrypterHelper;
     $encrypter = new EncrypterHelper();
     $session = session();
-    $phone_number_encrypt = $_GET['phone_number'];
+    $phone_number_encrypt = $_GET['n'];
     $phone_number = $encrypter->decrypt($phone_number_encrypt);
 ?>
 <?= $this->extend('layout/auth') ?>
@@ -16,10 +16,10 @@
 <div id="alert"></div>
 
 <div class="" id="page_login_with_phone_number">
-    <div class="row g-3 needs-validation" id="form_cek_phone">
+    <div class="row g-3 needs-validation" id="form_login_password">
         <div class="form-group label">
             <label for="phone_number" class="form-label mb-0">Phone number</label>
-            <input type="tel" name="phone_number" class="form-control disabled" id="phone_number" placeholder="e.g. 085853383750" value="<?=$phone_number?>" required disabled readonly>
+            <input type="tel" name="phone_number" class="form-control disabled" id="phone_number" value="<?=$phone_number?>" required disabled readonly>
         </div>
 
         <div class="form-group label" id="div_input_password">

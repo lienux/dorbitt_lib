@@ -246,6 +246,24 @@ class Auth
         return $response;
     }
 
+    public function phone_number_login_with_password($payload)
+    {
+        $params = [
+            "path"           => "auth/phone_number/login_with_password",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "headers"        => array(
+                'Content-Type: application/json',
+                'App-Id: ' . getenv('app.id'),
+                'Company-Token: ' . getenv('company_token')
+            )
+        ];
+
+        $response = $this->cH->ummu2($params);
+
+        return $response;
+    }
+
     public function company_profile()
     {
         $params = [
