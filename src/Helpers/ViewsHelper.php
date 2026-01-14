@@ -120,6 +120,47 @@ class ViewsHelper
         return $data;
     }
 
+    public function app()
+    {
+        $name = getenv('app.name');
+        $favicon = getenv('app.favicon');
+        $tmp = getenv('app.tmp');
+        $title = getenv('app.title');
+        $logo = getenv('app.logo');
+        $text = getenv('app.text');
+
+        if (!$name) {
+            $name = 'CodeIgniter';
+        }
+
+        if (!$favicon) {
+            $favicon = 'favicon.ico';
+        }
+
+        if (!$logo) {
+            $logo = 'logo.png';
+        }
+
+        if (!$tmp) {
+            $tmp = 'sbadmin2';
+        }
+
+        if (!$title) {
+            $title = 'CodeIgniter';
+        }
+
+        $data = [
+            "name" => $name,
+            "logo" => $logo,
+            "favicon" => $favicon,
+            "tmp" => $tmp,
+            "title" => $title,
+            "text" => $text
+        ];
+
+        return $data;
+    }
+
     public function partialsInclude()
     {
         return [
@@ -140,5 +181,33 @@ class ViewsHelper
     public function ummuView($path)
     {
         return "../../vendor/dorbitt/lib/src/Views/" . $path;
+    }
+
+    public function stylePath()
+    {
+        return "plugins/".getenv('app.tmp')."/style";
+    }
+
+    public function scriptPath()
+    {
+        return "plugins/".getenv('app.tmp')."/script";
+    }
+
+    public function appTitle()
+    {
+        $title = getenv('app.title');
+
+        return $title;
+    }
+
+    public function appIco()
+    {
+        $title = getenv('app.favicon');
+
+        if (!$title) {
+            $title = 'favicon.ico';
+        }
+
+        return $title;
     }
 }
