@@ -10,8 +10,10 @@
 */
 
 $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
+    $routes->get('/', 'LoginController::index');
+    
     $routes->group('phone_number', function ($routes) {
-        $routes->get('/', 'LoginController::index');
+        $routes->get('/', 'LoginController::oa2_index');
         $routes->post('find', 'LoginController::find');
         $routes->get('findSuccess', 'LoginController::findSuccess');
         $routes->get('login_password', 'LoginController::login_password');
@@ -33,6 +35,13 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
     //     $routes->post('get_otp_wa', 'Auth\Login::get_otp_wa');
     //     $routes->post('get_otp_sms', 'Auth\Login::get_otp_sms');
     // });
+
+    $routes->group('oa2', function ($routes) {
+        $routes->get('/', 'LoginController::oa2_index');
+        $routes->get('create', 'LoginController::oa2_create');
+        $routes->post('create', 'LoginController::oa2_create');
+        // $routes->post('username', 'Auth\LoginController::username');
+    });
 });
 
 $routes->group('admin', function($routes) {

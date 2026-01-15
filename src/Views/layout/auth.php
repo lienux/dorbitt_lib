@@ -1,8 +1,10 @@
 <?php
 
-use Dorbitt\Helpers\GviewsHelper;
+    use Dorbitt\Helpers\GviewsHelper;
+    use Dorbitt\Helpers\ViewsHelper;
 
-$gvH = new GviewsHelper();
+    $gvH = new GviewsHelper();
+    $vH = new ViewsHelper();
 ?>
 <!doctype html>
 <html>
@@ -10,13 +12,14 @@ $gvH = new GviewsHelper();
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title><?=(getenv('app.description')) ? getenv('app.description') : "D'ORBITT SYSTEM" ?></title>
+    <!-- <title><?=(getenv('app.description')) ? getenv('app.description') : "D'ORBITT SYSTEM" ?></title> -->
+    <title><?=$vH->appTitle()?></title>
 
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="<?=base_url((getenv('app.favicon')) ? getenv('app.favicon') : "favicon.ico") ?>" rel="icon">
+    <link href="<?=$vH->appIco() ?>" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -57,7 +60,7 @@ $gvH = new GviewsHelper();
 
                            <div class="d-flex justify-content-center py-2">
                                 <!-- <h5 class="d-none d-lg-block">D'ORBITT SYSTEM</h5> -->
-                                <img src="<?=base_url((getenv('app.logo')) ? getenv('app.logo') : "logo.png") ?>" width="<?=(getenv('app.logo_size') ? getenv('app.logo_size') : "75px") ?>">
+                                <img src="<?=$vH->appLogo() ?>" width="<?=(getenv('app.logo_size') ? getenv('app.logo_size') : "75px") ?>">
                            </div><!-- End Logo -->
 
                            <div class="card mb-3">
@@ -71,7 +74,8 @@ $gvH = new GviewsHelper();
                                <!-- You can delete the links only if you purchased the pro version. -->
                                <!-- Licensing information: https://bootstrapmade.com/license/ -->
                                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                               <a href="<?=base_url()?>"><?=(getenv('app.name')) ? getenv('app.name') : "D'ORBITT SYSTEM" ?> v.1</a>
+                               <!-- <a href="<?=base_url()?>"><?=$vH->appCredit() ?></a> -->
+                               <?=$vH->appCredit() ?>
                            </div>
 
                        </div>

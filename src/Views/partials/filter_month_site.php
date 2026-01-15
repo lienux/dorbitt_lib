@@ -5,10 +5,10 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Date</span>
                 </div>
-                <input type="text" class="form-control ummu-datepicker" id="iDate" disabled>
+                <input type="text" class="form-control ummu-monthpicker" id="iMonth" disabled>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary btn-show-datepicker" type="button"
-                        data-inputid="iDate"><i class="fas fa-calendar-alt"></i></button>
+                    <button class="btn btn-outline-secondary btn-show-monthpicker" type="button"
+                        data-inputid="iMonth"><i class="fas fa-calendar-alt"></i></button>
                 </div>
                 <div class="input-group-append ml-2">
                     <button class="btn btn-secondary rounded ummubtn-showmodal-listdata" type="button"

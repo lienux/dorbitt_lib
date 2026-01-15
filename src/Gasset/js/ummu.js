@@ -369,19 +369,32 @@ var $ummu = {
 
       if(typeof jQuery.fn.datepicker !== "undefined") {
         $(".datepicker000").datepicker({
+          changeMonth: true, // Enables the month dropdown
+          changeYear: true, // Enables the year dropdown
           dateFormat: "yy-mm-dd",
           uiLibrary: "bootstrap4",
           modal: true,
           header: true,
           footer: true,
+          showButtonPanel: true,
         });
 
         $(".ummu-datepicker").datepicker({
+          changeMonth: true, // Enables the month dropdown
+          changeYear: true, // Enables the year dropdown
           dateFormat: "yy-mm-dd",
           uiLibrary: "bootstrap4",
           modal: true,
           header: true,
           footer: true,
+          showButtonPanel: true,
+        });
+      };
+
+      if(typeof jQuery.fn.monthpicker !== "undefined") {
+        $(".ummu-monthpicker").monthpicker({
+          dateFormat: "yy-mm",
+          altFormat: 'yy-mm'
         });
       };
 
@@ -661,7 +674,7 @@ var $ummu = {
 
       $("#QQ_btnToLoginModule button").on('click', function(){
         if ($(this).attr('id') == 'btnApp_herp') {
-          window.location.href = $base_url + 'auth';
+          window.location.href = $base_url + 'auth/login_herp';
         }
         if ($(this).attr('id') == 'btnApp_iescm') {
           window.location.href = $base_url + 'auth/login/phone';
@@ -672,6 +685,11 @@ var $ummu = {
       })
 
       $(".btn-show-datepicker").on("click", function () {
+        $("#" + $(this).data('inputid')).datepicker("show");
+      })
+
+      $(".btn-show-monthpicker").on("click", function () {
+        // $("#" + $(this).data('inputid')).datepicker("show");
         $("#" + $(this).data('inputid')).datepicker("show");
       })
       
@@ -709,11 +727,43 @@ var $ummu = {
         $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
         $('#btnApp_iescm').removeClass('btn-primary').prop('disabled', true)
         $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
-      } else {
+      } else if ($ummu.vars.login_module == 'mcp') {
         $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
         $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
         $('#btnApp_mcpr').removeClass('btn-primary').prop('disabled', true)
+      } else {
+        $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_iescm').addClass('btn-primary').prop('disabled', false)
+        $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
       }
+
+      $("#username").keyup(function(event) {
+        // Check if the key pressed is the 'Enter' key (key code 13)
+        if (event.keyCode === 13) {
+          // Prevent the default form submission behavior (optional, but good practice)
+          event.preventDefault();
+          
+          // Trigger a click on the login button
+          // $("#loginButton").click();
+          $("#password").focus();
+        }
+      });
+
+      $("#password").keyup(function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          // $("#password").focus();
+          if ($ummu.vars.login_module == "herp") {
+            $ummu.auth.login_herp();
+          } else if ($ummu.vars.login_module == "mcp") {
+            $ummu.auth.login_without_msdb();
+          } else if ($ummu.vars.login_module == "iescm") {
+            $ummu.auth.login_with_msdb();
+          } else if ($ummu.vars.login_module == "dorbitt") {
+            $ummu.auth.login_iescm_oa2();
+          }
+        }
+      });
 
       $(document).on("click", ".btn-in-modal", function () {
         var id = $(this).attr("id");
@@ -765,7 +815,7 @@ var $ummu = {
 
         $(".canvasjs-chart-credit").html('canvas.omdoo.id')
       });
-    },
+    }
   },
 
   events: {
@@ -1750,6 +1800,20 @@ var $ummu = {
 
   auth: {
     load: function() {
+      $("#username").focus();
+      $ummu.events.onClick.escmButton();
+      if ($ummu.vars.login_module == "herp") {
+        $("#btn_login").on("click", function () {
+          $ummu.auth.login_herp();
+        });
+      } else if ($ummu.vars.login_module == "mcp") {
+        $ummu.auth.login_without_msdb();
+      } else if ($ummu.vars.login_module == "iescm") {
+        $ummu.auth.login_with_msdb();
+      } else if ($ummu.vars.login_module == "oa2") {
+        $ummu.auth.login_iescm_oa2();
+      }
+
       $ummu.$.auth_btnNext.on("click", function () {
         $ummu.$.auth_alert.html("");
         if ($ummu.$.auth_phoneNumber.val()) {
@@ -1959,6 +2023,150 @@ var $ummu = {
           };
 
           var url = $ummu.vars.base_url + "auth/login/create" + vars;
+          var params = {
+            url: url,
+            type: "post",
+            action: "create",
+            data: null,
+            cache: true,
+            contentType: "application/json",
+            dataType: "json",
+          };
+
+          // console.log(params);
+
+          var ummu = $ummu.ajax.auth.login(params);
+          ummu
+          .done(function (result) {
+              // console.log(result)
+            var response = result;
+            if (response.status == true) {
+              $("#alert").html(
+                '<div class="alert alert-success">' +
+                response.message +
+                "</div>"
+                );
+              window.location.replace($ummu.vars.base_url + "admin");
+            } else {
+              $("#alert").html(
+                '<div class="alert alert-danger">' +
+                response.message +
+                "</div>"
+                );
+            }
+            setTimeout(function () {
+              $("#modal_loader").modal("hide");
+            }, 1000);
+          })
+          .fail(function () {
+              // An error occurred
+            console.log(ummu);
+          });
+        }
+      });
+    },
+
+    login_herp: function () {
+      // $("#btn_login").on("click", function () {
+        var username = $("#username").val(),
+        password = $("#password").val(),
+        msdb = $("#msdb").val(),
+        toMcp = $("#login_to_mcp").is(":checked");
+
+        if (msdb == null) {
+          alert("Silahkan pilih company.");
+        } else {
+          var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
+          body = {
+            body: {
+              username: username,
+              password: password,
+              msdb: msdb,
+              toMcp: toMcp,
+              login_module: $ummu.vars.login_module
+            },
+          },
+          payload = {
+            username: username,
+            password: password,
+            msdb: msdb,
+            toMcp: toMcp,
+            login_module: $ummu.vars.login_module
+          };
+
+          var url = $ummu.vars.base_url + "auth/login_herp/create" + vars;
+          var params = {
+            url: url,
+            type: "post",
+            action: "create",
+            data: null,
+            cache: true,
+            contentType: "application/json",
+            dataType: "json",
+          };
+
+          // console.log(params);
+
+          var ummu = $ummu.ajax.auth.login(params);
+          ummu
+          .done(function (result) {
+              // console.log(result)
+            var response = result;
+            if (response.status == true) {
+              $("#alert").html(
+                '<div class="alert alert-success">' +
+                response.message +
+                "</div>"
+                );
+              window.location.replace($ummu.vars.base_url + "admin");
+            } else {
+              $("#alert").html(
+                '<div class="alert alert-danger">' +
+                response.message +
+                "</div>"
+                );
+            }
+            setTimeout(function () {
+              $("#modal_loader").modal("hide");
+            }, 1000);
+          })
+          .fail(function () {
+              // An error occurred
+            console.log(ummu);
+          });
+        }
+      // });
+    },
+
+    login_iescm_oa2: function () {
+      $("#btn_login").on("click", function () {
+        var username = $("#username").val(),
+        password = $("#password").val(),
+        msdb = $("#msdb").val(),
+        toMcp = $("#login_to_mcp").is(":checked");
+
+        if (msdb == null) {
+          alert("Silahkan pilih company.");
+        } else {
+          var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
+          body = {
+            body: {
+              username: username,
+              password: password,
+              msdb: msdb,
+              toMcp: toMcp,
+              login_module: $ummu.vars.login_module
+            },
+          },
+          payload = {
+            username: username,
+            password: password,
+            msdb: msdb,
+            toMcp: toMcp,
+            login_module: $ummu.vars.login_module
+          };
+
+          var url = $ummu.vars.base_url + "auth/login_oa2/create_oa2" + vars;
           var params = {
             url: url,
             type: "post",

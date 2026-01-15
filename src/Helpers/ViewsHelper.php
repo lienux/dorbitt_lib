@@ -195,19 +195,86 @@ class ViewsHelper
 
     public function appTitle()
     {
-        $title = getenv('app.title');
+        $t = getenv('app.title');
+        if (!$t) {
+            $t = 'Sparkcode 4';
+        }
 
-        return $title;
+        return $t;
     }
 
     public function appIco()
     {
-        $title = getenv('app.favicon');
+        $t = getenv('app.favicon');
 
-        if (!$title) {
-            $title = 'favicon.ico';
+        if ($t) {
+            $t = base_url($t);
+        }else{
+            $t = 'https://cdn.openapi2.com/img/favicon.ico';
         }
 
-        return $title;
+        return $t;
+    }
+
+    public function appName()
+    {
+        $t = getenv('app.name');
+
+        if (!$t) {
+            $t = 'Sparkcode 4';
+        }
+
+        return $t;
+    }
+
+    public function appCredit()
+    {
+        return '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
+    }
+
+    public function appCopyright()
+    {
+        $t = getenv('app.copyright');
+
+        if (!$t) {
+            $t = 'sparkcode.web.id';
+        }
+
+        return $t;
+    }
+
+    public function appCopyrightURL()
+    {
+        $t = getenv('app.copyrightURL');
+
+        if (!$t) {
+            $t = 'https://sparkcode.web.id/';
+        }
+
+        return $t;
+    }
+
+    public function appText()
+    {
+        $text = getenv('app.text');
+
+        if (!$text) {
+            $text = 'Spark Code Version 4.4.3';
+        }
+
+        return $text;
+    }
+
+    public function appLogo()
+    {
+        $t = getenv('app.logo');
+
+        if ($t) {
+            $t = base_url($t);
+        }else{
+            $t = 'https://cdn.openapi2.com/img/logo.png';
+        }
+
+        return $t;
     }
 }

@@ -29,7 +29,25 @@ class LoginController extends ResourceController
 
     public function index()
     {
-        return view($this->vH->ummuView("pages/auth/form_check_phoneNumber"));
+        $rauth = getenv('app.rauth');
+
+        if ($rauth) {
+            $text = 'auth/'.$rauth;
+            return redirect()->to($text);
+        }else{
+            return view($this->vH->ummuView("pages/auth/form_check_phoneNumber"));
+        }
+    }
+
+    public function oa2_index()
+    {
+        $rauth = getenv('app.rauth');
+
+        if ($rauth) {
+            return view($this->vH->ummuView("pages/auth/form_check_phoneNumber"));
+        }else{
+            return redirect()->to('auth');
+        }
     }
 
     public function find()

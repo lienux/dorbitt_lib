@@ -1,16 +1,19 @@
 <?php 
     use Dorbitt\Helpers\EncrypterHelper;
+    use Dorbitt\Helpers\ViewsHelper;
+
     $encrypter = new EncrypterHelper();
+    $vH = new ViewsHelper();
     $session = session();
     $phone_number_encrypt = $_GET['n'];
     $phone_number = $encrypter->decrypt($phone_number_encrypt);
 ?>
-<?= $this->extend('layout/auth') ?>
+<?= $this->extend($vH->ummuView('layout/auth')) ?>
 
 <?= $this->section('content') ?>
 <div class="pt-4 pb-2">
-    <h5 class="card-title text-center pb-0 fs-4"><?=(getenv('app.name')) ? getenv('app.name') : "D'ORBITT SYSTEM" ?></h5>
-    <p class="text-center small">Enter your phone number to login</p>
+    <h5 class="card-title text-center pb-0 fs-4"><?=$vH->appName()?></h5>
+    <p class="text-center small">Enter your OTP to login</p>
 </div>
 
 <div id="alert"></div>
