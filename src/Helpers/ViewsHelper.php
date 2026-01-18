@@ -185,12 +185,22 @@ class ViewsHelper
 
     public function stylePath()
     {
-        return "plugins/".getenv('app.tmp')."/style";
+        $a = getenv('app.tmp');
+        if (!$a) {
+            $a = 'sbadmin2';
+        }
+
+        return "plugins/".$a."/style";
     }
 
     public function scriptPath()
     {
-        return "plugins/".getenv('app.tmp')."/script";
+        $a = getenv('app.tmp');
+        if (!$a) {
+            $a = 'sbadmin2';
+        }
+
+        return "plugins/".$a."/script";
     }
 
     public function appTitle()
