@@ -163,6 +163,11 @@ class GviewsHelper
         return '../../vendor/dorbitt/lib/src/Views/partials/filter_date';
     }
 
+    public function include_date_site()
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/filter_date_site';
+    }
+
     public function include_month()
     {
         return '../../vendor/dorbitt/lib/src/Views/partials/filter_month_site.php';
