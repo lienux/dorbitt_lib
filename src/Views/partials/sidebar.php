@@ -2,7 +2,7 @@
 $login_module = session()->get('login_module');
 $modules = session()->get('openapi2_modules');
 
-if ($login_module == 'dorbitt') { ?>
+if ($login_module == 'openapi2') { ?>
     <!-- Heading -->
     <div class="sidebar-heading">
         APP
