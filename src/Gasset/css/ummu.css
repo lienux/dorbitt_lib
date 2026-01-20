@@ -576,3 +576,7 @@ button.bg-purple:focus {
   border-bottom: 1px solid #800080;
   margin: auto;
 }
+
+.bg-dpvp {
+  background-color: #77B44B;
+}
