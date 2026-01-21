@@ -5,46 +5,43 @@ namespace Dorbitt\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
-// use CodeIgniter\Files\File;
-// use CodeIgniter\HTTP\Files\UploadedFile;
-// use App\Builder\Approval\ApprovalBuilder;
-// use Dorbitt\GviewsHelper;
-// use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\CurlHelper;
+use Dorbitt\Helpers\ViewsHelper;
 
 class UmmuController extends ResourceController
 {
-  public function __construct()
-  {
-    // $this->syshab = \Config\Database::connect('syshab');
-    // $this->dorbitt = new DorbitT();
-    $this->request = \Config\Services::request();
-    // $this->qbAppv = new ApprovalBuilder();
-    // $this->gViews = new GviewsHelper();
-    // $this->gHelp = new GlobalHelper();
-    $this->cH = new CurlHelper();
-  }
+    public function __construct()
+    {
+        $this->request = \Config\Services::request();
+        $this->cH = new CurlHelper();
+        $this->vH = new ViewsHelper();
+    }
 
-  public function index()
-  {
-    // 
-  }
+    public function index()
+    {
+        $rdefault = getenv('app.rdefault');
 
-  public function company_profile()
-  {
-    $params = [
-      "path"      => "company_profile",
-      "method"    => "GET",
-      "payload"   => [],
-      "headers"   => array(
-        'Content-Type: application/json',
-        'Company-Token: '.getenv('app.company_token')
-      )
-    ];
+        if ($rdefault) {
+            return redirect()->to($rdefault);
+        }else{
+            return view($this->vH->ummuView("welcome_message")); 
+        }
+    }
 
-    $request = $this->cH->ummu2($params);
+    public function company_profile()
+    {
+        $params = [
+            "path"      => "company_profile",
+            "method"    => "GET",
+            "payload"   => [],
+            "headers"   => array(
+                'Content-Type: application/json',
+                'Company-Token: '.getenv('app.company_token')
+            )
+        ];
 
-    // return json_decode($request, false);
-    return $this->respond($request, 200);
-  }
+        $request = $this->cH->ummu2($params);
+
+        return $this->respond($request, 200);
+      }
 }

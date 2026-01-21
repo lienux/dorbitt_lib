@@ -9,6 +9,8 @@
     * =============================================
 */
 
+$routes->get('/', 'UmmuController::index', ['namespace' => 'Dorbitt\Controllers']);
+
 $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
     $routes->get('/', 'LoginController::index');
     
