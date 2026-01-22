@@ -12,7 +12,6 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- <title><?=(getenv('app.description')) ? getenv('app.description') : "D'ORBITT SYSTEM" ?></title> -->
     <title><?=$vH->appTitle()?></title>
 
     <meta content="" name="description">
