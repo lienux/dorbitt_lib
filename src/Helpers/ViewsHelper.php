@@ -277,14 +277,18 @@ class ViewsHelper
 
     public function appLogo()
     {
-        $t = getenv('app.logo');
+        $a = getenv('app.logo');
+        $a2 = getenv('app.logo_url');
 
-        if ($t) {
-            $t = base_url($t);
-        }else{
-            $t = 'https://cdn.openapi2.com/img/logo.png';
+        if ($a) {
+            $b = base_url($t);
+        } else if ($a2) {
+            $b = $a2;
+        }
+        else{
+            $b = 'https://cdn.openapi2.com/img/logo.png';
         }
 
-        return $t;
+        return $b;
     }
 }
