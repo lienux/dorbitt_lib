@@ -203,6 +203,19 @@ class ViewsHelper
         return "plugins/".$a."/script";
     }
 
+    public function avatar()
+    {
+        $a = session()->get('avatar');
+
+        if ($a) {
+            $b = $a;
+        }else{
+            $b = 'https://cdn.openapi2.com/img/avatar.png';
+        }
+
+        return $b;
+    }
+
     public function appTitle()
     {
         $t = getenv('app.title');
