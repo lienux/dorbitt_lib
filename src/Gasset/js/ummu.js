@@ -2490,7 +2490,7 @@ var $ummu = {
                             );
                         $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
                         $("#loader_next_step").addClass("collapse");
-                        $("#btn_next_step").removeClass("disabled");
+                        $("#btn_next_step").removeClass("disabled").prop('disabled', false);
                     }
                 })
                 .fail(function () {
