@@ -38,6 +38,12 @@
     <link rel="stylesheet" href="<?=base_url()?>vendor/fontawesome-6.5.1/all.css">
     <link rel="stylesheet" href="<?= $gvH->ummucssInclude() ?>">
 
+    <style>
+        body {
+            background-image: url(<?=$vH->bgAuthImg() ?>); 
+        }
+    </style>
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
@@ -65,7 +71,11 @@
                            <div class="card mb-3">
                                <div class="card-body">
                                     <?= $this->renderSection('content') ?>
+                                    <div class="footer-text">
+                                        &copy; 2026 PT. Digital Orbit Teknologi. All Rights Reserved.
+                                    </div>
                                </div>
+
                            </div>
 
                            <div class="credits">
@@ -76,7 +86,6 @@
                                <!-- <a href="<?=base_url()?>"><?=$vH->appCredit() ?></a> -->
                                <?=$vH->appCredit() ?>
                            </div>
-
                        </div>
                    </div>
                </div>

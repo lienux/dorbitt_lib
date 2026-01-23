@@ -304,4 +304,16 @@ class ViewsHelper
 
         return $b;
     }
+
+    public function bgAuthImg()
+    {
+        $a = getenv('app.bgauthimg');
+        if ($a) {
+            $b = $a;
+        }else{
+            $b = 'https://cdn.openapi2.com/img/bg-auth.png';
+        }
+
+        return $b;
+    }
 }
