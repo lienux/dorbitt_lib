@@ -252,7 +252,16 @@ class ViewsHelper
 
     public function appCredit()
     {
-        return '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
+        $a = getenv('app.credit');
+
+        if ($a) {
+            $b = '<a href="https://dorbitt.com/" target="_blank">'.$a.'</a>';
+        }else{
+            $b = '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
+        }
+
+        return $b;
+        // return '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
     }
 
     public function appCopyright()

@@ -771,6 +771,8 @@ var $ummu = {
                 }
             });
 
+            $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
+
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
 

@@ -72,7 +72,7 @@
                                <div class="card-body">
                                     <?= $this->renderSection('content') ?>
                                     <div class="footer-text">
-                                        &copy; 2026 PT. Digital Orbit Teknologi. All Rights Reserved.
+                                        &copy; 2026 <span></span>
                                     </div>
                                </div>
 
