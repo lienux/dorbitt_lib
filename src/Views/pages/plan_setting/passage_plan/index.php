@@ -1,12 +1,4 @@
-<?php
-use Dorbitt\Helpers\GviewsHelper;
-use Dorbitt\Helpers\ViewsHelper;
-
-$gView = new GviewsHelper();
-$vH = new ViewsHelper();
-?>
-
-<?= $this->extend('layout/' . (isset($tmp) ? $tmp : 'admin')) ?>
+<?= $this->extend('layout/' . config('Vh')->tmp()) ?>
 
 <?= $this->section('css') ?>
 <?= $this->include('plugins/datatables/style') ?>
@@ -85,7 +77,7 @@ $vH = new ViewsHelper();
 </style>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
-<?= $this->include($gView->include_rangeDate_site()) ?>
+<?= $this->include(config('Gvh')->include_rangeDate_site()) ?>
 <nav class="ummu-nav">
     <div class="nav nav-tabs" id="nav_tab_dailyprodmonitor" role="tablist_stc">
         <button class="nav-link mr-1 active" id="nav-tab-all" data-toggle="tab" data-target="#nav-all" type="button"
@@ -116,11 +108,11 @@ $vH = new ViewsHelper();
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="nav-all" role="tabpanel">
                     Daily Production Monitoring <span class="badge badge-warning mb-1">(All Activity)</span>
-                    <?= $this->include($vH->ummuView($dir_views . 'form')) ?>
+                    <?= $this->include(config('Vh')->ummuView($dir_views . 'form')) ?>
                 </div>
                 <div class="tab-pane fade" id="nav-ob" role="tabpanel">
                     Daily Production Monitoring <span class="badge badge-warning mb-1">(OB)</span>
-                    <?= $this->include($vH->ummuView($dir_views . 'table')) ?>
+                    <?= $this->include(config('Vh')->ummuView($dir_views . 'table')) ?>
                 </div>
             </div>
         </div>

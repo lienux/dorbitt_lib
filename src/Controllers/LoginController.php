@@ -689,4 +689,9 @@ class LoginController extends ResourceController
             return redirect()->to('/auth');
         }
     }
+
+    public function reLoad_modules()
+    {
+        // 
+    }
 }
