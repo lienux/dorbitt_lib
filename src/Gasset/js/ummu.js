@@ -773,6 +773,10 @@ var $ummu = {
 
             $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
 
+            $("#btn_update_sidebar_module").on("click", function () {
+                $ummu.controllers.reLoad_modules();
+            });
+
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
 
@@ -1806,6 +1810,10 @@ var $ummu = {
             }
 
             $ummu.dt.events.initSitePorject_onClick();
+        },
+
+        reLoad_modules: function() {
+            console.log('OK tinggal bikin php nya')
         },
     },
 
