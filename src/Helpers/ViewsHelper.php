@@ -325,4 +325,9 @@ class ViewsHelper
 
         return $b;
     }
+
+    public function tmp()
+    {
+        return getenv('app.tmp');
+    }
 }
