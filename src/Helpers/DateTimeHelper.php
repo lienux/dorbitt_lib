@@ -176,4 +176,52 @@ class DateTimeHelper
         ];
         // return new \DateTime('today');
     }
+
+    public function jHari($a)
+    {
+        $date = new \DateTime($a);
+        $jHari = $date->format('t');
+
+        return $jHari;
+    }
+
+    public function getYear($a)
+    {
+        $timestamp = strtotime($a);
+        $newDate = date("Y-m-d", $timestamp);
+
+        // Create a DateTime object from a specific format
+        $date = \DateTime::createFromFormat("Y-m-d", $newDate);
+        // Format the object to get the four-digit year (Y)
+        $year = $date->format("Y"); 
+
+        return $year;
+    }
+
+    public function getMonth($a)
+    {
+        $timestamp = strtotime($a);
+        $newDate = date("Y-m-d", $timestamp);
+
+        // Create a DateTime object from a specific format
+        $date = \DateTime::createFromFormat("Y-m-d", $newDate);
+        // Format the object to get the four-digit year (Y)
+        $a = $date->format("m"); 
+
+        return $a;
+    }
+
+    /**
+     * Format from yyyymmdd to yyyy-mm-dd
+     * */
+    public function toYmd($t)
+    {
+        // Convert the original date string to a Unix timestamp using strtotime()
+        $timestamp = strtotime($t);
+
+        // Format the timestamp into the desired YYYY-MM-DD format using date()
+        $res = date('Y-m-d', $timestamp);
+
+        return $res;
+    }
 }
