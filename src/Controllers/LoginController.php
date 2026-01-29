@@ -100,6 +100,138 @@ class LoginController extends ResourceController
         return view($this->vH->ummuView("pages/auth/form_login_withPassword"));
     }
 
+    public function create_login_password()
+    {
+        $phone_number_encrypt = $this->request->getVar('n');
+        $phone_number = $this->encrypter->decrypt($phone_number_encrypt);
+        $password = $this->request->getVar('password');
+
+        if (!$phone_number) {
+            return redirect()->to('auth/phone_number'); 
+        }
+
+        // return view($this->vH->ummuView("pages/auth/form_login_withPassword"));
+        // $this->session->setFlashdata('phone_number_encript', $this->encrypter->encrypt($phone_number));
+
+        $payload = [
+            "phone_number" => $phone_number,
+            "password" => $password,
+            "join" => ["employee","enmod","companyz","ms_rolesz"]
+        ];
+
+        $params = [
+            "path"           => "auth/phone_number/login_with_password",
+            "method"         => "POST",
+            "payload"        => $payload,
+            "headers"        => array(
+                'Content-Type: application/json',
+                'App-Id: ' . getenv('app.id'),
+                'Company-Token: ' . getenv('company_token')
+            )
+        ];
+
+        $response = $this->cH->ummu2($params);
+        // return $this->respond($response, 200);
+
+        // if ($response->status == true) {
+        //     return redirect()->to('admin');
+        // }else{
+        //     // $this->session->setFlashdata('phone_number_encript', $this->encrypter->encrypt($phone_number));
+        //     return view($this->vH->ummuView("pages/auth/form_login_withPassword"));
+        // }
+
+
+        if (isset($response->status)) {
+            if ($response->status == true) {
+                $token = $response->data->token;
+                $msdb_token = $response->data->employee->msdb_token;
+                $msdbTokenEmpl = $response->data->employee->msdb_token;
+                $nika = $response->data->employee->nik;
+                $site_project = $response->data->employee->site_project;
+                $Oa2_KdSite = $response->data->employee->KdSite;
+                $KdLevel = null;
+                $NmLevel = null;
+                $KdDepar = null;
+                $NmDepar = null;
+                $KdJabatan = null;
+                $jabatanxx = null;
+                $region_name = null;
+                $Alamat = null;
+                $kode_site = null;
+                $update_myKdSite = null;
+
+                // $employee_show = $this->qbEmployee->show_by_nik_for_login($nika, $msdb_token);
+
+                // if ($employee_show->status == true) {
+                //     $kode_site = $employee_show->rows[0]->KdSite;
+                //     $KdLevel = $employee_show->rows[0]->KdLevel;
+                //     $NmLevel = $employee_show->rows[0]->NmLevel;
+                //     $KdDepar = $employee_show->rows[0]->KdDepar;
+                //     $NmDepar = $employee_show->rows[0]->NmDepar;
+                //     $KdJabatan = $employee_show->rows[0]->KdJabatan;
+                //     $jabatanxx = $employee_show->rows[0]->jabatanxx;
+                //     $region_name = $employee_show->rows[0]->region_name;
+                //     $Alamat = $employee_show->rows[0]->Alamat;
+
+                //     if ($kode_site != $Oa2_KdSite) {
+                //         $update_myKdSite = $this->qBuilder->update_myKdSite(["KdSite" => $kode_site], $token);
+                //     }
+                // }
+
+                // $kode2 = null;
+                // if ($kode_site) {
+                //     $opint = $this->qbSite->show_from_openintegrasi_by_kdsite($kode_site);
+                //     if (isset($opint->status)) {
+                //         if ($opint->status == true) {
+                //             $row = $opint->rows[0];
+                //             $kode2 = $row->kode2;
+                //         }
+                //     }
+                // }
+
+                $sessData = [
+                    "id" => $response->data->id,
+                    "nika" => $nika,
+                    "name" => $response->data->name,
+                    "username" => $response->data->username,
+                    "username2" => $response->data->username2,
+                    "email" => $response->data->email,
+                    "email2" => $response->data->email2,
+                    "company_id" => $response->data->company_id,
+                    "level_id" => $response->data->level_id,
+                    "phone_number" => $response->data->phone_number,
+                    "avatar" => $response->data->avatar,
+                    "token" => $token,
+                    "logged_in" => TRUE,
+                    "logged_by" => "phone",
+                    "openapi2" => true,
+                    "openapi2_modules" => $response->data->module_enabled,
+                    "kode_site" => $kode_site,
+                    "kode_site2" => $kode2,
+                    "KdLevel" => $KdLevel,
+                    "NmLevel" => $NmLevel,
+                    "KdDepar" => $KdDepar,
+                    "NmDepar" => $NmDepar,
+                    "KdJabatan" => $KdJabatan,
+                    "jabatanxx" => $jabatanxx,
+                    "region_name" => $region_name,
+                    "Alamat" => $Alamat,
+                    "msdbToken" => $msdb_token,
+                    "msdbTokenDec" => $msdb_token,
+                    "msdbName" => "",
+                    "msdbTokenEmpl" => $msdb_token,
+                    "dorbitt_in" => TRUE,
+                    "dorbitt_modules" => $response->data->module_enabled,
+                    "update_myKdSite" => (isset($update_myKdSite->status)) ? $update_myKdSite->status : null,
+                    "login_module" => $login_module
+                ];
+                session()->set($sessData);
+            }
+        }
+
+        return $this->respond($response, 200);
+    }
+
     public function login_otp()
     {
         return view($this->vH->ummuView("pages/auth/form_login_withOTP"));
