@@ -2505,51 +2505,12 @@ var $ummu = {
             },
 
             phoneNumber_login_password: function(params) {
-                // console.log(params);
-                // var jqXHR = $.ajax({
-                //     url: params.url,
-                //     method: params.type,
-                //     timeout: 0,
-                //     headers: {
-                //         "Content-Type": params.contentType,
-                //     },
-                //     data: params.data,
-                //     prossesing: true,
-                //     language: {
-                //         loadingRecords: "&nbsp;",
-                //         processing: '<div class="spinner"></div>',
-                //     },
-                //     beforeSend: function (e) {
-                //         $("#modal_loader2").modal("show");
-                //     },
-                //     complete: function () {
-                //         //
-                //     },
-                //     success: function (response) {
-                //         // console.log(response)
-                //         setTimeout(function () {
-                //             $(".modal-loader2").modal("hide");
-                //         }, 1000);
-                //     },
-                //     error: function (xhr, ajaxOptions, thrownError) {
-                //         alert(xhr.responseText);
-                //         $("#modal_loader2").modal("hide");
-                //     },
-                // });
-
-                // return jqXHR;
-
-                // payload = {
-                //     username: $($ummu.$.form_login_password + "#phone_number").val(),
-                //     password: $($ummu.$.form_login_password + "#password").val(),
-                // };
-
                 var payload = JSON.stringify({
-                    username: $($ummu.$.form_login_password + "#phone_number").val(),
+                    phone_number: $($ummu.$.form_login_password + "#phone_number").val(),
                     password: $($ummu.$.form_login_password + "#password").val(),
                 });
 
-                var url = $ummu.$.base_url + "auth/phone_number/find";
+                var url = $ummu.$.base_url + "auth/phone_number/login_password_create";
                 var params = {
                     url: url,
                     type: "post",
@@ -2563,22 +2524,23 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 ummu
                 .done(function (result) {
-                    $ummu.vars.response = result;
                     var response = result;
+                    console.log(result)
+                    // $ummu.vars.response = result;
 
                     if (response.status == true) {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-success">' + response.messages + "</div>"
-                            );
+                    //     $ummu.$.auth_alert.html(
+                    //         '<div class="alert alert-success">' + response.messages + "</div>"
+                    //         );
 
-                        window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                    //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                        window.location.replace($ummu.$.base_url + 'admin');
                     } else {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-danger">' + response.messages + "</div>"
-                            );
-                        $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                        $("#loader_next_step").addClass("collapse");
-                        $("#btn_next_step").removeClass("disabled").prop('disabled', false);
+                        $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
+                        window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
+                        // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                        // $("#loader_next_step").addClass("collapse");
+                        // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
                     }
                 })
                 .fail(function () {

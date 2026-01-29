@@ -9,6 +9,8 @@ use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\GviewsHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\EncrypterHelper;
+use Sparkhizb\Builder\EmployeeBuilder;
+use Sparkhizb\Builder\SiteProjectBuilder;
 
 class LoginController extends ResourceController
 {
@@ -25,6 +27,8 @@ class LoginController extends ResourceController
         $this->vH = new ViewsHelper();
         $this->gViews = new GviewsHelper();
         $this->encrypter = new EncrypterHelper();
+        $this->qbEmployee = new EmployeeBuilder();
+        $this->qbSite = new SiteProjectBuilder();
     }
 
     public function index()
@@ -100,15 +104,16 @@ class LoginController extends ResourceController
         return view($this->vH->ummuView("pages/auth/form_login_withPassword"));
     }
 
-    public function create_login_password()
+    public function login_password_create()
     {
-        $phone_number_encrypt = $this->request->getVar('n');
-        $phone_number = $this->encrypter->decrypt($phone_number_encrypt);
+        // $phone_number_encrypt = $this->request->getVar('n');
+        // $phone_number = $this->encrypter->decrypt($phone_number_encrypt);
+        $phone_number = $this->request->getVar('phone_number');
         $password = $this->request->getVar('password');
 
-        if (!$phone_number) {
-            return redirect()->to('auth/phone_number'); 
-        }
+        // if (!$phone_number) {
+        //     return redirect()->to('auth/phone_number'); 
+        // }
 
         // return view($this->vH->ummuView("pages/auth/form_login_withPassword"));
         // $this->session->setFlashdata('phone_number_encript', $this->encrypter->encrypt($phone_number));
@@ -159,35 +164,36 @@ class LoginController extends ResourceController
                 $Alamat = null;
                 $kode_site = null;
                 $update_myKdSite = null;
+                $login_module = "openapi2";
+                $kode2 = null;
 
-                // $employee_show = $this->qbEmployee->show_by_nik_for_login($nika, $msdb_token);
+                $employee_show = $this->qbEmployee->show_by_nik_for_login($nika, $msdb_token);
 
-                // if ($employee_show->status == true) {
-                //     $kode_site = $employee_show->rows[0]->KdSite;
-                //     $KdLevel = $employee_show->rows[0]->KdLevel;
-                //     $NmLevel = $employee_show->rows[0]->NmLevel;
-                //     $KdDepar = $employee_show->rows[0]->KdDepar;
-                //     $NmDepar = $employee_show->rows[0]->NmDepar;
-                //     $KdJabatan = $employee_show->rows[0]->KdJabatan;
-                //     $jabatanxx = $employee_show->rows[0]->jabatanxx;
-                //     $region_name = $employee_show->rows[0]->region_name;
-                //     $Alamat = $employee_show->rows[0]->Alamat;
+                if ($employee_show->status == true) {
+                    $kode_site = $employee_show->rows[0]->KdSite;
+                    $KdLevel = $employee_show->rows[0]->KdLevel;
+                    $NmLevel = $employee_show->rows[0]->NmLevel;
+                    $KdDepar = $employee_show->rows[0]->KdDepar;
+                    $NmDepar = $employee_show->rows[0]->NmDepar;
+                    $KdJabatan = $employee_show->rows[0]->KdJabatan;
+                    $jabatanxx = $employee_show->rows[0]->jabatanxx;
+                    $region_name = $employee_show->rows[0]->region_name;
+                    $Alamat = $employee_show->rows[0]->Alamat;
 
-                //     if ($kode_site != $Oa2_KdSite) {
-                //         $update_myKdSite = $this->qBuilder->update_myKdSite(["KdSite" => $kode_site], $token);
-                //     }
-                // }
+                    if ($kode_site != $Oa2_KdSite) {
+                        $update_myKdSite = $this->qBuilder->update_myKdSite(["KdSite" => $kode_site], $token);
+                    }
+                }
 
-                // $kode2 = null;
-                // if ($kode_site) {
-                //     $opint = $this->qbSite->show_from_openintegrasi_by_kdsite($kode_site);
-                //     if (isset($opint->status)) {
-                //         if ($opint->status == true) {
-                //             $row = $opint->rows[0];
-                //             $kode2 = $row->kode2;
-                //         }
-                //     }
-                // }
+                if ($kode_site) {
+                    $opint = $this->qbSite->show_from_openintegrasi_by_kdsite($kode_site);
+                    if (isset($opint->status)) {
+                        if ($opint->status == true) {
+                            $row = $opint->rows[0];
+                            $kode2 = $row->kode2;
+                        }
+                    }
+                }
 
                 $sessData = [
                     "id" => $response->data->id,
@@ -205,7 +211,7 @@ class LoginController extends ResourceController
                     "logged_in" => TRUE,
                     "logged_by" => "phone",
                     "openapi2" => true,
-                    "openapi2_modules" => $response->data->module_enabled,
+                    "openapi2_modules" => $response->data->enmod_new,
                     "kode_site" => $kode_site,
                     "kode_site2" => $kode2,
                     "KdLevel" => $KdLevel,
@@ -221,11 +227,13 @@ class LoginController extends ResourceController
                     "msdbName" => "",
                     "msdbTokenEmpl" => $msdb_token,
                     "dorbitt_in" => TRUE,
-                    "dorbitt_modules" => $response->data->module_enabled,
+                    "dorbitt_modules" => $response->data->enmod_new,
                     "update_myKdSite" => (isset($update_myKdSite->status)) ? $update_myKdSite->status : null,
                     "login_module" => $login_module
                 ];
                 session()->set($sessData);
+
+                // return redirect()->to('admin');
             }
         }
 
