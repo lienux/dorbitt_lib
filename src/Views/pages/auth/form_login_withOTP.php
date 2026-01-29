@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group" id="div_btn_login">
-            <button class="btn btn-purple btn-user btn-block w-100" id="btn_login">
+            <button class="btn btn-purple btn-user btn-block w-100" id="btn_login_otp">
                 <i class="fa-solid fa-unlock"></i> Login
                 <span class="spinner-border spinner-border-sm collapse" role="status" aria-hidden="true"
                     id="loader_login"></span>

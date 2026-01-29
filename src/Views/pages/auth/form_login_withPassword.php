@@ -27,11 +27,11 @@
 
         <div class="form-group label" id="div_input_password">
             <label for="password" class="form-label mb-0">Password</label>
-            <input type="text" name="password" id="password" class="form-control" autocomplete="new-password">
+            <input type="password" name="password" id="password" class="form-control" autocomplete="new-password">
         </div>
 
         <div class="form-group" id="div_btn_login">
-            <button class="btn btn-purple btn-user btn-block w-100" id="btn_login">
+            <button class="btn btn-purple btn-user btn-block w-100" id="btn_login_password">
                 <i class="fa-solid fa-unlock"></i> Login
                 <span class="spinner-border spinner-border-sm collapse" role="status" aria-hidden="true"
                     id="loader_login"></span>
