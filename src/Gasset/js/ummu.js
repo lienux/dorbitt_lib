@@ -2537,7 +2537,12 @@ var $ummu = {
                         window.location.replace($ummu.$.base_url + 'admin');
                     } else {
                         $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
-                        window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
+                        $($ummu.$.form_login_password + "#btn_login_password").removeClass("disabled");
+                        $($ummu.$.form_login_password + "#password").prop("disabled", false);
+                        $($ummu.$.form_login_password + "#loader_login").addClass("collapse");
+                        $($ummu.$.form_get_otp + "button").prop("disabled", false);
+
+                        // window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
                         // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
                         // $("#loader_next_step").addClass("collapse");
                         // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
