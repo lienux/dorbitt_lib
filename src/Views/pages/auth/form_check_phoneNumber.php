@@ -52,20 +52,20 @@
                 </button>
             </div>
 
-            <div class="form-group collapse" id="div_btn_login">
+            <!-- <div class="form-group collapse" id="div_btn_login">
                 <button class="btn btn-purple btn-user btn-block w-100" id="btn_login">
                     <i class="fa-solid fa-unlock"></i> Login
                     <span class="spinner-border spinner-border-sm collapse" role="status" aria-hidden="true"
                         id="loader_login"></span>
                 </button>
-            </div>
+            </div> -->
 
             <div class="col-12 mb-2" id="link_register">
                 <p class="small mb-0">Don't have account? <a href="<?=base_url('auth/register');?>">Create an account</a></p>
             </div>
         </div>
 
-        <div class="row needs-validation collapse" id="form_get_otp">
+        <!-- <div class="row needs-validation collapse" id="form_get_otp">
             <div class="with-line my-3">Login with OTP</div>
             <div class="mb-2">
                 <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_email">
@@ -100,8 +100,7 @@
                     temporarily unusable
                 </div>
             </div>
-        </div>
-
+        </div> -->
         
         <div class="text-left collapse" id="div_btn_back">
             <hr>
