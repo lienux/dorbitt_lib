@@ -19,6 +19,7 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
         $routes->post('find', 'LoginController::find');
         $routes->get('findSuccess', 'LoginController::findSuccess');
         $routes->get('login_password', 'LoginController::login_password');
+        $routes->post('login_password_create', 'LoginController::login_password_create');
         $routes->get('login_otp', 'LoginController::login_otp');
 
         $routes->post('create_otp_email', 'LoginController::create_otp_email');
