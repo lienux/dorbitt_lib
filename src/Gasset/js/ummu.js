@@ -771,6 +771,20 @@ var $ummu = {
                 }
             });
 
+            $($ummu.$.form_check_phone + "#phone_number").keyup(function(event){
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    $ummu.ajax.auth.phoneNumber_find();
+                }
+            });
+
+            $($ummu.$.form_login_password + "#password").keyup(function(event){
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    $ummu.ajax.auth.phoneNumber_login_password();
+                }
+            });
+
             $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
 
             $("#btn_update_sidebar_module").on("click", function () {
@@ -1838,15 +1852,12 @@ var $ummu = {
             /**
              * Find Phone Number*/
             $($ummu.$.form_check_phone + "#btn_next_step").on("click", function () {
-                $ummu.$.auth_alert.html("");
-                if ($($ummu.$.form_check_phone + "#phone_number").val()) {
-                    $(this).prop("disabled", true);
-                    $($ummu.$.form_check_phone + "#phone_number").addClass("disabled").prop('disabled', true);
-                    $($ummu.$.form_check_phone + "#loader_next_step").removeClass("collapse");
-                    $ummu.ajax.auth.phoneNumber_find();
-                } else {
-                    $ummu.$.auth_alert.html('<div class="alert alert-danger">Mobile number cannot be empty!</div>');
-                }
+                $ummu.ajax.auth.phoneNumber_find();
+            });
+
+             // * Login with password pada #form_login_password
+            $($ummu.$.form_login_password + "#btn_login_password").on("click", function () {
+                $ummu.ajax.auth.phoneNumber_login_password();
             });
 
             $ummu.$.auth_btnGet_otpWa.on("click", function () {
@@ -1888,16 +1899,6 @@ var $ummu = {
                         '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
                         );
                 }
-            });
-
-            // *
-            // * Login with password pada #form_login_password
-            $($ummu.$.form_login_password + "#btn_login_password").on("click", function () {
-                $(this).addClass("disabled");
-                $($ummu.$.form_login_password + "#password").prop("disabled", true);
-                $($ummu.$.form_login_password + "#loader_login").removeClass("collapse");
-                $($ummu.$.form_get_otp + "button").prop("disabled", true);
-                $ummu.ajax.auth.phoneNumber_login_password();
             });
 
             $($ummu.$.auth + "#btn_back").on("click", function () {
@@ -2463,94 +2464,118 @@ var $ummu = {
             },
 
             phoneNumber_find: function() {
+                $ummu.$.auth_alert.html("");
+
                 var payload = JSON.stringify({
                     phone_number: $ummu.$.auth_phoneNumber.val()
                 });
 
-                var url = $ummu.$.base_url + "auth/phone_number/find";
-                var params = {
-                    url: url,
-                    type: "post",
-                    action: "create",
-                    data: payload,
-                    cache: true,
-                    contentType: "application/json",
-                    dataType: "json",
-                };
+                if ($($ummu.$.form_check_phone + "#phone_number").val()) {
+                    $($ummu.$.form_check_phone + "#btn_next_step").prop("disabled", true);
+                    $($ummu.$.form_check_phone + "#phone_number").addClass("disabled").prop('disabled', true);
+                    $($ummu.$.form_check_phone + "#loader_next_step").removeClass("collapse");
+                    // $ummu.ajax.auth.phoneNumber_find();
+                    var url = $ummu.$.base_url + "auth/phone_number/find";
+                    var params = {
+                        url: url,
+                        type: "post",
+                        action: "create",
+                        data: payload,
+                        cache: true,
+                        contentType: "application/json",
+                        dataType: "json",
+                    };
 
-                var ummu = $ummu.ajax.ummu3(params);
-                ummu
-                .done(function (result) {
-                    $ummu.vars.response = result;
-                    var response = result;
+                    var ummu = $ummu.ajax.ummu3(params);
+                    ummu
+                    .done(function (result) {
+                        $ummu.vars.response = result;
+                        var response = result;
 
-                    if (response.status == true) {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-success">' + response.messages + "</div>"
-                            );
+                        if (response.status == true) {
+                            $ummu.$.auth_alert.html('<div class="alert alert-success">' + response.messages + "</div>");
 
-                        window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                    } else {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-danger">' + response.messages + "</div>"
-                            );
-                        $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                        $("#loader_next_step").addClass("collapse");
-                        $("#btn_next_step").removeClass("disabled").prop('disabled', false);
-                    }
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                            window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                        } else {
+                            $ummu.$.auth_alert.html(
+                                '<div class="alert alert-danger">' + response.messages + "</div>"
+                                );
+                            $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                            $("#loader_next_step").addClass("collapse");
+                            $("#btn_next_step").removeClass("disabled").prop('disabled', false);
+                        }
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
+                } else {
+                    $ummu.$.auth_alert.html('<div class="alert alert-danger">The Phone Number field is required.</div>');
+                }
             },
 
             phoneNumber_login_password: function(params) {
+                $ummu.$.auth_alert.html('');
+
                 var payload = JSON.stringify({
                     phone_number: $($ummu.$.form_login_password + "#phone_number").val(),
                     password: $($ummu.$.form_login_password + "#password").val(),
                 });
 
-                var url = $ummu.$.base_url + "auth/phone_number/login_password_create";
-                var params = {
-                    url: url,
-                    type: "post",
-                    action: "create",
-                    data: payload,
-                    cache: true,
-                    contentType: "application/json",
-                    dataType: "json",
-                };
+                if ($($ummu.$.form_login_password + "#password").val()) {
+                    $($ummu.$.form_login_password + "#btn_login_password").addClass("disabled");
+                    $($ummu.$.form_login_password + "#password").prop("disabled", true);
+                    $($ummu.$.form_login_password + "#loader_login").removeClass("collapse");
+                    $($ummu.$.form_get_otp + "button").prop("disabled", true);
 
-                var ummu = $ummu.ajax.ummu3(params);
-                ummu
-                .done(function (result) {
-                    var response = result;
-                    console.log(result)
-                    // $ummu.vars.response = result;
+                    var url = $ummu.$.base_url + "auth/phone_number/login_password_create";
+                    var params = {
+                        url: url,
+                        type: "post",
+                        action: "create",
+                        data: payload,
+                        cache: true,
+                        contentType: "application/json",
+                        dataType: "json",
+                    };
 
-                    if (response.status == true) {
-                    //     $ummu.$.auth_alert.html(
-                    //         '<div class="alert alert-success">' + response.messages + "</div>"
-                    //         );
+                    var ummu = $ummu.ajax.ummu3(params);
+                    ummu
+                    .done(function (result) {
+                        var response = result;
+                        // console.log(result)
+                        // $ummu.vars.response = result;
 
-                    //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                        window.location.replace($ummu.$.base_url + 'admin');
-                    } else {
-                        $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
-                        $($ummu.$.form_login_password + "#btn_login_password").removeClass("disabled");
-                        $($ummu.$.form_login_password + "#password").prop("disabled", false);
-                        $($ummu.$.form_login_password + "#loader_login").addClass("collapse");
-                        $($ummu.$.form_get_otp + "button").prop("disabled", false);
+                        if (response.status == true) {
+                        //     $ummu.$.auth_alert.html(
+                        //         '<div class="alert alert-success">' + response.messages + "</div>"
+                        //         );
 
-                        // window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
-                        // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                        // $("#loader_next_step").addClass("collapse");
-                        // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
-                    }
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                        //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                            window.location.replace($ummu.$.base_url + 'admin');
+                        } else {
+                            if (response.messages == "Validation errors!") {
+                                $ummu.$.auth_alert.html('<div class="alert alert-danger">' + JSON.stringify(response.errors) + "</div>");
+                            }else{
+                                $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
+                            }
+
+                            $($ummu.$.form_login_password + "#btn_login_password").removeClass("disabled");
+                            $($ummu.$.form_login_password + "#password").prop("disabled", false);
+                            $($ummu.$.form_login_password + "#loader_login").addClass("collapse");
+                            $($ummu.$.form_get_otp + "button").prop("disabled", false);
+
+                            // window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
+                            // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                            // $("#loader_next_step").addClass("collapse");
+                            // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
+                        }
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
+                }else{
+                    $ummu.$.auth_alert.html('<div class="alert alert-danger">The password field is required.</div>');
+                }
             },
 
             phoneNumber_login_otp: function(params) {

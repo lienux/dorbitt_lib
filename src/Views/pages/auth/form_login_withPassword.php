@@ -91,5 +91,6 @@
 <script>
     var conf_get_otp_wa = "<?= getenv("conf_get_otp_wa") ?>";
     var conf_get_otp_wa_text = "<?= getenv("conf_get_otp_wa_text") ?>";
+    $("#password").focus();
 </script>
 <?= $this->endSection() ?>
