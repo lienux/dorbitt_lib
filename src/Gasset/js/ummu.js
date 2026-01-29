@@ -10619,8 +10619,7 @@ var $ummu = {
 
         // /**
         // * parameter after cek phone number = true*/
-        auth: $("#ummu_auth #page_login_with_phone_number "),
-
+        auth: "#ummu_auth #page_login_with_phone_number ",
         form_check_phone: "#ummu_auth #page_login_with_phone_number #form_cek_phone ",
         form_login_password: "#ummu_auth #page_login_with_phone_number #form_login_password ",
         form_get_otp: "#ummu_auth #page_login_with_phone_number #form_get_otp ",
