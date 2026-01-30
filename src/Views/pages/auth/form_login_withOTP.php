@@ -51,6 +51,6 @@
 
 <?= $this->section('javascript') ?>
 <script>
-    // 
+    $("#otp").focus();
 </script>
 <?= $this->endSection() ?>
