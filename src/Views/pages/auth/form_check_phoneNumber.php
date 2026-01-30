@@ -23,20 +23,6 @@
                 <input type="tel" name="phone_number" class="form-control" id="phone_number" placeholder="e.g. 085853383750" required>
             </div>
 
-            <!-- <div class="form-group label collapse" id="div_input_password">
-                <label for="password" class="form-label mb-0">Password</label>
-                <input type="text" name="password" id="password" class="form-control" autocomplete="new-password">
-            </div>
-
-            <div class="form-group label collapse" id="div_input_otp">
-                <label for="otp" class="form-label mb-0">OTP</label>
-                <input type="text" name="otp" id="otp" class="form-control">
-            </div>
-
-            <div class="form-group label collapse" id="info_belum_punya_password">
-                <div class="alertz text-danger">You don't have a password, please login using OTP.</div>
-            </div> -->
-
             <div class="col-12" id="div_check_remember_me">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
@@ -52,55 +38,10 @@
                 </button>
             </div>
 
-            <!-- <div class="form-group collapse" id="div_btn_login">
-                <button class="btn btn-purple btn-user btn-block w-100" id="btn_login">
-                    <i class="fa-solid fa-unlock"></i> Login
-                    <span class="spinner-border spinner-border-sm collapse" role="status" aria-hidden="true"
-                        id="loader_login"></span>
-                </button>
-            </div> -->
-
             <div class="col-12 mb-2" id="link_register">
                 <p class="small mb-0">Don't have account? <a href="<?=base_url('auth/register');?>">Create an account</a></p>
             </div>
         </div>
-
-        <!-- <div class="row needs-validation collapse" id="form_get_otp">
-            <div class="with-line my-3">Login with OTP</div>
-            <div class="mb-2">
-                <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_email">
-                    <img src="<?= base_url("gmail_icon.png") ?>" alt="" style="width: 30px;">
-                    <span class="pl-2">Send OTP to Email</span>
-                    <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                        aria-hidden="true" id="loader_get_otp_email"></span>
-                </button>
-                <div class="text-danger font-italic collapse" id="text_get_otp_email" style="font-size:10px;">
-                </div>
-            </div>
-
-            <div class="mb-2">
-                <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_wa">
-                    <img src="<?= base_url("whatsapp_icon.png") ?>" alt="" style="width: 30px;">
-                    <span class="pl-2">Send OTP to Whatsapp</span>
-                    <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                        aria-hidden="true" id="loader_get_otp_wa"></span>
-                </button>
-                <div class="text-danger font-italic collapse" id="text_get_otp_wa" style="font-size:10px;">
-                </div>
-            </div>
-
-            <div class="mb-2">
-                <button class="btn btn-outline-primary btn-block w-100 text-left text-start btn-next btn-get-otp" id="btn_get_otp_sms">
-                    <img src="<?= base_url("sms_icon.png") ?>" alt="" style="width: 30px;">
-                    <span class="pl-2">Send OTP to SMS</span>
-                    <span class="spinner-border spinner-border-sm collapse loader-btn-next" role="status"
-                        aria-hidden="true" id="loader_get_otp_sms"></span>
-                </button>
-                <div class="text-danger font-italic collapse" id="text_get_otp_sms" style="font-size:10px;"> SMS is
-                    temporarily unusable
-                </div>
-            </div>
-        </div> -->
         
         <div class="text-left collapse" id="div_btn_back">
             <hr>
