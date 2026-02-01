@@ -65,5 +65,25 @@ class EncrypterHelper
         }
         return $ls_decrypt;
     }
-    
+
+    public function generate_password($length = null)
+    {
+        if ($length == null) {
+            $length = 12;
+        }
+
+        // Karakter yang tersedia
+        $chars = 'AKHWATBERCADARTERLIHATLEBIHCANTIKDANBIKINPENASARANsyariahdankhilafahadalahajaranislam0123456789!@#$%^&*()';
+        
+        // Menggunakan random_bytes() untuk keamanan kriptografi (lebih aman dari rand())
+        $password = '';
+        $max = strlen($chars) - 1;
+        
+        for ($i = 0; $i < $length; $i++) 
+        {
+            $password .= $chars[random_int(0, $max)];
+        }
+        
+        return $password;
+    }
 }

@@ -3,7 +3,7 @@
         <div class="col-lg-4 col-md-4 col-sm-12 pl-0 mb-1">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Date</span>
+                    <span class="input-group-text">Month</span>
                 </div>
                 <input type="text" class="form-control ummu-monthpicker" id="iMonth" disabled>
                 <div class="input-group-append">

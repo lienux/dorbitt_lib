@@ -70,6 +70,14 @@ $routes->group('admin', function($routes) {
     $routes->group('passage_plan', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('/', 'PassagePlanController::index');
     });
+
+    $routes->group('dorbitt', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        // $routes->get('/', 'DorbittController::index');
+        
+        $routes->group('encrypter', function ($routes) {
+            $routes->get('generate_password', 'EncrypterController::generate_password');
+        });
+    });
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
