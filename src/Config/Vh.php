@@ -13,12 +13,23 @@ namespace Dorbitt\Config;
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\HTTP\IncomingRequest;
+use Dorbitt\Helpers\ViewsHelper;
 
 class Vh extends BaseConfig
 {
     public function __construct()
     {
         $this->request = \Config\Services::request();
+        $this->vHelp = new ViewsHelper();
+    }
+
+    public function cVh(string $methodName)
+    {
+        if (method_exists($this->vHelp, $methodName)) {
+            return $this->vHelp->$methodName();
+        }
+        
+        return null;
     }
 
     public function modal_gallery($themes = null)

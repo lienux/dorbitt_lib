@@ -791,6 +791,10 @@ var $ummu = {
                 $ummu.controllers.reLoad_modules();
             });
 
+            $(".ummu-page #btn_generate_password").on("click", function () {
+                $ummu.encrypter.generatePassword($(this).data('inputid'));
+            });
+
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
 
@@ -3133,19 +3137,21 @@ var $ummu = {
         },
 
         // /*
+        // * ummu4();
         // * page_url otomatis dari ummu.vars, tinggal kirimkan saja function berikutnya melalui params
         // * dinamis modal_loader
         // * contoh params di bawah
         // * */
         // /*
         // var params = {
-        // "type": "POST",
-        // "data": payload,
-        // "cache": true,
-        // "contentType": "application/json",
-        // "dataType": "json",
-        // "loader": treu,
-        // };*/
+        //     "function": "show",
+        //     "type": "POST",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
         ummu4: function (params) {
             var jqXHR = $.ajax({
                 url: $ummu.vars.page_url + params.function,
@@ -3187,6 +3193,15 @@ var $ummu = {
         // * page_url manual dari params
         // * dinamis modal_loader
         // * */
+        // var params = {
+        //     "url": $ummu.$.base_url + 'spark/encrypter/generate_password',
+        //     "type": "POST",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
         ummu5: function (params) {
             // console.log(params.data);
             var jqXHR = $.ajax({
@@ -8025,6 +8040,18 @@ var $ummu = {
                 return row.id
             })
         },
+
+        params: function() {
+            return {
+                "type": "get",
+                "data": {
+                    "search": ""
+                },
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json"
+            };
+        },
     },
 
     dt: {
@@ -10687,6 +10714,78 @@ var $ummu = {
         YMD: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0'),
         yesterday: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate() - 1).padStart(2, '0'),
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
+    },
+
+    url: {
+        setParam: function(key, value) {
+            // Use URLSearchParams for easy parameter manipulation
+            const url = new URL(window.location.href);
+            const searchParams = url.searchParams;
+
+            // Use the URLSearchParams.set() method to add or update the parameter
+            url.searchParams.set(key, value);
+
+            // Update the browser's history to reflect the new URL without reloading
+            window.history.replaceState(null, null, url);
+        },
+
+        delParam: function(key, value) {
+            // Create a URL object from the current window location
+            const url = new URL(window.location.href);
+
+            // Use URLSearchParams.delete() to remove the specified key
+            url.searchParams.delete(key);
+
+            // Update the browser's URL using the History API without reloading the page
+            window.history.replaceState({}, document.title, url);
+        },
+
+        delAllParam: function() {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        },
+
+        getParam: function(key) {
+            // 1. Ambil query string dari URL saat ini
+            const queryString = window.location.search;
+
+            // 2. Buat objek URLSearchParams
+            const urlParams = new URLSearchParams(queryString);
+
+            // 3. Ambil nilai berdasarkan nama parameter
+            const n = urlParams.get(key);
+
+            // console.log(n);
+            return n;
+        },
+    },
+
+    encrypter: {
+        generatePassword: function(inputid) {
+            var params = {
+                "url": $ummu.$.base_url + 'admin/dorbitt/encrypter/generate_password',
+                "type": "GET",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true
+            };
+
+            var ummu = $ummu.ajax.ummu5(params);
+
+            ummu
+            .done(function (result) {
+                // console.log(result)
+                if (inputid) {
+                    $("#"+inputid).val(result);
+                }else{
+                    $("#password").val(result);
+                }
+            })
+            .fail(function () {
+                console.log(ummu);
+            });
+        },
     },
 
     loader: function (modal) {
