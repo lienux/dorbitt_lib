@@ -183,6 +183,11 @@ class GviewsHelper
         return '../../vendor/dorbitt/lib/src/Views/partials/filter_month_site.php';
     }
 
+    public function include_year()
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/filter_year_site.php';
+    }
+
     public function ummujs2()
     {
         return "../../vendor/dorbitt/lib/src/Gviews/ummujs";
