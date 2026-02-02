@@ -14,6 +14,7 @@ namespace Dorbitt\Config;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\HTTP\IncomingRequest;
 use Dorbitt\Helpers\ViewsHelper;
+use Dorbitt\Helpers\GviewsHelper;
 use Dorbitt\Helpers\EncrypterHelper;
 
 class Ummu extends BaseConfig
@@ -21,6 +22,7 @@ class Ummu extends BaseConfig
     public function __construct()
     {
         $this->vHelp = new ViewsHelper();
+        $this->gVhelp = new GviewsHelper();
         $this->encryptH = new EncrypterHelper();
     }
 
@@ -28,6 +30,15 @@ class Ummu extends BaseConfig
     {
         if (method_exists($this->vHelp, $methodName)) {
             return $this->vHelp->$methodName();
+        }
+        
+        return null;
+    }
+
+    public function gViHe(string $methodName = null)
+    {
+        if (method_exists($this->gVhelp, $methodName)) {
+            return $this->gVhelp->$methodName();
         }
         
         return null;

@@ -16,7 +16,7 @@
                 </div>
                 <div class="input-group-append ml-2">
                     <button class="btn btn-primary rounded" type="button"
-                        id="btn_get_data"><i class="fas fa-file-search"></i> Retrieve</button>
+                        id="btn_get_data_monthly"><i class="fas fa-file-search"></i> Retrieve</button>
                 </div>
             </div>
         </div>
