@@ -393,6 +393,19 @@ var $ummu = {
                     footer: true,
                     showButtonPanel: true,
                 });
+
+                $('.ummu-yearpicker').datepicker({                
+                    changeMonth: false, // Matikan ganti bulan
+                    changeYear: true,   // Aktifkan ganti tahun
+                    showButtonPanel: true,
+                    dateFormat: 'yy',   // Format output hanya tahun
+                    
+                    // Logika saat jendela picker ditutup
+                    onClose: function(dateText, inst) { 
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, 0, 1));
+                    }
+                });
             };
 
             if(typeof jQuery.fn.monthpicker !== "undefined") {
@@ -401,6 +414,7 @@ var $ummu = {
                     altFormat: 'yy-mm'
                 });
             };
+
 
             if(typeof jQuery.fn.clockpicker !== "undefined") {
                 $(".clockpicker").clockpicker({
@@ -699,6 +713,10 @@ var $ummu = {
                 $("#" + $(this).data('inputid')).datepicker("show");
             })
 
+            $(".btn-show-yearpicker").on("click", function () {
+                $("#" + $(this).data('inputid')).datepicker("show");
+            })
+
             $("#btn_show_datepicker").on("click", function () {
                 $("#" + $(this).data('inputid')).datepicker("show");
             })
@@ -710,6 +728,26 @@ var $ummu = {
                     app.controllers.on_btn_get_data_click();
                 }else{
                     console.log('plese create function app.controllers.on_btn_get_data_click.');
+                }
+            })
+
+            $("#btn_get_data_by_date").on('click', function(){
+                console.log('btn get data');
+                if(typeof app.controllers.on_btn_get_data_by_date_click !== "undefined") {
+                    console.log('function app.controllers.on_btn_get_data_by_date_click is OK.');
+                    app.controllers.on_btn_get_data_by_date_click();
+                }else{
+                    console.log('plese create function app.controllers.on_btn_get_data_by_date_click.');
+                }
+            })
+
+            $("#btn_get_data_monthly").on('click', function(){
+                console.log('btn get data');
+                if(typeof app.controllers.on_btn_get_data_by_date_click !== "undefined") {
+                    console.log('function app.controllers.on_btn_get_data_by_date_click is OK.');
+                    app.controllers.on_btn_get_data_by_month_click();
+                }else{
+                    console.log('plese create function app.controllers.on_btn_get_data_by_date_click.');
                 }
             })
 
@@ -10714,6 +10752,7 @@ var $ummu = {
         YMD: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0'),
         yesterday: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate() - 1).padStart(2, '0'),
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
+        mNow: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'),
     },
 
     url: {

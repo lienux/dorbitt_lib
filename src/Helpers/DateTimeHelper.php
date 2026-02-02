@@ -102,7 +102,7 @@ class DateTimeHelper
     }
 
     //datetime_start_end_default
-    public function dtse_default($date = null, $a)
+    public function dtse_default($date = null, $a = null)
     {
         /*$week_start = strtotime('last Sunday', time());
         $week_end = strtotime('next Sunday', time());*/
@@ -223,5 +223,20 @@ class DateTimeHelper
         $res = date('Y-m-d', $timestamp);
 
         return $res;
+    }
+
+    /*Ambil tanggal terakhir pada bulan tertentu*/
+    public function getYmt($Ymd)
+    {
+        $timestamp = strtotime($Ymd);
+        $newDate = date("Y-m-d", $timestamp);
+
+        $date = \DateTime::createFromFormat('Y-m-d', $newDate);
+
+        // "Ymt" akan menghasilkan Tahun-Bulan-TanggalTerakhir
+        $a = $date->format('Ymt'); 
+        // Output: 20260131
+
+        return $a;
     }
 }
