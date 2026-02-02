@@ -317,10 +317,7 @@ var $ummu = {
             $ummu.events.onChange.inputFile_onChange_fileUpload();
             $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal();
             $ummu.mygallery.autoload();
-            // $ummu.events.gallery.btn_submit_file_upload();
-            // $('#btn_login').on('click', function(){
 
-            // })
             if ( typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage' ) {
                 bsCustomFileInput.init();
             }
@@ -363,16 +360,10 @@ var $ummu = {
                 }
             });
 
-            // if ( $.isFunction($.fn.lettering) ) {
-            //     $(".cs-text-cut").lettering('words');
-            // }
-
             if(typeof jQuery.fn.datepicker !== "undefined") {
                 $(".datepicker000").datepicker({
-                    // Enables the month dropdown
-                    changeMonth: true, 
-                    // Enables the year dropdown
-                    changeYear: true, 
+                    changeMonth: true, // Enables the month dropdown
+                    changeYear: true, // Enables the year dropdown
                     dateFormat: "yy-mm-dd",
                     uiLibrary: "bootstrap4",
                     modal: true,
@@ -382,16 +373,37 @@ var $ummu = {
                 });
 
                 $(".ummu-datepicker").datepicker({
-                    // Enables the month dropdown
-                    changeMonth: true, 
-                    // Enables the year dropdown
-                    changeYear: true, 
+                    changeMonth: true, // Enables the month dropdown
+                    changeYear: true, // Enables the year dropdown
                     dateFormat: "yy-mm-dd",
                     uiLibrary: "bootstrap4",
                     modal: true,
                     header: true,
                     footer: true,
                     showButtonPanel: true,
+
+                    beforeShow: function(input, inst) {
+                        $(inst.dpDiv).removeClass('hide-calendar hide-month');
+                    },
+                });
+
+                $('.ummu-monthpicker').datepicker({                
+                    changeMonth: true, // Aktifka ganti bulan
+                    changeYear: true,   // Aktifkan ganti tahun
+                    showButtonPanel: true,
+                    dateFormat: 'yy-mm',   // Format output hanya tahun
+
+                    // Fungsi ini berjalan sesaat sebelum datepicker muncul
+                    beforeShow: function(input, inst) {
+                        $(inst.dpDiv).addClass('hide-calendar').removeClass('hide-month');
+                    },
+                                        
+                    // Logika saat tombol 'Done' atau picker ditutup
+                    onClose: function(dateText, inst) {
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1));
+                    }
                 });
 
                 $('.ummu-yearpicker').datepicker({                
@@ -399,6 +411,11 @@ var $ummu = {
                     changeYear: true,   // Aktifkan ganti tahun
                     showButtonPanel: true,
                     dateFormat: 'yy',   // Format output hanya tahun
+
+                    // Fungsi ini berjalan sesaat sebelum datepicker muncul
+                    beforeShow: function(input, inst) {
+                        $(inst.dpDiv).addClass('hide-calendar hide-month');
+                    },
                     
                     // Logika saat jendela picker ditutup
                     onClose: function(dateText, inst) { 
@@ -407,14 +424,6 @@ var $ummu = {
                     }
                 });
             };
-
-            if(typeof jQuery.fn.monthpicker !== "undefined") {
-                $(".ummu-monthpicker").monthpicker({
-                    dateFormat: "yy-mm",
-                    altFormat: 'yy-mm'
-                });
-            };
-
 
             if(typeof jQuery.fn.clockpicker !== "undefined") {
                 $(".clockpicker").clockpicker({
@@ -511,15 +520,6 @@ var $ummu = {
                 // console.log(text)
             });
 
-            // $('#txtSearchProdAssign').keypress(function (e) {
-            //     var key = e.which;
-            //     if(key == 13)  // the enter key code
-            //     {
-            //         $('input[name = butAssignProd]').click();
-            //         return false;
-            //     }
-            // });
-
             $(".btn-show-date").on("click", function () {
                 var id = $(this).data("inputid");
 
@@ -532,19 +532,6 @@ var $ummu = {
                 e.stopPropagation();
                 $("#" + id).clockpicker("show");
             });
-
-            // if (typeof app.autoload.goodseval_status != "undefined") {
-            //   $("input[type=radio][name=status]").change(function () {
-            //     if (this.id == "close") {
-            //       $("#close_status_formGroup").removeClass("collapse");
-            //       $("#evidence_formGroup").removeClass("collapse");
-            //     } else {
-            //       $("#close_status_formGroup").addClass("collapse");
-            //       $("#evidence_formGroup").addClass("collapse");
-            //     }
-            //     console.log(this.id);
-            //   });
-            // }
 
             $("#nav_tab_doc_status_2 #nav_open_tab").on("click", function () {
                 console.log('nav open tab on openapi2 lib');
@@ -585,22 +572,6 @@ var $ummu = {
                     console.log('plese create function app.controllers.navtab2.show_by_status_close.');
                 }
             });
-
-            // // Show overlay before DataTables Ajax starts
-            // $(document).on('preXhr.dt', function(e, settings, data) {
-            //   // if (settings.sTableId === 'myTable') { // Target specific table if needed
-            //       // $('#loadingOverlay').show();
-            //     $ummu.loader('show');
-            //   // }
-            // });
-
-            // // Hide overlay after DataTables Ajax completes
-            // $(document).on('xhr.dt', function(e, settings, json, xhr) {
-            //   // if (settings.sTableId === 'myTable') {
-            //       // $('#loadingOverlay').hide();
-            //     $ummu.loader('hide');
-            //   // }
-            // });
 
             $(".ummu-datepicker").change(function () {
                 var element_id = $(this).attr("id");
@@ -709,7 +680,6 @@ var $ummu = {
             })
 
             $(".btn-show-monthpicker").on("click", function () {
-            // $("#" + $(this).data('inputid')).datepicker("show");
                 $("#" + $(this).data('inputid')).datepicker("show");
             })
 
@@ -743,9 +713,19 @@ var $ummu = {
 
             $("#btn_get_data_monthly").on('click', function(){
                 console.log('btn get data');
-                if(typeof app.controllers.on_btn_get_data_by_date_click !== "undefined") {
-                    console.log('function app.controllers.on_btn_get_data_by_date_click is OK.');
+                if(typeof app.controllers.on_btn_get_data_by_month_click !== "undefined") {
+                    console.log('function app.controllers.on_btn_get_data_by_month_click is OK.');
                     app.controllers.on_btn_get_data_by_month_click();
+                }else{
+                    console.log('plese create function app.controllers.on_btn_get_data_by_month_click.');
+                }
+            })
+
+            $("#btn_get_data_yearly").on('click', function(){
+                console.log('btn get data');
+                if(typeof app.controllers.on_btn_get_data_by_year_click !== "undefined") {
+                    console.log('function app.controllers.on_btn_get_data_by_year_click is OK.');
+                    app.controllers.on_btn_get_data_by_year_click();
                 }else{
                     console.log('plese create function app.controllers.on_btn_get_data_by_date_click.');
                 }
@@ -758,10 +738,6 @@ var $ummu = {
             })
 
             $(".canvasjs-chart-credit").html('canvas.omdoo.id')
-
-            // $("#ummu_btn_filter").on('click', function(){
-            //   console.log('ok gassssssssssssss')
-            // })
 
             if ($ummu.vars.login_module == 'herp') {
                 $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
@@ -10753,6 +10729,7 @@ var $ummu = {
         yesterday: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate() - 1).padStart(2, '0'),
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
         mNow: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'),
+        yNow: new Date().getFullYear(),
     },
 
     url: {

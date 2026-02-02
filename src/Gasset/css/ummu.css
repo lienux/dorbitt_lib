@@ -612,3 +612,13 @@ border-radius: 0.25rem;
 .ummuDT.dataTable {
     border: 1px solid #d7d7d7;
 }
+
+/* Sembunyikan hari pada Month & Year Picker */
+.hide-calendar .ui-datepicker-calendar {
+    display: none !important;
+}
+
+/* Sembunyikan bulan pada Year Picker saja */
+.hide-month .ui-datepicker-month {
+    display: none !important;
+}
