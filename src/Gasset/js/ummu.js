@@ -4337,6 +4337,11 @@ var $ummu = {
                 const chart = new google.visualization.LineChart(document.getElementById(element_id));
                 chart.draw(data, options);
             },
+
+            drawPie: function(data, options, element_id) {
+                const chart = new google.visualization.PieChart(document.getElementById(element_id));
+                chart.draw(data, options);
+            },
         }
     },
 
