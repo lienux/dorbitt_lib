@@ -156,6 +156,10 @@ var $ummu = {
         rows_on_getData: null,
         modal_id_show: null,
 
+        rows_daily: null,
+        rows_monthly: null,
+        rows_yearly: null,
+
         msdbToken: localStorage.getItem("msdbToken"),
         urlpath: window.location.href,
         url: new URL(window.location.href),
@@ -808,6 +812,57 @@ var $ummu = {
             $(".ummu-page #btn_generate_password").on("click", function () {
                 $ummu.encrypter.generatePassword($(this).data('inputid'));
             });
+
+            $(".btn_col_size_3").on("click", function() {
+                var element_id = this.id
+                var element_id4 = $(this).parents().eq(4).attr('id')
+
+                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-4") == false) {
+                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-4")
+                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-6 col-lg-12")
+                }
+
+                if(typeof app.events.on_btn_col_size !== "undefined") {
+                    console.log('function app.events.on_btn_col_size is OK.');
+                    app.events.on_btn_col_size(element_id4);
+                }else{
+                    console.log('plese create function app.events.on_btn_col_size.');
+                }
+            })
+
+            $(".btn_col_size_2").on("click", function() {
+                var element_id = this.id
+                var element_id4 = $(this).parents().eq(4).attr('id')
+
+                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-6") == false) {
+                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-6")
+                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-4 col-lg-12")
+                }
+
+                if(typeof app.events.on_btn_col_size !== "undefined") {
+                    console.log('function app.events.on_btn_col_size is OK.');
+                    app.events.on_btn_col_size(element_id4);
+                }else{
+                    console.log('plese create function app.events.on_btn_col_size.');
+                }
+            })
+
+            $(".btn_col_size_1").on("click", function() {
+                var element_id = this.id
+                var element_id4 = $(this).parents().eq(4).attr('id')
+
+                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-12") == false) {
+                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-12")
+                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-4 col-lg-6")
+                }
+
+                if(typeof app.events.on_btn_col_size !== "undefined") {
+                    console.log('function app.events.on_btn_col_size is OK.');
+                    app.events.on_btn_col_size(element_id4);
+                }else{
+                    console.log('plese create function app.events.on_btn_col_size.');
+                }
+            })
 
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");

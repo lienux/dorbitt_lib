@@ -210,4 +210,9 @@ class GviewsHelper
             return "https://cdn.openapi2.com/ummu.js?time=" . date('YmdHis');
         }
     }
+
+    public function include_btn_col_size()
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/btn_col_size';
+    }
 }
