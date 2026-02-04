@@ -193,9 +193,9 @@ class DateTimeHelper
         // Create a DateTime object from a specific format
         $date = \DateTime::createFromFormat("Y-m-d", $newDate);
         // Format the object to get the four-digit year (Y)
-        $year = $date->format("Y"); 
+        $y = $date->format("Y"); 
 
-        return $year;
+        return $y;
     }
 
     public function getMonth($a)
