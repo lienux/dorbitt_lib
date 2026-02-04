@@ -28,19 +28,19 @@ class Ummu extends BaseConfig
         $this->encryptH = new EncrypterHelper();
     }
 
-    public function ViHe(string $methodName = null)
+    public function ViHe(string $methodName = null, string $filename = null)
     {
         if (method_exists($this->vHelp, $methodName)) {
-            return $this->vHelp->$methodName();
+            return $this->vHelp->$methodName($filename);
         }
         
         return null;
     }
 
-    public function gViHe(string $methodName = null)
+    public function gViHe(string $methodName = null, string $filename = null)
     {
         if (method_exists($this->gVhelp, $methodName)) {
-            return $this->gVhelp->$methodName();
+            return $this->gVhelp->$methodName($filename);
         }
         
         return null;
@@ -62,5 +62,10 @@ class Ummu extends BaseConfig
         }
         
         return null;
+    }
+
+    public function include_partial(string $filename)
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/'.$filename.'.php';
     }
 }
