@@ -817,16 +817,16 @@ var $ummu = {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-4") == false) {
-                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-4")
-                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-6 col-lg-12")
+                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-4") == false) {
+                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-4")
+                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-6 col-lg-12")
                 }
 
-                if(typeof app.events.on_btn_col_size !== "undefined") {
-                    console.log('function app.events.on_btn_col_size is OK.');
-                    app.events.on_btn_col_size(element_id4);
+                if(typeof app.events.on_btn_view_type !== "undefined") {
+                    console.log('function app.events.on_btn_view_type is OK.');
+                    app.events.on_btn_view_type(element_id4);
                 }else{
-                    console.log('plese create function app.events.on_btn_col_size.');
+                    console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
@@ -834,16 +834,16 @@ var $ummu = {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-6") == false) {
-                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-6")
-                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-4 col-lg-12")
+                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-6") == false) {
+                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-6")
+                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-12")
                 }
 
-                if(typeof app.events.on_btn_col_size !== "undefined") {
-                    console.log('function app.events.on_btn_col_size is OK.');
-                    app.events.on_btn_col_size(element_id4);
+                if(typeof app.events.on_btn_view_type !== "undefined") {
+                    console.log('function app.events.on_btn_view_type is OK.');
+                    app.events.on_btn_view_type(element_id4);
                 }else{
-                    console.log('plese create function app.events.on_btn_col_size.');
+                    console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
@@ -851,16 +851,50 @@ var $ummu = {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-col-size").hasClass("col-lg-12") == false) {
-                    $("#"+element_id4 + " .ummu-col-size").addClass("col-lg-12")
-                    $("#"+element_id4 + " .ummu-col-size").removeClass("col-lg-4 col-lg-6")
+                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
                 }
 
-                if(typeof app.events.on_btn_col_size !== "undefined") {
-                    console.log('function app.events.on_btn_col_size is OK.');
-                    app.events.on_btn_col_size(element_id4);
+                if(typeof app.events.on_btn_view_type !== "undefined") {
+                    console.log('function app.events.on_btn_view_type is OK.');
+                    app.events.on_btn_view_type(element_id4);
                 }else{
-                    console.log('plese create function app.events.on_btn_col_size.');
+                    console.log('plese create function app.events.on_btn_view_type.');
+                }
+            })
+
+            $(".btn_type_chart").on("click", function() {
+                var element_id = this.id
+                var element_id4 = $(this).parents().eq(4).attr('id')
+
+                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
+                }
+
+                if(typeof app.events.on_btn_view_type !== "undefined") {
+                    console.log('function app.events.on_btn_view_type is OK.');
+                    app.events.on_btn_view_type(element_id4, element_id);
+                }else{
+                    console.log('plese create function app.events.on_btn_view_type.');
+                }
+            })
+
+            $(".btn_type_table").on("click", function() {
+                var element_id = this.id
+                var element_id4 = $(this).parents().eq(4).attr('id')
+
+                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
+                }
+
+                if(typeof app.events.on_btn_view_type !== "undefined") {
+                    console.log('function app.events.on_btn_view_type is OK.');
+                    app.events.on_btn_view_type(element_id4, element_id);
+                }else{
+                    console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
