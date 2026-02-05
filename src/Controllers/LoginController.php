@@ -212,7 +212,7 @@ class LoginController extends ResourceController
                     "logged_in" => TRUE,
                     "logged_by" => "phone",
                     "openapi2" => true,
-                    "openapi2_modules" => $response->data->enmod_new,
+                    "openapi2_modules" => $response->data->module_enabled,
                     "kode_site" => $kode_site,
                     "kode_site2" => $kode2,
                     "KdLevel" => $KdLevel,
@@ -228,7 +228,7 @@ class LoginController extends ResourceController
                     "msdbName" => "",
                     "msdbTokenEmpl" => $msdb_token,
                     "dorbitt_in" => TRUE,
-                    "dorbitt_modules" => $response->data->enmod_new,
+                    "dorbitt_modules" => $response->data->module_enabled,
                     "update_myKdSite" => (isset($update_myKdSite->status)) ? $update_myKdSite->status : null,
                     "login_module" => $login_module
                 ];
