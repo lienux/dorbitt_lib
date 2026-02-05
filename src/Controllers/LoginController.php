@@ -108,6 +108,7 @@ class LoginController extends ResourceController
     {
         // $phone_number_encrypt = $this->request->getVar('n');
         // $phone_number = $this->encrypter->decrypt($phone_number_encrypt);
+        $login_module = "openapi2";
         $phone_number = $this->request->getVar('phone_number');
         $password = $this->request->getVar('password');
 
@@ -121,7 +122,7 @@ class LoginController extends ResourceController
         $payload = [
             "phone_number" => $phone_number,
             "password" => $password,
-            "join" => ["employee","enmod","companyz","ms_rolesz"]
+            "join" => ["employee","enmod","company","ms_roles"]
         ];
 
         $params = [
