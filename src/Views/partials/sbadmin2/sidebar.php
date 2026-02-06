@@ -1,36 +1,37 @@
 <?php
 $rows = [
     [
-        'id' => '1',
-        'name' => 'Dashboard',
-        'application_id' => '2',
-        'kode' => 'dashboard',
+        'id' => '193',
+        'name' => 'Applications',
+        'application_id' => null,
+        'kode' => 'applications',
         'category_id' => '5',
-        'icon' => '&lt;i class=&quot;far fa-tachometer-alt&quot;&gt;&lt;/i&gt;',
+        'icon' => '&lt;i class=&quot;fab fa-windows&quot;&gt;&lt;/i&gt;',
         'is_parent' => 'on',
         'is_child' => null,
         'path' => '#',
-        'uri' => 'dashboard',
-        'sequence' => '1',
-        'autoload' => '1',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
         'allow_auto' => null,
         'allowed_account' => null,
         'allowed_company' => null,
         'not_display' => null,
-        'created_at' => '2023-07-07 23:02:05',
-        'updated_at' => '2025-01-07 23:19:33',
+        'created_at' => '2025-07-31 16:21:53',
+        'updated_at' => '2025-07-31 16:21:53',
         'deleted_at' => null,
+        'category_name' => 'ALL',
         'sub_module' => [
             [
-                'id' => '147',
-                'name' => 'Hazard Report',
+                'id' => '189',
+                'name' => 'Surat Tugas',
                 'application_id' => null,
-                'kode' => 'dashboard_hazardreport',
-                'category_id' => '26',
-                'icon' => '&lt;i class=&quot;fas fa-tachometer-alt&quot;&gt;&lt;/i&gt;',
+                'kode' => 'surat_tugas',
+                'category_id' => '15',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
                 'is_parent' => null,
-                'is_child' => '1',
-                'path' => 'v1/api/she/dashboard_hazard_report',
+                'is_child' => '193',
+                'path' => 'v1/api/hcm/surat_tugas',
                 'uri' => null,
                 'sequence' => null,
                 'autoload' => null,
@@ -38,8 +39,116 @@ $rows = [
                 'allowed_account' => null,
                 'allowed_company' => null,
                 'not_display' => null,
-                'created_at' => '2024-12-20 23:00:05',
-                'updated_at' => '2025-07-09 13:47:22',
+                'created_at' => '2025-07-17 16:52:36',
+                'updated_at' => '2025-08-08 09:38:11',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
+        'id' => '88',
+        'name' => 'Approval',
+        'application_id' => '2',
+        'kode' => 'approval',
+        'category_id' => '19',
+        'icon' => '&lt;i class=&quot;fa-thin fa-file-signature&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2024-04-01 09:54:44',
+        'updated_at' => '2024-08-02 06:31:16',
+        'deleted_at' => null,
+        'category_name' => 'Approval',
+        'sub_module' => [
+            [
+                'id' => '182',
+                'name' => 'Investigasi',
+                'application_id' => null,
+                'kode' => 'approval_investigasi',
+                'category_id' => '19',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '88',
+                'path' => 'v1/api/approval/safety/investigasi',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-15 14:17:29',
+                'updated_at' => '2025-07-16 15:10:30',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '185',
+                'name' => 'ITR',
+                'application_id' => null,
+                'kode' => 'approval_itr_new',
+                'category_id' => '19',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '88',
+                'path' => 'v1/api/approval/itr_new',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-15 15:01:59',
+                'updated_at' => '2025-07-31 16:12:16',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '186',
+                'name' => 'Mechanic Activity',
+                'application_id' => null,
+                'kode' => 'approval_mechanic_activity',
+                'category_id' => '19',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '88',
+                'path' => 'v1/api/approval/mechanic_activity',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-15 15:10:20',
+                'updated_at' => '2025-07-15 15:10:20',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '190',
+                'name' => 'Queue',
+                'application_id' => null,
+                'kode' => 'approval_queue',
+                'category_id' => '19',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '88',
+                'path' => 'v1/api/approval/queue',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-18 13:51:48',
+                'updated_at' => '2025-07-18 13:51:48',
                 'deleted_at' => null
             ]
         ]
@@ -64,6 +173,7 @@ $rows = [
         'created_at' => '2023-07-07 23:05:50',
         'updated_at' => '2025-01-07 23:19:52',
         'deleted_at' => null,
+        'category_name' => 'Configuration',
         'sub_module' => [
             [
                 'id' => '54',
@@ -131,6 +241,335 @@ $rows = [
         ]
     ],
     [
+        'id' => '1',
+        'name' => 'Dashboard',
+        'application_id' => '2',
+        'kode' => 'dashboard',
+        'category_id' => '5',
+        'icon' => '&lt;i class=&quot;far fa-tachometer-alt&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => 'dashboard',
+        'sequence' => '1',
+        'autoload' => '1',
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2023-07-07 23:02:05',
+        'updated_at' => '2025-01-07 23:19:33',
+        'deleted_at' => null,
+        'category_name' => 'ALL',
+        'sub_module' => [
+            [
+                'id' => '147',
+                'name' => 'Hazard Report',
+                'application_id' => null,
+                'kode' => 'dashboard_hazardreport',
+                'category_id' => '26',
+                'icon' => '&lt;i class=&quot;fas fa-tachometer-alt&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '1',
+                'path' => 'v1/api/she/dashboard_hazard_report',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2024-12-20 23:00:05',
+                'updated_at' => '2025-07-09 13:47:22',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
+        'id' => '134',
+        'name' => 'Health',
+        'application_id' => null,
+        'kode' => 'she_health',
+        'category_id' => '26',
+        'icon' => '&lt;i class=&quot;fal fa-medkit&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2024-09-03 09:20:36',
+        'updated_at' => '2024-09-03 09:20:36',
+        'deleted_at' => null,
+        'category_name' => 'SHE',
+        'sub_module' => [
+            [
+                'id' => '145',
+                'name' => 'Kunjungan Klinik',
+                'application_id' => null,
+                'kode' => 'she_kunjungan_klinik',
+                'category_id' => '26',
+                'icon' => '&lt;i class=&quot;fas fa-user-injured&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '134',
+                'path' => 'v1/api/she/kunjungan_klinik',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2024-12-06 14:37:45',
+                'updated_at' => '2025-07-21 13:33:19',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '149',
+                'name' => 'Stok Obat',
+                'application_id' => null,
+                'kode' => 'she_stok_obat',
+                'category_id' => '26',
+                'icon' => '&lt;i class=&quot;fas fa-pills&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '134',
+                'path' => 'v1/api/she/stok_obat',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2024-12-24 10:05:53',
+                'updated_at' => '2025-07-21 12:49:43',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
+        'id' => '151',
+        'name' => 'Inventory',
+        'application_id' => null,
+        'kode' => 'inventory',
+        'category_id' => '14',
+        'icon' => '&lt;i class=&quot;far fa-warehouse-alt&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2025-01-16 01:23:47',
+        'updated_at' => '2025-01-16 01:41:07',
+        'deleted_at' => null,
+        'category_name' => 'SCM',
+        'sub_module' => [
+            [
+                'id' => '159',
+                'name' => 'Goods Evaluation',
+                'application_id' => null,
+                'kode' => 'goods_evaluation',
+                'category_id' => '14',
+                'icon' => '&lt;i class=&quot;far fa-ballot-check&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '151',
+                'path' => 'v1/api/inventory/goods_evaluation',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => '1',
+                'created_at' => '2025-02-14 08:39:58',
+                'updated_at' => '2025-08-04 09:18:31',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '175',
+                'name' => 'Goods Evaluation New',
+                'application_id' => null,
+                'kode' => 'goods_evaluation_new',
+                'category_id' => '28',
+                'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
+                'is_parent' => 'on',
+                'is_child' => '151',
+                'path' => '#',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-09 17:57:45',
+                'updated_at' => '2025-07-09 17:57:45',
+                'deleted_at' => null,
+                'sub_sub_module' => [
+                    [
+                        'id' => '173',
+                        'name' => 'Process',
+                        'application_id' => null,
+                        'kode' => 'goods_evaluation_process',
+                        'category_id' => '28',
+                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
+                        'is_parent' => null,
+                        'is_child' => '175',
+                        'path' => 'v1/api/inventory/goods_evaluation_process',
+                        'uri' => null,
+                        'sequence' => null,
+                        'autoload' => null,
+                        'allow_auto' => null,
+                        'allowed_account' => null,
+                        'allowed_company' => null,
+                        'not_display' => null,
+                        'created_at' => '2025-07-09 17:52:03',
+                        'updated_at' => '2025-07-10 11:22:20',
+                        'deleted_at' => null
+                    ],
+                    [
+                        'id' => '174',
+                        'name' => 'Create',
+                        'application_id' => null,
+                        'kode' => 'goods_evaluation_create',
+                        'category_id' => '28',
+                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
+                        'is_parent' => null,
+                        'is_child' => '175',
+                        'path' => 'v1/api/inventory/goods_evaluation_create',
+                        'uri' => null,
+                        'sequence' => null,
+                        'autoload' => null,
+                        'allow_auto' => null,
+                        'allowed_account' => null,
+                        'allowed_company' => null,
+                        'not_display' => null,
+                        'created_at' => '2025-07-09 17:53:19',
+                        'updated_at' => '2025-07-10 10:37:29',
+                        'deleted_at' => null
+                    ],
+                    [
+                        'id' => '179',
+                        'name' => 'Monitoring',
+                        'application_id' => null,
+                        'kode' => 'goods_evaluation_monitoring',
+                        'category_id' => '28',
+                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
+                        'is_parent' => null,
+                        'is_child' => '175',
+                        'path' => 'v1/api/inventory/goods_evaluation_monitoring',
+                        'uri' => null,
+                        'sequence' => null,
+                        'autoload' => null,
+                        'allow_auto' => null,
+                        'allowed_account' => null,
+                        'allowed_company' => null,
+                        'not_display' => null,
+                        'created_at' => '2025-07-10 10:33:08',
+                        'updated_at' => '2025-07-10 11:22:28',
+                        'deleted_at' => null
+                    ]
+                ]
+            ],
+            [
+                'id' => '191',
+                'name' => 'ITR',
+                'application_id' => null,
+                'kode' => 'inventory_itr',
+                'category_id' => '28',
+                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '151',
+                'path' => 'v1/api/inventory/itr',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-07-31 15:54:13',
+                'updated_at' => '2025-07-31 16:08:02',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
+        'id' => '154',
+        'name' => 'Maintenance',
+        'application_id' => null,
+        'kode' => 'maintenance_processing',
+        'category_id' => '16',
+        'icon' => '&lt;i class=&quot;fal fa-tools&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2025-01-22 09:24:39',
+        'updated_at' => '2025-01-22 23:48:19',
+        'deleted_at' => null,
+        'category_name' => 'Plant Maintenance',
+        'sub_module' => [
+            [
+                'id' => '53',
+                'name' => 'Mechanic Activity',
+                'application_id' => '2',
+                'kode' => 'pm_mechanic_activity',
+                'category_id' => '16',
+                'icon' => '&lt;i class=&quot;fal fa-user-hard-hat&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '154',
+                'path' => 'api/pm/mechanic_activity',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2023-10-18 15:43:13',
+                'updated_at' => '2025-01-22 09:25:12',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '161',
+                'name' => 'Work Order 2',
+                'application_id' => null,
+                'kode' => 'pm_workorder2',
+                'category_id' => '16',
+                'icon' => '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt; &lt;!-- Created with Inkscape (http://www.inkscape.org/) --&gt;  &lt;svg    width=&quot;3.5mm&quot;    height=&quot;5mm&quot;    viewBox=&quot;0 0 3.5 5&quot;    version=&quot;1.1&quot;    id=&quot;svg1&quot;    inkscape:version=&quot;1.3.2 (1:1.3.2+202311252150+091e20ef0f)&quot;    sodipodi:docname=&quot;work_order.svg&quot;    xml:space=&quot;preserve&quot;    xmlns:inkscape=&quot;http://www.inkscape.org/namespaces/inkscape&quot;    xmlns:sodipodi=&quot;http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd&quot;    xmlns=&quot;http://www.w3.org/2000/svg&quot;    xmlns:svg=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;sodipodi:namedview      id=&quot;namedview1&quot;      pagecolor=&quot;#ffffff&quot;      bordercolor=&quot;#000000&quot;      borderopacity=&quot;0.25&quot;      inkscape:showpageshadow=&quot;2&quot;      inkscape:pageopacity=&quot;0.0&quot;      inkscape:pagecheckerboard=&quot;0&quot;      inkscape:deskcolor=&quot;#d1d1d1&quot;      inkscape:document-units=&quot;mm&quot;      inkscape:zoom=&quot;16.448685&quot;      inkscape:cx=&quot;-4.2252619&quot;      inkscape:cy=&quot;9.1192703&quot;      inkscape:window-width=&quot;1848&quot;      inkscape:window-height=&quot;1016&quot;      inkscape:window-x=&quot;72&quot;      inkscape:window-y=&quot;27&quot;      inkscape:window-maximized=&quot;1&quot;      inkscape:current-layer=&quot;layer1&quot; /&gt;&lt;defs      id=&quot;defs1&quot; /&gt;&lt;g      inkscape:label=&quot;Layer 1&quot;      inkscape:groupmode=&quot;layer&quot;      id=&quot;layer1&quot;&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;path        d=&quot;M 2.6578141,0.72937977 H 2.0521153 c 0,-0.27696463 -0.2172943,-0.50214568 -0.4845591,-0.50214568 -0.2672643,0 -0.4845587,0.22518105 -0.4845587,0.50214568 H 0.47729875 c -0.20063775,0 -0.36341924,0.16868989 -0.36341924,0.37660923 v 2.7618018 c 0,0.2079195 0.16278149,0.3766095 0.36341924,0.3766095 H 2.6578141 c 0.2006378,0 0.3634193,-0.16869 0.3634193,-0.3766095 V 1.105989 c 0,-0.20791934 -0.1627815,-0.37660923 -0.3634193,-0.37660923 z M 0.84071804,3.5539495 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883046 0,-0.104352 0.0810124,-0.1883045 0.1817097,-0.1883045 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883045 0,0.1043518 -0.0810117,0.1883046 -0.18170946,0.1883046 z m 0,-0.7532183 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883048 0,-0.1043519 0.0810124,-0.1883046 0.1817097,-0.1883046 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883046 0,0.1043517 -0.0810117,0.1883048 -0.18170946,0.1883048 z M 1.5675562,0.54107514 c 0.1006985,0 0.1817099,0.0839526 0.1817099,0.18830463 0,0.10435198 -0.061339,0.13277702 -0.1620355,0.13277702 -0.1006964,0 -0.2013837,-0.0284243 -0.2013837,-0.13277702 0,-0.10435183 0.081011,-0.18830463 0.1817093,-0.18830463 z M 2.5366743,3.4284133 c 0,0.034522 -0.027255,0.062769 -0.060569,0.062769 h -1.090259 c -0.033313,0 -0.06057,-0.028245 -0.06057,-0.062769 V 3.3028764 c 0,-0.034522 0.027256,-0.062769 0.06057,-0.062769 h 1.0902575 c 0.033313,0 0.06057,0.028245 0.06057,0.062769 z&quot;        id=&quot;path1-2&quot;        style=&quot;fill:none;stroke:#000058;stroke-width:0.219083;stroke-dasharray:none;stroke-opacity:1&quot;        sodipodi:nodetypes=&quot;scscssssssssssssssssssssssssssssssss&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.317972;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3717781,2.6009279 H 2.5030776&quot;        id=&quot;path2-2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;ellipse        style=&quot;fill:#ffffff;stroke:none;stroke-width:0.272239;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        id=&quot;path3&quot;        cx=&quot;2.6118708&quot;        cy=&quot;3.5029359&quot;        rx=&quot;0.30061081&quot;        ry=&quot;0.29585922&quot; /&gt;&lt;path        d=&quot;m 3.3673477,4.1286672 -0.1769662,-0.09917 c 0.017861,-0.093525 0.017861,-0.1894708 0,-0.2829967 l 0.1769662,-0.099169 c 0.020355,-0.011288 0.029495,-0.034668 0.022847,-0.056439 C 3.3440841,3.447379 3.2655711,3.3175714 3.1629639,3.2095327 3.1471786,3.193004 3.1214227,3.1889733 3.1014829,3.2002658 L 2.9245167,3.2994305 C 2.8501576,3.2373485 2.7645822,3.1893762 2.6719449,3.1579322 V 2.9599957 c 0,-0.022575 -0.016201,-0.042328 -0.039049,-0.047166 -0.1524569,-0.033057 -0.3086526,-0.031443 -0.453632,0 -0.022847,0.00483 -0.039049,0.02459 -0.039049,0.047166 v 0.1983396 c -0.092221,0.031847 -0.177797,0.07982 -0.2525714,0.1414983 l -0.1765508,-0.09917 c -0.020355,-0.011288 -0.045695,-0.00766 -0.061482,0.00926 -0.1026069,0.1076361 -0.1811206,0.2374431 -0.2272313,0.3813602 -0.00707,0.021768 0.00249,0.04515 0.022847,0.056439 l 0.1769671,0.099169 c -0.017863,0.093525 -0.017863,0.1894707 0,0.2829965 l -0.1769659,0.099172 c -0.020355,0.011288 -0.029494,0.034668 -0.022847,0.056439 0.04611,0.143514 0.1246242,0.2733216 0.2272313,0.3813601 0.015786,0.016529 0.041542,0.02056 0.061482,0.00926 l 0.176966,-0.099169 c 0.074358,0.062082 0.1599344,0.1100543 0.2525716,0.1414982 v 0.19834 c 0,0.022576 0.0162,0.042328 0.039049,0.047166 0.1524569,0.033057 0.3086525,0.031443 0.4536319,0 0.022847,-0.00483 0.039049,-0.02459 0.039049,-0.047166 V 4.6184691 C 2.7645834,4.5866231 2.8501593,4.5386501 2.9249338,4.476971 L 3.1019003,4.57614 c 0.020355,0.011287 0.045696,0.00766 0.061482,-0.00926 0.1026056,-0.107638 0.1811191,-0.2374452 0.22723,-0.3813623 0.00623,-0.022171 -0.00291,-0.045554 -0.023263,-0.056841 z m -0.9612676,0.081835 c -0.1831975,0 -0.3323312,-0.1447233 -0.3323312,-0.3225033 0,-0.1777798 0.1491337,-0.3225033 0.3323312,-0.3225033 0.1831977,0 0.3323311,0.1447235 0.3323311,0.3225033 0,0.17778 -0.1491334,0.3225033 -0.3323311,0.3225033 z&quot;        id=&quot;path1-7&quot;        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.216472;stroke-dasharray:none;stroke-opacity:1&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.313606;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3672019,1.9103032 H 2.4676458&quot;        id=&quot;path2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.190634;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 0.68846128,1.9200127 0.80772202,2.0099947 1.0023251,1.7788946&quot;        id=&quot;path2-9&quot;        sodipodi:nodetypes=&quot;ccc&quot; /&gt;&lt;text        xml:space=&quot;preserve&quot;        style=&quot;font-size:0.548629px;font-family:\'Nimbus Roman\';-inkscape-font-specification:\'Nimbus Roman, \';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        x=&quot;1.1203774&quot;        y=&quot;1.4043533&quot;        id=&quot;text2&quot;        transform=&quot;scale(0.9999258,1.0000742)&quot;&gt;&lt;tspan          sodipodi:role=&quot;line&quot;          id=&quot;tspan2&quot;          style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:\'Nimbus Mono PS\';-inkscape-font-specification:\'Nimbus Mono PS\';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-opacity:1&quot;          x=&quot;1.1203774&quot;          y=&quot;1.4043533&quot;&gt;ALI&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/svg&gt;',
+                'is_parent' => null,
+                'is_child' => '154',
+                'path' => 'api/pm/workorder2',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-03-07 15:10:37',
+                'updated_at' => '2025-03-07 15:10:37',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
         'id' => '13',
         'name' => 'Master Data',
         'application_id' => '2',
@@ -150,6 +589,7 @@ $rows = [
         'created_at' => '2023-07-09 06:35:40',
         'updated_at' => '2025-01-07 23:19:50',
         'deleted_at' => null,
+        'category_name' => 'Master Data',
         'sub_module' => [
             [
                 'id' => '23',
@@ -217,6 +657,93 @@ $rows = [
         ]
     ],
     [
+        'id' => '103',
+        'name' => 'Payroll',
+        'application_id' => '2',
+        'kode' => 'payroll',
+        'category_id' => '15',
+        'icon' => '&lt;i class=&quot;fal fa-money-bill-wave&quot;&gt;&lt;/i&gt;',
+        'is_parent' => 'on',
+        'is_child' => null,
+        'path' => '#',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2024-06-10 10:21:47',
+        'updated_at' => '2024-08-02 06:31:16',
+        'deleted_at' => null,
+        'category_name' => 'HCM',
+        'sub_module' => [
+            [
+                'id' => '106',
+                'name' => 'Payslip',
+                'application_id' => '2',
+                'kode' => 'payslip',
+                'category_id' => '15',
+                'icon' => '&lt;i class=&quot;fad fa-receipt&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '103',
+                'path' => 'v1/api/hcm/payroll/payslip',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2024-06-11 10:17:08',
+                'updated_at' => '2025-07-09 09:09:19',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '116',
+                'name' => 'Payslip Periode',
+                'application_id' => '2',
+                'kode' => 'payslip_periode',
+                'category_id' => '15',
+                'icon' => '&lt;i class=&quot;fas fa-calendar-alt&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '103',
+                'path' => 'api/hcm/payroll/payslip_periode',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2024-07-23 08:28:18',
+                'updated_at' => '2024-10-05 20:59:05',
+                'deleted_at' => null
+            ],
+            [
+                'id' => '157',
+                'name' => 'Payslip Access',
+                'application_id' => null,
+                'kode' => 'payslip_access',
+                'category_id' => '15',
+                'icon' => '&lt;i class=&quot;fal fa-user-cog&quot;&gt;&lt;/i&gt;',
+                'is_parent' => null,
+                'is_child' => '103',
+                'path' => 'api/hcm/payroll/payslip_access',
+                'uri' => null,
+                'sequence' => null,
+                'autoload' => null,
+                'allow_auto' => null,
+                'allowed_account' => null,
+                'allowed_company' => null,
+                'not_display' => null,
+                'created_at' => '2025-02-04 08:55:19',
+                'updated_at' => '2025-02-04 08:55:19',
+                'deleted_at' => null
+            ]
+        ]
+    ],
+    [
         'id' => '58',
         'name' => 'Purchase',
         'application_id' => '2',
@@ -236,6 +763,7 @@ $rows = [
         'created_at' => '2023-11-01 22:54:09',
         'updated_at' => '2025-07-10 10:18:49',
         'deleted_at' => null,
+        'category_name' => 'SCM',
         'sub_module' => [
             [
                 'id' => '44',
@@ -326,243 +854,6 @@ $rows = [
         ]
     ],
     [
-        'id' => '88',
-        'name' => 'Approval',
-        'application_id' => '2',
-        'kode' => 'approval',
-        'category_id' => '19',
-        'icon' => '&lt;i class=&quot;fa-thin fa-file-signature&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
-        'is_child' => null,
-        'path' => '#',
-        'uri' => null,
-        'sequence' => null,
-        'autoload' => null,
-        'allow_auto' => null,
-        'allowed_account' => null,
-        'allowed_company' => null,
-        'not_display' => null,
-        'created_at' => '2024-04-01 09:54:44',
-        'updated_at' => '2024-08-02 06:31:16',
-        'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '182',
-                'name' => 'Investigasi',
-                'application_id' => null,
-                'kode' => 'approval_investigasi',
-                'category_id' => '19',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '88',
-                'path' => 'v1/api/approval/safety/investigasi',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-15 14:17:29',
-                'updated_at' => '2025-07-16 15:10:30',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '185',
-                'name' => 'ITR',
-                'application_id' => null,
-                'kode' => 'approval_itr_new',
-                'category_id' => '19',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '88',
-                'path' => 'v1/api/approval/itr_new',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-15 15:01:59',
-                'updated_at' => '2025-07-31 16:12:16',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '186',
-                'name' => 'Mechanic Activity',
-                'application_id' => null,
-                'kode' => 'approval_mechanic_activity',
-                'category_id' => '19',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '88',
-                'path' => 'v1/api/approval/mechanic_activity',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-15 15:10:20',
-                'updated_at' => '2025-07-15 15:10:20',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '190',
-                'name' => 'Queue',
-                'application_id' => null,
-                'kode' => 'approval_queue',
-                'category_id' => '19',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '88',
-                'path' => 'v1/api/approval/queue',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-18 13:51:48',
-                'updated_at' => '2025-07-18 13:51:48',
-                'deleted_at' => null
-            ]
-        ]
-    ],
-    [
-        'id' => '97',
-        'name' => 'Saham',
-        'application_id' => '2',
-        'kode' => 'saham',
-        'category_id' => '20',
-        'icon' => '&lt;i class=&quot;fa-thin fa-money-bill-trend-up&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
-        'is_child' => null,
-        'path' => '#',
-        'uri' => null,
-        'sequence' => null,
-        'autoload' => null,
-        'allow_auto' => null,
-        'allowed_account' => null,
-        'allowed_company' => null,
-        'not_display' => null,
-        'created_at' => '2024-04-23 09:18:28',
-        'updated_at' => '2024-08-02 06:31:16',
-        'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '45',
-                'name' => 'End of Day',
-                'application_id' => '2',
-                'kode' => 'saham_endofday',
-                'category_id' => '5',
-                'icon' => '&lt;i class=&quot;fa-thin fa-envelope-circle-check&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '97',
-                'path' => 'v1/api/saham/endofday',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2023-09-27 13:18:24',
-                'updated_at' => '2025-07-09 14:38:12',
-                'deleted_at' => null
-            ]
-        ]
-    ],
-    [
-        'id' => '103',
-        'name' => 'Payroll',
-        'application_id' => '2',
-        'kode' => 'payroll',
-        'category_id' => '15',
-        'icon' => '&lt;i class=&quot;fal fa-money-bill-wave&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
-        'is_child' => null,
-        'path' => '#',
-        'uri' => null,
-        'sequence' => null,
-        'autoload' => null,
-        'allow_auto' => null,
-        'allowed_account' => null,
-        'allowed_company' => null,
-        'not_display' => null,
-        'created_at' => '2024-06-10 10:21:47',
-        'updated_at' => '2024-08-02 06:31:16',
-        'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '106',
-                'name' => 'Payslip',
-                'application_id' => '2',
-                'kode' => 'payslip',
-                'category_id' => '15',
-                'icon' => '&lt;i class=&quot;fad fa-receipt&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '103',
-                'path' => 'v1/api/hcm/payroll/payslip',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2024-06-11 10:17:08',
-                'updated_at' => '2025-07-09 09:09:19',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '116',
-                'name' => 'Payslip Periode',
-                'application_id' => '2',
-                'kode' => 'payslip_periode',
-                'category_id' => '15',
-                'icon' => '&lt;i class=&quot;fas fa-calendar-alt&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '103',
-                'path' => 'api/hcm/payroll/payslip_periode',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2024-07-23 08:28:18',
-                'updated_at' => '2024-10-05 20:59:05',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '157',
-                'name' => 'Payslip Access',
-                'application_id' => null,
-                'kode' => 'payslip_access',
-                'category_id' => '15',
-                'icon' => '&lt;i class=&quot;fal fa-user-cog&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '103',
-                'path' => 'api/hcm/payroll/payslip_access',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-02-04 08:55:19',
-                'updated_at' => '2025-02-04 08:55:19',
-                'deleted_at' => null
-            ]
-        ]
-    ],
-    [
         'id' => '104',
         'name' => 'Recruitment',
         'application_id' => '2',
@@ -582,6 +873,7 @@ $rows = [
         'created_at' => '2024-06-10 10:30:11',
         'updated_at' => '2024-11-12 11:27:08',
         'deleted_at' => null,
+        'category_name' => 'HCM',
         'sub_module' => [
             [
                 'id' => '139',
@@ -668,6 +960,7 @@ $rows = [
         'created_at' => '2024-09-03 09:03:31',
         'updated_at' => '2024-09-03 09:18:23',
         'deleted_at' => null,
+        'category_name' => 'SHE',
         'sub_module' => [
             [
                 'id' => '115',
@@ -842,12 +1135,12 @@ $rows = [
         ]
     ],
     [
-        'id' => '134',
-        'name' => 'Health',
-        'application_id' => null,
-        'kode' => 'she_health',
-        'category_id' => '26',
-        'icon' => '&lt;i class=&quot;fal fa-medkit&quot;&gt;&lt;/i&gt;',
+        'id' => '97',
+        'name' => 'Saham',
+        'application_id' => '2',
+        'kode' => 'saham',
+        'category_id' => '20',
+        'icon' => '&lt;i class=&quot;fa-thin fa-money-bill-trend-up&quot;&gt;&lt;/i&gt;',
         'is_parent' => 'on',
         'is_child' => null,
         'path' => '#',
@@ -858,236 +1151,21 @@ $rows = [
         'allowed_account' => null,
         'allowed_company' => null,
         'not_display' => null,
-        'created_at' => '2024-09-03 09:20:36',
-        'updated_at' => '2024-09-03 09:20:36',
+        'created_at' => '2024-04-23 09:18:28',
+        'updated_at' => '2024-08-02 06:31:16',
         'deleted_at' => null,
+        'category_name' => 'Investasi',
         'sub_module' => [
             [
-                'id' => '145',
-                'name' => 'Kunjungan Klinik',
-                'application_id' => null,
-                'kode' => 'she_kunjungan_klinik',
-                'category_id' => '26',
-                'icon' => '&lt;i class=&quot;fas fa-user-injured&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '134',
-                'path' => 'v1/api/she/kunjungan_klinik',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2024-12-06 14:37:45',
-                'updated_at' => '2025-07-21 13:33:19',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '149',
-                'name' => 'Stok Obat',
-                'application_id' => null,
-                'kode' => 'she_stok_obat',
-                'category_id' => '26',
-                'icon' => '&lt;i class=&quot;fas fa-pills&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '134',
-                'path' => 'v1/api/she/stok_obat',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2024-12-24 10:05:53',
-                'updated_at' => '2025-07-21 12:49:43',
-                'deleted_at' => null
-            ]
-        ]
-    ],
-    [
-        'id' => '151',
-        'name' => 'Inventory',
-        'application_id' => null,
-        'kode' => 'inventory',
-        'category_id' => '14',
-        'icon' => '&lt;i class=&quot;far fa-warehouse-alt&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
-        'is_child' => null,
-        'path' => '#',
-        'uri' => null,
-        'sequence' => null,
-        'autoload' => null,
-        'allow_auto' => null,
-        'allowed_account' => null,
-        'allowed_company' => null,
-        'not_display' => null,
-        'created_at' => '2025-01-16 01:23:47',
-        'updated_at' => '2025-01-16 01:41:07',
-        'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '159',
-                'name' => 'Goods Evaluation',
-                'application_id' => null,
-                'kode' => 'goods_evaluation',
-                'category_id' => '14',
-                'icon' => '&lt;i class=&quot;far fa-ballot-check&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '151',
-                'path' => 'v1/api/inventory/goods_evaluation',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => '1',
-                'created_at' => '2025-02-14 08:39:58',
-                'updated_at' => '2025-08-04 09:18:31',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '175',
-                'name' => 'Goods Evaluation New',
-                'application_id' => null,
-                'kode' => 'goods_evaluation_new',
-                'category_id' => '28',
-                'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
-                'is_parent' => 'on',
-                'is_child' => '151',
-                'path' => '#',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-09 17:57:45',
-                'updated_at' => '2025-07-09 17:57:45',
-                'deleted_at' => null,
-                'sub_sub_module' => [
-                    [
-                        'id' => '173',
-                        'name' => 'Process',
-                        'application_id' => null,
-                        'kode' => 'goods_evaluation_process',
-                        'category_id' => '28',
-                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
-                        'is_parent' => null,
-                        'is_child' => '175',
-                        'path' => 'v1/api/inventory/goods_evaluation_process',
-                        'uri' => null,
-                        'sequence' => null,
-                        'autoload' => null,
-                        'allow_auto' => null,
-                        'allowed_account' => null,
-                        'allowed_company' => null,
-                        'not_display' => null,
-                        'created_at' => '2025-07-09 17:52:03',
-                        'updated_at' => '2025-07-10 11:22:20',
-                        'deleted_at' => null
-                    ],
-                    [
-                        'id' => '174',
-                        'name' => 'Create',
-                        'application_id' => null,
-                        'kode' => 'goods_evaluation_create',
-                        'category_id' => '28',
-                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
-                        'is_parent' => null,
-                        'is_child' => '175',
-                        'path' => 'v1/api/inventory/goods_evaluation_create',
-                        'uri' => null,
-                        'sequence' => null,
-                        'autoload' => null,
-                        'allow_auto' => null,
-                        'allowed_account' => null,
-                        'allowed_company' => null,
-                        'not_display' => null,
-                        'created_at' => '2025-07-09 17:53:19',
-                        'updated_at' => '2025-07-10 10:37:29',
-                        'deleted_at' => null
-                    ],
-                    [
-                        'id' => '179',
-                        'name' => 'Monitoring',
-                        'application_id' => null,
-                        'kode' => 'goods_evaluation_monitoring',
-                        'category_id' => '28',
-                        'icon' => '&lt;i class=&quot;fal fa-indent&quot;&gt;&lt;/i&gt;',
-                        'is_parent' => null,
-                        'is_child' => '175',
-                        'path' => 'v1/api/inventory/goods_evaluation_monitoring',
-                        'uri' => null,
-                        'sequence' => null,
-                        'autoload' => null,
-                        'allow_auto' => null,
-                        'allowed_account' => null,
-                        'allowed_company' => null,
-                        'not_display' => null,
-                        'created_at' => '2025-07-10 10:33:08',
-                        'updated_at' => '2025-07-10 11:22:28',
-                        'deleted_at' => null
-                    ]
-                ]
-            ],
-            [
-                'id' => '191',
-                'name' => 'ITR',
-                'application_id' => null,
-                'kode' => 'inventory_itr',
-                'category_id' => '28',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '151',
-                'path' => 'v1/api/inventory/itr',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-31 15:54:13',
-                'updated_at' => '2025-07-31 16:08:02',
-                'deleted_at' => null
-            ]
-        ]
-    ],
-    [
-        'id' => '154',
-        'name' => 'Maintenance',
-        'application_id' => null,
-        'kode' => 'maintenance_processing',
-        'category_id' => '16',
-        'icon' => '&lt;i class=&quot;fal fa-tools&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
-        'is_child' => null,
-        'path' => '#',
-        'uri' => null,
-        'sequence' => null,
-        'autoload' => null,
-        'allow_auto' => null,
-        'allowed_account' => null,
-        'allowed_company' => null,
-        'not_display' => null,
-        'created_at' => '2025-01-22 09:24:39',
-        'updated_at' => '2025-01-22 23:48:19',
-        'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '53',
-                'name' => 'Mechanic Activity',
+                'id' => '45',
+                'name' => 'End of Day',
                 'application_id' => '2',
-                'kode' => 'pm_mechanic_activity',
-                'category_id' => '16',
-                'icon' => '&lt;i class=&quot;fal fa-user-hard-hat&quot;&gt;&lt;/i&gt;',
+                'kode' => 'saham_endofday',
+                'category_id' => '5',
+                'icon' => '&lt;i class=&quot;fa-thin fa-envelope-circle-check&quot;&gt;&lt;/i&gt;',
                 'is_parent' => null,
-                'is_child' => '154',
-                'path' => 'api/pm/mechanic_activity',
+                'is_child' => '97',
+                'path' => 'v1/api/saham/endofday',
                 'uri' => null,
                 'sequence' => null,
                 'autoload' => null,
@@ -1095,43 +1173,22 @@ $rows = [
                 'allowed_account' => null,
                 'allowed_company' => null,
                 'not_display' => null,
-                'created_at' => '2023-10-18 15:43:13',
-                'updated_at' => '2025-01-22 09:25:12',
-                'deleted_at' => null
-            ],
-            [
-                'id' => '161',
-                'name' => 'Work Order 2',
-                'application_id' => null,
-                'kode' => 'pm_workorder2',
-                'category_id' => '16',
-                'icon' => '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt; &lt;!-- Created with Inkscape (http://www.inkscape.org/) --&gt;  &lt;svg    width=&quot;3.5mm&quot;    height=&quot;5mm&quot;    viewBox=&quot;0 0 3.5 5&quot;    version=&quot;1.1&quot;    id=&quot;svg1&quot;    inkscape:version=&quot;1.3.2 (1:1.3.2+202311252150+091e20ef0f)&quot;    sodipodi:docname=&quot;work_order.svg&quot;    xml:space=&quot;preserve&quot;    xmlns:inkscape=&quot;http://www.inkscape.org/namespaces/inkscape&quot;    xmlns:sodipodi=&quot;http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd&quot;    xmlns=&quot;http://www.w3.org/2000/svg&quot;    xmlns:svg=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;sodipodi:namedview      id=&quot;namedview1&quot;      pagecolor=&quot;#ffffff&quot;      bordercolor=&quot;#000000&quot;      borderopacity=&quot;0.25&quot;      inkscape:showpageshadow=&quot;2&quot;      inkscape:pageopacity=&quot;0.0&quot;      inkscape:pagecheckerboard=&quot;0&quot;      inkscape:deskcolor=&quot;#d1d1d1&quot;      inkscape:document-units=&quot;mm&quot;      inkscape:zoom=&quot;16.448685&quot;      inkscape:cx=&quot;-4.2252619&quot;      inkscape:cy=&quot;9.1192703&quot;      inkscape:window-width=&quot;1848&quot;      inkscape:window-height=&quot;1016&quot;      inkscape:window-x=&quot;72&quot;      inkscape:window-y=&quot;27&quot;      inkscape:window-maximized=&quot;1&quot;      inkscape:current-layer=&quot;layer1&quot; /&gt;&lt;defs      id=&quot;defs1&quot; /&gt;&lt;g      inkscape:label=&quot;Layer 1&quot;      inkscape:groupmode=&quot;layer&quot;      id=&quot;layer1&quot;&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;path        d=&quot;M 2.6578141,0.72937977 H 2.0521153 c 0,-0.27696463 -0.2172943,-0.50214568 -0.4845591,-0.50214568 -0.2672643,0 -0.4845587,0.22518105 -0.4845587,0.50214568 H 0.47729875 c -0.20063775,0 -0.36341924,0.16868989 -0.36341924,0.37660923 v 2.7618018 c 0,0.2079195 0.16278149,0.3766095 0.36341924,0.3766095 H 2.6578141 c 0.2006378,0 0.3634193,-0.16869 0.3634193,-0.3766095 V 1.105989 c 0,-0.20791934 -0.1627815,-0.37660923 -0.3634193,-0.37660923 z M 0.84071804,3.5539495 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883046 0,-0.104352 0.0810124,-0.1883045 0.1817097,-0.1883045 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883045 0,0.1043518 -0.0810117,0.1883046 -0.18170946,0.1883046 z m 0,-0.7532183 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883048 0,-0.1043519 0.0810124,-0.1883046 0.1817097,-0.1883046 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883046 0,0.1043517 -0.0810117,0.1883048 -0.18170946,0.1883048 z M 1.5675562,0.54107514 c 0.1006985,0 0.1817099,0.0839526 0.1817099,0.18830463 0,0.10435198 -0.061339,0.13277702 -0.1620355,0.13277702 -0.1006964,0 -0.2013837,-0.0284243 -0.2013837,-0.13277702 0,-0.10435183 0.081011,-0.18830463 0.1817093,-0.18830463 z M 2.5366743,3.4284133 c 0,0.034522 -0.027255,0.062769 -0.060569,0.062769 h -1.090259 c -0.033313,0 -0.06057,-0.028245 -0.06057,-0.062769 V 3.3028764 c 0,-0.034522 0.027256,-0.062769 0.06057,-0.062769 h 1.0902575 c 0.033313,0 0.06057,0.028245 0.06057,0.062769 z&quot;        id=&quot;path1-2&quot;        style=&quot;fill:none;stroke:#000058;stroke-width:0.219083;stroke-dasharray:none;stroke-opacity:1&quot;        sodipodi:nodetypes=&quot;scscssssssssssssssssssssssssssssssss&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.317972;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3717781,2.6009279 H 2.5030776&quot;        id=&quot;path2-2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;ellipse        style=&quot;fill:#ffffff;stroke:none;stroke-width:0.272239;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        id=&quot;path3&quot;        cx=&quot;2.6118708&quot;        cy=&quot;3.5029359&quot;        rx=&quot;0.30061081&quot;        ry=&quot;0.29585922&quot; /&gt;&lt;path        d=&quot;m 3.3673477,4.1286672 -0.1769662,-0.09917 c 0.017861,-0.093525 0.017861,-0.1894708 0,-0.2829967 l 0.1769662,-0.099169 c 0.020355,-0.011288 0.029495,-0.034668 0.022847,-0.056439 C 3.3440841,3.447379 3.2655711,3.3175714 3.1629639,3.2095327 3.1471786,3.193004 3.1214227,3.1889733 3.1014829,3.2002658 L 2.9245167,3.2994305 C 2.8501576,3.2373485 2.7645822,3.1893762 2.6719449,3.1579322 V 2.9599957 c 0,-0.022575 -0.016201,-0.042328 -0.039049,-0.047166 -0.1524569,-0.033057 -0.3086526,-0.031443 -0.453632,0 -0.022847,0.00483 -0.039049,0.02459 -0.039049,0.047166 v 0.1983396 c -0.092221,0.031847 -0.177797,0.07982 -0.2525714,0.1414983 l -0.1765508,-0.09917 c -0.020355,-0.011288 -0.045695,-0.00766 -0.061482,0.00926 -0.1026069,0.1076361 -0.1811206,0.2374431 -0.2272313,0.3813602 -0.00707,0.021768 0.00249,0.04515 0.022847,0.056439 l 0.1769671,0.099169 c -0.017863,0.093525 -0.017863,0.1894707 0,0.2829965 l -0.1769659,0.099172 c -0.020355,0.011288 -0.029494,0.034668 -0.022847,0.056439 0.04611,0.143514 0.1246242,0.2733216 0.2272313,0.3813601 0.015786,0.016529 0.041542,0.02056 0.061482,0.00926 l 0.176966,-0.099169 c 0.074358,0.062082 0.1599344,0.1100543 0.2525716,0.1414982 v 0.19834 c 0,0.022576 0.0162,0.042328 0.039049,0.047166 0.1524569,0.033057 0.3086525,0.031443 0.4536319,0 0.022847,-0.00483 0.039049,-0.02459 0.039049,-0.047166 V 4.6184691 C 2.7645834,4.5866231 2.8501593,4.5386501 2.9249338,4.476971 L 3.1019003,4.57614 c 0.020355,0.011287 0.045696,0.00766 0.061482,-0.00926 0.1026056,-0.107638 0.1811191,-0.2374452 0.22723,-0.3813623 0.00623,-0.022171 -0.00291,-0.045554 -0.023263,-0.056841 z m -0.9612676,0.081835 c -0.1831975,0 -0.3323312,-0.1447233 -0.3323312,-0.3225033 0,-0.1777798 0.1491337,-0.3225033 0.3323312,-0.3225033 0.1831977,0 0.3323311,0.1447235 0.3323311,0.3225033 0,0.17778 -0.1491334,0.3225033 -0.3323311,0.3225033 z&quot;        id=&quot;path1-7&quot;        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.216472;stroke-dasharray:none;stroke-opacity:1&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.313606;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3672019,1.9103032 H 2.4676458&quot;        id=&quot;path2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.190634;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 0.68846128,1.9200127 0.80772202,2.0099947 1.0023251,1.7788946&quot;        id=&quot;path2-9&quot;        sodipodi:nodetypes=&quot;ccc&quot; /&gt;&lt;text        xml:space=&quot;preserve&quot;        style=&quot;font-size:0.548629px;font-family:\'Nimbus Roman\';-inkscape-font-specification:\'Nimbus Roman, \';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        x=&quot;1.1203774&quot;        y=&quot;1.4043533&quot;        id=&quot;text2&quot;        transform=&quot;scale(0.9999258,1.0000742)&quot;&gt;&lt;tspan          sodipodi:role=&quot;line&quot;          id=&quot;tspan2&quot;          style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:\'Nimbus Mono PS\';-inkscape-font-specification:\'Nimbus Mono PS\';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-opacity:1&quot;          x=&quot;1.1203774&quot;          y=&quot;1.4043533&quot;&gt;ALI&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/svg&gt;',
-                'is_parent' => null,
-                'is_child' => '154',
-                'path' => 'api/pm/workorder2',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-03-07 15:10:37',
-                'updated_at' => '2025-03-07 15:10:37',
+                'created_at' => '2023-09-27 13:18:24',
+                'updated_at' => '2025-07-09 14:38:12',
                 'deleted_at' => null
             ]
         ]
     ],
     [
-        'id' => '193',
-        'name' => 'Applications',
-        'application_id' => null,
-        'kode' => 'applications',
-        'category_id' => '5',
-        'icon' => '&lt;i class=&quot;fab fa-windows&quot;&gt;&lt;/i&gt;',
-        'is_parent' => 'on',
+        'id' => '68',
+        'name' => 'Employee',
+        'application_id' => '2',
+        'kode' => 'employee',
+        'category_id' => '15',
+        'icon' => '&lt;i class=&quot;fa-thin fa-users-gear&quot;&gt;&lt;/i&gt;',
+        'is_parent' => null,
         'is_child' => null,
-        'path' => '#',
+        'path' => 'v1/api/hcm/employee',
         'uri' => null,
         'sequence' => null,
         'autoload' => null,
@@ -1139,32 +1196,76 @@ $rows = [
         'allowed_account' => null,
         'allowed_company' => null,
         'not_display' => null,
-        'created_at' => '2025-07-31 16:21:53',
-        'updated_at' => '2025-07-31 16:21:53',
+        'created_at' => '2023-12-21 15:00:46',
+        'updated_at' => '2025-07-22 10:30:23',
         'deleted_at' => null,
-        'sub_module' => [
-            [
-                'id' => '189',
-                'name' => 'Surat Tugas',
-                'application_id' => null,
-                'kode' => 'surat_tugas',
-                'category_id' => '15',
-                'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
-                'is_parent' => null,
-                'is_child' => '193',
-                'path' => 'v1/api/hcm/surat_tugas',
-                'uri' => null,
-                'sequence' => null,
-                'autoload' => null,
-                'allow_auto' => null,
-                'allowed_account' => null,
-                'allowed_company' => null,
-                'not_display' => null,
-                'created_at' => '2025-07-17 16:52:36',
-                'updated_at' => '2025-08-08 09:38:11',
-                'deleted_at' => null
-            ]
-        ]
+        'category_name' => 'HCM'
+    ],
+    [
+        'id' => '52',
+        'name' => 'Maintenance Record',
+        'application_id' => '2',
+        'kode' => 'pm_maintenance_record',
+        'category_id' => '16',
+        'icon' => '&lt;i class=&quot;fa-light fa-circle-small&quot;&gt;&lt;/i&gt;',
+        'is_parent' => null,
+        'is_child' => null,
+        'path' => 'api/pm/maintenance',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2023-10-10 14:59:03',
+        'updated_at' => '2024-08-02 06:31:16',
+        'deleted_at' => null,
+        'category_name' => 'Plant Maintenance'
+    ],
+    [
+        'id' => '195',
+        'name' => 'PO Mailer',
+        'application_id' => null,
+        'kode' => 'po_mailer',
+        'category_id' => '14',
+        'icon' => '&lt;i class=&quot;fal fa-file-contract&quot;&gt;&lt;/i&gt;',
+        'is_parent' => null,
+        'is_child' => null,
+        'path' => 'v1/api/purchase/po/po_mailer',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2025-08-15 17:08:41',
+        'updated_at' => '2025-08-15 17:08:59',
+        'deleted_at' => null,
+        'category_name' => 'SCM'
+    ],
+    [
+        'id' => '51',
+        'name' => 'Work Order',
+        'application_id' => '2',
+        'kode' => 'pm_workorder',
+        'category_id' => '16',
+        'icon' => '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt; &lt;!-- Created with Inkscape (http://www.inkscape.org/) --&gt;  &lt;svg    width=&quot;3.5mm&quot;    height=&quot;5mm&quot;    viewBox=&quot;0 0 3.5 5&quot;    version=&quot;1.1&quot;    id=&quot;svg1&quot;    inkscape:version=&quot;1.3.2 (1:1.3.2+202311252150+091e20ef0f)&quot;    sodipodi:docname=&quot;work_order.svg&quot;    xml:space=&quot;preserve&quot;    xmlns:inkscape=&quot;http://www.inkscape.org/namespaces/inkscape&quot;    xmlns:sodipodi=&quot;http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd&quot;    xmlns=&quot;http://www.w3.org/2000/svg&quot;    xmlns:svg=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;sodipodi:namedview      id=&quot;namedview1&quot;      pagecolor=&quot;#ffffff&quot;      bordercolor=&quot;#000000&quot;      borderopacity=&quot;0.25&quot;      inkscape:showpageshadow=&quot;2&quot;      inkscape:pageopacity=&quot;0.0&quot;      inkscape:pagecheckerboard=&quot;0&quot;      inkscape:deskcolor=&quot;#d1d1d1&quot;      inkscape:document-units=&quot;mm&quot;      inkscape:zoom=&quot;16.448685&quot;      inkscape:cx=&quot;-4.2252619&quot;      inkscape:cy=&quot;9.1192703&quot;      inkscape:window-width=&quot;1848&quot;      inkscape:window-height=&quot;1016&quot;      inkscape:window-x=&quot;72&quot;      inkscape:window-y=&quot;27&quot;      inkscape:window-maximized=&quot;1&quot;      inkscape:current-layer=&quot;layer1&quot; /&gt;&lt;defs      id=&quot;defs1&quot; /&gt;&lt;g      inkscape:label=&quot;Layer 1&quot;      inkscape:groupmode=&quot;layer&quot;      id=&quot;layer1&quot;&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--&gt;&lt;path        d=&quot;M 2.6578141,0.72937977 H 2.0521153 c 0,-0.27696463 -0.2172943,-0.50214568 -0.4845591,-0.50214568 -0.2672643,0 -0.4845587,0.22518105 -0.4845587,0.50214568 H 0.47729875 c -0.20063775,0 -0.36341924,0.16868989 -0.36341924,0.37660923 v 2.7618018 c 0,0.2079195 0.16278149,0.3766095 0.36341924,0.3766095 H 2.6578141 c 0.2006378,0 0.3634193,-0.16869 0.3634193,-0.3766095 V 1.105989 c 0,-0.20791934 -0.1627815,-0.37660923 -0.3634193,-0.37660923 z M 0.84071804,3.5539495 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883046 0,-0.104352 0.0810124,-0.1883045 0.1817097,-0.1883045 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883045 0,0.1043518 -0.0810117,0.1883046 -0.18170946,0.1883046 z m 0,-0.7532183 c -0.10069736,0 -0.1817097,-0.083953 -0.1817097,-0.1883048 0,-0.1043519 0.0810124,-0.1883046 0.1817097,-0.1883046 0.10069621,0 0.18170946,0.083953 0.18170946,0.1883046 0,0.1043517 -0.0810117,0.1883048 -0.18170946,0.1883048 z M 1.5675562,0.54107514 c 0.1006985,0 0.1817099,0.0839526 0.1817099,0.18830463 0,0.10435198 -0.061339,0.13277702 -0.1620355,0.13277702 -0.1006964,0 -0.2013837,-0.0284243 -0.2013837,-0.13277702 0,-0.10435183 0.081011,-0.18830463 0.1817093,-0.18830463 z M 2.5366743,3.4284133 c 0,0.034522 -0.027255,0.062769 -0.060569,0.062769 h -1.090259 c -0.033313,0 -0.06057,-0.028245 -0.06057,-0.062769 V 3.3028764 c 0,-0.034522 0.027256,-0.062769 0.06057,-0.062769 h 1.0902575 c 0.033313,0 0.06057,0.028245 0.06057,0.062769 z&quot;        id=&quot;path1-2&quot;        style=&quot;fill:none;stroke:#000058;stroke-width:0.219083;stroke-dasharray:none;stroke-opacity:1&quot;        sodipodi:nodetypes=&quot;scscssssssssssssssssssssssssssssssss&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.317972;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3717781,2.6009279 H 2.5030776&quot;        id=&quot;path2-2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;ellipse        style=&quot;fill:#ffffff;stroke:none;stroke-width:0.272239;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        id=&quot;path3&quot;        cx=&quot;2.6118708&quot;        cy=&quot;3.5029359&quot;        rx=&quot;0.30061081&quot;        ry=&quot;0.29585922&quot; /&gt;&lt;path        d=&quot;m 3.3673477,4.1286672 -0.1769662,-0.09917 c 0.017861,-0.093525 0.017861,-0.1894708 0,-0.2829967 l 0.1769662,-0.099169 c 0.020355,-0.011288 0.029495,-0.034668 0.022847,-0.056439 C 3.3440841,3.447379 3.2655711,3.3175714 3.1629639,3.2095327 3.1471786,3.193004 3.1214227,3.1889733 3.1014829,3.2002658 L 2.9245167,3.2994305 C 2.8501576,3.2373485 2.7645822,3.1893762 2.6719449,3.1579322 V 2.9599957 c 0,-0.022575 -0.016201,-0.042328 -0.039049,-0.047166 -0.1524569,-0.033057 -0.3086526,-0.031443 -0.453632,0 -0.022847,0.00483 -0.039049,0.02459 -0.039049,0.047166 v 0.1983396 c -0.092221,0.031847 -0.177797,0.07982 -0.2525714,0.1414983 l -0.1765508,-0.09917 c -0.020355,-0.011288 -0.045695,-0.00766 -0.061482,0.00926 -0.1026069,0.1076361 -0.1811206,0.2374431 -0.2272313,0.3813602 -0.00707,0.021768 0.00249,0.04515 0.022847,0.056439 l 0.1769671,0.099169 c -0.017863,0.093525 -0.017863,0.1894707 0,0.2829965 l -0.1769659,0.099172 c -0.020355,0.011288 -0.029494,0.034668 -0.022847,0.056439 0.04611,0.143514 0.1246242,0.2733216 0.2272313,0.3813601 0.015786,0.016529 0.041542,0.02056 0.061482,0.00926 l 0.176966,-0.099169 c 0.074358,0.062082 0.1599344,0.1100543 0.2525716,0.1414982 v 0.19834 c 0,0.022576 0.0162,0.042328 0.039049,0.047166 0.1524569,0.033057 0.3086525,0.031443 0.4536319,0 0.022847,-0.00483 0.039049,-0.02459 0.039049,-0.047166 V 4.6184691 C 2.7645834,4.5866231 2.8501593,4.5386501 2.9249338,4.476971 L 3.1019003,4.57614 c 0.020355,0.011287 0.045696,0.00766 0.061482,-0.00926 0.1026056,-0.107638 0.1811191,-0.2374452 0.22723,-0.3813623 0.00623,-0.022171 -0.00291,-0.045554 -0.023263,-0.056841 z m -0.9612676,0.081835 c -0.1831975,0 -0.3323312,-0.1447233 -0.3323312,-0.3225033 0,-0.1777798 0.1491337,-0.3225033 0.3323312,-0.3225033 0.1831977,0 0.3323311,0.1447235 0.3323311,0.3225033 0,0.17778 -0.1491334,0.3225033 -0.3323311,0.3225033 z&quot;        id=&quot;path1-7&quot;        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.216472;stroke-dasharray:none;stroke-opacity:1&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.313606;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 1.3672019,1.9103032 H 2.4676458&quot;        id=&quot;path2&quot;        sodipodi:nodetypes=&quot;cc&quot; /&gt;&lt;path        style=&quot;fill:#ffffff;stroke:#000058;stroke-width:0.190634;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        d=&quot;M 0.68846128,1.9200127 0.80772202,2.0099947 1.0023251,1.7788946&quot;        id=&quot;path2-9&quot;        sodipodi:nodetypes=&quot;ccc&quot; /&gt;&lt;text        xml:space=&quot;preserve&quot;        style=&quot;font-size:0.548629px;font-family:\'Nimbus Roman\';-inkscape-font-specification:\'Nimbus Roman, \';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;        x=&quot;1.1203774&quot;        y=&quot;1.4043533&quot;        id=&quot;text2&quot;        transform=&quot;scale(0.9999258,1.0000742)&quot;&gt;&lt;tspan          sodipodi:role=&quot;line&quot;          id=&quot;tspan2&quot;          style=&quot;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:\'Nimbus Mono PS\';-inkscape-font-specification:\'Nimbus Mono PS\';fill:#000080;stroke:#000058;stroke-width:0.0361145;stroke-opacity:1&quot;          x=&quot;1.1203774&quot;          y=&quot;1.4043533&quot;&gt;ALI&lt;/tspan&gt;&lt;/text&gt;&lt;/g&gt;&lt;/svg&gt;',
+        'is_parent' => null,
+        'is_child' => null,
+        'path' => 'v1/api/pm/workorder',
+        'uri' => null,
+        'sequence' => null,
+        'autoload' => null,
+        'allow_auto' => null,
+        'allowed_account' => null,
+        'allowed_company' => null,
+        'not_display' => null,
+        'created_at' => '2023-10-10 14:57:50',
+        'updated_at' => '2025-07-21 15:09:34',
+        'deleted_at' => null,
+        'category_name' => 'Plant Maintenance'
     ]
 ];
 ?>
@@ -1175,47 +1276,83 @@ $rows = [
     foreach ($rows as $key => $value) {
         $sub_module = [];
         $sub_sub_module = [];
+        $url = "#";
 
         if (isset($value['sub_module'])) {
             $sub_module = $value['sub_module'];
+            $url = base_url('admin/' . $value['kode']);
         }
-        // $module_id = $value->module_id;
-        // $kode = 'mod_' . $value->kode;
-        // $is_parent = $value->is_parent;
-        // $is_child = $value->is_child;
-        // $path = $value->path;
-        // $allow_auto = $value->allow_auto;
-        // $not_display = $value->not_display;
 
-        // // if ($allow_auto != 1) {
-        // if ($is_parent == 'on') {
-        //     $parent_ids[] = $module_id;
-        // }
+        if ($value['path'] != '#') {
+            // code...
+        }
 
-        // if (preg_match_all('/&[#A-Za-z0-9]+;/', $value->icon)) {
-        //     $icon = html_entity_decode($value->icon);
-        // } else {
-        //     $icon = $value->icon;
-        // } ?>
+        if (preg_match_all('/&[#A-Za-z0-9]+;/', $value['icon'])) {
+            $icon = html_entity_decode($value['icon']);
+        } else {
+            $icon = $value['icon'];
+        }
+        ?>
 
-        <!-- start nav-item -->
-        <li class="nav-item">
-            <a class="nav-link" href="#"
-                data-toggle="collapse" data-target="#<?= $value['kode'] ?>" aria-expanded="true" aria-controls="collapseUtilities" id="">
-                <span><?= $value['name'] ?></span>
-            </a>
+        <?php
+        if ($sub_module == null) { ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url() ?>admin">
+                    <?= $icon ?> <span><?= $value['name'] ?></span>
+                </a>
+            </li>
+            <?php 
+        } else { ?>
+            <!-- start nav-item -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href=""
+                    data-toggle="collapse" data-target="#<?= $value['kode'] ?>" aria-expanded="true" aria-controls="collapseUtilities" id="">
+                    <?= $icon ?> <span><?= $value['name'] ?></span>
+                </a>
+                <div id="<?= $value['kode'] ?>" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header"><?=$value['category_name']?></h6>
+                        <?php 
+                        if ($sub_module) {
+                            foreach ($sub_module as $key2 => $value2) {
+                                if (preg_match_all('/&[#A-Za-z0-9]+;/', $value2['icon'])) {
+                                    $icon = html_entity_decode($value2['icon']);
+                                } else {
+                                    $icon = $value2['icon'];
+                                }
 
-            <div id="<?= $value['kode'] ?>" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header"></h6>
-                    <?php if ($sub_module) {
-                        foreach ($sub_module as $key2 => $value2) { ?>
-                            <a class="collapse-item" href="" id=""><?= $value2['name'] ?></a><?php 
-                        }
-                    } ?>
-                    <!-- end foreach -->
+                                if (isset($value2['sub_sub_module'])) {
+                                    $sub_sub_module = $value2['sub_sub_module'];
+                                }else{
+                                    $sub_sub_module = [];
+                                }
+
+                                if ($sub_sub_module == null) { ?>
+                                    <a class="collapse-item" href="" id=""><?= $value2['name'] ?></a>
+                                    <?php
+                                } else { ?>
+                                    <a class="nav-link2 collapsed collapse-item" href="javascript:void(0);" data-toggle="collapse" data-target="#appsCollapseKnowledgeBaseHR" aria-expanded="false" aria-controls="appsCollapseKnowledgeBaseHR">
+                                        <span><?= $value2['name'] ?></span> <i class="bi bi-caret-right-fill"></i>
+                                    </a>
+                                    <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavAppsMenuHR">
+                                        <div class="collapse" id="appsCollapseKnowledgeBaseHR" data-parent="#accordionSidenavAppsMenuHR" style="">
+                                            <nav class="sidenav-menu-nested nav">
+                                                <?php 
+                                                foreach ($sub_sub_module as $key3 => $value3) { ?>
+                                                    <a class="nav-link2 collapse-item" href="<?= base_url('admin/syshab/hr/employee') ?>"><?=$value3['name']?></a>
+                                                    <?php
+                                                } ?>
+                                            </nav>
+                                        </div>
+                                    </nav>
+                                    <?php 
+                                }
+                            }
+                        } ?>
+                    </div>
                 </div>
-            </div>
-        </li> <?php 
+            </li> 
+            <?php 
+        }
     }
 ?>
