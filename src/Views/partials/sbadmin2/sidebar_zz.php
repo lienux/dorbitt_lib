@@ -83,7 +83,8 @@ if ($login_module == 'openapi2') { ?>
                              * */
                             if ($is_parent2 == null and $is_child2 == $module_id) { ?>
                                 <a class="collapse-item <?= (isset($navlink) and $navlink == $value2->kode) ? 'active' : '' ?>"
-                                    href="<?= base_url() . 'admin/' . $value2->kode ?>" id="<?= $value2->kode ?>"><?= $value2->name; ?>
+                                    href="<?= base_url() . 'admin/' . $value2->kode ?>" id="<?= $value2->kode ?>">
+                                    <?= $value2->name; ?>
                                     <?php
                                     if ($badge_sum == 1) { ?>
                                         <span class="badge badge-primary float-right">0</span>
