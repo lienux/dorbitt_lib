@@ -2653,6 +2653,9 @@ var $ummu = {
                         // $ummu.vars.response = result;
 
                         if (response.status == true) {
+                            var hierarchy_modules = response.data.hierarchy_modules;
+                            // console.log(hierarchy_modules)
+                            localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
                         //     $ummu.$.auth_alert.html(
                         //         '<div class="alert alert-success">' + response.messages + "</div>"
                         //         );
@@ -10895,6 +10898,102 @@ var $ummu = {
             .fail(function () {
                 console.log(ummu);
             });
+        },
+    },
+
+    sidebar: {
+        group: '',
+        sbadmin2: {
+            // Fungsi untuk decode icon (seperti html_entity_decode)
+            decodeIcon: function(iconStr) {
+                return $('<textarea/>').html(iconStr).text();
+            },
+
+            // Fungsi untuk generate URL
+            getUrl: function(kode) {
+                return kode && kode !== "#" ? $ummu.$.base_url + "admin/" + kode : "#";
+            },
+
+            renderSidebar: function() {
+                const rawData = localStorage.getItem('ummu_sidebar_menu');
+    
+                if (rawData) {
+                    const rows = JSON.parse(rawData);
+                    const $sidebar = $('#UmmuaccordionSidebarChild');
+                    $sidebar.empty(); // Bersihkan sidebar sebelum render
+
+                    $.each(rows, function(index, value) {
+                        let parentHtml = '';
+                        let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
+                        let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
+                        let g = $ummu.url.getParam('g') ? $ummu.url.getParam('g') : "";
+                        let activeClass = (g === value.kode) ? 'active' : '';
+
+
+                        if (!value.sub_module || value.sub_module.length === 0) {
+                            // SINGLE PARENT
+                            parentHtml = `
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${modulUrl}">
+                                        ${icon} <span>${value.name}</span>
+                                    </a>
+                                </li>`;
+                        } else {
+                            // PARENT WITH SUB-MODULE
+                            let subModuleHtml = '';
+                            
+                            $.each(value.sub_module, function(index2, value2) {
+                                let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
+                                let subSubModule = value2.sub_sub_module || null;
+                                let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
+
+                                if (!subSubModule) {
+                                    // SINGLE CHILD
+                                    subModuleHtml += `<a class="collapse-item" href="${subModuleUrl}">${value2.name}</a>`;
+                                } else {
+                                    // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
+                                    let grandchildHtml = '';
+                                    $.each(subSubModule, function(index3, value3) {
+                                        let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
+                                        grandchildHtml += `<a class="nav-link2 collapse-item" href="${gChildUrl}">${value3.name}</a>`;
+                                    });
+
+                                    subModuleHtml += `
+                                        <a class="nav-link2 collapsed collapse-item" href="javascript:void(0);" 
+                                        data-toggle="collapse" data-target="#grandchild_${value2.kode}">
+                                            <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
+                                        </a>
+                                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavAppsMenu${value2.kode}">
+                                            <div class="collapse" id="grandchild_${value2.kode}" data-parent="#accordionSidenavAppsMenu${value2.kode}">
+                                                <nav class="sidenav-menu-nested nav">
+                                                    ${grandchildHtml}
+                                                </nav>
+                                            </div>
+                                        </nav>`;
+                                }
+                            });
+
+                            parentHtml = `
+                                <li class="nav-item ${activeClass}">
+                                    <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" 
+                                    data-target="#child_${value.kode}" aria-expanded="false">
+                                        ${icon} <span>${value.name}</span>
+                                    </a>
+                                    <div id="child_${value.kode}" class="collapse" data-parent="#accordionSidebar">
+                                        <div class="bg-white py-2 collapse-inner rounded">
+                                            <h6 class="collapse-header">${value.category_name}</h6>
+                                            ${subModuleHtml}
+                                        </div>
+                                    </div>
+                                </li>`;
+                        }
+
+                        $sidebar.append(parentHtml);
+                    });
+                } else {
+                    console.log("Data menu tidak ditemukan di localStorage");
+                }
+            },
         },
     },
 

@@ -5,7 +5,7 @@ if (isset($tmp)) {
     $temp = 'admin';
 }
 ?>
-<?= $this->extend('layout/' . $temp) ?>
+<?= $this->extend('layout/' . config('Vh')->tmp()) ?>
 
 <!-- Start section -->
 <?= $this->section('css') ?>
