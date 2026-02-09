@@ -83,6 +83,14 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
     });
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
+
+    // Config
+    $routes->group('config', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('show_hierarchy_modules', 'ConfigController::show_hierarchy_modules');
+        // $routes->group('config', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        //     $routes->get('', 'PassagePlanController::index');
+        // });
+    });
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {

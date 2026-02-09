@@ -391,6 +391,39 @@ var $ummu = {
                     },
                 });
 
+                $('.ummu-weekpicker').datepicker({
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    showWeek: true, // Menampilkan nomor minggu di samping
+                    firstDay: 1,    // Minggu dimulai hari Senin
+                    onSelect: function(dateText, inst) {
+                        var date = $(this).datepicker('getDate');
+                        startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1);
+                        endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7);
+
+                        var dateFormat = 'dd/mm/yy';
+                        var displayString = $.datepicker.formatDate(dateFormat, startDate) + 
+                                            " - " + 
+                                            $.datepicker.formatDate(dateFormat, endDate);
+                        
+                        $(this).val(displayString);
+                        selectCurrentWeek();
+                    },
+                    beforeShow: function() {
+                        selectCurrentWeek();
+                    },
+                    beforeShowDay: function(date) {
+                        var cssClass = '';
+                        if (date >= startDate && date <= endDate) {
+                            cssClass = 'ui-state-active';
+                        }
+                        return [true, cssClass];
+                    },
+                    onChangeMonthYear: function(year, month, inst) {
+                        selectCurrentWeek();
+                    }
+                });
+
                 $('.ummu-monthpicker').datepicker({                
                     changeMonth: true, // Aktifka ganti bulan
                     changeYear: true,   // Aktifkan ganti tahun
@@ -806,7 +839,7 @@ var $ummu = {
             $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
 
             $("#btn_update_sidebar_module").on("click", function () {
-                $ummu.controllers.reLoad_modules();
+                $ummu.controllers.config.show_hierarchy_modules();
             });
 
             $(".ummu-page #btn_generate_password").on("click", function () {
@@ -1935,6 +1968,40 @@ var $ummu = {
 
         reLoad_modules: function() {
             console.log('OK tinggal bikin php nya')
+        },
+
+        config: {
+            show_hierarchy_modules: function () {
+                var payload = {};
+
+                var params = {
+                    path: "admin/config/show_hierarchy_modules",
+                    type: "get",
+                    action: "get",
+                    data: payload,
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                    loader: true,
+                };
+
+                var ali = $ummu.ajax.ummu9(params);
+                ali
+                .done(function (result) {
+                    // console.log(result)
+                    var hierarchy_modules = result.rows;
+                    localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
+
+                    if ($ummu.vars.login_module == "openapi2") {
+                        $ummu.sidebar.sbadmin2.renderSidebar();
+                    }
+
+                    // console.log(hierarchy_modules)
+                })
+                .fail(function () {
+                    // An error occurred
+                });
+            },
         },
     },
 
@@ -3419,15 +3486,16 @@ var $ummu = {
         // * contoh params di bawah
         // * */
         // /*
-        // contoh: params = {
-        // "function": "create"
-        // "method": "POST",
-        // "data": payload,
-        // "cache": true,
-        // "contentType": "application/json",
-        // "dataType": "json",
-        // "loader": true,
-        // };*/
+        // contoh: 
+        // params = {
+        //     "function": "create"
+        //     "method": "POST",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
         ummu8: function (params) {
             var jqXHR = $.ajax({
                 url: $ummu.vars.page_url + params.function,
@@ -3464,6 +3532,56 @@ var $ummu = {
 
             return jqXHR;
             // return params;
+        },
+
+        // /**
+        // * page_url host otomatis, tinggal menambahkan path saja
+        // * dinamis modal_loader
+        // * */
+        // var params = {
+        //     "path": 'admin/config/show_hierarchy_modules',
+        //     "type": "GET",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
+        ummu9: function (params) {
+            var jqXHR = $.ajax({
+                url: newURL().origin + '/' + params.path,
+                method: params.type,
+                timeout: 0,
+                headers: {
+                    "Content-Type": params.contentType,
+                },
+                data: params.data,
+                prossesing: true,
+                language: {
+                    loadingRecords: "&nbsp;",
+                    processing: '<div class="spinner"></div>',
+                },
+                beforeSend: function (e) {
+                    if (params.loader == true) {
+                        $("#modal_loader").modal("show");
+                    }
+                },
+                complete: function () {
+                    //
+                },
+                success: function (response) {
+                    // console.log(response)
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    $("#modal_loader").modal("hide");
+                },
+            });
+
+            return jqXHR;
         },
 
 
