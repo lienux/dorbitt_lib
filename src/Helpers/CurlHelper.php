@@ -255,9 +255,9 @@ class CurlHelper
         return $response;
     }
 
-    /**
-     * Full url dari params
-     * */
+    // *
+    //  * Full url dari params
+    //  * 
     public function ummu($params)
     {
         $url            = $params['url'];
@@ -287,18 +287,18 @@ class CurlHelper
         return json_decode($response, false);
     }
 
-    /**
-     * url hanya path saja*/
-    // CONTOH: 
-    // $params = [
-    //   "path"      => "company_profile",
-    //   "method"    => "GET",
-    //   "payload"   => [],
-    //   "headers"   => array(
-    //     'Content-Type: application/json',
-    //     'Company-Token: '.getenv('app.company_token')
-    //   )
-    // ];
+    // /**
+    //  * url hanya path saja*/
+    // // CONTOH: 
+    // // $params = [
+    // //   "path"      => "company_profile",
+    // //   "method"    => "GET",
+    // //   "payload"   => [],
+    // //   "headers"   => array(
+    // //     'Content-Type: application/json',
+    // //     'Company-Token: '.getenv('app.company_token')
+    // //   )
+    // // ];
     public function ummu2($params)
     {
         $path           = $params['path'];
@@ -380,11 +380,11 @@ class CurlHelper
         return json_decode($response, false);
     }
 
-    /**
-     * Full url dari params
-     * Tanpa SSL
-     * auth basic
-     * */
+    //  *
+    //  * Full url dari params
+    //  * Tanpa SSL
+    //  * auth basic
+    //  * 
     public function ummu3($params)
     {
         $url            = $params['url'];
@@ -436,12 +436,12 @@ class CurlHelper
     }
 
 
-    /**
-     * Full url from params
-     * Tanpa SSL
-     * auth basic
-     * headers from params
-     * */
+    //  *
+    //  * Full url from params
+    //  * Tanpa SSL
+    //  * auth basic
+    //  * headers from params
+    //  * 
     public function ummu4($params)
     {
         $url            = $params['url'];

@@ -207,7 +207,7 @@ class ViewsHelper
     {
         $a = session()->get('avatar');
 
-        if ($a) {
+        if ($a AND is_file($a)) {
             $b = $a;
         }else{
             $b = 'https://cdn.openapi2.com/img/avatar.png';
