@@ -339,14 +339,16 @@ class CurlHelper
         // Close the cURL session
         curl_close($curl);
 
-        if ($http_code == 500) {
-            return (object)[
-                "status"    => false,
-                "messages"   => "db_connection failed @".$this->host_api . " Please contact maintenance support." 
-            ];
-        } else {
-            return json_decode($response, false);
-        }
+        // if ($http_code == 500) {
+        //     return (object)[
+        //         "status"    => false,
+        //         "messages"   => "db_connection failed @".$this->host_api . " Please contact maintenance support." 
+        //     ];
+        // } else {
+        //     return json_decode($response, false);
+        // }
+
+        return json_decode($response, false);
     }
 
     public function ummu2_v1_20250704($params)

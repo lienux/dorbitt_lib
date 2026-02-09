@@ -47,7 +47,7 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
     });
 });
 
-$routes->group('admin', function($routes) {
+$routes->group('admin', ['filter' => 'auth'], static function($routes) {
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');
@@ -78,6 +78,11 @@ $routes->group('admin', function($routes) {
             $routes->get('generate_password', 'EncrypterController::generate_password');
         });
     });
+
+    $routes->group('mcp_report', function ($routes) {
+        require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
+    });
+    require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
