@@ -1991,12 +1991,10 @@ var $ummu = {
                     // console.log(result)
                     var hierarchy_modules = result.rows;
                     localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
-
-                    if ($ummu.vars.login_module == "openapi2") {
+                    
+                    if ($ummu.vars.login_module == "openapi2" || $ummu.vars.login_module == "iescm") {
                         $ummu.sidebar.sbadmin2.renderSidebar();
                     }
-
-                    // console.log(hierarchy_modules)
                 })
                 .fail(function () {
                     // An error occurred
