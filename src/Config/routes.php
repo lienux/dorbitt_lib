@@ -48,6 +48,11 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
 });
 
 $routes->group('admin', ['filter' => 'auth'], static function($routes) {
+    $routes->group('clients', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'MsClientController::index');
+        $routes->get('show', 'MsClientController::show');
+    });
+
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');
