@@ -11062,16 +11062,18 @@ var $ummu = {
                                 let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
                                 let subSubModule = value2.sub_sub_module || null;
                                 let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
+                                let activeClass2 = ($ummu.vars.module_kode === value2.kode) ? 'active' : '';
 
                                 if (!subSubModule) {
                                     // SINGLE CHILD
-                                    subModuleHtml += `<a class="collapse-item" href="${subModuleUrl}">${value2.name}</a>`;
+                                    subModuleHtml += `<a class="collapse-item ${activeClass2}" href="${subModuleUrl}">${value2.name}</a>`;
                                 } else {
                                     // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
                                     let grandchildHtml = '';
                                     $.each(subSubModule, function(index3, value3) {
                                         let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
-                                        grandchildHtml += `<a class="nav-link2 collapse-item" href="${gChildUrl}">${value3.name}</a>`;
+                                        let activeClass3 = ($ummu.vars.module_kode === value3.kode) ? 'active' : '';
+                                        grandchildHtml += `<a class="nav-link2 collapse-item ${activeClass3}" href="${gChildUrl}">${value3.name}</a>`;
                                     });
 
                                     subModuleHtml += `
