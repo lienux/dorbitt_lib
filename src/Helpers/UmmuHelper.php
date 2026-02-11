@@ -29,7 +29,7 @@ class UmmuHelper
     {
         $modules = session()->get('dorbitt_modules');
 
-        $crud = [];
+        $crud = null;
 
         if ($page_kode) {
             if ($modules) {
