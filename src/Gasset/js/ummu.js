@@ -11019,6 +11019,7 @@ var $ummu = {
 
     sidebar: {
         group: '',
+        group2: '',
         sbadmin2: {
             // Fungsi untuk decode icon (seperti html_entity_decode)
             decodeIcon: function(iconStr) {
@@ -11043,6 +11044,7 @@ var $ummu = {
                         let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
                         let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
                         let g = $ummu.url.getParam('g') ? $ummu.url.getParam('g') : "";
+                        let g2 = $ummu.url.getParam('g2') ? $ummu.url.getParam('g2') : "";
                         let activeClass = (g === value.kode) ? 'active' : '';
 
 
@@ -11063,6 +11065,7 @@ var $ummu = {
                                 let subSubModule = value2.sub_sub_module || null;
                                 let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
                                 let activeClass2 = ($ummu.vars.module_kode === value2.kode) ? 'active' : '';
+                                let activeClassGroup2 = (g2 === value2.kode) ? 'active' : '';
 
                                 if (!subSubModule) {
                                     // SINGLE CHILD
@@ -11077,7 +11080,7 @@ var $ummu = {
                                     });
 
                                     subModuleHtml += `
-                                        <a class="nav-link2 collapsed collapse-item" href="javascript:void(0);" 
+                                        <a class="nav-link2 collapsed collapse-item ${activeClassGroup2}" href="javascript:void(0);" 
                                         data-toggle="collapse" data-target="#grandchild_${value2.kode}">
                                             <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
                                         </a>

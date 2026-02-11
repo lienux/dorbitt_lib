@@ -25,8 +25,9 @@ class ReportObController extends ResourceController
     public function index()
     {
         $data = [
+            'module_kode' => 'report_ob',
             'navlink' => 'report_ob',
-            'group' => ['report', 'report_production'],
+            'group' => ['report_management', 'report_production'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
@@ -49,5 +50,11 @@ class ReportObController extends ResourceController
             ]
         ];
         return view($this->dir_view . 'index', $data);
+    }
+
+    public function show_hourly()
+    {
+        $tgl = $this->request->getVar('tgl'); 
+        $site = $this->request->getVar('site');
     }
 }

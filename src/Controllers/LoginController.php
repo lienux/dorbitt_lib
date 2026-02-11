@@ -230,7 +230,8 @@ class LoginController extends ResourceController
                     "dorbitt_in" => TRUE,
                     "dorbitt_modules" => $response->data->module_enabled,
                     "update_myKdSite" => (isset($update_myKdSite->status)) ? $update_myKdSite->status : null,
-                    "login_module" => $login_module
+                    "login_module" => $login_module,
+                    "modules_kode" => (isset($response->data->child_module_kode)) ? $response->data->child_module_kode : null,
                 ];
                 session()->set($sessData);
 
