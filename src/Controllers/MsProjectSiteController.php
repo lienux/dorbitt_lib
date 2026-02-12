@@ -10,11 +10,11 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class MsActivityController extends ResourceController
+class MsProjectSiteController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/ms_activity/';
+        $this->dir_view = 'pages/project_site/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -26,9 +26,9 @@ class MsActivityController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Activity',
-            'module_kode' => 'ms_activity',
-            'navlink' => 'ms_activity',
+            'page_title' => 'Master Data Project Site',
+            'module_kode' => 'project_site',
+            'navlink' => 'project_site',
             'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
@@ -40,7 +40,7 @@ class MsActivityController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Activity",
+                    "name" => "Project Site",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -60,11 +60,13 @@ class MsActivityController extends ResourceController
             "selects" => "*"
         ]);
 
+        $module_kode = "project_site";
+
         $params = [
-            "path"      => "api/ms_activity/show",
+            "path"      => "api/project_site/show",
             "method" => 'GET',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('ms_activity')
+            "headers" => $this->cH->headers3($module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
