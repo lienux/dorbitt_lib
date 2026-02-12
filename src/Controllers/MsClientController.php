@@ -13,7 +13,7 @@ class MsClientController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/plan_setting/passage_plan/';
+        $this->dir_view = 'pages/clients/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
