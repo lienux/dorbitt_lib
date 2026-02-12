@@ -48,6 +48,24 @@
                         <input type="text" name="name" id="name" class="form-control form-control-sm endis" required disabled>
                     </div>
                 </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Latitude</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="latitude" id="latitude" class="form-control form-control-sm endis" required disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Longitude</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="longitude" id="longitude" class="form-control form-control-sm endis" required disabled>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label">Address</label>
+                    <div class="col-sm-9">
+                        <textarea type="text" id="address" class="form-control form-control-sm endis" required disabled></textarea>
+                    </div>
+                </div>
                 <div class="row mb-2">
                     <label class="col-sm-3 col-form-label">Description</label>
                     <div class="col-sm-9">

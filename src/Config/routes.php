@@ -63,6 +63,21 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         $routes->get('show', 'MsActivityController::show');
     });
 
+    $routes->group('equipment', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'MsEquipmentController::index');
+        $routes->get('show', 'MsEquipmentController::show');
+    });
+
+    $routes->group('ms_location', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'MsLocationController::index');
+        $routes->get('show', 'MsLocationController::show');
+    });
+
+    $routes->group('project_site', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'MsProjectSiteController::index');
+        $routes->get('show', 'MsProjectSiteController::show');
+    });
+
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');

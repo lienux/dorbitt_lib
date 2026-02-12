@@ -10,11 +10,11 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class MsActivityController extends ResourceController
+class MsEquipmentController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/ms_activity/';
+        $this->dir_view = 'pages/ms_equipment/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -26,9 +26,9 @@ class MsActivityController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Activity',
-            'module_kode' => 'ms_activity',
-            'navlink' => 'ms_activity',
+            'page_title' => 'Master Data Equipment',
+            'module_kode' => 'equipment',
+            'navlink' => 'equipment',
             'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
@@ -40,7 +40,7 @@ class MsActivityController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Activity",
+                    "name" => "Equipment",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -61,10 +61,10 @@ class MsActivityController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/ms_activity/show",
+            "path"      => "api/equipment/show",
             "method" => 'GET',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('ms_activity')
+            "headers" => $this->cH->headers3('equipment')
         ];
 
         $builder = $this->cH->ummu2($params);
