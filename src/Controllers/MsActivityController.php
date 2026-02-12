@@ -5,16 +5,16 @@ namespace Dorbitt\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
-use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
+use App\Helpers\GlobalHelper;
 
-class MsClientController extends ResourceController
+class MsActivityController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/clients/';
+        $this->dir_view = 'pages/ms_activity/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -26,9 +26,9 @@ class MsClientController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Client',
-            'module_kode' => 'clients',
-            'navlink' => 'clients',
+            'page_title' => 'Master Data Activity',
+            'module_kode' => 'whs_activity',
+            'navlink' => 'whs_activity',
             'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
@@ -40,7 +40,7 @@ class MsClientController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Clients",
+                    "name" => "Activity",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -61,10 +61,10 @@ class MsClientController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/clients/show",
+            "path"      => "api/ms_activity/show",
             "method" => 'GET',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('clients')
+            "headers" => $this->cH->headers3('ms_activity')
         ];
 
         $builder = $this->cH->ummu2($params);

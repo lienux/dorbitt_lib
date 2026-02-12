@@ -562,4 +562,124 @@ class CurlHelper
 
         return $response;
     }
+
+    public function headers_login($msdb_token = null)
+    {
+        if ($msdb_token) {
+            $msdbToken = $msdb_token;
+        } else {
+            $msdb = $this->request->getVar('msdb');
+            if ($msdb) {
+                $msdb = explode("$$344$$", $msdb);
+                $msdbName = $msdb[0];
+                $msdbToken = base64_decode($msdb[1]);
+            } else {
+                $msdbToken = '';
+            }
+        }
+
+        $headers = [
+            'Content-Type: application/json',
+            'Msdb-Token: ' . $msdbToken,
+            'Company-Token: ' . getenv('company_token')
+        ];
+
+        return $headers;
+    }
+
+    public function headers_login_jsonVar()
+    {
+        $msdb = $this->request->getJsonVar('msdb');
+        $msdb = explode("$$344$$", $msdb);
+        $msdbName = $msdb[0];
+        $msdbToken = $msdb[1];
+
+        $headers = [
+            'Content-Type: application/json',
+            'Msdb-Token: ' . base64_decode($msdbToken),
+            'Company-Token: ' . getenv('company_token')
+        ];
+
+        return $headers;
+    }
+
+    public function headers_sync()
+    {
+        $msdbToken = session()->get('msdbToken');
+
+        $headers = [
+            'Content-Type: application/json',
+            'Msdb-Token: ' . base64_decode($msdbToken),
+            'Company-Token: ' . getenv('company_token')
+        ];
+
+        return $headers;
+    }
+
+    /** menggunakan msdbToken saat / dari pas pilihan login menggunakan username dan password  */
+    public function headers()
+    {
+        $headers = [
+            'Content-Type: application/json',
+            'Msdb-Token: ' . $this->msdbToken(),
+            'Authorization: Bearer ' . session()->get('token'),
+            'Company-Token: ' . getenv('company_token')
+        ];
+
+        return $headers;
+    }
+
+    public function msdbToken()
+    {
+        $msdbToken = session()->get('msdbToken');
+        $logged_by = session()->get('logged_by');
+
+        if ($msdbToken) {
+            if ($logged_by == "phone") {
+                $res = $msdbToken;
+            } else {
+                $res = base64_decode($msdbToken);
+            }
+        } else {
+            $res = getenv('msdbToken');
+        }
+
+        return $res;
+    }
+
+    /** 
+     * Menggunakan msdbtoken yg disetting dari master employee openapi2 ini akan otomatis ketika dia login menggunakan nomer whatsapp,
+     * Karna login menggunakan nomer whatsapp tidak ada pilihan msdb.
+     * Tapi jika dia tidak diseting msdbtokennya pada master employee di openapi2, maka msdbToken akan mengambil ke env
+     * */
+    public function headers2()
+    {
+        $sess_msdb_token = session()->get('msdbTokenEmpl');
+        if ($sess_msdb_token) {
+            $msdb_token = $sess_msdb_token;
+        }else{
+            $msdb_token = getenv('msdbToken');
+        }
+        
+        $headers = [
+            'Content-Type: application/json',
+            'Msdb-Token: ' . $msdb_token,
+            'Authorization: Bearer ' . session()->get('token'),
+            'Company-Token: ' . getenv('company_token')
+        ];
+
+        return $headers;
+    }
+
+    public function headers3($moduleCode)
+    {        
+        $res = [
+            'Content-Type: application/json',
+            'Module-Code: ' . $moduleCode,
+            'Company-Token: ' . getenv('company_token'),
+            'Authorization: Bearer ' . session()->get('token'),
+        ];
+
+        return $res;
+    }
 }

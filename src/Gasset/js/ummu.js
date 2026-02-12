@@ -9035,6 +9035,89 @@ var $ummu = {
                 }
             },
 
+            buttonAll: function (init) {
+                init.button().add(0, {
+                    extend: "pageLength",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_page_length" },
+                });
+
+                init.button().add(2, {
+                    extend: "selectAll",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_select_all" },
+                    text:
+                    '<span class="d-none d-sm-block">Select all</span>' +
+                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                });
+
+                init.button().add(3, {
+                    extend: "selectNone",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_select_none" },
+                    text:
+                    '<span class="d-none d-sm-block">Deselect all</span>' +
+                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                });
+
+                init.button().add(5, {
+                    extend: "copy",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_copy" },
+                    text: '<i class="fas fa-copy fa-lg"></i>',
+                });
+
+                init.button().add(6, {
+                    extend: "csv",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_csv" },
+                    text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+                });
+
+                init.button().add(7, {
+                    extend: "excel",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_excel" },
+                    text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+                    exportOptions: {
+                        orthogonal: "myExport",
+                    },
+                });
+
+                init.button().add(8, {
+                    extend: "pdf",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_pdf" },
+                    text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+                });
+
+                init.button().add(9, {
+                    extend: "print",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_print" },
+                    text: '<i class="fas fa-print text-primary fa-lg"></i>',
+                });
+
+                init.button().add(10, {
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "dt_btn_setting" },
+                    text:
+                    '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                    action: function (e, dt, node, config) {
+                        $("#modal_setting_dt").modal("show");
+                    },
+                });
+
+                init.button().add(11, {
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "dt_btn_getData" },
+                    text: 'Get Data',
+                    action: function (e, dt, node, config) {
+                        app.controllers.on_btn_getData_click();
+                    },
+                });
+            },
+
             button_mcpreport: function (init) {
                 init.button().add(0, {
                     extend: "pageLength",
@@ -11084,7 +11167,7 @@ var $ummu = {
                                         data-toggle="collapse" data-target="#grandchild_${value2.kode}">
                                             <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
                                         </a>
-                                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavAppsMenu${value2.kode}">
+                                        <nav class="sidenav-menu-nestedz navz accordionz" id="accordionSidenavAppsMenu${value2.kode}">
                                             <div class="collapse" id="grandchild_${value2.kode}" data-parent="#accordionSidenavAppsMenu${value2.kode}">
                                                 <nav class="sidenav-menu-nested nav">
                                                     ${grandchildHtml}
