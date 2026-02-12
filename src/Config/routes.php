@@ -53,6 +53,16 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         $routes->get('show', 'MsClientController::show');
     });
 
+    $routes->group('tugboat', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'TugboatController::index');
+        $routes->get('show', 'TugboatController::show');
+    });
+
+    $routes->group('ms_activity', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'MsActivityController::index');
+        $routes->get('show', 'MsActivityController::show');
+    });
+
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');

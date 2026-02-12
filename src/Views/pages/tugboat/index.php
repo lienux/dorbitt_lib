@@ -98,6 +98,7 @@
             <div class="card-body pt-2" id="entry_area" stylez="min-height: 370px;">
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
+                        <!-- <h5 class="card-title">Form Input Master Tugboat</h5> -->
                         <?= $this->include(config('Vh')->ummuView($dir_views . 'form')) ?>
                     </div>
                     <div class="tab-pane fade" id="nav-listData" role="tabpanel">
@@ -112,12 +113,12 @@
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/clients/';
-        var table = $('#tbClients')
-        var $table = $('#tbClients')
+        $ummu.vars.page_url = $base_url + 'admin/tugboat/';
+        var table = $('#tbTugboat')
+        var $table = $('#tbTugboat')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
     </script>
-    <script src="<?=base_url('js/admin/pages/clients/index.js?time='.date('YmdHis'));?>"></script>
+    <script src="<?=base_url('js/admin/pages/tugboat/index.js?time='.date('YmdHis'));?>"></script>
 <?= $this->endSection() ?>

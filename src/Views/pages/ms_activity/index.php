@@ -1,7 +1,6 @@
 <?= $this->extend('layout/' . config('Vh')->tmp()) ?>
 
 <?= $this->section('css') ?>
-    <?= $this->include('plugins/datatables/style') ?>
     <style>
         .table td {
             /* padding: 0rem; */
@@ -78,9 +77,8 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <!-- <?//= $this->include(config('Gvh')->include_rangeDate_site()) ?> -->
     <nav class="ummu-nav">
-        <div class="nav nav-tabs" id="nav_tab_dailyprodmonitor" role="tablist_stc">
+        <div class="nav nav-tabs" id="nav_tab_dailyprodmonitor">
             <button class="nav-link mr-1 active" id="nav-tab-form" data-toggle="tab" data-target="#nav-form" type="button"
                 role="tab" aria-selected="true">
                 <span class="d-none d-sm-block"><i class="far fa-clipboard-list"></i> Form</span>
@@ -112,12 +110,12 @@
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/clients/';
-        var table = $('#tbClients')
-        var $table = $('#tbClients')
+        $ummu.vars.page_url = $base_url + 'admin/ms_activity/';
+        var table = $('#tbMsActivity')
+        var $table = $('#tbMsActivity')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
     </script>
-    <script src="<?=base_url('js/admin/pages/clients/index.js?time='.date('YmdHis'));?>"></script>
+    <script src="<?=base_url('js/admin/pages/ms_activity/index.js?time='.date('YmdHis'));?>"></script>
 <?= $this->endSection() ?>
