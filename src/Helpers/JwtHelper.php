@@ -18,7 +18,8 @@ class JwtHelper
         $data = array(
             'iat' => 1356999524,
             'nbf' => 1357000000,
-            'dev'   => 'https://openerp.id/'
+            'code' => 'https://sparkcode.wb.id/',
+            'dev' => 'https://openerp.id/'
         );
         $payload = array_merge($params,$data);
 

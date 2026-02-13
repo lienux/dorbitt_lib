@@ -1,0 +1,1 @@
+<script src="<?= base_url('js/admin/pages/passage_plan/index.js?time=' . date('YmdHis')) ?>"></script>

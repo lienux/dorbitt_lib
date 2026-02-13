@@ -7,7 +7,7 @@ use CodeIgniter\RESTful\ResourceController;
 // use CodeIgniter\HTTP\IncomingRequest;
 // use App\Helpers\GlobalHelper;
 // use Dorbitt\Helpers\CurlHelper;
-// use Dorbitt\Helpers\ViewsHelper;
+// use Dorbitt\Helpers\JwtHelper;
 
 class EncrypterController extends ResourceController
 {
@@ -28,5 +28,12 @@ class EncrypterController extends ResourceController
     public function generate_password()
     {
         return config('Ummu')->EncrHe('generate_password');
+    }
+
+    public function jwtEncrypt()
+    {
+        $data = $this->request->getJsonVar();
+        // return config('Ummu')->jwtH('encrypt', $data);
+        return $data;
     }
 }

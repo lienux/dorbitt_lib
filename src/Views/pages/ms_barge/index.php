@@ -6,8 +6,9 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+    <!-- <?//= $this->include(config('Gvh')->include_rangeDate_site()) ?> -->
     <nav class="ummu-nav">
-        <div class="nav nav-tabs" id="nav_tab_dailyprodmonitor">
+        <div class="nav nav-tabs" id="nav_tab_dailyprodmonitor" role="tablist_stc">
             <button class="nav-link mr-1 active" id="nav-tab-form" data-toggle="tab" data-target="#nav-form" type="button"
                 role="tab" aria-selected="true">
                 <span class="d-none d-sm-block"><i class="far fa-clipboard-list"></i> Form</span>
@@ -25,6 +26,7 @@
             <div class="card-body pt-2" id="entry_area" stylez="min-height: 370px;">
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
+                        <!-- <h5 class="card-title">Form Input Master Barge</h5> -->
                         <?= $this->include(config('Vh')->ummuView($dir_views . 'form')) ?>
                     </div>
                     <div class="tab-pane fade" id="nav-listData" role="tabpanel">
@@ -39,9 +41,9 @@
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/equipment/';
-        var table = $('#tbEquipment')
-        var $table = $('#tbEquipment')
+        $ummu.vars.page_url = $base_url + 'admin/ms_barge/';
+        var table = $('#tbBarge')
+        var $table = $('#tbBarge')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
