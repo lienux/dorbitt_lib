@@ -13,7 +13,7 @@ class PassagePlanController extends ResourceController
 {
   public function __construct()
   {
-    $this->dir_view = 'pages/plan_setting/passage_plan/';
+    $this->dir_view = 'pages/passage_plan/';
     $this->request = \Config\Services::request();
     $this->cH = new CurlHelper();
     $this->db = \Config\Database::connect();
@@ -24,6 +24,7 @@ class PassagePlanController extends ResourceController
   public function index()
   {
     $data = [
+        'module_kode' => 'passage_plan',
         'navlink' => 'passage_plan',
         'group' => ['plan_setting'],
         'tmp' => $this->gHelp->tmp(),

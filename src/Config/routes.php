@@ -53,6 +53,11 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         $routes->get('show', 'MsClientController::show');
     });
 
+    $routes->group('ms_barge', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'BargeController::index');
+        $routes->get('show', 'BargeController::show');
+    });
+
     $routes->group('tugboat', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('/', 'TugboatController::index');
         $routes->get('show', 'TugboatController::show');
@@ -185,4 +190,10 @@ $routes->group('ummu', ['namespace' => 'Dorbitt\Controllers'], static function (
         $routes->get('show', 'DorbittController::session_show');
         $routes->get('destroy', 'DorbittController::session_destroy');
     });
+});
+
+$routes->group('encrypter', function ($routes) {
+    $routes->get('generate_password', 'EncrypterController::generate_password');
+    $routes->get('jwtEncrypt', 'EncrypterController::jwtEncrypt');
+    $routes->get('jwtDecrypt', 'EncrypterController::jwtDecrypt');
 });

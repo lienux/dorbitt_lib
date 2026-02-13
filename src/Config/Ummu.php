@@ -17,6 +17,7 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\GviewsHelper;
 use Dorbitt\Helpers\DateTimeHelper;
 use Dorbitt\Helpers\EncrypterHelper;
+use Dorbitt\Helpers\JwtHelper;
 
 class Ummu extends BaseConfig
 {
@@ -26,6 +27,7 @@ class Ummu extends BaseConfig
         $this->gVhelp = new GviewsHelper();
         $this->dtHelp = new DateTimeHelper();
         $this->encryptH = new EncrypterHelper();
+        $this->jwtH = new JwtHelper();
     }
 
     public function ViHe(string $methodName = null, string $filename = null)
@@ -64,6 +66,15 @@ class Ummu extends BaseConfig
         return null;
     }
 
+    public function jwtH(string $methodName = null, $data)
+    {
+        if (method_exists($this->jwtH, $methodName)) {
+            return $this->jwtH->$methodName($data);
+        }
+        
+        return null;
+    }
+
     public function include_partial(string $filename)
     {
         return '../../vendor/dorbitt/lib/src/Views/partials/'.$filename.'.php';
@@ -72,5 +83,19 @@ class Ummu extends BaseConfig
     public function pages(string $filename)
     {
         return '../../vendor/dorbitt/lib/src/Views/pages/'.$filename.'.php';
+    }
+
+    public function Views(string $filename)
+    {
+        return '../../vendor/dorbitt/lib/src/Views/'.$filename.'.php';
+    }
+
+    public function script($filename)
+    {
+        if (getenv('CI_DORBITT') == 'development') {
+            return "http://localhost/dorbitt/dorbitt_lib/src/Script/" . $filename . ".js?time=" . date('YmdHis');
+        }else{
+            return "https://cdn.openapi2.com/Script/" . $filename . ".js?time=" . date('YmdHis');
+        }
     }
 }

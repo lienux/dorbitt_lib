@@ -10751,7 +10751,68 @@ var $ummu = {
                 },
             },
         },
+
         referensi: JSON.parse(localStorage.getItem("referensi")),
+
+        setjsontostr: function(key, value) {
+            localStorage.setItem(key, value);
+        },
+
+        getstrtojson: function(key) {
+            localStorage.getItem(key);
+        },
+
+        dt_default: function(key) {
+            var lcg = localStorage.getItem(key);
+            if (lcg) {
+                if ($ummu.dt.init == null) {
+                    $ummu.dt.init = new DataTable(
+                        table, 
+                        {
+                            data: JSON.parse(lcg).rows,
+                            columns: app.dt.default.config_columns(),
+                            processing: true,
+                            responsive: true,
+                            keys: true,
+                            deferLoading: 57,
+                            lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                            layout: {
+                                topStart: {
+                                    buttons: [],
+                                }
+                            },
+                            columnDefs: app.dt.default.config_columnDefs(),
+                            select: $ummu.dt.config.select(),
+                            paging: true,
+                            // scrollCollapse: true,
+                            // scrollX: true,
+                            // scrollY: '60vh',
+                            drawCallback: function (settings) {
+                                // var api = this.api();
+                            },
+                        });
+                }else{
+                    $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
+                }
+            }else{
+                $ummu.dt.init = new DataTable(table,
+                    {
+                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                        layout: {
+                            topStart: {
+                                buttons: [],
+                            }
+                        },
+                    }
+                );
+            }
+
+            $ummu.dt.init.columns.adjust();
+
+            setTimeout(function() {
+                $ummu.dt.init.columns.adjust();
+            }, 3000);
+        },
     },
 
     ls: {
@@ -11098,6 +11159,58 @@ var $ummu = {
                 console.log(ummu);
             });
         },
+
+        jwt: {
+            encrypt: function(data) {
+                var params = {
+                    "url": $ummu.$.base_url + 'encrypter/jwtEncrypt',
+                    "type": "GET",
+                    "data": data,
+                    "cache": true,
+                    "contentType": "application/json",
+                    "dataType": "json",
+                    "loader": true
+                };
+
+                var ummu = $ummu.ajax.ummu5(params);
+
+                ummu
+                .done(function (result) {
+                    console.log(result)
+                })
+                .fail(function () {
+                    console.log(ummu);
+                });
+            }
+        },
+
+        cryptojs: {
+            encrypt: function() {
+                const dataToEncrypt = {
+                    message: "Hello, AES!",
+                    sensitiveData: 12345
+                };
+                const secretKey = "your-very-secure-and-long-secret-key";
+
+                // 1. Convert the JSON object to a string
+                const jsonString = JSON.stringify(dataToEncrypt);
+
+                // 2. Encrypt the string using AES
+                const encryptedData = CryptoJS.AES.encrypt(jsonString, secretKey).toString();
+
+                console.log("Encrypted Data:", encryptedData);
+            },
+            decrypt: function() {
+                // To decrypt, you use the same secret key
+                const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+
+                // Convert the decrypted bytes back to a UTF-8 string, then parse as JSON
+                const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                const originalData = JSON.parse(decryptedString);
+
+                console.log("Original Data:", originalData);
+            }
+        }
     },
 
     sidebar: {

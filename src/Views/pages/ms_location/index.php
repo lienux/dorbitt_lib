@@ -1,43 +1,8 @@
 <?= $this->extend('layout/' . config('Vh')->tmp()) ?>
 
 <?= $this->section('css') ?>
-    <style>
-        .td-form-control {
-            display: block;
-            width: 100%;
-            color: #495057;
-            border: 0px;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .dorbitt-form-control-sm {
-            height: calc(1.5em + 0rem + 1px);
-        }
-
-        .dataTables_scroll {
-            overflow: auto;
-        }
-
-        .popover {
-            z-index: 9999;
-        }
-
-        .datepicker {
-            z-index: 19999 !important;
-        }
-
-        .ui-datepicker {
-            z-index: 1151 !important;
-        }
-
-        table.dataTable>thead>tr>th {
-            padding: 2px 6px;
-        }
-
-        table.dataTable>tbody>tr>td {
-            padding: 2px 6px;
-        }
-    </style>
+    <?= $this->include(config('Ummu')->Views('plugins/dt_style_001')) ?>
+    <style></style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -81,5 +46,5 @@
         var selections = []
         var $crud = ["new","edit","delete"]
     </script>
-    <script src="<?=base_url('js/admin/pages/ms_location/index.js?time='.date('YmdHis'));?>"></script>
+    <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>
