@@ -37,7 +37,7 @@ var app = {
 
             $ummu.dt.init = new DataTable(
                 $table,
-                app.dt.clients.config_show()
+                app.dt.default.config_show()
             );
 
             $ummu.dt.layout.buttonAll($ummu.dt.init)
@@ -327,38 +327,6 @@ var app = {
 
     dt: {
         init: null,
-
-        config_button: function () {
-        let buttons = [
-            {
-            extend: "pageLength",
-            className: "py-1 dt-btn-ummu",
-            attr: { id: "btn_page_length" },
-            },
-            // {
-            //   text: '<i class="fas fa-sync-alt"></i>',
-            //   attr: { id: "btn_reload" },
-            //   className: "btn-showall-color py-1 dt-btn-ummu",
-            //   action: function (e, dt, node, config) {
-            //     // $ummu.vars.dt.new.ajax.reload();
-            //   },
-            // },
-        ];
-
-        return buttons;
-        },
-
-        config_rowGroup: function(params) {
-        let rowGroup = {
-            dataSrc: params,
-            startRender: function (rows, group) {
-            // Display the group name and the number of rows in that group
-            return group + " (" + rows.count() + " rows)";
-            },
-        };
-
-        return rowGroup;
-        },
 
         default: {
             config_show: function () {

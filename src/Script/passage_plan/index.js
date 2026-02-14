@@ -6,8 +6,8 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.localStorage.dt_default('ms_barge');
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
+            // $ummu.localStorage.dt_default('passage_plan');
+            // $ummu.dt.layout.buttonAll($ummu.dt.init);
         },
     },
 
@@ -31,7 +31,7 @@ var app = {
             $ummu.dt.init.on('xhr', function () {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
-                    localStorage.setItem('ms_barge', JSON.stringify(response));
+                    localStorage.setItem('passage_plan', JSON.stringify(response));
                 }
             });
         },
