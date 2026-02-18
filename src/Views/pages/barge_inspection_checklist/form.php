@@ -56,8 +56,8 @@
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="barge" disabled>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis" id="btn_show_barge" type="button" disabled
-                                    data-inputid="barge">
+                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
+                                    data-inputid="barge" data-modaltitle="Master Data Barge">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
                             </div>

@@ -28,10 +28,11 @@
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/passage_plan/';
+        $ummu.vars.page_url = $base_url + 'admin/barge_inspection_checklist/';
         var table = $('#tbPassagePlan')
-        var table2 = $('#tbWaypoint')
         var $table = $('#tbPassagePlan')
+        var table2 = $('#tbWaypoint')
+        // var tb_modal_left_list_data = $('#tb_modal_left_list_data')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]

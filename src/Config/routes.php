@@ -91,6 +91,8 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
     $routes->group('barge_inspection_checklist', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('/', 'BargeInspectionController::index');
         $routes->get('show', 'BargeInspectionController::show');
+        $routes->get('show_equipment', 'BargeInspectionController::show_equipment');
+        $routes->get('show_barge', 'BargeInspectionController::show_barge');
     });
 
     $routes->group('openapi2', function($routes) {

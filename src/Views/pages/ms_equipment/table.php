@@ -5,6 +5,7 @@
             <tr>
                 <th></th>
                 <th>ID</th>
+                <th>Type</th>
                 <th>Kode</th>
                 <th>Name</th>
                 <th>Description</th>
