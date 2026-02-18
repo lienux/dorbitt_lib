@@ -155,6 +155,7 @@ var $ummu = {
         parentTableID: null,
         rows_on_getData: null,
         modal_id_show: null,
+        modalLeft_table_ListData: null,
 
         rows_daily: null,
         rows_monthly: null,
@@ -930,6 +931,20 @@ var $ummu = {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
+
+            $(".show-left-modal").on('click', function(){
+                var modalTitle = $(this).data('modaltitle');
+                var inputId = $(this).data('inputid');
+                $("#modal_listData .modal-title span").html(modalTitle);
+                $("#modal_listData").modal("show");
+
+                if(typeof app.controllers.on_showLeftModal !== "undefined") {
+                    console.log('function app.controllers.on_showLeftModal is OK.');
+                    app.controllers.on_showLeftModal(inputId);
+                }else{
+                    console.log('plese create function app.controllers.on_showLeftModal.');
+                }
+            });
 
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
@@ -8284,6 +8299,7 @@ var $ummu = {
     dt: {
         init: null,
         init2: null,
+        init_for_destroy: null,
         init_sitePorject: null,
 
         is_init: function(tableID) {
@@ -8294,12 +8310,13 @@ var $ummu = {
             }
         },
 
-        init_destroy: function(init = null) {
-            if (init === null) {
-                $ummu.dt.init.destroy()
-            }else{
-                init.destroy()
-            }
+        init_destroy: function($init = null) {
+            console.log($init)
+            // if ($init === null) {
+            //     $ummu.dt.init.destroy()
+            // }else{
+            //     eval($init).destroy()
+            // }
         },
 
         load: function () {
@@ -9273,6 +9290,124 @@ var $ummu = {
                         text: 'Get Data',
                         action: function (e, dt, node, config) {
                             app.controllers.on_btn_getData_click();
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_insert") == true) {
+                    init.button().add(12, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_insert" },
+                        text: 'Insert',
+                        action: function (e, dt, node, config) {
+                            // app.controllers.on_btn_getData_click();
+                            console.log("btn insert ok")
+                        },
+                    });
+                }
+            },
+
+            buttonAllCustom: function (init, btn) {
+                if (btn && btn.includes("btn_page_length") == true) {
+                    init.button().add(0, {
+                        extend: "pageLength",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_page_length" },
+                    });
+                }
+
+                if (btn && btn.includes("btn_select_all") == true) {
+                    init.button().add(2, {
+                        extend: "selectAll",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_select_all" },
+                        text:
+                        '<span class="d-none d-sm-block">Select all</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_select_none") == true) {
+                    init.button().add(3, {
+                        extend: "selectNone",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_select_none" },
+                        text:
+                        '<span class="d-none d-sm-block">Deselect all</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_copy") == true) {
+                    init.button().add(5, {
+                        extend: "copy",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_copy" },
+                        text: '<i class="fas fa-copy fa-lg"></i>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_csv") == true) {
+                    init.button().add(6, {
+                        extend: "csv",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_csv" },
+                        text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_excel") == true) {
+                    init.button().add(7, {
+                        extend: "excel",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_excel" },
+                        text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+                        exportOptions: {
+                            orthogonal: "myExport",
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_pdf") == true) {
+                    init.button().add(8, {
+                        extend: "pdf",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_pdf" },
+                        text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_print") == true) {
+                    init.button().add(9, {
+                        extend: "print",
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "btn_print" },
+                        text: '<i class="fas fa-print text-primary fa-lg"></i>',
+                    });
+                }
+
+                if (btn && btn.includes("btn_setting") == true) {
+                    init.button().add(10, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_setting" },
+                        text:
+                        '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                        action: function (e, dt, node, config) {
+                            $("#modal_setting_dt").modal("show");
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_get_data") == true) {
+                    init.button().add(11, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_getData" },
+                        text: 'Get Data',
+                        action: function (e, dt, node, config) {
+                            // var tableId = dt.table().node().id;
+                            // var tableId = $(dt.table().node()).attr('id');
+                            // var tableId = dt.settings()[0].sTableId;
+                            app.controllers.on_btn_getData_click(e, dt, node, config);
                         },
                     });
                 }
@@ -10924,6 +11059,58 @@ var $ummu = {
                 $ummu.dt.init.columns.adjust();
             }, 3000);
         },
+
+        dtInit: function(tb, key, col, coldef) {
+            var lcg = localStorage.getItem(key);
+            if (lcg) {
+                if (app.dt.$init == null) {
+                    app.dt.$init = new DataTable(
+                        tb, 
+                        {
+                            data: JSON.parse(lcg).rows,
+                            columns: col,
+                            processing: true,
+                            responsive: true,
+                            keys: true,
+                            deferLoading: 57,
+                            lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                            layout: {
+                                topStart: {
+                                    buttons: [],
+                                }
+                            },
+                            columnDefs: coldef,
+                            select: $ummu.dt.config.select(),
+                            paging: true,
+                            // scrollCollapse: true,
+                            // scrollX: true,
+                            // scrollY: '60vh',
+                            drawCallback: function (settings) {
+                                // var api = this.api();
+                            },
+                        });
+                }else{
+                    app.dt.$init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
+                }
+            }else{
+                app.dt.$init = new DataTable(table,
+                    {
+                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                        layout: {
+                            topStart: {
+                                buttons: [],
+                            }
+                        },
+                    }
+                );
+            }
+
+            app.dt.$init.columns.adjust();
+
+            setTimeout(function() {
+                app.dt.$init.columns.adjust();
+            }, 3000);
+        },
     },
 
     ls: {
@@ -11449,6 +11636,7 @@ var $ummu = {
 };
 
 $(document).ready(function () {
+    var $modalLeft_table_ListData = $('#modalLeft_table_ListData')
     $ummu.register.apply();
 });
 
