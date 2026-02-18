@@ -8283,6 +8283,7 @@ var $ummu = {
 
     dt: {
         init: null,
+        init2: null,
         init_sitePorject: null,
 
         is_init: function(tableID) {
@@ -9190,6 +9191,103 @@ var $ummu = {
                         $("#modal_setting_dt").modal("show");
                     },
                 });
+            },
+
+            buttonDefaultAndCustom: function (init, btn) {
+                init.button().add(0, {
+                    extend: "pageLength",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_page_length" },
+                });
+
+                init.button().add(2, {
+                    extend: "selectAll",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_select_all" },
+                    text:
+                    '<span class="d-none d-sm-block">Select all</span>' +
+                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                });
+
+                init.button().add(3, {
+                    extend: "selectNone",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_select_none" },
+                    text:
+                    '<span class="d-none d-sm-block">Deselect all</span>' +
+                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                });
+
+                init.button().add(5, {
+                    extend: "copy",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_copy" },
+                    text: '<i class="fas fa-copy fa-lg"></i>',
+                });
+
+                init.button().add(6, {
+                    extend: "csv",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_csv" },
+                    text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
+                });
+
+                init.button().add(7, {
+                    extend: "excel",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_excel" },
+                    text: '<i class="fas fa-file-excel text-success fa-lg"></i>',
+                    exportOptions: {
+                        orthogonal: "myExport",
+                    },
+                });
+
+                init.button().add(8, {
+                    extend: "pdf",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_pdf" },
+                    text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
+                });
+
+                init.button().add(9, {
+                    extend: "print",
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "btn_print" },
+                    text: '<i class="fas fa-print text-primary fa-lg"></i>',
+                });
+
+                init.button().add(10, {
+                    className: "py-1 dt-btn-ummu",
+                    attr: { id: "dt_btn_setting" },
+                    text:
+                    '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                    action: function (e, dt, node, config) {
+                        $("#modal_setting_dt").modal("show");
+                    },
+                });
+
+                if (btn && btn.includes("btn_get_data") == true) {
+                    init.button().add(11, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_getData" },
+                        text: 'Get Data',
+                        action: function (e, dt, node, config) {
+                            app.controllers.on_btn_getData_click();
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_insert") == true) {
+                    init.button().add(12, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_insert" },
+                        text: 'Insert',
+                        action: function (e, dt, node, config) {
+                            // app.controllers.on_btn_getData_click();
+                            console.log("btn insert ok")
+                        },
+                    });
+                }
             },
         },
 
@@ -10689,6 +10787,19 @@ var $ummu = {
 
         endRender_class: function() {
             return 'text-right font-weight-bold bg-purple py-2';
+        },
+
+        init2_kosong: function($tableInit2) {
+            $ummu.dt.init2 = new DataTable($tableInit2,
+                {
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [],
+                        }
+                    },
+                }
+            );
         },
     },
 
