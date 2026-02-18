@@ -9,7 +9,7 @@
     <nav class="ummu-nav">
         <div class="nav nav-tabs">
             <button class="nav-link mr-1 py-0 active" id="nav-tab-waypoint" data-toggle="tab" data-target="#nav-waypoint" type="button" role="tab" aria-selected="true">
-                Waypoint
+                Tank Sounding Data
             </button>
         </div>
     </nav>
@@ -18,7 +18,7 @@
             <div class="card-body pt-2">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="nav-waypoint" role="tabpanel">
-                        <?= $this->include(config('Vh')->ummuView($dir_views . 'table_waypoint')) ?>
+                        <?= $this->include(config('Vh')->ummuView($dir_views . 'table_tank_sounding_data')) ?>
                     </div>
                 </div>
             </div>

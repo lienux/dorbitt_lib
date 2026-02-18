@@ -83,6 +83,16 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         $routes->get('show', 'MsProjectSiteController::show');
     });
 
+    $routes->group('sounding_report', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'SoundingReportController::index');
+        $routes->get('show', 'SoundingReportController::show');
+    });
+
+    $routes->group('barge_inspection_checklist', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'BargeInspectionController::index');
+        $routes->get('show', 'BargeInspectionController::show');
+    });
+
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');
