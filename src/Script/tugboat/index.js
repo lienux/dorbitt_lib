@@ -90,33 +90,33 @@ var app = {
         },
 
         new: function () {
-        if ($ummu.vars.element_id == "tbAccount") {
-            app.views.formParams().prop('disabled', true).val('');
-            $table2.bootstrapTable('removeAll');
+            if ($ummu.vars.element_id == "tbAccount") {
+                app.views.formParams().prop('disabled', true).val('');
+                $table2.bootstrapTable('removeAll');
 
-            $("#table-tab").removeClass("active")
-            $("#form-tab").addClass("active")
+                $("#table-tab").removeClass("active")
+                $("#form-tab").addClass("active")
 
-            $("#myTabContent #form").addClass("show active")
-            $("#myTabContent #table").removeClass("show active")
-        }else if ($ummu.vars.element_id == "tbPriv") {
-            // app.controllers.show_dismod()
-            if (!$ummu.url.getParam('account_id')) {
-            $ummu.modal.ummu_msg('Silahkan pilih salah satu list pada tab list data, atau isi dan simpan form header, setelah itu baru tambahkan access modulnya.')
+                $("#myTabContent #form").addClass("show active")
+                $("#myTabContent #table").removeClass("show active")
+            }else if ($ummu.vars.element_id == "tbPriv") {
+                // app.controllers.show_dismod()
+                if (!$ummu.url.getParam('account_id')) {
+                $ummu.modal.ummu_msg('Silahkan pilih salah satu list pada tab list data, atau isi dan simpan form header, setelah itu baru tambahkan access modulnya.')
+                }else{
+                // if ($ummu.func.isNull($ummu.$.company) == true) {
+                //   $ummu.modal.ummu_msg('Silahkan pilih Company terlebih dahulu.')
+                // }else{
+                //   // $ummu.bt.initTable($table3)
+                //   $("#modal_dismod").modal("show")
+                // }
+                // $ummu.bt.initTable($table3)
+                console.log('show dismod')
+                $("#modal_dismod").modal("show")
+                }
             }else{
-            // if ($ummu.func.isNull($ummu.$.company) == true) {
-            //   $ummu.modal.ummu_msg('Silahkan pilih Company terlebih dahulu.')
-            // }else{
-            //   // $ummu.bt.initTable($table3)
-            //   $("#modal_dismod").modal("show")
-            // }
-            // $ummu.bt.initTable($table3)
-            console.log('show dismod')
-            $("#modal_dismod").modal("show")
+                // 
             }
-        }else{
-            // 
-        }
         },
 
         sbNew: function () {
@@ -188,48 +188,48 @@ var app = {
         },
 
         create_account_access2: function (table_id, ids) {
-        let $table_id = $('#'+table_id);
-        var module_id = $ummu.bt.select.get_module_id($table_id);
-        var rows = $ummu.bt.select.getRows($table_id);
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": module_id
-        });
+            let $table_id = $('#'+table_id);
+            var module_id = $ummu.bt.select.get_module_id($table_id);
+            var rows = $ummu.bt.select.getRows($table_id);
+            var payload = JSON.stringify(
+            {
+                "account_id": $ummu.vars.account.id,
+                "module_id": module_id
+            });
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
+            var params = {
+                "function": "create_enmod",
+                "method": "POST",
+                "data": payload,
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
 
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            if ($ummu.bt.select.length($table_id) == 1) {
-                app.bt.table2_inserRow(result.data, rows[0]);
-            } else if ($ummu.bt.select.length($table_id) > 1) {
-                $.each(rows, function(index, value) {
-                $.each(result.data, function(index2, value2) {
-                    // console.log(index+'  === '+index2)
-                    if(index2 == index) {
-                    // console.log('sama '+index+'  = '+index2)
-                    app.bt.table2_inserRow(value2, value);
-                    }
-                });
-                });
-            }
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                if ($ummu.bt.select.length($table_id) == 1) {
+                    app.bt.table2_inserRow(result.data, rows[0]);
+                } else if ($ummu.bt.select.length($table_id) > 1) {
+                    $.each(rows, function(index, value) {
+                    $.each(result.data, function(index2, value2) {
+                        // console.log(index+'  === '+index2)
+                        if(index2 == index) {
+                        // console.log('sama '+index+'  = '+index2)
+                        app.bt.table2_inserRow(value2, value);
+                        }
+                    });
+                    });
+                }
 
-            $ummu.bt.remove($table_id);
-            $ummu.$.modal_dismod.modal('hide');
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
+                $ummu.bt.remove($table_id);
+                $ummu.$.modal_dismod.modal('hide');
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+            // console.log(ummu)
         },
 
         sbCancleNew: function() {

@@ -113,99 +113,99 @@ var app = {
         },
 
         create_account_access: function (row) {
-        // var payload = JSON.stringify(
-        // {
-        //     "body": {
-        //         "gedung_id": $('#gedung').val(),
-        //         "kode": $('#kode').val(),
-        //         "name": $('#name').val(),
-        //         "lantai": $('#lantai').val(),
-        //         "seat": $('#jumlah_seat').val()
-        //     }
-        // });
-        // // controllers.create(payload);
+            // var payload = JSON.stringify(
+            // {
+            //     "body": {
+            //         "gedung_id": $('#gedung').val(),
+            //         "kode": $('#kode').val(),
+            //         "name": $('#name').val(),
+            //         "lantai": $('#lantai').val(),
+            //         "seat": $('#jumlah_seat').val()
+            //     }
+            // });
+            // // controllers.create(payload);
 
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": row.module_id
-        });
+            var payload = JSON.stringify(
+            {
+                "account_id": $ummu.vars.account.id,
+                "module_id": row.module_id
+            });
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
+            var params = {
+                "function": "create_enmod",
+                "method": "POST",
+                "data": payload,
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
 
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            // console.log(result)
-            app.bt.table2_inserRow(result, row)
-            app.bt.table3_removeRow(row)
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                // console.log(result)
+                app.bt.table2_inserRow(result, row)
+                app.bt.table3_removeRow(row)
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+            // console.log(ummu)
         },
 
         save_selected: function(table_id) {
-        var ids = $ummu.bt.select.getIds($('#'+table_id));
+            var ids = $ummu.bt.select.getIds($('#'+table_id));
 
-        if ($ummu.vars.parentTableID == "tbDismodModule") {
-            app.controllers.create_account_access2(table_id, ids)
-        }else{
-            // 
-        }
+            if ($ummu.vars.parentTableID == "tbDismodModule") {
+                app.controllers.create_account_access2(table_id, ids)
+            }else{
+                // 
+            }
         },
 
         create_account_access2: function (table_id, ids) {
-        let $table_id = $('#'+table_id);
-        var module_id = $ummu.bt.select.get_module_id($table_id);
-        var rows = $ummu.bt.select.getRows($table_id);
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": module_id
-        });
+            let $table_id = $('#'+table_id);
+            var module_id = $ummu.bt.select.get_module_id($table_id);
+            var rows = $ummu.bt.select.getRows($table_id);
+            var payload = JSON.stringify(
+            {
+                "account_id": $ummu.vars.account.id,
+                "module_id": module_id
+            });
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
+            var params = {
+                "function": "create_enmod",
+                "method": "POST",
+                "data": payload,
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
 
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            if ($ummu.bt.select.length($table_id) == 1) {
-                app.bt.table2_inserRow(result.data, rows[0]);
-            } else if ($ummu.bt.select.length($table_id) > 1) {
-                $.each(rows, function(index, value) {
-                $.each(result.data, function(index2, value2) {
-                    // console.log(index+'  === '+index2)
-                    if(index2 == index) {
-                    // console.log('sama '+index+'  = '+index2)
-                    app.bt.table2_inserRow(value2, value);
-                    }
-                });
-                });
-            }
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                if ($ummu.bt.select.length($table_id) == 1) {
+                    app.bt.table2_inserRow(result.data, rows[0]);
+                } else if ($ummu.bt.select.length($table_id) > 1) {
+                    $.each(rows, function(index, value) {
+                    $.each(result.data, function(index2, value2) {
+                        // console.log(index+'  === '+index2)
+                        if(index2 == index) {
+                        // console.log('sama '+index+'  = '+index2)
+                        app.bt.table2_inserRow(value2, value);
+                        }
+                    });
+                    });
+                }
 
-            $ummu.bt.remove($table_id);
-            $ummu.$.modal_dismod.modal('hide');
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
+                $ummu.bt.remove($table_id);
+                $ummu.$.modal_dismod.modal('hide');
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+            // console.log(ummu)
         },
 
         sbCancleNew: function() {

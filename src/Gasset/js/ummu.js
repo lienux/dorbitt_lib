@@ -97,11 +97,11 @@ var $ummu = {
                 }
             },
 
-            on_bs_refresh: function(table_id, params) {
+            on_bs_refresh: function(params) {
                 console.log('on_bs_refresh click')
                 if(typeof app.controllers.on_bs_refresh !== "undefined") {
                     console.log('function app.controllers.on_bs_refresh is OK.');
-                    app.controllers.on_bs_refresh(table_id, params)
+                    app.controllers.on_bs_refresh(params)
                 }else{
                     console.log('plese create function app.controllers.on_bs_refresh');
                 }
@@ -322,6 +322,7 @@ var $ummu = {
             $ummu.events.onChange.inputFile_onChange_fileUpload();
             $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal();
             $ummu.mygallery.autoload();
+            $ummu.button.sbToolbar();
 
             if ( typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage' ) {
                 bsCustomFileInput.init();
@@ -643,62 +644,6 @@ var $ummu = {
 
             $("#config_settings").on('click', function(){
                 $('#modal_form_settings').modal('show');
-            })
-
-            $(".sb-toolbar button").on('click', function(){
-                // // var element_id = $(this).attr("id");
-                // // console.log('class ummu-datepicker is change OK.');
-                // if(typeof app.controllers.new !== "undefined") {
-                //   console.log('function app.controllers.new is OK.');
-                //   app.controllers.new();
-                // }else{
-                //   console.log('plese create function app.controllers.new.');
-                // }
-
-                var elID = $(this).attr('id')
-                // console.log(elID)
-
-                if (elID == 'btn_new') {
-                    $("#table-tab").addClass("disabled")
-                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
-                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
-                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
-                    app.controllers.sbNew()
-                }
-
-                else if(elID == 'btn_edit') {
-                    $("#table-tab").addClass("disabled")
-                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
-                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
-                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
-                    app.controllers.sbEdit()
-                }
-
-                else if(elID == 'btn_cancle') {
-                    if ($ummu.button.id == 'btn_new') {
-                        $("#table-tab").removeClass("disabled")
-                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
-                        $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                        $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
-                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
-                        app.controllers.sbCancleNew()
-                    }else if ($ummu.button.id == 'btn_edit') {
-                        $("#table-tab").removeClass("disabled")
-                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
-                        $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
-                        $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
-                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
-                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
-                        app.controllers.sbCancleEdit()
-                    }
-                }
-
-                $ummu.button.id = elID
             })
 
             $("#QQ_btnToLoginModule button").on('click', function(){
@@ -8050,7 +7995,8 @@ var $ummu = {
 
             $tableID.on('refresh.bs.table', function (params) {
                 var table_id = params.target.id
-                $ummu.routes.toPage.on_bs_refresh(table_id, params)
+                // $ummu.routes.toPage.on_bs_refresh(table_id, params)
+                $ummu.routes.toPage.on_bs_refresh(params)
             });
 
             $ummu.bt.filterControl.style()
@@ -8293,6 +8239,14 @@ var $ummu = {
                 "contentType": "application/json",
                 "dataType": "json"
             };
+        },
+
+        table_id: function(params) {
+            // console.log(params)
+            if (typeof params.target.id !== 'undefined') {
+                var tableid = params.target.id;
+                return tableid;
+            }
         },
     },
 
@@ -11241,6 +11195,77 @@ var $ummu = {
                     $("#modal_form .modal-footer").append(btn_edit);
                 }
             }
+        },
+
+        sbToolbar: function() {
+            $(".sb-toolbar button").on('click', function() {
+                // // var element_id = $(this).attr("id");
+                // // console.log('class ummu-datepicker is change OK.');
+                // if(typeof app.controllers.new !== "undefined") {
+                //   console.log('function app.controllers.new is OK.');
+                //   app.controllers.new();
+                // }else{
+                //   console.log('plese create function app.controllers.new.');
+                // }
+
+                var elID = $(this).attr('id')
+                // console.log(elID)
+
+                if (elID == 'btn_new') {
+                    $(".btn-nav-link-table").addClass("disabled")
+                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
+                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
+                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+                    $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
+                    $(".sb-toolbar-input-endis").prop("disabled", false)
+                    app.controllers.sbNew()
+                }
+
+                else if(elID == 'btn_edit') {
+                    $(".btn-nav-link-table").addClass("disabled")
+                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
+                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
+                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+                    $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
+                    $(".sb-toolbar-input-endis").prop("disabled", false)
+                    app.controllers.sbEdit()
+                }
+
+                else if(elID == 'btn_cancle') {
+                    if ($ummu.button.id == 'btn_new') {
+                        $(".btn-nav-link-table").removeClass("disabled")
+                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+                        $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+                        $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
+                        $(".sb-toolbar-input-endis").prop("disabled", true)
+                        app.controllers.sbCancleNew()
+                    }else if ($ummu.button.id == 'btn_edit') {
+                        $(".btn-nav-link-table").removeClass("disabled")
+                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+                        $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
+                        $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
+                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
+                        $(".sb-toolbar-btn-endis").prop("disabled", true)
+                        app.controllers.sbCancleEdit()
+                    }
+                }
+
+                $ummu.button.id = elID
+            })
+        },
+
+        sbBtn_on_showData: function() {
+            $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
+            $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
         },
 
         hazard_report: {
