@@ -1,11 +1,11 @@
 <nav class="ummu-nav">
     <div class="nav nav-tabs">
-        <button class="nav-link mr-1 active" id="nav-tab-form" data-toggle="tab" data-target="#nav-form" type="button"
+        <button class="nav-link btn-nav-link-form mr-1 active" id="nav-tab-form" data-toggle="tab" data-target="#nav-form" type="button"
             role="tab" aria-selected="true">
             <span class="d-none d-sm-block"><i class="far fa-clipboard-list"></i> Form</span>
             <span class="d-block d-sm-none"><i class="far fa-clipboard-list"></i></span>
         </button>
-        <button class="nav-link mr-1" id="nav-tab-listData" data-toggle="tab" data-target="#nav-listData" type="button" role="tab"
+        <button class="nav-link btn-nav-link-table mr-1" id="nav-tab-listData" data-toggle="tab" data-target="#nav-listData" type="button" role="tab"
             aria-selected="false">
             <span class="d-none d-sm-block"><i class="far fa-list-alt"></i> List Data</span>
             <span class="d-block d-sm-none"><i class="far fa-list-alt"></i></span>
