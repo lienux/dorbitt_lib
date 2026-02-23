@@ -8266,11 +8266,11 @@ var $ummu = {
 
         init_destroy: function($init = null) {
             console.log($init)
-            // if ($init === null) {
-            //     $ummu.dt.init.destroy()
-            // }else{
-            //     eval($init).destroy()
-            // }
+            if ($init === null) {
+                $ummu.dt.init.destroy()
+            }else{
+                eval($init).destroy()
+            }
         },
 
         load: function () {
@@ -10967,7 +10967,7 @@ var $ummu = {
             if (lcg) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable(
-                        table, 
+                        $table, 
                         {
                             data: JSON.parse(lcg).rows,
                             columns: app.dt.default.config_columns(),
@@ -10995,7 +10995,8 @@ var $ummu = {
                     $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }
             }else{
-                $ummu.dt.init = new DataTable(table,
+                $ummu.dt.init = new DataTable(
+                    $table,
                     {
                         lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
                         layout: {
@@ -11220,7 +11221,14 @@ var $ummu = {
                     $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
                     $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
                     $(".sb-toolbar-input-endis").prop("disabled", false)
-                    app.controllers.sbNew()
+
+                    console.log('btn_new is clicked.')
+                    if(typeof app.controllers.sbNew !== "undefined") {
+                        console.log('function app.controllers.sbNew is OK.')
+                        app.controllers.sbNew()
+                    }else{
+                        console.log('plese create function app.controllers.sbNew')
+                    }
                 }
 
                 else if(elID == 'btn_edit') {
@@ -11232,21 +11240,18 @@ var $ummu = {
                     $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
                     $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
                     $(".sb-toolbar-input-endis").prop("disabled", false)
-                    app.controllers.sbEdit()
+
+                    console.log('btn_edit is clicked.')
+                    if(typeof app.controllers.sbEdit !== "undefined") {
+                        console.log('function app.controllers.sbEdit is OK.')
+                        app.controllers.sbEdit()
+                    }else{
+                        console.log('plese create function app.controllers.sbEdit')
+                    }
                 }
 
                 else if(elID == 'btn_cancle') {
-                    if ($ummu.button.id == 'btn_new') {
-                        $(".btn-nav-link-table").removeClass("disabled")
-                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
-                        $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                        $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
-                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
-                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
-                        $(".sb-toolbar-input-endis").prop("disabled", true)
-                        app.controllers.sbCancleNew()
-                    }else if ($ummu.button.id == 'btn_edit') {
+                    if ($ummu.button.id == 'btn_edit') {
                         $(".btn-nav-link-table").removeClass("disabled")
                         $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
                         $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
@@ -11256,6 +11261,35 @@ var $ummu = {
                         $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
                         $(".sb-toolbar-btn-endis").prop("disabled", true)
                         app.controllers.sbCancleEdit()
+                    }else {
+                        $(".btn-nav-link-table").removeClass("disabled")
+                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+                        $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+                        $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
+                        $(".sb-toolbar-input-endis").prop("disabled", true)
+                        // app.controllers.sbCancleNew()
+                        
+                        console.log('btn_cancle is clicked.')
+                        if(typeof app.controllers.sbCancle !== "undefined") {
+                            console.log('function app.controllers.sbCancle is OK.')
+                            app.controllers.sbCancle()
+                        }else{
+                            console.log('plese create function app.controllers.sbCancle')
+                        }
+                    }
+
+                }
+
+                else if (elID == 'btn_save') {
+                    console.log('btn_cancle is clicked.')
+                    if(typeof app.controllers.sbSave !== "undefined") {
+                        console.log('function app.controllers.sbSave is OK.')
+                        app.controllers.sbSave()
+                    }else{
+                        console.log('plese create function app.controllers.sbSave')
                     }
                 }
 
@@ -11425,7 +11459,7 @@ var $ummu = {
             window.history.replaceState(null, null, url);
         },
 
-        delParam: function(key, value) {
+        delParam: function(key) {
             // Create a URL object from the current window location
             const url = new URL(window.location.href);
 
@@ -11453,6 +11487,31 @@ var $ummu = {
             // console.log(n);
             return n;
         },
+
+        // Contoh Penggunaan:
+        // Jika URL: website.com?page=1&sort=asc&utm_source=fb
+        // Kita hanya ingin simpan 'page' dan 'id'
+        // delParamIn(['page','id']); 
+        // Hasil URL: website.com?page=1
+        delParamNotIn: function(keepParams) {
+            // 1. Ambil URL saat ini
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            
+            // 2. Buat objek baru untuk menampung parameter yang ingin disimpan
+            const newParams = new URLSearchParams();
+            
+            // 3. Loop melalui daftar parameter yang ingin disimpan
+            keepParams.forEach(param => {
+                if (params.has(param)) {
+                    newParams.set(param, params.get(param));
+                }
+            });
+
+            // 4. Update URL tanpa reload halaman
+            const newRelativePathQuery = window.location.pathname + (newParams.toString() ? '?' + newParams.toString() : '');
+            window.history.replaceState(null, '', newRelativePathQuery);
+        }
     },
 
     encrypter: {

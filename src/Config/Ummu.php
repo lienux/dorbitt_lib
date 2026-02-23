@@ -80,6 +80,11 @@ class Ummu extends BaseConfig
         return '../../vendor/dorbitt/lib/src/Views/partials/'.$filename.'.php';
     }
 
+    public function partial(string $filename)
+    {
+        return '../../vendor/dorbitt/lib/src/Views/partials/'.$filename.'.php';
+    }
+
     public function pages(string $filename)
     {
         return '../../vendor/dorbitt/lib/src/Views/pages/'.$filename.'.php';

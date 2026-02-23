@@ -6,7 +6,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <!-- <?//= $this->include(config('Gvh')->include_rangeDate_site()) ?> -->
     <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
 <?= $this->endSection() ?>
 
