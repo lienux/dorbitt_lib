@@ -7,6 +7,7 @@
 
 <?= $this->section('content') ?>
     <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
+    <img src="https://cdn.openapi2.com/img/tugboat.png" width="100px">
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>

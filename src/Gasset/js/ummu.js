@@ -22,87 +22,87 @@ var $ummu = {
         },
 
         toPage: {
-            new: function(table_id) {
+            new: function (table_id) {
                 $ummu.vars.action = "new";
 
                 console.log('button new')
-                if(typeof app.controllers.new !== "undefined") {
+                if (typeof app.controllers.new !== "undefined") {
                     console.log('function app.controllers.new is OK.');
                     app.controllers.new(table_id);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.new');
                 }
             },
 
-            save_selected: function(table_id) {
+            save_selected: function (table_id) {
                 $ummu.vars.action = "save";
 
                 console.log('button save_selected')
-                if(typeof app.controllers.save_selected !== "undefined") {
+                if (typeof app.controllers.save_selected !== "undefined") {
                     console.log('function app.controllers.save_selected is OK.');
                     app.controllers.save_selected(table_id);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.save_selected');
                 }
             },
 
-            edit: function(rows) {
+            edit: function (rows) {
                 $ummu.vars.row = rows[0];
                 $ummu.vars.action = "edit";
 
                 console.log('button edit')
-                if(typeof app.controllers.edit !== "undefined") {
+                if (typeof app.controllers.edit !== "undefined") {
                     console.log('function app.controllers.edit is OK.');
                     app.controllers.edit(rows[0]);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.edit');
                 }
             },
 
-            delete: function(rows) {
+            delete: function (rows) {
                 $ummu.vars.rows = rows;
                 $ummu.vars.row = rows[0];
                 $ummu.vars.action = "delete";
 
                 console.log('button delete')
-                if(typeof app.controllers.edit !== "undefined") {
+                if (typeof app.controllers.edit !== "undefined") {
                     console.log('function app.controllers.delete is OK.');
                     app.controllers.delete(rows);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.delete');
                 }
             },
 
-            delete2: function($table_id, ids) {
+            delete2: function ($table_id, ids) {
                 // $ummu.vars.rows = rows;
                 // $ummu.vars.row = rows[0];
                 $ummu.vars.action = "delete";
 
                 console.log('button delete')
-                if(typeof app.controllers.edit !== "undefined") {
+                if (typeof app.controllers.edit !== "undefined") {
                     console.log('function app.controllers.delete is OK.');
                     app.controllers.delete2($table_id, ids);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.delete');
                 }
             },
 
-            clickID: function(table_id, row) {
+            clickID: function (table_id, row) {
                 console.log('click field id on ' + table_id)
-                if(typeof app.controllers.clickID !== "undefined") {
+                if (typeof app.controllers.clickID !== "undefined") {
                     console.log('function app.controllers.clickID is OK.');
                     app.controllers.clickID(table_id, row);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.clickID');
                 }
             },
 
-            on_bs_refresh: function(params) {
+            on_bs_refresh: function (params) {
                 console.log('on_bs_refresh click')
-                if(typeof app.controllers.on_bs_refresh !== "undefined") {
+                if (typeof app.controllers.on_bs_refresh !== "undefined") {
                     console.log('function app.controllers.on_bs_refresh is OK.');
                     app.controllers.on_bs_refresh(params)
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_bs_refresh');
                 }
             },
@@ -285,8 +285,8 @@ var $ummu = {
         },
 
         file: {
-        // formData: new FormData().append("file_upload",$("#file_upload")[0].files[0]),
-        // $ummu.vars.file.formData.append("file_description", $("#file_description").val()),
+            // formData: new FormData().append("file_upload",$("#file_upload")[0].files[0]),
+            // $ummu.vars.file.formData.append("file_description", $("#file_description").val()),
         },
 
         select_option: {
@@ -324,7 +324,7 @@ var $ummu = {
             $ummu.mygallery.autoload();
             $ummu.button.sbToolbar();
 
-            if ( typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage' ) {
+            if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
             }
 
@@ -343,11 +343,11 @@ var $ummu = {
                 localStorage.setItem("nav_tab_id", nav_tab_id);
                 $ummu.vars.nav_tab_id = nav_tab_id;
 
-                console.log('nav-tabs '+nav_tab_id+' click');
-                if(typeof app.controllers.on_navTab_click !== "undefined") {
+                console.log('nav-tabs ' + nav_tab_id + ' click');
+                if (typeof app.controllers.on_navTab_click !== "undefined") {
                     console.log('function app.controllers.on_navTab_click is OK.');
                     app.controllers.on_navTab_click(nav_tab_id);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_navTab_click.');
                 }
             });
@@ -358,15 +358,15 @@ var $ummu = {
                 $ummu.vars.nav_child_tab_id = nav_child_tab_id;
 
                 console.log('nav-child-tabs click');
-                if(typeof app.controllers.on_navTab_click !== "undefined") {
+                if (typeof app.controllers.on_navTab_click !== "undefined") {
                     console.log('function app.controllers.on_navTab_click is OK.');
                     app.controllers.on_navTab_click(nav_child_tab_id);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_navTab_click.');
                 }
             });
 
-            if(typeof jQuery.fn.datepicker !== "undefined") {
+            if (typeof jQuery.fn.datepicker !== "undefined") {
                 $(".datepicker000").datepicker({
                     changeMonth: true, // Enables the month dropdown
                     changeYear: true, // Enables the year dropdown
@@ -388,7 +388,7 @@ var $ummu = {
                     footer: true,
                     showButtonPanel: true,
 
-                    beforeShow: function(input, inst) {
+                    beforeShow: function (input, inst) {
                         $(inst.dpDiv).removeClass('hide-calendar hide-month');
                     },
                 });
@@ -398,73 +398,73 @@ var $ummu = {
                     selectOtherMonths: true,
                     showWeek: true, // Menampilkan nomor minggu di samping
                     firstDay: 1,    // Minggu dimulai hari Senin
-                    onSelect: function(dateText, inst) {
+                    onSelect: function (dateText, inst) {
                         var date = $(this).datepicker('getDate');
                         startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1);
                         endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7);
 
                         var dateFormat = 'dd/mm/yy';
-                        var displayString = $.datepicker.formatDate(dateFormat, startDate) + 
-                                            " - " + 
-                                            $.datepicker.formatDate(dateFormat, endDate);
-                        
+                        var displayString = $.datepicker.formatDate(dateFormat, startDate) +
+                            " - " +
+                            $.datepicker.formatDate(dateFormat, endDate);
+
                         $(this).val(displayString);
                         selectCurrentWeek();
                     },
-                    beforeShow: function() {
+                    beforeShow: function () {
                         selectCurrentWeek();
                     },
-                    beforeShowDay: function(date) {
+                    beforeShowDay: function (date) {
                         var cssClass = '';
                         if (date >= startDate && date <= endDate) {
                             cssClass = 'ui-state-active';
                         }
                         return [true, cssClass];
                     },
-                    onChangeMonthYear: function(year, month, inst) {
+                    onChangeMonthYear: function (year, month, inst) {
                         selectCurrentWeek();
                     }
                 });
 
-                $('.ummu-monthpicker').datepicker({                
+                $('.ummu-monthpicker').datepicker({
                     changeMonth: true, // Aktifka ganti bulan
                     changeYear: true,   // Aktifkan ganti tahun
                     showButtonPanel: true,
                     dateFormat: 'yy-mm',   // Format output hanya tahun
 
                     // Fungsi ini berjalan sesaat sebelum datepicker muncul
-                    beforeShow: function(input, inst) {
+                    beforeShow: function (input, inst) {
                         $(inst.dpDiv).addClass('hide-calendar').removeClass('hide-month');
                     },
-                                        
+
                     // Logika saat tombol 'Done' atau picker ditutup
-                    onClose: function(dateText, inst) {
+                    onClose: function (dateText, inst) {
                         var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
                         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         $(this).datepicker('setDate', new Date(year, month, 1));
                     }
                 });
 
-                $('.ummu-yearpicker').datepicker({                
+                $('.ummu-yearpicker').datepicker({
                     changeMonth: false, // Matikan ganti bulan
                     changeYear: true,   // Aktifkan ganti tahun
                     showButtonPanel: true,
                     dateFormat: 'yy',   // Format output hanya tahun
 
                     // Fungsi ini berjalan sesaat sebelum datepicker muncul
-                    beforeShow: function(input, inst) {
+                    beforeShow: function (input, inst) {
                         $(inst.dpDiv).addClass('hide-calendar hide-month');
                     },
-                    
+
                     // Logika saat jendela picker ditutup
-                    onClose: function(dateText, inst) { 
+                    onClose: function (dateText, inst) {
                         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         $(this).datepicker('setDate', new Date(year, 0, 1));
                     }
                 });
             };
 
-            if(typeof jQuery.fn.clockpicker !== "undefined") {
+            if (typeof jQuery.fn.clockpicker !== "undefined") {
                 $(".clockpicker").clockpicker({
                     // placement: 'top',
                     autoclose: true,
@@ -482,16 +482,16 @@ var $ummu = {
                 });
             };
 
-            if(typeof jQuery.fn.summernote !== "undefined") {
-                $('#modal_form').on('shown.bs.modal', function() {
+            if (typeof jQuery.fn.summernote !== "undefined") {
+                $('#modal_form').on('shown.bs.modal', function () {
                     $('.ummu-summernote-onModal').summernote({
                         // airMode: true,
                         dialogsInBody: true,
                         // minHeight: 150,
                         //set editable area's height
-                        height: 150, 
+                        height: 150,
                         // codemirror options
-                        codemirror: { 
+                        codemirror: {
                             theme: 'monokai'
                         }
                     });
@@ -541,16 +541,16 @@ var $ummu = {
                 $ummu.vars.element_id = dataInputID + "_list";
                 var tVal = $("#" + dataInputID).val();
                 var text =
-                '<li class="list-group-item d-flex justify-content-between align-items-center" style="padding:0px 0px 0px 10px;" id="index' +
-                $ummu.vars.index +
-                '">' +
-                '<span class="list-group-item-text">' +
-                tVal +
-                "</span>" +
-                '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.func.remove_element_by_index(' +
-                $ummu.vars.index +
-                ');"><i class="fas fa-trash-alt"></i></button>' +
-                "</li>";
+                    '<li class="list-group-item d-flex justify-content-between align-items-center" style="padding:0px 0px 0px 10px;" id="index' +
+                    $ummu.vars.index +
+                    '">' +
+                    '<span class="list-group-item-text">' +
+                    tVal +
+                    "</span>" +
+                    '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.func.remove_element_by_index(' +
+                    $ummu.vars.index +
+                    ');"><i class="fas fa-trash-alt"></i></button>' +
+                    "</li>";
                 if (tVal) {
                     $("#" + dataInputID + "_list").append(text);
                 }
@@ -574,40 +574,40 @@ var $ummu = {
 
             $("#nav_tab_doc_status_2 #nav_open_tab").on("click", function () {
                 console.log('nav open tab on openapi2 lib');
-                if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_open !== "undefined") {
+                if (typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_open !== "undefined") {
                     console.log('function app.controllers.navtab2.show_by_status_open is OK.');
                     app.controllers.navtab2.show_by_status_open();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.navtab2.show_by_status_open.');
                 }
             });
 
             $("#nav_tab_doc_status_2 #nav_pending_tab").on("click", function () {
                 console.log('nav pending tab on openapi2 lib')
-                if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_pending !== "undefined") {
+                if (typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_pending !== "undefined") {
                     console.log('function app.controllers.navtab2.show_by_status_pending is OK.');
                     app.controllers.navtab2.show_by_status_pending();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.navtab2.show_by_status_pending.');
                 }
             });
 
             $("#nav_tab_doc_status_2 #nav_onprogress_tab").on("click", function () {
                 console.log('nav onprogress tab on openapi2 lib')
-                if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_onprogress !== "undefined") {
+                if (typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_onprogress !== "undefined") {
                     console.log('function app.controllers.navtab2.show_by_status_onprogress is OK.');
                     app.controllers.navtab2.show_by_status_onprogress();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.navtab2.show_by_status_onprogress.');
                 }
             });
 
             $("#nav_tab_doc_status_2 #nav_close_tab").on("click", function () {
                 console.log('nav close tab on openapi2 lib')
-                if(typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_close !== "undefined") {
+                if (typeof app.controllers.navtab2 !== "undefined" && typeof app.controllers.navtab2.show_by_status_close !== "undefined") {
                     console.log('function app.controllers.navtab2.show_by_status_close is OK.');
                     app.controllers.navtab2.show_by_status_close();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.navtab2.show_by_status_close.');
                 }
             });
@@ -615,38 +615,38 @@ var $ummu = {
             $(".ummu-datepicker").change(function () {
                 var element_id = $(this).attr("id");
                 console.log('class ummu-datepicker is change OK.');
-                if(typeof app.controllers.change_ummu_datepicker !== "undefined") {
+                if (typeof app.controllers.change_ummu_datepicker !== "undefined") {
                     console.log('function app.controllers.navtab2.show_by_status_open is OK.');
                     app.controllers.change_ummu_datepicker(element_id);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.change_ummu_datepicker.');
                 }
             });
 
-            $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth()+1).padStart(2, '0') + '-01');
-            $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth()+1).padStart(2, '0') + '-' + String($ummu.vars.newDate.getDate()).padStart(2, '0'));
+            $(".ummu-datepicker-default-from").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth() + 1).padStart(2, '0') + '-01');
+            $(".ummu-datepicker-default-to").val($ummu.vars.newDate.getFullYear() + '-' + String($ummu.vars.newDate.getMonth() + 1).padStart(2, '0') + '-' + String($ummu.vars.newDate.getDate()).padStart(2, '0'));
 
             $("input[data-type='currency']").on({
-                keyup: function() {
+                keyup: function () {
                     $ummu.func.formatCurrency($(this));
                 },
-                blur: function() { 
+                blur: function () {
                     $ummu.func.formatCurrency($(this), "blur");
                 }
             });
 
-            $(".ummubtn-showmodal-listdata").on("click", function(){
+            $(".ummubtn-showmodal-listdata").on("click", function () {
                 app.controllers.on_show_modal($(this).attr("id"));
 
                 // call to dorbitt_lib/src/Gviews/partials/modal/list_data.php
                 $("#modal_list_datatable").modal("show");
             });
 
-            $("#config_settings").on('click', function(){
+            $("#config_settings").on('click', function () {
                 $('#modal_form_settings').modal('show');
             })
 
-            $("#QQ_btnToLoginModule button").on('click', function(){
+            $("#QQ_btnToLoginModule button").on('click', function () {
                 if ($(this).attr('id') == 'btnApp_herp') {
                     window.location.href = $base_url + 'auth/login_herp';
                 }
@@ -674,47 +674,47 @@ var $ummu = {
                 $("#" + $(this).data('inputid')).datepicker("show");
             })
 
-            $("#btn_get_data").on('click', function(){
+            $("#btn_get_data").on('click', function () {
                 console.log('btn get data');
-                if(typeof app.controllers.on_btn_get_data_click !== "undefined") {
+                if (typeof app.controllers.on_btn_get_data_click !== "undefined") {
                     console.log('function app.controllers.on_btn_get_data_click is OK.');
                     app.controllers.on_btn_get_data_click();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_btn_get_data_click.');
                 }
             })
 
-            $("#btn_get_data_by_date").on('click', function(){
+            $("#btn_get_data_by_date").on('click', function () {
                 console.log('btn get data');
-                if(typeof app.controllers.on_btn_get_data_by_date_click !== "undefined") {
+                if (typeof app.controllers.on_btn_get_data_by_date_click !== "undefined") {
                     console.log('function app.controllers.on_btn_get_data_by_date_click is OK.');
                     app.controllers.on_btn_get_data_by_date_click();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_btn_get_data_by_date_click.');
                 }
             })
 
-            $("#btn_get_data_monthly").on('click', function(){
+            $("#btn_get_data_monthly").on('click', function () {
                 console.log('btn get data');
-                if(typeof app.controllers.on_btn_get_data_by_month_click !== "undefined") {
+                if (typeof app.controllers.on_btn_get_data_by_month_click !== "undefined") {
                     console.log('function app.controllers.on_btn_get_data_by_month_click is OK.');
                     app.controllers.on_btn_get_data_by_month_click();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_btn_get_data_by_month_click.');
                 }
             })
 
-            $("#btn_get_data_yearly").on('click', function(){
+            $("#btn_get_data_yearly").on('click', function () {
                 console.log('btn get data');
-                if(typeof app.controllers.on_btn_get_data_by_year_click !== "undefined") {
+                if (typeof app.controllers.on_btn_get_data_by_year_click !== "undefined") {
                     console.log('function app.controllers.on_btn_get_data_by_year_click is OK.');
                     app.controllers.on_btn_get_data_by_year_click();
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_btn_get_data_by_date_click.');
                 }
             })
 
-            $("#ummu_modal_delete_confirm #modal_btn_delete").on('click', function(){
+            $("#ummu_modal_delete_confirm #modal_btn_delete").on('click', function () {
                 var ids = $(this).data('ids')
                 var $table_id = $(this).data('tableid')
                 $ummu.routes.toPage.delete2($table_id, ids)
@@ -726,7 +726,7 @@ var $ummu = {
                 $('#QQ_btnToLoginModule #btnApp_herp').removeClass('btn-primary').prop('disabled', true)
                 $('#QQ_btnToLoginModule #btnApp_iescm').addClass('btn-primary').prop('disabled', false)
                 $('#QQ_btnToLoginModule #btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
-            }else if ($ummu.vars.login_module == 'iescm') {
+            } else if ($ummu.vars.login_module == 'iescm') {
                 $('#btnApp_herp').addClass('btn-primary').prop('disabled', false)
                 $('#btnApp_iescm').removeClass('btn-primary').prop('disabled', true)
                 $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
@@ -740,7 +740,7 @@ var $ummu = {
                 $('#btnApp_mcpr').addClass('btn-primary').prop('disabled', false)
             }
 
-            $("#username").keyup(function(event) {
+            $("#username").keyup(function (event) {
                 // Check if the key pressed is the 'Enter' key (key code 13)
                 if (event.keyCode === 13) {
                     // Prevent the default form submission behavior (optional, but good practice)
@@ -752,7 +752,7 @@ var $ummu = {
                 }
             });
 
-            $("#password").keyup(function(event) {
+            $("#password").keyup(function (event) {
                 if (event.keyCode === 13) {
                     event.preventDefault();
                     // $("#password").focus();
@@ -768,14 +768,14 @@ var $ummu = {
                 }
             });
 
-            $($ummu.$.form_check_phone + "#phone_number").keyup(function(event){
+            $($ummu.$.form_check_phone + "#phone_number").keyup(function (event) {
                 if (event.keyCode === 13) {
                     event.preventDefault();
                     $ummu.ajax.auth.phoneNumber_find();
                 }
             });
 
-            $($ummu.$.form_login_password + "#password").keyup(function(event){
+            $($ummu.$.form_login_password + "#password").keyup(function (event) {
                 if (event.keyCode === 13) {
                     event.preventDefault();
                     $ummu.ajax.auth.phoneNumber_login_password();
@@ -792,101 +792,101 @@ var $ummu = {
                 $ummu.encrypter.generatePassword($(this).data('inputid'));
             });
 
-            $(".btn_col_size_3").on("click", function() {
+            $(".btn_col_size_3").on("click", function () {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-4") == false) {
-                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-4")
-                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-6 col-lg-12")
+                if ($("#" + element_id4 + " .ummu-view-type").hasClass("col-lg-4") == false) {
+                    $("#" + element_id4 + " .ummu-view-type").addClass("col-lg-4")
+                    $("#" + element_id4 + " .ummu-view-type").removeClass("col-lg-6 col-lg-12")
                 }
 
-                if(typeof app.events.on_btn_view_type !== "undefined") {
+                if (typeof app.events.on_btn_view_type !== "undefined") {
                     console.log('function app.events.on_btn_view_type is OK.');
                     app.events.on_btn_view_type(element_id4);
-                }else{
+                } else {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
-            $(".btn_col_size_2").on("click", function() {
+            $(".btn_col_size_2").on("click", function () {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-6") == false) {
-                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-6")
-                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-12")
+                if ($("#" + element_id4 + " .ummu-view-type").hasClass("col-lg-6") == false) {
+                    $("#" + element_id4 + " .ummu-view-type").addClass("col-lg-6")
+                    $("#" + element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-12")
                 }
 
-                if(typeof app.events.on_btn_view_type !== "undefined") {
+                if (typeof app.events.on_btn_view_type !== "undefined") {
                     console.log('function app.events.on_btn_view_type is OK.');
                     app.events.on_btn_view_type(element_id4);
-                }else{
+                } else {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
-            $(".btn_col_size_1").on("click", function() {
+            $(".btn_col_size_1").on("click", function () {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
-                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
-                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
+                if ($("#" + element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#" + element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#" + element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
                 }
 
-                if(typeof app.events.on_btn_view_type !== "undefined") {
+                if (typeof app.events.on_btn_view_type !== "undefined") {
                     console.log('function app.events.on_btn_view_type is OK.');
                     app.events.on_btn_view_type(element_id4);
-                }else{
+                } else {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
-            $(".btn_type_chart").on("click", function() {
+            $(".btn_type_chart").on("click", function () {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
-                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
-                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
+                if ($("#" + element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#" + element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#" + element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
                 }
 
-                if(typeof app.events.on_btn_view_type !== "undefined") {
+                if (typeof app.events.on_btn_view_type !== "undefined") {
                     console.log('function app.events.on_btn_view_type is OK.');
                     app.events.on_btn_view_type(element_id4, element_id);
-                }else{
+                } else {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
-            $(".btn_type_table").on("click", function() {
+            $(".btn_type_table").on("click", function () {
                 var element_id = this.id
                 var element_id4 = $(this).parents().eq(4).attr('id')
 
-                if ($("#"+element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
-                    $("#"+element_id4 + " .ummu-view-type").addClass("col-lg-12")
-                    $("#"+element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
+                if ($("#" + element_id4 + " .ummu-view-type").hasClass("col-lg-12") == false) {
+                    $("#" + element_id4 + " .ummu-view-type").addClass("col-lg-12")
+                    $("#" + element_id4 + " .ummu-view-type").removeClass("col-lg-4 col-lg-6")
                 }
 
-                if(typeof app.events.on_btn_view_type !== "undefined") {
+                if (typeof app.events.on_btn_view_type !== "undefined") {
                     console.log('function app.events.on_btn_view_type is OK.');
                     app.events.on_btn_view_type(element_id4, element_id);
-                }else{
+                } else {
                     console.log('plese create function app.events.on_btn_view_type.');
                 }
             })
 
-            $(".show-left-modal").on('click', function(){
+            $(".show-left-modal").on('click', function () {
                 var modalTitle = $(this).data('modaltitle');
                 var inputId = $(this).data('inputid');
                 $("#modal_listData .modal-title span").html(modalTitle);
                 $("#modal_listData").modal("show");
 
-                if(typeof app.controllers.on_showLeftModal !== "undefined") {
+                if (typeof app.controllers.on_showLeftModal !== "undefined") {
                     console.log('function app.controllers.on_showLeftModal is OK.');
                     app.controllers.on_showLeftModal(inputId);
-                }else{
+                } else {
                     console.log('plese create function app.controllers.on_showLeftModal.');
                 }
             });
@@ -895,46 +895,46 @@ var $ummu = {
                 var id = $(this).attr("id");
 
                 if (id == "modal_btn_save") {
-                    if(typeof app.controllers.create !== "undefined") {
+                    if (typeof app.controllers.create !== "undefined") {
                         console.log('function app.controllers.create is OK.');
                         app.controllers.create();
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.create.');
                     }
-                } 
+                }
 
                 if (id == "modal_btn_update") {
-                    if(typeof app.controllers.update !== "undefined") {
+                    if (typeof app.controllers.update !== "undefined") {
                         console.log('function app.controllers.update is OK.');
                         app.controllers.update();
-                    }else{
+                    } else {
                         console.log('plese update function app.controllers.update.');
                     }
-                } 
+                }
 
                 if (id == "modal_btn_save_and_next") {
-                    if(typeof app.controllers.save_and_next !== "undefined") {
+                    if (typeof app.controllers.save_and_next !== "undefined") {
                         console.log('function app.controllers.save_and_next is OK.');
                         app.controllers.save_and_next();
-                    }else{
+                    } else {
                         console.log('plese save_and_next function app.controllers.save_and_next.');
                     }
                 }
 
                 if (id == "modal_btn_back") {
-                    if(typeof app.controllers.back !== "undefined") {
+                    if (typeof app.controllers.back !== "undefined") {
                         console.log('function app.controllers.back is OK.');
                         app.controllers.back();
-                    }else{
+                    } else {
                         console.log('plese back function app.controllers.back.');
                     }
                 }
 
                 if (id == "modal_btn_delete") {
-                    if(typeof app.controllers.delete !== "undefined") {
+                    if (typeof app.controllers.delete !== "undefined") {
                         console.log('function app.controllers.delete is OK.');
                         app.controllers.delete();
-                    }else{
+                    } else {
                         console.log('plese delete function app.controllers.delete.');
                     }
                 }
@@ -1024,7 +1024,7 @@ var $ummu = {
                     if (type == "password") {
                         $("#btn_show_password").html(
                             '<i class="bi bi-eye-slash-fill"></i>'
-                            );
+                        );
                         $("#password").attr("type", "text");
                     } else {
                         $("#btn_show_password").html('<i class="bi bi-eye-fill"></i>');
@@ -1120,15 +1120,15 @@ var $ummu = {
                     // console.log($(this).val());
                     localStorage.category_id = $(this).data("value");
                     var toUrl =
-                    $base_url +
-                    "admin/session/module_category/" +
-                    $(this).data("value");
+                        $base_url +
+                        "admin/session/module_category/" +
+                        $(this).data("value");
                     // $ummu.vars.page_previous = toUrl;
                     console.log(toUrl);
                     window.location.href =
-                    $base_url +
-                    "admin/session/module_category/" +
-                    $(this).data("value");
+                        $base_url +
+                        "admin/session/module_category/" +
+                        $(this).data("value");
                 });
 
                 $(".dorbitt-login-area #btn_next").on("click", function () {
@@ -1137,11 +1137,11 @@ var $ummu = {
                     if (username == "" || username == null) {
                         $("#alert").html(
                             '<div class="alert alert-danger">Username required.</div'
-                            );
+                        );
                     } else if (msdb == "" || msdb == null) {
                         $("#alert").html(
                             '<div class="alert alert-danger">Company required.</div'
-                            );
+                        );
                     } else {
                         $(this).addClass("disabled");
                         $ummu.routes.auth.username();
@@ -1312,6 +1312,16 @@ var $ummu = {
                 return USDollar.format(data);
             },
 
+            us_dig: function (data, dig = 0) {
+                let USDollar = new Intl.NumberFormat("en-US", {
+                    minimumFractionDigits: dig,
+                    // style: 'currency',
+                    // currency: ' ',
+                });
+
+                return USDollar.format(data);
+            },
+
             // format number 1234567 to 1.234.567,00
             id: function (data) {
                 // let USDollar = new Intl.NumberFormat('en-US', {
@@ -1363,13 +1373,13 @@ var $ummu = {
             return (
                 "$" +
                 data
-                .map(function (row) {
-                    return +row[field].substring(1);
-                })
-                .reduce(function (sum, i) {
-                    return sum + i;
-                }, 0)
-                );
+                    .map(function (row) {
+                        return +row[field].substring(1);
+                    })
+                    .reduce(function (sum, i) {
+                        return sum + i;
+                    }, 0)
+            );
         },
 
         operateFormatter: function () {
@@ -1411,10 +1421,10 @@ var $ummu = {
 
         rekeningFormatter: function (angka) {
             var number_string = angka.replace(/[^,\d]/g, "").toString(),
-            split = number_string.split(","),
-            sisa = split[0].length % 3,
-            angka_hasil = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                split = number_string.split(","),
+                sisa = split[0].length % 3,
+                angka_hasil = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
             // tambahkan titik jika yang di input sudah menjadi angka ribuan
             if (ribuan) {
@@ -1423,7 +1433,7 @@ var $ummu = {
             }
 
             angka_hasil =
-            split[1] != undefined ? angka_hasil + "," + split[1] : angka_hasil;
+                split[1] != undefined ? angka_hasil + "," + split[1] : angka_hasil;
             return angka_hasil;
         },
 
@@ -1433,7 +1443,7 @@ var $ummu = {
         },
 
         miningShiftDefault: {
-            all: function() {
+            all: function () {
                 return [
                     "06:00 - 07:00",
                     "07:00 - 08:00",
@@ -1463,7 +1473,7 @@ var $ummu = {
                 ];
             },
 
-            day: function() {
+            day: function () {
                 return [
                     "06:00 - 07:00",
                     "07:00 - 08:00",
@@ -1480,7 +1490,7 @@ var $ummu = {
                 ];
             },
 
-            night: function() {
+            night: function () {
                 return [
                     "18:00 - 19:00",
                     "19:00 - 20:00",
@@ -1502,7 +1512,7 @@ var $ummu = {
             gentext: function (rows) {
                 var data = $.map(rows, function (obj) {
                     // replace name with the property used for the text
-                    obj.text = obj.text || obj.name; 
+                    obj.text = obj.text || obj.name;
 
                     return obj;
                 });
@@ -1524,10 +1534,10 @@ var $ummu = {
             gentext_siteherp: function (rows) {
                 var data = $.map(rows, function (obj) {
                     // replace name with the property used for the text
-                    obj.id = obj.id || obj.region_code; 
+                    obj.id = obj.id || obj.region_code;
                     obj.text =
-                    // replace name with the property used for the text
-                    obj.text || obj.region_name + " ( " + obj.region_code + " )"; 
+                        // replace name with the property used for the text
+                        obj.text || obj.region_name + " ( " + obj.region_code + " )";
 
                     return obj;
                 });
@@ -1554,16 +1564,16 @@ var $ummu = {
             var url = $base_url + "/admin/ruangan/show";
             var ali = $globalAjax.ummu(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                params.success(response);
-                $globFunc.ch_message(response.message);
-                app.Controllers.show_gedung();
-                app.Controllers.show_roomcateg();
-            })
-            .fail(function () {
-                // An error occurred
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    params.success(response);
+                    $globFunc.ch_message(response.message);
+                    app.Controllers.show_gedung();
+                    app.Controllers.show_roomcateg();
+                })
+                .fail(function () {
+                    // An error occurred
+                });
         },
 
         new: function () {
@@ -1607,34 +1617,34 @@ var $ummu = {
             var url = $base_url + "/admin/ruangan/create";
             var ummu = $globalAjax.ummu(url, params);
             ummu
-            .done(function (result) {
-                console.log(result);
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $("#InsertModal").modal("hide");
-                    app.Views.set_value_to_table("insert", response.response);
-                    $globFunc.ch_message(response.message);
-                    app.Events.clear_form();
-                } else {
-                    $("#message_title, #text_message").empty();
-                    var message = response.message;
-                    var errors = response.errors;
-                    $("#message_title").html(message);
-                    for (let index in errors) {
-                        var $error =
-                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<i class="bi bi-exclamation-octagon me-1"></i>' +
-                        errors[index] +
-                        "</div>";
-                        $("#text_message").append($error);
+                .done(function (result) {
+                    console.log(result);
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $("#InsertModal").modal("hide");
+                        app.Views.set_value_to_table("insert", response.response);
+                        $globFunc.ch_message(response.message);
+                        app.Events.clear_form();
+                    } else {
+                        $("#message_title, #text_message").empty();
+                        var message = response.message;
+                        var errors = response.errors;
+                        $("#message_title").html(message);
+                        for (let index in errors) {
+                            var $error =
+                                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<i class="bi bi-exclamation-octagon me-1"></i>' +
+                                errors[index] +
+                                "</div>";
+                            $("#text_message").append($error);
+                        }
+                        $("#message_modal").modal("show");
                     }
-                    $("#message_modal").modal("show");
-                }
-            })
-            .fail(function () {
-                // An error occurred
-                console.log(ummu);
-            });
+                })
+                .fail(function () {
+                    // An error occurred
+                    console.log(ummu);
+                });
         },
 
         edit: function (row, index) {
@@ -1677,33 +1687,33 @@ var $ummu = {
             var ummu = $globalAjax.ummu(url, params);
 
             ummu
-            .done(function (result) {
-                console.log(result);
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $("#InsertModal").modal("hide");
-                    app.Views.set_value_to_table("update", id);
-                    $globFunc.ch_message(response.message);
-                } else {
-                    $("#message_title, #text_message").empty();
-                    var message = response.message;
-                    var errors = response.errors;
-                    $("#message_title").html(message);
-                    for (let index in errors) {
-                        var $error =
-                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<i class="bi bi-exclamation-octagon me-1"></i>' +
-                        errors[index] +
-                        "</div>";
-                        $("#text_message").append($error);
+                .done(function (result) {
+                    console.log(result);
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $("#InsertModal").modal("hide");
+                        app.Views.set_value_to_table("update", id);
+                        $globFunc.ch_message(response.message);
+                    } else {
+                        $("#message_title, #text_message").empty();
+                        var message = response.message;
+                        var errors = response.errors;
+                        $("#message_title").html(message);
+                        for (let index in errors) {
+                            var $error =
+                                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<i class="bi bi-exclamation-octagon me-1"></i>' +
+                                errors[index] +
+                                "</div>";
+                            $("#text_message").append($error);
+                        }
+                        $("#message_modal").modal("show");
                     }
-                    $("#message_modal").modal("show");
-                }
-            })
-            .fail(function () {
-                // An error occurred
-                console.log(ummu);
-            });
+                })
+                .fail(function () {
+                    // An error occurred
+                    console.log(ummu);
+                });
 
             // console.log(JSON.parse(payload))
         },
@@ -1723,27 +1733,27 @@ var $ummu = {
             var ummu = $globalAjax.ummu(url, params);
 
             ummu
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $globFunc.ch_message(response.message);
-                    $table.bootstrapTable("removeByUniqueId", id);
-                } else {
-                    $("#modal_alert_input").html("");
-                    var errors = response.errors;
-                    $("#modal_alert_input").addClass("bg-danger");
-                    for (let index in errors) {
-                        $("#modal_alert_input").append("<li>" + errors[index] + "</li>");
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $globFunc.ch_message(response.message);
+                        $table.bootstrapTable("removeByUniqueId", id);
+                    } else {
+                        $("#modal_alert_input").html("");
+                        var errors = response.errors;
+                        $("#modal_alert_input").addClass("bg-danger");
+                        for (let index in errors) {
+                            $("#modal_alert_input").append("<li>" + errors[index] + "</li>");
+                        }
+                        $("#modal_alert_input").fadeIn().delay(3000).fadeOut();
                     }
-                    $("#modal_alert_input").fadeIn().delay(3000).fadeOut();
-                }
 
-                $("#modal_confirmation").modal("hide");
-            })
-            .fail(function () {
-                // An error occurred
-                console.log(ummu);
-            });
+                    $("#modal_confirmation").modal("hide");
+                })
+                .fail(function () {
+                    // An error occurred
+                    console.log(ummu);
+                });
         },
 
         multiple_delete() {
@@ -1766,30 +1776,30 @@ var $ummu = {
             var ummu = $globalAjax.ummu(url, params);
 
             ummu
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $globFunc.ch_message(response.message);
-                    $table.bootstrapTable("remove", {
-                        field: "id",
-                        values: $globFunc.getIdSelections(),
-                    });
-                    $remove.prop("disabled", true);
-                } else {
-                    $("#modal_alert_input").html("");
-                    var errors = response.errors;
-                    $("#modal_alert_input").addClass("bg-danger");
-                    for (let index in errors) {
-                        $("#modal_alert_input").append("<li>" + errors[index] + "</li>");
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $globFunc.ch_message(response.message);
+                        $table.bootstrapTable("remove", {
+                            field: "id",
+                            values: $globFunc.getIdSelections(),
+                        });
+                        $remove.prop("disabled", true);
+                    } else {
+                        $("#modal_alert_input").html("");
+                        var errors = response.errors;
+                        $("#modal_alert_input").addClass("bg-danger");
+                        for (let index in errors) {
+                            $("#modal_alert_input").append("<li>" + errors[index] + "</li>");
+                        }
+                        $("#modal_alert_input").fadeIn().delay(3000).fadeOut();
                     }
-                    $("#modal_alert_input").fadeIn().delay(3000).fadeOut();
-                }
-                $("#modal_confirmation_multiple_delete").modal("hide");
-            })
-            .fail(function () {
-                // An error occurred
-                console.log(ummu);
-            });
+                    $("#modal_confirmation_multiple_delete").modal("hide");
+                })
+                .fail(function () {
+                    // An error occurred
+                    console.log(ummu);
+                });
         },
 
         _import: function () {
@@ -1819,22 +1829,22 @@ var $ummu = {
             var url = $base_url + "/admin/ruangan/show_gedung";
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                // console.log(response.rows)
-                var params2 = {
-                    rows: response.rows,
-                    element_id: "gedung",
-                    kode: 1,
-                };
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    // console.log(response.rows)
+                    var params2 = {
+                        rows: response.rows,
+                        element_id: "gedung",
+                        kode: 1,
+                    };
 
-                // $globFunc.set_value_to_option(response.rows,'gedung',1)
-                // $globFunc.set_value_to_option3(params2)
-                app.Views.set_value_to_option_gedung(params2);
-            })
-            .fail(function () {
-                // An error occurred
-            });
+                    // $globFunc.set_value_to_option(response.rows,'gedung',1)
+                    // $globFunc.set_value_to_option3(params2)
+                    app.Views.set_value_to_option_gedung(params2);
+                })
+                .fail(function () {
+                    // An error occurred
+                });
         },
 
         show_roomcateg: function () {
@@ -1855,14 +1865,14 @@ var $ummu = {
             var url = $base_url + "/admin/ruangan/show_roomcateg";
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                // console.log(response.rows)
-                $globFunc.set_value_to_option(response.rows, "category", 0);
-            })
-            .fail(function () {
-                // An error occurred
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    // console.log(response.rows)
+                    $globFunc.set_value_to_option(response.rows, "category", 0);
+                })
+                .fail(function () {
+                    // An error occurred
+                });
         },
 
         show_site_project: function () {
@@ -1873,52 +1883,52 @@ var $ummu = {
                 if ($ummu.dt.init_sitePorject == null) {
                     $ummu.dt.init_sitePorject = new DataTable(
                         $listdata_tableID, {
-                            columns: [
-                                {
-                                    title: "Code",
-                                    data: "region_code",
-                                    render: function (data, type, row) {
-                                        return (
-                                            '<a href="javascript:void(0);"><div><span class="">' +
-                                            data +
-                                            '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                                            );
-                                    },
-                                },
-                                { title: "Name", data: "region_name" },
-                            ],
-                            data: JSON.parse(lcg).rows,
-                            layout: {
-                                topStart: {
-                                    buttons: [
-                                        {
-                                            extend: "pageLength",
-                                            className: "py-1 dt-btn-ummu",
-                                            attr: { id: "btn_page_length" },
-                                        },
-                                        {
-                                            text: '<i class="fas fa-sync-alt"></i>',
-                                            attr: { id: "btn_reload" },
-                                            className: "btn-showall-color py-1 dt-btn-ummu",
-                                            action: function (e, dt, node, config) {
-                                                // $ummu.dt.init_sitePorject.ajax.reload();
-
-                                                // /*Destroy and Re-create*/
-                                                $ummu.dt.init_sitePorject.destroy();
-                                                $ummu.dt.create_siteProject()
-                                            },
-                                        },
-                                    ],
+                        columns: [
+                            {
+                                title: "Code",
+                                data: "region_code",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
                                 },
                             },
-                        });
-                }else{
+                            { title: "Name", data: "region_name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // $ummu.dt.init_sitePorject.ajax.reload();
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.init_sitePorject.destroy();
+                                            $ummu.dt.create_siteProject()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
                     $ummu.dt.init_sitePorject.clear().rows.add(JSON.parse(lcg).rows).draw();
                 }
-            }else{
+            } else {
                 if ($ummu.dt.init_sitePorject == null) {
                     $ummu.dt.create_siteProject()
-                }else{
+                } else {
                     $ummu.dt.init_sitePorject.clear().rows.add(JSON.parse(lcg).rows).draw();
                 }
             }
@@ -1926,7 +1936,7 @@ var $ummu = {
             $ummu.dt.events.initSitePorject_onClick();
         },
 
-        reLoad_modules: function() {
+        reLoad_modules: function () {
             console.log('OK tinggal bikin php nya')
         },
 
@@ -1947,24 +1957,24 @@ var $ummu = {
 
                 var ali = $ummu.ajax.ummu9(params);
                 ali
-                .done(function (result) {
-                    // console.log(result)
-                    var hierarchy_modules = result.rows;
-                    localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
-                    
-                    if ($ummu.vars.login_module == "openapi2" || $ummu.vars.login_module == "iescm") {
-                        $ummu.sidebar.sbadmin2.renderSidebar();
-                    }
-                })
-                .fail(function () {
-                    // An error occurred
-                });
+                    .done(function (result) {
+                        // console.log(result)
+                        var hierarchy_modules = result.rows;
+                        localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
+
+                        if ($ummu.vars.login_module == "openapi2" || $ummu.vars.login_module == "iescm") {
+                            $ummu.sidebar.sbadmin2.renderSidebar();
+                        }
+                    })
+                    .fail(function () {
+                        // An error occurred
+                    });
             },
         },
     },
 
     auth: {
-        load: function() {
+        load: function () {
             $("#username").focus();
             $ummu.events.onClick.escmButton();
             if ($ummu.vars.login_module == "herp") {
@@ -1987,7 +1997,7 @@ var $ummu = {
                 $ummu.ajax.auth.phoneNumber_find();
             });
 
-             // * Login with password pada #form_login_password
+            // * Login with password pada #form_login_password
             $($ummu.$.form_login_password + "#btn_login_password").on("click", function () {
                 $ummu.ajax.auth.phoneNumber_login_password();
             });
@@ -2001,7 +2011,7 @@ var $ummu = {
                 } else {
                     $("#alert").html(
                         '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
-                        );
+                    );
                 }
             });
 
@@ -2016,7 +2026,7 @@ var $ummu = {
                 } else {
                     $ummu.$.auth_alert.html(
                         '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
-                        );
+                    );
                 }
             });
 
@@ -2029,7 +2039,7 @@ var $ummu = {
                 } else {
                     $("#alert").html(
                         '<div class="alert alert-danger">Mobile number cannot be empty!</div>'
-                        );
+                    );
                 }
             });
 
@@ -2046,7 +2056,7 @@ var $ummu = {
                     $($ummu.$.auth + "#div_input_password").removeClass("collapse");
                     $($ummu.$.auth + "#div_input_otp").addClass("collapse");
                     $($ummu.$.auth + "#password").focus();
-                }else{
+                } else {
                     $($ummu.$.auth + "#div_input_password").addClass("collapse");
                     $($ummu.$.auth + "#div_input_otp").removeClass("collapse");
                     $($ummu.$.auth + "#otp").focus();
@@ -2060,45 +2070,45 @@ var $ummu = {
         login: function (withMsdb = null) {
             $("#btn_login").on("click", function () {
                 var username = $("#username").val(),
-                password = $("#password").val(),
-                msdb = $("#msdb").val();
+                    password = $("#password").val(),
+                    msdb = $("#msdb").val();
 
                 if (withMsdb == "withMsdb") {
                     if (msdb == null) {
                         alert("Silahkan pilih company.");
                     } else {
                         var vars =
-                        "?username=" +
-                        username +
-                        "&password=" +
-                        password +
-                        "&msdb=" +
-                        msdb,
+                            "?username=" +
+                            username +
+                            "&password=" +
+                            password +
+                            "&msdb=" +
+                            msdb,
+                            body = {
+                                body: {
+                                    username: username,
+                                    password: password,
+                                    msdb: msdb,
+                                },
+                            },
+                            payload = {
+                                username: username,
+                                password: password,
+                                msdb: msdb,
+                            };
+                    }
+                } else {
+                    var vars = "?username=" + username + "&password=" + password,
                         body = {
                             body: {
                                 username: username,
                                 password: password,
-                                msdb: msdb,
                             },
                         },
                         payload = {
                             username: username,
                             password: password,
-                            msdb: msdb,
                         };
-                    }
-                } else {
-                    var vars = "?username=" + username + "&password=" + password,
-                    body = {
-                        body: {
-                            username: username,
-                            password: password,
-                        },
-                    },
-                    payload = {
-                        username: username,
-                        password: password,
-                    };
                 }
 
                 var url = $ummu.vars.base_url + "auth/login/create" + vars;
@@ -2115,7 +2125,7 @@ var $ummu = {
                 console.log(params);
 
                 var ummu = $ummu.ajax.auth.login(params);
-                ummu.done(function(result) {
+                ummu.done(function (result) {
                     console.log(result)
                     var response = result;
                     if (response.status == true) {
@@ -2125,7 +2135,7 @@ var $ummu = {
                         //     $('#username_change, #username_change2').val($('#username').val());
                         //     $('#alert').html('');
                         window.location.replace($ummu.vars.base_url + 'admin');
-                    }else{
+                    } else {
                         //     $('#alert').html('<div class="alert alert-danger">'+response.errors+'</div>');
                         //     if (response.errors == 'You have already created an otp before.') {
                         //         $('#username_area, #btn_next').addClass('collapse');
@@ -2133,12 +2143,12 @@ var $ummu = {
                         //         $('#username_change, #username_change2').val($('#username').val());
                         //     }
                     }
-                    
+
                     // $('#btn_next').removeClass('disabled');
-                    setTimeout( function() {
+                    setTimeout(function () {
                         $('#modal_loader').modal('hide');
-                    }, 1000 );
-                }).fail(function() {
+                    }, 1000);
+                }).fail(function () {
                     // An error occurred
                     console.log(ummu)
                 });
@@ -2148,30 +2158,30 @@ var $ummu = {
         login_with_msdb: function () {
             $("#btn_login").on("click", function () {
                 var username = $("#username").val(),
-                password = $("#password").val(),
-                msdb = $("#msdb").val(),
-                toMcp = $("#login_to_mcp").is(":checked");
+                    password = $("#password").val(),
+                    msdb = $("#msdb").val(),
+                    toMcp = $("#login_to_mcp").is(":checked");
 
                 if (msdb == null) {
                     alert("Silahkan pilih company.");
                 } else {
-                    var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
-                    body = {
-                        body: {
+                    var vars = "?username=" + username + "&password=" + password + "&msdb=" + msdb + "&tomcp=" + toMcp + "&login_module=" + $ummu.vars.login_module,
+                        body = {
+                            body: {
+                                username: username,
+                                password: password,
+                                msdb: msdb,
+                                toMcp: toMcp,
+                                login_module: $ummu.vars.login_module
+                            },
+                        },
+                        payload = {
                             username: username,
                             password: password,
                             msdb: msdb,
                             toMcp: toMcp,
                             login_module: $ummu.vars.login_module
-                        },
-                    },
-                    payload = {
-                        username: username,
-                        password: password,
-                        msdb: msdb,
-                        toMcp: toMcp,
-                        login_module: $ummu.vars.login_module
-                    };
+                        };
 
                     var url = $ummu.vars.base_url + "auth/login/create" + vars;
                     var params = {
@@ -2188,31 +2198,31 @@ var $ummu = {
 
                     var ummu = $ummu.ajax.auth.login(params);
                     ummu
-                    .done(function (result) {
-                        // console.log(result)
-                        var response = result;
-                        if (response.status == true) {
-                            $("#alert").html(
-                                '<div class="alert alert-success">' +
-                                response.message +
-                                "</div>"
+                        .done(function (result) {
+                            // console.log(result)
+                            var response = result;
+                            if (response.status == true) {
+                                $("#alert").html(
+                                    '<div class="alert alert-success">' +
+                                    response.message +
+                                    "</div>"
                                 );
-                            window.location.replace($ummu.vars.base_url + "admin");
-                        } else {
-                            $("#alert").html(
-                                '<div class="alert alert-danger">' +
-                                response.message +
-                                "</div>"
+                                window.location.replace($ummu.vars.base_url + "admin");
+                            } else {
+                                $("#alert").html(
+                                    '<div class="alert alert-danger">' +
+                                    response.message +
+                                    "</div>"
                                 );
-                        }
-                        setTimeout(function () {
-                            $("#modal_loader").modal("hide");
-                        }, 1000);
-                    })
-                    .fail(function () {
-                        // An error occurred
-                        console.log(ummu);
-                    });
+                            }
+                            setTimeout(function () {
+                                $("#modal_loader").modal("hide");
+                            }, 1000);
+                        })
+                        .fail(function () {
+                            // An error occurred
+                            console.log(ummu);
+                        });
                 }
             });
         },
@@ -2220,86 +2230,14 @@ var $ummu = {
         login_herp: function () {
             // $("#btn_login").on("click", function () {
             var username = $("#username").val(),
-            password = $("#password").val(),
-            msdb = $("#msdb").val(),
-            toMcp = $("#login_to_mcp").is(":checked");
-
-            if (msdb == null) {
-                alert("Silahkan pilih company.");
-            } else {
-                var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
-                body = {
-                    body: {
-                        username: username,
-                        password: password,
-                        msdb: msdb,
-                        toMcp: toMcp,
-                        login_module: $ummu.vars.login_module
-                    },
-                },
-                payload = {
-                    username: username,
-                    password: password,
-                    msdb: msdb,
-                    toMcp: toMcp,
-                    login_module: $ummu.vars.login_module
-                };
-
-                var url = $ummu.vars.base_url + "auth/login_herp/create" + vars;
-                var params = {
-                    url: url,
-                    type: "post",
-                    action: "create",
-                    data: null,
-                    cache: true,
-                    contentType: "application/json",
-                    dataType: "json",
-                };
-
-                // console.log(params);
-
-                var ummu = $ummu.ajax.auth.login(params);
-                ummu
-                .done(function (result) {
-                    // console.log(result)
-                    var response = result;
-                    if (response.status == true) {
-                        $("#alert").html(
-                            '<div class="alert alert-success">' +
-                            response.message +
-                            "</div>"
-                            );
-                        window.location.replace($ummu.vars.base_url + "admin");
-                    } else {
-                        $("#alert").html(
-                            '<div class="alert alert-danger">' +
-                            response.message +
-                            "</div>"
-                            );
-                    }
-                    setTimeout(function () {
-                        $("#modal_loader").modal("hide");
-                    }, 1000);
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
-            }
-            // });
-        },
-
-        login_iescm_oa2: function () {
-            $("#btn_login").on("click", function () {
-                var username = $("#username").val(),
                 password = $("#password").val(),
                 msdb = $("#msdb").val(),
                 toMcp = $("#login_to_mcp").is(":checked");
 
-                if (msdb == null) {
-                    alert("Silahkan pilih company.");
-                } else {
-                    var vars ="?username=" +username +"&password=" +password +"&msdb=" +msdb +"&tomcp=" +toMcp +"&login_module=" +$ummu.vars.login_module,
+            if (msdb == null) {
+                alert("Silahkan pilih company.");
+            } else {
+                var vars = "?username=" + username + "&password=" + password + "&msdb=" + msdb + "&tomcp=" + toMcp + "&login_module=" + $ummu.vars.login_module,
                     body = {
                         body: {
                             username: username,
@@ -2317,6 +2255,78 @@ var $ummu = {
                         login_module: $ummu.vars.login_module
                     };
 
+                var url = $ummu.vars.base_url + "auth/login_herp/create" + vars;
+                var params = {
+                    url: url,
+                    type: "post",
+                    action: "create",
+                    data: null,
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+
+                // console.log(params);
+
+                var ummu = $ummu.ajax.auth.login(params);
+                ummu
+                    .done(function (result) {
+                        // console.log(result)
+                        var response = result;
+                        if (response.status == true) {
+                            $("#alert").html(
+                                '<div class="alert alert-success">' +
+                                response.message +
+                                "</div>"
+                            );
+                            window.location.replace($ummu.vars.base_url + "admin");
+                        } else {
+                            $("#alert").html(
+                                '<div class="alert alert-danger">' +
+                                response.message +
+                                "</div>"
+                            );
+                        }
+                        setTimeout(function () {
+                            $("#modal_loader").modal("hide");
+                        }, 1000);
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
+            }
+            // });
+        },
+
+        login_iescm_oa2: function () {
+            $("#btn_login").on("click", function () {
+                var username = $("#username").val(),
+                    password = $("#password").val(),
+                    msdb = $("#msdb").val(),
+                    toMcp = $("#login_to_mcp").is(":checked");
+
+                if (msdb == null) {
+                    alert("Silahkan pilih company.");
+                } else {
+                    var vars = "?username=" + username + "&password=" + password + "&msdb=" + msdb + "&tomcp=" + toMcp + "&login_module=" + $ummu.vars.login_module,
+                        body = {
+                            body: {
+                                username: username,
+                                password: password,
+                                msdb: msdb,
+                                toMcp: toMcp,
+                                login_module: $ummu.vars.login_module
+                            },
+                        },
+                        payload = {
+                            username: username,
+                            password: password,
+                            msdb: msdb,
+                            toMcp: toMcp,
+                            login_module: $ummu.vars.login_module
+                        };
+
                     var url = $ummu.vars.base_url + "auth/login_oa2/create_oa2" + vars;
                     var params = {
                         url: url,
@@ -2332,31 +2342,31 @@ var $ummu = {
 
                     var ummu = $ummu.ajax.auth.login(params);
                     ummu
-                    .done(function (result) {
-                    // console.log(result)
-                        var response = result;
-                        if (response.status == true) {
-                            $("#alert").html(
-                                '<div class="alert alert-success">' +
-                                response.message +
-                                "</div>"
+                        .done(function (result) {
+                            // console.log(result)
+                            var response = result;
+                            if (response.status == true) {
+                                $("#alert").html(
+                                    '<div class="alert alert-success">' +
+                                    response.message +
+                                    "</div>"
                                 );
-                            window.location.replace($ummu.vars.base_url + "admin");
-                        } else {
-                            $("#alert").html(
-                                '<div class="alert alert-danger">' +
-                                response.message +
-                                "</div>"
+                                window.location.replace($ummu.vars.base_url + "admin");
+                            } else {
+                                $("#alert").html(
+                                    '<div class="alert alert-danger">' +
+                                    response.message +
+                                    "</div>"
                                 );
-                        }
-                        setTimeout(function () {
-                            $("#modal_loader").modal("hide");
-                        }, 1000);
-                    })
-                    .fail(function () {
-                        // An error occurred
-                        console.log(ummu);
-                    });
+                            }
+                            setTimeout(function () {
+                                $("#modal_loader").modal("hide");
+                            }, 1000);
+                        })
+                        .fail(function () {
+                            // An error occurred
+                            console.log(ummu);
+                        });
                 }
             });
         },
@@ -2364,20 +2374,20 @@ var $ummu = {
         login_without_msdb: function () {
             $("#btn_login").on("click", function () {
                 var username = $("#username").val(),
-                password = $("#password").val(),
-                vars ="?username=" +username +"&password=" +password +"&login_module=" +$ummu.vars.login_module,
-                body = {
-                    body: {
+                    password = $("#password").val(),
+                    vars = "?username=" + username + "&password=" + password + "&login_module=" + $ummu.vars.login_module,
+                    body = {
+                        body: {
+                            username: username,
+                            password: password,
+                            login_module: $ummu.vars.login_module
+                        },
+                    },
+                    payload = {
                         username: username,
                         password: password,
                         login_module: $ummu.vars.login_module
-                    },
-                },
-                payload = {
-                    username: username,
-                    password: password,
-                    login_module: $ummu.vars.login_module
-                };
+                    };
 
                 var url = $ummu.vars.base_url + "auth/login/create_without_msdb" + vars;
                 var params = {
@@ -2394,42 +2404,42 @@ var $ummu = {
 
                 var ummu = $ummu.ajax.auth.login(params);
                 ummu
-                .done(function (result) {
-                    // console.log(result)
-                    var response = result;
-                    if (response.status == true) {
-                        $("#alert").html('<div class="alert alert-success">' +response.message +"</div>");
-                        window.location.replace($ummu.vars.base_url + "admin");
-                    } else {
-                        $("#alert").html('<div class="alert alert-danger">' +response.message +"</div>");
-                    }
-                    setTimeout(function () {
-                        $("#modal_loader").modal("hide");
-                    }, 1000);
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        // console.log(result)
+                        var response = result;
+                        if (response.status == true) {
+                            $("#alert").html('<div class="alert alert-success">' + response.message + "</div>");
+                            window.location.replace($ummu.vars.base_url + "admin");
+                        } else {
+                            $("#alert").html('<div class="alert alert-danger">' + response.message + "</div>");
+                        }
+                        setTimeout(function () {
+                            $("#modal_loader").modal("hide");
+                        }, 1000);
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
             });
         },
 
         login_mcp: function () {
             var username = $("#username").val(),
-            password = $("#password").val(),
-            vars ="?username=" +username +"&password=" +password +"&login_module=" +$ummu.vars.login_module,
-            body = {
-                body: {
+                password = $("#password").val(),
+                vars = "?username=" + username + "&password=" + password + "&login_module=" + $ummu.vars.login_module,
+                body = {
+                    body: {
+                        username: username,
+                        password: password,
+                        login_module: $ummu.vars.login_module
+                    },
+                },
+                payload = {
                     username: username,
                     password: password,
                     login_module: $ummu.vars.login_module
-                },
-            },
-            payload = {
-                username: username,
-                password: password,
-                login_module: $ummu.vars.login_module
-            };
+                };
 
             var url = $ummu.vars.base_url + "auth/login/create_without_msdb" + vars;
             var params = {
@@ -2446,42 +2456,42 @@ var $ummu = {
 
             var ummu = $ummu.ajax.auth.login(params);
             ummu
-            .done(function (result) {
-                // console.log(result)
-                var response = result;
-                if (response.status == true) {
-                    $("#alert").html('<div class="alert alert-success">' +response.message +"</div>");
-                    window.location.replace($ummu.vars.base_url + "admin");
-                } else {
-                    $("#alert").html('<div class="alert alert-danger">' +response.message +"</div>");
-                }
-                setTimeout(function () {
-                    $("#modal_loader").modal("hide");
-                }, 1000);
-            })
-            .fail(function () {
-                // An error occurred
-                console.log(ummu);
-            });
+                .done(function (result) {
+                    // console.log(result)
+                    var response = result;
+                    if (response.status == true) {
+                        $("#alert").html('<div class="alert alert-success">' + response.message + "</div>");
+                        window.location.replace($ummu.vars.base_url + "admin");
+                    } else {
+                        $("#alert").html('<div class="alert alert-danger">' + response.message + "</div>");
+                    }
+                    setTimeout(function () {
+                        $("#modal_loader").modal("hide");
+                    }, 1000);
+                })
+                .fail(function () {
+                    // An error occurred
+                    console.log(ummu);
+                });
         },
 
         login_iescm: function () {
             $("#btn_login").on("click", function () {
                 var username = $("#username").val(),
-                password = $("#password").val(),
-                vars ="?username=" +username +"&password=" +password +"&login_module=" +$ummu.vars.login_module,
-                body = {
-                    body: {
+                    password = $("#password").val(),
+                    vars = "?username=" + username + "&password=" + password + "&login_module=" + $ummu.vars.login_module,
+                    body = {
+                        body: {
+                            username: username,
+                            password: password,
+                            login_module: $ummu.vars.login_module
+                        },
+                    },
+                    payload = {
                         username: username,
                         password: password,
                         login_module: $ummu.vars.login_module
-                    },
-                },
-                payload = {
-                    username: username,
-                    password: password,
-                    login_module: $ummu.vars.login_module
-                };
+                    };
 
                 var url = $ummu.vars.base_url + "auth/login/create_without_msdb" + vars;
                 var params = {
@@ -2595,7 +2605,7 @@ var $ummu = {
                 return jqXHR;
             },
 
-            phoneNumber_find: function() {
+            phoneNumber_find: function () {
                 $ummu.$.auth_alert.html("");
 
                 var payload = JSON.stringify({
@@ -2620,32 +2630,32 @@ var $ummu = {
 
                     var ummu = $ummu.ajax.ummu3(params);
                     ummu
-                    .done(function (result) {
-                        $ummu.vars.response = result;
-                        var response = result;
+                        .done(function (result) {
+                            $ummu.vars.response = result;
+                            var response = result;
 
-                        if (response.status == true) {
-                            $ummu.$.auth_alert.html('<div class="alert alert-success">' + response.messages + "</div>");
+                            if (response.status == true) {
+                                $ummu.$.auth_alert.html('<div class="alert alert-success">' + response.messages + "</div>");
 
-                            window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                        } else {
-                            $ummu.$.auth_alert.html(
-                                '<div class="alert alert-danger">' + response.messages + "</div>"
+                                window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                            } else {
+                                $ummu.$.auth_alert.html(
+                                    '<div class="alert alert-danger">' + response.messages + "</div>"
                                 );
-                            $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                            $("#loader_next_step").addClass("collapse");
-                            $("#btn_next_step").removeClass("disabled").prop('disabled', false);
-                        }
-                    })
-                    .fail(function () {
-                        console.log(ummu);
-                    });
+                                $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                                $("#loader_next_step").addClass("collapse");
+                                $("#btn_next_step").removeClass("disabled").prop('disabled', false);
+                            }
+                        })
+                        .fail(function () {
+                            console.log(ummu);
+                        });
                 } else {
                     $ummu.$.auth_alert.html('<div class="alert alert-danger">The Phone Number field is required.</div>');
                 }
             },
 
-            phoneNumber_login_password: function(params) {
+            phoneNumber_login_password: function (params) {
                 $ummu.$.auth_alert.html('');
 
                 var payload = JSON.stringify({
@@ -2672,48 +2682,48 @@ var $ummu = {
 
                     var ummu = $ummu.ajax.ummu3(params);
                     ummu
-                    .done(function (result) {
-                        var response = result;
-                        // console.log(result)
-                        // $ummu.vars.response = result;
+                        .done(function (result) {
+                            var response = result;
+                            // console.log(result)
+                            // $ummu.vars.response = result;
 
-                        if (response.status == true) {
-                            var hierarchy_modules = response.data.hierarchy_modules;
-                            // console.log(hierarchy_modules)
-                            localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
-                        //     $ummu.$.auth_alert.html(
-                        //         '<div class="alert alert-success">' + response.messages + "</div>"
-                        //         );
+                            if (response.status == true) {
+                                var hierarchy_modules = response.data.hierarchy_modules;
+                                // console.log(hierarchy_modules)
+                                localStorage.setItem('ummu_sidebar_menu', JSON.stringify(hierarchy_modules))
+                                //     $ummu.$.auth_alert.html(
+                                //         '<div class="alert alert-success">' + response.messages + "</div>"
+                                //         );
 
-                        //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                            window.location.replace($ummu.$.base_url + 'admin');
-                        } else {
-                            if (response.messages == "Validation errors!") {
-                                $ummu.$.auth_alert.html('<div class="alert alert-danger">' + JSON.stringify(response.errors) + "</div>");
-                            }else{
-                                $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
+                                //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                                window.location.replace($ummu.$.base_url + 'admin');
+                            } else {
+                                if (response.messages == "Validation errors!") {
+                                    $ummu.$.auth_alert.html('<div class="alert alert-danger">' + JSON.stringify(response.errors) + "</div>");
+                                } else {
+                                    $ummu.$.auth_alert.html('<div class="alert alert-danger">' + response.messages + "</div>");
+                                }
+
+                                $($ummu.$.form_login_password + "#btn_login_password").removeClass("disabled");
+                                $($ummu.$.form_login_password + "#password").prop("disabled", false);
+                                $($ummu.$.form_login_password + "#loader_login").addClass("collapse");
+                                $($ummu.$.form_get_otp + "button").prop("disabled", false);
+
+                                // window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
+                                // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                                // $("#loader_next_step").addClass("collapse");
+                                // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
                             }
-
-                            $($ummu.$.form_login_password + "#btn_login_password").removeClass("disabled");
-                            $($ummu.$.form_login_password + "#password").prop("disabled", false);
-                            $($ummu.$.form_login_password + "#loader_login").addClass("collapse");
-                            $($ummu.$.form_get_otp + "button").prop("disabled", false);
-
-                            // window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $($ummu.$.form_login_password + "#phone_number").val();
-                            // $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                            // $("#loader_next_step").addClass("collapse");
-                            // $("#btn_next_step").removeClass("disabled").prop('disabled', false);
-                        }
-                    })
-                    .fail(function () {
-                        console.log(ummu);
-                    });
-                }else{
+                        })
+                        .fail(function () {
+                            console.log(ummu);
+                        });
+                } else {
                     $ummu.$.auth_alert.html('<div class="alert alert-danger">The password field is required.</div>');
                 }
             },
 
-            phoneNumber_login_otp: function(params) {
+            phoneNumber_login_otp: function (params) {
                 // 
             },
 
@@ -2735,29 +2745,29 @@ var $ummu = {
 
                 var ummu = $ummu.ajax.ummu3(params);
                 ummu
-                .done(function (result) {
-                    $ummu.vars.response = result;
-                    var response = result;
+                    .done(function (result) {
+                        $ummu.vars.response = result;
+                        var response = result;
 
-                    if (response.status == true) {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-success">' + response.messages + "</div>"
+                        if (response.status == true) {
+                            $ummu.$.auth_alert.html(
+                                '<div class="alert alert-success">' + response.messages + "</div>"
                             );
 
-                        window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                    } else {
-                        $ummu.$.auth_alert.html(
-                            '<div class="alert alert-danger">' + response.messages + "</div>"
+                            window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
+                        } else {
+                            $ummu.$.auth_alert.html(
+                                '<div class="alert alert-danger">' + response.messages + "</div>"
                             );
-                        $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
-                        $("#loader_next_step").addClass("collapse");
-                        $("#btn_next_step").removeClass("disabled").prop('disabled', false);
-                    }
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
+                            $ummu.$.auth_phoneNumber.removeClass('disabled').prop('disabled', false);
+                            $("#loader_next_step").addClass("collapse");
+                            $("#btn_next_step").removeClass("disabled").prop('disabled', false);
+                        }
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
             },
 
             get_otp_email: function () {
@@ -2778,54 +2788,54 @@ var $ummu = {
 
                 var ummu = $ummu.ajax.ummu3(params);
                 ummu
-                .done(function (result) {
-                    // var response = result;
-                    // if (response.status == true) {
-                    //   $ummu.$.auth_alert.html(
-                    //     '<div class="alert alert-success">' + response.messages + "</div>"
-                    //   );
+                    .done(function (result) {
+                        // var response = result;
+                        // if (response.status == true) {
+                        //   $ummu.$.auth_alert.html(
+                        //     '<div class="alert alert-success">' + response.messages + "</div>"
+                        //   );
 
-                    //   // $("#ummu_auth #page_login_with_phone_number #form_get_otp").addClass("collapse");
-                    //   // $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email").removeClass("disabled");
-                    //   // $("#ummu_auth #page_login_with_phone_number #form_cek_phone").removeClass("collapse");
-                    //   // // $("#ummu_auth #page_login_with_phone_number #form_login_with_phone").removeClass("collapse");
-                    //   // window.location.href = $ummu.$.base_url + 'auth/phone_number/login_otp?phone_number=' + phone_number.val();
-                    // } else {
-                    //   // if (
-                    //   //   response.errors == "You have already created an otp before by Email."
-                    //   // ) {
-                    //   // $("#form_get_otp").addClass("collapse");
-                    //   // $("#div_input_password").addClass("collapse");
-                    //   // $("#div_input_otp").removeClass("collapse");
-                    //   // $("#ummu_auth #page_login_with_phone_number #form_cek_phone").addClass("collapse");
-                    //   // $("#ummu_auth #page_login_with_phone_number #form_login_with_phone").removeClass("collapse");
-                    //   // }
-                    //   // app.views.cek_phone();
+                        //   // $("#ummu_auth #page_login_with_phone_number #form_get_otp").addClass("collapse");
+                        //   // $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email").removeClass("disabled");
+                        //   // $("#ummu_auth #page_login_with_phone_number #form_cek_phone").removeClass("collapse");
+                        //   // // $("#ummu_auth #page_login_with_phone_number #form_login_with_phone").removeClass("collapse");
+                        //   // window.location.href = $ummu.$.base_url + 'auth/phone_number/login_otp?phone_number=' + phone_number.val();
+                        // } else {
+                        //   // if (
+                        //   //   response.errors == "You have already created an otp before by Email."
+                        //   // ) {
+                        //   // $("#form_get_otp").addClass("collapse");
+                        //   // $("#div_input_password").addClass("collapse");
+                        //   // $("#div_input_otp").removeClass("collapse");
+                        //   // $("#ummu_auth #page_login_with_phone_number #form_cek_phone").addClass("collapse");
+                        //   // $("#ummu_auth #page_login_with_phone_number #form_login_with_phone").removeClass("collapse");
+                        //   // }
+                        //   // app.views.cek_phone();
 
-                    //   $ummu.$.auth_alert.html(
-                    //     '<div class="alert alert-danger">' +
-                    //       response.messages +
-                    //       "<br>" +
-                    //       JSON.stringify(response.errors) +
-                    //       "</div>"
-                    //   );
-                    //   // $("#loader_next_step").addClass("collapse");
-                    //   // $("#btn_next_step").removeClass("disabled");
+                        //   $ummu.$.auth_alert.html(
+                        //     '<div class="alert alert-danger">' +
+                        //       response.messages +
+                        //       "<br>" +
+                        //       JSON.stringify(response.errors) +
+                        //       "</div>"
+                        //   );
+                        //   // $("#loader_next_step").addClass("collapse");
+                        //   // $("#btn_next_step").removeClass("disabled");
 
-                    //   $("#ummu_auth #page_login_with_phone_number #div_btn_login").removeClass("disabled");
-                    //   $("#ummu_auth #page_login_with_phone_number #loader_login").addClass("collapse");
-                    // }
+                        //   $("#ummu_auth #page_login_with_phone_number #div_btn_login").removeClass("disabled");
+                        //   $("#ummu_auth #page_login_with_phone_number #loader_login").addClass("collapse");
+                        // }
 
-                    window.location.href = $ummu.$.base_url + 'auth/phone_number/create_otpSuccess?n=' + $ummu.$.auth_phoneNumber.val();
+                        window.location.href = $ummu.$.base_url + 'auth/phone_number/create_otpSuccess?n=' + $ummu.$.auth_phoneNumber.val();
 
-                    // $("#ummu_auth #page_login_with_phone_number #otp").focus();
-                    // $("#ummu_auth #page_login_with_phone_number #form_get_otp button").removeClass("disabled").prop("disabled", false);
-                    // $("#ummu_auth #page_login_with_phone_number #form_get_otp .loader-btn-next").addClass("collapse");
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
+                        // $("#ummu_auth #page_login_with_phone_number #otp").focus();
+                        // $("#ummu_auth #page_login_with_phone_number #form_get_otp button").removeClass("disabled").prop("disabled", false);
+                        // $("#ummu_auth #page_login_with_phone_number #form_get_otp .loader-btn-next").addClass("collapse");
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
             },
 
             get_otp_sms: function () {
@@ -2851,45 +2861,45 @@ var $ummu = {
 
                 var ummu = $ummu.ajax.ummu3(params);
                 ummu
-                .done(function (result) {
-                    // console.log(result)
-                    // var response = JSON.parse(result);
-                    var response = result;
-                    if (response.status == true) {
-                        $("#alert").html(
-                            '<div class="alert alert-success">' + response.messages + "</div>"
+                    .done(function (result) {
+                        // console.log(result)
+                        // var response = JSON.parse(result);
+                        var response = result;
+                        if (response.status == true) {
+                            $("#alert").html(
+                                '<div class="alert alert-success">' + response.messages + "</div>"
                             );
-                        $("#form_get_otp").addClass("collapse");
-                        $("#btn_get_otp_sms").removeClass("disabled");
-                        $("#form_cek_phone").addClass("collapse");
-                        $("#form_login_with_phone").removeClass("collapse");
-                    } else {
-                    // if (
-                    //   response.errors == "You have already created an otp before by Email."
-                    // ) {
-                        $("#form_get_otp").addClass("collapse");
-                        $("#form_cek_phone").addClass("collapse");
-                        $("#form_login_with_phone").removeClass("collapse");
-                    // }
-                    // app.views.cek_phone();
+                            $("#form_get_otp").addClass("collapse");
+                            $("#btn_get_otp_sms").removeClass("disabled");
+                            $("#form_cek_phone").addClass("collapse");
+                            $("#form_login_with_phone").removeClass("collapse");
+                        } else {
+                            // if (
+                            //   response.errors == "You have already created an otp before by Email."
+                            // ) {
+                            $("#form_get_otp").addClass("collapse");
+                            $("#form_cek_phone").addClass("collapse");
+                            $("#form_login_with_phone").removeClass("collapse");
+                            // }
+                            // app.views.cek_phone();
 
-                        $("#alert").html(
-                            '<div class="alert alert-danger">' +
-                            response.messages +
-                            "<br>" +
-                            JSON.stringify(response.errors) +
-                            "</div>"
+                            $("#alert").html(
+                                '<div class="alert alert-danger">' +
+                                response.messages +
+                                "<br>" +
+                                JSON.stringify(response.errors) +
+                                "</div>"
                             );
-                        // $("#loader_next_step").addClass("collapse");
-                        // $("#btn_next_step").removeClass("disabled");
-                    }
+                            // $("#loader_next_step").addClass("collapse");
+                            // $("#btn_next_step").removeClass("disabled");
+                        }
 
-                    $("#otp").focus();
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
+                        $("#otp").focus();
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
             },
 
             get_otp_wa: function () {
@@ -2915,41 +2925,41 @@ var $ummu = {
 
                 var ummu = $ummu.ajax.ummu3(params);
                 ummu
-                .done(function (result) {
-                    // console.log(result)
-                    // var response = JSON.parse(result);
-                    var response = result;
-                    if (response.status == true) {
-                        $("#alert").html(
-                            '<div class="alert alert-success">' + response.messages + "</div>"
+                    .done(function (result) {
+                        // console.log(result)
+                        // var response = JSON.parse(result);
+                        var response = result;
+                        if (response.status == true) {
+                            $("#alert").html(
+                                '<div class="alert alert-success">' + response.messages + "</div>"
                             );
-                        $("#loader_next_step").addClass("collapse");
-                        $("#btn_get_otp_wa").removeClass("disabled");
-                        $("#form_cek_phone").addClass("collapse");
-                        $("#form_login_with_phone").removeClass("collapse");
-                    } else {
-                        if (response.status == false) {
+                            $("#loader_next_step").addClass("collapse");
+                            $("#btn_get_otp_wa").removeClass("disabled");
                             $("#form_cek_phone").addClass("collapse");
                             $("#form_login_with_phone").removeClass("collapse");
+                        } else {
+                            if (response.status == false) {
+                                $("#form_cek_phone").addClass("collapse");
+                                $("#form_login_with_phone").removeClass("collapse");
+                            }
+
+                            $("#alert").html(
+                                '<div class="alert alert-danger">' +
+                                response.messages +
+                                "<br>" +
+                                JSON.stringify(response.errors) +
+                                "</div>"
+                            );
+                            // $("#loader_next_step").addClass("collapse");
+                            // $("#btn_next_step").removeClass("disabled");
                         }
 
-                        $("#alert").html(
-                            '<div class="alert alert-danger">' +
-                            response.messages +
-                            "<br>" +
-                            JSON.stringify(response.errors) +
-                            "</div>"
-                            );
-                        // $("#loader_next_step").addClass("collapse");
-                        // $("#btn_next_step").removeClass("disabled");
-                    }
-
-                    $("#otp").focus();
-                })
-                .fail(function () {
-                    // An error occurred
-                    console.log(ummu);
-                });
+                        $("#otp").focus();
+                    })
+                    .fail(function () {
+                        // An error occurred
+                        console.log(ummu);
+                    });
             },
         },
 
@@ -3045,7 +3055,7 @@ var $ummu = {
                     }
                     $(
                         "#response_message, #response_message_modal, #response_message_modal_modal"
-                        ).removeClass("text-success msg_animation");
+                    ).removeClass("text-success msg_animation");
                 },
                 complete: function () {
                     if (payload.action == "delete") {
@@ -3200,7 +3210,7 @@ var $ummu = {
                     }
                     $(
                         "#response_message, #response_message_modal, #response_message_modal_modal"
-                        ).removeClass("text-success msg_animation");
+                    ).removeClass("text-success msg_animation");
                 },
                 complete: function () {
                     if (params.action == "delete") {
@@ -3712,18 +3722,18 @@ var $ummu = {
 
             var jqXHR = $.ajax({
                 url:
-                $base_url +
-                url +
-                "/findAll?limit=" +
-                data.limit +
-                "&offset=" +
-                data.offset +
-                "&sort=" +
-                sort +
-                "&order=" +
-                order +
-                "&search=" +
-                data.search,
+                    $base_url +
+                    url +
+                    "/findAll?limit=" +
+                    data.limit +
+                    "&offset=" +
+                    data.offset +
+                    "&sort=" +
+                    sort +
+                    "&order=" +
+                    order +
+                    "&search=" +
+                    data.search,
                 method: "GET",
                 timeout: 0,
             });
@@ -3829,12 +3839,12 @@ var $ummu = {
 
             var ummu = $ummu.ajax.ummay(url, params);
             ummu
-            .done(function (result) {
-                var response = JSON.parse(result);
-            })
-            .fail(function () {
-                console.log(ummu);
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                })
+                .fail(function () {
+                    console.log(ummu);
+                });
         },
 
         wilayahIndonesia: {
@@ -3842,123 +3852,123 @@ var $ummu = {
                 $.ajax({
                     type: "GET",
                     url:
-                    $base_url +
-                    "admin/referensi/wilayah_indonesia/regencies/" +
-                    provincie_id,
+                        $base_url +
+                        "admin/referensi/wilayah_indonesia/regencies/" +
+                        provincie_id,
                     dataType: "JSON",
                     contentType: false,
                     processData: false,
                 })
-                .done(function (result) {
-                    var data = result;
-                    console.log(data);
-                    for (let index in data) {
-                        if (data[index].id == auto_slected) {
-                            var selected_auto = "selected";
-                        } else {
-                            var selected_auto = "";
-                        }
-                        $("#regencies").append(
-                            "<option value='" +
-                            data[index].id +
-                            "'" +
-                            selected_auto +
-                            " >" +
-                            data[index].name +
-                            "</option>"
+                    .done(function (result) {
+                        var data = result;
+                        console.log(data);
+                        for (let index in data) {
+                            if (data[index].id == auto_slected) {
+                                var selected_auto = "selected";
+                            } else {
+                                var selected_auto = "";
+                            }
+                            $("#regencies").append(
+                                "<option value='" +
+                                data[index].id +
+                                "'" +
+                                selected_auto +
+                                " >" +
+                                data[index].name +
+                                "</option>"
                             );
-                    }
-                    $("#regencies").attr("disabled", false);
+                        }
+                        $("#regencies").attr("disabled", false);
 
-                    $("#regencies").select2({
-                        dropdownParent: $("#InsertModal"),
-                        theme: "bootstrap4",
+                        $("#regencies").select2({
+                            dropdownParent: $("#InsertModal"),
+                            theme: "bootstrap4",
+                        });
+                    })
+                    .fail(function () {
                     });
-                })
-                .fail(function () {
-                });
             },
 
             getDistricts: function (regencie_id, auto_slected) {
                 $.ajax({
                     type: "GET",
                     url:
-                    $base_url +
-                    "admin/referensi/wilayah_indonesia/districts/" +
-                    regencie_id,
+                        $base_url +
+                        "admin/referensi/wilayah_indonesia/districts/" +
+                        regencie_id,
                     dataType: "JSON",
                     contentType: false,
                     processData: false,
                 })
-                .done(function (result) {
-                    var data = result;
-                    console.log(data);
-                    for (let index in data) {
-                        if (data[index].id == auto_slected) {
-                            var selected_auto = "selected";
-                        } else {
-                            var selected_auto = "";
-                        }
-                        $("#districts").append(
-                            "<option value='" +
-                            data[index].id +
-                            "'" +
-                            selected_auto +
-                            ">" +
-                            data[index].name +
-                            "</option>"
+                    .done(function (result) {
+                        var data = result;
+                        console.log(data);
+                        for (let index in data) {
+                            if (data[index].id == auto_slected) {
+                                var selected_auto = "selected";
+                            } else {
+                                var selected_auto = "";
+                            }
+                            $("#districts").append(
+                                "<option value='" +
+                                data[index].id +
+                                "'" +
+                                selected_auto +
+                                ">" +
+                                data[index].name +
+                                "</option>"
                             );
-                    }
-                    $("#districts").attr("disabled", false);
+                        }
+                        $("#districts").attr("disabled", false);
 
-                    $("#districts").select2({
-                        dropdownParent: $("#InsertModal"),
-                        theme: "bootstrap4",
+                        $("#districts").select2({
+                            dropdownParent: $("#InsertModal"),
+                            theme: "bootstrap4",
+                        });
+                    })
+                    .fail(function () {
                     });
-                })
-                .fail(function () {
-                });
             },
 
             getVillages: function (district_id, auto_slected) {
                 $.ajax({
                     type: "GET",
                     url:
-                    $base_url +
-                    "admin/referensi/wilayah_indonesia/villages/" +
-                    district_id,
+                        $base_url +
+                        "admin/referensi/wilayah_indonesia/villages/" +
+                        district_id,
                     dataType: "JSON",
                     contentType: false,
                     processData: false,
                 })
-                .done(function (result) {
-                    var data = result;
-                    console.log(data);
-                    for (let index in data) {
-                        if (data[index].id == auto_slected) {
-                            var selected_auto = "selected";
-                        } else {
-                            var selected_auto = "";
-                        }
-                        $("#villages").append(
-                            "<option value='" +
-                            data[index].id +
-                            "'" +
-                            selected_auto +
-                            ">" +
-                            data[index].name +
-                            "</option>"
+                    .done(function (result) {
+                        var data = result;
+                        console.log(data);
+                        for (let index in data) {
+                            if (data[index].id == auto_slected) {
+                                var selected_auto = "selected";
+                            } else {
+                                var selected_auto = "";
+                            }
+                            $("#villages").append(
+                                "<option value='" +
+                                data[index].id +
+                                "'" +
+                                selected_auto +
+                                ">" +
+                                data[index].name +
+                                "</option>"
                             );
-                    }
-                    $("#villages").attr("disabled", false);
+                        }
+                        $("#villages").attr("disabled", false);
 
-                    $("#villages").select2({
-                        dropdownParent: $("#InsertModal"),
-                        theme: "bootstrap4",
+                        $("#villages").select2({
+                            dropdownParent: $("#InsertModal"),
+                            theme: "bootstrap4",
+                        });
+                    })
+                    .fail(function () {
                     });
-                })
-                .fail(function () {
-                });
             },
         },
 
@@ -4040,8 +4050,8 @@ var $ummu = {
             var jqXHR = $.ajax({
                 type: "GET",
                 url:
-                $base_url +
-                "admin/prodi/findAll?limit=10&offset=0&sort=id&order=desc&search=",
+                    $base_url +
+                    "admin/prodi/findAll?limit=10&offset=0&sort=id&order=desc&search=",
                 dataType: "JSON",
                 contentType: false,
                 processData: false,
@@ -4115,7 +4125,7 @@ var $ummu = {
             return $.ajax(settings);
         },
 
-        show_data_empty: function() {
+        show_data_empty: function () {
             return {
                 "status": true,
                 "message": "Get data success.",
@@ -4194,13 +4204,13 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_release_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                    $ummu.views.hazard_report.layout();
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                        $ummu.views.hazard_report.layout();
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
 
             approve: function () {
@@ -4238,14 +4248,14 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_approve_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                    $ummu.views.hazard_report.layout();
-                    $("#modal_form").modal("hide");
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                        $ummu.views.hazard_report.layout();
+                        $("#modal_form").modal("hide");
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
 
             reject: function () {
@@ -4307,14 +4317,14 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_reject_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                    $ummu.views.hazard_report.layout();
-                    $("#modal_form").modal("hide");
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                        $ummu.views.hazard_report.layout();
+                        $("#modal_form").modal("hide");
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
 
             reject_one: function () {
@@ -4342,13 +4352,13 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_reject_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                    $ummu.views.hazard_report.layout();
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                        $ummu.views.hazard_report.layout();
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
 
             reject_do: function () {
@@ -4393,13 +4403,13 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_reject_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                    $ummu.views.hazard_report.layout();
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                        $ummu.views.hazard_report.layout();
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
         },
 
@@ -4433,12 +4443,12 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_approve_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
             reject: function () {
                 var rows = $ummu.vars.rows;
@@ -4467,46 +4477,46 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu3(params);
                 $("#modal_reject_confirm").modal("hide");
                 ummu
-                .done(function (result) {
-                    table.rows(".selected").remove().draw();
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        table.rows(".selected").remove().draw();
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             },
         },
     },
 
     google: {
         chart: {
-            init: function(drawVisualization) {
+            init: function (drawVisualization) {
                 google.charts.load('current', {
                     'packages': ['corechart']
                 });
                 google.charts.setOnLoadCallback(drawVisualization);
             },
 
-            drawCombo: function(data, options, element_id) {
+            drawCombo: function (data, options, element_id) {
                 const chart = new google.visualization.ComboChart(document.getElementById(element_id));
                 chart.draw(data, options);
             },
 
-            drawBar: function(data, options, element_id) {
+            drawBar: function (data, options, element_id) {
                 const chart = new google.visualization.BarChart(document.getElementById(element_id));
                 chart.draw(data, options);
             },
 
-            drawColumn: function(data, options, element_id) {
+            drawColumn: function (data, options, element_id) {
                 var chart = new google.charts.Bar(document.getElementById(element_id));
                 chart.draw(data, google.charts.Bar.convertOptions(options));
             },
 
-            drawLine: function(data, options, element_id) {
+            drawLine: function (data, options, element_id) {
                 const chart = new google.visualization.LineChart(document.getElementById(element_id));
                 chart.draw(data, options);
             },
 
-            drawPie: function(data, options, element_id) {
+            drawPie: function (data, options, element_id) {
                 const chart = new google.visualization.PieChart(document.getElementById(element_id));
                 chart.draw(data, options);
             },
@@ -4514,23 +4524,23 @@ var $ummu = {
     },
 
     func: {
-        isNull: function($element_id) {
+        isNull: function ($element_id) {
             if ($element_id.val() == "" || $element_id.val() == null || $element_id == 'undefined') {
                 return true
-            }else{
+            } else {
                 return false
             }
         },
 
-        copyText:function(element_id) {
+        copyText: function (element_id) {
             var copyText = document.getElementById(element_id);
 
             copyText.select();
-            copyText.setSelectionRange(0, 99999); 
+            copyText.setSelectionRange(0, 99999);
 
             navigator.clipboard.writeText(copyText.value);
 
-            $("#"+element_id+"_alert_copy").html("Text has been copied.");
+            $("#" + element_id + "_alert_copy").html("Text has been copied.");
         },
 
         ch_message: function (message) {
@@ -4541,16 +4551,16 @@ var $ummu = {
         ch_message_modal: function (message) {
             const text = '<i class="fas fa-info-circle"></i> ' + message + " . . .";
             $("#response_message_modal")
-            .html(text)
-            .addClass("text-success msg_animation");
+                .html(text)
+                .addClass("text-success msg_animation");
         },
 
         ch_message_modal_modal: function (message) {
             const text = '<i class="fas fa-info-circle"></i> ' + message + " . . .";
             $("#response_message_modal_modal")
-            .removeClass()
-            .html(text)
-            .addClass("text-success msg_animation");
+                .removeClass()
+                .html(text)
+                .addClass("text-success msg_animation");
         },
 
         countDate: function (datetime1, datetime2) {
@@ -4577,12 +4587,12 @@ var $ummu = {
             var jam = inJam - inHari * 24;
 
             var response =
-            inHari +
-            " <span class='text-muted'>days</span>, " +
-            jam +
-            " <span class='text-muted'>hours</span>, " +
-            menit +
-            " <span class='text-muted'>minutes</span>";
+                inHari +
+                " <span class='text-muted'>days</span>, " +
+                jam +
+                " <span class='text-muted'>hours</span>, " +
+                menit +
+                " <span class='text-muted'>minutes</span>";
 
             return response;
         },
@@ -4672,7 +4682,7 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 if (kode == 1) {
                     var text = rows[index].kode + " - " + rows[index].name;
@@ -4681,7 +4691,7 @@ var $ummu = {
                 }
                 $("#" + element_id).append(
                     "<option value='" + rows[index].id + "'>" + text + "</option>"
-                    );
+                );
             }
         },
 
@@ -4689,7 +4699,7 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 if (kode == 1) {
                     var text = rows[index].kode + " | " + rows[index].name;
@@ -4698,7 +4708,7 @@ var $ummu = {
                 }
                 $("#" + element_id).append(
                     "<option value='" + rows[index].id + "'>" + text + "</option>"
-                    );
+                );
             }
         },
 
@@ -4710,7 +4720,7 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 if (kode == 1) {
                     var text = rows[index].kode + " - " + rows[index].name;
@@ -4719,7 +4729,7 @@ var $ummu = {
                 }
                 $("#" + element_id).append(
                     "<option value='" + rows[index].id + "'>" + text + "</option>"
-                    );
+                );
             }
         },
 
@@ -4728,9 +4738,9 @@ var $ummu = {
                 return "";
             } else {
                 var d = new Date(data),
-                month = "" + (d.getMonth() + 1),
-                day = "" + d.getDate(),
-                year = d.getFullYear();
+                    month = "" + (d.getMonth() + 1),
+                    day = "" + d.getDate(),
+                    year = d.getFullYear();
 
                 if (month.length < 2) month = "0" + month;
                 if (day.length < 2) day = "0" + day;
@@ -4741,8 +4751,8 @@ var $ummu = {
 
         img_ratio: function (element_id) {
             var aspectRatio =
-            $("#" + element_id + " img").width() /
-            $("#" + element_id + " img").height();
+                $("#" + element_id + " img").width() /
+                $("#" + element_id + " img").height();
 
             if (aspectRatio > 1) {
                 $("#" + element_id).addClass("circular--landscape");
@@ -4776,8 +4786,8 @@ var $ummu = {
                 $(".tab-content .tab-pane").removeClass("active").removeClass("show");
 
                 $(".tab-content " + urlhash)
-                .addClass("active")
-                .addClass("show");
+                    .addClass("active")
+                    .addClass("show");
             }
         },
 
@@ -4834,13 +4844,13 @@ var $ummu = {
                 var url = $base_url + "/admin/dashboard/approval_sum";
                 var ali = $ummu.ajax.ummay(url, params);
                 ali
-                .done(function (result) {
-                    var response = JSON.parse(result);
-                    $ummu.localStorage.approval.sum.create(response);
-                    $ummu.localStorage.approval.sum.show();
-                })
-                .fail(function () {
-                });
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        $ummu.localStorage.approval.sum.create(response);
+                        $ummu.localStorage.approval.sum.show();
+                    })
+                    .fail(function () {
+                    });
             },
         },
 
@@ -4869,11 +4879,11 @@ var $ummu = {
             return arrayqu;
         },
 
-        formatNumber: function(n) {
+        formatNumber: function (n) {
             return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
 
-        formatCurrency: function(input, blur) {
+        formatCurrency: function (input, blur) {
             var input_val = input.val();
             if (input_val === "") { return; }
             var original_len = input_val.length;
@@ -4901,23 +4911,23 @@ var $ummu = {
             input[0].setSelectionRange(caret_pos, caret_pos);
         },
 
-        parseInt: function(a) {
+        parseInt: function (a) {
             const b = parseInt(a)
             if (b === NaN) {
                 var c = 0;
-            }else{
+            } else {
                 var c = a;
             }
 
             return c;
         },
 
-        table2excel: function(table_id, name) {
-            if(typeof jQuery.fn.table2excel !== "undefined") {
-                $("#"+table_id).table2excel({
-                    name:"Sheet1",
+        table2excel: function (table_id, name) {
+            if (typeof jQuery.fn.table2excel !== "undefined") {
+                $("#" + table_id).table2excel({
+                    name: "Sheet1",
                     filename: name,
-                    fileext:".xls",
+                    fileext: ".xls",
                     exclude_img: true,
                     exclude_links: true,
                     exclude_inputs: true,
@@ -4978,7 +4988,7 @@ var $ummu = {
                         }
                     }
 
-                    if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow ) {
+                    if (date_start > $ummu.vars.date_start && date_start < $ummu.vars.dNow) {
                         var minTimeStart = "00:00";
                         var maxTimeStart = "23:59";
                         var minDateEnd = date_start;
@@ -5023,7 +5033,7 @@ var $ummu = {
                             '<div class="alert alert-danger" role="alert">' +
                             "Isi TimeStart terlebih dahulu" +
                             "</div>"
-                            );
+                        );
                         $(this).val("____-__-__");
                     }
 
@@ -5031,27 +5041,27 @@ var $ummu = {
                         date_end == date_start ||
                         date_end == $ummu.vars.date_end ||
                         date_end == $ummu.vars.dNow
-                        ) {
+                    ) {
                         var min_time = time_start;
-                } else {
-                    var min_time = $ummu.vars.min_time;
-                }
-
-                if (date_end == $ummu.vars.dNow || date_end == $ummu.vars.date_end) {
-                    var max_time = $ummu.vars.tNow;
-                } else {
-                    if ($ummu.vars.time_end) {
-                        var max_time = $ummu.vars.time_end;
                     } else {
-                        var max_time = "23:59";
+                        var min_time = $ummu.vars.min_time;
                     }
-                }
 
-                $("#time_end").datetimepicker({
-                    minTime: min_time,
-                    maxTime: max_time,
+                    if (date_end == $ummu.vars.dNow || date_end == $ummu.vars.date_end) {
+                        var max_time = $ummu.vars.tNow;
+                    } else {
+                        if ($ummu.vars.time_end) {
+                            var max_time = $ummu.vars.time_end;
+                        } else {
+                            var max_time = "23:59";
+                        }
+                    }
+
+                    $("#time_end").datetimepicker({
+                        minTime: min_time,
+                        maxTime: max_time,
+                    });
                 });
-            });
             },
 
             timeEnd: function () {
@@ -5078,7 +5088,7 @@ var $ummu = {
         },
 
         goods_evaluation: {
-            close_status: function() {
+            close_status: function () {
                 $("input[type=radio][name=status]").change(function () {
                     $ummu.views.goods_evaluation.close_status(this.id)
                 });
@@ -5086,25 +5096,25 @@ var $ummu = {
         },
 
         surat_tugas: {
-            jenis_perjalanan: function() {
+            jenis_perjalanan: function () {
                 $("input[type=radio][name=jenis_perjalanan]").change(function () {
                     console.log('radio name=jenis_perjalanan');
-                    if(typeof app.controllers.jenis_perjalanan !== "undefined") {
+                    if (typeof app.controllers.jenis_perjalanan !== "undefined") {
                         console.log('function app.controllers.jenis_perjalanan is OK.');
                         app.controllers.jenis_perjalanan(this.id);
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.jenis_perjalanan.');
                     }
                 });
             },
 
-            tujuan_category: function() {
+            tujuan_category: function () {
                 $("input[type=radio][name=tujuan_category]").change(function () {
                     console.log('radio name=tujuan_category');
-                    if(typeof app.controllers.tujuan_category !== "undefined") {
+                    if (typeof app.controllers.tujuan_category !== "undefined") {
                         console.log('function app.controllers.tujuan_category is OK.');
                         app.controllers.tujuan_category(this.id);
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.tujuan_category.');
                     }
                 });
@@ -5112,12 +5122,12 @@ var $ummu = {
         },
 
         url_parameter: {
-            add: function(newParam, newValue) {
+            add: function (newParam, newValue) {
                 $ummu.vars.url.searchParams.delete(newParam);
                 $ummu.vars.url.searchParams.append(newParam, newValue);
                 window.history.pushState({}, '', $ummu.vars.url);
             },
-            remove: function(paramToRemove) {
+            remove: function (paramToRemove) {
                 $ummu.vars.url.searchParams.delete(paramToRemove);
                 window.history.pushState({}, '', $ummu.vars.url);
             }
@@ -5189,68 +5199,68 @@ var $ummu = {
             var url = $base_url + "/admin/" + page;
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $("#album_gallery").empty();
+                    for (let index in data) {
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
+                        if (filename == "") {
+                            var $filename = "no_image.jpg";
+                        } else {
+                            var $filename = filename;
+                        }
+
+                        if (description == "" || description == null) {
+                            var description_ = filename;
+                        } else {
+                            var description_ = description;
+                        }
+
+                        var $element =
+                            '<div class="cont-checkbox">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            $filename +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            $base_url +
+                            "uploads/" +
+                            $filename +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
+                        $("#album_gallery").append($element);
                     }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    $filename +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    $filename +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                }
-                $(".pilih-berkas").click(function () {
-                    var $data_name = $(this).data("name");
-                    $ummu.upload.input_id.val($data_name);
-                    $("#modal_gallery").modal("hide");
-                    $ummu.upload.image_id.attr(
-                        "src",
-                        $base_url + "uploads/" + $data_name
+                    $(".pilih-berkas").click(function () {
+                        var $data_name = $(this).data("name");
+                        $ummu.upload.input_id.val($data_name);
+                        $("#modal_gallery").modal("hide");
+                        $ummu.upload.image_id.attr(
+                            "src",
+                            $base_url + "uploads/" + $data_name
                         );
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
 
         show_gallery2: function () {
@@ -5273,68 +5283,68 @@ var $ummu = {
             var url = $base_url + "/admin/" + page;
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $("#album_gallery").empty();
+                    for (let index in data) {
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
+                        if (filename == "") {
+                            var $filename = "no_image.jpg";
+                        } else {
+                            var $filename = filename;
+                        }
+
+                        if (description == "" || description == null) {
+                            var description_ = filename;
+                        } else {
+                            var description_ = description;
+                        }
+
+                        var $element =
+                            '<div class="cont-checkbox">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            $filename +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            $base_url +
+                            "uploads/" +
+                            $filename +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
+                        $("#album_gallery").append($element);
                     }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    $filename +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    $filename +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                }
-                $(".pilih-berkas").click(function () {
-                    var $data_name = $(this).data("name");
-                    $ummu.upload.input_id.val($data_name);
-                    $("#modal_gallery").modal("hide");
-                    $ummu.upload.image_id.attr(
-                        "src",
-                        $base_url + "uploads/" + $data_name
+                    $(".pilih-berkas").click(function () {
+                        var $data_name = $(this).data("name");
+                        $ummu.upload.input_id.val($data_name);
+                        $("#modal_gallery").modal("hide");
+                        $ummu.upload.image_id.attr(
+                            "src",
+                            $base_url + "uploads/" + $data_name
                         );
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
 
         upload_file_gallery: function () {
@@ -5358,27 +5368,27 @@ var $ummu = {
                     $("#modal_loader_submit_file").hide();
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    var payload = JSON.stringify({
-                        body: {
-                            filename: response.name,
-                            description: $("#file_description").val(),
-                        },
-                    });
-                    $ummu.upload.insert_file_gallery(payload);
-                } else {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html(response.errors.file_upload)
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                }
-            })
-            .fail(function () {
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        var payload = JSON.stringify({
+                            body: {
+                                filename: response.name,
+                                description: $("#file_description").val(),
+                            },
+                        });
+                        $ummu.upload.insert_file_gallery(payload);
+                    } else {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html(response.errors.file_upload)
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                    }
+                })
+                .fail(function () {
+                });
         },
 
         insert_file_gallery: function (payload) {
@@ -5403,28 +5413,28 @@ var $ummu = {
                     alert(xhr.responseText);
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html("Upload sukses")
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                    $ummu.upload.show_gallery();
-                    $("#upload_img_thumbnail").attr(
-                        "src",
-                        $base_url + "uploads/no_image.jpg"
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html("Upload sukses")
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                        $ummu.upload.show_gallery();
+                        $("#upload_img_thumbnail").attr(
+                            "src",
+                            $base_url + "uploads/no_image.jpg"
                         );
-                    $("#file_upload, #file_description").val("");
-                } else {
-                }
-                $globFunc.ch_message_modal_modal(response.message);
-            })
-            .fail(function () {
-                console.log(create);
-            });
+                        $("#file_upload, #file_description").val("");
+                    } else {
+                    }
+                    $globFunc.ch_message_modal_modal(response.message);
+                })
+                .fail(function () {
+                    console.log(create);
+                });
         },
 
         hapus_file_gallery: function (id) {
@@ -5447,15 +5457,15 @@ var $ummu = {
                     alert(xhr.responseText);
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                console.log(response.status);
-                if (response.status == true) {
-                    $ummu.upload.show_gallery();
-                }
-            })
-            .fail(function () {
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    console.log(response.status);
+                    if (response.status == true) {
+                        $ummu.upload.show_gallery();
+                    }
+                })
+                .fail(function () {
+                });
         },
 
         file: function () {
@@ -5555,69 +5565,69 @@ var $ummu = {
             var url = $base_url + "/admin/" + page;
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $("#album_gallery").empty();
+                    for (let index in data) {
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
+                        if (filename == "") {
+                            var $filename = "no_image.jpg";
+                        } else {
+                            var $filename = filename;
+                        }
+
+                        if (description == "" || description == null) {
+                            var description_ = filename;
+                        } else {
+                            var description_ = description;
+                        }
+
+                        var $element =
+                            '<div class="cont-checkbox">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            $filename +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            $base_url +
+                            "uploads/" +
+                            $filename +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
+                        $("#album_gallery").append($element);
                     }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    $filename +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    $filename +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                }
-                $(".pilih-berkas").click(function () {
-                    var $data_name = $(this).data("name");
-                    $ummu.gallery.input_id.val($data_name);
-                    $("#modal_gallery").modal("hide");
-                    $ummu.gallery.image_id.attr(
-                        "src",
-                        $base_url + "uploads/" + $data_name
+                    $(".pilih-berkas").click(function () {
+                        var $data_name = $(this).data("name");
+                        $ummu.gallery.input_id.val($data_name);
+                        $("#modal_gallery").modal("hide");
+                        $ummu.gallery.image_id.attr(
+                            "src",
+                            $base_url + "uploads/" + $data_name
                         );
+                    });
+                    $("#modal_loader_gallery").hide();
+                })
+                .fail(function () {
                 });
-                $("#modal_loader_gallery").hide();
-            })
-            .fail(function () {
-            });
         },
 
         show2: function () {
@@ -5640,69 +5650,69 @@ var $ummu = {
             var url = $base_url + "/admin/" + page;
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $("#album_gallery").empty();
+                    for (let index in data) {
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
 
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
+                        if (filename == "") {
+                            var $filename = "no_image.jpg";
+                        } else {
+                            var $filename = filename;
+                        }
+
+                        if (description == "" || description == null) {
+                            var description_ = filename;
+                        } else {
+                            var description_ = description;
+                        }
+
+                        var $element =
+                            '<div class="cont-checkbox">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            $filename +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            $base_url +
+                            "uploads/" +
+                            $filename +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
+                        $("#album_gallery").append($element);
+                        $("#modal_loader_gallery").hide();
                     }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    $filename +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    $filename +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                    $("#modal_loader_gallery").hide();
-                }
-                $(".pilih-berkas").click(function () {
-                    var $data_name = $(this).data("name");
-                    $ummu.gallery.input_id.val($data_name);
-                    $("#modal_gallery").modal("hide");
-                    $ummu.gallery.image_id.attr(
-                        "src",
-                        $base_url + "uploads/" + $data_name
+                    $(".pilih-berkas").click(function () {
+                        var $data_name = $(this).data("name");
+                        $ummu.gallery.input_id.val($data_name);
+                        $("#modal_gallery").modal("hide");
+                        $ummu.gallery.image_id.attr(
+                            "src",
+                            $base_url + "uploads/" + $data_name
                         );
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
 
         gallery_file_gallery: function () {
@@ -5726,27 +5736,27 @@ var $ummu = {
                     $("#modal_loader_submit_file").hide();
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    var payload = JSON.stringify({
-                        body: {
-                            filename: response.name,
-                            description: $("#file_description").val(),
-                        },
-                    });
-                    $ummu.gallery.insert_file_gallery(payload);
-                } else {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html(response.errors.file_gallery)
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                }
-            })
-            .fail(function () {
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        var payload = JSON.stringify({
+                            body: {
+                                filename: response.name,
+                                description: $("#file_description").val(),
+                            },
+                        });
+                        $ummu.gallery.insert_file_gallery(payload);
+                    } else {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html(response.errors.file_gallery)
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                    }
+                })
+                .fail(function () {
+                });
         },
 
         insert_file_gallery: function (payload) {
@@ -5771,28 +5781,28 @@ var $ummu = {
                     alert(xhr.responseText);
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html("gallery sukses")
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                    $ummu.gallery.show();
-                    $("#gallery_img_thumbnail").attr(
-                        "src",
-                        $base_url + "gallerys/no_image.jpg"
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html("gallery sukses")
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                        $ummu.gallery.show();
+                        $("#gallery_img_thumbnail").attr(
+                            "src",
+                            $base_url + "gallerys/no_image.jpg"
                         );
-                    $("#file_gallery, #file_description").val("");
-                } else {
-                }
-                $globFunc.ch_message_modal_modal(response.message);
-            })
-            .fail(function () {
-                console.log(create);
-            });
+                        $("#file_gallery, #file_description").val("");
+                    } else {
+                    }
+                    $globFunc.ch_message_modal_modal(response.message);
+                })
+                .fail(function () {
+                    console.log(create);
+                });
         },
 
         hapus_file_gallery: function (id) {
@@ -5815,15 +5825,15 @@ var $ummu = {
                     alert(xhr.responseText);
                 },
             })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                console.log(response.status);
-                if (response.status == true) {
-                    $ummu.gallery.show();
-                }
-            })
-            .fail(function () {
-            });
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    console.log(response.status);
+                    if (response.status == true) {
+                        $ummu.gallery.show();
+                    }
+                })
+                .fail(function () {
+                });
         },
     },
 
@@ -5864,7 +5874,7 @@ var $ummu = {
                 }
             });
 
-            $(".dorbitt_checkbox_image_gallery").on("click", function() {
+            $(".dorbitt_checkbox_image_gallery").on("click", function () {
                 var id = $(this).attr("id");
                 var filename = $(this).data("name");
                 var path = $(this).data("path");
@@ -5893,9 +5903,9 @@ var $ummu = {
 
                     $("#" + $ummu.mygallery.element_inputid).val(filenames);
                     $("#" + $ummu.mygallery.element_inputid).attr("data-id", ids);
-                    $("#" + $ummu.mygallery.element_imageid).attr("src", paths);          
+                    $("#" + $ummu.mygallery.element_imageid).attr("src", paths);
                     $("#modal_mygallery").modal("hide");
-                }else{
+                } else {
                     alert('Please select one or more.');
                 }
             });
@@ -5920,362 +5930,6 @@ var $ummu = {
             var url = $base_url + "/mygallery/show";
             var ali = $globalAjax.ummay(url, params);
             ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
-                    var path = data[index].path;
-                    var file_url = data[index].file_url;
-
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
-                    }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox mr-2z">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    filename +
-                    '" data-path="' +
-                    file_url +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    file_url +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                }
-                $("#modal_loader_gallery").hide();
-            })
-            .fail(function () {
-            });
-        },
-
-        show2: function () {
-            var page = "gallery/show";
-            var params = {
-                type: "get",
-                action: "get",
-                data: {
-                    limit: 0,
-                    offset: 0,
-                    sort: "id",
-                    order: "desc",
-                    search: "",
-                    created_by: true,
-                },
-                cache: true,
-                contentType: "application/json",
-                dataType: "json",
-            };
-            var url = $base_url + "/admin/" + page;
-            var ali = $globalAjax.ummay(url, params);
-            ali
-            .done(function (result) {
-                var response = JSON.parse(result);
-                $globFunc.ch_message_modal_modal(response.message);
-                var data = response.rows;
-                $("#album_gallery").empty();
-                for (let index in data) {
-                    var $id = data[index].id;
-                    var id = data[index].id;
-                    var filename = data[index].filename;
-                    var description = data[index].description;
-
-                    if (filename == "") {
-                        var $filename = "no_image.jpg";
-                    } else {
-                        var $filename = filename;
-                    }
-
-                    if (description == "" || description == null) {
-                        var description_ = filename;
-                    } else {
-                        var description_ = description;
-                    }
-
-                    var $element =
-                    '<div class="cont-checkbox">' +
-                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                    id +
-                    '" data-name="' +
-                    $filename +
-                    '" />' +
-                    '<label for="' +
-                    id +
-                    '" class="lbl_gallery">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    $filename +
-                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                    '<span class="cover-checkbox">' +
-                    '<svg viewBox="0 0 12 10">' +
-                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                    "</svg>" +
-                    "</span>" +
-                    '<div class="info">' +
-                    description_ +
-                    "</div>" +
-                    "</label>" +
-                    "</div>";
-                    $("#album_gallery").append($element);
-                    $("#modal_loader_gallery").hide();
-                }
-                $(".pilih-berkas").click(function () {
-                    var $data_name = $(this).data("name");
-                    $ummu.gallery.input_id.val($data_name);
-                    $("#modal_gallery").modal("hide");
-                    $ummu.gallery.image_id.attr(
-                        "src",
-                        $base_url + "uploads/" + $data_name
-                        );
-                });
-            })
-            .fail(function () {
-            });
-        },
-
-        gallery_file_gallery: function () {
-            var formData = new FormData();
-            formData.append("file_gallery", $("#file_gallery")[0].files[0]);
-            $.ajax({
-                url: $base_url + "admin/gallery/do_gallery",
-                method: "POST",
-                timeout: 0,
-                processData: false,
-                mimeType: "multipart/form-data",
-                contentType: false,
-                data: formData,
-                beforeSend: function (e) {
-                    $("#modal_loader_submit_file").show();
-                    if (e && e.overrideMimeType) {
-                        e.overrideMimeType("application/jsoncharset=UTF-8");
-                    }
-                },
-                complete: function () {
-                    $("#modal_loader_submit_file").hide();
-                },
-            })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    var payload = JSON.stringify({
-                        body: {
-                            filename: response.name,
-                            description: $("#file_description").val(),
-                        },
-                    });
-                    $ummu.gallery.insert_file_gallery(payload);
-                } else {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html(response.errors.file_gallery)
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                }
-            })
-            .fail(function () {
-            });
-        },
-
-        insert_file_gallery: function (payload) {
-            $.ajax({
-                url: $base_url + "admin/gallery/create",
-                method: "POST",
-                timeout: 0,
-                processData: false,
-                mimeType: "multipart/form-data",
-                contentType: false,
-                data: payload,
-                beforeSend: function (e) {
-                    $("#modal_loader_submit_file").show();
-                    if (e && e.overrideMimeType) {
-                        e.overrideMimeType("application/jsoncharset=UTF-8");
-                    }
-                },
-                complete: function () {
-                    $("#modal_loader_submit_file").hide();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.responseText);
-                },
-            })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                if (response.status == true) {
-                    $("#modal_alert_submit_file").addClass("bg-success");
-                    $("#modal_alert_submit_file")
-                    .html("gallery sukses")
-                    .fadeIn()
-                    .delay(10000)
-                    .fadeOut();
-                    $ummu.gallery.show();
-                    $("#gallery_img_thumbnail").attr(
-                        "src",
-                        $base_url + "gallerys/no_image.jpg"
-                        );
-                    $("#file_gallery, #file_description").val("");
-                } else {
-                }
-                $globFunc.ch_message_modal_modal(response.message);
-            })
-            .fail(function () {
-                console.log(create);
-            });
-        },
-
-        hapus_file_gallery: function (id) {
-            $.ajax({
-                url: $base_url + "admin/gallery/delete/" + id,
-                method: "DELETE",
-                timeout: 0,
-                beforeSend: function (e) {
-                    $("#modal_loader_gallery").show();
-                    if (e && e.overrideMimeType) {
-                        e.overrideMimeType("application/jsoncharset=UTF-8");
-                    }
-                },
-                complete: function () {
-                    $("#modal_loader_gallery").hide();
-                },
-                success: function (response) {
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.responseText);
-                },
-            })
-            .done(function (result) {
-                var response = JSON.parse(result);
-                console.log(response.status);
-                if (response.status == true) {
-                    $ummu.gallery.show();
-                }
-            })
-            .fail(function () {
-            });
-        },
-
-        photos: {
-            show: function () {
-                var params = {
-                    type: "get",
-                    action: "get",
-                    data: {
-                        limit: 0,
-                        offset: 0,
-                        sort: "id",
-                        order: "desc",
-                        search: "",
-                        created_by: true,
-                    },
-                    cache: true,
-                    contentType: "application/json",
-                    dataType: "json",
-                };
-                var url = $base_url + "/mygallery/photos/show";
-                var ali = $ummu.ajax.ummay(url, params);
-                ali
-                .done(function (result) {
-                    var response = JSON.parse(result);
-                    $globFunc.ch_message_modal_modal(response.message);
-                    var data = response.rows;
-                    $("#album_gallery").empty();
-                    for (let index in data) {
-                        var $id = data[index].id;
-                        var id = data[index].id;
-                        var filename = data[index].filename;
-                        var description = data[index].description;
-                        var path = data[index].path;
-                        var file_url = data[index].file_url;
-
-                        if (filename == "") {
-                            var $filename = "no_image.jpg";
-                        } else {
-                            var $filename = filename;
-                        }
-
-                        if (description == "" || description == null) {
-                            var description_ = filename;
-                        } else {
-                            var description_ = description;
-                        }
-
-                        var html =
-                        '<div class="col-md-2" id="mygallery_frame' +
-                        id +
-                        '">' +
-                        '<div class="card mb-4 shadow-sm">' +
-                        '<img src="' +
-                        file_url +
-                        '" class="img-thumbnail" alt="...">' +
-                        '<div class="card-body">' +
-                        '<div class="d-flex justify-content-between align-items-center">' +
-                        '<div class="btn-group">' +
-                        '<button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>' +
-                        '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.mygallery.photos.delete(' +
-                        id +
-                        ');"><i class="fas fa-trash-alt"></i></button>' +
-                        "</div>" +
-                        '<small class="text-muted">9 mins</small>' +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>";
-                        $("#mygallery_album_photos").append(html);
-                    }
-                })
-                .fail(function () {
-                });
-            },
-
-            show_for_modal: function () {
-                var params = {
-                    type: "get",
-                    action: "get",
-                    data: {
-                        limit: 0,
-                        offset: 0,
-                        sort: "id",
-                        order: "desc",
-                        search: "",
-                        created_by: true,
-                    },
-                    cache: true,
-                    contentType: "application/json",
-                    dataType: "json",
-                };
-                var url = $base_url + "/mygallery/photos/show";
-                var ali = $globalAjax.ummay(url, params);
-                ali
                 .done(function (result) {
                     var response = JSON.parse(result);
                     $globFunc.ch_message_modal_modal(response.message);
@@ -6302,36 +5956,392 @@ var $ummu = {
                         }
 
                         var $element =
-                        '<div class="cont-checkbox p-2">' +
-                        '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                        id +
-                        '" data-name="' +
-                        filename +
-                        '" data-path="' +
-                        file_url +
-                        '" />' +
-                        '<label for="' +
-                        id +
-                        '" class="lbl_gallery">' +
-                        '<img src="' +
-                        file_url +
-                        '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                        '<span class="cover-checkbox">' +
-                        '<svg viewBox="0 0 12 10">' +
-                        '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                        "</svg>" +
-                        "</span>" +
-                        '<div class="info">' +
-                        description_ +
-                        "</div>" +
-                        "</label>" +
-                        "</div>";
+                            '<div class="cont-checkbox mr-2z">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            filename +
+                            '" data-path="' +
+                            file_url +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            file_url +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
                         $("#album_gallery").append($element);
                     }
                     $("#modal_loader_gallery").hide();
                 })
                 .fail(function () {
                 });
+        },
+
+        show2: function () {
+            var page = "gallery/show";
+            var params = {
+                type: "get",
+                action: "get",
+                data: {
+                    limit: 0,
+                    offset: 0,
+                    sort: "id",
+                    order: "desc",
+                    search: "",
+                    created_by: true,
+                },
+                cache: true,
+                contentType: "application/json",
+                dataType: "json",
+            };
+            var url = $base_url + "/admin/" + page;
+            var ali = $globalAjax.ummay(url, params);
+            ali
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    $globFunc.ch_message_modal_modal(response.message);
+                    var data = response.rows;
+                    $("#album_gallery").empty();
+                    for (let index in data) {
+                        var $id = data[index].id;
+                        var id = data[index].id;
+                        var filename = data[index].filename;
+                        var description = data[index].description;
+
+                        if (filename == "") {
+                            var $filename = "no_image.jpg";
+                        } else {
+                            var $filename = filename;
+                        }
+
+                        if (description == "" || description == null) {
+                            var description_ = filename;
+                        } else {
+                            var description_ = description;
+                        }
+
+                        var $element =
+                            '<div class="cont-checkbox">' +
+                            '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                            id +
+                            '" data-name="' +
+                            $filename +
+                            '" />' +
+                            '<label for="' +
+                            id +
+                            '" class="lbl_gallery">' +
+                            '<img src="' +
+                            $base_url +
+                            "uploads/" +
+                            $filename +
+                            '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                            '<span class="cover-checkbox">' +
+                            '<svg viewBox="0 0 12 10">' +
+                            '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                            "</svg>" +
+                            "</span>" +
+                            '<div class="info">' +
+                            description_ +
+                            "</div>" +
+                            "</label>" +
+                            "</div>";
+                        $("#album_gallery").append($element);
+                        $("#modal_loader_gallery").hide();
+                    }
+                    $(".pilih-berkas").click(function () {
+                        var $data_name = $(this).data("name");
+                        $ummu.gallery.input_id.val($data_name);
+                        $("#modal_gallery").modal("hide");
+                        $ummu.gallery.image_id.attr(
+                            "src",
+                            $base_url + "uploads/" + $data_name
+                        );
+                    });
+                })
+                .fail(function () {
+                });
+        },
+
+        gallery_file_gallery: function () {
+            var formData = new FormData();
+            formData.append("file_gallery", $("#file_gallery")[0].files[0]);
+            $.ajax({
+                url: $base_url + "admin/gallery/do_gallery",
+                method: "POST",
+                timeout: 0,
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: formData,
+                beforeSend: function (e) {
+                    $("#modal_loader_submit_file").show();
+                    if (e && e.overrideMimeType) {
+                        e.overrideMimeType("application/jsoncharset=UTF-8");
+                    }
+                },
+                complete: function () {
+                    $("#modal_loader_submit_file").hide();
+                },
+            })
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        var payload = JSON.stringify({
+                            body: {
+                                filename: response.name,
+                                description: $("#file_description").val(),
+                            },
+                        });
+                        $ummu.gallery.insert_file_gallery(payload);
+                    } else {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html(response.errors.file_gallery)
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                    }
+                })
+                .fail(function () {
+                });
+        },
+
+        insert_file_gallery: function (payload) {
+            $.ajax({
+                url: $base_url + "admin/gallery/create",
+                method: "POST",
+                timeout: 0,
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: payload,
+                beforeSend: function (e) {
+                    $("#modal_loader_submit_file").show();
+                    if (e && e.overrideMimeType) {
+                        e.overrideMimeType("application/jsoncharset=UTF-8");
+                    }
+                },
+                complete: function () {
+                    $("#modal_loader_submit_file").hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                },
+            })
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    if (response.status == true) {
+                        $("#modal_alert_submit_file").addClass("bg-success");
+                        $("#modal_alert_submit_file")
+                            .html("gallery sukses")
+                            .fadeIn()
+                            .delay(10000)
+                            .fadeOut();
+                        $ummu.gallery.show();
+                        $("#gallery_img_thumbnail").attr(
+                            "src",
+                            $base_url + "gallerys/no_image.jpg"
+                        );
+                        $("#file_gallery, #file_description").val("");
+                    } else {
+                    }
+                    $globFunc.ch_message_modal_modal(response.message);
+                })
+                .fail(function () {
+                    console.log(create);
+                });
+        },
+
+        hapus_file_gallery: function (id) {
+            $.ajax({
+                url: $base_url + "admin/gallery/delete/" + id,
+                method: "DELETE",
+                timeout: 0,
+                beforeSend: function (e) {
+                    $("#modal_loader_gallery").show();
+                    if (e && e.overrideMimeType) {
+                        e.overrideMimeType("application/jsoncharset=UTF-8");
+                    }
+                },
+                complete: function () {
+                    $("#modal_loader_gallery").hide();
+                },
+                success: function (response) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                },
+            })
+                .done(function (result) {
+                    var response = JSON.parse(result);
+                    console.log(response.status);
+                    if (response.status == true) {
+                        $ummu.gallery.show();
+                    }
+                })
+                .fail(function () {
+                });
+        },
+
+        photos: {
+            show: function () {
+                var params = {
+                    type: "get",
+                    action: "get",
+                    data: {
+                        limit: 0,
+                        offset: 0,
+                        sort: "id",
+                        order: "desc",
+                        search: "",
+                        created_by: true,
+                    },
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+                var url = $base_url + "/mygallery/photos/show";
+                var ali = $ummu.ajax.ummay(url, params);
+                ali
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        $globFunc.ch_message_modal_modal(response.message);
+                        var data = response.rows;
+                        $("#album_gallery").empty();
+                        for (let index in data) {
+                            var $id = data[index].id;
+                            var id = data[index].id;
+                            var filename = data[index].filename;
+                            var description = data[index].description;
+                            var path = data[index].path;
+                            var file_url = data[index].file_url;
+
+                            if (filename == "") {
+                                var $filename = "no_image.jpg";
+                            } else {
+                                var $filename = filename;
+                            }
+
+                            if (description == "" || description == null) {
+                                var description_ = filename;
+                            } else {
+                                var description_ = description;
+                            }
+
+                            var html =
+                                '<div class="col-md-2" id="mygallery_frame' +
+                                id +
+                                '">' +
+                                '<div class="card mb-4 shadow-sm">' +
+                                '<img src="' +
+                                file_url +
+                                '" class="img-thumbnail" alt="...">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex justify-content-between align-items-center">' +
+                                '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>' +
+                                '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.mygallery.photos.delete(' +
+                                id +
+                                ');"><i class="fas fa-trash-alt"></i></button>' +
+                                "</div>" +
+                                '<small class="text-muted">9 mins</small>' +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+                            $("#mygallery_album_photos").append(html);
+                        }
+                    })
+                    .fail(function () {
+                    });
+            },
+
+            show_for_modal: function () {
+                var params = {
+                    type: "get",
+                    action: "get",
+                    data: {
+                        limit: 0,
+                        offset: 0,
+                        sort: "id",
+                        order: "desc",
+                        search: "",
+                        created_by: true,
+                    },
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+                var url = $base_url + "/mygallery/photos/show";
+                var ali = $globalAjax.ummay(url, params);
+                ali
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        $globFunc.ch_message_modal_modal(response.message);
+                        var data = response.rows;
+                        $("#album_gallery").empty();
+                        for (let index in data) {
+                            var $id = data[index].id;
+                            var id = data[index].id;
+                            var filename = data[index].filename;
+                            var description = data[index].description;
+                            var path = data[index].path;
+                            var file_url = data[index].file_url;
+
+                            if (filename == "") {
+                                var $filename = "no_image.jpg";
+                            } else {
+                                var $filename = filename;
+                            }
+
+                            if (description == "" || description == null) {
+                                var description_ = filename;
+                            } else {
+                                var description_ = description;
+                            }
+
+                            var $element =
+                                '<div class="cont-checkbox p-2">' +
+                                '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                                id +
+                                '" data-name="' +
+                                filename +
+                                '" data-path="' +
+                                file_url +
+                                '" />' +
+                                '<label for="' +
+                                id +
+                                '" class="lbl_gallery">' +
+                                '<img src="' +
+                                file_url +
+                                '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                                '<span class="cover-checkbox">' +
+                                '<svg viewBox="0 0 12 10">' +
+                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                                "</svg>" +
+                                "</span>" +
+                                '<div class="info">' +
+                                description_ +
+                                "</div>" +
+                                "</label>" +
+                                "</div>";
+                            $("#album_gallery").append($element);
+                        }
+                        $("#modal_loader_gallery").hide();
+                    })
+                    .fail(function () {
+                    });
             },
 
             btn_mygallery_photos_submit: function () {
@@ -6345,22 +6355,22 @@ var $ummu = {
                             console.log(response);
 
                             var html =
-                            '<div class="col-md-2">' +
-                            '<div class="card mb-4 shadow-sm">' +
-                            '<img src="' +
-                            response.data.url +
-                            '" class="img-thumbnail" alt="...">' +
-                            '<div class="card-body">' +
-                            '<div class="d-flex justify-content-between align-items-center">' +
-                            '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>' +
-                            '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>' +
-                            "</div>" +
-                            '<small class="text-muted">9 mins</small>' +
-                            "</div>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>";
+                                '<div class="col-md-2">' +
+                                '<div class="card mb-4 shadow-sm">' +
+                                '<img src="' +
+                                response.data.url +
+                                '" class="img-thumbnail" alt="...">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex justify-content-between align-items-center">' +
+                                '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>' +
+                                '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>' +
+                                "</div>" +
+                                '<small class="text-muted">9 mins</small>' +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
                             $("#mygallery_album_photos").prepend(html);
 
                             $(".custom-file label").html("Choose file");
@@ -6382,30 +6392,30 @@ var $ummu = {
 
                             if (response.status == true) {
                                 var html =
-                                '<div class="cont-checkbox">' +
-                                '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
-                                response.data.id +
-                                '" data-name="' +
-                                response.data.filename +
-                                '" data-path="' +
-                                response.data.url +
-                                '"/>' +
-                                '<label for="' +
-                                response.data.id +
-                                '" class="lbl_gallery">' +
-                                '<img src="' +
-                                response.data.url +
-                                '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
-                                '<span class="cover-checkbox">' +
-                                '<svg viewBox="0 0 12 10">' +
-                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
-                                "</svg>" +
-                                "</span>" +
-                                '<div class="info">' +
-                                response.data.description +
-                                "</div>" +
-                                "</label>" +
-                                "</div>";
+                                    '<div class="cont-checkbox">' +
+                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                                    response.data.id +
+                                    '" data-name="' +
+                                    response.data.filename +
+                                    '" data-path="' +
+                                    response.data.url +
+                                    '"/>' +
+                                    '<label for="' +
+                                    response.data.id +
+                                    '" class="lbl_gallery">' +
+                                    '<img src="' +
+                                    response.data.url +
+                                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                                    '<span class="cover-checkbox">' +
+                                    '<svg viewBox="0 0 12 10">' +
+                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                                    "</svg>" +
+                                    "</span>" +
+                                    '<div class="info">' +
+                                    response.data.description +
+                                    "</div>" +
+                                    "</label>" +
+                                    "</div>";
                                 $("#album_gallery").prepend(html);
                                 $(".custom-file label").html("Choose file");
                                 $("#file_upload").val("");
@@ -6427,14 +6437,14 @@ var $ummu = {
                 var url = $base_url + "/mygallery/photos/delete/" + id;
                 var ali = $ummu.ajax.ummay(url, params);
                 ali
-                .done(function (result) {
-                    var response = JSON.parse(result);
-                    if (response.status == true) {
-                        $("#mygallery_frame" + id).remove();
-                    }
-                })
-                .fail(function () {
-                });
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        if (response.status == true) {
+                            $("#mygallery_frame" + id).remove();
+                        }
+                    })
+                    .fail(function () {
+                    });
             },
         },
     },
@@ -6453,8 +6463,8 @@ var $ummu = {
             if (conf_get_otp_wa == "false") {
                 $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa").prop("disabled", true);
                 $("#ummu_auth #page_login_with_phone_number #text_get_otp_wa")
-                .removeClass("collapse")
-                .html(conf_get_otp_wa_text);
+                    .removeClass("collapse")
+                    .html(conf_get_otp_wa_text);
             } else {
                 $("#ummu_auth #page_login_with_phone_number #btn_get_otp_wa").prop("disabled", false).removeClass("disabled");
                 $("#ummu_auth #page_login_with_phone_number #text_get_otp_wa").addClass("collapse").html(conf_get_otp_wa_text);
@@ -6466,8 +6476,8 @@ var $ummu = {
             if (!email) {
                 $("#ummu_auth #page_login_with_phone_number #btn_get_otp_email").prop("disabled", true);
                 $("#ummu_auth #page_login_with_phone_number #text_get_otp_email")
-                .removeClass("collapse")
-                .html("No email registered.");
+                    .removeClass("collapse")
+                    .html("No email registered.");
             }
 
             if (is_password == 1) {
@@ -6477,8 +6487,8 @@ var $ummu = {
             if (response.data.is_password != 1) {
                 $("#ummu_auth #page_login_with_phone_number #btn_login_with_password").prop("disabled", true);
                 $("#ummu_auth #page_login_with_phone_number #text_login_with_password")
-                .removeClass("collapse")
-                .html("You haven't created a password yet.");
+                    .removeClass("collapse")
+                    .html("You haven't created a password yet.");
             }
         },
 
@@ -6505,7 +6515,7 @@ var $ummu = {
                     $("#modal_form .act-imgcl").prop(
                         "src",
                         $ummu.vars.base_url + $ummu.vars.no_image_path
-                        );
+                    );
                     $("#modal_form .lbl-inputfile-cl").html("Choose file");
                 }
             } else {
@@ -6517,7 +6527,7 @@ var $ummu = {
                 $("#modal_form .imgcl").prop(
                     "src",
                     $ummu.vars.base_url + $ummu.vars.no_image_path
-                    );
+                );
                 $("#modal_form .lbl-inputfile-cl").html("Choose file");
             }
         },
@@ -6556,22 +6566,22 @@ var $ummu = {
                     }
 
                     var indicator =
-                    '<li data-target="#carouselExampleCaptions" data-slide-to="' +
-                    index +
-                    '" class="' +
-                    aktif +
-                    '"></li>';
+                        '<li data-target="#carouselExampleCaptions" data-slide-to="' +
+                        index +
+                        '" class="' +
+                        aktif +
+                        '"></li>';
 
                     var html =
-                    '<div class="carousel-item ' +
-                    aktif +
-                    '">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    rows[index] +
-                    '" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
-                    "</div>";
+                        '<div class="carousel-item ' +
+                        aktif +
+                        '">' +
+                        '<img src="' +
+                        $base_url +
+                        "uploads/" +
+                        rows[index] +
+                        '" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
+                        "</div>";
 
                     $("#carousel_indicator").append(indicator);
                     $("#carousel_foto_ruangan").append(html);
@@ -6589,7 +6599,7 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 if (kode == 1) {
                     var text = rows[index].kode + " - " + rows[index].name;
@@ -6604,7 +6614,7 @@ var $ummu = {
                     "'>" +
                     text +
                     "</option>"
-                    );
+                );
             }
         },
 
@@ -6650,22 +6660,22 @@ var $ummu = {
                     }
 
                     var indicator =
-                    '<li data-target="#carouselExampleCaptions" data-slide-to="' +
-                    index +
-                    '" class="' +
-                    aktif +
-                    '"></li>';
+                        '<li data-target="#carouselExampleCaptions" data-slide-to="' +
+                        index +
+                        '" class="' +
+                        aktif +
+                        '"></li>';
 
                     var html =
-                    '<div class="carousel-item ' +
-                    aktif +
-                    '">' +
-                    '<img src="' +
-                    $base_url +
-                    "uploads/" +
-                    rows[index] +
-                    '" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
-                    "</div>";
+                        '<div class="carousel-item ' +
+                        aktif +
+                        '">' +
+                        '<img src="' +
+                        $base_url +
+                        "uploads/" +
+                        rows[index] +
+                        '" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
+                        "</div>";
 
                     $("#carousel_indicator").append(indicator);
                     $("#carousel_foto_ruangan").append(html);
@@ -6677,15 +6687,15 @@ var $ummu = {
 
         defautlFotoRuangan: function () {
             var html =
-            '<div class="carousel-item active">' +
-            '<img src="' +
-            $base_url +
-            'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
-            '<div class="carousel-caption d-none d-md-block">' +
-            "<h5>First slide label</h5>" +
-            "<p>Some representative placeholder content for the first slide.</p>" +
-            "</div>" +
-            "</div>";
+                '<div class="carousel-item active">' +
+                '<img src="' +
+                $base_url +
+                'uploads/sc1.png" class="d-block w-100 dorbitt-scale img-thumbnail" alt="...">' +
+                '<div class="carousel-caption d-none d-md-block">' +
+                "<h5>First slide label</h5>" +
+                "<p>Some representative placeholder content for the first slide.</p>" +
+                "</div>" +
+                "</div>";
             $("#carousel_foto_ruangan").append(html);
         },
 
@@ -6719,55 +6729,55 @@ var $ummu = {
                 }
             },
 
-            res_del: function () {},
+            res_del: function () { },
 
             form_filter: function () {
                 var html =
-                '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">' +
-                '<div class="modal-dialog modal-dialog-centeredz">' +
-                '<div class="modal-content">' +
-                '<div class="modal-header bg-secondary">' +
-                '<h5 class="modal-title text-light" id="message_title">Import</h5>' +
-                '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>' +
-                "</div>" +
-                '<div class="alert text-light collapse" id="modal_alert_import"></div>' +
-                '<div class="collapse" id="loader">' +
-                '<div class="d-flex justify-content-center mt-2">' +
-                '<div class="spinner-border text-danger" role="status">' +
-                '<span class="sr-only">Loading...</span>' +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                '<div class="modal-body">' +
-                '<div id="form_import">' +
-                '<form enctype="multipart/form-data" id="form_import_file">' +
-                '<div class="col-md-12">' +
-                '<label class="form-label">File</label>' +
-                '<input class="form-control" type="file" name="file" id="file_import">' +
-                "</div>" +
-                "</form>" +
-                "</div>" +
-                '<div class="mt-3">' +
-                '<a class="text-sm" target="_blank" id="link_format_import">' +
-                '<i class="fas fa-file-excel"></i>' +
-                "Click for download format import file" +
-                "</a>" +
-                "</div>" +
-                "</div>" +
-                '<div class="modal-footer">' +
-                '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
-                '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>' +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>";
+                    '<div class="modal fade" id="modal_import" tabindex="-2" style="z-index: 3000;">' +
+                    '<div class="modal-dialog modal-dialog-centeredz">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-header bg-secondary">' +
+                    '<h5 class="modal-title text-light" id="message_title">Import</h5>' +
+                    '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                    "</div>" +
+                    '<div class="alert text-light collapse" id="modal_alert_import"></div>' +
+                    '<div class="collapse" id="loader">' +
+                    '<div class="d-flex justify-content-center mt-2">' +
+                    '<div class="spinner-border text-danger" role="status">' +
+                    '<span class="sr-only">Loading...</span>' +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    '<div class="modal-body">' +
+                    '<div id="form_import">' +
+                    '<form enctype="multipart/form-data" id="form_import_file">' +
+                    '<div class="col-md-12">' +
+                    '<label class="form-label">File</label>' +
+                    '<input class="form-control" type="file" name="file" id="file_import">' +
+                    "</div>" +
+                    "</form>" +
+                    "</div>" +
+                    '<div class="mt-3">' +
+                    '<a class="text-sm" target="_blank" id="link_format_import">' +
+                    '<i class="fas fa-file-excel"></i>' +
+                    "Click for download format import file" +
+                    "</a>" +
+                    "</div>" +
+                    "</div>" +
+                    '<div class="modal-footer">' +
+                    '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
+                    '<a href="#" type="button" class="btn btn-primary" id="btnImport" onclick="au_import();">Import</a>' +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
             },
 
-            loader: function() {
-                if(typeof app.views.loader !== "undefined") {
+            loader: function () {
+                if (typeof app.views.loader !== "undefined") {
                     console.log('function app.view.loader is OK.');
                     app.views.loader("show");
-                }else{
+                } else {
                     console.log('plese create function app.views.loader for auto loader show');
                 }
             }
@@ -6777,10 +6787,10 @@ var $ummu = {
             status_detail: function (status) {
                 $(
                     ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                    ).prop("checked", false);
+                ).prop("checked", false);
                 $(
                     ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                    ).prop("disabled", false);
+                ).prop("disabled", false);
 
                 if (status == 1) {
                     $(".dorbitt-detail .rad-approve").prop("checked", true);
@@ -6792,7 +6802,7 @@ var $ummu = {
                     $(".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending").prop(
                         "disabled",
                         true
-                        );
+                    );
                 }
 
                 if (status == 3) {
@@ -6804,7 +6814,7 @@ var $ummu = {
             status_detail_on_load: function (status) {
                 $(
                     ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                    ).prop("disabled", false);
+                ).prop("disabled", false);
 
                 if (status == 1) {
                     //approve
@@ -6816,7 +6826,7 @@ var $ummu = {
                     $(".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending").prop(
                         "disabled",
                         true
-                        );
+                    );
                 }
 
                 if (status == 3) {
@@ -6831,33 +6841,33 @@ var $ummu = {
                         'Outstanding <span class="badge badge-pill badge-primary">' +
                         data.jOutstanding +
                         "</span>"
-                        );
+                    );
                     $("#dorbitt_tabs #pending-pill").html(
                         'Pending <span class="badge badge-pill badge-warning">' +
                         data.jPending +
                         "</span>"
-                        );
+                    );
                     $("#dorbitt_tabs #reject-pill").html(
                         'Reject <span class="badge badge-pill badge-danger">' +
                         data.jReject +
                         "</span>"
-                        );
+                    );
                 } else {
                     $("#dorbitt_tabs #outstanding-pill").html(
                         'Outstanding <div class="spinner-grow spinner-grow-sm text-primary" role="status">' +
                         '<span class="sr-only">Loading...</span>' +
                         "</div>"
-                        );
+                    );
                     $("#dorbitt_tabs #pending-pill").html(
                         'Pending <div class="spinner-grow spinner-grow-sm text-warning" role="status">' +
                         '<span class="sr-only">Loading...</span>' +
                         "</div>"
-                        );
+                    );
                     $("#dorbitt_tabs #reject-pill").html(
                         'Reject <div class="spinner-grow spinner-grow-sm text-danger" role="status">' +
                         '<span class="sr-only">Loading...</span>' +
                         "</div>"
-                        );
+                    );
                 }
             },
 
@@ -6880,7 +6890,7 @@ var $ummu = {
                     ' <span class="badge badge-pill badge-info float-right">' +
                     value +
                     "</span>"
-                    );
+                );
             },
 
             show_by_category: function () {
@@ -6949,15 +6959,15 @@ var $ummu = {
                 }
 
                 var html =
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_new" ' +
-                snw +
-                '><i class="fab fa-wpforms"></i> New</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_edit" disabled><i class="fal fa-edit"></i> Edit</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_del" disabled><i class="fal fa-trash-alt"></i> Del</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_can" disabled><i class="fal fa-times"></i> Can</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_save" disabled><i class="fal fa-save"></i> Save</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_print" disabled><i class="fal fa-print"></i> Print</button>' +
-                '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_new" ' +
+                    snw +
+                    '><i class="fab fa-wpforms"></i> New</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_edit" disabled><i class="fal fa-edit"></i> Edit</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_del" disabled><i class="fal fa-trash-alt"></i> Del</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_can" disabled><i class="fal fa-times"></i> Can</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_save" disabled><i class="fal fa-save"></i> Save</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_print" disabled><i class="fal fa-print"></i> Print</button>' +
+                    '<button class="btn btn-sm btn-primary mb-1 mr-1" type="button" id="dbtn_close"><i class="fal fa-sign-out-alt"></i> Close</button>';
                 $("#btn_std_shb").html(html);
             },
 
@@ -7180,7 +7190,7 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 if (with_kode == 1) {
                     var text = rows[index].kode + " - " + rows[index].name;
@@ -7189,7 +7199,7 @@ var $ummu = {
                 }
                 $("#" + element_id).append(
                     "<option value='" + rows[index].id + "'>" + text + "</option>"
-                    );
+                );
             }
         },
 
@@ -7202,11 +7212,11 @@ var $ummu = {
             $("#" + element_id).empty();
             $("#" + element_id).append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in rows) {
                 $("#" + element_id).append(
                     "<option value='" + eval(id) + "'>" + eval(name) + "</option>"
-                    );
+                );
             }
         },
 
@@ -7232,17 +7242,17 @@ var $ummu = {
                 $("#form_entry_data input, #form_entry_data button, select").prop(
                     "disabled",
                     true
-                    );
+                );
                 $(".modal_btn_edit, .modal_btn_approve, .modal_btn_save").prop(
                     "disabled",
                     true
-                    );
+                );
                 if (action == "new") {
                     $(".modal_btn_save").prop("disabled", false);
                     $("#form_entry_data input, #form_entry_data button, select").prop(
                         "disabled",
                         false
-                        );
+                    );
                     $("#tgl_penemuan, #waktu_penemuan").prop("disabled", true);
                 } else {
                     var tab = $ummu.vars.nav_tab;
@@ -7269,11 +7279,11 @@ var $ummu = {
                 $(".modal_btn_edit, .modal_btn_approve, .modal_btn_save").prop(
                     "disabled",
                     true
-                    );
+                );
                 $("#form_entry_data input, #form_entry_data button, select").prop(
                     "disabled",
                     false
-                    );
+                );
                 $("#tgl_penemuan, #waktu_penemuan").prop("disabled", true);
                 $(".modal_btn_save").prop("disabled", false);
             },
@@ -7288,7 +7298,7 @@ var $ummu = {
                     $ummu.dt.layout.button_crud(["new"]);
                     $ummu.dt.layout.button_status(btn_status);
                     $ummu.vars.dt.nth_child_onclick = 3;
-                } 
+                }
 
                 else if ($ummu.vars.nav_tab_id == "nav-approved-tab") {
 
@@ -7299,7 +7309,7 @@ var $ummu = {
 
                 else if ($ummu.vars.nav_tab_id == "nav-rejected-tab") {
                     $ummu.dt.layout.button(["btn_select_none"]);
-                    $ummu.dt.layout.button_crud(["new","edit"]);
+                    $ummu.dt.layout.button_crud(["new", "edit"]);
                     $ummu.vars.dt.nth_child_onclick = 2;
                 }
 
@@ -7330,12 +7340,12 @@ var $ummu = {
         dt: {
             info_filter: function (filter) {
                 var html =
-                '<span class=""><i class="fas fa-filter text-danger"></i> FILTER:</span> <br> ' +
-                '<span class="text-info">From: </span><span class="badge badge-warning font-weight-normal">' +
-                filter.datetime_detail.from +
-                '</span> <span class="text-info">To: </span><span class="badge badge-warning font-weight-normal">' +
-                filter.datetime_detail.to +
-                " </span>";
+                    '<span class=""><i class="fas fa-filter text-danger"></i> FILTER:</span> <br> ' +
+                    '<span class="text-info">From: </span><span class="badge badge-warning font-weight-normal">' +
+                    filter.datetime_detail.from +
+                    '</span> <span class="text-info">To: </span><span class="badge badge-warning font-weight-normal">' +
+                    filter.datetime_detail.to +
+                    " </span>";
                 table.column(0).footer().innerHTML = html;
             },
         },
@@ -7356,10 +7366,10 @@ var $ummu = {
 
             if (typeof errors == 'string') {
                 $("#modal_message #alert").append(errors);
-            }else{
+            } else {
                 var errors_value = Object.values(errors);
                 for (const [key, value] of Object.entries(errors)) {
-                    $("#modal_message #alert").append("<div>- "+`${value}`+"</div>");
+                    $("#modal_message #alert").append("<div>- " + `${value}` + "</div>");
                 }
             }
 
@@ -7367,7 +7377,7 @@ var $ummu = {
         },
 
         goods_evaluation: {
-            close_status: function(s) {
+            close_status: function (s) {
                 if (s == "close" || s == 4) {
                     $("#close_status_formGroup").removeClass("collapse");
                     $("#evidence_formGroup").removeClass("collapse");
@@ -7378,7 +7388,7 @@ var $ummu = {
             },
         },
 
-        transportasiMilikSiapa_option: function(arr) {
+        transportasiMilikSiapa_option: function (arr) {
             var elID = $("#transportasi_milikSiapa");
             var dinas = $("<option>").val(1).text("Kendaraan Operasional Dinas");
             var pribadi = $("<option>").val(2).text("Kendaraan Pribadi");
@@ -7402,9 +7412,9 @@ var $ummu = {
         date: {
             dateToYmd: function (data) {
                 var d = new Date(data),
-                month = "" + (d.getMonth() + 1),
-                day = "" + d.getDate(),
-                year = d.getFullYear();
+                    month = "" + (d.getMonth() + 1),
+                    day = "" + d.getDate(),
+                    year = d.getFullYear();
 
                 if (month.length < 2) month = "0" + month;
                 if (day.length < 2) day = "0" + day;
@@ -7421,16 +7431,16 @@ var $ummu = {
                 var new_dmy = y + "-" + m + "-" + d;
 
                 var dt = new Date(new_dmy),
-                month = "" + (dt.getMonth() + 1),
-                day = "" + dt.getDate(),
-                year = dt.getFullYear();
+                    month = "" + (dt.getMonth() + 1),
+                    day = "" + dt.getDate(),
+                    year = dt.getFullYear();
 
                 if (month.length < 2) month = "0" + month;
                 if (day.length < 2) day = "0" + day;
 
                 return [year, month, day].join("-");
             },
-            formatMicrosoftJSONDate: function(microsoftDate) {
+            formatMicrosoftJSONDate: function (microsoftDate) {
                 var timestamp = parseInt(microsoftDate.replace(/[^0-9]/g, ''), 10);
                 var date = new Date(timestamp);
 
@@ -7443,7 +7453,7 @@ var $ummu = {
 
                 return `${year}-${month}-${day}`;
             },
-            MsJsonDate: function(microsoftDate) {
+            MsJsonDate: function (microsoftDate) {
                 var timestamp = parseInt(microsoftDate.replace(/[^0-9]/g, ''), 10);
                 var date = new Date(timestamp);
 
@@ -7499,10 +7509,10 @@ var $ummu = {
                 var res = '<img src="' + data + '" class="img-thumbnail">';
             } else {
                 var res =
-                '<img src="' +
-                $base_url +
-                "uploads/no_image.jpg" +
-                '" class="img-thumbnail">';
+                    '<img src="' +
+                    $base_url +
+                    "uploads/no_image.jpg" +
+                    '" class="img-thumbnail">';
             }
 
             return res;
@@ -7522,7 +7532,7 @@ var $ummu = {
                 '<div style="overflow-y:scroll; max-height:100px !important;">' +
                 r +
                 "</div>"
-                );
+            );
         },
 
         arr_to_badge: function (data) {
@@ -7538,7 +7548,7 @@ var $ummu = {
                     }
                 });
                 return (r);
-            }else{
+            } else {
                 return '';
             }
         },
@@ -7548,32 +7558,32 @@ var $ummu = {
                 '<a class="row-detail" id="row_detail" href="javascript:void(0)" title="Detail">' +
                 '<i class="fas fa-caret-right"></i>' +
                 "</a>"
-                );
+            );
         },
 
         goods_evaluation: {
-            status: function(row) {
+            status: function (row) {
                 if (row.status_id == 2) {
-                    return '<span class="badge badge-warning">'+row.fekb_number+'</span>';
-                } 
+                    return '<span class="badge badge-warning">' + row.fekb_number + '</span>';
+                }
                 else if (row.status_id == 3) {
-                    return '<span class="badge badge-primary">'+row.fekb_number+'</span>';
+                    return '<span class="badge badge-primary">' + row.fekb_number + '</span>';
                 }
                 else if (row.status_id == 4) {
-                    return '<span class="badge badge-success">'+row.fekb_number+'</span>';
+                    return '<span class="badge badge-success">' + row.fekb_number + '</span>';
                 }
                 else {
-                    return '<span class="badge badge-secondary">'+row.fekb_number+'</span>';
+                    return '<span class="badge badge-secondary">' + row.fekb_number + '</span>';
                 }
             }
         },
 
         btID: function (index, row) {
-            return '<a href="javascript:void(0)" title="Detail" id="dorbitt_btn_id">' + 
-            '<div class="d-flex justify-content-between align-items-center">'+
-            row.id + '<i class="bi bi-link-45deg"></i>'+
-            '</div>'+
-            '</a>';
+            return '<a href="javascript:void(0)" title="Detail" id="dorbitt_btn_id">' +
+                '<div class="d-flex justify-content-between align-items-center">' +
+                row.id + '<i class="bi bi-link-45deg"></i>' +
+                '</div>' +
+                '</a>';
         },
     },
 
@@ -7691,63 +7701,63 @@ var $ummu = {
                 if ($ummu.validation.is_valid_date(tgl_penemuan) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Tanggal Penemuan not Valid</div>"
-                        );
+                    );
                 }
 
                 var waktu_penemuan = $("#waktu_penemuan").val();
                 if ($ummu.validation.is_valid_time(waktu_penemuan) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Waktu Penemuan not Valid</div>"
-                        );
+                    );
                 }
 
                 var lokasi_temuan_id = $("#lokasi_penemuan").val();
                 if ($ummu.validation.is_valid(lokasi_temuan_id) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Lokasi temuan required.</div>"
-                        );
+                    );
                 }
 
                 var detail_lokasi = $("#detail_lokasi").val();
                 if ($ummu.validation.is_valid(detail_lokasi) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Detail lokasi required.</div>"
-                        );
+                    );
                 }
 
                 var jenis_temuan_id = $("#jenis_temuan").val();
                 if ($ummu.validation.is_valid(jenis_temuan_id) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Jenis temuan required.</div>"
-                        );
+                    );
                 }
 
                 var bahaya_ditemukan = $("#bahaya_ditemukan").val();
                 if ($ummu.validation.is_valid(bahaya_ditemukan) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Bahaya yang ditemukan required.</div>"
-                        );
+                    );
                 }
 
                 var penyebab_bahaya = $("#penyebab_bahaya").val();
                 if ($ummu.validation.is_valid(penyebab_bahaya) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Penyebab bahaya required.</div>"
-                        );
+                    );
                 }
 
                 var kode_bahaya_id = $("#kode_bahaya").val();
                 if ($ummu.validation.is_valid(kode_bahaya_id) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Kode bahayaq required.</div>"
-                        );
+                    );
                 }
 
                 var rincian_tindakan = $("#rincian_tindakan").val();
                 if ($ummu.validation.is_valid(rincian_tindakan) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Rincian tindakan required.</div>"
-                        );
+                    );
                 }
 
                 var status_id = $("input:radio[name=status]:checked").val();
@@ -7759,7 +7769,7 @@ var $ummu = {
                 if ($ummu.validation.is_valid(nm_atasan) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Nama atasan required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
@@ -7801,14 +7811,14 @@ var $ummu = {
                 if ($ummu.validation.is_valid_date(expired_date) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Expired Date not Valid</div>"
-                        );
+                    );
                 }
 
                 var formularium_qty = $("#formularium_qty").val();
                 if ($ummu.validation.is_valid(formularium_qty) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Formularium Qty required.</div>"
-                        );
+                    );
                 }
 
                 var qty = $("#qty").val();
@@ -7820,7 +7830,7 @@ var $ummu = {
                 if ($ummu.validation.is_valid(qty_on_site) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Qty on site required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
@@ -7848,7 +7858,7 @@ var $ummu = {
                 if ($ummu.validation.is_valid_date(expired_date) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Expired Date not Valid</div>"
-                        );
+                    );
                 }
 
                 var qty = $("#qty").val();
@@ -7862,7 +7872,7 @@ var $ummu = {
                 if (unit_price > material_price) {
                     $("#modal_message #alert").append(
                         "<div>- Unit Price exceeds the limit.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
@@ -7891,7 +7901,7 @@ var $ummu = {
                 if ($ummu.validation.is_valid($("#wo_number").val()) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Order Number required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.validation.is_valid($("#operation").val()) == false) {
@@ -7901,25 +7911,25 @@ var $ummu = {
                 if ($ummu.validation.is_valid_date($("#date_start").val()) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Work Start Date required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.validation.is_valid_time($("#time_start").val()) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Work Start Time required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.validation.is_valid_date($("#date_end").val()) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Work End Date required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.validation.is_valid_time($("#time_end").val()) == false) {
                     $("#modal_message #alert").append(
                         "<div>- Work End Time required.</div>"
-                        );
+                    );
                 }
 
                 if ($ummu.vars.required_field.includes(false)) {
@@ -7940,9 +7950,9 @@ var $ummu = {
             });
 
             var table_id = $tableID[0].id;
-            var $table_id = $('#'+table_id);
+            var $table_id = $('#' + table_id);
 
-            $tableID.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",function () {
+            $tableID.on("check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table", function () {
                 $ummu.vars.row = $ummu.bt.select.getRows($table_id)[0]
                 $ummu.vars.rows = $ummu.bt.select.getRows($table_id)
                 $ummu.vars.id = $ummu.bt.select.getIds($table_id)[0]
@@ -7950,22 +7960,22 @@ var $ummu = {
                 $ummu.vars.id_onCheck = $ummu.bt.select.getIds($table_id)[0]
                 $ummu.vars.ids_onCheck = $ummu.bt.select.getIds($table_id)
 
-                $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').prop("disabled",!$ummu.bt.select.length($table_id))
-                $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').prop("disabled",!$ummu.bt.select.length($table_id))
+                $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_delete]').prop("disabled", !$ummu.bt.select.length($table_id))
+                $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_save_selected]').prop("disabled", !$ummu.bt.select.length($table_id))
 
                 if ($ummu.bt.select.length($table_id) >= 1) {
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').removeClass('btn-secondary').addClass('btn-primary')
-                }else{
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_save_selected]').addClass('btn-primary').removeClass('btn-secondary')
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_delete]').removeClass('btn-secondary').addClass('btn-danger')
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_save_selected]').removeClass('btn-secondary').addClass('btn-primary')
+                } else {
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_save_selected]').addClass('btn-primary').removeClass('btn-secondary')
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_delete]').removeClass('btn-danger').addClass('btn-secondary')
                 }
 
                 if ($ummu.bt.select.length($table_id) == 1) {
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_edit]').removeClass('btn-secondary').addClass('btn-warning').prop('disabled', false)
                     $('#btn_modules').removeClass('btn-secondary').addClass('btn-info').prop('disabled', false)
-                }else{
-                    $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
+                } else {
+                    $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_edit]').removeClass('btn-warning').addClass('btn-secondary').prop('disabled', true)
                     $('#btn_modules').removeClass('btn-info').addClass('btn-secondary').prop('disabled', true)
                 }
             });
@@ -7974,12 +7984,12 @@ var $ummu = {
                 console.log(name, args)
             });
 
-            $tableID.on("load-success.bs.table", function(){
+            $tableID.on("load-success.bs.table", function () {
                 $ummu.bt.filterControl.style()
             });
 
-            $tableID.on("reset-view.bs.table", function(){
-                $ummu.bt.filterControl.style()        
+            $tableID.on("reset-view.bs.table", function () {
+                $ummu.bt.filterControl.style()
             });
 
             $tableID.on('click-row.bs.table', function (e, row, $element, field) {
@@ -8001,19 +8011,19 @@ var $ummu = {
 
             $ummu.bt.filterControl.style()
 
-            $('div[data-tableid='+table_id+']' + "#remove").click(function () {
+            $('div[data-tableid=' + table_id + ']' + "#remove").click(function () {
                 app.Controllers.remove()
             });
 
-            $('div[data-tableid='+table_id+']' + "#view").click(function () {
+            $('div[data-tableid=' + table_id + ']' + "#view").click(function () {
                 app.Controllers.view()
             });
 
-            $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_delete]').click(function () {
+            $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_delete]').click(function () {
                 var ids = $ummu.bt.select.getIds($table_id);
                 if (ids.length == 0) {
                     $ummu.modal.ummu_msg('Please select one or more rows in the table list to delete.')
-                }else{
+                } else {
                     $('#ummu_modal_delete_confirm #message_data').html('')
                     $('#ummu_modal_delete_confirm #message_data').html('id = ' + ids.join(", "))
                     $('#ummu_modal_delete_confirm #modal_btn_delete').data('tableid', $table_id)
@@ -8023,11 +8033,11 @@ var $ummu = {
                 }
             });
 
-            $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_new]').removeClass('btn-secondary')
-            $('div[data-tableid='+table_id+']' + ' button[name=bt_btn_edit]').removeClass('btn-primary')
+            $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_new]').removeClass('btn-secondary')
+            $('div[data-tableid=' + table_id + ']' + ' button[name=bt_btn_edit]').removeClass('btn-primary')
         },
 
-        remove: function($table_id) {
+        remove: function ($table_id) {
             $table_id.bootstrapTable('remove', {
                 field: 'id',
                 values: $ummu.bt.select.getIds($table_id)
@@ -8035,45 +8045,45 @@ var $ummu = {
         },
 
         select: {
-            length: function($table_id) {
+            length: function ($table_id) {
                 if ($table_id) {
                     return $table_id.bootstrapTable('getSelections').length
-                }else{
+                } else {
                     return $table.bootstrapTable('getSelections').length
                 }
             },
 
-            getIds: function($table_id) {
+            getIds: function ($table_id) {
                 if ($table_id) {
                     return $.map($table_id.bootstrapTable('getSelections'), function (row) {
                         return row.id
                     })
-                }else{
+                } else {
                     return $.map($table.bootstrapTable('getSelections'), function (row) {
                         return row.id
                     })
                 }
             },
 
-            get_module_id: function($table_id) {
+            get_module_id: function ($table_id) {
                 return $.map($table_id.bootstrapTable('getSelections'), function (row) {
                     return row.module_id
                 })
             },
 
-            getRows: function($table_id) {
+            getRows: function ($table_id) {
                 if ($table_id) {
                     return $table_id.bootstrapTable('getSelections')
-                }else{
+                } else {
                     return $table.bootstrapTable('getSelections')
                 }
             }
         },
 
         filterControl: {
-            style: function() {
+            style: function () {
                 $(".filter-control .search-input").addClass("text-danger form-control-sm rounded-0 border-0 border-top")
-                .prop("placeholder", "Filter")
+                    .prop("placeholder", "Filter")
             }
         },
 
@@ -8110,13 +8120,13 @@ var $ummu = {
                             icon: "fas fa-save",
                             event: function () {
                                 var parentTableId = $(this).parent().prevObject[0].$el.get(0).id
-                                var ids = $ummu.bt.select.getIds($('#'+parentTableId));
+                                var ids = $ummu.bt.select.getIds($('#' + parentTableId));
                                 $ummu.vars.element_id = parentTableId
                                 $ummu.vars.parentTableID = parentTableId
 
                                 if (ids.length === 0) {
                                     $ummu.modal.ummu_msg('Please select one or more rows in the table list to save.')
-                                }else{
+                                } else {
                                     $ummu.routes.toPage.save_selected(parentTableId)
                                 }
                             },
@@ -8203,13 +8213,13 @@ var $ummu = {
             return (
                 "$" +
                 data
-                .map(function (row) {
-                    return +row[field].substring(1);
-                })
-                .reduce(function (sum, i) {
-                    return sum + i;
-                }, 0)
-                );
+                    .map(function (row) {
+                        return +row[field].substring(1);
+                    })
+                    .reduce(function (sum, i) {
+                        return sum + i;
+                    }, 0)
+            );
         },
 
         operateFormatter: function () {
@@ -8229,7 +8239,7 @@ var $ummu = {
             })
         },
 
-        params: function() {
+        params: function () {
             return {
                 "type": "get",
                 "data": {
@@ -8241,7 +8251,7 @@ var $ummu = {
             };
         },
 
-        table_id: function(params) {
+        table_id: function (params) {
             // console.log(params)
             if (typeof params.target.id !== 'undefined') {
                 var tableid = params.target.id;
@@ -8256,19 +8266,19 @@ var $ummu = {
         init_for_destroy: null,
         init_sitePorject: null,
 
-        is_init: function(tableID) {
+        is_init: function (tableID) {
             if ($.fn.DataTable.isDataTable(tableID)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         },
 
-        init_destroy: function($init = null) {
-            console.log($init)
+        init_destroy: function ($init = null) {
+            // console.log($init)
             if ($init === null) {
                 $ummu.dt.init.destroy()
-            }else{
+            } else {
                 eval($init).destroy()
             }
         },
@@ -8301,50 +8311,50 @@ var $ummu = {
             table.on("mouseenter", "td", function () {
                 let colIdx = table.cell(this).index().column;
                 table
-                .cells()
-                .nodes()
-                .each((el) => el.classList.remove("highlight"));
+                    .cells()
+                    .nodes()
+                    .each((el) => el.classList.remove("highlight"));
 
                 table
-                .column(colIdx)
-                .nodes()
-                .each((el) => el.classList.add("highlight"));
+                    .column(colIdx)
+                    .nodes()
+                    .each((el) => el.classList.add("highlight"));
             });
 
-            table.on('preXhr.dt', function(e, settings, data) {
+            table.on('preXhr.dt', function (e, settings, data) {
                 console.log('AJAX request is about to be sent.');
                 $('#loadingIndicator').show();
                 $('#modal_loader').modal('show');
             });
 
-            table.on('xhr.dt', function(e, settings, json, xhr) {
+            table.on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('AJAX request completed.');
                 $('#loadingIndicator').hide();
                 $('#modal_loader').modal('hide');
                 console.log(json);
             });
 
-            table.on('error.dt', function(e, settings, techNote, message) {
+            table.on('error.dt', function (e, settings, techNote, message) {
                 console.error('DataTables error:', message);
                 alert('An error occurred while loading data.');
             });
         },
 
         load_with_init: function (init) {
-            init.on('preXhr.dt', function(e, settings, data) {
+            init.on('preXhr.dt', function (e, settings, data) {
                 console.log('AJAX request is about to be sent.');
                 $('#loadingIndicator').show();
                 $('#modal_loader').modal('show');
             });
 
-            init.on('xhr.dt', function(e, settings, json, xhr) {
+            init.on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('AJAX request completed.');
                 $('#loadingIndicator').hide();
                 $('#modal_loader').modal('hide');
                 console.log(json);
             });
 
-            init.on('error.dt', function(e, settings, techNote, message) {
+            init.on('error.dt', function (e, settings, techNote, message) {
                 console.error('DataTables error:', message);
                 alert('An error occurred while loading data.');
             });
@@ -8361,8 +8371,8 @@ var $ummu = {
                 if (btn && btn.includes("btn_reload") == true) {
                     table.button().add(1, {
                         text:
-                        '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                         attr: { id: "btn_reload" },
                         className: "btn-showall-color py-1 dt-btn-ummu",
                         action: function (e, dt, node, config) {
@@ -8380,8 +8390,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_all" },
                         text:
-                        '<span class="d-none d-sm-block">Select all</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Select all</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8391,8 +8401,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_none" },
                         text:
-                        '<span class="d-none d-sm-block">Deselect all</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Deselect all</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8401,8 +8411,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "dt_btn_filter" },
                         text:
-                        '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                         action: function (e, dt, node, config) {
                             $("#modal_filter").modal("show");
                         },
@@ -8458,7 +8468,7 @@ var $ummu = {
                 }
             },
 
-            button_custom: function (tb,btn) {
+            button_custom: function (tb, btn) {
                 tb.button().add(0, {
                     extend: "pageLength",
                     className: "py-1 dt-btn-ummu",
@@ -8468,8 +8478,8 @@ var $ummu = {
                 if (btn && btn.includes("btn_reload") == true) {
                     tb.button().add(1, {
                         text:
-                        '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                         attr: { id: "btn_reload" },
                         className: "btn-showall-color py-1 dt-btn-ummu",
                         action: function (e, dt, node, config) {
@@ -8487,8 +8497,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_all" },
                         text:
-                        '<span class="d-none d-sm-block">Select all</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Select all</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8498,8 +8508,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_none" },
                         text:
-                        '<span class="d-none d-sm-block">Deselect all</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Deselect all</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8508,8 +8518,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "dt_btn_filter" },
                         text:
-                        '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                         action: function (e, dt, node, config) {
                             $("#modal_filter").modal("show");
                         },
@@ -8573,10 +8583,10 @@ var $ummu = {
                 });
 
                 // Reload
-                table.button().add(1, { 
+                table.button().add(1, {
                     text:
-                    '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                    '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                        '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                     attr: { id: "btn_reload" },
                     className: "btn-showall-color py-1 dt-btn-ummu",
                     action: function (e, dt, node, config) {
@@ -8588,39 +8598,39 @@ var $ummu = {
                 });
 
                 // Select all
-                table.button().add(2, { 
+                table.button().add(2, {
                     extend: "selectAll",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_all" },
                     text:
-                    '<span class="d-none d-sm-block">Select all</span>' +
-                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Select all</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                 });
 
                 // Deselect all
-                table.button().add(3, { 
+                table.button().add(3, {
                     extend: "selectNone",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_none" },
                     text:
-                    '<span class="d-none d-sm-block">Deselect all</span>' +
-                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Deselect all</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                 });
 
                 // Fillter
-                table.button().add(4, { 
+                table.button().add(4, {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_filter" },
                     text:
-                    '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                    '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                     action: function (e, dt, node, config) {
                         $("#modal_filter").modal("show");
                     },
                 });
 
                 // coppy
-                table.button().add(5, { 
+                table.button().add(5, {
                     extend: "copy",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_copy" },
@@ -8628,7 +8638,7 @@ var $ummu = {
                 });
 
                 // csv
-                table.button().add(6, { 
+                table.button().add(6, {
                     extend: "csv",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_csv" },
@@ -8636,7 +8646,7 @@ var $ummu = {
                 });
 
                 // excel
-                table.button().add(7, { 
+                table.button().add(7, {
                     extend: "excel",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_excel" },
@@ -8647,7 +8657,7 @@ var $ummu = {
                 });
 
                 // pdf
-                table.button().add(8, { 
+                table.button().add(8, {
                     extend: "pdf",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_pdf" },
@@ -8667,90 +8677,90 @@ var $ummu = {
                 if (crud) {
                     if (crud.includes("new") == true) {
                         table
-                        .button()
-                        .add(10, {
-                            text: '<i class="fas fa-plus text-primary"></i> New',
-                            attr: { id: "dt_btn_new" },
-                            className:
-                            "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                $ummu.routes.toPage.new()
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(10, {
+                                text: '<i class="fas fa-plus text-primary"></i> New',
+                                attr: { id: "dt_btn_new" },
+                                className:
+                                    "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    $ummu.routes.toPage.new()
+                                },
+                            })
+                            .disable();
                     }
 
                     if (crud.includes("edit") == true) {
                         table
-                        .button()
-                        .add(11, {
-                            text: '<i class="fas fa-edit"></i> Edit',
-                            attr: { id: "dt_btn_edit" },
-                            className:
-                            "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.routes.toPage.edit(rows)
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(11, {
+                                text: '<i class="fas fa-edit"></i> Edit',
+                                attr: { id: "dt_btn_edit" },
+                                className:
+                                    "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.routes.toPage.edit(rows)
+                                },
+                            })
+                            .disable();
                     }
 
                     if (crud.includes("delete") == true) {
                         table
-                        .button()
-                        .add(12, {
-                            text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
-                            attr: { id: "dt_btn_delete" },
-                            className:
-                            "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.rows = rows;
-                                $ummu.vars.row = rows[0];
-                                $ummu.vars.action = "delete";
-                                $("#modal_delete_confirm").modal("show");
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(12, {
+                                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                                attr: { id: "dt_btn_delete" },
+                                className:
+                                    "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = "delete";
+                                    $("#modal_delete_confirm").modal("show");
+                                },
+                            })
+                            .disable();
                     }
 
                     if (crud.includes("delete2") == true) {
                         table
-                        .button()
-                        .add(12, {
-                            text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
-                            attr: { id: "dt_btn_delete" },
-                            className:
-                            "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.routes.toPage.delete(rows)
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(12, {
+                                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                                attr: { id: "dt_btn_delete" },
+                                className:
+                                    "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.routes.toPage.delete(rows)
+                                },
+                            })
+                            .disable();
                     }
 
                     if (crud.includes("import") == true) {
                         table
-                        .button()
-                        .add(13, {
-                            text: '<i class="fas fa-file-excel text-success"></i> Import',
-                            attr: { id: "dt_btn_import" },
-                            className: "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                $ummu.vars.action = "import";
+                            .button()
+                            .add(13, {
+                                text: '<i class="fas fa-file-excel text-success"></i> Import',
+                                attr: { id: "dt_btn_import" },
+                                className: "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    $ummu.vars.action = "import";
 
-                                console.log('dt button import')
-                                if(typeof app.controllers.import !== "undefined") {
-                                    console.log('function app.controllers.import is OK.');
-                                    app.controllers.import();
-                                }else{
-                                    console.log('plese create function app.controllers.import');
-                                }
-                            },
-                        })
-                        .disable();
+                                    console.log('dt button import')
+                                    if (typeof app.controllers.import !== "undefined") {
+                                        console.log('function app.controllers.import is OK.');
+                                        app.controllers.import();
+                                    } else {
+                                        console.log('plese create function app.controllers.import');
+                                    }
+                                },
+                            })
+                            .disable();
                     }
                 }
             },
@@ -8759,68 +8769,68 @@ var $ummu = {
                 if (status) {
                     if (status.includes("release") == true) {
                         table
-                        .button()
-                        .add(13, {
-                            text: '<i class="fas fa-share text-primary"></i> Release',
-                            attr: { id: "dt_btn_release" },
-                            className: "py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.rows = rows;
-                                $("#modal_release_confirm").modal("show");
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(13, {
+                                text: '<i class="fas fa-share text-primary"></i> Release',
+                                attr: { id: "dt_btn_release" },
+                                className: "py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $("#modal_release_confirm").modal("show");
+                                },
+                            })
+                            .disable();
                     }
 
                     if (status.includes("approve") == true) {
                         table
-                        .button()
-                        .add(14, {
-                            text: '<i class="fas fa-check text-success"></i> Approve',
-                            attr: { id: "dt_btn_approve" },
-                            className: "py-1 dt-btn-ummu dt-action",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.rows = rows;
-                                $ummu.vars.is_row = false;
-                                $("#modal_approve_confirm").modal("show");
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(14, {
+                                text: '<i class="fas fa-check text-success"></i> Approve',
+                                attr: { id: "dt_btn_approve" },
+                                className: "py-1 dt-btn-ummu dt-action",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $ummu.vars.is_row = false;
+                                    $("#modal_approve_confirm").modal("show");
+                                },
+                            })
+                            .disable();
                     }
 
                     if (status.includes("pending") == true) {
                         table
-                        .button()
-                        .add(15, {
-                            text: '<i class="fal fa-business-time text-warning"></i> Pending',
-                            attr: { id: "dt_btn_pending" },
-                            className: "py-1 dt-btn-ummu dt-action",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.rows = rows;
-                                $("#modal_pending_confirm").modal("show");
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(15, {
+                                text: '<i class="fal fa-business-time text-warning"></i> Pending',
+                                attr: { id: "dt_btn_pending" },
+                                className: "py-1 dt-btn-ummu dt-action",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $("#modal_pending_confirm").modal("show");
+                                },
+                            })
+                            .disable();
                     }
 
                     if (status.includes("reject") == true) {
                         table
-                        .button()
-                        .add(16, {
-                            text: '<i class="fas fa-times text-danger"></i> Reject',
-                            attr: { id: "dt_btn_reject" },
-                            className: "py-1 dt-btn-ummu dt-action",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.rows = rows;
-                                $ummu.vars.is_row = false;
-                                $("#modal_reject_confirm").modal("show");
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(16, {
+                                text: '<i class="fas fa-times text-danger"></i> Reject',
+                                attr: { id: "dt_btn_reject" },
+                                className: "py-1 dt-btn-ummu dt-action",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.rows = rows;
+                                    $ummu.vars.is_row = false;
+                                    $("#modal_reject_confirm").modal("show");
+                                },
+                            })
+                            .disable();
                     }
                 }
             },
@@ -8829,70 +8839,70 @@ var $ummu = {
                 if (trx) {
                     if (trx.includes("add") == true) {
                         table
-                        .button()
-                        .add(17, {
-                            text: '<i class="fas fa-file-plus text-primary"></i> Add',
-                            attr: { id: "dt_btn_add" },
-                            className: "py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.row = rows[0];
-                                $ummu.vars.action = "add";
-                                app.controllers.add(rows[0]);
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(17, {
+                                text: '<i class="fas fa-file-plus text-primary"></i> Add',
+                                attr: { id: "dt_btn_add" },
+                                className: "py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = "add";
+                                    app.controllers.add(rows[0]);
+                                },
+                            })
+                            .disable();
                     }
 
                     if (trx.includes("stock_addition") == true) {
                         table
-                        .button()
-                        .add(18, {
-                            text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
-                            attr: { id: "dt_btn_stock_addition" },
-                            className: "py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.row = rows[0];
-                                $ummu.vars.action = "addition";
-                                app.controllers.stock_addition(rows[0]);
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(18, {
+                                text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
+                                attr: { id: "dt_btn_stock_addition" },
+                                className: "py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = "addition";
+                                    app.controllers.stock_addition(rows[0]);
+                                },
+                            })
+                            .disable();
                     }
 
                     if (trx.includes("stock_taking") == true) {
                         table
-                        .button()
-                        .add(19, {
-                            text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
-                            attr: { id: "dt_btn_stock_taking" },
-                            className: "py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.row = rows[0];
-                                $ummu.vars.action = "taking";
-                                app.controllers.stock_taking(rows[0]);
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(19, {
+                                text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
+                                attr: { id: "dt_btn_stock_taking" },
+                                className: "py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = "taking";
+                                    app.controllers.stock_taking(rows[0]);
+                                },
+                            })
+                            .disable();
                     }
 
                     if (trx.includes("history") == true) {
                         table
-                        .button()
-                        .add(20, {
-                            text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
-                            attr: { id: "dt_btn_history" },
-                            className: "py-1 dt-btn-ummu for-user",
-                            action: function (e, dt, node, config) {
-                                var rows = $ummu.dt.select.data();
-                                $ummu.vars.row = rows[0];
-                                $ummu.vars.action = "get";
-                                app.controllers.history(rows[0]);
-                            },
-                        })
-                        .disable();
+                            .button()
+                            .add(20, {
+                                text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
+                                attr: { id: "dt_btn_history" },
+                                className: "py-1 dt-btn-ummu for-user",
+                                action: function (e, dt, node, config) {
+                                    var rows = $ummu.dt.select.data();
+                                    $ummu.vars.row = rows[0];
+                                    $ummu.vars.action = "get";
+                                    app.controllers.history(rows[0]);
+                                },
+                            })
+                            .disable();
                     }
                 }
             },
@@ -8910,8 +8920,8 @@ var $ummu = {
                 if (btn && btn.includes("btn_reload") == true) {
                     table.button().add(1, {
                         text:
-                        '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                         attr: { id: "btn_reload" },
                         className: "btn-showall-color py-1 dt-btn-ummu",
                         action: function (e, dt, node, config) {
@@ -8929,8 +8939,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_all" },
                         text:
-                        '<span class="d-none d-sm-block">Select all</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Select all</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8940,8 +8950,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_none" },
                         text:
-                        '<span class="d-none d-sm-block">Deselect all</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Deselect all</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -8950,8 +8960,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "dt_btn_filter" },
                         text:
-                        '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                         action: function (e, dt, node, config) {
                             $("#modal_filter").modal("show");
                         },
@@ -9019,8 +9029,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_all" },
                     text:
-                    '<span class="d-none d-sm-block">Select all</span>' +
-                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Select all</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(3, {
@@ -9028,8 +9038,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_none" },
                     text:
-                    '<span class="d-none d-sm-block">Deselect all</span>' +
-                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Deselect all</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(5, {
@@ -9074,7 +9084,7 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_setting" },
                     text:
-                    '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                        '<i class="fas fa-cogs text-secondary fa-lg"></i>',
                     action: function (e, dt, node, config) {
                         $("#modal_setting_dt").modal("show");
                     },
@@ -9102,8 +9112,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_all" },
                     text:
-                    '<span class="d-none d-sm-block">Select all</span>' +
-                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Select all</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(3, {
@@ -9111,8 +9121,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_none" },
                     text:
-                    '<span class="d-none d-sm-block">Deselect all</span>' +
-                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Deselect all</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(5, {
@@ -9157,7 +9167,7 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_setting" },
                     text:
-                    '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                        '<i class="fas fa-cogs text-secondary fa-lg"></i>',
                     action: function (e, dt, node, config) {
                         $("#modal_setting_dt").modal("show");
                     },
@@ -9176,8 +9186,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_all" },
                     text:
-                    '<span class="d-none d-sm-block">Select all</span>' +
-                    '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Select all</span>' +
+                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(3, {
@@ -9185,8 +9195,8 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_select_none" },
                     text:
-                    '<span class="d-none d-sm-block">Deselect all</span>' +
-                    '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                        '<span class="d-none d-sm-block">Deselect all</span>' +
+                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                 });
 
                 init.button().add(5, {
@@ -9231,7 +9241,7 @@ var $ummu = {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_setting" },
                     text:
-                    '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                        '<i class="fas fa-cogs text-secondary fa-lg"></i>',
                     action: function (e, dt, node, config) {
                         $("#modal_setting_dt").modal("show");
                     },
@@ -9276,8 +9286,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_all" },
                         text:
-                        '<span class="d-none d-sm-block">Select all</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Select all</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -9287,8 +9297,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "btn_select_none" },
                         text:
-                        '<span class="d-none d-sm-block">Deselect all</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block">Deselect all</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                     });
                 }
 
@@ -9345,7 +9355,7 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "dt_btn_setting" },
                         text:
-                        '<i class="fas fa-cogs text-secondary fa-lg"></i>',
+                            '<i class="fas fa-cogs text-secondary fa-lg"></i>',
                         action: function (e, dt, node, config) {
                             $("#modal_setting_dt").modal("show");
                         },
@@ -9521,7 +9531,7 @@ var $ummu = {
                             nav_tab_id == null ||
                             nav_tab_id == "" ||
                             nav_tab_id == "nav-released-tab"
-                            ) {
+                        ) {
                             // /**
                             // * pada tab Released List, dokument bisa diapprove dan direject */
                             if (crud[4] == 1) {
@@ -9532,7 +9542,7 @@ var $ummu = {
                             }
                         }
                     }
-                }else{
+                } else {
                     if (count_selc == 0) {
                         $ummu.vars.id = null;
                         $ummu.vars.ids = null;
@@ -9550,7 +9560,7 @@ var $ummu = {
                         table.button("#dt_btn_delete").enable();
                     }
 
-                    if(count_selc > 1) {
+                    if (count_selc > 1) {
                         var rows = $ummu.dt.select.data();
                         table.button("#dt_btn_new").disable();
                         table.button("#dt_btn_edit").disable();
@@ -9583,7 +9593,7 @@ var $ummu = {
                     table.button("#dt_btn_delete").enable();
                 }
 
-                if(count_selc > 1) {
+                if (count_selc > 1) {
                     var rows = $ummu.dt.select.data();
                     table.button("#dt_btn_new").disable();
                     table.button("#dt_btn_edit").disable();
@@ -9756,7 +9766,7 @@ var $ummu = {
                             nav_tab_id == null ||
                             nav_tab_id == "" ||
                             nav_tab_id == "nav-released-tab"
-                            ) {
+                        ) {
                             // /**
                             // * pada tab Released List, dokument bisa diapprove dan direject */
                             if (crud[4] == 1) {
@@ -9767,7 +9777,7 @@ var $ummu = {
                             }
                         }
                     }
-                }else{
+                } else {
                     console.log('if not crud set')
                     if (count_selc == 0) {
                         $ummu.vars.id = null;
@@ -9786,7 +9796,7 @@ var $ummu = {
                         table.button("#dt_btn_delete").enable();
                     }
 
-                    if(count_selc > 1) {
+                    if (count_selc > 1) {
                         var rows = $ummu.dt.select.data();
                         table.button("#dt_btn_new").disable();
                         table.button("#dt_btn_edit").disable();
@@ -9809,7 +9819,7 @@ var $ummu = {
                         console.log("table deselect.")
                         $ummu.dt.button.endis();
                     });
-                }else{
+                } else {
                     table.on("click", "tbody tr td:first-child", function () {
                         console.log("table click td:first-child.")
                         $ummu.dt.button.crud();
@@ -9902,14 +9912,14 @@ var $ummu = {
                 table.on("mouseenter", "td", function () {
                     let colIdx = table.cell(this).index().column;
                     table
-                    .cells()
-                    .nodes()
-                    .each((el) => el.classList.remove("highlight"));
+                        .cells()
+                        .nodes()
+                        .each((el) => el.classList.remove("highlight"));
 
                     table
-                    .column(colIdx)
-                    .nodes()
-                    .each((el) => el.classList.add("highlight"));
+                        .column(colIdx)
+                        .nodes()
+                        .each((el) => el.classList.add("highlight"));
                 });
             },
 
@@ -10083,7 +10093,7 @@ var $ummu = {
                                 nav_tab_id == null ||
                                 nav_tab_id == "" ||
                                 nav_tab_id == "nav-released-tab"
-                                ) {
+                            ) {
                                 // /**
                                 // * pada tab Released List, dokument bisa diapprove dan direject */
                                 if (crud[4] == 1) {
@@ -10120,7 +10130,7 @@ var $ummu = {
                         table.button("#dt_btn_delete").enable();
                     }
 
-                    if(count_selc > 1) {
+                    if (count_selc > 1) {
                         var rows = $ummu.dt.select.data();
                         table.button("#dt_btn_new").disable();
                         table.button("#dt_btn_edit").disable();
@@ -10190,8 +10200,8 @@ var $ummu = {
                     if (btn && btn.includes("btn_reload") == true) {
                         table.button().add(1, {
                             text:
-                            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                                '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                                '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                             attr: { id: "btn_reload" },
                             className: "btn-showall-color py-1 dt-btn-ummu",
                             action: function (e, dt, node, config) {
@@ -10209,8 +10219,8 @@ var $ummu = {
                             className: "py-1 dt-btn-ummu",
                             attr: { id: "btn_select_all" },
                             text:
-                            '<span class="d-none d-sm-block">Select all</span>' +
-                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                                '<span class="d-none d-sm-block">Select all</span>' +
+                                '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                         });
                     }
 
@@ -10220,8 +10230,8 @@ var $ummu = {
                             className: "py-1 dt-btn-ummu",
                             attr: { id: "btn_select_none" },
                             text:
-                            '<span class="d-none d-sm-block">Deselect all</span>' +
-                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                                '<span class="d-none d-sm-block">Deselect all</span>' +
+                                '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                         });
                     }
 
@@ -10230,8 +10240,8 @@ var $ummu = {
                             className: "py-1 dt-btn-ummu",
                             attr: { id: "dt_btn_filter" },
                             text:
-                            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                                '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                                '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                             action: function (e, dt, node, config) {
                                 $("#modal_filter").modal("show");
                             },
@@ -10296,8 +10306,8 @@ var $ummu = {
 
                     table.button().add(1, {
                         text:
-                        '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
-                        '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="fas fa-sync-alt"></i> Reload</span>' +
+                            '<span class="d-block d-sm-none"><i class="fas fa-sync-alt"></i></span>',
                         attr: { id: "btn_reload" },
                         className: "btn-showall-color py-1 dt-btn-ummu",
                         action: function (e, dt, node, config) {
@@ -10314,8 +10324,8 @@ var $ummu = {
                             className: "py-1 dt-btn-ummu",
                             attr: { id: "btn_select_all" },
                             text:
-                            '<span class="d-none d-sm-block">Select all</span>' +
-                            '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
+                                '<span class="d-none d-sm-block">Select all</span>' +
+                                '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                         });
                     }
 
@@ -10325,8 +10335,8 @@ var $ummu = {
                             className: "py-1 dt-btn-ummu",
                             attr: { id: "btn_select_none" },
                             text:
-                            '<span class="d-none d-sm-block">Deselect all</span>' +
-                            '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
+                                '<span class="d-none d-sm-block">Deselect all</span>' +
+                                '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                         });
                     }
 
@@ -10334,8 +10344,8 @@ var $ummu = {
                         className: "py-1 dt-btn-ummu",
                         attr: { id: "dt_btn_filter" },
                         text:
-                        '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
-                        '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
+                            '<span class="d-none d-sm-block"><i class="far fa-filter"></i> Filter</span>' +
+                            '<span class="d-block d-sm-none"><i class="far fa-filter fa-lg"></i></span>',
                         action: function (e, dt, node, config) {
                             $("#modal_filter").modal("show");
                         },
@@ -10384,89 +10394,89 @@ var $ummu = {
                     if (crud) {
                         if (crud.includes("new") == true) {
                             table
-                            .button()
-                            .add(10, {
-                                text: '<i class="fas fa-plus text-primary"></i> New',
-                                attr: { id: "dt_btn_new" },
-                                className:
-                                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    $ummu.vars.action = "new";
-                                    app.controllers.new();
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(10, {
+                                    text: '<i class="fas fa-plus text-primary"></i> New',
+                                    attr: { id: "dt_btn_new" },
+                                    className:
+                                        "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.vars.action = "new";
+                                        app.controllers.new();
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (crud.includes("edit") == true) {
                             table
-                            .button()
-                            .add(11, {
-                                text: '<i class="fas fa-edit"></i> Edit',
-                                attr: { id: "dt_btn_edit" },
-                                className:
-                                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "edit";
-                                    app.controllers.edit(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(11, {
+                                    text: '<i class="fas fa-edit"></i> Edit',
+                                    attr: { id: "dt_btn_edit" },
+                                    className:
+                                        "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "edit";
+                                        app.controllers.edit(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (crud.includes("delete") == true) {
                             table
-                            .button()
-                            .add(12, {
-                                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
-                                attr: { id: "dt_btn_delete" },
-                                className:
-                                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "delete";
-                                    $("#modal_delete_confirm").modal("show");
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(12, {
+                                    text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                                    attr: { id: "dt_btn_delete" },
+                                    className:
+                                        "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "delete";
+                                        $("#modal_delete_confirm").modal("show");
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (crud.includes("delete2") == true) {
                             table
-                            .button()
-                            .add(12, {
-                                text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
-                                attr: { id: "dt_btn_delete" },
-                                className:
-                                "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "delete2";
-                                    app.controllers.delete(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(12, {
+                                    text: '<i class="fas fa-trash-alt text-danger"></i> Delete',
+                                    attr: { id: "dt_btn_delete" },
+                                    className:
+                                        "btn-showall-color hidden collapse py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "delete2";
+                                        app.controllers.delete(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (crud.includes("import") == true) {
                             table
-                            .button()
-                            .add(13, {
-                                text: '<i class="fas fa-file-excel text-success"></i> Import',
-                                attr: { id: "dt_btn_import" },
-                                className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
-                                action: function (e, dt, node, config) {
-                                    $ummu.vars.action = "import";
-                                    app.controllers.import();
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(13, {
+                                    text: '<i class="fas fa-file-excel text-success"></i> Import',
+                                    attr: { id: "dt_btn_import" },
+                                    className: "btn-showall-color hidden collapse py-1 dt-btn-ummuz for-userz",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.vars.action = "import";
+                                        app.controllers.import();
+                                    },
+                                })
+                                .disable();
                         }
                     }
                 },
@@ -10475,68 +10485,68 @@ var $ummu = {
                     if (status) {
                         if (status.includes("release") == true) {
                             table
-                            .button()
-                            .add(13, {
-                                text: '<i class="fas fa-share text-primary"></i> Release',
-                                attr: { id: "dt_btn_release" },
-                                className: "py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $("#modal_release_confirm").modal("show");
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(13, {
+                                    text: '<i class="fas fa-share text-primary"></i> Release',
+                                    attr: { id: "dt_btn_release" },
+                                    className: "py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $("#modal_release_confirm").modal("show");
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (status.includes("approve") == true) {
                             table
-                            .button()
-                            .add(14, {
-                                text: '<i class="fas fa-check text-success"></i> Approve',
-                                attr: { id: "dt_btn_approve" },
-                                className: "py-1 dt-btn-ummu dt-action",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $ummu.vars.is_row = false;
-                                    $("#modal_approve_confirm").modal("show");
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(14, {
+                                    text: '<i class="fas fa-check text-success"></i> Approve',
+                                    attr: { id: "dt_btn_approve" },
+                                    className: "py-1 dt-btn-ummu dt-action",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $ummu.vars.is_row = false;
+                                        $("#modal_approve_confirm").modal("show");
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (status.includes("pending") == true) {
                             table
-                            .button()
-                            .add(15, {
-                                text: '<i class="fal fa-business-time text-warning"></i> Pending',
-                                attr: { id: "dt_btn_pending" },
-                                className: "py-1 dt-btn-ummu dt-action",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $("#modal_pending_confirm").modal("show");
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(15, {
+                                    text: '<i class="fal fa-business-time text-warning"></i> Pending',
+                                    attr: { id: "dt_btn_pending" },
+                                    className: "py-1 dt-btn-ummu dt-action",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $("#modal_pending_confirm").modal("show");
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (status.includes("reject") == true) {
                             table
-                            .button()
-                            .add(16, {
-                                text: '<i class="fas fa-times text-danger"></i> Reject',
-                                attr: { id: "dt_btn_reject" },
-                                className: "py-1 dt-btn-ummu dt-action",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.rows = rows;
-                                    $ummu.vars.is_row = false;
-                                    $("#modal_reject_confirm").modal("show");
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(16, {
+                                    text: '<i class="fas fa-times text-danger"></i> Reject',
+                                    attr: { id: "dt_btn_reject" },
+                                    className: "py-1 dt-btn-ummu dt-action",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.rows = rows;
+                                        $ummu.vars.is_row = false;
+                                        $("#modal_reject_confirm").modal("show");
+                                    },
+                                })
+                                .disable();
                         }
                     }
                 },
@@ -10545,70 +10555,70 @@ var $ummu = {
                     if (trx) {
                         if (trx.includes("add") == true) {
                             table
-                            .button()
-                            .add(17, {
-                                text: '<i class="fas fa-file-plus text-primary"></i> Add',
-                                attr: { id: "dt_btn_add" },
-                                className: "py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "add";
-                                    app.controllers.add(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(17, {
+                                    text: '<i class="fas fa-file-plus text-primary"></i> Add',
+                                    attr: { id: "dt_btn_add" },
+                                    className: "py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "add";
+                                        app.controllers.add(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (trx.includes("stock_addition") == true) {
                             table
-                            .button()
-                            .add(18, {
-                                text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
-                                attr: { id: "dt_btn_stock_addition" },
-                                className: "py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "addition";
-                                    app.controllers.stock_addition(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(18, {
+                                    text: '<i class="fal fa-folder-plus fa-lg text-primary"></i> Stock Addition',
+                                    attr: { id: "dt_btn_stock_addition" },
+                                    className: "py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "addition";
+                                        app.controllers.stock_addition(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (trx.includes("stock_taking") == true) {
                             table
-                            .button()
-                            .add(19, {
-                                text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
-                                attr: { id: "dt_btn_stock_taking" },
-                                className: "py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "taking";
-                                    app.controllers.stock_taking(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(19, {
+                                    text: '<i class="fal fa-folder-minus fa-lg text-danger"></i> Stock Taking',
+                                    attr: { id: "dt_btn_stock_taking" },
+                                    className: "py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "taking";
+                                        app.controllers.stock_taking(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
 
                         if (trx.includes("history") == true) {
                             table
-                            .button()
-                            .add(20, {
-                                text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
-                                attr: { id: "dt_btn_history" },
-                                className: "py-1 dt-btn-ummu for-user",
-                                action: function (e, dt, node, config) {
-                                    var rows = $ummu.dt.select.data();
-                                    $ummu.vars.row = rows[0];
-                                    $ummu.vars.action = "get";
-                                    app.controllers.history(rows[0]);
-                                },
-                            })
-                            .disable();
+                                .button()
+                                .add(20, {
+                                    text: '<i class="far fa-file-medical-alt fa-lg"></i> History',
+                                    attr: { id: "dt_btn_history" },
+                                    className: "py-1 dt-btn-ummu for-user",
+                                    action: function (e, dt, node, config) {
+                                        var rows = $ummu.dt.select.data();
+                                        $ummu.vars.row = rows[0];
+                                        $ummu.vars.action = "get";
+                                        app.controllers.history(rows[0]);
+                                    },
+                                })
+                                .disable();
                         }
                     }
                 },
@@ -10618,11 +10628,11 @@ var $ummu = {
             },
         },
 
-        create_siteProject: function() {
+        create_siteProject: function () {
             $ummu.dt.init_sitePorject = new DataTable(
                 $listdata_tableID,
                 $ummu.dt.siteprojectConfig()
-                );
+            );
 
             $ummu.dt.init_sitePorject.on('xhr', function () {
                 var response = $ummu.dt.init_sitePorject.ajax.json();
@@ -10638,10 +10648,10 @@ var $ummu = {
                     dataSrc: "rows",
                     url: $base_url + "aini/site_project/showDync/region_code,region_name",
                     data: function (d) {
-                    // d.myKey = "myValue";
-                    // d.custom = $('#myInput').val();
-                    // d.release = [0];
-                    // etc
+                        // d.myKey = "myValue";
+                        // d.custom = $('#myInput').val();
+                        // d.release = [0];
+                        // etc
                     },
                 },
                 processing: true,
@@ -10682,7 +10692,7 @@ var $ummu = {
                                 '<a href="javascript:void(0);"><div><span class="">' +
                                 data +
                                 '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                                );
+                            );
                         },
                     },
                     { title: "Name", data: "region_name" },
@@ -10694,14 +10704,14 @@ var $ummu = {
         },
 
         events: {
-            initSitePorject_onClick: function() {
+            initSitePorject_onClick: function () {
                 if ($ummu.dt.init_sitePorject !== null) {
                     $ummu.dt.init_sitePorject.on("click", "tbody tr td:nth-child(1)", function () {
                         var row = $ummu.dt.init_sitePorject.row(this).data();
                         console.log(row);
                         $("#ummu_site_project_input")
-                        .val(row.region_name)
-                        .attr("data-kode", row.region_code);
+                            .val(row.region_name)
+                            .attr("data-kode", row.region_code);
                         $("#modal_list_datatable").modal("hide");
                         $ummu.vars.listData.selectKode = row.region_code;
                     });
@@ -10846,7 +10856,7 @@ var $ummu = {
             },
         },
 
-        addCell: function(tr, content, colSpan = 1, d = '') {
+        addCell: function (tr, content, colSpan = 1, d = '') {
             let td = document.createElement('td');
 
             td.colSpan = colSpan;
@@ -10857,7 +10867,7 @@ var $ummu = {
         },
 
         config: {
-            select: function() {
+            select: function () {
                 return {
                     style: "multi+shift",
                     selector: "td:first-child",
@@ -10866,19 +10876,19 @@ var $ummu = {
             },
         },
 
-        loader_show: function() {
+        loader_show: function () {
             $("#modal_loader_dt").modal("show");
         },
 
-        loader_hide: function() {
+        loader_hide: function () {
             $("#modal_loader_dt").modal("hide");
         },
 
-        endRender_class: function() {
+        endRender_class: function () {
             return 'text-right font-weight-bold bg-purple py-2';
         },
 
-        init2_kosong: function($tableInit2) {
+        init2_kosong: function ($tableInit2) {
             $ummu.dt.init2 = new DataTable($tableInit2,
                 {
                     lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
@@ -10919,33 +10929,33 @@ var $ummu = {
                 show: function () {
                     $("#info_itr #info_out span, #approval_itr span").html(
                         localStorage.getItem("itr_jOut")
-                        );
+                    );
                     $("#info_itr #info_pend span").html(
                         localStorage.getItem("itr_jPend")
-                        );
+                    );
                     $("#info_itr #info_rej span").html(localStorage.getItem("itr_jRej"));
 
                     $("#info_ur #info_out span, #approval_ur span").html(
                         localStorage.getItem("ur_jOut")
-                        );
+                    );
                     $("#info_ur #info_pend span").html(localStorage.getItem("ur_jPend"));
                     $("#info_ur #info_rej span").html(localStorage.getItem("ur_jRej"));
 
                     $("#info_mr #info_out span, #approval_mr span").html(
                         localStorage.getItem("mr_jOut")
-                        );
+                    );
                     $("#info_mr #info_pend span").html(localStorage.getItem("mr_jPend"));
                     $("#info_mr #info_rej span").html(localStorage.getItem("mr_jRej"));
 
                     $("#info_pr #info_out span, #approval_pr span").html(
                         localStorage.getItem("pr_jOut")
-                        );
+                    );
                     $("#info_pr #info_pend span").html(localStorage.getItem("pr_jPend"));
                     $("#info_pr #info_rej span").html(localStorage.getItem("pr_jRej"));
 
                     $("#info_po #info_out span, #approval_po span").html(
                         localStorage.getItem("po_jOut")
-                        );
+                    );
                     $("#info_po #info_pend span").html(localStorage.getItem("po_jPend"));
                     $("#info_po #info_rej span").html(localStorage.getItem("po_jRej"));
                 },
@@ -10954,20 +10964,20 @@ var $ummu = {
 
         referensi: JSON.parse(localStorage.getItem("referensi")),
 
-        setjsontostr: function(key, value) {
+        setjsontostr: function (key, value) {
             localStorage.setItem(key, value);
         },
 
-        getstrtojson: function(key) {
+        getstrtojson: function (key) {
             localStorage.getItem(key);
         },
 
-        dt_default: function(key) {
+        dt_default: function (key) {
             var lcg = localStorage.getItem(key);
             if (lcg) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable(
-                        $table, 
+                        $table,
                         {
                             data: JSON.parse(lcg).rows,
                             columns: app.dt.default.config_columns(),
@@ -10991,12 +11001,11 @@ var $ummu = {
                                 // var api = this.api();
                             },
                         });
-                }else{
+                } else {
                     $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }
-            }else{
-                $ummu.dt.init = new DataTable(
-                    $table,
+            } else {
+                $ummu.dt.init = new DataTable($table,
                     {
                         lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
                         layout: {
@@ -11010,17 +11019,17 @@ var $ummu = {
 
             $ummu.dt.init.columns.adjust();
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $ummu.dt.init.columns.adjust();
             }, 3000);
         },
 
-        dtInit: function(tb, key, col, coldef) {
+        dtInit: function (tb, key, col, coldef) {
             var lcg = localStorage.getItem(key);
             if (lcg) {
                 if (app.dt.$init == null) {
                     app.dt.$init = new DataTable(
-                        tb, 
+                        tb,
                         {
                             data: JSON.parse(lcg).rows,
                             columns: col,
@@ -11044,10 +11053,10 @@ var $ummu = {
                                 // var api = this.api();
                             },
                         });
-                }else{
+                } else {
                     app.dt.$init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }
-            }else{
+            } else {
                 app.dt.$init = new DataTable(table,
                     {
                         lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
@@ -11062,7 +11071,7 @@ var $ummu = {
 
             app.dt.$init.columns.adjust();
 
-            setTimeout(function() {
+            setTimeout(function () {
                 app.dt.$init.columns.adjust();
             }, 3000);
         },
@@ -11118,37 +11127,37 @@ var $ummu = {
     modal: {
         detele_confirm: function () {
             var html =
-            '<div class="modal fade" id="modal_confirm_delete" tabindex="-1">' +
-            '<div class="modal-dialog">' +
-            '<div class="modal-content">' +
-            '<div class="modal-header">' +
-            '<h5 class="modal-title">Confirmation</h5>' +
-            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
-            "</div>" +
-            '<div class="collapse" id="loader_delete">' +
-            '<div class="d-flex justify-content-center mt-2">' +
-            '<div class="spinner-border text-danger" role="status">' +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            '<div class="modal-body">' +
-            "Are you sure to delete this data?" +
-            "</div>" +
-            '<div class="modal-footer">' +
-            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
-            '<a href="#" id="btn_delete" class="btn btn-danger" onclick="app.controllers.delete();">Delete</a>' +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "</div>";
+                '<div class="modal fade" id="modal_confirm_delete" tabindex="-1">' +
+                '<div class="modal-dialog">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                '<h5 class="modal-title">Confirmation</h5>' +
+                '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                "</div>" +
+                '<div class="collapse" id="loader_delete">' +
+                '<div class="d-flex justify-content-center mt-2">' +
+                '<div class="spinner-border text-danger" role="status">' +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                '<div class="modal-body">' +
+                "Are you sure to delete this data?" +
+                "</div>" +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>' +
+                '<a href="#" id="btn_delete" class="btn btn-danger" onclick="app.controllers.delete();">Delete</a>' +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
             $(".ummu-html").html(html);
         },
 
-        list_data: function() {
+        list_data: function () {
         },
 
-        ummu_msg: function(msg) {
+        ummu_msg: function (msg) {
             $('#ummu_modal_message #alert').html(msg)
             $('#ummu_modal_message').modal('show')
         },
@@ -11161,19 +11170,19 @@ var $ummu = {
             $("#modal_form .modal-footer").html("");
 
             var btn_close =
-            '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" data-bs-dismiss="modal">Close</button>';
+                '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" data-bs-dismiss="modal">Close</button>';
 
             var btn_back =
-            '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" id="modal_btn_back"><i class="fas fa-chevron-double-left"></i> Back</button>';
+                '<button type="button" class="btn btn-sm btn-secondary btn-in-modal" id="modal_btn_back"><i class="fas fa-chevron-double-left"></i> Back</button>';
 
             var btn_edit =
-            '<button type="button" class="btn btn-sm btn-warning btn-in-modal" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>';
+                '<button type="button" class="btn btn-sm btn-warning btn-in-modal" id="modal_btn_edit"><i class="fas fa-edit"></i> Edit</button>';
 
             var btn_save =
-            '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save"><i class="fas fa-save"></i> Save changes</button>';
+                '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save"><i class="fas fa-save"></i> Save changes</button>';
 
             var btn_save_and_next =
-            '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save" id="modal_btn_save_and_next">Save and Next <i class="fas fa-chevron-double-right"></i></button>';
+                '<button type="button" class="btn btn-sm btn-primary btn-in-modal modal-btn-save" id="modal_btn_save_and_next">Save and Next <i class="fas fa-chevron-double-right"></i></button>';
 
             if (crud) {
                 if (crud.includes("close") == true) {
@@ -11198,8 +11207,8 @@ var $ummu = {
             }
         },
 
-        sbToolbar: function() {
-            $(".sb-toolbar button").on('click', function() {
+        sbToolbar: function () {
+            $(".sb-toolbar button").on('click', function () {
                 // // var element_id = $(this).attr("id");
                 // // console.log('class ummu-datepicker is change OK.');
                 // if(typeof app.controllers.new !== "undefined") {
@@ -11223,15 +11232,15 @@ var $ummu = {
                     $(".sb-toolbar-input-endis").prop("disabled", false)
 
                     console.log('btn_new is clicked.')
-                    if(typeof app.controllers.sbNew !== "undefined") {
+                    if (typeof app.controllers.sbNew !== "undefined") {
                         console.log('function app.controllers.sbNew is OK.')
                         app.controllers.sbNew()
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.sbNew')
                     }
                 }
 
-                else if(elID == 'btn_edit') {
+                else if (elID == 'btn_edit') {
                     $(".btn-nav-link-table").addClass("disabled")
                     $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
                     $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
@@ -11242,15 +11251,15 @@ var $ummu = {
                     $(".sb-toolbar-input-endis").prop("disabled", false)
 
                     console.log('btn_edit is clicked.')
-                    if(typeof app.controllers.sbEdit !== "undefined") {
+                    if (typeof app.controllers.sbEdit !== "undefined") {
                         console.log('function app.controllers.sbEdit is OK.')
                         app.controllers.sbEdit()
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.sbEdit')
                     }
                 }
 
-                else if(elID == 'btn_cancle') {
+                else if (elID == 'btn_cancle') {
                     if ($ummu.button.id == 'btn_edit') {
                         $(".btn-nav-link-table").removeClass("disabled")
                         $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
@@ -11261,7 +11270,7 @@ var $ummu = {
                         $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
                         $(".sb-toolbar-btn-endis").prop("disabled", true)
                         app.controllers.sbCancleEdit()
-                    }else {
+                    } else {
                         $(".btn-nav-link-table").removeClass("disabled")
                         $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
                         $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
@@ -11271,12 +11280,12 @@ var $ummu = {
                         $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
                         $(".sb-toolbar-input-endis").prop("disabled", true)
                         // app.controllers.sbCancleNew()
-                        
+
                         console.log('btn_cancle is clicked.')
-                        if(typeof app.controllers.sbCancle !== "undefined") {
+                        if (typeof app.controllers.sbCancle !== "undefined") {
                             console.log('function app.controllers.sbCancle is OK.')
                             app.controllers.sbCancle()
-                        }else{
+                        } else {
                             console.log('plese create function app.controllers.sbCancle')
                         }
                     }
@@ -11285,10 +11294,10 @@ var $ummu = {
 
                 else if (elID == 'btn_save') {
                     console.log('btn_cancle is clicked.')
-                    if(typeof app.controllers.sbSave !== "undefined") {
+                    if (typeof app.controllers.sbSave !== "undefined") {
                         console.log('function app.controllers.sbSave is OK.')
                         app.controllers.sbSave()
-                    }else{
+                    } else {
                         console.log('plese create function app.controllers.sbSave')
                     }
                 }
@@ -11297,7 +11306,7 @@ var $ummu = {
             })
         },
 
-        sbBtn_on_showData: function() {
+        sbBtn_on_showData: function () {
             $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
             $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
         },
@@ -11306,39 +11315,39 @@ var $ummu = {
             modal_form: function (crud) {
                 $("#modal_form .modal-footer").html("");
                 var btn_back =
-                '<button type="button" class="btn btn-sm btn-secondary btn-back" id="btn_back">' +
-                '<i class="fas fa-chevron-left"></i> Back' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-secondary btn-back" id="btn_back">' +
+                    '<i class="fas fa-chevron-left"></i> Back' +
+                    "</button>";
 
                 var btn_edit =
-                '<button type="button" class="btn btn-sm btn-primary btn-edit modal_btn_edit" id="modal_btn_edit">' +
-                '<i class="fas fa-edit"></i> Edit' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-primary btn-edit modal_btn_edit" id="modal_btn_edit">' +
+                    '<i class="fas fa-edit"></i> Edit' +
+                    "</button>";
 
                 var approve =
-                '<button type="button" class="btn btn-sm btn-primary btn-approve modal_btn_approve" id="modal_btn_approve">' +
-                '<i class="fas fa-check"></i> Approve' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-primary btn-approve modal_btn_approve" id="modal_btn_approve">' +
+                    '<i class="fas fa-check"></i> Approve' +
+                    "</button>";
 
                 var reject =
-                '<button type="button" class="btn btn-sm btn-danger btn-approve modal_btn_reject" id="modal_btn_reject">' +
-                '<i class="fas fa-times"></i> Reject' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-danger btn-approve modal_btn_reject" id="modal_btn_reject">' +
+                    '<i class="fas fa-times"></i> Reject' +
+                    "</button>";
 
                 var save =
-                '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_save" id="modal_btn_save">' +
-                '<i class="fas fa-save"></i> Save Change' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_save" id="modal_btn_save">' +
+                    '<i class="fas fa-save"></i> Save Change' +
+                    "</button>";
 
                 var update =
-                '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_update" id="modal_btn_update">' +
-                '<i class="fas fa-save"></i> Update Change' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-primary btn-save modal_btn_update" id="modal_btn_update">' +
+                    '<i class="fas fa-save"></i> Update Change' +
+                    "</button>";
 
                 var cancel =
-                '<button type="button" class="btn btn-sm btn-secondary btn-cancel modal_btn_cancel" id="modal_btn_cancel">' +
-                '<i class="fas fa-undo"></i> Cancel' +
-                "</button>";
+                    '<button type="button" class="btn btn-sm btn-secondary btn-cancel modal_btn_cancel" id="modal_btn_cancel">' +
+                    '<i class="fas fa-undo"></i> Cancel' +
+                    "</button>";
 
                 if (crud) {
                     if (crud.includes("back") == true) {
@@ -11447,7 +11456,7 @@ var $ummu = {
     },
 
     url: {
-        setParam: function(key, value) {
+        setParam: function (key, value) {
             // Use URLSearchParams for easy parameter manipulation
             const url = new URL(window.location.href);
             const searchParams = url.searchParams;
@@ -11459,7 +11468,7 @@ var $ummu = {
             window.history.replaceState(null, null, url);
         },
 
-        delParam: function(key) {
+        delParam: function (key) {
             // Create a URL object from the current window location
             const url = new URL(window.location.href);
 
@@ -11470,11 +11479,11 @@ var $ummu = {
             window.history.replaceState({}, document.title, url);
         },
 
-        delAllParam: function() {
+        delAllParam: function () {
             window.history.replaceState({}, document.title, window.location.pathname);
         },
 
-        getParam: function(key) {
+        getParam: function (key) {
             // 1. Ambil query string dari URL saat ini
             const queryString = window.location.search;
 
@@ -11493,14 +11502,14 @@ var $ummu = {
         // Kita hanya ingin simpan 'page' dan 'id'
         // delParamIn(['page','id']); 
         // Hasil URL: website.com?page=1
-        delParamNotIn: function(keepParams) {
+        delParamNotIn: function (keepParams) {
             // 1. Ambil URL saat ini
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
-            
+
             // 2. Buat objek baru untuk menampung parameter yang ingin disimpan
             const newParams = new URLSearchParams();
-            
+
             // 3. Loop melalui daftar parameter yang ingin disimpan
             keepParams.forEach(param => {
                 if (params.has(param)) {
@@ -11515,7 +11524,7 @@ var $ummu = {
     },
 
     encrypter: {
-        generatePassword: function(inputid) {
+        generatePassword: function (inputid) {
             var params = {
                 "url": $ummu.$.base_url + 'admin/dorbitt/encrypter/generate_password',
                 "type": "GET",
@@ -11529,21 +11538,21 @@ var $ummu = {
             var ummu = $ummu.ajax.ummu5(params);
 
             ummu
-            .done(function (result) {
-                // console.log(result)
-                if (inputid) {
-                    $("#"+inputid).val(result);
-                }else{
-                    $("#password").val(result);
-                }
-            })
-            .fail(function () {
-                console.log(ummu);
-            });
+                .done(function (result) {
+                    // console.log(result)
+                    if (inputid) {
+                        $("#" + inputid).val(result);
+                    } else {
+                        $("#password").val(result);
+                    }
+                })
+                .fail(function () {
+                    console.log(ummu);
+                });
         },
 
         jwt: {
-            encrypt: function(data) {
+            encrypt: function (data) {
                 var params = {
                     "url": $ummu.$.base_url + 'encrypter/jwtEncrypt',
                     "type": "GET",
@@ -11557,17 +11566,17 @@ var $ummu = {
                 var ummu = $ummu.ajax.ummu5(params);
 
                 ummu
-                .done(function (result) {
-                    console.log(result)
-                })
-                .fail(function () {
-                    console.log(ummu);
-                });
+                    .done(function (result) {
+                        console.log(result)
+                    })
+                    .fail(function () {
+                        console.log(ummu);
+                    });
             }
         },
 
         cryptojs: {
-            encrypt: function() {
+            encrypt: function () {
                 const dataToEncrypt = {
                     message: "Hello, AES!",
                     sensitiveData: 12345
@@ -11582,7 +11591,7 @@ var $ummu = {
 
                 console.log("Encrypted Data:", encryptedData);
             },
-            decrypt: function() {
+            decrypt: function () {
                 // To decrypt, you use the same secret key
                 const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
 
@@ -11600,24 +11609,24 @@ var $ummu = {
         group2: '',
         sbadmin2: {
             // Fungsi untuk decode icon (seperti html_entity_decode)
-            decodeIcon: function(iconStr) {
+            decodeIcon: function (iconStr) {
                 return $('<textarea/>').html(iconStr).text();
             },
 
             // Fungsi untuk generate URL
-            getUrl: function(kode) {
+            getUrl: function (kode) {
                 return kode && kode !== "#" ? $ummu.$.base_url + "admin/" + kode : "#";
             },
 
-            renderSidebar: function() {
+            renderSidebar: function () {
                 const rawData = localStorage.getItem('ummu_sidebar_menu');
-    
+
                 if (rawData) {
                     const rows = JSON.parse(rawData);
                     const $sidebar = $('#UmmuaccordionSidebarChild');
                     $sidebar.empty(); // Bersihkan sidebar sebelum render
 
-                    $.each(rows, function(index, value) {
+                    $.each(rows, function (index, value) {
                         let parentHtml = '';
                         let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
                         let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
@@ -11637,8 +11646,8 @@ var $ummu = {
                         } else {
                             // PARENT WITH SUB-MODULE
                             let subModuleHtml = '';
-                            
-                            $.each(value.sub_module, function(index2, value2) {
+
+                            $.each(value.sub_module, function (index2, value2) {
                                 let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
                                 let subSubModule = value2.sub_sub_module || null;
                                 let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
@@ -11651,7 +11660,7 @@ var $ummu = {
                                 } else {
                                     // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
                                     let grandchildHtml = '';
-                                    $.each(subSubModule, function(index3, value3) {
+                                    $.each(subSubModule, function (index3, value3) {
                                         let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
                                         let activeClass3 = ($ummu.vars.module_kode === value3.kode) ? 'active' : '';
                                         grandchildHtml += `<a class="nav-link2 collapse-item ${activeClass3}" href="${gChildUrl}">${value3.name}</a>`;
@@ -11700,7 +11709,7 @@ var $ummu = {
         $("#modal_loader").modal(modal);
     },
 
-    loaderShow: function() {
+    loaderShow: function () {
         $("#modal_loader").modal("show");
     },
 
@@ -11709,12 +11718,12 @@ var $ummu = {
             setTimeout(function () {
                 $("#modal_loader").modal("hide");
             }, intvl);
-        }else{
+        } else {
             $("#modal_loader").modal("hide");
         }
     },
 
-    newURL: function() {
+    newURL: function () {
         return new URL(window.location.href)
     }
 };
@@ -11753,16 +11762,16 @@ var $globFunc = {
     ch_message_modal: function (message) {
         const text = '<i class="fas fa-info-circle"></i> ' + message + " . . .";
         $("#response_message_modal")
-        .html(text)
-        .addClass("text-success msg_animation");
+            .html(text)
+            .addClass("text-success msg_animation");
     },
 
     ch_message_modal_modal: function (message) {
         const text = '<i class="fas fa-info-circle"></i> ' + message + " . . .";
         $("#response_message_modal_modal")
-        .removeClass()
-        .html(text)
-        .addClass("text-success msg_animation");
+            .removeClass()
+            .html(text)
+            .addClass("text-success msg_animation");
     },
 
     countDate: function (datetime1, datetime2) {
@@ -11788,12 +11797,12 @@ var $globFunc = {
         var jam = inJam - inHari * 24;
 
         var response =
-        inHari +
-        " <span class='text-muted'>days</span>, " +
-        jam +
-        " <span class='text-muted'>hours</span>, " +
-        menit +
-        " <span class='text-muted'>minutes</span>";
+            inHari +
+            " <span class='text-muted'>days</span>, " +
+            jam +
+            " <span class='text-muted'>hours</span>, " +
+            menit +
+            " <span class='text-muted'>minutes</span>";
 
         return response;
     },
@@ -11819,7 +11828,7 @@ var $globFunc = {
         $("#" + element_id).empty();
         $("#" + element_id).append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in rows) {
             if (kode == 1) {
                 var text = rows[index].kode + " - " + rows[index].name;
@@ -11828,14 +11837,14 @@ var $globFunc = {
             }
             $("#" + element_id).append(
                 "<option value='" + rows[index].id + "'>" + text + "</option>"
-                );
+            );
         }
     },
     set_value_to_option2: function (rows, element_id, kode) {
         $("#" + element_id).empty();
         $("#" + element_id).append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in rows) {
             if (kode == 1) {
                 var text = rows[index].kode + " | " + rows[index].name;
@@ -11844,7 +11853,7 @@ var $globFunc = {
             }
             $("#" + element_id).append(
                 "<option value='" + rows[index].id + "'>" + text + "</option>"
-                );
+            );
         }
     },
     set_value_to_option3: function (params) {
@@ -11855,7 +11864,7 @@ var $globFunc = {
         $("#" + element_id).empty();
         $("#" + element_id).append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in rows) {
             if (kode == 1) {
                 var text = rows[index].kode + " - " + rows[index].name;
@@ -11864,14 +11873,14 @@ var $globFunc = {
             }
             $("#" + element_id).append(
                 "<option value='" + rows[index].id + "'>" + text + "</option>"
-                );
+            );
         }
     },
     date_ymd: function (data) {
         var d = new Date(data),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
+            year = d.getFullYear();
 
         if (month.length < 2) month = "0" + month;
         if (day.length < 2) day = "0" + day;
@@ -11880,8 +11889,8 @@ var $globFunc = {
     },
     img_ratio: function (element_id) {
         var aspectRatio =
-        $("#" + element_id + " img").width() /
-        $("#" + element_id + " img").height();
+            $("#" + element_id + " img").width() /
+            $("#" + element_id + " img").height();
 
         if (aspectRatio > 1) {
             $("#" + element_id).addClass("circular--landscape");
@@ -12005,7 +12014,7 @@ var $datatable = {
                             '<a href="#">' +
                             data +
                             ' <i class="fas fa-external-link-alt ml-2"></i></a>'
-                            );
+                        );
                     },
                 },
                 {
@@ -12056,7 +12065,7 @@ var $globalAjax = {
                 }
                 $(
                     "#response_message, #response_message_modal, #response_message_modal_modal"
-                    ).removeClass("text-success msg_animation");
+                ).removeClass("text-success msg_animation");
             },
             complete: function () {
                 if (payload.action == "delete") {
@@ -12165,18 +12174,18 @@ var $globalAjax = {
 
         var jqXHR = $.ajax({
             url:
-            $base_url +
-            url +
-            "/findAll?limit=" +
-            data.limit +
-            "&offset=" +
-            data.offset +
-            "&sort=" +
-            sort +
-            "&order=" +
-            order +
-            "&search=" +
-            data.search,
+                $base_url +
+                url +
+                "/findAll?limit=" +
+                data.limit +
+                "&offset=" +
+                data.offset +
+                "&sort=" +
+                sort +
+                "&order=" +
+                order +
+                "&search=" +
+                data.search,
             method: "GET",
             timeout: 0,
         });
@@ -12248,130 +12257,130 @@ var $globalAjax = {
         return jqXHR;
     },
 
-    delete: function (url, params) {},
+    delete: function (url, params) { },
 
     wilayahIndonesia: {
         getRegencies: function (provincie_id, auto_slected) {
             $.ajax({
                 type: "GET",
                 url:
-                $base_url +
-                "admin/referensi/wilayah_indonesia/regencies/" +
-                provincie_id,
+                    $base_url +
+                    "admin/referensi/wilayah_indonesia/regencies/" +
+                    provincie_id,
                 dataType: "JSON",
                 contentType: false,
                 processData: false,
             })
-            .done(function (result) {
-                var data = result;
-                console.log(data);
-                for (let index in data) {
-                    if (data[index].id == auto_slected) {
-                        var selected_auto = "selected";
-                    } else {
-                        var selected_auto = "";
-                    }
-                    $("#regencies").append(
-                        "<option value='" +
-                        data[index].id +
-                        "'" +
-                        selected_auto +
-                        " >" +
-                        data[index].name +
-                        "</option>"
+                .done(function (result) {
+                    var data = result;
+                    console.log(data);
+                    for (let index in data) {
+                        if (data[index].id == auto_slected) {
+                            var selected_auto = "selected";
+                        } else {
+                            var selected_auto = "";
+                        }
+                        $("#regencies").append(
+                            "<option value='" +
+                            data[index].id +
+                            "'" +
+                            selected_auto +
+                            " >" +
+                            data[index].name +
+                            "</option>"
                         );
-                }
-                $("#regencies").attr("disabled", false);
+                    }
+                    $("#regencies").attr("disabled", false);
 
-                $("#regencies").select2({
-                    dropdownParent: $("#InsertModal"),
-                    theme: "bootstrap4",
+                    $("#regencies").select2({
+                        dropdownParent: $("#InsertModal"),
+                        theme: "bootstrap4",
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
 
         getDistricts: function (regencie_id, auto_slected) {
             $.ajax({
                 type: "GET",
                 url:
-                $base_url +
-                "admin/referensi/wilayah_indonesia/districts/" +
-                regencie_id,
+                    $base_url +
+                    "admin/referensi/wilayah_indonesia/districts/" +
+                    regencie_id,
                 dataType: "JSON",
                 contentType: false,
                 processData: false,
             })
-            .done(function (result) {
-                var data = result;
-                console.log(data);
-                for (let index in data) {
-                    if (data[index].id == auto_slected) {
-                        var selected_auto = "selected";
-                    } else {
-                        var selected_auto = "";
-                    }
-                    $("#districts").append(
-                        "<option value='" +
-                        data[index].id +
-                        "'" +
-                        selected_auto +
-                        ">" +
-                        data[index].name +
-                        "</option>"
+                .done(function (result) {
+                    var data = result;
+                    console.log(data);
+                    for (let index in data) {
+                        if (data[index].id == auto_slected) {
+                            var selected_auto = "selected";
+                        } else {
+                            var selected_auto = "";
+                        }
+                        $("#districts").append(
+                            "<option value='" +
+                            data[index].id +
+                            "'" +
+                            selected_auto +
+                            ">" +
+                            data[index].name +
+                            "</option>"
                         );
-                }
-                $("#districts").attr("disabled", false);
+                    }
+                    $("#districts").attr("disabled", false);
 
-                $("#districts").select2({
-                    dropdownParent: $("#InsertModal"),
-                    theme: "bootstrap4",
+                    $("#districts").select2({
+                        dropdownParent: $("#InsertModal"),
+                        theme: "bootstrap4",
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
 
         getVillages: function (district_id, auto_slected) {
             $.ajax({
                 type: "GET",
                 url:
-                $base_url +
-                "admin/referensi/wilayah_indonesia/villages/" +
-                district_id,
+                    $base_url +
+                    "admin/referensi/wilayah_indonesia/villages/" +
+                    district_id,
                 dataType: "JSON",
                 contentType: false,
                 processData: false,
             })
-            .done(function (result) {
-                var data = result;
-                console.log(data);
-                for (let index in data) {
-                    if (data[index].id == auto_slected) {
-                        var selected_auto = "selected";
-                    } else {
-                        var selected_auto = "";
-                    }
-                    $("#villages").append(
-                        "<option value='" +
-                        data[index].id +
-                        "'" +
-                        selected_auto +
-                        ">" +
-                        data[index].name +
-                        "</option>"
+                .done(function (result) {
+                    var data = result;
+                    console.log(data);
+                    for (let index in data) {
+                        if (data[index].id == auto_slected) {
+                            var selected_auto = "selected";
+                        } else {
+                            var selected_auto = "";
+                        }
+                        $("#villages").append(
+                            "<option value='" +
+                            data[index].id +
+                            "'" +
+                            selected_auto +
+                            ">" +
+                            data[index].name +
+                            "</option>"
                         );
-                }
-                $("#villages").attr("disabled", false);
+                    }
+                    $("#villages").attr("disabled", false);
 
-                $("#villages").select2({
-                    dropdownParent: $("#InsertModal"),
-                    theme: "bootstrap4",
+                    $("#villages").select2({
+                        dropdownParent: $("#InsertModal"),
+                        theme: "bootstrap4",
+                    });
+                })
+                .fail(function () {
                 });
-            })
-            .fail(function () {
-            });
         },
     },
 
@@ -12453,8 +12462,8 @@ var $globalAjax = {
         var jqXHR = $.ajax({
             type: "GET",
             url:
-            $base_url +
-            "admin/prodi/findAll?limit=10&offset=0&sort=id&order=desc&search=",
+                $base_url +
+                "admin/prodi/findAll?limit=10&offset=0&sort=id&order=desc&search=",
             dataType: "JSON",
             contentType: false,
             processData: false,
@@ -12486,7 +12495,7 @@ var $globalRef = {
         if (selectedID === null) {
             $("#provinces").append(
                 "<option value='' selected disabled>Choose...</option>"
-                );
+            );
             for (let index in $data) {
                 $("#provinces").append(
                     "<option value='" +
@@ -12494,7 +12503,7 @@ var $globalRef = {
                     "'>" +
                     $data[index].name +
                     "</option>"
-                    );
+                );
             }
         } else {
             $("#provinces").append("<option value='' disabled>Choose...</option>");
@@ -12507,7 +12516,7 @@ var $globalRef = {
                     ">" +
                     $data[index].name +
                     "</option>"
-                    );
+                );
             }
         }
         $("#provinces").select2({
@@ -12534,7 +12543,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
         $("#agama").select2({
             dropdownParent: $("#InsertModal"),
@@ -12548,7 +12557,7 @@ var $globalRef = {
         $("#status").empty();
         $("#status").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#status").append(
                 "<option value='" +
@@ -12556,7 +12565,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
     },
 
@@ -12566,7 +12575,7 @@ var $globalRef = {
         $("#jenis_tinggal").empty();
         $("#jenis_tinggal").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#jenis_tinggal").append(
                 "<option value='" +
@@ -12574,7 +12583,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
         $("#jenis_tinggal").select2({
             dropdownParent: $("#InsertModal"),
@@ -12588,7 +12597,7 @@ var $globalRef = {
         $("#alat_transportasi").empty();
         $("#alat_transportasi").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#alat_transportasi").append(
                 "<option value='" +
@@ -12596,7 +12605,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
         $("#alat_transportasi").select2({
             dropdownParent: $("#InsertModal"),
@@ -12610,7 +12619,7 @@ var $globalRef = {
         $("#pendidikan_ayah, #pendidikan_ibu, #pendidikan_wali").empty();
         $("#pendidikan_ayah, #pendidikan_ibu, #pendidikan_wali").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#pendidikan_ayah, #pendidikan_ibu, #pendidikan_wali").append(
                 "<option value='" +
@@ -12618,7 +12627,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
         $("#pendidikan_ayah, #pendidikan_ibu, #pendidikan_wali").select2({
             dropdownParent: $("#InsertModal"),
@@ -12632,7 +12641,7 @@ var $globalRef = {
         $("#pekerjaan_ayah, #pekerjaan_ibu, #pekerjaan_wali").empty();
         $("#pekerjaan_ayah, #pekerjaan_ibu, #pekerjaan_wali").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#pekerjaan_ayah, #pekerjaan_ibu, #pekerjaan_wali").append(
                 "<option value='" +
@@ -12640,7 +12649,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
         $("#pekerjaan_ayah, #pekerjaan_ibu, #pekerjaan_wali").select2({
             dropdownParent: $("#InsertModal"),
@@ -12654,7 +12663,7 @@ var $globalRef = {
         $("#penghasilan_ayah, #penghasilan_ibu, #penghasilan_wali").empty();
         $("#penghasilan_ayah, #penghasilan_ibu, #penghasilan_wali").append(
             "<option value='' selected disabled>Choose...</option>"
-            );
+        );
         for (let index in $data) {
             $("#penghasilan_ayah, #penghasilan_ibu, #penghasilan_wali").append(
                 "<option value='" +
@@ -12662,7 +12671,7 @@ var $globalRef = {
                 "'>" +
                 $data[index].name +
                 "</option>"
-                );
+            );
         }
     },
 };
@@ -12717,11 +12726,11 @@ var $globalFormatter = {
     avatar: function (name) {
         if (name) {
             var img =
-            '<img class="img-thumbnail" src="' +
-            $base_url +
-            "uploads/" +
-            name +
-            '">';
+                '<img class="img-thumbnail" src="' +
+                $base_url +
+                "uploads/" +
+                name +
+                '">';
         } else {
             var img = "";
         }
@@ -12748,15 +12757,15 @@ var $globalFormatter = {
     latlng: function (index, row) {
         if (row.latitude) {
             var html =
-            '<a href="http://maps.google.com/maps?q=' +
-            row.latitude +
-            "," +
-            row.longitude +
-            '&amp;t=m&amp;hl=en" target="_blank">' +
-            row.latitude +
-            "," +
-            row.longitude +
-            "</a>";
+                '<a href="http://maps.google.com/maps?q=' +
+                row.latitude +
+                "," +
+                row.longitude +
+                '&amp;t=m&amp;hl=en" target="_blank">' +
+                row.latitude +
+                "," +
+                row.longitude +
+                "</a>";
         } else {
             var html = "";
         }
@@ -12764,7 +12773,7 @@ var $globalFormatter = {
         return html;
     },
 
-    join_datetime: function (index, row) {},
+    join_datetime: function (index, row) { },
 };
 
 /**
@@ -12891,8 +12900,8 @@ var $globalEvents = {
 
             $(".tab-content .tab-pane").removeClass("active").removeClass("show");
             $(".tab-content " + urlhash)
-            .addClass("active")
-            .addClass("show");
+                .addClass("active")
+                .addClass("show");
         }
     },
 };
@@ -12905,10 +12914,10 @@ var $globalViews = {
         status_detail: function (status) {
             $(
                 ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                ).prop("checked", false);
+            ).prop("checked", false);
             $(
                 ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                ).prop("disabled", false);
+            ).prop("disabled", false);
 
             if (status == 1) {
                 //approve
@@ -12922,7 +12931,7 @@ var $globalViews = {
                 $(".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending").prop(
                     "disabled",
                     true
-                    );
+                );
             }
 
             if (status == 3) {
@@ -12934,23 +12943,23 @@ var $globalViews = {
         status_detail_on_load: function (status) {
             $(
                 ".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending, .dorbitt-detail .rad-reject"
-                ).prop("disabled", false);
+            ).prop("disabled", false);
 
             if (status == 1) {
-            //approve
+                //approve
                 $(".dorbitt-detail .rad-pending").prop("disabled", true);
             }
 
             if (status == 2) {
-            //reject
+                //reject
                 $(".dorbitt-detail .rad-approve, .dorbitt-detail .rad-pending").prop(
                     "disabled",
                     true
-                    );
+                );
             }
 
             if (status == 3) {
-            //pending
+                //pending
                 $(".dorbitt-detail .rad-reject").prop("disabled", true);
             }
         },
@@ -12959,17 +12968,17 @@ var $globalViews = {
     modal: {
         message: function () {
             var html =
-            '<div class="modal fade" id="message_modal" tabindex="-1" style="z-index: 2000;">' +
-            '<div class="modal-dialog">' +
-            '<div class="modal-content">' +
-            '<div class="modal-header bg-secondary">' +
-            '<h5 class="modal-title text-light" id="message_title">Messages</h5>' +
-            '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>' +
-            "</div>" +
-            '<div class="alert" id="text_message"></div>' +
-            "</div>" +
-            "</div>" +
-            "</div>";
+                '<div class="modal fade" id="message_modal" tabindex="-1" style="z-index: 2000;">' +
+                '<div class="modal-dialog">' +
+                '<div class="modal-content">' +
+                '<div class="modal-header bg-secondary">' +
+                '<h5 class="modal-title text-light" id="message_title">Messages</h5>' +
+                '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>' +
+                "</div>" +
+                '<div class="alert" id="text_message"></div>' +
+                "</div>" +
+                "</div>" +
+                "</div>";
         },
     },
 };

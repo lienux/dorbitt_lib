@@ -14,6 +14,9 @@
     <!-- Form -->
     <div id="form_input"> 
         <div class="row">
+            <!-- <div>
+                <img src="https://cdn.openapi2.com/img/icon/boat_2485049.png" width="100px">
+            </div> -->
             <div class="col">
                 <div class="row">
                     <label class="col-sm-3 col-form-label">Name<span class="text-danger small"> *</span></label>
