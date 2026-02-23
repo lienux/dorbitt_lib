@@ -1312,6 +1312,16 @@ var $ummu = {
                 return USDollar.format(data);
             },
 
+            us_dig: function (data, dig = 0) {
+                let USDollar = new Intl.NumberFormat("en-US", {
+                    minimumFractionDigits: dig,
+                    // style: 'currency',
+                    // currency: ' ',
+                });
+
+                return USDollar.format(data);
+            },
+
             // format number 1234567 to 1.234.567,00
             id: function (data) {
                 // let USDollar = new Intl.NumberFormat('en-US', {
@@ -8265,12 +8275,12 @@ var $ummu = {
         },
 
         init_destroy: function($init = null) {
-            console.log($init)
-            // if ($init === null) {
-            //     $ummu.dt.init.destroy()
-            // }else{
-            //     eval($init).destroy()
-            // }
+            // console.log($init)
+            if ($init === null) {
+                $ummu.dt.init.destroy()
+            }else{
+                eval($init).destroy()
+            }
         },
 
         load: function () {
@@ -10967,7 +10977,7 @@ var $ummu = {
             if (lcg) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable(
-                        table, 
+                        $table, 
                         {
                             data: JSON.parse(lcg).rows,
                             columns: app.dt.default.config_columns(),
@@ -10995,7 +11005,7 @@ var $ummu = {
                     $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }
             }else{
-                $ummu.dt.init = new DataTable(table,
+                $ummu.dt.init = new DataTable($table,
                     {
                         lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
                         layout: {
