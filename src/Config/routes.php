@@ -51,6 +51,7 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
     $routes->group('clients', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('/', 'MsClientController::index');
         $routes->get('show', 'MsClientController::show');
+        $routes->post('create', 'MsClientController::create');
     });
 
     $routes->group('ms_barge', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
