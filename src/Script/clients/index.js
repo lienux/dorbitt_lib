@@ -72,7 +72,7 @@ var app = {
             // console.log('OK')
             var payload = JSON.stringify({
                 "name": $("#form_input #name").val(),
-                "phone": $("#form_input #phone").val(),
+                "phone_number": $("#form_input #phone").val(),
                 "email": $("#form_input #email").val(),
                 "address": $("#form_input #address").val(),
             });
@@ -87,17 +87,17 @@ var app = {
                 "loader": true,
             };
 
-            // var ummu = $ummu.ajax.ummu8(params);   
-            // ummu.done(function(result) {
-            //     console.log(result)
-            //     // app.bt.table2_inserRow(result, row)
-            //     // app.bt.table3_removeRow(row)
-            // }).fail(function() {
-            //     // An error occurred
-            //     console.log(ummu)
-            // });
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                console.log(result)
+                // app.bt.table2_inserRow(result, row)
+                // app.bt.table3_removeRow(row)
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
 
-            console.log(params)
+            // console.log(params)
         },
 
         sbCancleNew: function () {
