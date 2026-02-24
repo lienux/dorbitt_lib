@@ -47,55 +47,96 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
     });
 });
 
-$routes->group('admin', ['filter' => 'auth'], static function($routes) {
-    $routes->group('clients', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+$routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
+    $routes->group('clients', function ($routes) {
         $routes->get('/', 'MsClientController::index');
         $routes->get('show', 'MsClientController::show');
         $routes->post('create', 'MsClientController::create');
     });
 
-    $routes->group('ms_barge', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('ms_barge', function ($routes) {
         $routes->get('/', 'BargeController::index');
         $routes->get('show', 'BargeController::show');
     });
 
-    $routes->group('tugboat', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('tugboat', function ($routes) {
         $routes->get('/', 'TugboatController::index');
         $routes->get('show', 'TugboatController::show');
     });
 
-    $routes->group('ms_activity', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
     });
 
-    $routes->group('equipment', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('equipment', function ($routes) {
         $routes->get('/', 'MsEquipmentController::index');
         $routes->get('show', 'MsEquipmentController::show');
     });
 
-    $routes->group('ms_location', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('ms_location', function ($routes) {
         $routes->get('/', 'MsLocationController::index');
         $routes->get('show', 'MsLocationController::show');
     });
 
-    $routes->group('project_site', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('project_site', function ($routes) {
         $routes->get('/', 'MsProjectSiteController::index');
         $routes->get('show', 'MsProjectSiteController::show');
     });
 
-    $routes->group('sounding_report', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('sounding_report', function ($routes) {
         $routes->get('/', 'SoundingReportController::index');
         $routes->get('show', 'SoundingReportController::show');
     });
 
-    $routes->group('barge_inspection_checklist', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->group('barge_inspection_checklist', function ($routes) {
         $routes->get('/', 'BargeInspectionController::index');
         $routes->get('show', 'BargeInspectionController::show');
         $routes->get('show_equipment', 'BargeInspectionController::show_equipment');
         $routes->get('show_barge', 'BargeInspectionController::show_barge');
     });
 
+    $routes->group('file_pomailer', function ($routes) {
+        $routes->get('/', 'FilePomailerController::index');
+        $routes->get('show', 'FilePomailerController::show');
+    });
+
+    $routes->group('passage_plan', function ($routes) {
+        $routes->get('/', 'PassagePlanController::index');
+    });
+
+    $routes->group('dorbitt', function ($routes) {
+        // $routes->get('/', 'DorbittController::index');
+        
+        $routes->group('encrypter', function ($routes) {
+            $routes->get('generate_password', 'EncrypterController::generate_password');
+        });
+    });
+
+    // Config
+    $routes->group('config', function ($routes) {
+        $routes->get('show_hierarchy_modules', 'ConfigController::show_hierarchy_modules');
+        // $routes->group('config', function ($routes) {
+        //     $routes->get('', 'PassagePlanController::index');
+        // });
+    });
+
+    $routes->group('she_hazard_report', function ($routes) {
+        $routes->get('/', 'HazardReportController::index');
+        $routes->get('show', 'HazardReportController::show');
+        $routes->get('kosong', 'HazardReportController::kosong');
+        // $routes->get('show/(:any)', 'HazardReportController::show/$1');
+        $routes->post('create', 'HazardReportController::create');
+        $routes->put('update/(:num)', 'HazardReportController::update/$1');
+        $routes->put('release', 'HazardReportController::release');
+        $routes->put('approve', 'HazardReportController::approve');
+        $routes->put('reject', 'HazardReportController::reject');
+        $routes->delete('delete', 'HazardReportController::delete');
+
+        $routes->get('number', 'HazardReportController::number');
+    });
+
+    // =============== openapi2 group ====================
     $routes->group('openapi2', function($routes) {
         $routes->get('/', 'Openapi2Controller::index');
         // $routes->get('show', 'AccountsController::show');
@@ -110,35 +151,12 @@ $routes->group('admin', ['filter' => 'auth'], static function($routes) {
         // // $routes->put('update_by_profile', 'AccountsController::update_by_profile');
     });
 
-    $routes->group('file_pomailer', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        $routes->get('/', 'FilePomailerController::index');
-        $routes->get('show', 'FilePomailerController::show');
-    });
 
-    $routes->group('passage_plan', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        $routes->get('/', 'PassagePlanController::index');
-    });
-
-    $routes->group('dorbitt', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        // $routes->get('/', 'DorbittController::index');
-        
-        $routes->group('encrypter', function ($routes) {
-            $routes->get('generate_password', 'EncrypterController::generate_password');
-        });
-    });
-
+    // =============== include area ======================
     $routes->group('mcp_report', function ($routes) {
         require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
     });
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
-
-    // Config
-    $routes->group('config', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        $routes->get('show_hierarchy_modules', 'ConfigController::show_hierarchy_modules');
-        // $routes->group('config', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        //     $routes->get('', 'PassagePlanController::index');
-        // });
-    });
 });
 
 $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
