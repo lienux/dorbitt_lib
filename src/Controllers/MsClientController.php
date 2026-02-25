@@ -92,4 +92,25 @@ class MsClientController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function update($id = null)
+    {
+        $payload = [
+            "name" => $this->request->getVar('name'),
+            "phone_number" => $this->request->getVar('phone_number'),
+            "email" => $this->request->getVar('email'),
+            "address" => $this->request->getVar('address'),
+        ];
+
+        $params = [
+            "path"      => "api/clients/update/" . $id,
+            "method" => 'PUT',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3('clients')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }

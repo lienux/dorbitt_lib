@@ -312,17 +312,18 @@ var $ummu = {
     config: {
         autoload: function () {
             // app.Events.initTable()
-            $ummu.gallery.button();
-            $ummu.events.onClick.dorbittButton();
-            $ummu.events.onChange.dorbittCheckBox();
-            $ummu.events.onChange.dorbittRadio();
-            $ummu.events.onChange.selectOption();
-            $ummu.events.onChangeFileGalleryUpload();
-            $ummu.events.gallery.btn_show_gallery();
-            $ummu.events.onChange.inputFile_onChange_fileUpload();
-            $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal();
-            $ummu.mygallery.autoload();
-            $ummu.button.sbToolbar();
+            $ummu.gallery.button()
+            $ummu.events.onClick.dorbittButton()
+            $ummu.events.onChange.dorbittCheckBox()
+            $ummu.events.onChange.dorbittRadio()
+            $ummu.events.onChange.selectOption()
+            $ummu.events.onChangeFileGalleryUpload()
+            $ummu.events.gallery.btn_show_gallery()
+            $ummu.events.onChange.inputFile_onChange_fileUpload()
+            $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal()
+            $ummu.mygallery.autoload()
+            $ummu.button.sbToolbar()
+            $ummu.url.load()
 
             if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
@@ -8292,6 +8293,14 @@ var $ummu = {
                 $ummu.dt.button.crud();
             });
 
+            table.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = table.row(this).data();
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                // app.views.setRow_toForm(row);
+                console.log(row)
+            });
+
             table.on("dblclick", "tbody tr", function () {
                 var row = table.row(this).data();
                 $ummu.vars.id = row.id;
@@ -11456,6 +11465,17 @@ var $ummu = {
     },
 
     url: {
+        load: function() {
+            if ($ummu.url.getParam('id')) {
+                if (typeof app.views.setRow_toForm !== "undefined") {
+                    console.log('function app.views.setRow_toForm is OK.');
+                    app.views.setRow_toForm($ummu.url.paramToObject2());
+                } else {
+                    console.log('plese create function app.views.setRow_toForm.');
+                }
+            }
+        },
+
         setParam: function (key, value) {
             // Use URLSearchParams for easy parameter manipulation
             const url = new URL(window.location.href);
@@ -11466,6 +11486,13 @@ var $ummu = {
 
             // Update the browser's history to reflect the new URL without reloading
             window.history.replaceState(null, null, url);
+        },
+
+        setParamFromRow: function (row) {
+            Object.entries(row).forEach(([key, value]) => { // Using array destructuring
+                // console.log(`${key}: ${value}`);
+                $ummu.url.setParam(key, value)
+            });
         },
 
         delParam: function (key) {
@@ -11520,7 +11547,51 @@ var $ummu = {
             // 4. Update URL tanpa reload halaman
             const newRelativePathQuery = window.location.pathname + (newParams.toString() ? '?' + newParams.toString() : '');
             window.history.replaceState(null, '', newRelativePathQuery);
-        }
+        },
+
+        paramToObject: function() {
+            // Ambil query string dari URL saat ini
+            const queryString = window.location.search;
+
+            // Ubah menjadi object
+            const urlParams = new URLSearchParams(queryString);
+            const rowObject = Object.fromEntries(urlParams.entries());
+
+            // console.log(rowObject);
+            // Hasilnya: { id: "101", nama: "Budi", status: "aktif" }
+
+            return rowObject;
+        },
+
+        paramToObject2: function() {
+            // const params = new URLSearchParams(window.location.search);
+            // let rowObject = {};
+
+            // params.forEach((value, key) => {
+            //     // Cek jika nilainya adalah angka, maka ubah ke tipe Number
+            //     // rowObject[key] = isNaN(value) ? value : Number(value);
+            //     rowObject[key] = "null" ? value : Number(value);
+            // });
+
+
+            // 1. Ambil query string dari URL (misal: ?id=101&nama=Budi&catatan=null)
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            // 2. Ubah menjadi objek dasar
+            let rowObject = Object.fromEntries(urlParams.entries());
+
+            // 3. Looping untuk mengubah string "null" menjadi tipe data null
+            Object.keys(rowObject).forEach(key => {
+                if (rowObject[key] === "null") {
+                    rowObject[key] = null;
+                }
+            });
+
+
+            // console.log(rowObject);
+            return rowObject;
+        },
     },
 
     encrypter: {

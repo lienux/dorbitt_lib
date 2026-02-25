@@ -8,6 +8,15 @@ var app = {
             $ummu.func.location_hash()
             $ummu.localStorage.dt_default('clients');
             $ummu.dt.layout.buttonAll($ummu.dt.init);
+
+            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = $ummu.dt.init.row(this).data();
+                // console.log(row)
+                $ummu.url.setParamFromRow(row)                
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                app.views.setRow_toForm(row);
+            });
         },
     },
 
@@ -27,16 +36,17 @@ var app = {
 
     controllers: {
         on_btn_getData_click: function () {
+            $ummu.url.delParamNotIn(['g']);
             app.controllers.show()
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
+            if ($ummu.dt.is_init(table) == true) {
                 $ummu.dt.init_destroy();
             }
 
             $ummu.dt.init = new DataTable(
-                $table,
+                table,
                 app.dt.default.config_show()
             );
 
@@ -69,7 +79,6 @@ var app = {
         },
 
         sbSave: function () {
-            // console.log('OK')
             var payload = JSON.stringify({
                 "name": $("#form_input #name").val(),
                 "phone_number": $("#form_input #phone").val(),
@@ -77,8 +86,14 @@ var app = {
                 "address": $("#form_input #address").val(),
             });
 
+            if ($ummu.url.getParam('id')) {
+                var func = "update/" + $ummu.url.getParam('id')
+            }else{
+                var func = "create"
+            }
+
             var params = {
-                "function": "create",
+                "function": func,
                 "method": "POST",
                 "data": payload,
                 "cache": true,
@@ -340,29 +355,22 @@ var app = {
 
         table3_butoon: function () {
             return $ummu.bt.button.crud(['save_selected'])
-        }
-    },
-
-    bt: {
-        table2_inserRow: function (id, row) {
-            $table2.bootstrapTable('insertRow', {
-                index: 0,
-                row: {
-                    id: id,
-                    module_id: row.module_id,
-                    kode: row.kode,
-                    name: row.name,
-                    path: row.path
-                }
-            })
-
         },
-        // table3_removeRow: function(row) {
-        //   $table3.bootstrapTable('remove', {
-        //     field: 'id',
-        //     values: row.id
-        //   })
-        // }
+
+        setRow_toForm: function(row) {
+            $("#name").val(row.name)
+            $("#phone").val(row.phone_number)
+            $("#email").val(row.email)
+            $("#address").val(row.address)
+
+            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
+            
+            $("#ummu_nav_tab #nav-tab-form").addClass("active")
+            $("#ummu_tab_contnet #nav-form").addClass("show active")
+
+            $ummu.button.sbBtn_on_showData()
+        },
     },
 
     dt: {
@@ -416,7 +424,25 @@ var app = {
             config_columns: function () {
                 let columns = [
                     { data: null },
-                    { data: "id" },
+                    { data: "id",
+                        render: function (data, type) {
+                            // if ($ummu.vars.nav_tab == 1) {
+                            //     var warna = "text-info";
+                            // } else if ($ummu.vars.nav_tab == 2) {
+                            //     var warna = "text-success";
+                            // } else {
+                            //     var warna = "text-danger";
+                            // }
+
+                            // return '<a href="#" id="'+data+'"> <span class="'+warna+'">'+data+'</span></a>';
+                            // return '<a href="javascript:void(0);">' + data + ' <i class="fas fa-external-link-alt ml-2"></i></a>';
+                            return (
+                                '<a href="javascript:void(0);">'+
+                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                '</a>'
+                            );
+                        }
+                    },
                     { data: "name" },
                     { data: "phone_number" },
                     { data: "email" },
