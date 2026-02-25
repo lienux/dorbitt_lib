@@ -144,65 +144,65 @@ var app = {
                 $("#nav-approved-tab").addClass("active");
                 table.ajax.url(globalVar.qUrl + "show?release=2").load();
                 app.dt.load();
-                } else if (localStorage.getItem("nav_tab_id") == "nav-rejected-tab") {
-                    $ummu.vars.nav_tab_id = "nav-rejected-tab";
-                    $ummu.vars.nav_tab = 3;
-                    // $ummu.dt.nth_child_onclick = 2;
+            } else if (localStorage.getItem("nav_tab_id") == "nav-rejected-tab") {
+                $ummu.vars.nav_tab_id = "nav-rejected-tab";
+                $ummu.vars.nav_tab = 3;
+                // $ummu.dt.nth_child_onclick = 2;
 
-                    $("#nav-rejected-tab").addClass("active");
-                    table.ajax.url(globalVar.qUrl + "show?release=3").load();
-                    app.dt.load();
-                } else {
-                    $("#nav-released-tab").addClass("active");
-                    $ummu.vars.nav_tab_id = "nav-released-tab";
-                    $ummu.vars.nav_tab = 1;
-                    // $ummu.dt.nth_child_onclick = 3;
+                $("#nav-rejected-tab").addClass("active");
+                table.ajax.url(globalVar.qUrl + "show?release=3").load();
+                app.dt.load();
+            } else {
+                $("#nav-released-tab").addClass("active");
+                $ummu.vars.nav_tab_id = "nav-released-tab";
+                $ummu.vars.nav_tab = 1;
+                // $ummu.dt.nth_child_onclick = 3;
 
-                    table.ajax.url(globalVar.qUrl + "show?release=1").load();
-                    app.dt.load();
-                }
+                table.ajax.url(globalVar.qUrl + "show?release=1").load();
+                app.dt.load();
+            }
 
-                $ummu.vars.nav_tab_id = localStorage.getItem("nav_tab_id");
+            $ummu.vars.nav_tab_id = localStorage.getItem("nav_tab_id");
 
-                // if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
-                //     // var body_tr_td = 'tbody tr td:nth-child(3)';
-                //     table.on('click', 'tbody tr td:nth-child(3)', function () {
-                //         var row = table.row(this).data();
-                //         console.log(row);
-                //         app.views.set_row_to_form(row);
-                //         $('#modal_form').modal('show');
+            // if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
+            //     // var body_tr_td = 'tbody tr td:nth-child(3)';
+            //     table.on('click', 'tbody tr td:nth-child(3)', function () {
+            //         var row = table.row(this).data();
+            //         console.log(row);
+            //         app.views.set_row_to_form(row);
+            //         $('#modal_form').modal('show');
 
-                //         if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
-                //             var btninmodal = ['approve','reject'];
-                //             $ummu.button.hazard_report.modal_form(btninmodal);
-                //         }else{
-                //             $ummu.button.hazard_report.modal_form([]);
-                //         }
-                //     });
-                // }else{
-                //     // var body_tr_td = 'tbody tr td:nth-child(2)';
-                //     table.on('click', 'tbody tr td:nth-child(2)', function () {
-                //         var row = table.row(this).data();
-                //         console.log(row);
-                //         app.views.set_row_to_form(row);
-                //         $('#modal_form').modal('show');
+            //         if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
+            //             var btninmodal = ['approve','reject'];
+            //             $ummu.button.hazard_report.modal_form(btninmodal);
+            //         }else{
+            //             $ummu.button.hazard_report.modal_form([]);
+            //         }
+            //     });
+            // }else{
+            //     // var body_tr_td = 'tbody tr td:nth-child(2)';
+            //     table.on('click', 'tbody tr td:nth-child(2)', function () {
+            //         var row = table.row(this).data();
+            //         console.log(row);
+            //         app.views.set_row_to_form(row);
+            //         $('#modal_form').modal('show');
 
-                //         if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
-                //             var btninmodal = ['approve','reject'];
-                //             $ummu.button.hazard_report.modal_form(btninmodal);
-                //         }else{
-                //             $ummu.button.hazard_report.modal_form([]);
-                //         }
-                //     });
-                // }
+            //         if ($ummu.vars.nav_tab_id == 'nav-released-tab') {
+            //             var btninmodal = ['approve','reject'];
+            //             $ummu.button.hazard_report.modal_form(btninmodal);
+            //         }else{
+            //             $ummu.button.hazard_report.modal_form([]);
+            //         }
+            //     });
+            // }
 
-                table.on("click", "tbody tr td:nth-child(3)", function () {
-                    var row = table.row(this).data();
-                    $ummu.vars.is_row = true;
-                    app.controllers.detail(row);
-                });
+            table.on("click", "tbody tr td:nth-child(3)", function () {
+                var row = table.row(this).data();
+                $ummu.vars.is_row = true;
+                app.controllers.detail(row);
+            });
 
-                $("#lanjutkan").on("click", function () {
+            $("#lanjutkan").on("click", function () {
                 $(".modal-footer .btn-save").attr("id", "btn_save");
                 $("#modal_agreement").modal("hide");
                 $("#modal_form").modal("show");
@@ -219,62 +219,62 @@ var app = {
     },
     events: {
         persetujuan_change: function () {
-        $("#persetujuan").change(function () {
-        if (this.checked) {
-        $("#lanjutkan").attr("disabled", false);
-        localStorage.setItem("agreement", 1);
-        } else {
-        $("#lanjutkan").attr("disabled", true);
-        localStorage.setItem("agreement", 0);
-        }
-        });
+            $("#persetujuan").change(function () {
+                if (this.checked) {
+                    $("#lanjutkan").attr("disabled", false);
+                    localStorage.setItem("agreement", 1);
+                } else {
+                    $("#lanjutkan").attr("disabled", true);
+                    localStorage.setItem("agreement", 0);
+                }
+            });
         },
         btn_lanjutkan_click: function () {
-        // $('#lanjutkan').on('click', function(){
-        //     $('.modal-footer .btn-save').attr('id', 'btn_save');
-        //     $('#modal_agreement').modal('hide');
-        //     $('#modal_form').modal('show');
-        //     var btninmodal = ['back','save'];
-        //     $ummu.button.hazard_report.modal_form(btninmodal);
-        // })
+            // $('#lanjutkan').on('click', function(){
+            //     $('.modal-footer .btn-save').attr('id', 'btn_save');
+            //     $('#modal_agreement').modal('hide');
+            //     $('#modal_form').modal('show');
+            //     var btninmodal = ['back','save'];
+            //     $ummu.button.hazard_report.modal_form(btninmodal);
+            // })
         },
         btn_back_click: function () {
-        // $(document).on('click', "#btn_back", function() {
-        //     $('#modal_form').modal('hide');
-        //     $('#modal_agreement').modal('show');
-        // });
+            // $(document).on('click', "#btn_back", function() {
+            //     $('#modal_form').modal('hide');
+            //     $('#modal_agreement').modal('show');
+            // });
         },
         btn_show_date: function () {
-        // $("#btn_show_date").on("click", function () {
-        //   $("#tgl_penemuan").datepicker("show");
-        // });
+            // $("#btn_show_date").on("click", function () {
+            //     $("#tgl_penemuan").datepicker("show");
+            // });
         },
         btn_delete: function () {
-        $("#modal_btn_delete").on("click", function () {
-        app.controllers.multiple_delete($ummu.vars.rows);
-        });
+            $("#modal_btn_delete").on("click", function () {
+                app.controllers.multiple_delete($ummu.vars.rows);
+            });
         },
         btn_release: function () {
-        $("#btn_do_release").on("click", function () {
-        $ummu.ajax.hazard_report.release();
-        });
+            $("#btn_do_release").on("click", function () {
+                $ummu.ajax.hazard_report.release();
+            });
         },
     },
     controllers: {
         show: function (params) {
             // console.log(params)
             var url = globalVar.qUrl;
-            var ali = $globalAjax.ummu(url, params);
-            ali
+            var ummu = $globalAjax.ummu(url, params);
+            ummu
             .done(function (result) {
-            var response = JSON.parse(result);
-            params.success(response);
-            $globFunc.ch_message(response.message);
-            // app.Controllers.show_gedung()
-            // app.Controllers.show_roomcateg()
+                var response = JSON.parse(result);
+                params.success(response);
+                $globFunc.ch_message(response.message);
+                // app.Controllers.show_gedung()
+                // app.Controllers.show_roomcateg()
             })
             .fail(function () {
-            // An error occurred
+                // An error occurred
             });
         },
         new: function () {
@@ -284,17 +284,17 @@ var app = {
 
             var url = $ummu.vars.page_url + "number";
             var params = [];
-            var ali = $globalAjax.ummu(url, params);
-            ali
+            var ummu = $globalAjax.ummu(url, params);
+            ummu
             .done(function (result) {
-            var response = JSON.parse(result);
-            var number = response[0];
-            // console.log(response[0])
-            $ummu.vars.safety.hazard_report.document_number = number;
-            $("#doc_number").val(number);
+                var response = JSON.parse(result);
+                var number = response[0];
+                // console.log(response[0])
+                $ummu.vars.safety.hazard_report.document_number = number;
+                $("#doc_number").val(number);
             })
             .fail(function () {
-            // An error occurred
+                // An error occurred
             });
 
             $ummu.views.clear_modal_form();
@@ -310,9 +310,9 @@ var app = {
 
             var text = $ummu.vars.crud;
             if (text != "" || text != 0 || text != null) {
-            var crud = text.split(",");
+                var crud = text.split(",");
             } else {
-            var crud = "";
+                var crud = "";
             }
 
             // $('#btn_back').addClass('collapse');
@@ -326,21 +326,21 @@ var app = {
             $("#modal_form").modal("show");
 
             if ($ummu.vars.nav_tab_id == "nav-released-tab") {
-            if (crud[3] == 1) {
-            var btninmodal = ["approve", "reject"];
+                if (crud[3] == 1) {
+                    var btninmodal = ["approve", "reject"];
+                } else {
+                    var btninmodal = [];
+                }
+                $ummu.button.hazard_report.modal_form(btninmodal);
             } else {
-            var btninmodal = [];
-            }
-            $ummu.button.hazard_report.modal_form(btninmodal);
-            } else {
-            $ummu.button.hazard_report.modal_form([]);
+                $ummu.button.hazard_report.modal_form([]);
             }
 
             if ($ummu.vars.nav_tab_id == "nav-rejected-tab") {
-            $("#div_remark").removeClass("collapse");
-            // $ummu.button.hazard_report.modal_form(["edit"]);
+                $("#div_remark").removeClass("collapse");
+                // $ummu.button.hazard_report.modal_form(["edit"]);
             } else {
-            $("#div_remark").addClass("collapse");
+                $("#div_remark").addClass("collapse");
             }
 
             // if ($ummu.vars.nav_tab_id == 'nav-approved-tab' || $ummu.vars.nav_tab_id == 'nav-rejected-tab') {
@@ -358,9 +358,9 @@ var app = {
 
             var text = $ummu.vars.crud;
             if (text != "" || text != 0 || text != null) {
-            var crud = text.split(",");
+                var crud = text.split(",");
             } else {
-            var crud = "";
+                var crud = "";
             }
 
             /* $('#btn_back').addClass('collapse');
@@ -414,109 +414,109 @@ var app = {
         },
         create: function () {
             var payload = JSON.stringify({
-            body: {
-            nomor_dokumen: $ummu.vars.safety.hazard_report.document_number,
-            tgl_temuan: $("#tgl_penemuan").val(),
-            waktu_temuan: $("#waktu_penemuan").val(),
-            lokasi_temuan_id: $("#lokasi_penemuan").val(),
-            lokasi_temuan_text: $("#lokasi_penemuan").find(":selected").text(),
-            detail_lokasi: $("#detail_lokasi").val(),
-            jenis_temuan_id: $("#jenis_temuan").val(),
-            bahaya_ditemukan: $("#bahaya_ditemukan").val(),
-            penyebab_bahaya: $("#penyebab_bahaya").val(),
-            kode_bahaya_id: $("#kode_bahaya").val(),
-            foto_temuan_id: $("#foto_temuan").attr("data-id"),
-            rincian_tindakan: $("#rincian_tindakan").val(),
-            foto_perbaikan_id: $("#foto_perbaikan").attr("data-id"),
-            status_id: $("input:radio[name=status]:checked").val(),
-            nm_atasan: $("#nm_atasan").val(),
-            },
+                body: {
+                    nomor_dokumen: $ummu.vars.safety.hazard_report.document_number,
+                    tgl_temuan: $("#tgl_penemuan").val(),
+                    waktu_temuan: $("#waktu_penemuan").val(),
+                    lokasi_temuan_id: $("#lokasi_penemuan").val(),
+                    lokasi_temuan_text: $("#lokasi_penemuan").find(":selected").text(),
+                    detail_lokasi: $("#detail_lokasi").val(),
+                    jenis_temuan_id: $("#jenis_temuan").val(),
+                    bahaya_ditemukan: $("#bahaya_ditemukan").val(),
+                    penyebab_bahaya: $("#penyebab_bahaya").val(),
+                    kode_bahaya_id: $("#kode_bahaya").val(),
+                    foto_temuan_id: $("#foto_temuan").attr("data-id"),
+                    rincian_tindakan: $("#rincian_tindakan").val(),
+                    foto_perbaikan_id: $("#foto_perbaikan").attr("data-id"),
+                    status_id: $("input:radio[name=status]:checked").val(),
+                    nm_atasan: $("#nm_atasan").val(),
+                },
             });
             // console.log(JSON.parse(payload));
 
             var params = {
-            url: globalVar.qUrl + "create",
-            type: "post",
-            action: "insert",
-            data: payload,
-            cache: true,
-            contentType: "application/json",
-            dataType: "json",
+                url: globalVar.qUrl + "create",
+                type: "post",
+                action: "insert",
+                data: payload,
+                cache: true,
+                contentType: "application/json",
+                dataType: "json",
             };
             // console.log(params)
             $("#text_loader").html("Saving process...");
             var ummu = $ummu.ajax.ummu3(params);
             ummu
             .done(function (result) {
-            // console.log(result);
-            // var response = JSON.parse(result);
-            var response = result;
-            // console.log(response.status)
-            if (response.status == true) {
-            table.ajax.reload();
-            $("#modal_form").modal("hide");
-            // $('#modal_loader').modal('hide');
-            // app.Views.set_value_to_table('insert',response.response);
-            $globFunc.ch_message(response.message);
-            // app.Events.clear_form();
-            setTimeout(function () {
-            $("#modal_loader").modal("hide");
-            }, 1000);
-            } else {
-            $("#message_title, #text_message").empty();
-            var message = response.message;
-            var errors = response.errors;
-            $("#message_title").html(message);
-            for (let index in errors) {
-            var $error =
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-            '<i class="bi bi-exclamation-octagon me-1"></i>' +
-            errors[index] +
-            "</div>";
-            $("#text_message").append($error);
-            }
-            $("#message_modal").modal("show");
-            setTimeout(function () {
-            $("#modal_loader").modal("hide");
-            }, 1000);
-            }
-            $ummu.dt.after_cud();
+                // console.log(result);
+                // var response = JSON.parse(result);
+                var response = result;
+                // console.log(response.status)
+                if (response.status == true) {
+                    table.ajax.reload();
+                    $("#modal_form").modal("hide");
+                    // $('#modal_loader').modal('hide');
+                    // app.Views.set_value_to_table('insert',response.response);
+                    $globFunc.ch_message(response.message);
+                    // app.Events.clear_form();
+                    setTimeout(function () {
+                        $("#modal_loader").modal("hide");
+                    }, 1000);
+                } else {
+                    $("#message_title, #text_message").empty();
+                    var message = response.message;
+                    var errors = response.errors;
+                    $("#message_title").html(message);
+                    for (let index in errors) {
+                        var $error =
+                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<i class="bi bi-exclamation-octagon me-1"></i>' +
+                            errors[index] +
+                        "</div>";
+                        $("#text_message").append($error);
+                    }
+                    $("#message_modal").modal("show");
+                    setTimeout(function () {
+                        $("#modal_loader").modal("hide");
+                    }, 1000);
+                }
+                $ummu.dt.after_cud();
             })
             .fail(function () {
-            // An error occurred
-            console.log(ummu);
+                // An error occurred
+                console.log(ummu);
             });
         },
         update: function () {
             var payload = JSON.stringify({
-            body: {
-            tgl_temuan: $("#tgl_penemuan").val(),
-            waktu_temuan: $("#waktu_penemuan").val(),
-            lokasi_temuan_id: $("#lokasi_penemuan").val(),
-            detail_lokasi: $("#detail_lokasi").val(),
-            jenis_temuan_id: $("#jenis_temuan").val(),
-            bahaya_ditemukan: $("#bahaya_ditemukan").val(),
-            penyebab_bahaya: $("#penyebab_bahaya").val(),
-            kode_bahaya_id: $("#kode_bahaya").val(),
-            foto_temuan_id: $("#foto_temuan").attr("data-id"),
-            rincian_tindakan: $("#rincian_tindakan").val(),
-            foto_perbaikan_id: $("#foto_perbaikan").attr("data-id"),
-            status_id: $("input:radio[name=status]:checked").val(),
-            nm_atasan: $("#nm_atasan").val(),
-            site_project_kode: $ummu.vars.site_project_kode,
-            nav_tab_id: $ummu.vars.nav_tab_id,
-            },
+                body: {
+                    tgl_temuan: $("#tgl_penemuan").val(),
+                    waktu_temuan: $("#waktu_penemuan").val(),
+                    lokasi_temuan_id: $("#lokasi_penemuan").val(),
+                    detail_lokasi: $("#detail_lokasi").val(),
+                    jenis_temuan_id: $("#jenis_temuan").val(),
+                    bahaya_ditemukan: $("#bahaya_ditemukan").val(),
+                    penyebab_bahaya: $("#penyebab_bahaya").val(),
+                    kode_bahaya_id: $("#kode_bahaya").val(),
+                    foto_temuan_id: $("#foto_temuan").attr("data-id"),
+                    rincian_tindakan: $("#rincian_tindakan").val(),
+                    foto_perbaikan_id: $("#foto_perbaikan").attr("data-id"),
+                    status_id: $("input:radio[name=status]:checked").val(),
+                    nm_atasan: $("#nm_atasan").val(),
+                    site_project_kode: $ummu.vars.site_project_kode,
+                    nav_tab_id: $ummu.vars.nav_tab_id,
+                },
             });
             // console.log(JSON.parse(payload));
 
             var params = {
-            url: globalVar.qUrl + "update/" + $ummu.vars.id,
-            type: "put",
-            action: "update",
-            data: payload,
-            cache: true,
-            contentType: "application/json",
-            dataType: "json",
+                url: globalVar.qUrl + "update/" + $ummu.vars.id,
+                type: "put",
+                action: "update",
+                data: payload,
+                cache: true,
+                contentType: "application/json",
+                dataType: "json",
             };
             // console.log(params)
             $("#text_loader").html("Update process...");
@@ -524,42 +524,42 @@ var app = {
             var ummu = $ummu.ajax.ummu3(params);
             ummu
             .done(function (result) {
-            // console.log(result);
-            // var response = JSON.parse(result);
-            var response = result;
-            // console.log(response.status)
-            if (response.status == true) {
-            table.ajax.reload();
-            $("#modal_form").modal("hide");
-            // $('#modal_loader').modal('hide');
-            // app.Views.set_value_to_table('insert',response.response);
-            $globFunc.ch_message(response.message);
-            // app.Events.clear_form();
-            setTimeout(function () {
-            $("#modal_loader").modal("hide");
-            }, 1000);
-            } else {
-            // $('#message_title, #text_message').empty();
-            // var message = response.message;
-            // var errors = response.errors;
-            // $('#message_title').html(message);
-            // for(let index in errors){
-            //     var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-            //                     '<i class="bi bi-exclamation-octagon me-1"></i>'+
-            //                     errors[index]+
-            //                  '</div>';
-            //     $('#text_message').append($error);
-            // }
-            // $('#message_modal').modal('show');
-            setTimeout(function () {
-            $("#modal_loader").modal("hide");
-            }, 1000);
-            }
-            $ummu.dt.after_cud();
+                // console.log(result);
+                // var response = JSON.parse(result);
+                var response = result;
+                // console.log(response.status)
+                if (response.status == true) {
+                    table.ajax.reload();
+                    $("#modal_form").modal("hide");
+                    // $('#modal_loader').modal('hide');
+                    // app.Views.set_value_to_table('insert',response.response);
+                    $globFunc.ch_message(response.message);
+                    // app.Events.clear_form();
+                    setTimeout(function () {
+                        $("#modal_loader").modal("hide");
+                    }, 1000);
+                } else {
+                    // $('#message_title, #text_message').empty();
+                    // var message = response.message;
+                    // var errors = response.errors;
+                    // $('#message_title').html(message);
+                    // for(let index in errors){
+                    //     var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                    //                     '<i class="bi bi-exclamation-octagon me-1"></i>'+
+                    //                     errors[index]+
+                    //                  '</div>';
+                    //     $('#text_message').append($error);
+                    // }
+                    // $('#message_modal').modal('show');
+                    setTimeout(function () {
+                        $("#modal_loader").modal("hide");
+                    }, 1000);
+                }
+                $ummu.dt.after_cud();
             })
             .fail(function () {
-            // An error occurred
-            console.log(ummu);
+                // An error occurred
+                console.log(ummu);
             });
         },
         multiple_delete: function (rows) {
@@ -793,340 +793,333 @@ var app = {
                 //     searchable: false
                 // }
                 ],
-        // fixedColumns: {
-        //     start: 3
-        // },
-        order: [[0, "desc"]],
-        // rowGroup: {
-        //     dataSrc: 'region_name'
-        // },
-        scrollCollapse: true,
-        scrollX: true,
-        scrollY: 360,
-        select: $ummu.dt.config.select(),
-        columns: app.dt.config_columns(),
-        // fnDrawCallback: function (data){
-        //     console.log(data)
-        //     // var orderVec = settings.oSavedState.order
-        //     // setCookie("releaseTicketSort", orderVec, exp=1000)
-        //     // getCookie("releaseTicketSort")
-        // },
-        drawCallback: function (settings) {
-        var api = this.api();
+                // fixedColumns: {
+                //     start: 3
+                // },
+                order: [[0, "desc"]],
+                // rowGroup: {
+                //     dataSrc: 'region_name'
+                // },
+                scrollCollapse: true,
+                scrollX: true,
+                scrollY: 360,
+                select: $ummu.dt.config.select(),
+                columns: app.dt.config_columns(),
+                // fnDrawCallback: function (data){
+                //     console.log(data)
+                //     // var orderVec = settings.oSavedState.order
+                //     // setCookie("releaseTicketSort", orderVec, exp=1000)
+                //     // getCookie("releaseTicketSort")
+                // },
+                drawCallback: function (settings) {
+                    var api = this.api();
 
-        // Output the data for the visible rows to the browser's console
-        // var data_jumlah = api.rows({ page: 'current' }).data()[0];
-        var data_jumlah = api.row().data();
-        // var a = Array.isArray(data_jumlah);
-        // var a = data_jumlah;
-        // console.log(a.data_jumlah);
-        // Cookies.set('data_jumlah', data_jumlah);
-        // set_jumlah(data_jumlah)
-        // for(key in data_jumlah) {
-        //     if(data_jumlah.hasOwnProperty(key)) {
-        //         var value = data_jumlah[key];
-        //         //do something with value;
-        //         console.log(value)
-        //     }
-        // }
+                    // Output the data for the visible rows to the browser's console
+                    // var data_jumlah = api.rows({ page: 'current' }).data()[0];
+                    var data_jumlah = api.row().data();
+                    // var a = Array.isArray(data_jumlah);
+                    // var a = data_jumlah;
+                    // console.log(a.data_jumlah);
+                    // Cookies.set('data_jumlah', data_jumlah);
+                    // set_jumlah(data_jumlah)
+                    // for(key in data_jumlah) {
+                    //     if(data_jumlah.hasOwnProperty(key)) {
+                    //         var value = data_jumlah[key];
+                    //         //do something with value;
+                    //         console.log(value)
+                    //     }
+                    // }
 
-        // for(k in data_jumlah) {
-        //     console.log(k)
-        // }
+                    // for(k in data_jumlah) {
+                    //     console.log(k)
+                    // }
 
-        // console.log(a)
-        },
-        };
+                    // console.log(a)
+                },
+            };
         },
         load: function () {
-        $ummu.dt.layout.button_crud();
-        $ummu.dt.button.crud();
-        $ummu.dt.select.load();
+            $ummu.dt.layout.button_crud();
+            $ummu.dt.button.crud();
+            $ummu.dt.select.load();
         },
         config_columns: function () {
-        let columns = [
-        { data: null, render: DataTable.render.select() },
-        // {   data: 'id',
-        //     render: function() {
-        //         return '';
-        //     }
-        // },
-        // {   data: 'foto_temuan_url',
-        //     render: function (data, type) {
-        //         return '<img src="'+data+'" class="img-thumbnail" alt="..." width="100px">';
-        //     }
-        // },
-        // {   data: 'foto_perbaikan_url',
-        //     render: function (data, type) {
-        //         return '<img src="'+data+'" class="img-thumbnail" alt="..." width="100px">';
-        //     }
-        // },
-        { data: "site_project_kode" },
-        {
-        data: "nomor_dokumen",
-        render: function (data, type) {
-        if ($ummu.vars.nav_tab == 1) {
-        var warna = "text-info";
-        } else if ($ummu.vars.nav_tab == 2) {
-        var warna = "text-success";
-        } else {
-        var warna = "text-danger";
-        }
+            let columns = [
+                { data: null, render: DataTable.render.select() },
+                // {   data: 'id',
+                //     render: function() {
+                //         return '';
+                //     }
+                // },
+                // {   data: 'foto_temuan_url',
+                //     render: function (data, type) {
+                //         return '<img src="'+data+'" class="img-thumbnail" alt="..." width="100px">';
+                //     }
+                // },
+                // {   data: 'foto_perbaikan_url',
+                //     render: function (data, type) {
+                //         return '<img src="'+data+'" class="img-thumbnail" alt="..." width="100px">';
+                //     }
+                // },
+                { data: "site_project_kode" },
+                { data: "nomor_dokumen",
+                    render: function (data, type) {
+                        if ($ummu.vars.nav_tab == 1) {
+                            var warna = "text-info";
+                        } else if ($ummu.vars.nav_tab == 2) {
+                            var warna = "text-success";
+                        } else {
+                            var warna = "text-danger";
+                        }
 
-        // return '<a href="#" id="'+data+'"> <span class="'+warna+'">'+data+'</span></a>';
-        // return '<a href="javascript:void(0);">' + data + ' <i class="fas fa-external-link-alt ml-2"></i></a>';
-        return (
-        '<a href="javascript:void(0);"><div><span class="' +
-        warna +
-        '">' +
-        data +
-        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-        );
-        },
-        },
-        { data: "name" },
-        { data: "nikaryawan" },
-        { data: "tgl_temuan" },
-        { data: "waktu_temuan" },
-        { data: "lokasi_temuan_name" },
-        { data: "detail_lokasi" },
-        { data: "jenis_temuan_longname" },
-        { data: "bahaya_ditemukan" },
-        { data: "penyebab_bahaya" },
-        { data: "kode_bahaya_longname" },
-        {
-        data: "status_name",
-        },
-        {
-        data: "nm_atasan",
-        },
-        { data: "remark" },
-        { data: "created_at" },
-        { data: "approved_by_name" },
-        { data: "rejected_by_name" },
-        ];
+                        // return '<a href="#" id="'+data+'"> <span class="'+warna+'">'+data+'</span></a>';
+                        // return '<a href="javascript:void(0);">' + data + ' <i class="fas fa-external-link-alt ml-2"></i></a>';
+                        return (
+                            '<a href="javascript:void(0);">'+
+                                '<div><span class="' + warna + '">' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                            '</a>'
+                        );
+                    },
+                },
+                { data: "name" },
+                { data: "nikaryawan" },
+                { data: "tgl_temuan" },
+                { data: "waktu_temuan" },
+                { data: "lokasi_temuan_name" },
+                { data: "detail_lokasi" },
+                { data: "jenis_temuan_longname" },
+                { data: "bahaya_ditemukan" },
+                { data: "penyebab_bahaya" },
+                { data: "kode_bahaya_longname" },
+                { data: "status_name"},
+                { data: "nm_atasan"},
+                { data: "remark" },
+                { data: "created_at" },
+                { data: "approved_by_name" },
+                { data: "rejected_by_name" },
+            ];
 
-        return columns;
+            return columns;
         },  
         config_columnDefs: function() {
-        let columnDefs = [
-        {
-        targets: 0,
-        orderable: false,
-        render: DataTable.render.select(),
-        },
-        { 
-        targets: [26,27], 
-        visible: false 
-        },
-        ];
-        return columnDefs;
+            let columnDefs = [
+                {
+                    targets: 0,
+                    orderable: false,
+                    render: DataTable.render.select(),
+                },
+                { 
+                    targets: [26,27], 
+                    visible: false 
+                },
+            ];
+            return columnDefs;
         },  
         config_rowGroup: function() {
-        let rowGroup = {
-        dataSrc: ["tipe","unit_code"],
-        startRender: function (rows, group) {
-        // Display the group name and the number of rows in that group
-        return group + " (" + rows.count() + " rows)";
-        },
-        endRender: function (rows, group, level) {
-        // =======================================================
-        // OB ====================================================
-        // =======================================================
-        var day_rit_ob_count = rows
-        .data()
-        .pluck('day_rit_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+            let rowGroup = {
+                dataSrc: ["tipe","unit_code"],
+                startRender: function (rows, group) {
+                    // Display the group name and the number of rows in that group
+                    return group + " (" + rows.count() + " rows)";
+                },
+                endRender: function (rows, group, level) {
+                    // =======================================================
+                    // OB ====================================================
+                    // =======================================================
+                    var day_rit_ob_count = rows
+                    .data()
+                    .pluck('day_rit_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var night_rit_ob_count = rows
-        .data()
-        .pluck('night_rit_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var night_rit_ob_count = rows
+                    .data()
+                    .pluck('night_rit_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var total_rit_ob_count = rows
-        .data()
-        .pluck('total_rit_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var total_rit_ob_count = rows
+                    .data()
+                    .pluck('total_rit_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var day_ob_count = rows
-        .data()
-        .pluck('day_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var day_ob_count = rows
+                    .data()
+                    .pluck('day_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var night_ob_count = rows
-        .data()
-        .pluck('night_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var night_ob_count = rows
+                    .data()
+                    .pluck('night_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var total_ob_count = rows
-        .data()
-        .pluck('total_ob')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-
-        // =========================================================
-        // Coal Getting ============================================
-        // =========================================================
-        var day_rit_cg_count = rows
-        .data()
-        .pluck('day_rit_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        var night_rit_cg_count = rows
-        .data()
-        .pluck('night_rit_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        var total_rit_cg_count = rows
-        .data()
-        .pluck('total_rit_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        var day_cg_count = rows
-        .data()
-        .pluck('day_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        var night_cg_count = rows
-        .data()
-        .pluck('night_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        var total_cg_count = rows
-        .data()
-        .pluck('total_cg')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var total_ob_count = rows
+                    .data()
+                    .pluck('total_ob')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
 
-        // =========================================================
-        // Coal Hauling ============================================
-        // =========================================================
-        var day_rit_cl_count = rows
-        .data()
-        .pluck('day_rit_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    // =========================================================
+                    // Coal Getting ============================================
+                    // =========================================================
+                    var day_rit_cg_count = rows
+                    .data()
+                    .pluck('day_rit_cg')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var night_rit_cl_count = rows
-        .data()
-        .pluck('night_rit_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var night_rit_cg_count = rows
+                    .data()
+                    .pluck('night_rit_cg')
+                    .reduce( function (a, b) {
+                    return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var total_rit_cl_count = rows
-        .data()
-        .pluck('total_rit_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var total_rit_cg_count = rows
+                    .data()
+                    .pluck('total_rit_cg')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var day_cl_count = rows
-        .data()
-        .pluck('day_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var day_cg_count = rows
+                    .data()
+                    .pluck('day_cg')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var night_cl_count = rows
-        .data()
-        .pluck('night_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var night_cg_count = rows
+                    .data()
+                    .pluck('night_cg')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        var total_cl_count = rows
-        .data()
-        .pluck('total_cl')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
-
-        // ===========================================================================
-        var fuel_count = rows
-        .data()
-        .pluck('fuel')
-        .reduce( function (a, b) {
-        return parseFloat(a) + parseFloat(b);
-        }, 0) ;
+                    var total_cg_count = rows
+                    .data()
+                    .pluck('total_cg')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
 
-        if (level === 0) {
-        let tr = document.createElement('tr');
-        let classs = $ummu.dt.endRender_class();
-        $ummu.dt.addCell(tr, group, 2, classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+                    // =========================================================
+                    // Coal Hauling ============================================
+                    // =========================================================
+                    var day_rit_cl_count = rows
+                    .data()
+                    .pluck('day_rit_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+                    var night_rit_cl_count = rows
+                    .data()
+                    .pluck('night_rit_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
+                    var total_rit_cl_count = rows
+                    .data()
+                    .pluck('total_rit_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-        $ummu.dt.addCell(tr, '', 5, classs);
-        return tr;
-        } else if (level === 1) {
-        let tr = document.createElement('tr');
-        let classs = 'text-right font-weight-bold bg-warning';
-        $ummu.dt.addCell(tr, '', 4);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-        $ummu.dt.addCell(tr, '', 2);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-        $ummu.dt.addCell(tr, '', 2);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-        $ummu.dt.addCell(tr, '', 2);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-        $ummu.dt.addCell(tr, '', 2);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-        $ummu.dt.addCell(tr, '', 2);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
-        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-        $ummu.dt.addCell(tr, '', 5);            
-        return tr;
-        }          
-        }
-        };
+                    var day_cl_count = rows
+                    .data()
+                    .pluck('day_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
 
-        return rowGroup;
+                    var night_cl_count = rows
+                    .data()
+                    .pluck('night_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
+
+                    var total_cl_count = rows
+                    .data()
+                    .pluck('total_cl')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
+
+                    // ===========================================================================
+                    var fuel_count = rows
+                    .data()
+                    .pluck('fuel')
+                    .reduce( function (a, b) {
+                        return parseFloat(a) + parseFloat(b);
+                    }, 0) ;
+
+
+                    if (level === 0) {
+                        let tr = document.createElement('tr');
+                        let classs = $ummu.dt.endRender_class();
+                        $ummu.dt.addCell(tr, group, 2, classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
+
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 5, classs);
+                        return tr;
+                    } else if (level === 1) {
+                        let tr = document.createElement('tr');
+                        let classs = 'text-right font-weight-bold bg-warning';
+                        $ummu.dt.addCell(tr, '', 4);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 2);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 2);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 2);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 2);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 2);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
+                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                        $ummu.dt.addCell(tr, '', 5);            
+                        return tr;
+                    }          
+                }
+            };
+
+            return rowGroup;
         },
     },
 };

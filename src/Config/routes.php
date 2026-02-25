@@ -52,6 +52,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('/', 'MsClientController::index');
         $routes->get('show', 'MsClientController::show');
         $routes->post('create', 'MsClientController::create');
+        $routes->post('update/(:num)', 'MsClientController::update/$1');
     });
 
     $routes->group('ms_barge', function ($routes) {
@@ -150,7 +151,6 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         // $routes->get('show_roles', 'AccountsController::show_roles');
         // // $routes->put('update_by_profile', 'AccountsController::update_by_profile');
     });
-
 
     // =============== include area ======================
     $routes->group('mcp_report', function ($routes) {
