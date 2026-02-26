@@ -7,7 +7,6 @@
 
 <?= $this->section('content') ?>
     <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
-    <img src="https://cdn.openapi2.com/img/tugboat.png" width="100px">
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
@@ -18,6 +17,7 @@
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
+        var $localStrgKey = "clients"
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>

@@ -53,6 +53,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show', 'MsClientController::show');
         $routes->post('create', 'MsClientController::create');
         $routes->post('update/(:num)', 'MsClientController::update/$1');
+        $routes->post('delete/(:num)', 'MsClientController::delete/$1');
     });
 
     $routes->group('ms_barge', function ($routes) {

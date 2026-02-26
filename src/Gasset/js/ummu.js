@@ -11084,6 +11084,131 @@ var $ummu = {
                 app.dt.$init.columns.adjust();
             }, 3000);
         },
+
+        updateRows: function(key, id, params) {
+            // console.log(params)
+            // 1. Ambil data string dari localStorage
+            const storageKey = key;
+            const rawData = localStorage.getItem(storageKey);
+
+            if (rawData) {
+                // 2. Parse string menjadi objek JavaScript
+                let parsedData = JSON.parse(rawData);
+
+                // // ID yang ingin diupdate (perhatikan: di JSON Anda ID-nya adalah string "10")
+                const targetId = id; 
+
+                // 3. Update data di dalam array 'rows'
+                // Kita gunakan .map() untuk membuat array baru yang sudah terupdate
+                parsedData.rows = parsedData.rows.map(row => {
+                    // console.log(row.id)
+                    if (row.id == targetId) {
+                        // Kembalikan objek yang lama (...) tapi timpa field yang ingin diubah
+                        const newRow = { ...row, ...params };
+                        return newRow;
+                    }else{
+                        return row; // Jika ID tidak cocok, kembalikan data asli
+                    }
+                });
+
+                // 4. Simpan kembali ke localStorage
+                localStorage.setItem(storageKey, JSON.stringify(parsedData));
+
+                console.log("Update localStorage success.");
+            } else {
+                console.error("Data tidak ditemukan di localStorage.");
+            }
+        },
+
+        getRowById: function(key, id) {
+            // console.log(params)
+            // 1. Ambil data string dari localStorage
+            const storageKey = key;
+            const rawData = localStorage.getItem(storageKey);
+
+            if (rawData) {
+                // 2. Parse string menjadi objek JavaScript
+                let parsedData = JSON.parse(rawData);
+
+                // // ID yang ingin diupdate (perhatikan: di JSON Anda ID-nya adalah string "10")
+                const targetId = id; 
+
+                // Mencari di dalam properti .rows
+                const selectedRow = parsedData.rows.find(r => r.id == targetId);
+                
+                console.log(selectedRow);
+            } else {
+                console.error("Data tidak ditemukan di localStorage.");
+            }
+        },
+
+        deleteRowById: function(key, id)
+        {
+            const storageKey = key;
+            const rawData = localStorage.getItem(storageKey);
+
+            if (rawData) {
+                let data = JSON.parse(rawData);
+                const targetId = id;
+
+                // Hapus row berdasarkan ID
+                data.rows = data.rows.filter(row => row.id != targetId);
+
+                // Update info total (agar sinkron dengan jumlah row yang baru)
+                data.count = data.rows.length;
+                data.total = data.rows.length;
+                data.recordsTotal = data.rows.length;
+                data.recordsFiltered = data.rows.length;
+                data.total_count = data.rows.length;
+
+                // Simpan kembali ke localStorage
+                localStorage.setItem(storageKey, JSON.stringify(data));
+                
+                console.log(`Row dengan ID ${targetId} berhasil dihapus.`);
+            }
+        },
+
+        addNewRow: function(key, newRow) {
+            // 1. Definisikan data baru yang ingin ditambah
+            // const newRow = {
+            //     "id": "11", // Pastikan ID unik (bisa dari respon server)
+            //     "is_testing": "1",
+            //     "company_id": "23",
+            //     "name": "DATA BARU DARI FORM",
+            //     "address": "Alamat Lengkap Baru",
+            //     "phone_number": "08123456789",
+            //     "email": "baru@mail.com",
+            //     "created_at": "2026-02-26 10:00:00",
+            //     "updated_at": "2026-02-26 10:00:00",
+            //     "deleted_at": null,
+            //     "created_by": "1902",
+            //     "updated_by": null,
+            //     "deleted_by": null
+            // };
+
+            // 2. Ambil data lama dari localStorage
+            const storageKey = key; // Ganti sesuai key Anda
+            const rawData = localStorage.getItem(storageKey);
+
+            if (rawData) {
+                // 3. Ubah string JSON menjadi objek
+                let response = JSON.parse(rawData);
+
+                // 4. Tambahkan data baru ke posisi PALING ATAS (index 0)
+                response.rows = [newRow, ...response.rows];
+
+                // 5. Update informasi jumlah data agar tetap sinkron
+                response.count = response.rows.length;
+                response.total = response.rows.length;
+                response.recordsTotal = response.rows.length;
+                response.recordsFiltered = response.rows.length;
+
+                // 6. Simpan kembali ke localStorage dalam bentuk string
+                localStorage.setItem(storageKey, JSON.stringify(response));
+
+                console.log("Data berhasil ditambahkan ke posisi teratas!");
+            }
+        }
     },
 
     ls: {
@@ -11311,13 +11436,38 @@ var $ummu = {
                     }
                 }
 
+                else if (elID == 'btn_delete') {
+                    $(".sb-toolbar #modalDeleteConfirm").modal("show")
+                }
+
+                else if (elID == 'sb_modal_btn_delete') {
+                    app.controllers.sbDelete($ummu.url.getParam('id'))
+                }
+
                 $ummu.button.id = elID
             })
         },
 
         sbBtn_on_showData: function () {
+            $(".btn-nav-link-table").removeClass("disabled")
+            $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
             $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
             $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
+            $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+            $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
+            $(".sb-toolbar-btn-endis").prop("disabled", true)
+        },
+
+        sbBtn_default: function() {
+            $(".btn-nav-link-table").removeClass("disabled")
+            $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
+            $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+            $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+            $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
+            $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
+            $(".sb-toolbar-btn-endis").prop("disabled", true)
         },
 
         hazard_report: {

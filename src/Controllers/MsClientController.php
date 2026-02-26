@@ -113,4 +113,18 @@ class MsClientController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function delete($id = null)
+    {
+        $params = [
+            "path"      => "api/clients/delete/" . $id,
+            "method" => 'DELETE',
+            "payload" => [],
+            "headers" => $this->cH->headers3('clients')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }
