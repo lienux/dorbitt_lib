@@ -17,6 +17,7 @@
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
+        var $localStrgKey = "ms_activity"
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>

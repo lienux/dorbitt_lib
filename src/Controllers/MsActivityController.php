@@ -71,4 +71,66 @@ class MsActivityController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function create()
+    {
+        $kode = $this->request->getVar('kode');
+        $name = $this->request->getVar('name');
+        $description = $this->request->getVar('description');
+
+        $payload = [
+            "kode" => $kode,
+            "name" => $name,
+            "description" => $description,
+        ];
+
+        $params = [
+            "path"      => "api/ms_activity/create",
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3('ms_activity')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function update($id = null)
+    {
+        $kode = $this->request->getVar('kode');
+        $name = $this->request->getVar('name');
+        $description = $this->request->getVar('description');
+
+        $payload = [
+            "kode" => $kode,
+            "name" => $name,
+            "description" => $description,
+        ];
+
+        $params = [
+            "path"      => "api/ms_activity/update/" . $id,
+            "method" => 'PUT',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3('ms_activity')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function delete($id = null)
+    {
+        $params = [
+            "path"      => "api/ms_activity/delete/" . $id,
+            "method" => 'DELETE',
+            "payload" => [],
+            "headers" => $this->cH->headers3('ms_activity')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }
