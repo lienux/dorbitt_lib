@@ -7417,58 +7417,112 @@ var $ummu = {
         },
 
         after_sbToolbar_save: function(result, func, id, payload) {
-            $ummu.button.sbBtn_on_showData();
-            app.views.formParams().prop('disabled', true);
+            if (result.status == true) {
+                $(".sb-toolbar #modalSuccessMessage #alert").html("");
+                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
+                $(".sb-toolbar #modalSuccessMessage").modal("show");
 
-            if (func == "create") {
-                if (localStorage.getItem($localStrgKey) == null) {
-                    app.controllers.show();
+                $ummu.button.sbBtn_on_showData();
+                app.views.formParams().prop('disabled', true);
+
+                if (func == "create") {
+                    if (localStorage.getItem($localStrgKey) == null) {
+                        app.controllers.show();
+                    }else{
+                        // tambah rows pada localStorage
+                        $ummu.localStorage.addNewRow($localStrgKey, result.data);
+
+                        // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                        $ummu.localStorage.dt_default($localStrgKey);
+                    }
+
+                    // tambah url params
+                    $ummu.url.setParamFromRow(result.data)
                 }else{
-                    // tambah rows pada localStorage
-                    $ummu.localStorage.addNewRow($localStrgKey, result.data);
+                    if (localStorage.getItem($localStrgKey) == null) {
+                        app.controllers.show();
+                    }else{
+                        //update row pada localstorage
+                        $ummu.localStorage.updateRows($localStrgKey, id, payload);
+                    }
 
-                    // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                    //update params para url
+                    $ummu.url.setParamFromRow(payload);
+
+                    // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                     $ummu.localStorage.dt_default($localStrgKey);
                 }
-
-                // tambah url params
-                $ummu.url.setParamFromRow(result.data)
-                // console.log(result.data)
-
             }else{
-                if (localStorage.getItem($localStrgKey) == null) {
-                    app.controllers.show();
-                }else{
-                    //update row pada localstorage
-                    $ummu.localStorage.updateRows($localStrgKey, id, payload);
-                }
-
-                //update params para url
-                $ummu.url.setParamFromRow(payload);
-
-                // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                $ummu.localStorage.dt_default($localStrgKey);
+                $ummu.views.after_sbToolbar_falseStatus(result);
             }
         },
 
-        after_sbToolbar_delete: function(id) {
-            // hapus params para url
-            $ummu.url.delParamNotIn(['g']);
+        after_sbToolbar_save_stFalse: function(result)
+        {
+            $("#message_title, #text_message").empty();
+            var message = result.message;
+            var errors = result.errors;
+            $("#message_title").html(message);
+            for (let index in errors) {
+                var $error =
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
+                    errors[index] +
+                "</div>";
+                $("#text_message").append($error);
+            }
+            $("#message_modal").modal("show");
+            setTimeout(function () {
+                $("#modal_loader").modal("hide");
+            }, 1000);
+        },
 
-            // sb-button default
-            $ummu.button.sbBtn_default();
+        after_sbToolbar_delete: function(id, result) {
+            if (result.status == true) {
+                // hapus params para url
+                $ummu.url.delParamNotIn(['g']);
 
-            // disable dan kosongkan form
-            app.views.formParams().prop('disabled', true).val('');
+                // sb-button default
+                $ummu.button.sbBtn_default();
 
-            // hapus row pada localStorage
-            $ummu.localStorage.deleteRowById($localStrgKey, id);
+                // disable dan kosongkan form
+                app.views.formParams().prop('disabled', true).val('');
 
-            // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
-            $ummu.localStorage.dt_default($localStrgKey);
+                // hapus row pada localStorage
+                $ummu.localStorage.deleteRowById($localStrgKey, id);
 
-            // hide modal delete confirm
-            $(".sb-toolbar #modalDeleteConfirm").modal("hide")
+                // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
+                $ummu.localStorage.dt_default($localStrgKey);
+
+                // hide modal delete confirm
+                $(".sb-toolbar #modalDeleteConfirm").modal("hide")
+
+                $(".sb-toolbar #modalSuccessMessage #alert").html("");
+                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
+                $(".sb-toolbar #modalSuccessMessage").modal("show");
+            }else{
+                $ummu.views.after_sbToolbar_falseStatus(result);
+            }
+        },
+
+        after_sbToolbar_falseStatus: function(result)
+        {
+            $("#message_title, #text_message").empty();
+            var message = result.message;
+            var errors = result.errors;
+            $("#message_title").html(message);
+            for (let index in errors) {
+                var $error =
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
+                    errors[index] +
+                "</div>";
+                $("#text_message").append($error);
+            }
+            $("#message_modal").modal("show");
+            setTimeout(function () {
+                $("#modal_loader").modal("hide");
+            }, 1000);
         },
     },
 
@@ -11495,27 +11549,12 @@ var $ummu = {
 
         sbToolbar: function () {
             $(".sb-toolbar button").on('click', function () {
-                // // var element_id = $(this).attr("id");
-                // // console.log('class ummu-datepicker is change OK.');
-                // if(typeof app.controllers.new !== "undefined") {
-                //   console.log('function app.controllers.new is OK.');
-                //   app.controllers.new();
-                // }else{
-                //   console.log('plese create function app.controllers.new.');
-                // }
-
                 var elID = $(this).attr('id')
-                // console.log(elID)
 
                 if (elID == 'btn_new') {
-                    $(".btn-nav-link-table").addClass("disabled")
-                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
-                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
-                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
-                    $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
-                    $(".sb-toolbar-input-endis").prop("disabled", false)
+                    $ummu.button.sbBtn_on_formReady()
+                    $ummu.url.delParamNotIn(['g']);
+                    app.views.formParams().prop('disabled', false).val('');
 
                     console.log('btn_new is clicked.')
                     if (typeof app.controllers.sbNew !== "undefined") {
@@ -11527,14 +11566,8 @@ var $ummu = {
                 }
 
                 else if (elID == 'btn_edit') {
-                    $(".btn-nav-link-table").addClass("disabled")
-                    $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
-                    $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                    $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                    $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
-                    $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
-                    $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
-                    $(".sb-toolbar-input-endis").prop("disabled", false)
+                    $ummu.button.sbBtn_on_formReady()
+                    app.views.formParams().prop('disabled', false);
 
                     console.log('btn_edit is clicked.')
                     if (typeof app.controllers.sbEdit !== "undefined") {
@@ -11546,36 +11579,22 @@ var $ummu = {
                 }
 
                 else if (elID == 'btn_cancle') {
-                    if ($ummu.button.id == 'btn_edit') {
-                        $(".btn-nav-link-table").removeClass("disabled")
-                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
-                        $(".sb-toolbar #btn_edit").prop('disabled', false).addClass("btn-warning")
-                        $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
-                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
-                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
-                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
-                        $(".sb-toolbar-btn-endis").prop("disabled", true)
-                        app.controllers.sbCancleEdit()
-                    } else {
-                        $(".btn-nav-link-table").removeClass("disabled")
-                        $(".sb-toolbar #btn_new").prop("disabled", false).addClass("btn-primary")
-                        $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
-                        $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
-                        $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
-                        $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
-                        $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
-                        $(".sb-toolbar-input-endis").prop("disabled", true)
-                        // app.controllers.sbCancleNew()
-
-                        console.log('btn_cancle is clicked.')
-                        if (typeof app.controllers.sbCancle !== "undefined") {
-                            console.log('function app.controllers.sbCancle is OK.')
-                            app.controllers.sbCancle()
-                        } else {
-                            console.log('plese create function app.controllers.sbCancle')
-                        }
+                    if ($ummu.url.getParam('id')) {
+                        $ummu.button.sbBtn_on_showData()
+                        app.views.formParams().prop('disabled', true);
+                        app.views.setRow_toForm($ummu.url.paramToObject2());
+                    }else{
+                        $ummu.button.sbBtn_default()
+                        app.views.formParams().prop('disabled', true).val('');
                     }
 
+                    console.log('btn_cancle is clicked.')
+                    if (typeof app.controllers.sbCancle !== "undefined") {
+                        console.log('function app.controllers.sbCancle is OK.')
+                        app.controllers.sbCancle()
+                    } else {
+                        console.log('plese create function app.controllers.sbCancle')
+                    }
                 }
 
                 else if (elID == 'btn_save') {
@@ -11598,6 +11617,17 @@ var $ummu = {
 
                 $ummu.button.id = elID
             })
+        },
+
+        sbBtn_on_formReady: function() {
+            $(".btn-nav-link-table").addClass("disabled")
+            $(".sb-toolbar #btn_new").prop("disabled", true).removeClass("btn-primary")
+            $(".sb-toolbar #btn_edit").prop('disabled', true).removeClass("btn-warning")
+            $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
+            $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
+            $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+            $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
+            $(".sb-toolbar-input-endis").prop("disabled", false)
         },
 
         sbBtn_on_showData: function () {

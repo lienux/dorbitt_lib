@@ -47,5 +47,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalSuccessMessage" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog" id="modal_dialog">
+                <div class="modal-content bg-light">
+                    <div class="modal-header bg-purple py-2 text-light">
+                        <h6 class="modal-title"><i class="fas fa-check-circle"></i> Success Messages</h6>
+                        <div class="">
+                            <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">
+                                <i class="fa-light fa-rectangle-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success text-sm" id="alert"></div>
+                    </div>
+                    <div class="modal-footer py-1">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
