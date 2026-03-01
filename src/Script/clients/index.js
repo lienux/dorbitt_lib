@@ -23,20 +23,13 @@ var app = {
     vars: {
         initTable2: null,
         runing_id: null,
-        tbAccount: {
-            init: null,
-        },
-        tbPriv: {
-            init: null,
-        },
-        tbDismodModule: {
-            // 
-        },
     },
 
     controllers: {
         on_btn_getData_click: function () {
             $ummu.url.delParamNotIn(['g']);
+            app.views.formParams().prop('disabled', true).val('');
+            $ummu.button.sbBtn_default();
             app.controllers.show()
         },
 
@@ -108,30 +101,32 @@ var app = {
             ummu.done(function(result) {
                 // console.log(result)
                 if (result.status == true) {
-                    $ummu.button.sbBtn_on_showData();
-                    app.views.formParams().prop('disabled', true);
+                    // $ummu.button.sbBtn_on_showData();
+                    // app.views.formParams().prop('disabled', true);
 
-                    if (func == "create") {
-                        // tambah rows pada localStorage
-                        $ummu.localStorage.addNewRow($localStrgKey, result.data);
+                    // if (func == "create") {
+                    //     // tambah rows pada localStorage
+                    //     $ummu.localStorage.addNewRow($localStrgKey, result.data);
 
-                        // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                        $ummu.localStorage.dt_default($localStrgKey);
+                    //     // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                    //     $ummu.localStorage.dt_default($localStrgKey);
 
-                        // tambah url params
-                        $ummu.url.setParamFromRow(result.data)
-                        console.log(result.data)
+                    //     // tambah url params
+                    //     $ummu.url.setParamFromRow(result.data)
+                    //     console.log(result.data)
 
-                    }else{
-                        //update row pada localstorage
-                        $ummu.localStorage.updateRows($localStrgKey, id, payload);
+                    // }else{
+                    //     //update row pada localstorage
+                    //     $ummu.localStorage.updateRows($localStrgKey, id, payload);
 
-                        //update params para url
-                        $ummu.url.setParamFromRow(payload);
+                    //     //update params para url
+                    //     $ummu.url.setParamFromRow(payload);
 
-                        // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                        $ummu.localStorage.dt_default($localStrgKey);
-                    }
+                    //     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                    //     $ummu.localStorage.dt_default($localStrgKey);
+                    // }
+
+                    $ummu.views.after_save(result, func, id, payload);
                 }
 
             }).fail(function() {

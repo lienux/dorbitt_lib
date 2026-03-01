@@ -659,3 +659,19 @@ border-radius: 0.25rem;
     -1px  1px 0 #fff,
      1px  1px 0 #fff;
 }
+
+
+
+.input-container-unit {
+    position: relative;
+    display: inline-block;
+}
+.unit {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none; /* Membuat satuan tidak bisa diklik/select */
+    user-select: none;    /* Mencegah teks dicopy */
+  }
