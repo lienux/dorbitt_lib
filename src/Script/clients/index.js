@@ -46,6 +46,8 @@ var app = {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
                     localStorage.setItem($localStrgKey, JSON.stringify(response));
+                }else{
+                    $ummu.modal.ummu_msg(response.message)
                 }
             });
         },

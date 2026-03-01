@@ -43,6 +43,8 @@ var app = {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
                     localStorage.setItem('ms_activity', JSON.stringify(response));
+                }else{
+                    $ummu.modal.ummu_msg(response.message)
                 }
             });
         },
@@ -128,7 +130,7 @@ var app = {
 
     views: {
         formParams: function () {
-            return $("#form_input input");
+            return $("#form_input input, #form_input textarea");
         },
 
         setRow_toForm: function(row) {
@@ -205,9 +207,15 @@ var app = {
                             );
                         }
                     },
-                    { data: "type_id" },
                     { data: "kode" },
                     { data: "name" },
+                    { data: "category_id" },
+                    { data: "model" },
+                    { data: "serial_number" },
+                    { data: "manufacturer" },
+                    { data: "maintenance_schedule" },
+                    { data: "criticality_level" },
+                    { data: "location_name" },
                     { data: "description" },
                 ];
 
