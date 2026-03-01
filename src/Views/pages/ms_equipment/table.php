@@ -5,9 +5,15 @@
             <tr>
                 <th></th>
                 <th>ID</th>
-                <th>Type</th>
                 <th>Kode</th>
                 <th>Name</th>
+                <th>Category</th>
+                <th>Model</th>
+                <th>Serial Number</th>
+                <th>Manufacture</th>
+                <th>Maintenance Schedule</th>
+                <th>Criticality Level</th>
+                <th>Location</th>
                 <th>Description</th>
             </tr>
         </thead>

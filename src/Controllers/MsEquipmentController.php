@@ -71,4 +71,126 @@ class MsEquipmentController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function create()
+    {
+        $kode = $this->request->getVar('kode');
+        $name = $this->request->getVar('name');
+        $nome = $this->request->getVar('nome');
+        $hp = $this->request->getVar('hp');
+        $lightship = $this->request->getVar('lightship');
+        $capacity = $this->request->getVar('capacity');
+        // $client_id = $this->request->getVar('client_id');
+        $laden_river_speed = $this->request->getVar('laden_river_speed');
+        $laden_river_fuelcons = $this->request->getVar('laden_river_fuelcons');
+        $laden_sea_speed = $this->request->getVar('laden_sea_speed');
+        $laden_sea_fuelcons = $this->request->getVar('laden_sea_fuelcons');
+        $ballast_river_speed = $this->request->getVar('ballast_river_speed');
+        $ballast_river_fuelcons = $this->request->getVar('ballast_river_fuelcons');
+        $ballast_sea_speed = $this->request->getVar('ballast_sea_speed');
+        $ballast_sea_fuelcons = $this->request->getVar('ballast_sea_fuelcons');
+        $stby_fuelcons = $this->request->getVar('stby_fuelcons');
+        $runningfree_speed = $this->request->getVar('runningfree_speed');
+        $runningfree_cons = $this->request->getVar('runningfree_cons');
+
+        $payload = [
+            "kode" => $kode,
+            "name" => $name,
+            "nome" => $nome,
+            "hp" => $hp,
+            "lightship" => $lightship,
+            "capacity" => $capacity,
+            // "client_id" => $client_id,
+            "laden_river_speed" => $laden_river_speed,
+            "laden_river_fuelcons" => $laden_river_fuelcons,
+            "laden_sea_speed" => $laden_sea_speed,
+            "laden_sea_fuelcons" => $laden_sea_fuelcons,
+            "ballast_river_speed" => $ballast_river_speed,
+            "ballast_river_fuelcons" => $ballast_river_fuelcons,
+            "ballast_sea_speed" => $ballast_sea_speed,
+            "ballast_sea_fuelcons" => $ballast_sea_fuelcons,
+            "stby_fuelcons" => $stby_fuelcons,
+            "runningfree_speed" => $runningfree_speed,
+            "runningfree_cons" => $runningfree_cons,
+        ];
+
+        $params = [
+            "path"      => "api/equipment/create",
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3('equipment')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function update($id = null)
+    {
+        $kode = $this->request->getVar('kode');
+        $name = $this->request->getVar('name');
+        $nome = $this->request->getVar('nome');
+        $hp = $this->request->getVar('hp');
+        $lightship = $this->request->getVar('lightship');
+        $capacity = $this->request->getVar('capacity');
+        // $client_id = $this->request->getVar('client_id');
+        $laden_river_speed = $this->request->getVar('laden_river_speed');
+        $laden_river_fuelcons = $this->request->getVar('laden_river_fuelcons');
+        $laden_sea_speed = $this->request->getVar('laden_sea_speed');
+        $laden_sea_fuelcons = $this->request->getVar('laden_sea_fuelcons');
+        $ballast_river_speed = $this->request->getVar('ballast_river_speed');
+        $ballast_river_fuelcons = $this->request->getVar('ballast_river_fuelcons');
+        $ballast_sea_speed = $this->request->getVar('ballast_sea_speed');
+        $ballast_sea_fuelcons = $this->request->getVar('ballast_sea_fuelcons');
+        $stby_fuelcons = $this->request->getVar('stby_fuelcons');
+        $runningfree_speed = $this->request->getVar('runningfree_speed');
+        $runningfree_cons = $this->request->getVar('runningfree_cons');
+
+        $payload = [
+            "kode" => $kode,
+            "name" => $name,
+            "nome" => $nome,
+            "hp" => $hp,
+            "lightship" => $lightship,
+            "capacity" => $capacity,
+            // "client_id" => $client_id,
+            "laden_river_speed" => $laden_river_speed,
+            "laden_river_fuelcons" => $laden_river_fuelcons,
+            "laden_sea_speed" => $laden_sea_speed,
+            "laden_sea_fuelcons" => $laden_sea_fuelcons,
+            "ballast_river_speed" => $ballast_river_speed,
+            "ballast_river_fuelcons" => $ballast_river_fuelcons,
+            "ballast_sea_speed" => $ballast_sea_speed,
+            "ballast_sea_fuelcons" => $ballast_sea_fuelcons,
+            "stby_fuelcons" => $stby_fuelcons,
+            "runningfree_speed" => $runningfree_speed,
+            "runningfree_cons" => $runningfree_cons,
+        ];
+
+        $params = [
+            "path"      => "api/equipment/update/" . $id,
+            "method" => 'PUT',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3('equipment')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function delete($id = null)
+    {
+        $params = [
+            "path"      => "api/equipment/delete/" . $id,
+            "method" => 'DELETE',
+            "payload" => [],
+            "headers" => $this->cH->headers3('equipment')
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }
