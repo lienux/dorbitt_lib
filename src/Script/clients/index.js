@@ -27,10 +27,7 @@ var app = {
 
     controllers: {
         on_btn_getData_click: function () {
-            $ummu.url.delParamNotIn(['g']);
-            app.views.formParams().prop('disabled', true).val('');
-            $ummu.button.sbBtn_default();
-            app.controllers.show()
+            $ummu.views.after_sbToolbar_getData();
         },
 
         show: function (params) {
@@ -54,21 +51,7 @@ var app = {
         },
 
         sbNew: function () {
-            // $ummu.url.delAllParam();
-            $ummu.url.delParamNotIn(['g']);
-            $ummu.vars.id = null
-            $ummu.vars.account.id = null
-            // app.vars.runing_id = null
-            // console.log("OK")
-            if (app.vars.initTable2 == null) {
-                // $ummu.bt.initTable($table2)
-                // app.vars.initTable2 = true;
-            } else {
-                // 
-            }
-
-            app.views.formParams().prop('disabled', false).val('');
-            // $table2.bootstrapTable('removeAll');
+            // 
         },
 
         sbSave: function () {
@@ -99,30 +82,19 @@ var app = {
 
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
-                // console.log(result)
-                if (result.status == true) {
-                    $ummu.views.after_sbToolbar_save(result, func, id, payload);
-                }
+                $ummu.views.after_sbToolbar_save(result, func, id, payload);
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
         },
 
-        sbCancleNew: function () {
-            app.views.formParams().prop('disabled', true).val('');
-        },
-
         sbCancle: function () {
-            app.views.formParams().prop('disabled', true).val('');
+            // 
         },
 
         sbEdit: function () {
-            app.views.formParams().prop('disabled', false);
-        },
-
-        sbCancleEdit: function () {
-            app.views.formParams().prop('disabled', true);
+            //
         },
 
         sbDelete: function(id) {
@@ -139,10 +111,7 @@ var app = {
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
                 console.log(result)
-                if (result.status == true) {
-                    $ummu.views.after_sbToolbar_delete(id);
-                }
-
+                $ummu.views.after_sbToolbar_delete(id, result);
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
@@ -155,15 +124,7 @@ var app = {
             return $("#name, #address, #email, #phone");
         },
 
-        button: function () {
-            return $ummu.bt.button.crud(['new', 'edit', 'delete'])
-        },
-
-        table3_butoon: function () {
-            return $ummu.bt.button.crud(['save_selected'])
-        },
-
-        after_sbToolbar_save: function(row) {
+        setRow_toForm: function(row) {
             $("#name").val(row.name)
             $("#phone").val(row.phone_number)
             $("#email").val(row.email)
