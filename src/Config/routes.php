@@ -59,21 +59,33 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_barge', function ($routes) {
         $routes->get('/', 'BargeController::index');
         $routes->get('show', 'BargeController::show');
+        $routes->post('create', 'BargeController::create');
+        $routes->post('update/(:num)', 'BargeController::update/$1');
+        $routes->post('delete/(:num)', 'BargeController::delete/$1');
     });
 
     $routes->group('tugboat', function ($routes) {
         $routes->get('/', 'TugboatController::index');
         $routes->get('show', 'TugboatController::show');
+        $routes->post('create', 'TugboatController::create');
+        $routes->post('update/(:num)', 'TugboatController::update/$1');
+        $routes->post('delete/(:num)', 'TugboatController::delete/$1');
     });
 
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
+        $routes->post('create', 'MsActivityController::create');
+        $routes->post('update/(:num)', 'MsActivityController::update/$1');
+        $routes->post('delete/(:num)', 'MsActivityController::delete/$1');
     });
 
     $routes->group('equipment', function ($routes) {
         $routes->get('/', 'MsEquipmentController::index');
         $routes->get('show', 'MsEquipmentController::show');
+        $routes->post('create', 'MsEquipmentController::create');
+        $routes->post('update/(:num)', 'MsEquipmentController::update/$1');
+        $routes->post('delete/(:num)', 'MsEquipmentController::delete/$1');
     });
 
     $routes->group('ms_location', function ($routes) {

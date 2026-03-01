@@ -6,37 +6,48 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.localStorage.dt_default('tugboat');
+            $ummu.localStorage.dt_default($localStrgKey);
             $ummu.dt.layout.buttonAll($ummu.dt.init);
+
+            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = $ummu.dt.init.row(this).data();
+                // console.log(row)
+                $ummu.url.setParamFromRow(row)
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                app.views.setRow_toForm(row);
+            });
+
+            $ummu.formatter.number($("#form_input #nome"), 1);
+            $ummu.formatter.number($("#form_input #hp"), 4);
+            $ummu.formatter.number($("#form_input #lightship"), 4);
+            $ummu.formatter.number($("#form_input #capacity"), 5);
+            $ummu.formatter.number($("#form_input .speed"), 1, ' Knot');
+            $ummu.formatter.number($("#form_input .fuelcons"), 3);
         },
     },
 
     vars: {
         initTable2: null,
         runing_id: null,
-        tbAccount: {
         init: null,
-        },
-        tbPriv: {
-        init: null,
-        },
-        tbDismodModule: {
-        // 
-        },
     },
 
     controllers: {
-        on_btn_getData_click: function() {
+        on_btn_getData_click: function () {
+            $ummu.url.delParamNotIn(['g']);
+            app.views.formParams().prop('disabled', true).val('');
+            $ummu.button.sbBtn_default();
             app.controllers.show()
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
+            if ($ummu.dt.is_init(table) == true) {
                 $ummu.dt.init_destroy();
             }
 
             $ummu.dt.init = new DataTable(
-                $table,
+                table,
                 app.dt.default.config_show()
             );
 
@@ -45,82 +56,14 @@ var app = {
             $ummu.dt.init.on('xhr', function () {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
-                    localStorage.setItem('tugboat', JSON.stringify(response));
+                    localStorage.setItem($localStrgKey, JSON.stringify(response));
                 }
             });
-        },
-
-        show_enmod: function (params) {
-            var account_id = $ummu.url.getParam('account_id');
-
-            if (account_id) {
-                var ali = $ummu.ajax.ummuBTshowFunc('show_enmod_by_accountID/'+account_id, params);
-                ali.done(function (result) {
-                    var response = JSON.parse(result)
-                    params.success(response)
-                })
-                .fail(function () {
-                    // An error occurred
-                });
-            }else{
-                params.success($ummu.vars.show_data_empty)
-            }
-        },
-
-        show_dismod: function (params) {
-        if ($ummu.func.isNull($ummu.$.company) == true) {
-            params.success($ummu.vars.show_data_empty)
-        }else{
-            if ($ummu.url.getParam('account_id')) {
-            var func = 'show_dismod_by_accountID?company_id='+$ummu.$.company.val();
-            }else{
-            var func = 'show_dismod_by_accountID?company_id='+$ummu.$.company.val()+'&account_id='+$ummu.url.getParam('account_id');
-            }
-
-            var ali = $ummu.ajax.ummuBTshowFunc(func, params);
-            ali.done(function (result) {
-            var response = JSON.parse(result)
-            params.success(response)
-            })
-            .fail(function () {
-            // An error occurred
-            });
-            // }
-        }
-        },
-
-        new: function () {
-            if ($ummu.vars.element_id == "tbAccount") {
-                app.views.formParams().prop('disabled', true).val('');
-                $table2.bootstrapTable('removeAll');
-
-                $("#table-tab").removeClass("active")
-                $("#form-tab").addClass("active")
-
-                $("#myTabContent #form").addClass("show active")
-                $("#myTabContent #table").removeClass("show active")
-            }else if ($ummu.vars.element_id == "tbPriv") {
-                // app.controllers.show_dismod()
-                if (!$ummu.url.getParam('account_id')) {
-                $ummu.modal.ummu_msg('Silahkan pilih salah satu list pada tab list data, atau isi dan simpan form header, setelah itu baru tambahkan access modulnya.')
-                }else{
-                // if ($ummu.func.isNull($ummu.$.company) == true) {
-                //   $ummu.modal.ummu_msg('Silahkan pilih Company terlebih dahulu.')
-                // }else{
-                //   // $ummu.bt.initTable($table3)
-                //   $("#modal_dismod").modal("show")
-                // }
-                // $ummu.bt.initTable($table3)
-                console.log('show dismod')
-                $("#modal_dismod").modal("show")
-                }
-            }else{
-                // 
-            }
         },
 
         sbNew: function () {
-            $ummu.url.delAllParam();
+            // $ummu.url.delAllParam();
+            $ummu.url.delParamNotIn(['g']);
             $ummu.vars.id = null
             $ummu.vars.account.id = null
             // app.vars.runing_id = null
@@ -128,79 +71,94 @@ var app = {
             if (app.vars.initTable2 == null) {
                 // $ummu.bt.initTable($table2)
                 // app.vars.initTable2 = true;
-            }else{
-            // 
+            } else {
+                // 
             }
 
             app.views.formParams().prop('disabled', false).val('');
             // $table2.bootstrapTable('removeAll');
         },
 
-        create_account_access: function (row) {
-        // var payload = JSON.stringify(
-        // {
-        //     "body": {
-        //         "gedung_id": $('#gedung').val(),
-        //         "kode": $('#kode').val(),
-        //         "name": $('#name').val(),
-        //         "lantai": $('#lantai').val(),
-        //         "seat": $('#jumlah_seat').val()
-        //     }
-        // });
-        // // controllers.create(payload);
+        sbSave: function () {
+            var payload = {
+                "kode": $("#form_input #kode").val(),
+                "name": $("#form_input #name").val(),
+                "nome": $("#form_input #nome").val(),
+                "hp": $("#form_input #hp").val(),
+                "lightship": $("#form_input #lightship").val(),
+                "capacity": $("#form_input #capacity").val(),
+                "laden_river_speed": $("#form_input #laden_river_speed").val(),
+                "laden_river_fuelcons": $("#form_input #laden_river_fuelcons").val(),
+                "laden_sea_speed": $("#form_input #laden_sea_speed").val(),
+                "laden_sea_fuelcons": $("#form_input #laden_sea_fuelcons").val(),
+                "ballast_river_speed": $("#form_input #ballast_river_speed").val(),
+                "ballast_river_fuelcons": $("#form_input #ballast_river_fuelcons").val(),
+                "ballast_sea_speed": $("#form_input #ballast_sea_speed").val(),
+                "ballast_sea_fuelcons": $("#form_input #ballast_sea_fuelcons").val(),
+                "stby_fuelcons": $("#form_input #stby_fuelcons").val(),
+                "runningfree_speed": $("#form_input #runningfree_speed").val(),
+                "runningfree_cons": $("#form_input #runningfree_cons").val(),
+            };
 
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": row.module_id
-        });
+            const id = $ummu.url.getParam('id');
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
-
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            // console.log(result)
-            app.bt.table2_inserRow(result, row)
-            app.bt.table3_removeRow(row)
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
-        },
-
-        save_selected: function(table_id) {
-        var ids = $ummu.bt.select.getIds($('#'+table_id));
-
-        if ($ummu.vars.parentTableID == "tbDismodModule") {
-            app.controllers.create_account_access2(table_id, ids)
-        }else{
-            // 
-        }
-        },
-
-        create_account_access2: function (table_id, ids) {
-            let $table_id = $('#'+table_id);
-            var module_id = $ummu.bt.select.get_module_id($table_id);
-            var rows = $ummu.bt.select.getRows($table_id);
-            var payload = JSON.stringify(
-            {
-                "account_id": $ummu.vars.account.id,
-                "module_id": module_id
-            });
+            if (id) {
+                var func = "update/" + id
+            }else{
+                var func = "create"
+            }
 
             var params = {
-                "function": "create_enmod",
+                "function": func,
                 "method": "POST",
-                "data": payload,
+                "data": JSON.stringify(payload),
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
+
+            console.log(params)
+
+            if (app.validation.save == false) {
+                console.log('ada validation')
+            }else{
+                console.log('tidak ada validation')
+                var ummu = $ummu.ajax.ummu8(params);   
+                ummu.done(function(result) {
+                    // console.log(result)
+                    if (result.status == true) {
+                        $ummu.views.after_save(result, func, id, payload);
+                    }
+
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            }
+        },
+
+        sbCancleNew: function () {
+            app.views.formParams().prop('disabled', true).val('');
+        },
+
+        sbCancle: function () {
+            app.views.formParams().prop('disabled', true).val('');
+        },
+
+        sbEdit: function () {
+            app.views.formParams().prop('disabled', false);
+        },
+
+        sbCancleEdit: function () {
+            app.views.formParams().prop('disabled', true);
+        },
+
+        sbDelete: function(id) {
+            var params = {
+                "function": "delete/" + id,
+                "method": "POST",
+                "data": [],
                 "cache": true,
                 "contentType": "application/json",
                 "dataType": "json",
@@ -209,98 +167,80 @@ var app = {
 
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
-                if ($ummu.bt.select.length($table_id) == 1) {
-                    app.bt.table2_inserRow(result.data, rows[0]);
-                } else if ($ummu.bt.select.length($table_id) > 1) {
-                    $.each(rows, function(index, value) {
-                    $.each(result.data, function(index2, value2) {
-                        // console.log(index+'  === '+index2)
-                        if(index2 == index) {
-                        // console.log('sama '+index+'  = '+index2)
-                        app.bt.table2_inserRow(value2, value);
-                        }
-                    });
-                    });
-                }
-
-                $ummu.bt.remove($table_id);
-                $ummu.$.modal_dismod.modal('hide');
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-            // console.log(ummu)
-        },
-
-        sbCancleNew: function() {
-            app.views.formParams().prop('disabled', true).val('');
-        },
-        
-        sbEdit: function () {
-            app.views.formParams().prop('disabled', false);
-        },
-
-        sbCancleEdit: function() {
-            app.views.formParams().prop('disabled', true);
-        },
-
-        edit: function(row) {
-            console.log(row)
-        },
-
-        delete: function(rows) {
-            console.log(rows)
-        },
-
-        delete2: function($table_id, ids) {
-            // console.log($table_id)
-            // console.log(ids)
-
-            var payload = JSON.stringify(
-            {
-                "account_id": $ummu.vars.account.id,
-                "id": ids
-            });
-
-            var params = {
-                "function": "delete_account_access",
-                "method": "POST",
-                "data": payload,
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-            };
-            console.log(params)
-
-            var ummu = $ummu.ajax.ummu8(params);
-            // console.log(ummu)
-            ummu.done(function(result) {
                 console.log(result)
-                $ummu.bt.remove($table_id);
+                if (result.status == true) {
+                    // hapus params para url
+                    $ummu.url.delParamNotIn(['g']);
 
-                if ($ummu.vars.modal_id_show) {
-                    $ummu.vars.modal_id_show.modal('hide')
+                    // sb-button default
+                    $ummu.button.sbBtn_default();
+
+                    // disable dan kosongkan form
+                    app.views.formParams().prop('disabled', true).val('');
+
+                    // hapus row pada localStorage
+                    $ummu.localStorage.deleteRowById($localStrgKey, id);
+
+                    // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
+                    $ummu.localStorage.dt_default($localStrgKey);
+
+                    // hide modal delete confirm
+                    $(".sb-toolbar #modalDeleteConfirm").modal("hide")
                 }
+
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
-        },
+        }
+    },
+
+    validation: {
+        save: function() {
+            if ($("#form_input #name").val() == '') {
+
+            }
+        }
     },
 
     views: {
         formParams: function() {
-            return $("#name, #address, #email, #phone");
+            // return $("#kode, #name, #nome, #hp, #lightship, #capacity, #stby_fuelcons, #laden_river_speed, #laden_river_fuelcons, #laden_sea_speed, #laden_sea_fuelcons");
+            return $("#form_input input");
         },
 
-        button: function() {
-            return $ummu.bt.button.crud(['new','edit','delete'])
-        },
+        setRow_toForm: function(row) {
+            $("#kode").val(row.kode)
+            $("#name").val(row.name)
+            $("#nome").val(row.nome)
+            $("#hp").val(row.hp)
+            $("#lightship").val(row.lightship)
+            $("#capacity").val(row.capacity)
+            $("#stby_fuelcons").val(row.stby_fuelcons)
 
-        table3_butoon: function() {
-            return $ummu.bt.button.crud(['save_selected'])
-        }
+            $("#laden_river_speed").val(row.laden_river_speed)
+            $("#laden_river_fuelcons").val(row.laden_river_fuelcons)
+            $("#laden_sea_speed").val(row.laden_sea_speed)
+            $("#laden_sea_fuelcons").val(row.laden_sea_fuelcons)
+
+            $("#ballast_river_speed").val(row.ballast_river_speed)
+            $("#ballast_river_fuelcons").val(row.ballast_river_fuelcons)
+            $("#ballast_sea_speed").val(row.ballast_sea_speed)
+            $("#ballast_sea_fuelcons").val(row.ballast_sea_fuelcons)
+            
+            $("#runningfree_speed").val(row.runningfree_speed)
+            $("#runningfree_cons").val(row.runningfree_cons)
+
+
+
+            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
+            
+            $("#ummu_nav_tab #nav-tab-form").addClass("active")
+            $("#ummu_tab_contnet #nav-form").addClass("show active")
+
+            $ummu.button.sbBtn_on_showData()
+        },
     },
 
     dt: {
@@ -352,7 +292,15 @@ var app = {
             config_columns: function () {
                 let columns = [
                     { data: null, render: DataTable.render.select() },
-                    { data: "id"},
+                    { data: "id",
+                        render: function (data, type) {
+                            return (
+                                '<a href="javascript:void(0);">'+
+                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                '</a>'
+                            );
+                        }
+                    },
                     { data: "kode"},
                     { data: "name"},
                     { data: "nome"},

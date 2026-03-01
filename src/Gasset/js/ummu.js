@@ -324,6 +324,7 @@ var $ummu = {
             $ummu.mygallery.autoload()
             $ummu.button.sbToolbar()
             $ummu.url.load()
+            $ummu.formatter.load()
 
             if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
@@ -7407,9 +7408,127 @@ var $ummu = {
                 $(elID).append(umum);
             }
         },
+
+        after_save: function(result, func, id, payload) {
+            $ummu.button.sbBtn_on_showData();
+            app.views.formParams().prop('disabled', true);
+
+            if (func == "create") {
+                // tambah rows pada localStorage
+                $ummu.localStorage.addNewRow($localStrgKey, result.data);
+
+                // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                $ummu.localStorage.dt_default($localStrgKey);
+
+                // tambah url params
+                $ummu.url.setParamFromRow(result.data)
+                console.log(result.data)
+
+            }else{
+                //update row pada localstorage
+                $ummu.localStorage.updateRows($localStrgKey, id, payload);
+
+                //update params para url
+                $ummu.url.setParamFromRow(payload);
+
+                // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                $ummu.localStorage.dt_default($localStrgKey);
+            }
+        },
     },
 
     formatter: {
+        load: function() {
+            // const input = document.getElementById('rupiah');
+            // const input = document.getElementsByClassName('ummu-numFormat');
+            // input.addEventListener('keyup', function(e) {
+            //     // Tambahkan titik setiap 3 angka
+            //     let value = this.value.replace(/[^0-9]/g, '');
+            //     this.value = new Intl.NumberFormat('id-ID').format(value);
+            //     console.log(input)
+            // });
+
+            $('.us-dig-2').on('keyup', function() {
+                let val = $(this).val().replace(/\D/g, ''); // Hapus semua selain angka
+                
+                // // Format menjadi ribuan dengan titik
+                // $(this).val(val.replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+                $(this).val($ummu.formatter.us_dig(val,2))
+            });
+
+        },
+
+        number: function(element_id, maxDigit, unit) {
+            if (unit) {
+                var setUnit = unit
+            }else{
+                var setUnit = ''
+            }
+
+            $(element_id).on('input', function() {
+                // Ambil angka saja
+                let value = $(this).val().replace(/[^0-9]/g, '');
+                
+                // Batasi 6 digit
+                if (value.length > maxDigit) value = value.substring(0, maxDigit);
+                
+                // Format dengan titik (titik muncul jika lebih dari 3 digit)
+                let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                
+                $(this).val(formattedValue);
+            });
+        },
+
+        // format number to US dollar
+        // format number 1234567 to 1,234,567.00
+        us: function (data) {
+            let USDollar = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2,
+                // style: 'currency',
+                // currency: ' ',
+            });
+
+            return USDollar.format(data);
+        },
+
+        us_dig: function (data, dig = 0) {
+            let USDollar = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: dig,
+                // style: 'currency',
+                // currency: ' ',
+            });
+
+            return USDollar.format(data);
+        },
+
+        // format number 1234567 to 1.234.567,00
+        id: function (data) {
+            // let USDollar = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 2,
+            //     // style: 'currency',
+            //     // currency: ' ',
+            // });
+
+            return new Intl.NumberFormat("id-ID", {
+                minimumFractionDigits: 2,
+                // style: "currency",
+                // currency: "IDR"
+            }).format(data);
+
+            // return USDollar.format(data);
+        },
+
+        // format number 1234567 to Rp. 1.234.567,00
+        id2: function (data) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            }).format(data);
+
+            // return USDollar.format(data);
+        },
+
         date: {
             dateToYmd: function (data) {
                 var d = new Date(data),
