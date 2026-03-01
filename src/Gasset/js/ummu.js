@@ -7409,24 +7409,39 @@ var $ummu = {
             }
         },
 
-        after_save: function(result, func, id, payload) {
+        after_sbToolbar_getData: function() {
+            $ummu.url.delParamNotIn(['g']);
+            app.views.formParams().prop('disabled', true).val('');
+            $ummu.button.sbBtn_default();
+            app.controllers.show()
+        },
+
+        after_sbToolbar_save: function(result, func, id, payload) {
             $ummu.button.sbBtn_on_showData();
             app.views.formParams().prop('disabled', true);
 
             if (func == "create") {
-                // tambah rows pada localStorage
-                $ummu.localStorage.addNewRow($localStrgKey, result.data);
+                if (localStorage.getItem($localStrgKey) == null) {
+                    app.controllers.show();
+                }else{
+                    // tambah rows pada localStorage
+                    $ummu.localStorage.addNewRow($localStrgKey, result.data);
 
-                // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                $ummu.localStorage.dt_default($localStrgKey);
+                    // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                    $ummu.localStorage.dt_default($localStrgKey);
+                }
 
                 // tambah url params
                 $ummu.url.setParamFromRow(result.data)
-                console.log(result.data)
+                // console.log(result.data)
 
             }else{
-                //update row pada localstorage
-                $ummu.localStorage.updateRows($localStrgKey, id, payload);
+                if (localStorage.getItem($localStrgKey) == null) {
+                    app.controllers.show();
+                }else{
+                    //update row pada localstorage
+                    $ummu.localStorage.updateRows($localStrgKey, id, payload);
+                }
 
                 //update params para url
                 $ummu.url.setParamFromRow(payload);
@@ -7434,6 +7449,26 @@ var $ummu = {
                 // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                 $ummu.localStorage.dt_default($localStrgKey);
             }
+        },
+
+        after_sbToolbar_delete: function(id) {
+            // hapus params para url
+            $ummu.url.delParamNotIn(['g']);
+
+            // sb-button default
+            $ummu.button.sbBtn_default();
+
+            // disable dan kosongkan form
+            app.views.formParams().prop('disabled', true).val('');
+
+            // hapus row pada localStorage
+            $ummu.localStorage.deleteRowById($localStrgKey, id);
+
+            // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
+            $ummu.localStorage.dt_default($localStrgKey);
+
+            // hide modal delete confirm
+            $(".sb-toolbar #modalDeleteConfirm").modal("hide")
         },
     },
 
@@ -11104,31 +11139,29 @@ var $ummu = {
             var lcg = localStorage.getItem(key);
             if (lcg) {
                 if ($ummu.dt.init == null) {
-                    $ummu.dt.init = new DataTable(
-                        $table,
-                        {
-                            data: JSON.parse(lcg).rows,
-                            columns: app.dt.default.config_columns(),
-                            processing: true,
-                            responsive: true,
-                            keys: true,
-                            deferLoading: 57,
-                            lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                            layout: {
-                                topStart: {
-                                    buttons: [],
-                                }
-                            },
-                            columnDefs: app.dt.default.config_columnDefs(),
-                            select: $ummu.dt.config.select(),
-                            paging: true,
-                            // scrollCollapse: true,
-                            // scrollX: true,
-                            // scrollY: '60vh',
-                            drawCallback: function (settings) {
-                                // var api = this.api();
-                            },
-                        });
+                    $ummu.dt.init = new DataTable($table, {
+                        data: JSON.parse(lcg).rows,
+                        columns: app.dt.default.config_columns(),
+                        processing: true,
+                        responsive: true,
+                        keys: true,
+                        deferLoading: 57,
+                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                        layout: {
+                            topStart: {
+                                buttons: [],
+                            }
+                        },
+                        columnDefs: app.dt.default.config_columnDefs(),
+                        select: $ummu.dt.config.select(),
+                        paging: true,
+                        // scrollCollapse: true,
+                        // scrollX: true,
+                        // scrollY: '60vh',
+                        drawCallback: function (settings) {
+                            // var api = this.api();
+                        },
+                    });
                 } else {
                     $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }

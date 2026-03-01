@@ -35,10 +35,7 @@ var app = {
 
     controllers: {
         on_btn_getData_click: function () {
-            $ummu.url.delParamNotIn(['g']);
-            app.views.formParams().prop('disabled', true).val('');
-            $ummu.button.sbBtn_default();
-            app.controllers.show()
+            $ummu.views.after_sbToolbar_getData();
         },
 
         show: function (params) {
@@ -118,8 +115,6 @@ var app = {
                 "loader": true,
             };
 
-            console.log(params)
-
             if (app.validation.save == false) {
                 console.log('ada validation')
             }else{
@@ -128,7 +123,7 @@ var app = {
                 ummu.done(function(result) {
                     // console.log(result)
                     if (result.status == true) {
-                        $ummu.views.after_save(result, func, id, payload);
+                        $ummu.views.after_sbToolbar_save(result, func, id, payload);
                     }
 
                 }).fail(function() {
@@ -169,23 +164,7 @@ var app = {
             ummu.done(function(result) {
                 console.log(result)
                 if (result.status == true) {
-                    // hapus params para url
-                    $ummu.url.delParamNotIn(['g']);
-
-                    // sb-button default
-                    $ummu.button.sbBtn_default();
-
-                    // disable dan kosongkan form
-                    app.views.formParams().prop('disabled', true).val('');
-
-                    // hapus row pada localStorage
-                    $ummu.localStorage.deleteRowById($localStrgKey, id);
-
-                    // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
-                    $ummu.localStorage.dt_default($localStrgKey);
-
-                    // hide modal delete confirm
-                    $(".sb-toolbar #modalDeleteConfirm").modal("hide")
+                    $ummu.views.after_sbToolbar_delete(id);
                 }
 
             }).fail(function() {
