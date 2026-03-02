@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <<!-- SB Button -->
+    <!-- SB Button -->
     <?=$this->include(config('Ummu')->Views('partials/sb_button'))?>
 
     <!-- Form -->
