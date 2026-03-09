@@ -15,7 +15,10 @@
         <button class="btn btn-sm" type="button" id="btn_save" disabled>
             <i class="bi bi-floppy-fill"></i> Save
         </button>
-        <!-- <button class="btn btn-sm btn-secondary" type="button" id="btn_close" disabled>
+        <button class="btn btn-sm" type="button" id="btn_clear" disabled>
+            <i class="fas fa-times"></i> Clear
+        </button>
+        <!-- <button class="btn btn-sm" type="button" id="btn_close" disabled>
             <i class="bi bi-box-arrow-right"></i> Close
         </button> -->
 

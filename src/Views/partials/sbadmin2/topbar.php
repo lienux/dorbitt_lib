@@ -103,7 +103,7 @@ if ($login_module == 'mcp') { ?>
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="<?= base_url('admin/config_profile') ?>">
+                    <a class="dropdown-item" href="<?= base_url('admin/config_profile') ?>" target="_blank">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>
@@ -116,7 +116,7 @@ if ($login_module == 'mcp') { ?>
                         Activity Log
                     </a>
                     <?php if (ENVIRONMENT == 'development') { ?>
-                        <a class="dropdown-item" href="<?= base_url('admin/config_profile/session') ?>">
+                        <a class="dropdown-item" href="<?= base_url('admin/config_profile/session') ?>" target="_blank">
                             <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                             Session
                         </a>
