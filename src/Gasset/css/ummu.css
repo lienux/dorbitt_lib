@@ -666,6 +666,7 @@ border-radius: 0.25rem;
     position: relative;
     display: inline-block;
 }
+
 .unit {
     position: absolute;
     right: 20px;
@@ -674,4 +675,28 @@ border-radius: 0.25rem;
     color: #888;
     pointer-events: none; /* Membuat satuan tidak bisa diklik/select */
     user-select: none;    /* Mencegah teks dicopy */
-  }
+}
+
+.popup-text {
+    visibility: hidden;
+    display: inline-block;
+    width: auto; /* Ini adalah nilai default, otomatis sesuai isi */
+    white-space: nowrap;
+    background-color: #333;
+    color: #fff;
+    padding: 1px 5px;
+    font-size: 10px;
+    border-radius: 3px;
+    position: absolute;
+    bottom: 105%; /* Muncul di atas input */
+    /*transform: translateX(-50%);*/
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 99;
+}
+
+/* Munculkan popup saat input dalam kondisi hover atau disentuh */
+input:hover + .popup-text {
+    visibility: visible;
+    opacity: 1;
+}

@@ -72,6 +72,16 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'TugboatController::delete/$1');
     });
 
+    $routes->group('vessel', function ($routes) {
+        $routes->get('/', 'VesselController::index');
+        $routes->get('show', 'VesselController::show');
+        $routes->post('create', 'VesselController::create');
+        $routes->post('update/(:num)', 'VesselController::update/$1');
+        $routes->post('delete/(:num)', 'VesselController::delete/$1');
+
+        $routes->get('show_data', 'VesselController::show_data');
+    });
+
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
@@ -109,6 +119,24 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_equipment', 'BargeInspectionController::show_equipment');
         $routes->get('show_barge', 'BargeInspectionController::show_barge');
     });
+
+    $routes->group('shipping_instruction', function ($routes) {
+        $routes->get('/', 'ShippingInstructionController::index');
+        $routes->get('show', 'ShippingInstructionController::show');
+        $routes->post('create', 'ShippingInstructionController::create');
+        $routes->post('update/(:num)', 'ShippingInstructionController::update/$1');
+        $routes->post('delete/(:num)', 'ShippingInstructionController::delete/$1');
+    });
+
+    $routes->group('spal', function ($routes) {
+        $routes->get('/', 'SpalController::index');
+        $routes->get('show', 'SpalController::show');
+        $routes->post('create', 'SpalController::create');
+        $routes->post('update/(:num)', 'SpalController::update/$1');
+        $routes->post('delete/(:num)', 'SpalController::delete/$1');
+    });
+
+
 
     $routes->group('file_pomailer', function ($routes) {
         $routes->get('/', 'FilePomailerController::index');

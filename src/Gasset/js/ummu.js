@@ -7545,7 +7545,6 @@ var $ummu = {
 
                 $(this).val($ummu.formatter.us_dig(val,2))
             });
-
         },
 
         number: function(element_id, maxDigit, unit) {
@@ -7565,6 +7564,24 @@ var $ummu = {
                 // Format dengan titik (titik muncul jika lebih dari 3 digit)
                 let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                 
+                $(this).val(formattedValue);
+            });
+        },
+
+        number2: function(element_id, maxDigit) {
+            $(element_id).on('input', function() {
+                if ($(this).val().includes('.')) {
+                    var formattedValue = $(this).val();
+                }else{
+                    // Ambil angka saja
+                    var value = $(this).val().replace(/[^0-9]/g, '');
+                    
+                    // Batasi 6 digit
+                    if (value.length > maxDigit) value = value.substring(0, maxDigit);
+                    
+                    var formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
                 $(this).val(formattedValue);
             });
         },
@@ -11555,6 +11572,9 @@ var $ummu = {
                     $ummu.button.sbBtn_on_formReady()
                     $ummu.url.delParamNotIn(['g']);
                     app.views.formParams().prop('disabled', false).val('');
+                    $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+                    $(".card-footer #created_at").html($ummu.vars.identity.name)
+                    $(".card-footer #created_by").html($ummu.vars.identity.name)
 
                     console.log('btn_new is clicked.')
                     if (typeof app.controllers.sbNew !== "undefined") {
@@ -11586,6 +11606,7 @@ var $ummu = {
                     }else{
                         $ummu.button.sbBtn_default()
                         app.views.formParams().prop('disabled', true).val('');
+                        $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
                     }
 
                     console.log('btn_cancle is clicked.')
@@ -11615,6 +11636,23 @@ var $ummu = {
                     app.controllers.sbDelete($ummu.url.getParam('id'))
                 }
 
+                else if (elID == 'btn_clear') {
+                    if ($ummu.url.getParam('id')) {
+                        $ummu.button.sbBtn_default()
+                        $ummu.url.delParamNotIn(['g']);
+                        app.views.formParams().prop('disabled', true).val('');
+                        $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+                    }
+
+                    console.log('btn_clear is clicked.')
+                    if (typeof app.controllers.sbClear !== "undefined") {
+                        console.log('function app.controllers.sbClear is OK.')
+                        app.controllers.sbClear()
+                    } else {
+                        console.log('plese create function app.controllers.sbClear')
+                    }
+                }
+
                 $ummu.button.id = elID
             })
         },
@@ -11626,6 +11664,8 @@ var $ummu = {
             $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
             $(".sb-toolbar #btn_cancle").prop("disabled", false).addClass("btn-secondary")
             $(".sb-toolbar #btn_save").prop("disabled", false).addClass("btn-success")
+            $(".sb-toolbar #btn_clear").prop("disabled", true).removeClass("btn-secondary")
+
             $(".sb-toolbar-btn-endis").prop("disabled", false).addClass("btn-outline-primary")
             $(".sb-toolbar-input-endis").prop("disabled", false)
         },
@@ -11637,6 +11677,8 @@ var $ummu = {
             $(".sb-toolbar #btn_delete").prop('disabled', false).addClass("btn-danger")
             $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
             $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            $(".sb-toolbar #btn_clear").prop("disabled", false).addClass("btn-secondary")
+
             $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
             $(".sb-toolbar-btn-endis").prop("disabled", true)
         },
@@ -11648,6 +11690,8 @@ var $ummu = {
             $(".sb-toolbar #btn_delete").prop('disabled', true).removeClass("btn-danger")
             $(".sb-toolbar #btn_cancle").prop("disabled", true).removeClass("btn-secondary")
             $(".sb-toolbar #btn_save").prop("disabled", true).removeClass("btn-success")
+            $(".sb-toolbar #btn_clear").prop("disabled", true).removeClass("btn-secondary")
+
             $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
             $(".sb-toolbar-btn-endis").prop("disabled", true)
         },
@@ -13374,7 +13418,7 @@ var $globalViews = {
                 '<div class="modal fade" id="message_modal" tabindex="-1" style="z-index: 2000;">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
-                '<div class="modal-header bg-secondary">' +
+                '<div class="modal-header bg-purple">' +
                 '<h5 class="modal-title text-light" id="message_title">Messages</h5>' +
                 '<button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>' +
                 "</div>" +
