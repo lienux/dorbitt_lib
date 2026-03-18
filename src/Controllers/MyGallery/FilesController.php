@@ -4,34 +4,34 @@ namespace Dorbitt\Controllers\MyGallery;
 
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
+
 use Dorbitt\UmmuPhotos;
-use Dorbitt\GviewsHelper;
 use Dorbitt\UmmuUpload;
+use Dorbitt\Curl;
+use Dorbitt\Helpers\GviewsHelper;
+
 use App\Builder\GlobalBuilder;
 use App\Builder\PhotosBuilder;
 use App\Helpers\GlobalHelper;
 
-class PhotosController extends ResourceController
+class FilesController extends ResourceController
 {
     public function __construct()
     {
-        $this->module_kode = 'gallery_photos';
+        $this->module_kode = 'gallery_files';
         $this->dir_view = 'pages/' . $this->module_kode . '/';
 
         $this->request = \Config\Services::request();
         $this->ummu = new UmmuPhotos();
         $this->gViews = new GviewsHelper();
-        $this->gHelp = new GlobalHelper();
         $this->upload = new UmmuUpload();
-
-        $this->gBuilder = new GlobalBuilder();
-        $this->qBuilder = new PhotosBuilder();
+        $this->gHelp = new GlobalHelper();
     }
 
     public function index()
     {
         $data = [
-            'page_title' => 'Gallery Photos',
+            'page_title' => 'Gallery Files',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
             'group' => ['mygallery'],
@@ -45,7 +45,7 @@ class PhotosController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Photos",
+                    "name" => "Files",
                     "page" => "#",
                     "active" => "active"
                 ]

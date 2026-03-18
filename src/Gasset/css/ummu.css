@@ -700,3 +700,25 @@ input:hover + .popup-text {
     visibility: visible;
     opacity: 1;
 }
+
+
+
+/* Menyesuaikan tinggi kontainer, teks, dan tombol browse */
+.custom-file-sm, 
+.custom-file-sm .custom-file-input, 
+.custom-file-sm .custom-file-label {
+    height: 31px; /* Standar form-control-sm Bootstrap 4 */
+    line-height: 1.5;
+}
+
+.custom-file-sm .custom-file-label {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+}
+
+.custom-file-sm .custom-file-label::after {
+    height: 29px; /* 31px minus border */
+    padding: .25rem .5rem;
+    line-height: 1.5;
+    font-size: .875rem;
+}

@@ -1,6 +1,9 @@
 var $referensi = localStorage.getItem("referensi");
 var $ref = JSON.parse($referensi);
 var $listdata_tableID = $("#modal_list_datatable #tb_list_data");
+var $tbListDataID = $("#modal_listData #modalLeft_table_ListData");
+var $modalLeft_table_ListData = $('#modalLeft_table_ListData');
+// var $tb_client = $("#modal_listData #tb_client");
 
 var $ummu = {
     register: function () {
@@ -321,10 +324,12 @@ var $ummu = {
             $ummu.events.gallery.btn_show_gallery()
             $ummu.events.onChange.inputFile_onChange_fileUpload()
             $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal()
+            $ummu.mygallery.files.btn_mygallery_files_submit_on_modal()
             $ummu.mygallery.autoload()
             $ummu.button.sbToolbar()
             $ummu.url.load()
             $ummu.formatter.load()
+            $ummu.files.load()
 
             if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
@@ -893,6 +898,14 @@ var $ummu = {
                 }
             });
 
+            $('.custom-file-input').on('change', function() {
+                // Ambil nama file saja dari path lengkap
+                let fileName = $(this).val().split('\\').pop();
+                
+                // Ubah teks pada label di sebelahnya
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
 
@@ -1233,6 +1246,7 @@ var $ummu = {
 
             inputFile_onChange_fileUpload: function () {
                 $("#file_upload").change(function () {
+                    console.log("$ummu.events.onChange.inputFile_onChange_fileUpload() is running");
                     var $id = $("#upload_img_thumbnail");
                     var $filename = $(this)[0].files[0].name;
                     var reader = new FileReader();
@@ -1242,7 +1256,6 @@ var $ummu = {
                         $ummu.upload.filename = $filename;
                     };
                     reader.readAsDataURL($(this)[0].files[0]);
-                    console.log("OK");
                 });
             },
         },
@@ -1253,6 +1266,7 @@ var $ummu = {
                     $("#modal_gallery").modal("show");
                 });
             },
+
             btn_submit_file_upload: function () {
                 $("#btn_submit_file_upload").click(function () {
                     var file = $("#file_upload").val();
@@ -1940,6 +1954,331 @@ var $ummu = {
 
         reLoad_modules: function () {
             console.log('OK tinggal bikin php nya')
+        },
+
+        // show_clients: function () {
+        //     var lcg = localStorage.getItem('clients')
+
+        //     if (lcg) {
+        //         if ($ummu.dt.clients.init == null) {
+        //             $ummu.dt.clients.init = new DataTable(
+        //                 $tbListDataID, {
+        //                 columns: [
+        //                     {
+        //                         title: "ID",
+        //                         data: "id",
+        //                         render: function (data, type, row) {
+        //                             return (
+        //                                 '<a href="javascript:void(0);"><div><span class="">' +
+        //                                 data +
+        //                                 '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+        //                             );
+        //                         },
+        //                     },
+        //                     { title: "Name", data: "name" },
+        //                 ],
+        //                 data: JSON.parse(lcg).rows,
+        //                 layout: {
+        //                     topStart: {
+        //                         buttons: [
+        //                             {
+        //                                 extend: "pageLength",
+        //                                 className: "py-1 dt-btn-ummu",
+        //                                 attr: { id: "btn_page_length" },
+        //                             },
+        //                             {
+        //                                 text: '<i class="fas fa-sync-alt"></i>',
+        //                                 attr: { id: "btn_reload" },
+        //                                 className: "btn-showall-color py-1 dt-btn-ummu",
+        //                                 action: function (e, dt, node, config) {
+
+        //                                     // /*Destroy and Re-create*/
+        //                                     $ummu.dt.clients.init.destroy();
+        //                                     $ummu.dt.clients.create()
+        //                                 },
+        //                             },
+        //                         ],
+        //                     },
+        //                 },
+        //             });
+        //         } else {
+        //             $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+        //         }
+        //     } else {
+        //         if ($ummu.dt.clients.init == null) {
+        //             $ummu.dt.clients.create()
+        //         } else {
+        //             $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+        //         }
+        //     }
+
+        //     $ummu.dt.clients.onClick();
+        // },
+
+        show_clients: function () {
+            let lcg = localStorage.getItem('clients')
+
+            if ($($tbListDataID).data('init') != 'clients') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.clients.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.clients.init == null) {
+                    $ummu.dt.clients.init = new DataTable(
+                        $tbListDataID, {
+                        retrieve: true,
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.clients.init.destroy();
+                                            $ummu.dt.clients.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    // $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                // if ($ummu.dt.clients.init == null) {
+                //     $ummu.dt.clients.create()
+                // } else {
+                //     $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                // }
+            }
+
+            $($tbListDataID).data('init', 'clients');
+            $ummu.dt.clients.onClick();
+        },
+
+        show_tugboat: function () {
+            let lcg = localStorage.getItem('tugboat')
+
+            if ($($tbListDataID).data('init') != 'tugboat') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.tugboat.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.tugboat.init == null) {
+                    $ummu.dt.tugboat.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.tugboat.init.destroy();
+                                            $ummu.dt.tugboat.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.tugboat.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.tugboat.init == null) {
+                    $ummu.dt.tugboat.create()
+                } else {
+                    $ummu.dt.tugboat.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'tugboat');
+            $ummu.dt.tugboat.onClick();
+        },
+
+        show_barge: function () {
+            let lcg = localStorage.getItem('barge')
+
+            if ($($tbListDataID).data('init') != 'barge') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.barge.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.barge.init == null) {
+                    $ummu.dt.barge.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.barge.init.destroy();
+                                            $ummu.dt.barge.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.barge.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.barge.init == null) {
+                    $ummu.dt.barge.create()
+                } else {
+                    $ummu.dt.barge.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'barge');
+            $ummu.dt.barge.onClick();
+        },
+
+        show_uom: function () {
+            let lcg = localStorage.getItem('uom')
+
+            if ($($tbListDataID).data('init') != 'uom') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.uom.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.uom.init == null) {
+                    $ummu.dt.uom.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Kode", data: "kode" },
+                            { title: "Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.uom.init.destroy();
+                                            $ummu.dt.uom.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.uom.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.uom.init == null) {
+                    $ummu.dt.uom.create()
+                } else {
+                    $ummu.dt.uom.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'uom');
+            $ummu.dt.uom.onClick();
         },
 
         config: {
@@ -3420,7 +3759,14 @@ var $ummu = {
         // /**
         // * body = form-data 
         // * url = otomatis dari $ummu.vars.page_url
-        // * method = POST* */
+        // * method = POST
+        // * dinamis modal_loader
+        // * */
+        // var params = {
+        //     "function": 'create',
+        //     "data": payload,
+        //     "loader": true,
+        // };
         ummu7: function (params) {
             return $.ajax({
                 url: $ummu.vars.page_url + params.function,
@@ -3847,6 +4193,47 @@ var $ummu = {
                 .fail(function () {
                     console.log(ummu);
                 });
+        },
+
+        // /**
+        // * page_url host otomatis, tinggal menambahkan path saja
+        // * dinamis modal_loader
+        // * */
+        // var params = {
+        //     "path": 'admin/photos/create',
+        //     "type": "POST",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
+        upload: function () {
+            var formData = new FormData();
+            formData.append("file_mygallery", $("#file_mygallery")[0].files[0]);
+            return $.ajax({
+                url: $base_url + "mygallery/create",
+                method: "POST",
+                timeout: 0,
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: formData,
+                beforeSend: function (e) {
+                    $("#modal_loader").modal("show");
+                    if (e && e.overrideMimeType) {
+                        e.overrideMimeType("application/jsoncharset=UTF-8");
+                    }
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                },
+            });
         },
 
         wilayahIndonesia: {
@@ -5911,6 +6298,17 @@ var $ummu = {
                     alert('Please select one or more.');
                 }
             });
+
+            $(".btn-show-mygallery-file").on("click", function () {
+                // var dataImage = $(this).attr("data-image");
+                var dataInputID = $(this).attr("data-inputid");
+                // var dataImageID = $(this).attr("data-imageid");
+                $ummu.mygallery.element_inputid = dataInputID;
+                // $ummu.mygallery.element_imageid = dataImageID;
+                $ummu.mygallery.photos.show_for_modal();
+                $("#modal_loader_gallery_file").show();
+                $("#modal_mygallery_file").modal("show");
+            });
         },
 
         show: function () {
@@ -6449,6 +6847,298 @@ var $ummu = {
                     });
             },
         },
+
+        files: {
+            show: function () {
+                var params = {
+                    type: "get",
+                    action: "get",
+                    data: {
+                        limit: 0,
+                        offset: 0,
+                        sort: "id",
+                        order: "desc",
+                        search: "",
+                        created_by: true,
+                    },
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+                var url = $base_url + "/mygallery/photos/show";
+                var ali = $ummu.ajax.ummay(url, params);
+                ali
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        $globFunc.ch_message_modal_modal(response.message);
+                        var data = response.rows;
+                        $("#album_gallery").empty();
+                        for (let index in data) {
+                            var $id = data[index].id;
+                            var id = data[index].id;
+                            var filename = data[index].filename;
+                            var description = data[index].description;
+                            var path = data[index].path;
+                            var file_url = data[index].file_url;
+
+                            if (filename == "") {
+                                var $filename = "no_image.jpg";
+                            } else {
+                                var $filename = filename;
+                            }
+
+                            if (description == "" || description == null) {
+                                var description_ = filename;
+                            } else {
+                                var description_ = description;
+                            }
+
+                            var html =
+                                '<div class="col-md-2" id="mygallery_frame' +
+                                id +
+                                '">' +
+                                '<div class="card mb-4 shadow-sm">' +
+                                '<img src="' +
+                                file_url +
+                                '" class="img-thumbnail" alt="...">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex justify-content-between align-items-center">' +
+                                '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>' +
+                                '<button type="button" class="btn btn-sm btn-outline-danger" onclick="$ummu.mygallery.photos.delete(' +
+                                id +
+                                ');"><i class="fas fa-trash-alt"></i></button>' +
+                                "</div>" +
+                                '<small class="text-muted">9 mins</small>' +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+                            $("#mygallery_album_photos").append(html);
+                        }
+                    })
+                    .fail(function () {
+                    });
+            },
+
+            show_for_modal: function () {
+                var params = {
+                    type: "get",
+                    action: "get",
+                    data: {
+                        limit: 0,
+                        offset: 0,
+                        sort: "id",
+                        order: "desc",
+                        search: "",
+                        created_by: true,
+                    },
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+                var url = $base_url + "/mygallery/files/show";
+                var ali = $globalAjax.ummay(url, params);
+                ali
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        $globFunc.ch_message_modal_modal(response.message);
+                        var data = response.rows;
+                        $("#album_gallery").empty();
+                        for (let index in data) {
+                            var $id = data[index].id;
+                            var id = data[index].id;
+                            var filename = data[index].filename;
+                            var description = data[index].description;
+                            var path = data[index].path;
+                            var file_url = data[index].file_url;
+
+                            if (filename == "") {
+                                var $filename = "no_image.jpg";
+                            } else {
+                                var $filename = filename;
+                            }
+
+                            if (description == "" || description == null) {
+                                var description_ = filename;
+                            } else {
+                                var description_ = description;
+                            }
+
+                            var $element =
+                                '<div class="cont-checkbox p-2">' +
+                                '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                                id +
+                                '" data-name="' +
+                                filename +
+                                '" data-path="' +
+                                file_url +
+                                '" />' +
+                                '<label for="' +
+                                id +
+                                '" class="lbl_gallery">' +
+                                '<img src="' +
+                                file_url +
+                                '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                                '<span class="cover-checkbox">' +
+                                '<svg viewBox="0 0 12 10">' +
+                                '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                                "</svg>" +
+                                "</span>" +
+                                '<div class="info">' +
+                                description_ +
+                                "</div>" +
+                                "</label>" +
+                                "</div>";
+                            $("#album_gallery").append($element);
+                        }
+                        $("#modal_loader_gallery").hide();
+                    })
+                    .fail(function () {
+                    });
+            },
+
+            btn_mygallery_files_submit: function () {
+                $("#btn_mygallery_files_submit").on("click", function () {
+                    if ($("#file_upload").val() == "") {
+                        alert("Please choose file.");
+                    } else {
+                        var ali = $ummu.ajax.mygallery.files.upload();
+                        ali.done(function (result) {
+                            var response = JSON.parse(result);
+                            console.log(response);
+
+                            var html =
+                                '<div class="col-md-2">' +
+                                '<div class="card mb-4 shadow-sm">' +
+                                '<img src="' +
+                                response.data.url +
+                                '" class="img-thumbnail" alt="...">' +
+                                '<div class="card-body">' +
+                                '<div class="d-flex justify-content-between align-items-center">' +
+                                '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-sm btn-outline-secondary">View</button>' +
+                                '<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>' +
+                                "</div>" +
+                                '<small class="text-muted">9 mins</small>' +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>";
+                            $("#mygallery_album_photos").prepend(html);
+
+                            $(".custom-file label").html("Choose file");
+                            $("#file_upload").val("");
+                        });
+                    }
+                });
+            },
+
+            btn_mygallery_files_submit_on_modal: function () {
+                $("#modal_mygallery #btn_submit_file_upload").on("click", function () {
+                    if ($("#file_upload").val() == "") {
+                        alert("Please choose file.");
+                    } else {
+                        var ali = $ummu.ajax.mygallery.photos.upload();
+                        ali.done(function (result) {
+                            var response = JSON.parse(result);
+                            console.log(response);
+
+                            if (response.status == true) {
+                                var html =
+                                    '<div class="cont-checkbox">' +
+                                    '<input type="checkbox" class="dorbitt_checkbox_image_gallery" name="dorbitt_checkbox_image_gallery" id="' +
+                                    response.data.id +
+                                    '" data-name="' +
+                                    response.data.filename +
+                                    '" data-path="' +
+                                    response.data.url +
+                                    '"/>' +
+                                    '<label for="' +
+                                    response.data.id +
+                                    '" class="lbl_gallery">' +
+                                    '<img src="' +
+                                    response.data.url +
+                                    '?crop=0.781xw:0.739xh;0.109xw,0.0968xh&resize=480:*"/>' +
+                                    '<span class="cover-checkbox">' +
+                                    '<svg viewBox="0 0 12 10">' +
+                                    '<polyline points="1.5 6 4.5 9 10.5 1"></polyline>' +
+                                    "</svg>" +
+                                    "</span>" +
+                                    '<div class="info">' +
+                                    response.data.description +
+                                    "</div>" +
+                                    "</label>" +
+                                    "</div>";
+                                $("#album_gallery").prepend(html);
+                                $(".custom-file label").html("Choose file");
+                                $("#file_upload").val("");
+                            }
+                        });
+                    }
+                });
+            },
+
+            delete: function (id) {
+                var params = {
+                    type: "delete",
+                    action: "delete",
+                    data: {},
+                    cache: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                };
+                var url = $base_url + "/mygallery/files/delete/" + id;
+                var ali = $ummu.ajax.ummay(url, params);
+                ali
+                    .done(function (result) {
+                        var response = JSON.parse(result);
+                        if (response.status == true) {
+                            $("#mygallery_frame" + id).remove();
+                        }
+                    })
+                    .fail(function () {
+                    });
+            },
+        },
+    },
+
+    files: {
+        load: function() {
+            // $ummu.files.fileFormat_onUpload()
+            // const fileInput = $('.file-format')
+            const fileFormat = document.getElementsByClassName('file-format')[0];
+            const imageFormat = document.getElementsByClassName('image-format')[0];
+
+            if (fileFormat) {
+                fileFormat.addEventListener('change', function() {
+                    const filePath = this.value;
+                    const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+                  
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Maaf, format file tidak sesuai. Silakan upload file PDF atau Word.');
+                        this.value = ''; // Reset input
+                        return false;
+                    }
+                });
+            }
+
+            if (imageFormat) {
+                imageFormat.addEventListener('change', function() {
+                    const filePath = this.value;
+                    const allowedExtensions = /(\.png|\.jpg|\.jpeg)$/i;
+                  
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Maaf, format file tidak sesuai. Silakan upload file PNG, JPG, dan JPEG.');
+                        this.value = ''; // Reset input
+                        return false;
+                    }
+                });
+            }
+        },
+
+        fileFormat_onUpload: function() {
+        }
     },
 
     views: {
@@ -7417,6 +8107,7 @@ var $ummu = {
         },
 
         after_sbToolbar_save: function(result, func, id, payload) {
+            console.log(payload)
             if (result.status == true) {
                 $(".sb-toolbar #modalSuccessMessage #alert").html("");
                 $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
@@ -7443,11 +8134,11 @@ var $ummu = {
                         app.controllers.show();
                     }else{
                         //update row pada localstorage
-                        $ummu.localStorage.updateRows($localStrgKey, id, payload);
+                        $ummu.localStorage.updateRows($localStrgKey, id, result.data);
                     }
 
-                    //update params para url
-                    $ummu.url.setParamFromRow(payload);
+                    //update params params url
+                    $ummu.url.setParamFromRow(result.data);
 
                     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                     $ummu.localStorage.dt_default($localStrgKey);
@@ -7523,6 +8214,13 @@ var $ummu = {
             setTimeout(function () {
                 $("#modal_loader").modal("hide");
             }, 1000);
+        },
+
+        setIdentitiyToForm(row) {
+            $("#created_at").html(row.created_at)
+            $("#updated_at").html(row.updated_at)
+            $("#created_by").html(row.created_by_name)
+            $("#updated_by").html(row.updated_by_name)
         },
     },
 
@@ -8491,9 +9189,10 @@ var $ummu = {
         init2: null,
         init_for_destroy: null,
         init_sitePorject: null,
+        init_dtModalRight: null,
 
-        is_init: function (tableID) {
-            if ($.fn.DataTable.isDataTable(tableID)) {
+        is_init: function ($tableID) {
+            if ($.fn.DataTable.isDataTable($tableID)) {
                 return true;
             } else {
                 return false;
@@ -11134,6 +11833,383 @@ var $ummu = {
                 }
             );
         },
+
+        clients: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.clients.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.clients.config()
+                );
+
+                $ummu.dt.clients.init.on('xhr', function () {
+                    var response = $ummu.dt.clients.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('clients', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_clients",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.clients.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.clients.init !== null) {
+                    $ummu.dt.clients.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.clients.init.row(this).data();
+                        // console.log(row);
+
+                        $("#shipper").val(row.name).attr("data-id", row.id);
+                        $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                    });
+                }
+            }
+        },
+
+        tugboat: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.tugboat.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.tugboat.config()
+                );
+
+                $ummu.dt.tugboat.init.on('xhr', function () {
+                    var response = $ummu.dt.tugboat.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('tugboat', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_tugboat",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.tugboat.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.tugboat.init !== null) {
+                    $ummu.dt.tugboat.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.tugboat.init.row(this).data();
+                        // console.log(row);
+
+                        $("#tugboat").val(row.name).attr("data-id", row.id);
+                        $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                    });
+                }
+            }
+        },
+
+        barge: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.barge.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.barge.config()
+                );
+
+                $ummu.dt.barge.init.on('xhr', function () {
+                    var response = $ummu.dt.barge.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('barge', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_barge",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.barge.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.barge.init !== null) {
+                    $ummu.dt.barge.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.barge.init.row(this).data();
+                        // console.log(row);
+
+                        $("#barge").val(row.name).attr("data-id", row.id);
+                        $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                    });
+                }
+            }
+        },
+
+        uom: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.uom.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.uom.config()
+                );
+
+                $ummu.dt.uom.init.on('xhr', function () {
+                    var response = $ummu.dt.uom.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('uom', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_uom",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.uom.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Kode", data: "kode" },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.uom.init !== null) {
+                    $ummu.dt.uom.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.uom.init.row(this).data();
+                        // console.log(row);
+
+                        $("#uom").val(row.kode).attr("data-id", row.id);
+                        $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                    });
+                }
+            }
+        },
     },
 
     localStorage: {
@@ -11571,9 +12647,13 @@ var $ummu = {
                 if (elID == 'btn_new') {
                     $ummu.button.sbBtn_on_formReady()
                     $ummu.url.delParamNotIn(['g']);
-                    app.views.formParams().prop('disabled', false).val('');
+
+                    if (typeof app.views.formParams !== "undefined") {
+                        app.views.formParams().prop('disabled', false).val('');
+                    }
+                    
                     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
-                    $(".card-footer #created_at").html($ummu.vars.identity.name)
+                    $(".card-footer #created_at").html($ummu.date.Y_M_D)
                     $(".card-footer #created_by").html($ummu.vars.identity.name)
 
                     console.log('btn_new is clicked.')
@@ -11834,10 +12914,21 @@ var $ummu = {
         mm: String(new Date().getMonth() + 1).padStart(2, '0'),
         dd: String(new Date().getDate()).padStart(2, '0'),
         YMD: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0'),
+        Y_M_D: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0'),
         yesterday: new Date().getFullYear() + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate() - 1).padStart(2, '0'),
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
         mNow: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'),
         yNow: new Date().getFullYear(),
+        tglIndo: function(tanggalAsal) {
+            // const tanggalAsal = "2026-03-16";
+            const dateObj = new Date(tanggalAsal);
+
+            const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
+            const tanggalIndo = dateObj.toLocaleDateString('id-ID', opsi);
+
+            // console.log(tanggalIndo); // Hasil: 16 Maret 2026
+            return tanggalIndo;
+        }
     },
 
     url: {
@@ -11865,6 +12956,7 @@ var $ummu = {
         },
 
         setParamFromRow: function (row) {
+            // console.log(row)
             Object.entries(row).forEach(([key, value]) => { // Using array destructuring
                 // console.log(`${key}: ${value}`);
                 $ummu.url.setParam(key, value)
@@ -12176,7 +13268,6 @@ var $ummu = {
 };
 
 $(document).ready(function () {
-    var $modalLeft_table_ListData = $('#modalLeft_table_ListData')
     $ummu.register.apply();
 });
 

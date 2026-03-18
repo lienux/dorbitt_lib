@@ -14,136 +14,148 @@
     <!-- Form -->
     <div id="form_input"> 
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-sm-12">
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Kode</span></label>
+                    <label class="col-sm-3 col-form-label">Type<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-4">
+                        <div class="form-check">
+                            <input class="form-check-input endis" type="radio" name="charterTypeId" id="FreightCharter" value="1" disabled>
+                            <label class="form-check-label" for="FreightCharter">Freight Charter</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-check">
+                            <input class="form-check-input endis" type="radio" name="charterTypeId" id="TimeCharter" value="2" disabled>
+                            <label class="form-check-label" for="TimeCharter">Time Charter</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Tanggal Surat<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
-                        <input type="text" name="kode" id="kode" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Name<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Nome<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
-                        <input type="text" name="nome" id="nome" class="form-control form-control-sm" required disabled>
-                    </div>
-                    <label class="col-sm-3 col-form-label text-right">HP<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
-                        <input type="text" name="hp" id="hp" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Lightship<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
-                        <input type="text" name="lightship" id="lightship" class="form-control form-control-sm" required disabled>
-                    </div>
-                    <label class="col-sm-3 col-form-label text-right">Capacity<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
-                        <input type="text" name="capacity" id="capacity" class="form-control form-control-sm inputAngka" required disabled>
-                        <!-- <span class="unit">Liter</span> -->
-                    </div>
-                </div>
-                <!-- <div class="row">
-                    <label class="col-sm-3 col-form-label">Client</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="client" id="client" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div> -->
-
-                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Stb Fuelcons</label>
-                    <div class="col-sm-9 input-container-unit">
-                        <input type="text" name="stby_fuelcons" id="stby_fuelcons" class="form-control form-control-sm fuelcons" required disabled>
-                        <span class="unit">Liter</span>
-                    </div>
-                </div>
-
-                <div class="card mb-2">
-                    <div class="card-header">
-                        Laden
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <label class="col-sm-3 col-form-label">River speed<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="laden_river_speed" id="laden_river_speed" class="form-control form-control-sm speed" required disabled>
-                                <span class="unit">Knot</span>
-                            </div>
-                            <label class="col-sm-3 col-form-label text-right">River fuelcons<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="laden_river_fuelcons" id="laden_river_fuelcons" class="form-control form-control-sm fuelcons" required disabled>
-                                <span class="unit">Liter</span>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="iDate" readonly disabled>
+                            <span class="popup-text">ex: Tanggal Kontrak dibuat</span>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                    data-inputid="iDate" id="btn_iDate" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-sm-3 col-form-label">Sea speed<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="laden_sea_speed" id="laden_sea_speed" class="form-control form-control-sm speed" required disabled>
-                                <span class="unit">Knot</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Nomor Surat<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="number" id="number" class="form-control form-control-sm endis" required disabled>
+                        <span class="popup-text">Number of contract</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Shipment (SI)</label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="shipment" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_shipment" type="button" disabled
+                                    data-inputid="shipment" data-modaltitle="Master Data Shipping Instruction (SI)">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
                             </div>
-                            <label class="col-sm-3 col-form-label text-right">Sea fuelcons<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="laden_sea_fuelcons" id="laden_sea_fuelcons" class="form-control form-control-sm fuelcons" required disabled>
-                                <span class="unit">Liter</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Tugboat<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="tugboat" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_tugboat" type="button" disabled
+                                    data-inputid="tugboat" data-modaltitle="Master Data Vessel - Tugboat">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Barge<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="barge" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
+                                    data-inputid="barge" data-modaltitle="Master Data Vessel - Barge">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb-2">
-                    <div class="card-header">
-                        Ballast
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Jenis Muatan</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" required disabled>
+                        <span class="popup-text">ex: Batubara / Pasir / etc.</span>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <label class="col-sm-3 col-form-label">River speed<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="ballast_river_speed" id="ballast_river_speed" class="form-control form-control-sm speed" required disabled>
-                                <span class="unit">Knot</span>
-                            </div>
-                            <label class="col-sm-3 col-form-label text-right">River fuelcons<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="ballast_river_fuelcons" id="ballast_river_fuelcons" class="form-control form-control-sm fuelcons" required disabled>
-                                <span class="unit">Liter</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-3 col-form-label">Sea speed<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="ballast_sea_speed" id="ballast_sea_speed" class="form-control form-control-sm speed" required disabled>
-                                <span class="unit">Knot</span>
-                            </div>
-                            <label class="col-sm-3 col-form-label text-right">Sea fuelcons<span class="text-danger small"> *</span></label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="ballast_sea_fuelcons" id="ballast_sea_fuelcons" class="form-control form-control-sm fuelcons" required disabled>
-                                <span class="unit">Liter</span>
+                </div>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Date of Loading From<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingFrom" readonly disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                    data-inputid="iDateLoadingFrom" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="card mb-2">
-                    <div class="card-header">
-                        Runningfree
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Date of Loading To</label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" readonly disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                    data-inputid="iDateLoadingTo" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <label class="col-sm-3 col-form-label">Speed</label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="runningfree_speed" id="runningfree_speed" class="form-control form-control-sm speed" required disabled>
-                                <span class="unit">Knot</span>
-                            </div>
-                            <label class="col-sm-3 col-form-label text-right">Consum</label>
-                            <div class="col-sm-3 input-container-unit">
-                                <input type="text" name="runningfree_cons" id="runningfree_cons" class="form-control form-control-sm fuelcons" required disabled>
-                                <span class="unit">Liter</span>
-                            </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Port of Loading<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" required disabled>
+                        <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">Port of Discharge<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm endis" required disabled>
+                        <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-4 col-form-label">File</label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <input type="file" class="form-control endis" id="file_upload" disabled>
+                        </div>
+                        <div>
+                            <a href="#" class="badgez badge-primaryz" id="file_url" target="_blank">
+                                <span></span>
+                            </a>
                         </div>
                     </div>
                 </div>

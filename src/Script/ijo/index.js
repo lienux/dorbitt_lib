@@ -18,26 +18,15 @@ var app = {
                 app.views.setRow_toForm(row);
             });
 
-            $ummu.formatter.number2($("#form_input .meterKoma"), 2);
+            // $ummu.formatter.number2($("#form_input .meterKoma"), 2);
 
-            // $ummu.formatter.number2($("#form_input #loa"), 2);
-            // $ummu.formatter.number($("#form_input #hp"), 4);
-            $ummu.formatter.number($("#form_input #lightship"), 4);
-            // $ummu.formatter.number($("#form_input #capacity"), 5);
-            $ummu.formatter.number($("#form_input .speed"), 1);
-            $ummu.formatter.number($("#form_input .fuelcons"), 3);
-            // $ummu.formatter.number($("#form_input #crew_capacity"), 3);
-
-            $("#form_input #type").on("change", function(){
-                let type_id = $(this).val();
-                app.views.showHide_form(type_id)
-            })
-
-            // $("#form_input .showHide").removeClass("collapse");
-            // app.controllers.show_data();
-            
-            $(".barge-spec").removeClass("collapse");
-            $(".boat-spec").removeClass("collapse");
+            // // $ummu.formatter.number2($("#form_input #loa"), 2);
+            // // $ummu.formatter.number($("#form_input #hp"), 4);
+            // $ummu.formatter.number($("#form_input #lightship"), 4);
+            // // $ummu.formatter.number($("#form_input #capacity"), 5);
+            // $ummu.formatter.number($("#form_input .speed"), 1);
+            // $ummu.formatter.number($("#form_input .fuelcons"), 3);
+            // // $ummu.formatter.number($("#form_input #crew_capacity"), 3);
         },
     },
 
@@ -139,30 +128,6 @@ var app = {
                     $ummu.modal.ummu_msg(response.message)
                 }
             });
-        },
-
-        show_data: function() {
-            var payload = {};
-
-            var params = {
-                function: "show_data",
-                type: "get",
-                action: "get",
-                data: payload,
-                cache: true,
-                contentType: "application/json",
-                dataType: "json",
-                loader: true,
-            };
-
-            var ali = $ummu.ajax.ummu4(params);
-            ali
-                .done(function (result) {
-                    console.log(result)
-                })
-                .fail(function () {
-                    // An error occurred
-                });
         },
 
         sbNew: function () {
@@ -342,7 +307,7 @@ var app = {
 
     views: {
         formParams: function() {
-            return $("#form_input input, #form_input select");
+            return $("#form_input .endis");
         },
 
         setRow_toForm: function(row) {
@@ -388,7 +353,11 @@ var app = {
             $("#speed_ballast_sea").val(row.speed_ballast_sea)
             $("#speed_runningfree").val(row.speed_runningfree)
 
-            $ummu.views.setIdentitiyToForm(row)
+            $("#created_at").html(row.created_at)
+            $("#updated_at").html(row.updated_at)
+            $("#created_by").html(row.created_by_name)
+            $("#updated_by").html(row.updated_by_name)
+
 
             $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
             $("#ummu_tab_contnet #nav-listData").removeClass("show active")
