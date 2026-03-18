@@ -139,6 +139,8 @@ var app = {
             $("#name").val(row.name)
             $("#description").val(row.description)
 
+            $ummu.views.setIdentitiyToForm(row)
+
             $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
             $("#ummu_tab_contnet #nav-listData").removeClass("show active")
             

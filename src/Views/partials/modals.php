@@ -96,7 +96,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-striped table-bordered text-sm text-nowrap" id="$modalLeft_table_ListData" width="100%"
+                    <table class="table table-sm table-striped table-bordered text-sm text-nowrap" id="modalLeft_table_ListData" width="100%"
                         cellspacing="0">
                     </table>
                 </div>

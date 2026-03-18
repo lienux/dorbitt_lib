@@ -126,6 +126,11 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('create', 'ShippingInstructionController::create');
         $routes->post('update/(:num)', 'ShippingInstructionController::update/$1');
         $routes->post('delete/(:num)', 'ShippingInstructionController::delete/$1');
+
+        $routes->get('show_clients', 'ShippingInstructionController::show_clients');
+        $routes->get('show_tugboat', 'ShippingInstructionController::show_tugboat');
+        $routes->get('show_barge', 'ShippingInstructionController::show_barge');
+        $routes->get('show_uom', 'ShippingInstructionController::show_uom');
     });
 
     $routes->group('spal', function ($routes) {
@@ -136,7 +141,29 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'SpalController::delete/$1');
     });
 
+    $routes->group('ijo', function ($routes) {
+        $routes->get('/', 'IjoController::index');
+        $routes->get('show', 'IjoController::show');
+        $routes->post('create', 'IjoController::create');
+        $routes->post('update/(:num)', 'IjoController::update/$1');
+        $routes->post('delete/(:num)', 'IjoController::delete/$1');
+    });
 
+    $routes->group('gallery_photos', function ($routes) {
+        $routes->get('/', 'MyGallery\PhotosController::index');
+        $routes->get('show', 'MyGallery\PhotosController::show');
+        $routes->post('create', 'MyGallery\PhotosController::create');
+        $routes->post('upload', 'MyGallery\PhotosController::upload');
+        $routes->delete('delete/(:num)', 'MyGallery\PhotosController::delete/$1');
+    });
+
+    $routes->group('gallery_files', function ($routes) {
+        $routes->get('/', 'MyGallery\FilesController::index');
+        $routes->get('show', 'MyGallery\FilesController::show');
+        $routes->post('create', 'MyGallery\FilesController::create');
+        $routes->post('upload', 'MyGallery\FilesController::upload');
+        $routes->delete('delete/(:num)', 'MyGallery\FilesController::delete/$1');
+    });
 
     $routes->group('file_pomailer', function ($routes) {
         $routes->get('/', 'FilePomailerController::index');

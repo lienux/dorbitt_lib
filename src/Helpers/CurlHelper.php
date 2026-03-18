@@ -672,7 +672,7 @@ class CurlHelper
     }
 
     public function headers3($moduleCode)
-    {        
+    {
         $res = [
             'Content-Type: application/json',
             'Module-Code: ' . $moduleCode,

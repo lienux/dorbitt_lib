@@ -132,6 +132,8 @@ var app = {
             $("#email").val(row.email)
             $("#address").val(row.address)
 
+            $ummu.views.setIdentitiyToForm(row)
+
             $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
             $("#ummu_tab_contnet #nav-listData").removeClass("show active")
             
@@ -397,210 +399,210 @@ var app = {
                 return columnDefs;
             },
             config_rowGroup: function () {
-                let rowGroup = {
-                    dataSrc: ["tipe", "unit_code"],
-                    startRender: function (rows, group) {
-                        // Display the group name and the number of rows in that group
-                        return group + " (" + rows.count() + " rows)";
-                    },
-                    endRender: function (rows, group, level) {
-                        // =======================================================
-                        // OB ====================================================
-                        // =======================================================
-                        var day_rit_ob_count = rows
-                            .data()
-                            .pluck('day_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                // let rowGroup = {
+                //     dataSrc: ["tipe", "unit_code"],
+                //     startRender: function (rows, group) {
+                //         // Display the group name and the number of rows in that group
+                //         return group + " (" + rows.count() + " rows)";
+                //     },
+                //     endRender: function (rows, group, level) {
+                //         // =======================================================
+                //         // OB ====================================================
+                //         // =======================================================
+                //         var day_rit_ob_count = rows
+                //             .data()
+                //             .pluck('day_rit_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var night_rit_ob_count = rows
-                            .data()
-                            .pluck('night_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var night_rit_ob_count = rows
+                //             .data()
+                //             .pluck('night_rit_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var total_rit_ob_count = rows
-                            .data()
-                            .pluck('total_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var total_rit_ob_count = rows
+                //             .data()
+                //             .pluck('total_rit_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var day_ob_count = rows
-                            .data()
-                            .pluck('day_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var day_ob_count = rows
+                //             .data()
+                //             .pluck('day_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var night_ob_count = rows
-                            .data()
-                            .pluck('night_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var night_ob_count = rows
+                //             .data()
+                //             .pluck('night_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var total_ob_count = rows
-                            .data()
-                            .pluck('total_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        // =========================================================
-                        // Coal Getting ============================================
-                        // =========================================================
-                        var day_rit_cg_count = rows
-                            .data()
-                            .pluck('day_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_rit_cg_count = rows
-                            .data()
-                            .pluck('night_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_rit_cg_count = rows
-                            .data()
-                            .pluck('total_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var day_cg_count = rows
-                            .data()
-                            .pluck('day_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_cg_count = rows
-                            .data()
-                            .pluck('night_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_cg_count = rows
-                            .data()
-                            .pluck('total_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var total_ob_count = rows
+                //             .data()
+                //             .pluck('total_ob')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
 
-                        // =========================================================
-                        // Coal Hauling ============================================
-                        // =========================================================
-                        var day_rit_cl_count = rows
-                            .data()
-                            .pluck('day_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         // =========================================================
+                //         // Coal Getting ============================================
+                //         // =========================================================
+                //         var day_rit_cg_count = rows
+                //             .data()
+                //             .pluck('day_rit_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var night_rit_cl_count = rows
-                            .data()
-                            .pluck('night_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var night_rit_cg_count = rows
+                //             .data()
+                //             .pluck('night_rit_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var total_rit_cl_count = rows
-                            .data()
-                            .pluck('total_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var total_rit_cg_count = rows
+                //             .data()
+                //             .pluck('total_rit_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var day_cl_count = rows
-                            .data()
-                            .pluck('day_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var day_cg_count = rows
+                //             .data()
+                //             .pluck('day_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var night_cl_count = rows
-                            .data()
-                            .pluck('night_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var night_cg_count = rows
+                //             .data()
+                //             .pluck('night_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                        var total_cl_count = rows
-                            .data()
-                            .pluck('total_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        // ===========================================================================
-                        var fuel_count = rows
-                            .data()
-                            .pluck('fuel')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         var total_cg_count = rows
+                //             .data()
+                //             .pluck('total_cg')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
 
-                        if (level === 0) {
-                            let tr = document.createElement('tr');
-                            let classs = $ummu.dt.endRender_class();
-                            $ummu.dt.addCell(tr, group, 2, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
+                //         // =========================================================
+                //         // Coal Hauling ============================================
+                //         // =========================================================
+                //         var day_rit_cl_count = rows
+                //             .data()
+                //             .pluck('day_rit_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
+                //         var night_rit_cl_count = rows
+                //             .data()
+                //             .pluck('night_rit_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
+                //         var total_rit_cl_count = rows
+                //             .data()
+                //             .pluck('total_rit_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5, classs);
-                            return tr;
-                        } else if (level === 1) {
-                            let tr = document.createElement('tr');
-                            let classs = 'text-right font-weight-bold bg-warning';
-                            $ummu.dt.addCell(tr, '', 4);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5);
-                            return tr;
-                        }
-                    }
-                };
+                //         var day_cl_count = rows
+                //             .data()
+                //             .pluck('day_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
 
-                return rowGroup;
+                //         var night_cl_count = rows
+                //             .data()
+                //             .pluck('night_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
+
+                //         var total_cl_count = rows
+                //             .data()
+                //             .pluck('total_cl')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
+
+                //         // ===========================================================================
+                //         var fuel_count = rows
+                //             .data()
+                //             .pluck('fuel')
+                //             .reduce(function (a, b) {
+                //                 return parseFloat(a) + parseFloat(b);
+                //             }, 0);
+
+
+                //         if (level === 0) {
+                //             let tr = document.createElement('tr');
+                //             let classs = $ummu.dt.endRender_class();
+                //             $ummu.dt.addCell(tr, group, 2, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
+
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
+
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
+
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 5, classs);
+                //             return tr;
+                //         } else if (level === 1) {
+                //             let tr = document.createElement('tr');
+                //             let classs = 'text-right font-weight-bold bg-warning';
+                //             $ummu.dt.addCell(tr, '', 4);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 2);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 2);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 2);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 2);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 2);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
+                //             $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
+                //             $ummu.dt.addCell(tr, '', 5);
+                //             return tr;
+                //         }
+                //     }
+                // };
+
+                // return rowGroup;
             },
         },
     },

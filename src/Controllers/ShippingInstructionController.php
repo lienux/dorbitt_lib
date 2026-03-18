@@ -9,6 +9,7 @@ use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
+use Dorbitt\Helpers\FileHelper;
 
 class ShippingInstructionController extends ResourceController
 {
@@ -22,6 +23,7 @@ class ShippingInstructionController extends ResourceController
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
+        $this->fileH = new FileHelper();
     }
 
     public function index()
@@ -75,15 +77,32 @@ class ShippingInstructionController extends ResourceController
 
     public function create()
     {
+        $upload = $this->fileH->file_update();
+
         $payload = [
-            "name" => $this->request->getVar('name'),
-            "phone_number" => $this->request->getVar('phone_number'),
-            "email" => $this->request->getVar('email'),
-            "address" => $this->request->getVar('address'),
+            "tgl" => $this->request->getPost('tgl'),
+            "number" => $this->request->getPost('number'),
+            "shipper_client_id" => $this->request->getPost('shipper'),
+            "tugboat_id" => $this->request->getPost('tugboat'),
+            "barge_id" => $this->request->getPost('barge'),
+            "load_type" => $this->request->getPost('load_type'),
+            "qty" => $this->request->getPost('qty'),
+            "uom_id" => $this->request->getPost('uom_id'),
+            "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
+            "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
+            "loading_port" => $this->request->getPost('loading_port'),
+            "discharge_port" => $this->request->getPost('discharge_port'),
+            // "loading_port_agency" => $this->request->getPost('loading_port_agency'),
+            // "discharge_port_agency" => $this->request->getPost('discharge_port_agency'),
+            // "upload_id" => $this->request->getPost('upload_id'),
         ];
 
+        if ($upload) {
+            $payload = array_merge($upload,$payload);
+        }
+
         $params = [
-            "path"      => "api/" + $this->module_kode + "/create",
+            "path"      => "api/" . $this->module_kode . "/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -96,15 +115,29 @@ class ShippingInstructionController extends ResourceController
 
     public function update($id = null)
     {
+        $upload = $this->fileH->file_update();
+
         $payload = [
-            "name" => $this->request->getVar('name'),
-            "phone_number" => $this->request->getVar('phone_number'),
-            "email" => $this->request->getVar('email'),
-            "address" => $this->request->getVar('address'),
+            "tgl" => $this->request->getPost('tgl'),
+            "number" => $this->request->getPost('number'),
+            "shipper_client_id" => $this->request->getPost('shipper'),
+            "tugboat_id" => $this->request->getPost('tugboat'),
+            "barge_id" => $this->request->getPost('barge'),
+            "load_type" => $this->request->getPost('load_type'),
+            "qty" => $this->request->getPost('qty'),
+            "uom_id" => $this->request->getPost('uom_id'),
+            "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
+            "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
+            "loading_port" => $this->request->getPost('loading_port'),
+            "discharge_port" => $this->request->getPost('discharge_port'),
         ];
 
+        if ($upload) {
+            $payload = array_merge($upload,$payload);
+        }
+
         $params = [
-            "path"      => "api/" + $this->module_kode + "/update/" . $id,
+            "path"      => "api/" . $this->module_kode . "/update/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -118,9 +151,101 @@ class ShippingInstructionController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path"      => "api/" + $this->module_kode + "/delete/" . $id,
+            "path"      => "api/" . $this->module_kode . "/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_clients($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/show_clients",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_tugboat($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/show_tugboat",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_barge($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/show_barge",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_uom($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/show_uom",
+            "method" => 'GET',
+            "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
         ];
 
