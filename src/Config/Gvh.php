@@ -203,7 +203,7 @@ class Gvh extends BaseConfig
         if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/js/ummu.js?time=" . date('YmdHis');
         }else{
-            return "https://cdn.openapi2.com/ummu.js?time=" . date('YmdHis');
+            return "https://cdn.openapi2.com/ummu.min.js?time=" . date('YmdHis');
         }
     }
 }
