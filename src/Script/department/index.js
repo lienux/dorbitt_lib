@@ -17,32 +17,6 @@ var app = {
                 // app.controllers.detail(row);
                 app.views.setRow_toForm(row);
             });
-
-            $('input[name="charterTypeId"]').change(function() {
-                if ($(this).is(':checked')) {
-                    let nilai = $(this).val();
-                    // console.log(nilai)
-                    if (nilai == 1) { // Freight Charter
-                        $("#form_input #btn_show_shipment").prop("disabled", false)
-                        $("#form_input .endis-charter").prop("disabled", true)
-                        // $("#form_input #btn_show_barge").prop("disabled", true)
-                        // $("#form_input #btn_show_barge").prop("disabled", true)
-                        $(".btn-freight-charter-only").removeClass('btn-outline-secondary').addClass('btn-primary')
-                        $(".btn-time-charter-only").removeClass('btn-primary').addClass('btn-outline-secondary')
-                    }else if (nilai == 2) { // Time Charter
-                        $("#form_input #btn_show_shipment").prop("disabled", true)
-                        $("#form_input .endis-charter").prop("disabled", false)
-                        $("#form_input #shipment").val('').attr('data-id', '')
-                        // $("#form_input #btn_show_tugboat").prop("disabled", false)
-                        // $("#form_input #btn_show_barge").prop("disabled", false)
-                        $(".btn-freight-charter-only").removeClass('btn-primary').addClass('btn-outline-secondary')
-                        $(".btn-time-charter-only").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    }
-                    // console.log("User memilih: " + $(this).val());
-                    $("#form_input input").not('#FreightCharter, #TimeCharter, #iDate, #number').val('')
-                    $("#form_input .is-data-id").attr('data-id', '')
-                }
-            });
         },
     },
 
@@ -81,57 +55,10 @@ var app = {
 
         sbNew: function () {
             app.views.forClear()
-            $("#FreightCharter, #TimeCharter, #file_upload").prop("disabled", false)
-            $(".endis-charter").prop("disabled", true)
         },
 
         sbSave: function () {
-            var charterTypeId = $('input[name="charterTypeId"]:checked').val();
-            var file_upload = $("#form_input #file_upload")[0].files[0];
-            var tgl = $("#form_input #iDate").val();
-            var number = $("#form_input #number").val();
-            var client = $("#form_input #client").attr('data-id');
-            var tugboat = $("#form_input #tugboat").attr('data-id');
-            var barge = $("#form_input #barge").attr('data-id');
-            var load_type = $("#form_input #load_type").val();
-            var qty = $("#form_input #qty").val();
-            var uom_id = $("#form_input #uom").attr('data-id');
-            var loading_availability_date_from = $("#form_input #iDateLoadingFrom").val();
-            var loading_availability_date_to = $("#form_input #iDateLoadingTo").val();
-            var loading_port = $("#form_input #loading_port").val();
-            var discharge_port = $("#form_input #discharge_port").val();
-
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("client", client);
-            $ummu.vars.formData.append("file_upload", file_upload);
-
-            $ummu.vars.formData.append("tugboat", tugboat);
-            $ummu.vars.formData.append("barge", barge);
-            $ummu.vars.formData.append("load_type", load_type);
-            $ummu.vars.formData.append("qty", qty);
-            $ummu.vars.formData.append("uom_id", uom_id);
-            $ummu.vars.formData.append("loading_availability_date_from", loading_availability_date_from);
-            $ummu.vars.formData.append("loading_availability_date_to", loading_availability_date_to);
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
-
-            var payload = {
-                "tgl": tgl,
-                "number": number,
-                "client": client,
-                "tugboat": tugboat,
-                "barge": barge,
-                "load_type": load_type,
-                "qty": qty,
-                "uom_id": uom_id,
-                "loading_availability_date_from": loading_availability_date_from,
-                "loading_availability_date_to": loading_availability_date_to,
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
-            };
-
-            const id = $ummu.url.getParam('id');
+            var id = $ummu.url.getParam('id');
 
             if (id) {
                 var func = "update/" + id
@@ -139,9 +66,18 @@ var app = {
                 var func = "create"
             }
 
+            var payload = {
+                "kode": $("#kode").val(),
+                "name": $("#name").val(),
+            };
+
             var params = {
                 "function": func,
-                "data": $ummu.vars.formData,
+                "method": "POST",
+                "data": JSON.stringify(payload),
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
                 "loader": true,
             };
 
@@ -149,37 +85,12 @@ var app = {
 
             if (validation.length > 0) {
                 $ummu.views.errors_msg(validation)
-                // $("#form_input button").addClass('btn-primary').removeClass('btn-outline-secondary')
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                if (charterTypeId == 1) { // Freight Charter
-                    $("#form_input #btn_show_shipment").prop("disabled", false)
-                    $("#form_input .endis-charter").prop("disabled", true)
-                    $(".btn-freight-charter-only").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    $(".btn-time-charter-only").removeClass('btn-primary').addClass('btn-outline-secondary')
-                }else if (charterTypeId == 2) { // Time Charter
-                    $("#form_input #btn_show_shipment").prop("disabled", true)
-                    $("#form_input .endis-charter").prop("disabled", false)
-                    // $("#form_input #shipment").val('').attr('data-id', '')
-                    $(".btn-freight-charter-only").removeClass('btn-primary').addClass('btn-outline-secondary')
-                    $(".btn-time-charter-only").removeClass('btn-outline-secondary').addClass('btn-primary')
-                }
+                // $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
             }else{
-                var ummu = $ummu.ajax.ummu7(params);   
+                // console.log('tidak ada validation')
+                var ummu = $ummu.ajax.ummu8(params);   
                 ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
-
-                    if (func == 'create') {
-                        //
-                    }else{
-                        $("#form_input #file_url").attr("href", response.data.fileUrl)
-
-                        if (response.data.fileNameOrigin) {
-                            $("#form_input #file_url span").html(response.data.fileNameOrigin)
-                        }else{
-                            $("#form_input #file_url span").html("File not available.")
-                        }
-                    }
+                    $ummu.views.after_sbToolbar_save(result, func, id, payload);
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -189,11 +100,20 @@ var app = {
 
         sbCancle: function () {
             if ($ummu.url.getParam('id')) {
-                // 
+                //
             }else{
-                app.views.forClear()
+                // $("#nav-tab-machinery").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-tank").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-dimension").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-fuelconsum").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-speed").prop("disabled", true).removeClass("active");
+
+                // $("#nav-machinery").removeClass("show active");
+                // $("#nav-tank").removeClass("show active");
+                // $("#nav-dimension").removeClass("show active");
+                // $("#nav-fuelconsum").removeClass("show active");
+                // $("#nav-speed").removeClass("show active");
             }
-            $("#form_input #btn_show_shipment").prop("disabled", true)
         },
 
         sbEdit: function () {
@@ -214,7 +134,7 @@ var app = {
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
                 $ummu.views.after_sbToolbar_delete(id, result);
-                app.views.forClear()
+
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
@@ -222,27 +142,17 @@ var app = {
         },
 
         sbClear: function() {
-            app.views.forClear()
-        },
+            // $("#nav-tab-machinery").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-tank").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-dimension").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-fuelconsum").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-speed").prop("disabled", true).removeClass("active");
 
-        on_showLeftModal: function(id) {
-            // console.log(id)
-            if (id == 'client') {
-                $ummu.controllers.show_clients();
-            }else if (id == 'tugboat') {
-                $ummu.controllers.show_tugboat();
-            }else if (id == 'barge') {
-                $ummu.controllers.show_barge();
-            }else if (id == 'uom') {
-                $ummu.controllers.show_uom();
-            }else if (id == 'shipment') {
-                $ummu.controllers.show_shippingInstruction();
-            }
-        },
-
-        on_click_tbody_trtd_child1: function(row) {
-            // console.log(row)
-            app.views.setRow_toForm_freightCharter(row)
+            // $("#nav-machinery").removeClass("show active");
+            // $("#nav-tank").removeClass("show active");
+            // $("#nav-dimension").removeClass("show active");
+            // $("#nav-fuelconsum").removeClass("show active");
+            // $("#nav-speed").removeClass("show active");
         },
     },
 
@@ -251,62 +161,18 @@ var app = {
             var list = [];
             list = $ummu.validation.inputValidate();
 
-            var charterTypeId = $('input[name="charterTypeId"]:checked').val();
-
-            if ($ummu.func.isValue(charterTypeId) == false) {
-                list.push('Charter Type required')
-            }
-
-            if (charterTypeId == "1") {
-                if ($ummu.func.isValue($("#shipment").attr('data-id')) == false) {
-                    list.push($("#shipment").attr('data-label'))
-                }
-            }
-
             return list;
         }
     },
 
     views: {
         formParams: function() {
-            return $("#form_input .endis").not("#FreightCharter, #TimeCharter");
-            // return $("#form_input #number, #btn_iDate");
+            return $("#form_input input, #form_input select");
         },
 
         setRow_toForm: function(row) {
-            console.log(row)
-            $("#form_input #iDate").val(row.tgl)
-            $("#form_input #number").val(row.number)
-            $("#form_input #shipper").val(row.client_name).attr('data-id', row.shipper_client_id)
-            $("#form_input #tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#form_input #barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#form_input #load_type").val(row.load_type)
-            $("#form_input #qty").val(row.qty)
-            $("#form_input #uom").val(row.uom_kode).attr('data-id', row.uom_id)
-
-            $("#form_input #iDateLoadingFrom").val(row.loading_availability_date_from)
-            $("#form_input #iDateLoadingTo").val(row.loading_availability_date_to)
-            $("#form_input #loading_port").val(row.loading_port)
-            $("#form_input #discharge_port").val(row.discharge_port)
-            $(".custom-file-label").html(row.fileNameOrigin)
-            $("#form_input #file_url").attr("href", row.fileUrl)
-
-            if (row.fileNameOrigin) {
-                // $("#form_input #file_url span").html(row.fileNameOrigin)
-                $("#form_input #file_url").attr("href", row.fileUrl)
-            }else{
-                // $("#form_input #file_url span").html("File not available.")
-                $(".custom-file-label").html('No file...')
-
-            }
-
-            // $("#form_input #file_url").attr("href", row.fileUrl)
-
-            // if (row.fileNameOrigin) {
-            //     $("#form_input #file_url span").html(row.fileNameOrigin)
-            // }else{
-            //     $("#form_input #file_url span").html("File not available.")
-            // }
+            $("#kode").val(row.kode)
+            $("#name").val(row.name)
 
             $ummu.views.setIdentitiyToForm(row)
 
@@ -319,59 +185,14 @@ var app = {
             $ummu.button.sbBtn_on_showData()
         },
 
-        setRow_toForm_freightCharter: function(row) {
-            // console.log(row)
-            // $("#form_input #iDate").val(row.tgl)
-            // $("#form_input #number").val(row.number)
-            $("#form_input #client").val(row.client_name).attr('data-id', row.shipper_client_id)
-            $("#form_input #tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#form_input #barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#form_input #load_type").val(row.load_type)
-            $("#form_input #qty").val(row.qty)
-            $("#form_input #uom").val(row.uom_kode).attr('data-id', row.uom_id)
-
-            $("#form_input #iDateLoadingFrom").val(row.loading_availability_date_from)
-            $("#form_input #iDateLoadingTo").val(row.loading_availability_date_to)
-            $("#form_input #loading_port").val(row.loading_port)
-            $("#form_input #discharge_port").val(row.discharge_port)
-            // $(".custom-file-label").html(row.fileNameOrigin)
-            // $("#form_input #file_url").attr("href", row.fileUrl)
-
-            // if (row.fileNameOrigin) {
-            //     // $("#form_input #file_url span").html(row.fileNameOrigin)
-            //     $("#form_input #file_url").attr("href", row.fileUrl)
-            // }else{
-            //     // $("#form_input #file_url span").html("File not available.")
-            //     $(".custom-file-label").html('No file...')
-
-            // }
-
-            // $("#form_input #file_url").attr("href", row.fileUrl)
-
-            // if (row.fileNameOrigin) {
-            //     $("#form_input #file_url span").html(row.fileNameOrigin)
-            // }else{
-            //     $("#form_input #file_url span").html("File not available.")
-            // }
-
-            // $ummu.views.setIdentitiyToForm(row)
-
-            // $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-            // $("#ummu_tab_contnet #nav-listData").removeClass("show active")
-            
-            // $("#ummu_nav_tab #nav-tab-form").addClass("active")
-            // $("#ummu_tab_contnet #nav-form").addClass("show active")
-
-            // $ummu.button.sbBtn_on_showData()
-        },
-
         forClear: function() {
-            $("#form_input input").not('#FreightCharter, #TimeCharter, #file_uploadz').val('');
-            // $("#form_input #file_url span").html('')
-            $("#file_url").removeAttr('href')
-            $(".custom-file-label").html('Choose file...')
-            $("#FreightCharter, #TimeCharter").prop('checked', false)
-            $("#FreightCharter, #TimeCharter, #file_upload").prop('disabled', true)
+            // $("#form_input input").not('#FreightCharter, #TimeCharter, #file_uploadz').val('');
+            $("#form_input input").val('');
+            // // $("#form_input #file_url span").html('')
+            // $("#file_url").removeAttr('href')
+            // $(".custom-file-label").html('Choose file...')
+            // $("#FreightCharter, #TimeCharter").prop('checked', false)
+            // $("#FreightCharter, #TimeCharter, #file_upload").prop('disabled', true)
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -438,19 +259,8 @@ var app = {
                             );
                         }
                     },
-                    { data: "tgl"},
-                    { data: "number"},
-                    { data: "client_name"},
-                    { data: "tugboat_name"},
-                    { data: "barge_name"},
-                    { data: "load_type"},
-                    { data: "qty"},
-                    { data: "uom_name"},
-                    { data: "loading_availability_date_from"},
-                    { data: "loading_availability_date_to"},
-                    { data: "loading_port"},
-                    { data: "discharge_port"},
-                    { data: "fileNameOrigin"},
+                    { data: "kode"},
+                    { data: "name"},
                 ];
         
                 return columns;

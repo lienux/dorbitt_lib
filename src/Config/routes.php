@@ -48,6 +48,14 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
 });
 
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
+    $routes->group('department', function ($routes) {
+        $routes->get('/', 'DepartmentController::index');
+        $routes->get('show', 'DepartmentController::show');
+        $routes->post('create', 'DepartmentController::create');
+        $routes->post('update/(:num)', 'DepartmentController::update/$1');
+        $routes->post('delete/(:num)', 'DepartmentController::delete/$1');
+    });
+
     $routes->group('clients', function ($routes) {
         $routes->get('/', 'MsClientController::index');
         $routes->get('show', 'MsClientController::show');
@@ -133,20 +141,58 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_uom', 'ShippingInstructionController::show_uom');
     });
 
-    $routes->group('spal', function ($routes) {
+    $routes->group('spal_standard', function ($routes) {
         $routes->get('/', 'SpalController::index');
         $routes->get('show', 'SpalController::show');
         $routes->post('create', 'SpalController::create');
         $routes->post('update/(:num)', 'SpalController::update/$1');
         $routes->post('delete/(:num)', 'SpalController::delete/$1');
+
+        $routes->get('show_clients', 'SpalController::show_clients');
+        $routes->get('show_tugboat', 'SpalController::show_tugboat');
+        $routes->get('show_barge', 'SpalController::show_barge');
+        $routes->get('show_uom', 'SpalController::show_uom');
+        $routes->get('show_si', 'SpalController::show_si');
     });
 
-    $routes->group('ijo', function ($routes) {
-        $routes->get('/', 'IjoController::index');
-        $routes->get('show', 'IjoController::show');
-        $routes->post('create', 'IjoController::create');
-        $routes->post('update/(:num)', 'IjoController::update/$1');
-        $routes->post('delete/(:num)', 'IjoController::delete/$1');
+    $routes->group('freight_charter', function ($routes) {
+        $routes->get('/', 'FreightCharterController::index');
+        $routes->get('show', 'FreightCharterController::show');
+        $routes->post('create', 'FreightCharterController::create');
+        $routes->post('update/(:num)', 'FreightCharterController::update/$1');
+        $routes->post('delete/(:num)', 'FreightCharterController::delete/$1');
+
+        $routes->get('show_clients', 'FreightCharterController::show_clients');
+        $routes->get('show_tugboat', 'FreightCharterController::show_tugboat');
+        $routes->get('show_barge', 'FreightCharterController::show_barge');
+        $routes->get('show_uom', 'FreightCharterController::show_uom');
+        $routes->get('show_si', 'FreightCharterController::show_si');
+    });
+
+    $routes->group('time_charter', function ($routes) {
+        $routes->get('/', 'TimeCharterController::index');
+        $routes->get('show', 'TimeCharterController::show');
+        $routes->post('create', 'TimeCharterController::create');
+        $routes->post('update/(:num)', 'TimeCharterController::update/$1');
+        $routes->post('delete/(:num)', 'TimeCharterController::delete/$1');
+
+        $routes->get('show_clients', 'TimeCharterController::show_clients');
+        $routes->get('show_tugboat', 'TimeCharterController::show_tugboat');
+        $routes->get('show_barge', 'TimeCharterController::show_barge');
+        $routes->get('show_uom', 'TimeCharterController::show_uom');
+        $routes->get('show_si', 'TimeCharterController::show_si');
+    });
+
+    $routes->group('ijo_from_spal', function ($routes) {
+        $routes->get('/', 'IjoFromSpalController::index');
+        $routes->get('show', 'IjoFromSpalController::show');
+        $routes->post('create', 'IjoFromSpalController::create');
+        $routes->post('update/(:num)', 'IjoFromSpalController::update/$1');
+        $routes->post('delete/(:num)', 'IjoFromSpalController::delete/$1');
+
+        $routes->get('show_si', 'IjoFromSpalController::show_si');
+        $routes->get('show_spal', 'IjoFromSpalController::show_spal');
+        $routes->get('show_dept', 'IjoFromSpalController::show_dept');
     });
 
     $routes->group('gallery_photos', function ($routes) {
