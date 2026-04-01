@@ -19,10 +19,10 @@
                     <label class="col-sm-3 col-form-label">Date<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDate" readonly disabled>
+                            <input type="text" class="form-control ummu-datepicker" id="iDate" data-label="Tanggal SI" readonly disabled required>
                             <span class="popup-text">ex: Tanggal SI</span>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDate" disabled>
                                     <i class="fas fa-calendar-alt"></i>
                                 </button>
@@ -33,7 +33,7 @@
                 <div class="row">
                     <label class="col-sm-3 col-form-label">Number<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
-                        <input type="text" name="number" id="number" class="form-control form-control-sm endis" required disabled>
+                        <input type="text" name="number" id="number" class="form-control form-control-sm endis" data-label="Number" required disabled required>
                         <span class="popup-text">ex: Nomor SI</span>
                     </div>
                 </div>
@@ -41,10 +41,10 @@
                     <label class="col-sm-3 col-form-label">Shipper<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="shipper" disabled>
+                            <input type="text" class="form-control" id="client" data-label="Shipper" disabled required>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
-                                    data-inputid="shipper" data-modaltitle="Master Data Clients">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_client" type="button" disabled
+                                    data-inputid="client" data-modaltitle="Master Data Clients">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
                             </div>
@@ -55,9 +55,9 @@
                     <label class="col-sm-3 col-form-label">Tugboat<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="tugboat" disabled>
+                            <input type="text" class="form-control" id="tugboat" data-label="Tugboat" required disabled>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_tugboat" type="button" disabled
                                     data-inputid="tugboat" data-modaltitle="Master Data Vessel - Tugboat">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
@@ -69,9 +69,9 @@
                     <label class="col-sm-3 col-form-label">Barge<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="barge" disabled>
+                            <input type="text" class="form-control" id="barge" data-label="Barge" disabled required>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_barge" type="button" disabled
                                     data-inputid="barge" data-modaltitle="Master Data Vessel - Barge">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
@@ -82,21 +82,21 @@
                 <div class="row">
                     <label class="col-sm-3 col-form-label">Load Type<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
-                        <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" required disabled>
+                        <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" data-label="Load Type" required disabled>
                         <span class="popup-text">ex: Batubara / Pasir / etc.</span>
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-sm-3 col-form-label">Quantity<span class="text-danger small"> *</span></label>
                     <div class="col-sm-3">
-                        <input type="text" name="qty" id="qty" class="form-control form-control-sm endis" required disabled>
+                        <input type="text" name="qty" id="qty" class="form-control form-control-sm endis" data-label="Quantity" required disabled>
                     </div>
                     <label class="col-sm-3 col-form-label text-right">UoM<span class="text-danger small"> *</span></label>
                     <div class="col-sm-3">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="uom" disabled>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_uom" type="button" disabled
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_uom" type="button" disabled
                                     data-inputid="uom" data-modaltitle="Master Data - Unit of Measure">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
@@ -111,9 +111,9 @@
                     <label class="col-sm-4 col-form-label">Date of Loading From<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingFrom" readonly disabled>
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingFrom" data-label="Date of Loading From" readonly disabled required>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDateLoadingFrom" disabled>
                                     <i class="fas fa-calendar-alt"></i>
                                 </button>
@@ -125,9 +125,9 @@
                     <label class="col-sm-4 col-form-label">Date of Loading To</label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" readonly disabled>
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" data-label="Date of Loading To" required readonly disabled>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDateLoadingTo" disabled>
                                     <i class="fas fa-calendar-alt"></i>
                                 </button>
@@ -138,7 +138,7 @@
                 <div class="row">
                     <label class="col-sm-4 col-form-label">Port of Loading<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
-                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" required disabled>
+                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" data-label="Port of Loading" required disabled>
                         <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span>
                     </div>
                 </div>

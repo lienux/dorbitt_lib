@@ -309,3 +309,7 @@ COMMIT;
 INSERT INTO `ms_location` (`id`, `is_testing`, `company_id`, `kode`, `name`, `created_at`, `updated_at`, `deleted_at`, `created_by`, `updated_by`, `deleted_by`) VALUES
 ('', NULL, 23, NULL, 'TELAN',NULL,NULL,NULL,NULL,NULL,NULL),
 ('', NULL, 23, NULL, 'KM 99',NULL,NULL,NULL,NULL,NULL,NULL);
+
+
+
+terser ummu.js -o ummu.min.js

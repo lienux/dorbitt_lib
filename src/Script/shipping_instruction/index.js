@@ -65,25 +65,25 @@ var app = {
         },
 
         sbSave: function () {
-            var file_upload = $("#form_input #file_upload")[0].files[0];
-            var tgl = $("#form_input #iDate").val();
-            var number = $("#form_input #number").val();
-            var shipper = $("#form_input #shipper").data('id');
-            var tugboat = $("#form_input #tugboat").data('id');
-            var barge = $("#form_input #barge").data('id');
-            var load_type = $("#form_input #load_type").val();
-            var qty = $("#form_input #qty").val();
-            var uom_id = $("#form_input #uom").data('id');
-            var loading_availability_date_from = $("#form_input #iDateLoadingFrom").val();
-            var loading_availability_date_to = $("#form_input #iDateLoadingTo").val();
-            var loading_port = $("#form_input #loading_port").val();
-            var discharge_port = $("#form_input #discharge_port").val();
+            var file_upload = $("#file_upload")[0].files[0];
+            var tgl = $("#iDate").val();
+            var number = $("#number").val();
+            var client_id = $("#client").attr('attr-id');
+            var tugboat = $("#tugboat").attr('attr-id');
+            var barge = $("#barge").attr('attr-id');
+            var load_type = $("#load_type").val();
+            var qty = $("#qty").val();
+            var uom_id = $("#uom").attr('attr-id');
+            var loading_availability_date_from = $("#iDateLoadingFrom").val();
+            var loading_availability_date_to = $("#iDateLoadingTo").val();
+            var loading_port = $("#loading_port").val();
+            var discharge_port = $("#discharge_port").val();
 
             var formData = new FormData();
             formData.append("file_upload", file_upload);
             formData.append("tgl", tgl);
             formData.append("number", number);
-            formData.append("shipper", shipper);
+            formData.append("shipper", client_id);
             formData.append("tugboat", tugboat);
             formData.append("barge", barge);
             formData.append("load_type", load_type);
@@ -97,7 +97,7 @@ var app = {
             var payload = {
                 "tgl": tgl,
                 "number": number,
-                "shipper": shipper,
+                "shipper": client_id,
                 "tugboat": tugboat,
                 "barge": barge,
                 "load_type": load_type,
@@ -123,8 +123,11 @@ var app = {
                 "loader": true,
             };
 
-            if (app.validation.save == false) {
-                console.log('ada validation')
+            const validation = app.validation.save();
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
             }else{
                 console.log('tidak ada validation')
                 var ummu = $ummu.ajax.ummu7(params);   
@@ -189,7 +192,7 @@ var app = {
 
         on_showLeftModal: function(id) {
             // console.log(id)
-            if (id == 'shipper') {
+            if (id == 'client') {
                 $ummu.controllers.show_clients();
             }else if (id == 'tugboat') {
                 $ummu.controllers.show_tugboat();
@@ -203,9 +206,22 @@ var app = {
 
     validation: {
         save: function() {
-            if ($("#form_input #name").val() == '') {
+            var list = [];
+            list = $ummu.validation.inputValidate();
 
-            }
+            // var charterTypeId = $('input[name="charterTypeId"]:checked').val();
+
+            // if ($ummu.func.isValue(charterTypeId) == false) {
+            //     list.push('Charter Type required')
+            // }
+
+            // if (charterTypeId == "1") {
+            //     if ($ummu.func.isValue($("#shipment").attr('data-id')) == false) {
+            //         list.push($("#shipment").attr('data-label'))
+            //     }
+            // }
+
+            return list;
         }
     },
 
@@ -216,27 +232,27 @@ var app = {
 
         setRow_toForm: function(row) {
             console.log(row)
-            $("#form_input #iDate").val(row.tgl)
-            $("#form_input #number").val(row.number)
-            $("#form_input #shipper").val(row.client_name).attr('data-id', row.shipper_client_id)
-            $("#form_input #tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#form_input #barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#form_input #load_type").val(row.load_type)
-            $("#form_input #qty").val(row.qty)
-            $("#form_input #uom").val(row.uom_kode).attr('data-id', row.uom_id)
+            $("#iDate").val(row.tgl)
+            $("#number").val(row.number)
+            $("#client").val(row.client_name).attr('data-id', row.shipper_client_id)
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            $("#load_type").val(row.load_type)
+            $("#qty").val(row.qty)
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
 
-            $("#form_input #iDateLoadingFrom").val(row.loading_availability_date_from)
-            $("#form_input #iDateLoadingTo").val(row.loading_availability_date_to)
-            $("#form_input #loading_port").val(row.loading_port)
-            $("#form_input #discharge_port").val(row.discharge_port)
+            $("#iDateLoadingFrom").val(row.loading_availability_date_from)
+            $("#iDateLoadingTo").val(row.loading_availability_date_to)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
             $(".custom-file-label").html(row.fileNameOrigin)
-            $("#form_input #file_url").attr("href", row.fileUrl)
+            $("#file_url").attr("href", row.fileUrl)
 
             if (row.fileNameOrigin) {
-                // $("#form_input #file_url span").html(row.fileNameOrigin)
-                $("#form_input #file_url").attr("href", row.fileUrl)
+                // $("#file_url span").html(row.fileNameOrigin)
+                $("#file_url").attr("href", row.fileUrl)
             }else{
-                // $("#form_input #file_url span").html("File not available.")
+                // $("#file_url span").html("File not available.")
                 $(".custom-file-label").html('No file...')
 
             }

@@ -11,12 +11,12 @@ use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\FileHelper;
 
-class SpalController extends ResourceController
+class FreightCharterController extends ResourceController
 {
     public function __construct()
     {
-        $this->module_kode = 'spal';
-        $this->dir_view = 'pages/' . $this->module_kode . '/';
+        $this->module_kode = 'freight_charter';
+        $this->dir_view = 'pages/freight_charter/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -32,7 +32,7 @@ class SpalController extends ResourceController
             'page_title' => 'Surat Perjanjian Angkutan Laut (SPAL)',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['applications'],
+            'group' => ['applications','spal','freight_charter'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
@@ -44,6 +44,11 @@ class SpalController extends ResourceController
                 ],
                 [
                     "name" => "Surat Perjanjian Angkutan Laut",
+                    "page" => "#",
+                    "active" => ""
+                ],
+                [
+                    "name" => "Freight Charter",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -60,11 +65,12 @@ class SpalController extends ResourceController
                 "from" => "",
                 "to" => ""
             ],
-            "selects" => "*"
+            "selects" => "*",
+            "where" => ["type_id", "1"]
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show",
+            "path"      => "api/spal/show",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -80,17 +86,23 @@ class SpalController extends ResourceController
         $upload = $this->fileH->file_update();
 
         $payload = [
-            "tgl" => $this->request->getPost('tgl'),
-            "number" => $this->request->getPost('number'),
-            "shipper_client_id" => $this->request->getPost('client'),
+            "type_id" => 1,
+            "si_id" => $this->request->getPost('si_id'),
+            "tgl" => $this->request->getPost('tgl_surat'),
+            "number" => $this->request->getPost('nomor_surat'),
+            "price" => str_replace(['.', ','], ['', '.'], $this->request->getPost('biaya_angkutan')),
+            "kondisi_perjanjian" => $this->request->getPost('kondisi_perjanjian'),
 
+            "client_id" => $this->request->getPost('client'),
             "tugboat_id" => $this->request->getPost('tugboat'),
             "barge_id" => $this->request->getPost('barge'),
             "load_type" => $this->request->getPost('load_type'),
-            "qty" => $this->request->getPost('qty'),
+            "qty" => str_replace(['.', ','], ['', '.'], $this->request->getPost('qty')),
             "uom_id" => $this->request->getPost('uom_id'),
+
             "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
             "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
+
             "loading_port" => $this->request->getPost('loading_port'),
             "discharge_port" => $this->request->getPost('discharge_port'),
         ];
@@ -100,7 +112,7 @@ class SpalController extends ResourceController
         }
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/create",
+            "path" => "api/spal/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -113,15 +125,35 @@ class SpalController extends ResourceController
 
     public function update($id = null)
     {
+        $upload = $this->fileH->file_update();
+
         $payload = [
-            "name" => $this->request->getVar('name'),
-            "phone_number" => $this->request->getVar('phone_number'),
-            "email" => $this->request->getVar('email'),
-            "address" => $this->request->getVar('address'),
+            "si_id" => $this->request->getPost('si_id'),
+            "tgl" => $this->request->getPost('tgl_surat'),
+            "number" => $this->request->getPost('nomor_surat'),
+            "price" => str_replace(['.', ','], ['', '.'], $this->request->getPost('biaya_angkutan')),
+            "kondisi_perjanjian" => $this->request->getPost('kondisi_perjanjian'),
+
+            "client_id" => $this->request->getPost('client'),
+            "tugboat_id" => $this->request->getPost('tugboat'),
+            "barge_id" => $this->request->getPost('barge'),
+            "load_type" => $this->request->getPost('load_type'),
+            "qty" => str_replace(['.', ','], ['', '.'], $this->request->getPost('qty')),
+            "uom_id" => $this->request->getPost('uom_id'),
+
+            "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
+            "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
+
+            "loading_port" => $this->request->getPost('loading_port'),
+            "discharge_port" => $this->request->getPost('discharge_port'),
         ];
 
+        if ($upload) {
+            $payload = array_merge($upload,$payload);
+        }
+
         $params = [
-            "path"      => "api/" . $this->module_kode . "/update/" . $id,
+            "path"      => "api/spal/update/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -135,7 +167,7 @@ class SpalController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path"      => "api/" . $this->module_kode . "/delete/" . $id,
+            "path"      => "api/spal/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
             "headers" => $this->cH->headers3($this->module_kode)
@@ -158,7 +190,7 @@ class SpalController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_clients",
+            "path"      => "api/spal/show_clients",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -181,7 +213,7 @@ class SpalController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_tugboat",
+            "path"      => "api/spal/show_tugboat",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -204,7 +236,7 @@ class SpalController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_barge",
+            "path"      => "api/spal/show_barge",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -227,7 +259,7 @@ class SpalController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_uom",
+            "path"      => "api/spal/show_uom",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -250,7 +282,7 @@ class SpalController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_si",
+            "path"      => "api/spal/show_si",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)

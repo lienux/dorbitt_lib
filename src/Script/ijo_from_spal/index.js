@@ -124,56 +124,61 @@ var app = {
         },
 
         sbSave: function () {
-            var shipment = $("#shipment").attr('data-id');
+            var spal_id = $("#spal").attr('data-id');
             var tgl = $("#iDate").val();
             var number = $("#number").val();
-            var biaya_angkutan = $("#biaya_angkutan").val();
-            var kondisi_perjanjian = $("#kondisi_perjanjian").val();
-            var file_upload = $("#file_upload")[0].files[0];
+            var from_dept_id = $("#from_dept").attr('data-id');
+            var to_dept_id = $("#to_dept").attr('data-id');
 
-            var client = $("#client").attr('data-id');
-            var tugboat = $("#tugboat").attr('data-id');
-            var barge = $("#barge").attr('data-id');
-            var load_type = $("#load_type").val();
-            var qty = $("#qty").val();
+            var client_id = $("#client").attr('data-id');
+            var tugboat_id = $("#tugboat").attr('data-id');
+            var barge_id = $("#barge").attr('data-id');
+            var tonage = $("#tonage").val();
             var uom_id = $("#uom").attr('data-id');
 
-            var loading_availability_date_from = $("#iDateLoadingFrom").val();
-            var loading_availability_date_to = $("#iDateLoadingTo").val();
+            var eta_loading_port = $("#eta_loading_port").attr('data-from');
+            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
+            var eta_discharge_port = $("#eta_discharge_port").val();
+
             var loading_port = $("#loading_port").val();
             var discharge_port = $("#discharge_port").val();
 
-            $ummu.vars.formData.append("si_id", shipment);
-            $ummu.vars.formData.append("tgl_surat", tgl);
-            $ummu.vars.formData.append("nomor_surat", number);
-            $ummu.vars.formData.append("biaya_angkutan", biaya_angkutan);
-            $ummu.vars.formData.append("kondisi_perjanjian", kondisi_perjanjian);
-            $ummu.vars.formData.append("file_upload", file_upload);
+            $ummu.vars.formData.append("spal_id", spal_id);
+            $ummu.vars.formData.append("tgl", tgl);
+            $ummu.vars.formData.append("number", number);
+            $ummu.vars.formData.append("from_dept_id", from_dept_id);
+            $ummu.vars.formData.append("to_dept_id", to_dept_id);
 
-            $ummu.vars.formData.append("client", client);
-            $ummu.vars.formData.append("tugboat", tugboat);
-            $ummu.vars.formData.append("barge", barge);
-            $ummu.vars.formData.append("load_type", load_type);
-            $ummu.vars.formData.append("qty", qty);
+            $ummu.vars.formData.append("client_id", client_id);
+            $ummu.vars.formData.append("tugboat_id", tugboat_id);
+            $ummu.vars.formData.append("barge_id", barge_id);
+            $ummu.vars.formData.append("tonage", tonage);
             $ummu.vars.formData.append("uom_id", uom_id);
 
-            $ummu.vars.formData.append("loading_availability_date_from", loading_availability_date_from);
-            $ummu.vars.formData.append("loading_availability_date_to", loading_availability_date_to);
+            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+
             $ummu.vars.formData.append("loading_port", loading_port);
             $ummu.vars.formData.append("discharge_port", discharge_port);
 
             var payload = {
+                "spal_id": spal,
                 "tgl": tgl,
                 "number": number,
-                "client": client,
-                "tugboat": tugboat,
-                "barge": barge,
-                "load_type": load_type,
-                "qty": qty,
+                "from_dept_id": from_dept_id,
+                "to_dept_id": to_dept_id,
+
+                "client_id": client_id,
+                "tugboat_id": tugboat_id,
+                "barge_id": barge_id,
+                "tonage": tonage,
                 "uom_id": uom_id,
-                "price": biaya_angkutan,
-                "loading_availability_date_from": loading_availability_date_from,
-                "loading_availability_date_to": loading_availability_date_to,
+
+                "eta_loading_port": eta_loading_port,
+                "eta_loading_port_to": eta_loading_port_to,
+                "eta_discharge_port": eta_discharge_port,
+
                 "loading_port": loading_port,
                 "discharge_port": discharge_port,
             };
@@ -255,17 +260,19 @@ var app = {
         on_showLeftModal: function(id) {
             // console.log(id)
             if (id == 'client') {
-                $ummu.controllers.show_clients();
+                $ummu.controllers.show_clients(id);
             }else if (id == 'tugboat') {
-                $ummu.controllers.show_tugboat();
+                $ummu.controllers.show_tugboat(id);
             }else if (id == 'barge') {
-                $ummu.controllers.show_barge();
+                $ummu.controllers.show_barge(id);
             }else if (id == 'uom') {
-                $ummu.controllers.show_uom();
+                $ummu.controllers.show_uom(id);
             }else if (id == 'shipment') {
-                $ummu.controllers.show_shippingInstruction();
+                $ummu.controllers.show_shippingInstruction(id);
             }else if (id == 'spal') {
-                $ummu.controllers.show_spal();
+                $ummu.controllers.show_spal(id);
+            }else if (id == 'to_dept') {
+                $ummu.controllers.show_dept(id);
             }
         },
 
@@ -276,9 +283,28 @@ var app = {
 
         on_click_tbody_trtd_child_spal: function(row) {
             console.log(row)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
+
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
             $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-        }
+            $("#ukuran_barge").val(row.barge_loa)
+            $("#tonage").val(row.qty)
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+            .attr('data-from', row.loading_availability_date_from)
+            .attr('data-to', row.loading_availability_date_to)
+
+            $("#si_number").val(row.si_number)
+            $("#si_url").attr('href', row.fileUrl)
+        },
+
+        on_click_tbody_trtd_child_dept: function(row) {
+            // console.log(row)
+            $("#to_dept").val(row.name).attr('data-id', row.id);
+        },
     },
 
     validation: {
