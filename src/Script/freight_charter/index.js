@@ -282,7 +282,7 @@ var app = {
             // console.log(row)
             // $("#form_input #iDate").val(row.tgl)
             // $("#form_input #number").val(row.number)
-            $("#client").val(row.client_name).attr('data-id', row.shipper_client_id)
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
             $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
             $("#load_type").val(row.load_type)
