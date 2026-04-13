@@ -4,11 +4,11 @@
         <thead class="bg-success text-light">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Course</th>
-                <th>Distance</th>
+                <th>Nama</th>
+                <th>Lintang (Lat)</th>
+                <th>Bujur (Lon)</th>
+                <th>Haluan (°T)</th>
+                <th>Jarak (NM)</th>
             </tr>
         </thead>
         <tbody></tbody>

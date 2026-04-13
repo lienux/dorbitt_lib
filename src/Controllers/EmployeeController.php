@@ -5,20 +5,20 @@ namespace Dorbitt\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
-use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
+use App\Helpers\GlobalHelper;
 
-class BargeInspectionController extends ResourceController
+class EmployeeController extends ResourceController
 {
     public function __construct()
     {
-        $this->module_kode = 'barge_inspection_checklist';
-        $this->dir_view = 'pages/' . $this->module_kode . '/';
+        $this->module_kode = 'employee';
+        $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
-        // $this->db = \Config\Database::connect();
+        $this->db = \Config\Database::connect();
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
@@ -26,35 +26,31 @@ class BargeInspectionController extends ResourceController
 
     public function index()
     {
-        $equipment = $this->get_equipment();
-
         $data = [
+            'page_title' => 'Master Employee',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['operations'],
+            'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Operations",
+                    "name" => "Master Data",
                     "page" => "#",
                     "active" => ""
                 ],
                 [
-                    "name" => "Barge Inspection Checklist",
+                    "name" => "Employee",
                     "page" => "#",
                     "active" => "active"
                 ]
             ],
-            'equipment' => $equipment,
-            'equipment_count' => count($equipment)
         ];
         return view($this->vH->ummuView($this->dir_view . 'index'), $data);
-        // var_dump($data);
     }
 
-    public function get_equipment()
+    public function show($id = null)
     {
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -66,7 +62,7 @@ class BargeInspectionController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/".$this->module_kode."/show_equipment",
+            "path"      => "api/". $this->module_kode ."/show",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -74,34 +70,21 @@ class BargeInspectionController extends ResourceController
 
         $builder = $this->cH->ummu2($params);
 
-        if ($builder->status == true) {
-            return $builder->rows;
-        }else{
-            return [];
-        }
+        return $this->respond($builder, 200);
     }
 
-    public function show_equipment()
+    public function create()
     {
-        return $this->respond($this->get_equipment(), 200);
-    }
-
-    public function show_barge()
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
+        $payload = [
+            "kode" => $this->request->getVar('kode'),
+            "name" => $this->request->getVar('name'),
+        ];
 
         $params = [
-            "path"      => "api/barge_inspection_checklist/show_barge",
-            "method" => 'GET',
+            "path"      => "api/". $this->module_kode ."/create",
+            "method" => 'POST',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('barge_inspection_checklist')
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
@@ -109,22 +92,32 @@ class BargeInspectionController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function show_ijo()
+    public function update($id = null)
     {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
+        $payload = [
+            "kode" => $this->request->getVar('kode'),
+            "name" => $this->request->getVar('name'),
+        ];
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_ijo",
-            "method"    => "GET",
-            "payload"   => $payload,
-            "headers"   => $this->cH->headers3($this->module_kode)
+            "path"      => "api/". $this->module_kode ."/update/" . $id,
+            "method" => 'PUT',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function delete($id = null)
+    {
+        $params = [
+            "path"      => "api/". $this->module_kode ."/delete/" . $id,
+            "method" => 'DELETE',
+            "payload" => [],
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);

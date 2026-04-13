@@ -26,13 +26,13 @@ class SoundingReportController extends ResourceController
         $data = [
             'module_kode' => 'sounding_report',
             'navlink' => 'sounding_report',
-            'group' => ['applications'],
+            'group' => ['operations'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Application",
+                    "name" => "Operations",
                     "page" => "#",
                     "active" => ""
                 ],

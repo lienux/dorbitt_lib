@@ -95,6 +95,7 @@ var app = {
     controllers: {
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
+            app.views.forClear()
         },
 
         show: function (params) {
@@ -121,10 +122,13 @@ var app = {
 
         sbNew: function () {
             app.views.forClear()
+            $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
         },
 
         sbSave: function () {
             var spal_id = $("#spal").attr('data-id');
+            var spal_number = $("#spal").val();
             var tgl = $("#iDate").val();
             var number = $("#number").val();
             var from_dept_id = $("#from_dept").attr('data-id');
@@ -133,7 +137,8 @@ var app = {
             var client_id = $("#client").attr('data-id');
             var tugboat_id = $("#tugboat").attr('data-id');
             var barge_id = $("#barge").attr('data-id');
-            var tonage = $("#tonage").val();
+            var ukuran_barge = $("#ukuran_barge").val();
+            var tonnage = $("#tonnage").val();
             var uom_id = $("#uom").attr('data-id');
 
             var eta_loading_port = $("#eta_loading_port").attr('data-from');
@@ -144,6 +149,7 @@ var app = {
             var discharge_port = $("#discharge_port").val();
 
             $ummu.vars.formData.append("spal_id", spal_id);
+            $ummu.vars.formData.append("spal_number", spal_number);
             $ummu.vars.formData.append("tgl", tgl);
             $ummu.vars.formData.append("number", number);
             $ummu.vars.formData.append("from_dept_id", from_dept_id);
@@ -152,7 +158,8 @@ var app = {
             $ummu.vars.formData.append("client_id", client_id);
             $ummu.vars.formData.append("tugboat_id", tugboat_id);
             $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("tonage", tonage);
+            $ummu.vars.formData.append("barge_loa", ukuran_barge);
+            $ummu.vars.formData.append("tonnage", tonnage);
             $ummu.vars.formData.append("uom_id", uom_id);
 
             $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
@@ -164,6 +171,7 @@ var app = {
 
             var payload = {
                 "spal_id": spal,
+                "spal_number": spal_number,
                 "tgl": tgl,
                 "number": number,
                 "from_dept_id": from_dept_id,
@@ -172,7 +180,8 @@ var app = {
                 "client_id": client_id,
                 "tugboat_id": tugboat_id,
                 "barge_id": barge_id,
-                "tonage": tonage,
+                "barge_loa": ukuran_barge,
+                "tonnage": tonnage,
                 "uom_id": uom_id,
 
                 "eta_loading_port": eta_loading_port,
@@ -208,9 +217,15 @@ var app = {
                     const response = JSON.parse(result);
                     $ummu.views.after_sbToolbar_save(response, func, id, payload);
 
-                    $("#file_url").attr("href", response.data.fileUrl)
-
-                    if (response.status == false) {
+                    if (response.status == true) {
+                        $("#file_url").attr("href", response.data.fileUrl)
+                        let is_release = response.data.is_release;
+                        if (is_release == null || is_release == '' || is_release == 0) {
+                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                        }else{
+                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                        }
+                    }else{
                         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
                     }
                 }).fail(function() {
@@ -233,6 +248,7 @@ var app = {
         },
 
         sbDelete: function(id) {
+            $("#modalDeleteConfirm").modal('hide')
             var params = {
                 "function": "delete/" + id,
                 "method": "POST",
@@ -241,12 +257,13 @@ var app = {
                 "contentType": "application/json",
                 "dataType": "json",
                 "loader": true,
+                "textLoader": "Delete on progress..."
             };
 
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
                 $ummu.views.after_sbToolbar_delete(id, result);
-
+                app.views.forClear()
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
@@ -255,6 +272,38 @@ var app = {
 
         sbClear: function() {
             app.views.forClear()
+        },
+
+        sbRelease: function() {
+            $("#modalReleaseConfirm").modal('hide')
+            var id = $ummu.url.getParam('id');
+            var func = "release/" + id;
+            var payload = [];
+
+            var params = {
+                "function": func,
+                "method": "POST",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+                "textLoader": "Release on progress...",
+            };
+
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                payload = result.data;
+                $ummu.views.after_sbToolbar_save(result, func, id, payload);
+                if (result.status == true) {
+                    if (result.data.is_release == 1) {
+                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    }
+                }
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
         },
 
         on_showLeftModal: function(id) {
@@ -290,7 +339,7 @@ var app = {
             $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
             $("#ukuran_barge").val(row.barge_loa)
-            $("#tonage").val(row.qty)
+            $("#tonnage").val(row.qty)
             $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
 
             $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
@@ -298,7 +347,7 @@ var app = {
             .attr('data-to', row.loading_availability_date_to)
 
             $("#si_number").val(row.si_number)
-            $("#si_url").attr('href', row.fileUrl)
+            $("#si_url").attr('href', row.si_fileUrl)
         },
 
         on_click_tbody_trtd_child_dept: function(row) {
@@ -323,21 +372,22 @@ var app = {
 
         setRow_toForm: function(row) {
             // console.log(row)
-            $("#shipment").val(row.si_number).attr('data-id', row.si_id)
+            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
             $("#iDate").val(row.tgl)
             $("#number").val(row.number)
-            $("#biaya_angkutan").val($ummu.formatter.id(row.price))
-            $("#kondisi_perjanjian").val(row.kondisi_perjanjian)
+            $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
+            $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
 
             $("#client").val(row.client_name).attr('data-id', row.client_id)
             $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#load_type").val(row.load_type)
-            $("#qty").val($ummu.formatter.id(row.qty))
+            $("#ukuran_barge").val(row.barge_loa)
+            // $("#load_type").val(row.load_type)
+            $("#tonnage").val($ummu.formatter.id(row.qty))
             $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
 
-            $("#iDateLoadingFrom").val(row.loading_availability_date_from)
-            $("#iDateLoadingTo").val(row.loading_availability_date_to)
+            $("#eta_loading_port").val(row.eta_loading_port)
+            $("#eta_loading_port_to").val(row.eta_loading_port_to)
             $("#loading_port").val(row.loading_port)
             $("#discharge_port").val(row.discharge_port)
             $(".custom-file-label").html(row.fileNameOrigin)
@@ -361,10 +411,34 @@ var app = {
             $("#ummu_tab_contnet #nav-form").addClass("show active")
 
             $ummu.button.sbBtn_on_showData()
+
+            if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+
+                $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            }else{
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                // $('#btn_edit, #btn_delete').addClass('collapse')
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
+
+                if (row.is_release == 1) {
+                    $("#status").html('<span class="badge badge-secondary">Draft</span>')
+                }else if (row.is_release == 2) {
+                    $("#status").html('<span class="badge badge-primary">Approve</span>')
+                }else if (row.is_release == 3) {
+                    $("#status").html('<span class="badge badge-warning">Progress</span>')
+                }else if (row.is_release == 4) {
+                    $("#status").html('<span class="badge badge-success">Done</span>')
+                }
+            }
         },
 
         forClear: function() {
             $("#form_input input").val('');
+            $("#status").html('')
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -431,71 +505,26 @@ var app = {
                             );
                         }
                     },
-                    { data: "type_name"},
-                    { data: "kode"},
-                    { data: "name"},
-                    { data: "flag_registry"},
-                    { data: "classification"},
-                    { data: "yearBuild_place"},
-
-                    { data: "MainEngines"},
-                    { data: "BrandMainEngines"},
-                    { data: "AuxiliaryEngines"},
-                    { data: "BrandAuxiliaryEngines"},
-                    { data: "HorsePower",
-                        render: function (data, type) {
-                            if (data) {
-                                return (
-                                    '<a href="javascript:void(0);">'+
-                                        data + ' BHP'+
-                                    '</a>'
-                                );
+                    { data: "release_name",
+                        render: function(data, type, row) {
+                            if (row.is_release == null || row.is_release == 0 || row.is_release == 1) {
+                                return '<span class="text-secondary">'+data+'</span>';
+                            }else if (row.is_release == 2) {
+                                return '<span class="text-primary">'+data+'</span>';
+                            }else if (row.is_release == 3) {
+                                return '<span class="text-warning">'+data+'</span>';
                             }else{
-                                return ''
+                                return '<span class="text-success">'+data+'</span>';
                             }
                         }
                     },
-                    { data: "lightship"},
-                    { data: "propulsion"},
-                    { data: "ServiceSpeed",
-                        render: function (data, type) {
-                            if (data) {
-                                return (
-                                    '<a href="javascript:void(0);">'+
-                                        data + ' Knots'+
-                                    '</a>'
-                                );
-                            }else{
-                                return ''
-                            }
-                        }
-                    },
-
-                    { data: "fot"},
-                    { data: "fwt"},
-
-                    { data: "loa"},
-                    { data: "breadth"},
-                    { data: "depth"},
-                    { data: "MaxDraft"},
-                    { data: "Sideboard"},
-                    { data: "GrossTonnage"},
-                    { data: "Deadweight"},
-                    { data: "DeckStrength"},
-                    { data: "NetTonnage"},
-
-                    { data: "fuelConsumtion_laden_river"},
-                    { data: "fuelConsumtion_laden_sea"},
-                    { data: "fuelConsumtion_ballast_river"},
-                    { data: "fuelConsumtion_ballast_sea"},
-                    { data: "fuelConsumtion_runningfree"},
-                    { data: "fuelConsumtion_standby"},
-
-                    { data: "speed_laden_river"},
-                    { data: "speed_laden_sea"},
-                    { data: "speed_ballast_river"},
-                    { data: "speed_ballast_sea"},
-                    { data: "speed_runningfree"},
+                    { data: "tgl"},
+                    { data: "number"},
+                    { data: "from_dept_name"},
+                    { data: "to_dept_name"},
+                    { data: "spal_number"},
+                    { data: "loading_port"},
+                    { data: "discharge_port"},
                 ];
         
                 return columns;

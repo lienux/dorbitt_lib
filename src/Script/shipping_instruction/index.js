@@ -68,12 +68,12 @@ var app = {
             var file_upload = $("#file_upload")[0].files[0];
             var tgl = $("#iDate").val();
             var number = $("#number").val();
-            var client_id = $("#client").attr('attr-id');
-            var tugboat = $("#tugboat").attr('attr-id');
-            var barge = $("#barge").attr('attr-id');
+            var client_id = $("#client").attr('data-id');
+            var tugboat_id = $("#tugboat").attr('data-id');
+            var barge_id = $("#barge").attr('data-id');
             var load_type = $("#load_type").val();
             var qty = $("#qty").val();
-            var uom_id = $("#uom").attr('attr-id');
+            var uom_id = $("#uom").attr('data-id');
             var loading_availability_date_from = $("#iDateLoadingFrom").val();
             var loading_availability_date_to = $("#iDateLoadingTo").val();
             var loading_port = $("#loading_port").val();
@@ -83,9 +83,9 @@ var app = {
             formData.append("file_upload", file_upload);
             formData.append("tgl", tgl);
             formData.append("number", number);
-            formData.append("shipper", client_id);
-            formData.append("tugboat", tugboat);
-            formData.append("barge", barge);
+            formData.append("client_id", client_id);
+            formData.append("tugboat_id", tugboat_id);
+            formData.append("barge_id", barge_id);
             formData.append("load_type", load_type);
             formData.append("qty", qty);
             formData.append("uom_id", uom_id);
@@ -97,9 +97,9 @@ var app = {
             var payload = {
                 "tgl": tgl,
                 "number": number,
-                "shipper": client_id,
-                "tugboat": tugboat,
-                "barge": barge,
+                "client_id": client_id,
+                "tugboat_id": tugboat_id,
+                "barge_id": barge_id,
                 "load_type": load_type,
                 "qty": qty,
                 "uom_id": uom_id,
@@ -123,7 +123,7 @@ var app = {
                 "loader": true,
             };
 
-            const validation = app.validation.save();
+            const validation = app.validation.save(func);
 
             if (validation.length > 0) {
                 $ummu.views.errors_msg(validation)
@@ -135,16 +135,13 @@ var app = {
                     const response = JSON.parse(result);
                     $ummu.views.after_sbToolbar_save(response, func, id, payload);
 
+                    $(".custom-file-label").html(response.data.fileNameOrigin)
+                    $("#file_url").attr("href", response.data.fileUrl)
+
                     if (func == 'create') {
                         //
                     }else{
-                        $("#form_input #file_url").attr("href", response.data.fileUrl)
-
-                        if (response.data.fileNameOrigin) {
-                            $("#form_input #file_url span").html(response.data.fileNameOrigin)
-                        }else{
-                            $("#form_input #file_url span").html("File not available.")
-                        }
+                        // 
                     }
                 }).fail(function() {
                     // An error occurred
@@ -205,9 +202,24 @@ var app = {
     },
 
     validation: {
-        save: function() {
+        save: function(func) {
             var list = [];
+            
             list = $ummu.validation.inputValidate();
+
+            if (func == 'create') {
+                var file_upload = $('#file_upload').val();
+
+                if ($ummu.func.isValue(file_upload) == false) {
+                    list.push('File is required')
+                }
+            }else{
+                var filename = $(".custom-file-label").html()
+
+                if ($ummu.func.isValue(filename) == false) {
+                    list.push('File is required.')
+                }
+            }
 
             // var charterTypeId = $('input[name="charterTypeId"]:checked').val();
 
@@ -222,7 +234,7 @@ var app = {
             // }
 
             return list;
-        }
+        },
     },
 
     views: {
@@ -231,10 +243,10 @@ var app = {
         },
 
         setRow_toForm: function(row) {
-            console.log(row)
+            // console.log(row)
             $("#iDate").val(row.tgl)
             $("#number").val(row.number)
-            $("#client").val(row.client_name).attr('data-id', row.shipper_client_id)
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
             $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
             $("#load_type").val(row.load_type)

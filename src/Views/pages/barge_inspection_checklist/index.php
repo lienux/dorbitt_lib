@@ -6,7 +6,7 @@
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
     <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
-    <nav class="ummu-nav">
+    <!-- <nav class="ummu-nav">
         <div class="nav nav-tabs">
             <button class="nav-link mr-1 py-0 active" id="nav-tab-waypoint" data-toggle="tab" data-target="#nav-waypoint" type="button" role="tab" aria-selected="true">
                 Tank Sounding Data
@@ -18,24 +18,25 @@
             <div class="card-body pt-2">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="nav-waypoint" role="tabpanel">
-                        <?= $this->include(config('Vh')->ummuView($dir_views . 'table_tank_sounding_data')) ?>
+                        <?//= $this->include(config('Vh')->ummuView($dir_views . 'table_tank_sounding_data')) ?>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/barge_inspection_checklist/';
-        var table = $('#tbPassagePlan')
-        var $table = $('#tbPassagePlan')
-        var table2 = $('#tbWaypoint')
-        // var tb_modal_left_list_data = $('#tb_modal_left_list_data')
+        $ummu.vars.page_url = $base_url + 'admin/'+ '<?=$module_kode?>' +'/';
+        var table = $('#tbBargeChecklist')
+        var $table = $('#tbBargeChecklist')
+        // var $table2 = $('#tbIjoDetail')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
+        var $localStrgKey = '<?=$module_kode?>'
+        var $equipment_count = '<?=$equipment_count?>'
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>

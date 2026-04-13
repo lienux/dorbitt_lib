@@ -48,6 +48,14 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
 });
 
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
+    $routes->group('employee', function ($routes) {
+        $routes->get('/', 'EmployeeController::index');
+        $routes->get('show', 'EmployeeController::show');
+        $routes->post('create', 'EmployeeController::create');
+        $routes->post('update/(:num)', 'EmployeeController::update/$1');
+        $routes->post('delete/(:num)', 'EmployeeController::delete/$1');
+    });
+
     $routes->group('department', function ($routes) {
         $routes->get('/', 'DepartmentController::index');
         $routes->get('show', 'DepartmentController::show');
@@ -124,8 +132,10 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('barge_inspection_checklist', function ($routes) {
         $routes->get('/', 'BargeInspectionController::index');
         $routes->get('show', 'BargeInspectionController::show');
+
         $routes->get('show_equipment', 'BargeInspectionController::show_equipment');
         $routes->get('show_barge', 'BargeInspectionController::show_barge');
+        $routes->get('show_ijo', 'BargeInspectionController::show_ijo');
     });
 
     $routes->group('shipping_instruction', function ($routes) {
@@ -189,6 +199,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('create', 'IjoFromSpalController::create');
         $routes->post('update/(:num)', 'IjoFromSpalController::update/$1');
         $routes->post('delete/(:num)', 'IjoFromSpalController::delete/$1');
+        $routes->post('release/(:num)', 'IjoFromSpalController::release/$1');
 
         $routes->get('show_si', 'IjoFromSpalController::show_si');
         $routes->get('show_spal', 'IjoFromSpalController::show_spal');
@@ -218,6 +229,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
     $routes->group('passage_plan', function ($routes) {
         $routes->get('/', 'PassagePlanController::index');
+        $routes->get('show_ijo', 'PassagePlanController::show_ijo');
     });
 
     $routes->group('dorbitt', function ($routes) {

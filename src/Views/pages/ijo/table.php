@@ -9,7 +9,7 @@
                 <th>Number</th>
                 <th>From</th>
                 <th>To</th>
-                <th>Contract</th>
+                <th>SPAL Number</th>
                 <th>Port of Loading</th>
                 <th>Port of Discharge</th>
             </tr>

@@ -71,5 +71,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalReleaseConfirm" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog" id="modal_dialog">
+                <div class="modal-content bg-light">
+                    <div class="modal-header bg-purple py-2 text-light">
+                        <h6 class="modal-title text-light"><i class="fas fa-exclamation-circle"></i> Release Confirmation</h6>
+                        <div class="">
+                            <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">
+                                <i class="fa-light fa-rectangle-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-2 mr-0 pr-0">
+                                <i class="fas fa-share-square fa-3x text-danger"></i>
+                            </div>
+                            <div class="col ml-0 pl-0">
+                                <h5 id="textInfo">Are you sure you want to release seletced items?</h5>
+                                <h5 id="message_data"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-in-modal" id="sb_modal_btn_release" onClick="app.controllers.sbRelease()">Yes To Release</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

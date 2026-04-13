@@ -32,13 +32,13 @@ class ShippingInstructionController extends ResourceController
             'page_title' => 'Shipping Instruction',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['applications'],
+            'group' => ['marketing_sales'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Application",
+                    "name" => "Marketing & Sales",
                     "page" => "#",
                     "active" => ""
                 ],
@@ -82,9 +82,9 @@ class ShippingInstructionController extends ResourceController
         $payload = [
             "tgl" => $this->request->getPost('tgl'),
             "number" => $this->request->getPost('number'),
-            "shipper_client_id" => $this->request->getPost('shipper'),
-            "tugboat_id" => $this->request->getPost('tugboat'),
-            "barge_id" => $this->request->getPost('barge'),
+            "client_id" => $this->request->getPost('client_id'),
+            "tugboat_id" => $this->request->getPost('tugboat_id'),
+            "barge_id" => $this->request->getPost('barge_id'),
             "load_type" => $this->request->getPost('load_type'),
             "qty" => $this->request->getPost('qty'),
             "uom_id" => $this->request->getPost('uom_id'),
@@ -92,9 +92,6 @@ class ShippingInstructionController extends ResourceController
             "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
             "loading_port" => $this->request->getPost('loading_port'),
             "discharge_port" => $this->request->getPost('discharge_port'),
-            // "loading_port_agency" => $this->request->getPost('loading_port_agency'),
-            // "discharge_port_agency" => $this->request->getPost('discharge_port_agency'),
-            // "upload_id" => $this->request->getPost('upload_id'),
         ];
 
         if ($upload) {
@@ -120,9 +117,9 @@ class ShippingInstructionController extends ResourceController
         $payload = [
             "tgl" => $this->request->getPost('tgl'),
             "number" => $this->request->getPost('number'),
-            "shipper_client_id" => $this->request->getPost('shipper'),
-            "tugboat_id" => $this->request->getPost('tugboat'),
-            "barge_id" => $this->request->getPost('barge'),
+            "client_id" => $this->request->getPost('client_id'),
+            "tugboat_id" => $this->request->getPost('tugboat_id'),
+            "barge_id" => $this->request->getPost('barge_id'),
             "load_type" => $this->request->getPost('load_type'),
             "qty" => $this->request->getPost('qty'),
             "uom_id" => $this->request->getPost('uom_id'),

@@ -230,6 +230,15 @@ var $ummu = {
             level_id: null,
         },
 
+        employee: {
+            id: null,
+            nik: null,
+            jabatan: null,
+            level: null,
+            department: null,
+            site: null,
+        },
+
         dismod: {
             id: null,
         },
@@ -332,6 +341,8 @@ var $ummu = {
             $ummu.url.load()
             $ummu.formatter.load()
             $ummu.files.load()
+
+            $('[data-toggle="tooltip"]').tooltip()
 
             if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
@@ -2483,6 +2494,180 @@ var $ummu = {
             $ummu.dt.dept.onClick();
         },
 
+        show_ijo: function () {
+            let lcg = localStorage.getItem('ijo')
+
+            if ($($tbListDataID).data('init') != 'ijo') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.ijo.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.ijo.init == null) {
+                    $ummu.dt.ijo.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Nomor IJO", data: "number" },
+                            { title: "Client", data: "client_name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.ijo.init.destroy();
+                                            $ummu.dt.ijo.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.ijo.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.ijo.init == null) {
+                    $ummu.dt.ijo.create()
+                } else {
+                    $ummu.dt.ijo.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'ijo');
+            $ummu.dt.ijo.onClick();
+        },
+
+        show_crew: function () {
+            let lcg = localStorage.getItem('crew')
+
+            if ($($tbListDataID).data('init') != 'crew') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.crew.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.crew.init == null) {
+                    $ummu.dt.crew.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                            { title: "Job Title", data: "jabatan_name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.crew.init.destroy();
+                                            $ummu.dt.crew.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.crew.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.crew.init == null) {
+                    $ummu.dt.crew.create()
+                } else {
+                    $ummu.dt.crew.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'crew');
+            $ummu.dt.crew.onClick();
+        },
+
+        // onClick_btnApprove: function() {
+        //     // if ($ummu.url.getParam('id')) {
+        //     //     $ummu.button.sbBtn_default()
+        //     //     $ummu.url.delParamNotIn(['g']);
+        //     //     app.views.formParams().prop('disabled', true).val('');
+        //     //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+        //     // }
+
+        //     // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+
+        //     console.log('btn_approve is clicked.')
+        //     if (typeof app.controllers.sbApprove !== "undefined") {
+        //         console.log('$ummu.controllers.onClick_btnApprove is running.')
+        //         // app.controllers.sbApprove()
+        //     } else {
+        //         console.log('plese create function app.controllers.sbApprove')
+        //     }
+        // },
+
+        // onClick_btnRelease: function() {
+        //     // if ($ummu.url.getParam('id')) {
+        //     //     $ummu.button.sbBtn_default()
+        //     //     $ummu.url.delParamNotIn(['g']);
+        //     //     app.views.formParams().prop('disabled', true).val('');
+        //     //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+        //     // }
+
+        //     // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+
+        //     $(".sb-toolbar #modalReleaseConfirm").modal("show")
+
+        //     console.log('btn_release is clicked.')
+        //     if (typeof app.controllers.sbRelease !== "undefined") {
+        //         console.log('$ummu.controllers.sbRelease is running.')
+        //         app.controllers.sbRelease()
+        //     } else {
+        //         console.log('plese create function app.controllers.sbRelease')
+        //     }
+        // },
+
         config: {
             show_hierarchy_modules: function () {
                 var payload = {};
@@ -4015,6 +4200,7 @@ var $ummu = {
         //     "loader": true,
         // };
         ummu8: function (params) {
+            $("#text_loader").html('')
             var jqXHR = $.ajax({
                 url: $ummu.vars.page_url + params.function,
                 method: params.method,
@@ -4030,6 +4216,7 @@ var $ummu = {
                 },
                 beforeSend: function (e) {
                     if (params.loader == true) {
+                        $("#text_loader").html(params.textLoader)
                         $("#modal_loader").modal("show");
                     }
                 },
@@ -4037,6 +4224,7 @@ var $ummu = {
                     //
                 },
                 success: function (response) {
+                    $("#text_loader").html('')
                     // console.log(response)
                     setTimeout(function () {
                         $(".modal-loader").modal("hide");
@@ -5534,6 +5722,31 @@ var $ummu = {
             }
         },
 
+        onClick_btnApprove: function() {
+            // if ($ummu.url.getParam('id')) {
+            //     $ummu.button.sbBtn_default()
+            //     $ummu.url.delParamNotIn(['g']);
+            //     app.views.formParams().prop('disabled', true).val('');
+            //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+            // }
+
+            // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+
+            console.log('btn_approve is clicked.')
+            if (typeof app.controllers.sbApprove !== "undefined") {
+                console.log('$ummu.controllers.onClick_btnApprove is running.')
+                // app.controllers.sbApprove()
+            } else {
+                console.log('plese create function app.controllers.sbApprove')
+            }
+        },
+
+        onClick_btnRelease: function() {
+            // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+
+            $(".sb-toolbar #modalReleaseConfirm").modal("show")
+        },
+
         mechanic_activity: {
             dateStart: function () {
                 $("#date_start").change(function () {
@@ -5730,7 +5943,152 @@ var $ummu = {
                 $ummu.vars.url.searchParams.delete(paramToRemove);
                 window.history.pushState({}, '', $ummu.vars.url);
             }
-        }
+        },
+
+        // Konversi Format Koordinat, dari format 04-20.000S ke Decimal Degrees (DD) agar bisa dihitung secara matematis.
+        parseCoordinate:function(coord, type) {
+            // Input: "04-20.000S" atau "113-50.000E"
+            const direction = coord.slice(-1); // S atau E
+            const parts = coord.slice(0, -1).split('-');
+            
+            const degrees = parseFloat(parts[0]);
+            const minutes = parseFloat(parts[1]);
+            
+            let dd = degrees + (minutes / 60);
+            if (direction === 'S' || direction === 'W') dd = -dd;
+            
+            return dd;
+        },
+
+        // Rumus Jarak dan Haluan, menggunakan konstanta jari-jari bumi $R = 3440.065$ Nautical Miles.
+        calculateLeg:function(lat1, lon1, lat2, lon2) {
+            const toRad = Math.PI / 180;
+            const toDeg = 180 / Math.PI;
+
+            const φ1 = lat1 * toRad;
+            const φ2 = lat2 * toRad;
+            const Δφ = (lat2 - lat1) * toRad;
+            const Δλ = (lon2 - lon1) * toRad;
+
+            // --- Menghitung Jarak (Rhumb Line) ---
+            // Menggunakan Rhumb Line karena kapal biasanya mengikuti haluan tetap antar waypoint
+            const Δψ = Math.log(Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2));
+            const q = Math.abs(Δψ) > 1e-10 ? Δφ / Δψ : Math.cos(φ1);
+            
+            const distance = Math.sqrt(Δφ * Δφ + q * q * Δλ * Δλ) * 3440.065; // Hasil dalam NM
+
+            // --- Menghitung Haluan (True Bearing) ---
+            let bearing = Math.atan2(Δλ, Δψ) * toDeg;
+            bearing = (bearing + 360) % 360; // Normalisasi ke 0-360 derajat
+
+            return {
+                distance: distance.toFixed(2), // NM
+                bearing: bearing.toFixed(1)    // °T
+            };
+        },
+
+        // Estimasi Waktu dan Konsumsi BBM, Setelah mendapatkan total jarak dari seluruh waypoint, untuk menghitung estimasi totalnya.
+        calculateVoyageSummary:function(waypoints, speedKnot, consumptionPerHour) {
+            let totalDistance = 0;
+            
+            for (let i = 0; i < waypoints.length - 1; i++) {
+                const leg = $ummu.func.calculateLeg(
+                    waypoints[i].lat, waypoints[i].lon,
+                    waypoints[i+1].lat, waypoints[i+1].lon
+                );
+                totalDistance += parseFloat(leg.distance);
+            }
+
+            const totalTimeHours = totalDistance / speedKnot;
+            const totalFuel = totalTimeHours * consumptionPerHour;
+
+            return {
+                totalDistance: totalDistance.toFixed(2) + " NM",
+                duration: totalTimeHours.toFixed(2) + " Hours",
+                fuel: totalFuel.toFixed(2) + " Ton/Liters"
+            };
+        },
+
+
+        // // Data dari Form atau API
+        // const passageData = {
+        //     voyage_id: "V-2023-001",
+        //     config: { speed: 12.5, consumption: 150 },
+        //     waypoints: [
+        //         { wp_name: "WP 01", lat_raw: "04-20.000S", lon_raw: "113-50.000E" },
+        //         { wp_name: "WP 02", lat_raw: "05-00.000S", lon_raw: "114-30.000E" },
+        //         { wp_name: "WP 03", lat_raw: "06-10.000S", lon_raw: "115-20.000E" }
+        //     ]
+        // };
+
+        // Helper 1: Konversi format String ke Decimal Degree
+        parseToDD:function(coord) {
+          const direction = coord.slice(-1);
+          const [deg, min] = coord.slice(0, -1).split('-');
+          let dd = parseFloat(deg) + (parseFloat(min) / 60);
+          return (direction === 'S' || direction === 'W') ? -dd : dd;
+        },
+
+        // Helper 2: Hitung Jarak & Haluan antar 2 titik (Rhumb Line)
+        calculateLeg:function(p1, p2) {
+            const toRad = Math.PI / 180;
+            const lat1 = $ummu.func.parseToDD(p1.lat_raw) * toRad;
+            const lon1 = $ummu.func.parseToDD(p1.lon_raw) * toRad;
+            const lat2 = $ummu.func.parseToDD(p2.lat_raw) * toRad;
+            const lon2 = $ummu.func.parseToDD(p2.lon_raw) * toRad;
+
+            const dLat = lat2 - lat1;
+            let dLon = lon2 - lon1;
+
+            // Penyesuaian jika melewati garis ganti tanggal (Dateline)
+            if (Math.abs(dLon) > Math.PI) {
+                dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
+            }
+
+            const dPhi = Math.log(Math.tan(lat2 / 2 + Math.PI / 4) / Math.tan(lat1 / 2 + Math.PI / 4));
+            const q = Math.abs(dPhi) > 1e-10 ? dLat / dPhi : Math.cos(lat1);
+
+            const distance = Math.sqrt(dLat * dLat + q * q * dLon * dLon) * 3440.065;
+            let bearing = (Math.atan2(dLon, dPhi) * 180 / Math.PI + 360) % 360;
+
+            return { 
+                distance: parseFloat(distance.toFixed(2)), 
+                bearing: parseFloat(bearing.toFixed(1)) 
+            };
+        },
+
+        // FUNGSI UTAMA: Memproses Rute
+        processPassagePlan:function(data) {
+            let totalDist = 0;
+            const routeDetails = [];
+
+            for (let i = 0; i < data.waypoints.length - 1; i++) {
+                const start = data.waypoints[i];
+                const end = data.waypoints[i+1];
+                const calc = $ummu.func.calculateLeg(start, end);
+
+                totalDist += calc.distance;
+
+                routeDetails.push({
+                    from: start.wp_name,
+                    to: end.wp_name,
+                    course_true: calc.bearing + "°T",
+                    distance_nm: calc.distance + " NM"
+                });
+            }
+
+            const totalHours = totalDist / data.config.speed;
+            const totalFuel = totalHours * data.config.consumption;
+
+            return {
+                voyage_summary: {
+                    total_distance: totalDist.toFixed(2) + " NM",
+                    eta_duration: totalHours.toFixed(1) + " Hours",
+                    total_fuel_consumption: totalFuel.toFixed(2)
+                },
+                legs: routeDetails
+            };
+        },
     },
 
     upload: {
@@ -8317,6 +8675,7 @@ var $ummu = {
         },
 
         after_sbToolbar_save: function(result, func, id, payload) {
+            console.log(result)
             console.log(payload)
             if (result.status == true) {
                 $(".sb-toolbar #modalSuccessMessage #alert").html("");
@@ -10471,8 +10830,20 @@ var $ummu = {
                         attr: { id: "dt_btn_insert" },
                         text: 'Insert',
                         action: function (e, dt, node, config) {
-                            // app.controllers.on_btn_getData_click();
                             console.log("btn insert ok")
+                            // app.controllers.on_btn_getData_click();
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_new") == true) {
+                    init.button().add(13, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_new"},
+                        text: 'New',
+                        action: function (e, dt, node, config) {
+                            console.log("btn new ok")
+                            app.controllers.on_dtBtnNew_click();
                         },
                     });
                 }
@@ -12789,6 +13160,210 @@ var $ummu = {
                 }
             }
         },
+
+        ijo: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.ijo.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.ijo.config()
+                );
+
+                $ummu.dt.ijo.init.on('xhr', function () {
+                    var response = $ummu.dt.ijo.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('ijo', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_ijo",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.ijo.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Nomor IJO", data: "number" },
+                        { title: "Client", data: "client_name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.ijo.init !== null) {
+                    $ummu.dt.ijo.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.ijo.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#ijo").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                            app.controllers.on_click_tbody_trtd_child_ijo(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                        }
+                    });
+                }
+            }
+        },
+
+        crew: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.crew.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.crew.config()
+                );
+
+                $ummu.dt.crew.init.on('xhr', function () {
+                    var response = $ummu.dt.crew.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('crew', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show_crew",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.crew.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                        { title: "Job Title", data: "jabatan_name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.crew.init !== null) {
+                    $ummu.dt.crew.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.crew.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#crew").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                            app.controllers.on_click_tbody_trtd_child_crew(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                        }
+                    });
+                }
+            }
+        },
     },
 
     localStorage: {
@@ -13220,16 +13795,23 @@ var $ummu = {
         },
 
         sbToolbar: function () {
-            $(".sb-toolbar button").on('click', function () {
+            // $(".sb-toolbar button").on('click', function () {
+            $(document).on('click', '.sb-toolbar button', function () {
                 var elID = $(this).attr('id')
 
                 if (elID == 'btn_new') {
                     $ummu.button.sbBtn_on_formReady()
                     $ummu.url.delParamNotIn(['g','g2']);
+                    $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
 
                     if (typeof app.views.formParams !== "undefined") {
                         app.views.formParams().prop('disabled', false).val('');
                     }
+
+                    $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+                    $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+                    $("#btn_edit").prop('disabled', true).removeClass('btn-warning')
+                    $("#btn_delete").prop('disabled', true).removeClass('btn-danger')
                     
                     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
                     $(".card-footer #created_at").html($ummu.date.Y_M_D)
@@ -13270,6 +13852,7 @@ var $ummu = {
                         $ummu.button.sbBtn_default()
                         app.views.formParams().prop('disabled', true).val('');
                         $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
+                        // $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     }
 
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
@@ -13297,11 +13880,13 @@ var $ummu = {
 
                 else if (elID == 'btn_delete') {
                     $(".sb-toolbar #modalDeleteConfirm").modal("show")
+                    $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
                 }
 
                 else if (elID == 'sb_modal_btn_delete') {
                     app.controllers.sbDelete($ummu.url.getParam('id'))
+                    $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
                 }
 
@@ -13312,6 +13897,12 @@ var $ummu = {
                         app.views.formParams().prop('disabled', true).val('');
                         $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
                     }
+
+                    $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+                    $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+                    $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    $("#btn_edit").prop('disabled', true).removeClass('btn-warning')
+                    $("#btn_delete").prop('disabled', true).removeClass('btn-danger')
 
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
 
@@ -13365,6 +13956,76 @@ var $ummu = {
 
             $(".sb-toolbar-btn-endis").prop("disabled", true).removeClass("btn-outline-primary")
             $(".sb-toolbar-btn-endis").prop("disabled", true)
+        },
+
+        sbBtnToolbar: {
+            addRemove_btnEdit: function(a) {
+                var btn = '<button class="btn btn-sm btn-warning mx-1" type="button" id="btn_edit">'+
+                    '<i class="bi bi-pencil-square"></i> Edit'+
+                '</button>';
+                
+                if (a == 'add') {
+                    if ($('#btn_edit').length > 0) {
+                        //
+                    } else {
+                        $("#btn_new").after(btn)
+                    }
+                }else{
+                    $('#btn_edit').remove()
+                }
+            },
+
+            addRemove_btnDelete: function(a) {
+                var btn = '<button class="btn btn-sm btn-danger" type="button" id="btn_delete">'+
+                    '<i class="bi bi-trash-fill"></i> Delete'+
+                '</button>';
+                
+                if (a == 'add') {
+                    if ($('#btn_delete').length > 0) {
+                        //
+                    } else {
+                        $("#btn_edit").after(btn)
+                    }
+                }else{
+                    $('#btn_delete').remove()
+                }
+            },
+
+            addRemove_btnApprove: function(a) {
+                var btn = '<button class="btn btn-sm btn-primary" type="button" id="btn_approve" onClick="$ummu.controllers.onClick_btnApprove()">'+
+                    '<i class="fas fa-check"></i> Approve'+
+                '</button>';
+
+                if (a == 'add') {
+                    if ($('#btn_approve').length > 0) {
+                        // console.log("Tombol Approve ditemukan!");
+                        // Lakukan aksi di sini, misalnya: $('#btn_approve').show();
+                    } else {
+                        // console.log("Tombol Approve belum ada di HTML.");
+                        $(".sb-toolbar").append(btn)
+                    }
+                }else{
+                    $('#btn_approve').remove()
+                }
+            },
+
+            addRemove_btnRelease: function(a) {
+                var btn = '<button class="btn btn-sm btn-primary" type="button" id="btn_release" onClick="$ummu.func.onClick_btnRelease()">'+
+                    '<i class="fas fa-share-square"></i> Release'+
+                '</button>';
+                
+                if (a == 'add') {
+                    if ($('#btn_release').length > 0) {
+                        // console.log("Tombol Approve ditemukan!");
+                        // Lakukan aksi di sini, misalnya: $('#btn_release').show();
+                    } else {
+                        // console.log("Tombol Approve belum ada di HTML.");
+                        $(".sb-toolbar").append(btn)
+                    }
+                }else{
+                    $('#btn_release').remove()
+                }
+            }
         },
 
         hazard_report: {

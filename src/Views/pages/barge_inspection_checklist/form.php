@@ -16,12 +16,26 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="row">
+                    <label class="col-sm-3 col-form-label">IJO<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Choose..." disabled required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ijo" type="button" disabled
+                                    data-inputid="ijo" data-modaltitle="List IJO">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <label class="col-sm-3 col-form-label">Date<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDate" disabled>
+                            <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Choose..." data-label="Date" disabled required>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDate" disabled>
                                     <i class="fas fa-calendar-alt"></i>
                                 </button>
@@ -30,13 +44,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Barge<span class="text-danger small"> *</span></label>
+                    <label class="col-sm-3 col-form-label">Barge <sup class="text-info">auto</sup></label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-sm" id="barge" data-label="Barge" disabled required>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Location<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-sm endis" id="location" data-label="Location" disabled required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="row">
+                    <label class="col-sm-3 col-form-label text-right">Auditor Name<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="barge" disabled>
+                            <input type="text" class="form-control" id="auditor" data-label="Auditor Name" placeholder="Choose..." disabled required>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_barge" type="button" disabled
-                                    data-inputid="barge" data-modaltitle="Master Data Barge">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_crew" type="button" disabled
+                                    data-inputid="auditor" data-modaltitle="List Crew">
                                     <i class="fas fa-list-ul"></i>
                                 </button>
                             </div>
@@ -44,110 +72,54 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Location<span class="text-danger small"> *</span></label>
+                    <label class="col-sm-3 col-form-label text-right">Job Title <sup class="text-info">auto</sup></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-sm endis" id="cargo" placeholder="" aria-label="" disabled>
+                        <input type="text" class="form-control form-control-sm" id="job_title" data-label="Job Title" disabled required>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Auditor Name<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-sm endis" id="cargo" placeholder="" aria-label="" disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Job Title<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control form-control-sm endis" id="cargo" placeholder="" aria-label="" disabled>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <!-- <div class="row">
-                    <label class="col-sm-3 col-form-label">Departure<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-4">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" placeholder="Location" required disabled>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="departure_date" placeholder="Date Time" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
-                                    data-inputid="departure_date" disabled>
-                                    <i class="fas fa-calendar-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Arrival<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-4">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" placeholder="Location" required disabled>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="arrival_date" placeholder="Date Time" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
-                                    data-inputid="arrival_date" disabled>
-                                    <i class="fas fa-calendar-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Stop Engine<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-4">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" placeholder="Location" required disabled>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="arrival_date" placeholder="Date Time" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-show-datepicker endis" type="button"
-                                    data-inputid="arrival_date" disabled>
-                                    <i class="fas fa-calendar-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Additional Report</label>
-                    <div class="col-sm-9">
-                        <textarea type="text" rows="1" id="additional_report" class="form-control form-control-sm endis" required disabled></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Upload Foto:<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <input type="text" name="upload_foto" id="upload_foto" class="form-control form-control-sm endis" required disabled>
-                    </div>
-                </div> -->
-                <!-- <div class="row mb-2">
-                    <label class="col-sm-4 col-form-label">Phone Number</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="phone" id="phone" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-4 col-form-label">Email</span></label>
-                    <div class="col-sm-8">
-                        <input type="email" name="email" id="email" class="form-control form-control-sm" required disabled>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-4 col-form-label">Role <span class="text-danger small"> *</span></label>
-                    <div class="col-sm-8">
-                        <select id="role" name="role" class="form-select form-select-sm" disabled>
-                            <option value="" selected disabled>Choose...</option>
-                            
-                        </select>
-                    </div>
-                </div> -->
             </div>
         </div>
+        <?php foreach ($equipment as $key => $value) { ?>
+        <div class="card my-2 border-left-primary shadow h-100">
+            <div class="col-ajah mt-2">
+                <div class="row mb-0">
+                    <div class="col-lg-2 mb-2">
+                        <div class="custom-control custom-checkbox custom-purple-lg">
+                            <input type="checkbox" class="custom-control-input endis" id="equipment<?=$value->id?>" data-equipment="<?=$value->id?>" required disabled>
+                            <label class="custom-control-label font-weight-boldz" for="equipment<?=$value->id?>">
+                                <?=$value->name ?>
+                            </label>
+                            <!-- <div class="invalid-feedback">Anda harus menyetujui ini sebelum upload.</div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                        <input type="text" name="" class="form-control form-control-sm endis" id="condition<?=$value->id?>" data-condition="<?=$value->id?>" placeholder="Condition (%)" required disabled>
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="last_supply<?=$value->id?>" data-lastsupply="<?=$value->id?>" placeholder="Last Supply" data-label="Date" disabled required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                    data-inputid="last_supply<?=$value->id?>" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-2">
+                        <textarea class="form-control form-control-sm endis" rows="1" id="keterangan<?=$value->id?>" data-keterangan="<?=$value->id?>" placeholder="Keterangan" disabled required></textarea>
+                    </div>
+                    <div class="col-lg-3 mb-2">
+                        <div class="input-group">
+                            <div class="custom-file custom-file-sm">
+                                <input type="file" class="custom-file-input" id="file<?=$value->id?>" disabled required>
+                                <label class="custom-file-label" for="file<?=$value->id?>">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </div>
