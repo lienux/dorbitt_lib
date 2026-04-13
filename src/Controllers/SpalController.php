@@ -32,13 +32,13 @@ class SpalController extends ResourceController
             'page_title' => 'Surat Perjanjian Angkutan Laut (SPAL)',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['applications'],
+            'group' => ['marketing_sales'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Application",
+                    "name" => "Marketing & Sales",
                     "page" => "#",
                     "active" => ""
                 ],

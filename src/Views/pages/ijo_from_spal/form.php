@@ -16,10 +16,14 @@
         <div class="row">
             <div class="col">
                 <div class="row">
+                    <label class="col-sm-3 col-form-label">Status <sup class="text-info">auto</sup></label>
+                    <div class="col-sm-9" id="status"></div>
+                </div>
+                <div class="row">
                     <label class="col-sm-3 col-form-label">SPAL<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="spal" data-label="Surat Perjanjian (SPAL)" disabled required>
+                            <input type="text" class="form-control" id="spal" placeholder="Choose..." data-label="Surat Perjanjian (SPAL)" disabled required>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_spal" type="button" disabled
                                     data-inputid="spal" data-modaltitle="List Surat Perjanjian / Contract">
@@ -33,7 +37,7 @@
                     <label class="col-sm-3 col-form-label">Tgl Ijo<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDate" data-label="Tanggal IJO" readonly disabled required>
+                            <input type="text" class="form-control ummu-datepicker" placeholder="Choose..." id="iDate" data-label="Tanggal IJO" readonly disabled required>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDate" disabled>
@@ -51,10 +55,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">From Dept<span class="text-danger small"> *</span></label>
+                    <label class="col-sm-3 col-form-label">From Dept <sup class="text-info">auto</sup></label>
                     <div class="col-sm-9">
-                        <input type="text" name="from_dept" id="from_dept" class="form-control form-control-sm endis" data-label="Job From" required disabled  placeholder="Marketing Departement">
-                        <span class="popup-text">ex: Marketing Departement</span>
+                        <input type="text" name="from_dept" id="from_dept" class="form-control form-control-sm" data-label="Job From" required disabled >
+                        <span class="popup-text">ex: Marketing</span>
                     </div>
                 </div>
                 <div class="row">
@@ -63,8 +67,8 @@
                         <!-- <input type="text" name="to_dept" id="to_dept" class="form-control form-control-sm endis" data-label="Job To" required disabled placeholder="Operation Department"> -->
 
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm endis" id="to_dept" data-label="To Department" disabled required>
-                            <span class="popup-text">ex: Operation Departement</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Choose..." id="to_dept" data-label="To Department" disabled required>
+                            <span class="popup-text">ex: Operation</span>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_dept" type="button" disabled
                                     data-inputid="to_dept" data-modaltitle="Master Department">
@@ -75,76 +79,68 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Port of Loading</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm border-0 bg-light" required disabled data-label="Port of Loading">
+                    <label class="col-sm-4 col-form-label">Port of Loading <sup class="text-info">auto</sup></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm" required disabled data-label="Port of Loading">
                         <!-- <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span> -->
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Port of Discharge</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm border-0 bg-light" required disabled data-label="Port of Discharge">
+                    <label class="col-sm-4 col-form-label">Port of Discharge <sup class="text-info">auto</sup></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm" required disabled data-label="Port of Discharge">
                         <!-- <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span> -->
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">Client</label>
+                    <label class="col-sm-4 col-form-label text-right">Client <sup class="text-info">auto</sup></label>
                     <div class="col-sm-8">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control border-0 bg-light" id="client" data-label="Client" disabled required>
-                            <!-- <div class="input-group-append">
-                                <button class="btn btn-outline-secondary show-left-modal endis-charter btn-time-charter-only" id="btn_show_client" type="button" disabled
-                                    data-inputid="client" data-modaltitle="Master Data Clients">
-                                    <i class="fas fa-list-ul"></i>
-                                </button>
-                            </div> -->
-                        </div>
+                        <input type="text" class="form-control form-control-sm" id="client" data-label="Client" disabled required>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">Tugboat</label>
+                    <label class="col-sm-4 col-form-label text-right">Tugboat <sup class="text-info">auto</sup></label>
                     <div class="col-sm-8">
-                        <input type="text" name="tugboat" id="tugboat" class="form-control form-control-sm border-0 bg-light" data-label="Tugboat" required disabled>
+                        <input type="text" name="tugboat" id="tugboat" class="form-control form-control-sm" data-label="Tugboat" required disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">Barge</label>
+                    <label class="col-sm-4 col-form-label text-right">Barge <sup class="text-info">auto</sup></label>
                     <div class="col-sm-8">
-                        <input type="text" name="barge" id="barge" class="form-control form-control-sm border-0 bg-light" data-label="Barge" required disabled>
+                        <input type="text" name="barge" id="barge" class="form-control form-control-sm" data-label="Barge" required disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">Ukuran Barge (LOA)</label>
+                    <label class="col-sm-4 col-form-label text-right">Ukuran Barge (LOA) <sup class="text-info">auto</sup></label>
                     <div class="col-sm-6">
-                        <input type="text" name="ukuran_barge" id="ukuran_barge" class="form-control form-control-sm border-0 bg-light" data-label="Ukurang Barge" required disabled>
+                        <input type="text" name="ukuran_barge" id="ukuran_barge" class="form-control form-control-sm" data-label="Ukurang Barge" required disabled>
                     </div>
                     <div class="col-sm-2">
                         Meters
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">Tonage</label>
+                    <label class="col-sm-4 col-form-label text-right">Tonnage <sup class="text-info">auto</sup></label>
                     <div class="col-sm-6">
-                        <input type="text" name="tonage" id="tonage" class="form-control form-control-sm border-0 bg-light" data-label="Tonage" required disabled>
+                        <input type="text" name="tonnage" id="tonnage" class="form-control form-control-sm" data-label="Tonage" required disabled>
                     </div>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control form-control-sm border-0 bg-light" id="uom" disabled>
+                        <input type="text" class="form-control form-control-sm" id="uom" disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">ETA Loading Port</label>
+                    <label class="col-sm-4 col-form-label text-right">ETA Loading Port <sup class="text-info">auto</sup></label>
                     <div class="col-sm-8">
-                        <input type="text" name="eta_loading_port" id="eta_loading_port" class="form-control form-control-sm border-0 bg-light" data-label="ETA Loading Port" required disabled>
+                        <input type="text" name="eta_loading_port" id="eta_loading_port" class="form-control form-control-sm" data-label="ETA Loading Port" required disabled>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-4 col-form-label">ETA Discharge Port</label>
+                    <label class="col-sm-4 col-form-label text-right">ETA Discharge Port</label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="eta_discharge_port" data-label="ETA Discharge Port" readonly disabled>
+                            <input type="text" class="form-control ummu-datepicker" placeholder="Choose..." id="eta_discharge_port" data-label="ETA Discharge Port" readonly disabled>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="eta_discharge_port" disabled>
@@ -154,29 +150,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <label class="col-sm-4 col-form-label">SI Number</label>
                     <div class="col-sm-8">
-                        <input type="text" name="si_number" id="si_number" class="form-control form-control-sm border-0 bg-light" data-label="SI Number" disabled>
+                        <input type="text" name="si_number" id="si_number" class="form-control form-control-sm" data-label="SI Number" disabled>
+                    </div>
+                </div>
+                 <div class="row">
+                    <label class="col-sm-4 col-form-label">SI File</label>
+                    <div class="col-sm-8">
                         <div>
                             <a id="si_url" target="_blank">
                                 <span>Click here to open SI File.</span>
                             </a>
-                        </div>
-                    </div>
-                </div>
-                
-               <!--  <div class="row">
-                    <label class="col-sm-4 col-form-label">SI</label>
-                    <div class="col-sm-8">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="si" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal" id="btn_show_si" type="button" disabled
-                                    data-inputid="si" data-modaltitle="Master Data Barge">
-                                    <i class="fas fa-list-ul"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div> -->
@@ -185,7 +171,7 @@
     </div>
 </div>
 
-<div class="card">
+<!-- <div class="card mt-3">
     <div class="card-header">
         Tugboat/Barge Nomination (Default auto from contract)
     </div>
@@ -213,4 +199,4 @@
             </table>
         </div>
     </div>
-</div>
+</div> -->

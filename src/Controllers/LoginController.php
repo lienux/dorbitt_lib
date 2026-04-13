@@ -232,6 +232,7 @@ class LoginController extends ResourceController
                     "update_myKdSite" => (isset($update_myKdSite->status)) ? $update_myKdSite->status : null,
                     "login_module" => $login_module,
                     "modules_kode" => (isset($response->data->child_module_kode)) ? $response->data->child_module_kode : null,
+                    "oa2_employee" => (isset($response->data->employee)) ? $response->data->employee : null,
                 ];
                 session()->set($sessData);
 

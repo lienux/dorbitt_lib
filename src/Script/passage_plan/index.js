@@ -8,20 +8,36 @@ var app = {
             $ummu.func.location_hash()
 
             $ummu.dt.init2_kosong(table2);
-            $ummu.dt.layout.buttonDefaultAndCustom($ummu.dt.init2, ['btn_insert']);
+            $ummu.dt.layout.buttonDefaultAndCustom($ummu.dt.init2, ['btn_new']);
+            // $ummu.dt.init2.button('#dt_btn_new').disable();
 
             $ummu.localStorage.dt_default('passage_plan');
             $ummu.dt.layout.buttonAll($ummu.dt.init);
+
+            $("#sailing_conditions").on("change", function() {
+                // console.log($(this).val())
+                if ($("#tugboat").val() == '') {
+                    $ummu.views.errors_msg("Silahkan pilih IJO terlebih dahulu");
+                    $("#sailing_conditions").val('')
+                }else{
+                    if ($(this).val() == 1) {
+                        $("#kecepatan").val($("#tugboat").attr('data-ladensea'))
+                    }else{
+                        $("#kecepatan").val($("#tugboat").attr('data-ballastsea'))
+                    }
+                }
+            })
         },
     },
 
     controllers: {
-        on_btn_getData_click: function() {
-            app.controllers.show()
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
+            app.views.forClear()
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
+            if ($ummu.dt.is_init(table) == true) {
                 $ummu.dt.init_destroy();
             }
 
@@ -35,252 +51,359 @@ var app = {
             $ummu.dt.init.on('xhr', function () {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
-                    localStorage.setItem('passage_plan', JSON.stringify(response));
+                    localStorage.setItem($localStrgKey, JSON.stringify(response));
+                }else{
+                    $ummu.modal.ummu_msg(response.message)
                 }
             });
         },
 
-        show_enmod: function (params) {
-            var account_id = $ummu.url.getParam('account_id');
-
-            if (account_id) {
-                var ali = $ummu.ajax.ummuBTshowFunc('show_enmod_by_accountID/'+account_id, params);
-                ali.done(function (result) {
-                    var response = JSON.parse(result)
-                    params.success(response)
-                })
-                .fail(function () {
-                    // An error occurred
-                });
-            }else{
-                params.success($ummu.vars.show_data_empty)
-            }
-        },
-
-        show_dismod: function (params) {
-        if ($ummu.func.isNull($ummu.$.company) == true) {
-            params.success($ummu.vars.show_data_empty)
-        }else{
-            if ($ummu.url.getParam('account_id')) {
-            var func = 'show_dismod_by_accountID?company_id='+$ummu.$.company.val();
-            }else{
-            var func = 'show_dismod_by_accountID?company_id='+$ummu.$.company.val()+'&account_id='+$ummu.url.getParam('account_id');
-            }
-
-            var ali = $ummu.ajax.ummuBTshowFunc(func, params);
-            ali.done(function (result) {
-            var response = JSON.parse(result)
-            params.success(response)
-            })
-            .fail(function () {
-            // An error occurred
-            });
-            // }
-        }
-        },
-
-        new: function () {
-        if ($ummu.vars.element_id == "tbAccount") {
-            app.views.formParams().prop('disabled', true).val('');
-            $table2.bootstrapTable('removeAll');
-
-            $("#table-tab").removeClass("active")
-            $("#form-tab").addClass("active")
-
-            $("#myTabContent #form").addClass("show active")
-            $("#myTabContent #table").removeClass("show active")
-        }else if ($ummu.vars.element_id == "tbPriv") {
-            // app.controllers.show_dismod()
-            if (!$ummu.url.getParam('account_id')) {
-            $ummu.modal.ummu_msg('Silahkan pilih salah satu list pada tab list data, atau isi dan simpan form header, setelah itu baru tambahkan access modulnya.')
-            }else{
-            // if ($ummu.func.isNull($ummu.$.company) == true) {
-            //   $ummu.modal.ummu_msg('Silahkan pilih Company terlebih dahulu.')
-            // }else{
-            //   // $ummu.bt.initTable($table3)
-            //   $("#modal_dismod").modal("show")
-            // }
-            // $ummu.bt.initTable($table3)
-            console.log('show dismod')
-            $("#modal_dismod").modal("show")
-            }
-        }else{
-            // 
-        }
-        },
-
         sbNew: function () {
-            $ummu.url.delAllParam();
-            $ummu.vars.id = null
-            $ummu.vars.account.id = null
-            app.views.formParams().prop('disabled', false).val('');
+            app.views.forClear()
+            $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+            $ummu.dt.init2.button('#dt_btn_new').enable();
         },
 
-        create_account_access: function (row) {
-        // var payload = JSON.stringify(
-        // {
-        //     "body": {
-        //         "gedung_id": $('#gedung').val(),
-        //         "kode": $('#kode').val(),
-        //         "name": $('#name').val(),
-        //         "lantai": $('#lantai').val(),
-        //         "seat": $('#jumlah_seat').val()
-        //     }
-        // });
-        // // controllers.create(payload);
+        sbSave: function () {
+            var ijo_id = $("#ijo").attr('data-id');
+            var tgl = $("#iDate").val();
+            var barge_id = $("#barge").attr('data-id');
+            var location = $("#location").val();
+            var auditor_id = $("#auditor").attr('data-id');
+            var auditor_jobtitle_id = $("#job_title").attr('data-id');
 
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": row.module_id
-        });
+            // $ummu.vars.formData.append("spal_id", spal_id);
+            // $ummu.vars.formData.append("spal_number", spal_number);
+            // $ummu.vars.formData.append("tgl", tgl);
+            // $ummu.vars.formData.append("number", number);
+            // $ummu.vars.formData.append("from_dept_id", from_dept_id);
+            // $ummu.vars.formData.append("to_dept_id", to_dept_id);
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
+            // $ummu.vars.formData.append("client_id", client_id);
+            // $ummu.vars.formData.append("tugboat_id", tugboat_id);
+            // $ummu.vars.formData.append("barge_id", barge_id);
+            // $ummu.vars.formData.append("barge_loa", ukuran_barge);
+            // $ummu.vars.formData.append("tonnage", tonnage);
+            // $ummu.vars.formData.append("uom_id", uom_id);
 
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            // console.log(result)
-            app.bt.table2_inserRow(result, row)
-            app.bt.table3_removeRow(row)
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
-        },
+            // $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+            // $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+            // $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
 
-        save_selected: function(table_id) {
-        var ids = $ummu.bt.select.getIds($('#'+table_id));
+            // $ummu.vars.formData.append("loading_port", loading_port);
+            // $ummu.vars.formData.append("discharge_port", discharge_port);
 
-        if ($ummu.vars.parentTableID == "tbDismodModule") {
-            app.controllers.create_account_access2(table_id, ids)
-        }else{
-            // 
-        }
-        },
+            var payload = {
+                "ijo_id": ijo_id,
+                "tgl": tgl,
+                "barge_id": barge_id,
+                "location": location,
+                "auditor_id": auditor_id,
+                "auditor_jobtitle_id": auditor_jobtitle_id,
+            };
 
-        create_account_access2: function (table_id, ids) {
-        let $table_id = $('#'+table_id);
-        var module_id = $ummu.bt.select.get_module_id($table_id);
-        var rows = $ummu.bt.select.getRows($table_id);
-        var payload = JSON.stringify(
-        {
-            "account_id": $ummu.vars.account.id,
-            "module_id": module_id
-        });
+            const id = $ummu.url.getParam('id');
 
-        var params = {
-            "function": "create_enmod",
-            "method": "POST",
-            "data": payload,
-            "cache": true,
-            "contentType": "application/json",
-            "dataType": "json",
-            "loader": true,
-        };
-
-        var ummu = $ummu.ajax.ummu8(params);   
-        ummu.done(function(result) {
-            if ($ummu.bt.select.length($table_id) == 1) {
-                app.bt.table2_inserRow(result.data, rows[0]);
-            } else if ($ummu.bt.select.length($table_id) > 1) {
-                $.each(rows, function(index, value) {
-                $.each(result.data, function(index2, value2) {
-                    // console.log(index+'  === '+index2)
-                    if(index2 == index) {
-                    // console.log('sama '+index+'  = '+index2)
-                    app.bt.table2_inserRow(value2, value);
-                    }
-                });
-                });
+            if (id) {
+                var func = "update/" + id
+            }else{
+                var func = "create"
             }
 
-            $ummu.bt.remove($table_id);
-            $ummu.$.modal_dismod.modal('hide');
-        }).fail(function() {
-            // An error occurred
-            console.log(ummu)
-        });
-        // console.log(ummu)
+            // var params = {
+            //     "function": func,
+            //     "data": $ummu.vars.formData,
+            //     "loader": true,
+            // };
+
+            const validation = app.validation.save();
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                $ummu.dt.init2.button('#dt_btn_new').disable();
+            }else{
+                // var ummu = $ummu.ajax.ummu7(params);   
+                // ummu.done(function(result) {
+                //     const response = JSON.parse(result);
+                //     $ummu.views.after_sbToolbar_save(response, func, id, payload);
+
+                //     if (response.status == true) {
+                //         $("#file_url").attr("href", response.data.fileUrl)
+                //         let is_release = response.data.is_release;
+                //         if (is_release == null || is_release == '' || is_release == 0) {
+                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                //         }else{
+                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                //         }
+                //     }else{
+                //         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                //     }
+                // }).fail(function() {
+                //     // An error occurred
+                //     console.log(ummu)
+                // });
+            }
         },
 
-        sbCancleNew: function() {
-            app.views.formParams().prop('disabled', true).val('');
+        sbCancle: function () {
+            if ($ummu.url.getParam('id')) {
+                // 
+            }else{
+                app.views.forClear()
+            }
         },
-        
+
         sbEdit: function () {
-            app.views.formParams().prop('disabled', false);
+            $ummu.dt.init2.button('#dt_btn_new').enable();
         },
 
-        sbCancleEdit: function() {
-            app.views.formParams().prop('disabled', true);
-        },
-
-        edit: function(row) {
-            console.log(row)
-        },
-
-        delete: function(rows) {
-            console.log(rows)
-        },
-
-        delete2: function($table_id, ids) {
-            // console.log($table_id)
-            // console.log(ids)
-
-            var payload = JSON.stringify(
-            {
-                "account_id": $ummu.vars.account.id,
-                "id": ids
-            });
-
+        sbDelete: function(id) {
+            $("#modalDeleteConfirm").modal('hide')
             var params = {
-                "function": "delete_account_access",
+                "function": "delete/" + id,
                 "method": "POST",
-                "data": payload,
+                "data": [],
                 "cache": true,
                 "contentType": "application/json",
                 "dataType": "json",
                 "loader": true,
+                "textLoader": "Delete on progress..."
             };
-            console.log(params)
 
-            var ummu = $ummu.ajax.ummu8(params);
-            // console.log(ummu)
+            var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
-                console.log(result)
-                $ummu.bt.remove($table_id);
+                $ummu.views.after_sbToolbar_delete(id, result);
+                app.views.forClear()
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+        },
 
-                if ($ummu.vars.modal_id_show) {
-                    $ummu.vars.modal_id_show.modal('hide')
+        sbClear: function() {
+            app.views.forClear()
+        },
+
+        sbRelease: function() {
+            $("#modalReleaseConfirm").modal('hide')
+            var id = $ummu.url.getParam('id');
+            var func = "release/" + id;
+            var payload = [];
+
+            var params = {
+                "function": func,
+                "method": "POST",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+                "textLoader": "Release on progress...",
+            };
+
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                payload = result.data;
+                $ummu.views.after_sbToolbar_save(result, func, id, payload);
+                if (result.status == true) {
+                    if (result.data.is_release == 1) {
+                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                        $ummu.dt.init2.button('#dt_btn_new').disable();
+                    }
                 }
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
         },
+
+        on_showLeftModal: function(id) {
+            // console.log(id)
+            if (id == 'client') {
+                $ummu.controllers.show_clients(id);
+            }else if (id == 'tugboat') {
+                $ummu.controllers.show_tugboat(id);
+            }else if (id == 'barge') {
+                $ummu.controllers.show_barge(id);
+            }else if (id == 'uom') {
+                $ummu.controllers.show_uom(id);
+            }else if (id == 'shipment') {
+                $ummu.controllers.show_shippingInstruction(id);
+            }else if (id == 'spal') {
+                $ummu.controllers.show_spal(id);
+            }else if (id == 'to_dept') {
+                $ummu.controllers.show_dept(id);
+            }else if (id == 'ijo') {
+                $ummu.controllers.show_ijo(id);
+            }else if (id == 'auditor') {
+                $ummu.controllers.show_crew(id);
+            }else{
+                //
+            }
+        },
+
+        on_click_tbody_trtd_child1: function(row) {
+            // console.log(row)
+            app.views.setRow_toForm_freightCharter(row)
+        },
+
+        on_click_tbody_trtd_child_spal: function(row) {
+            console.log(row)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
+
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            $("#ukuran_barge").val(row.barge_loa)
+            $("#tonnage").val(row.qty)
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+            .attr('data-from', row.loading_availability_date_from)
+            .attr('data-to', row.loading_availability_date_to)
+
+            $("#si_number").val(row.si_number)
+            $("#si_url").attr('href', row.si_fileUrl)
+        },
+
+        on_click_tbody_trtd_child_dept: function(row) {
+            // console.log(row)
+            $("#to_dept").val(row.name).attr('data-id', row.id);
+        },
+
+        on_click_tbody_trtd_child_ijo: function(row) {
+            $("#ijo").val(row.number).attr('data-id', row.id);
+            $("#tugboat").val(row.tugboat_name)
+            .attr('data-id', row.tugboat_id)
+            .attr('data-ladensea', row.laden_sea_speed)
+            .attr('data-ballastsea', row.ballast_sea_speed)
+        },
+
+        on_dtBtnNew_click: function() {
+            // var kondisiBerlayar = $("#sailing_conditions").val();
+
+            // if (kondisiBerlayar == "" || kondisiBerlayar == null) {
+            //     $ummu.views.errors_msg("Silahkan pilih Conditions terlebih dahulu.");
+            // }else{
+            //     $("#modalForm_inputWaypoint").modal('show');
+            // }
+            $("#modalForm_inputWaypoint").modal('show');
+        },
+
+        contoh: function() {
+            const wp1 = { lat: $ummu.func.parseCoordinate("04-20.000S"), lon: $ummu.func.parseCoordinate("113-50.000E") };
+            const wp2 = { lat: $ummu.func.parseCoordinate("05-00.000S"), lon: $ummu.func.parseCoordinate("114-30.000E") };
+
+            const result = $ummu.func.calculateLeg(wp1.lat, wp1.lon, wp2.lat, wp2.lon);
+            console.log(`Haluan: ${result.bearing}°T, Jarak: ${result.distance} NM`);
+
+            // Untuk estimasi total (Asumsi kecepatan 10 knots, konsumsi 100 liter/jam)
+            const summary = $ummu.func.calculateVoyageSummary([wp1, wp2], 10, 100);
+            console.log(summary);
+        },
+
+        contoh2: function() {
+            // Data dari Form atau API
+            const passageData = {
+                voyage_id: "V-2023-001",
+                config: { speed: 12.5, consumption: 150 },
+                waypoints: [
+                    { wp_name: "WP 01", lat_raw: "04-20.000S", lon_raw: "113-50.000E" },
+                    { wp_name: "WP 02", lat_raw: "05-00.000S", lon_raw: "114-30.000E" },
+                    { wp_name: "WP 03", lat_raw: "06-10.000S", lon_raw: "115-20.000E" }
+                ]
+            };
+
+            // Eksekusi
+            const report = $ummu.func.processPassagePlan(passageData);
+            console.log(JSON.stringify(report, null, 2));
+        }
     },
 
     views: {
         formParams: function() {
-            return $(".endis");
+            return $("#form_input .endis");
         },
 
-        button: function() {
-            return $ummu.bt.button.crud(['new','edit','delete'])
+        setRow_toForm: function(row) {
+            // console.log(row)
+            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
+            $("#iDate").val(row.tgl)
+            $("#number").val(row.number)
+            $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
+            $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
+
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            $("#ukuran_barge").val(row.barge_loa)
+            // $("#load_type").val(row.load_type)
+            $("#tonnage").val($ummu.formatter.id(row.qty))
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+            $("#eta_loading_port").val(row.eta_loading_port)
+            $("#eta_loading_port_to").val(row.eta_loading_port_to)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
+            $(".custom-file-label").html(row.fileNameOrigin)
+            $("#file_url").attr("href", row.fileUrl)
+
+            if (row.fileNameOrigin) {
+                // $("#form_input #file_url span").html(row.fileNameOrigin)
+                $("#file_url").attr("href", row.fileUrl)
+            }else{
+                // $("#form_input #file_url span").html("File not available.")
+                $(".custom-file-label").html('No file...')
+
+            }
+
+            $ummu.views.setIdentitiyToForm(row)
+
+            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
+            
+            $("#ummu_nav_tab #nav-tab-form").addClass("active")
+            $("#ummu_tab_contnet #nav-form").addClass("show active")
+
+            $ummu.button.sbBtn_on_showData()
+
+            if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+
+                $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            }else{
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                // $('#btn_edit, #btn_delete').addClass('collapse')
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
+
+                if (row.is_release == 1) {
+                    $("#status").html('<span class="badge badge-secondary">Draft</span>')
+                }else if (row.is_release == 2) {
+                    $("#status").html('<span class="badge badge-primary">Approve</span>')
+                }else if (row.is_release == 3) {
+                    $("#status").html('<span class="badge badge-warning">Progress</span>')
+                }else if (row.is_release == 4) {
+                    $("#status").html('<span class="badge badge-success">Done</span>')
+                }
+            }
         },
 
-        table3_butoon: function() {
-            return $ummu.bt.button.crud(['save_selected'])
-        }
+        forClear: function() {
+            $("#form_input input").val('');
+            $("#status").html('')
+            $ummu.dt.init2.button('#dt_btn_new').disable();
+
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
+        },
     },
 
     dt: {

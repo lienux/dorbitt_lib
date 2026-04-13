@@ -220,7 +220,7 @@ class ViewsHelper
     {
         $t = getenv('app.title');
         if (!$t) {
-            $t = 'Sparkcode 4';
+            $t = 'SparkCode 4.4.3';
         }
 
         return $t;
@@ -244,7 +244,7 @@ class ViewsHelper
         $t = getenv('app.name');
 
         if (!$t) {
-            $t = 'Sparkcode 4';
+            $t = 'SparkCode 4.4.3';
         }
 
         return $t;

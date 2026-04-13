@@ -95,6 +95,11 @@ class Ummu extends BaseConfig
         return '../../vendor/dorbitt/lib/src/Views/'.$filename.'.php';
     }
 
+    public function Helpers(string $filename)
+    {
+        return '../../vendor/dorbitt/lib/src/Helpers/'.$filename.'.php';
+    }
+
     public function script($filename)
     {
         if (getenv('CI_DORBITT') == 'development') {

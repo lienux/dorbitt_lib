@@ -701,6 +701,16 @@ input:hover + .popup-text {
     opacity: 1;
 }
 
+textarea:hover + .popup-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+select:hover + .popup-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 
 /* Menyesuaikan tinggi kontainer, teks, dan tombol browse */
@@ -750,4 +760,65 @@ input:hover + .popup-text {
     color: #fff;
     background-color: #59339d; /* Ungu sedikit lebih gelap saat diklik */
     border-color: #59339d;
+}
+
+.col-ajah {
+    position: relative;
+    /*width: 100%;*/
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+}
+
+
+
+
+
+/* 1. Memperbesar wadah (kotak) checkbox */
+.custom-purple-lg .custom-control-label::before, 
+.custom-purple-lg .custom-control-label::after {
+    top: 0.1rem;
+    /*left: -2rem;*/ /* Geser lebih ke kiri karena ukuran membesar */
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.3rem; /* Membuat sudut lebih halus */
+}
+
+/* 2. Menyesuaikan posisi teks label agar tidak tertabrak kotak besar */
+.custom-purple-lg .custom-control-label {
+    padding-left: 0.75rem;
+    line-height: 2rem;
+    cursor: pointer;
+}
+
+/* 3. Memberikan warna ungu (sesuai tema sebelumnya) saat dicentang */
+.custom-purple-lg .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #6f42c1;
+    background-color: #6f42c1;
+}
+
+/* 4. Efek fokus (outline) agar lebih cantik */
+.custom-purple-lg .custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+
+/* Mengubah background kotak tooltip */
+.tooltip-inner {
+    background-color: #6f42c1 !important;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Mengubah warna panah tooltip */
+.bs-tooltip-top .arrow::before {
+    border-top-color: #6f42c1 !important;
+}
+.bs-tooltip-bottom .arrow::before {
+    border-bottom-color: #6f42c1 !important;
+}
+.bs-tooltip-left .arrow::before {
+    border-left-color: #6f42c1 !important;
+}
+.bs-tooltip-right .arrow::before {
+    border-right-color: #6f42c1 !important;
 }

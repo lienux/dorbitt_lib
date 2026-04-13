@@ -5,11 +5,12 @@
             <tr>
                 <th></th>
                 <th>ID</th>
-                <th>Date</th>
-                <th>Number</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Contract</th>
+                <th>Status</th>
+                <th>Tgl IJO</th>
+                <th>Nomor IJO</th>
+                <th>From Department</th>
+                <th>To Department</th>
+                <th>SPAL Number</th>
                 <th>Port of Loading</th>
                 <th>Port of Discharge</th>
             </tr>

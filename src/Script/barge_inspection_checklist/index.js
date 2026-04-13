@@ -6,63 +6,105 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            // $ummu.localStorage.dt_default('equipment');
-            // $ummu.dt.layout.buttonAll($ummu.dt.init);
+            $ummu.localStorage.dt_default($localStrgKey);
+            $ummu.dt.layout.buttonAll($ummu.dt.init);
+
+            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = $ummu.dt.init.row(this).data();
+                // console.log(row)
+                $ummu.url.setParamFromRow(row)
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                app.views.setRow_toForm(row);
+            });
         },
     },
 
     vars: {
-        // 
+        initTable2: null,
+        runing_id: null,
+        init: null,
+
+        general_information: function() {
+            return {
+                "type": $("#form_input #type").val(),
+                "kode": $("#form_input #kode").val(),
+                "name": $("#form_input #name").val(),
+                "flag_registry": $("#form_input #flag_registry").val(),
+                "classification": $("#form_input #classification").val(),
+                "yearBuild_place": $("#form_input #yearBuild_place").val(),
+            }
+        },
+
+        machinary_propulsion: function() {
+            return {
+                "MainEngines": $("#form_input #MainEngines").val(),
+                "BrandMainEngines": $("#form_input #BrandMainEngines").val(),
+                "AuxiliaryEngines": $("#form_input #AuxiliaryEngines").val(),
+                "BrandAuxiliaryEngines": $("#form_input #BrandAuxiliaryEngines").val(),
+                "HorsePower": $("#form_input #HorsePower").val(),
+                "lightship": $("#form_input #lightship").val(),
+                "propulsion": $("#form_input #propulsion").val(),
+                "ServiceSpeed": $("#form_input #ServiceSpeed").val(),
+            }
+        },
+
+        tank_capacity:function() {
+            return {
+                "fot": $("#form_input #fot").val(),
+                "fwt": $("#form_input #fwt").val(),
+            }
+        },
+
+        dimension_capacity:function() {
+            return {
+                "loa": $("#form_input #loa").val(),
+                "breadth": $("#form_input #breadth").val(),
+                "depth": $("#form_input #depth").val(),
+                "MaxDraft": $("#form_input #MaxDraft").val(),
+                "Sideboard": $("#form_input #Sideboard").val(),
+                "GrossTonnage": $("#form_input #GrossTonnage").val(),
+                "Deadweight": $("#form_input #Deadweight").val(),
+                "DeckStrength": $("#form_input #DeckStrength").val(),
+                "NetTonnage": $("#form_input #NetTonnage").val(),
+            }
+        },
+
+        fuel_consumtion:function() {
+            return {
+                "fuelConsumtion_laden_river": $("#form_input #fuelConsumtion_laden_river").val(),
+                "fuelConsumtion_laden_sea": $("#form_input #fuelConsumtion_laden_sea").val(),
+                "fuelConsumtion_ballast_river": $("#form_input #fuelConsumtion_ballast_river").val(),
+                "fuelConsumtion_ballast_sea": $("#form_input #fuelConsumtion_ballast_sea").val(),
+                "fuelConsumtion_runningfree": $("#form_input #fuelConsumtion_runningfree").val(),
+                "fuelConsumtion_standby": $("#form_input #fuelConsumtion_standby").val(),
+            }
+        },
+
+        speed:function() {
+            return {
+                "speed_laden_river": $("#form_input #speed_laden_river").val(),
+                "speed_laden_sea": $("#form_input #speed_laden_sea").val(),
+                "speed_ballast_river": $("#form_input #speed_ballast_river").val(),
+                "speed_ballast_sea": $("#form_input #speed_ballast_sea").val(),
+                "speed_runningfree": $("#form_input #speed_runningfree").val(),
+            }
+        },
     },
 
     controllers: {
-        on_showLeftModal: function(inputId) {
-            $ummu.vars.modalLeft_table_ListData = inputId;
-            if (inputId == "barge") {
-                $ummu.localStorage.dtInit($modalLeft_table_ListData, 'ms_barge', app.dt.ms_barge.config_columns(), app.dt.ms_barge.config_columnDefs());
-                $ummu.dt.layout.buttonAllCustom(app.dt.$init, ['btn_get_data'])
-            }
-        },
-
-        show_ms_barge: function() {
-            if ($ummu.dt.is_init($modalLeft_table_ListData) == true) {
-                $ummu.dt.init_for_destroy = 
-                $ummu.dt.init_destroy(app.dt.ms_barge.init);
-            }
-
-            app.dt.ms_barge.init = new DataTable(
-                $modalLeft_table_ListData,
-                app.dt.ms_barge.config_show()
-            );
-
-            $ummu.dt.layout.buttonAllCustom(app.dt.ms_barge.init, ['btn_get_data'])
-
-            $ummu.dt.init.on('xhr', function () {
-                var response = app.dt.ms_barge.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem('ms_barge', JSON.stringify(response));
-                }
-            });
-        },
-
-        on_btn_getData_click: function (e, dt, node, config) {
-            var tableId = dt.table().node().id;
-            if (tableId == "$modalLeft_table_ListData") {
-                if ($ummu.vars.modalLeft_table_ListData == "barge") {
-                    app.controllers.show_ms_barge();
-                }
-            }else{
-                app.controllers.show()
-            }
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
+            app.views.forClear()
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
+            if ($ummu.dt.is_init(table) == true) {
                 $ummu.dt.init_destroy();
             }
 
             $ummu.dt.init = new DataTable(
-                $table,
+                table,
                 app.dt.default.config_show()
             );
 
@@ -71,132 +113,324 @@ var app = {
             $ummu.dt.init.on('xhr', function () {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
-                    localStorage.setItem('equipment', JSON.stringify(response));
+                    localStorage.setItem($localStrgKey, JSON.stringify(response));
+                }else{
+                    $ummu.modal.ummu_msg(response.message)
                 }
             });
         },
 
-        new: function () {
-            if ($ummu.vars.element_id == "tbAccount") {
-                app.views.formParams().prop('disabled', true).val('');
-                $table2.bootstrapTable('removeAll');
-
-                $("#table-tab").removeClass("active")
-                $("#form-tab").addClass("active")
-
-                $("#myTabContent #form").addClass("show active")
-                $("#myTabContent #table").removeClass("show active")
-            } else if ($ummu.vars.element_id == "tbPriv") {
-                // app.controllers.show_dismod()
-                if (!$ummu.url.getParam('account_id')) {
-                    $ummu.modal.ummu_msg('Silahkan pilih salah satu list pada tab list data, atau isi dan simpan form header, setelah itu baru tambahkan access modulnya.')
-                } else {
-                    // if ($ummu.func.isNull($ummu.$.company) == true) {
-                    //   $ummu.modal.ummu_msg('Silahkan pilih Company terlebih dahulu.')
-                    // }else{
-                    //   // $ummu.bt.initTable($table3)
-                    //   $("#modal_dismod").modal("show")
-                    // }
-                    // $ummu.bt.initTable($table3)
-                    console.log('show dismod')
-                    $("#modal_dismod").modal("show")
-                }
-            } else {
-                // 
-            }
-        },
-
         sbNew: function () {
-            $ummu.url.delAllParam();
-            $ummu.vars.id = null
-            $ummu.vars.account.id = null
-            // app.vars.runing_id = null
-            // console.log("OK")
-            if (app.vars.initTable2 == null) {
-                // $ummu.bt.initTable($table2)
-                // app.vars.initTable2 = true;
-            } else {
-                // 
-            }
-
-            app.views.formParams().prop('disabled', false).val('');
-            // $table2.bootstrapTable('removeAll');
+            app.views.forClear()
+            $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
         },
 
-        sbCancleNew: function () {
-            app.views.formParams().prop('disabled', true).val('');
+        sbSave: function () {
+            var ijo_id = $("#ijo").attr('data-id');
+            var tgl = $("#iDate").val();
+            var barge_id = $("#barge").attr('data-id');
+            var location = $("#location").val();
+            var auditor_id = $("#auditor").attr('data-id');
+            var auditor_jobtitle_id = $("#job_title").attr('data-id');
+
+            // $ummu.vars.formData.append("spal_id", spal_id);
+            // $ummu.vars.formData.append("spal_number", spal_number);
+            // $ummu.vars.formData.append("tgl", tgl);
+            // $ummu.vars.formData.append("number", number);
+            // $ummu.vars.formData.append("from_dept_id", from_dept_id);
+            // $ummu.vars.formData.append("to_dept_id", to_dept_id);
+
+            // $ummu.vars.formData.append("client_id", client_id);
+            // $ummu.vars.formData.append("tugboat_id", tugboat_id);
+            // $ummu.vars.formData.append("barge_id", barge_id);
+            // $ummu.vars.formData.append("barge_loa", ukuran_barge);
+            // $ummu.vars.formData.append("tonnage", tonnage);
+            // $ummu.vars.formData.append("uom_id", uom_id);
+
+            // $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+            // $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+            // $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+
+            // $ummu.vars.formData.append("loading_port", loading_port);
+            // $ummu.vars.formData.append("discharge_port", discharge_port);
+
+            var payload = {
+                "ijo_id": ijo_id,
+                "tgl": tgl,
+                "barge_id": barge_id,
+                "location": location,
+                "auditor_id": auditor_id,
+                "auditor_jobtitle_id": auditor_jobtitle_id,
+            };
+
+            const id = $ummu.url.getParam('id');
+
+            if (id) {
+                var func = "update/" + id
+            }else{
+                var func = "create"
+            }
+
+            // var params = {
+            //     "function": func,
+            //     "data": $ummu.vars.formData,
+            //     "loader": true,
+            // };
+
+            const validation = app.validation.save();
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            }else{
+                // var ummu = $ummu.ajax.ummu7(params);   
+                // ummu.done(function(result) {
+                //     const response = JSON.parse(result);
+                //     $ummu.views.after_sbToolbar_save(response, func, id, payload);
+
+                //     if (response.status == true) {
+                //         $("#file_url").attr("href", response.data.fileUrl)
+                //         let is_release = response.data.is_release;
+                //         if (is_release == null || is_release == '' || is_release == 0) {
+                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                //         }else{
+                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                //         }
+                //     }else{
+                //         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                //     }
+                // }).fail(function() {
+                //     // An error occurred
+                //     console.log(ummu)
+                // });
+            }
+        },
+
+        sbCancle: function () {
+            if ($ummu.url.getParam('id')) {
+                // 
+            }else{
+                app.views.forClear()
+            }
         },
 
         sbEdit: function () {
-            app.views.formParams().prop('disabled', false);
+            // 
         },
 
-        sbCancleEdit: function () {
-            app.views.formParams().prop('disabled', true);
-        },
-
-        edit: function (row) {
-            console.log(row)
-        },
-
-        delete: function (rows) {
-            console.log(rows)
-        },
-
-        delete2: function ($table_id, ids) {
-            // console.log($table_id)
-            // console.log(ids)
-
-            var payload = JSON.stringify(
-                {
-                    "account_id": $ummu.vars.account.id,
-                    "id": ids
-                });
-
+        sbDelete: function(id) {
+            $("#modalDeleteConfirm").modal('hide')
             var params = {
-                "function": "delete_account_access",
+                "function": "delete/" + id,
                 "method": "POST",
-                "data": payload,
+                "data": [],
                 "cache": true,
                 "contentType": "application/json",
                 "dataType": "json",
                 "loader": true,
+                "textLoader": "Delete on progress..."
             };
-            console.log(params)
 
-            var ummu = $ummu.ajax.ummu8(params);
-            // console.log(ummu)
-            ummu.done(function (result) {
-                console.log(result)
-                $ummu.bt.remove($table_id);
-
-                if ($ummu.vars.modal_id_show) {
-                    $ummu.vars.modal_id_show.modal('hide')
-                }
-            }).fail(function () {
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                $ummu.views.after_sbToolbar_delete(id, result);
+                app.views.forClear()
+            }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
         },
+
+        sbClear: function() {
+            app.views.forClear()
+        },
+
+        sbRelease: function() {
+            $("#modalReleaseConfirm").modal('hide')
+            var id = $ummu.url.getParam('id');
+            var func = "release/" + id;
+            var payload = [];
+
+            var params = {
+                "function": func,
+                "method": "POST",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+                "textLoader": "Release on progress...",
+            };
+
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                payload = result.data;
+                $ummu.views.after_sbToolbar_save(result, func, id, payload);
+                if (result.status == true) {
+                    if (result.data.is_release == 1) {
+                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    }
+                }
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+        },
+
+        on_showLeftModal: function(id) {
+            // console.log(id)
+            if (id == 'client') {
+                $ummu.controllers.show_clients(id);
+            }else if (id == 'tugboat') {
+                $ummu.controllers.show_tugboat(id);
+            }else if (id == 'barge') {
+                $ummu.controllers.show_barge(id);
+            }else if (id == 'uom') {
+                $ummu.controllers.show_uom(id);
+            }else if (id == 'shipment') {
+                $ummu.controllers.show_shippingInstruction(id);
+            }else if (id == 'spal') {
+                $ummu.controllers.show_spal(id);
+            }else if (id == 'to_dept') {
+                $ummu.controllers.show_dept(id);
+            }else if (id == 'ijo') {
+                $ummu.controllers.show_ijo(id);
+            }else if (id == 'auditor') {
+                $ummu.controllers.show_crew(id);
+            }else{
+                //
+            }
+        },
+
+        on_click_tbody_trtd_child1: function(row) {
+            // console.log(row)
+            app.views.setRow_toForm_freightCharter(row)
+        },
+
+        on_click_tbody_trtd_child_spal: function(row) {
+            console.log(row)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
+
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            $("#ukuran_barge").val(row.barge_loa)
+            $("#tonnage").val(row.qty)
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+            .attr('data-from', row.loading_availability_date_from)
+            .attr('data-to', row.loading_availability_date_to)
+
+            $("#si_number").val(row.si_number)
+            $("#si_url").attr('href', row.si_fileUrl)
+        },
+
+        on_click_tbody_trtd_child_dept: function(row) {
+            // console.log(row)
+            $("#to_dept").val(row.name).attr('data-id', row.id);
+        },
+
+        on_click_tbody_trtd_child_ijo: function(row) {
+            $("#ijo").val(row.number).attr('data-id', row.id);
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id);
+        },
     },
 
-    views: {
-        formParams: function () {
-            return $(".endis");
-        },
+    validation: {
+        save: function() {
+            var list = [];
+            list = $ummu.validation.inputValidate();
 
-        button: function () {
-            return $ummu.bt.button.crud(['new', 'edit', 'delete'])
-        },
-
-        table3_butoon: function () {
-            return $ummu.bt.button.crud(['save_selected'])
+            return list;
         }
     },
 
-    dt: {
-        $init: null,
+    views: {
+        formParams: function() {
+            return $("#form_input .endis");
+        },
 
+        setRow_toForm: function(row) {
+            // console.log(row)
+            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
+            $("#iDate").val(row.tgl)
+            $("#number").val(row.number)
+            $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
+            $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
+
+            $("#client").val(row.client_name).attr('data-id', row.client_id)
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            $("#ukuran_barge").val(row.barge_loa)
+            // $("#load_type").val(row.load_type)
+            $("#tonnage").val($ummu.formatter.id(row.qty))
+            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+            $("#eta_loading_port").val(row.eta_loading_port)
+            $("#eta_loading_port_to").val(row.eta_loading_port_to)
+            $("#loading_port").val(row.loading_port)
+            $("#discharge_port").val(row.discharge_port)
+            $(".custom-file-label").html(row.fileNameOrigin)
+            $("#file_url").attr("href", row.fileUrl)
+
+            if (row.fileNameOrigin) {
+                // $("#form_input #file_url span").html(row.fileNameOrigin)
+                $("#file_url").attr("href", row.fileUrl)
+            }else{
+                // $("#form_input #file_url span").html("File not available.")
+                $(".custom-file-label").html('No file...')
+
+            }
+
+            $ummu.views.setIdentitiyToForm(row)
+
+            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
+            
+            $("#ummu_nav_tab #nav-tab-form").addClass("active")
+            $("#ummu_tab_contnet #nav-form").addClass("show active")
+
+            $ummu.button.sbBtn_on_showData()
+
+            if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+
+                $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            }else{
+                $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                // $('#btn_edit, #btn_delete').addClass('collapse')
+                $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
+                $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
+
+                if (row.is_release == 1) {
+                    $("#status").html('<span class="badge badge-secondary">Draft</span>')
+                }else if (row.is_release == 2) {
+                    $("#status").html('<span class="badge badge-primary">Approve</span>')
+                }else if (row.is_release == 3) {
+                    $("#status").html('<span class="badge badge-warning">Progress</span>')
+                }else if (row.is_release == 4) {
+                    $("#status").html('<span class="badge badge-success">Done</span>')
+                }
+            }
+        },
+
+        forClear: function() {
+            $("#form_input input").val('');
+            $("#status").html('')
+
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
+        },
+    },
+
+    dt: {
         default: {
             config_show: function () {
                 return {
@@ -241,20 +475,44 @@ var app = {
                         // var api = this.api();
                     },
                 };
-            },
+            },  
             config_columns: function () {
                 let columns = [
                     { data: null, render: DataTable.render.select() },
-                    { data: "id" },
-                    { data: "type_name" },
-                    { data: "kode" },
-                    { data: "name" },
-                    { data: "description" },
+                    { data: "id",
+                        render: function (data, type) {
+                            return (
+                                '<a href="javascript:void(0);">'+
+                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                '</a>'
+                            );
+                        }
+                    },
+                    { data: "release_name",
+                        render: function(data, type, row) {
+                            if (row.is_release == null || row.is_release == 0 || row.is_release == 1) {
+                                return '<span class="text-secondary">'+data+'</span>';
+                            }else if (row.is_release == 2) {
+                                return '<span class="text-primary">'+data+'</span>';
+                            }else if (row.is_release == 3) {
+                                return '<span class="text-warning">'+data+'</span>';
+                            }else{
+                                return '<span class="text-success">'+data+'</span>';
+                            }
+                        }
+                    },
+                    { data: "tgl"},
+                    { data: "number"},
+                    { data: "from_dept_name"},
+                    { data: "to_dept_name"},
+                    { data: "spal_number"},
+                    { data: "loading_port"},
+                    { data: "discharge_port"},
                 ];
-
+        
                 return columns;
-            },
-            config_columnDefs: function () {
+            },  
+            config_columnDefs: function() {
                 let columnDefs = [
                     {
                         targets: 0,
@@ -267,490 +525,212 @@ var app = {
                     // },
                 ];
                 return columnDefs;
-            },
-            config_rowGroup: function () {
-                let rowGroup = {
-                    dataSrc: ["tipe", "unit_code"],
-                    startRender: function (rows, group) {
-                        // Display the group name and the number of rows in that group
-                        return group + " (" + rows.count() + " rows)";
-                    },
-                    endRender: function (rows, group, level) {
-                        // =======================================================
-                        // OB ====================================================
-                        // =======================================================
-                        var day_rit_ob_count = rows
-                            .data()
-                            .pluck('day_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+            },  
+            config_rowGroup: function() {
+                // let rowGroup = {
+                //     dataSrc: ["tipe","unit_code"],
+                //     startRender: function (rows, group) {
+                //     // Display the group name and the number of rows in that group
+                //     return group + " (" + rows.count() + " rows)";
+                //     },
+                //     endRender: function (rows, group, level) {
+                //     // =======================================================
+                //     // OB ====================================================
+                //     // =======================================================
+                //     var day_rit_ob_count = rows
+                //     .data()
+                //     .pluck('day_rit_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_rit_ob_count = rows
+                //     .data()
+                //     .pluck('night_rit_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var total_rit_ob_count = rows
+                //     .data()
+                //     .pluck('total_rit_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var night_rit_ob_count = rows
-                            .data()
-                            .pluck('night_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var day_ob_count = rows
+                //     .data()
+                //     .pluck('day_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_ob_count = rows
+                //     .data()
+                //     .pluck('night_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var total_rit_ob_count = rows
-                            .data()
-                            .pluck('total_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var total_ob_count = rows
+                //     .data()
+                //     .pluck('total_ob')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+                    
+                    
+                //     // =========================================================
+                //     // Coal Getting ============================================
+                //     // =========================================================
+                //     var day_rit_cg_count = rows
+                //     .data()
+                //     .pluck('day_rit_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_rit_cg_count = rows
+                //     .data()
+                //     .pluck('night_rit_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var day_ob_count = rows
-                            .data()
-                            .pluck('day_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var total_rit_cg_count = rows
+                //     .data()
+                //     .pluck('total_rit_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var night_ob_count = rows
-                            .data()
-                            .pluck('night_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var day_cg_count = rows
+                //     .data()
+                //     .pluck('day_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_cg_count = rows
+                //     .data()
+                //     .pluck('night_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var total_ob_count = rows
-                            .data()
-                            .pluck('total_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var total_cg_count = rows
+                //     .data()
+                //     .pluck('total_cg')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+                    
 
+                //     // =========================================================
+                //     // Coal Hauling ============================================
+                //     // =========================================================
+                //     var day_rit_cl_count = rows
+                //     .data()
+                //     .pluck('day_rit_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_rit_cl_count = rows
+                //     .data()
+                //     .pluck('night_rit_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        // =========================================================
-                        // Coal Getting ============================================
-                        // =========================================================
-                        var day_rit_cg_count = rows
-                            .data()
-                            .pluck('day_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var total_rit_cl_count = rows
+                //     .data()
+                //     .pluck('total_rit_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var night_rit_cg_count = rows
-                            .data()
-                            .pluck('night_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var day_cl_count = rows
+                //     .data()
+                //     .pluck('day_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                //     var night_cl_count = rows
+                //     .data()
+                //     .pluck('night_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
 
-                        var total_rit_cg_count = rows
-                            .data()
-                            .pluck('total_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //     var total_cl_count = rows
+                //     .data()
+                //     .pluck('total_cl')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+                    
+                //     // ===========================================================================
+                //     var fuel_count = rows
+                //     .data()
+                //     .pluck('fuel')
+                //     .reduce( function (a, b) {
+                //         return parseFloat(a) + parseFloat(b);
+                //     }, 0) ;
+        
+                        
+                //     if (level === 0) {
+                //         let tr = document.createElement('tr');
+                //         let classs = $ummu.dt.endRender_class();
+                //         $ummu.dt.addCell(tr, group, 2, classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
 
-                        var day_cg_count = rows
-                            .data()
-                            .pluck('day_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
 
-                        var night_cg_count = rows
-                            .data()
-                            .pluck('night_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
 
-                        var total_cg_count = rows
-                            .data()
-                            .pluck('total_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        // =========================================================
-                        // Coal Hauling ============================================
-                        // =========================================================
-                        var day_rit_cl_count = rows
-                            .data()
-                            .pluck('day_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_rit_cl_count = rows
-                            .data()
-                            .pluck('night_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_rit_cl_count = rows
-                            .data()
-                            .pluck('total_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var day_cl_count = rows
-                            .data()
-                            .pluck('day_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_cl_count = rows
-                            .data()
-                            .pluck('night_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_cl_count = rows
-                            .data()
-                            .pluck('total_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        // ===========================================================================
-                        var fuel_count = rows
-                            .data()
-                            .pluck('fuel')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        if (level === 0) {
-                            let tr = document.createElement('tr');
-                            let classs = $ummu.dt.endRender_class();
-                            $ummu.dt.addCell(tr, group, 2, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5, classs);
-                            return tr;
-                        } else if (level === 1) {
-                            let tr = document.createElement('tr');
-                            let classs = 'text-right font-weight-bold bg-warning';
-                            $ummu.dt.addCell(tr, '', 4);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5);
-                            return tr;
-                        }
-                    }
-                };
-
-                return rowGroup;
-            },
-        },
-
-        ms_barge: {
-            init: null,
-            config_show: function () {
-                return {
-                    ajax: {
-                        dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show_barge",
-                        data: function (d) {
-                            // // d.myKey = "myValue";
-                            // // d.custom = $('#myInput').val();
-                            // // d.release = [0];
-                            // // etc
-                            // d.tgl = tgl.replace(/-/g, "");
-                            // d.tgl2 = tgl2.replace(/-/g, "");
-                            // d.site = site;
-                        },
-                    },
-                    columns: app.dt.ms_barge.config_columns(),
-                    processing: true,
-                    // serverSide: true,
-                    responsive: true,
-                    keys: true,
-                    deferLoading: 57,
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [],
-                        }
-                    },
-                    columnDefs: app.dt.ms_barge.config_columnDefs(),
-                    select: $ummu.dt.config.select(),
-                    // order: [[26, "asc"],[27,"asc"]],
-                    // rowGroup: app.dt.clients.config_rowGroup(),
-                    // fixedColumns: {
-                    //     start: 2,
-                    //     // end: 1
-                    // },
-                    paging: true,
-                    // scrollCollapse: true,
-                    // scrollX: true,
-                    // scrollY: '60vh',
-                    drawCallback: function (settings) {
-                        // var api = this.api();
-                    },
-                };
-            },
-            config_columns: function () {
-                let columns = [
-                    { title: null, data: null, render: DataTable.render.select() },
-                    { title: "ID", data: "id" },
-                    { title: "Kode", data: "kode" },
-                    { title: "Name", data: "name" },
-                ];
-
-                return columns;
-            },
-            config_columnDefs: function () {
-                let columnDefs = [
-                    {
-                        targets: 0,
-                        orderable: false,
-                        render: DataTable.render.select(),
-                    },
-                    // { 
-                    //     targets: [26,27], 
-                    //     visible: false 
-                    // },
-                ];
-                return columnDefs;
-            },
-            config_rowGroup: function () {
-                let rowGroup = {
-                    dataSrc: ["tipe", "unit_code"],
-                    startRender: function (rows, group) {
-                        // Display the group name and the number of rows in that group
-                        return group + " (" + rows.count() + " rows)";
-                    },
-                    endRender: function (rows, group, level) {
-                        // =======================================================
-                        // OB ====================================================
-                        // =======================================================
-                        var day_rit_ob_count = rows
-                            .data()
-                            .pluck('day_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_rit_ob_count = rows
-                            .data()
-                            .pluck('night_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_rit_ob_count = rows
-                            .data()
-                            .pluck('total_rit_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var day_ob_count = rows
-                            .data()
-                            .pluck('day_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_ob_count = rows
-                            .data()
-                            .pluck('night_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_ob_count = rows
-                            .data()
-                            .pluck('total_ob')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        // =========================================================
-                        // Coal Getting ============================================
-                        // =========================================================
-                        var day_rit_cg_count = rows
-                            .data()
-                            .pluck('day_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_rit_cg_count = rows
-                            .data()
-                            .pluck('night_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_rit_cg_count = rows
-                            .data()
-                            .pluck('total_rit_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var day_cg_count = rows
-                            .data()
-                            .pluck('day_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_cg_count = rows
-                            .data()
-                            .pluck('night_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_cg_count = rows
-                            .data()
-                            .pluck('total_cg')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        // =========================================================
-                        // Coal Hauling ============================================
-                        // =========================================================
-                        var day_rit_cl_count = rows
-                            .data()
-                            .pluck('day_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_rit_cl_count = rows
-                            .data()
-                            .pluck('night_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_rit_cl_count = rows
-                            .data()
-                            .pluck('total_rit_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var day_cl_count = rows
-                            .data()
-                            .pluck('day_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var night_cl_count = rows
-                            .data()
-                            .pluck('night_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        var total_cl_count = rows
-                            .data()
-                            .pluck('total_cl')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-                        // ===========================================================================
-                        var fuel_count = rows
-                            .data()
-                            .pluck('fuel')
-                            .reduce(function (a, b) {
-                                return parseFloat(a) + parseFloat(b);
-                            }, 0);
-
-
-                        if (level === 0) {
-                            let tr = document.createElement('tr');
-                            let classs = $ummu.dt.endRender_class();
-                            $ummu.dt.addCell(tr, group, 2, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5, classs);
-                            return tr;
-                        } else if (level === 1) {
-                            let tr = document.createElement('tr');
-                            let classs = 'text-right font-weight-bold bg-warning';
-                            $ummu.dt.addCell(tr, '', 4);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count), null, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count), null, classs);
-                            $ummu.dt.addCell(tr, '', 5);
-                            return tr;
-                        }
-                    }
-                };
-
-                return rowGroup;
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 5, classs);
+                //         return tr;
+                //     } else if (level === 1) {
+                //         let tr = document.createElement('tr');
+                //         let classs = 'text-right font-weight-bold bg-warning';
+                //         $ummu.dt.addCell(tr, '', 4);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 2);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 2);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 2);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 2);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 2);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
+                //         $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                //         $ummu.dt.addCell(tr, '', 5);            
+                //         return tr;
+                //     }          
+                //     }
+                // };
+        
+                // return rowGroup;
             },
         },
     },
