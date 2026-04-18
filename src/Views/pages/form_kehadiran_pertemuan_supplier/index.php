@@ -414,16 +414,16 @@
 
 				<form class="needs-validation" action="<?= base_url('form_konfirmasi_kehadiran_pertemuan_supplier/create?event_id=2') ?>"
 					method="POST" enctype="multipart/form-data" id="form_applicant" novalidate>
-					<!-- DATA DIRI -->
+					<!-- DATA PERUSAHAAN -->
 					<div class="card mb-2">
 						<div class="card-body">
-							<h5 class="card-title">DATA PESERTA</h5>
+							<h5 class="card-title"><i class="bi bi-building-fill-check"></i> DATA PERUSAHAAN <span class="text-danger"> *</span></h5>
 
 							<div class="col-md-12 mb-3">
 								<label class="form-label small mb-0">
 									<strong>Nama perusahaan anda ?</strong>
 								</label>
-								<select class="form-select select2" name="supplier" id="supplier" required>
+								<!-- <select class="form-select select2" name="supplier" id="supplier" required>
 									<option value="" selected disabled>Choose...</option>
 									<option value="1">SINOPACIFIC PERALATAN INDONUSA, PT</option>
 									<option value="2">BACH MULTI GLOBAL, PT</option>
@@ -683,27 +683,62 @@
 								</select>
 								<div class="invalid-feedback">
 									Please choose your company.
+								</div> -->
+								<input type="text" class="form-control" name="supplier" id="supplier" required>
+								<div class="invalid-feedback">
+									Please insert your company name.
 								</div>
 							</div>
+						</div>
+					</div>
 
-							<!-- <form class="row g-3"> -->
+					<div class="card mb-2">
+						<div class="card-body">
+							<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 1 <span class="text-danger"> *</span></h5>
+
 							<div class="col-md-12 mb-3">
 								<label for="nama" class="form-label small mb-0">
-									<strong>Nama Peserta 1</strong><span class="text-danger"> *</span>
+									<strong>Nama</strong><span class="text-danger"> *</span>
 								</label>
 								<input type="text" class="form-control" name="nama" id="nama" required>
 								<div class="invalid-feedback">
-									Please insert your name.
+									Please insert nama peserta.
 								</div>
 							</div>
 
 							<div class="col-md-12 mb-3">
-								<label for="nama" class="form-label small mb-0">
-									<strong>Nama Peserta 2</strong>
+								<label for="jabatan" class="form-label small mb-0">
+									<strong>Jabatan</strong><span class="text-danger"> *</span>
 								</label>
-								<input type="text" class="form-control" name="nama2" id="nama2" required>
+								<input type="text" class="form-control" name="jabatan" id="jabatan" required>
 								<div class="invalid-feedback">
-									Please insert your name2.
+									Please insert jabatan peserta 1.
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-body">
+							<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 2</h5>
+
+							<div class="col-md-12 mb-3">
+								<label for="nama" class="form-label small mb-0">
+									<strong>Nama</strong>
+								</label>
+								<input type="text" class="form-control" name="nama2" id="nama2">
+								<div class="invalid-feedback">
+									Please insert nama peserta 2.
+								</div>
+							</div>
+
+							<div class="col-md-12 mb-3">
+								<label for="jabatan2" class="form-label small mb-0">
+									<strong>Jabatan</strong>
+								</label>
+								<input type="text" class="form-control" name="jabatan2" id="jabatan2">
+								<div class="invalid-feedback">
+									Please insert jabatan peserta 2.
 								</div>
 							</div>
 						</div>
@@ -714,12 +749,16 @@
 					<div class="card-body">
 						<h1 class="card-title">Terimakasih telah mengisi form.</h1>
 						<div class="col-md-12 mb-3">
-							<label class="mb-3">Kami tunggu kehadiran Bapak/Ibu.</label><br>
+							<label class="">Kami tunggu kehadiran Bapak/Ibu.</label><br>
 						</div>
 						<?php if (!$msg) { ?>
+							<div class="col-md-12 mb-4">
+								<strong>Note :</strong>
+								<ol><li>&nbsp;Wajib membawa surat tugas.</li></ol>
+							</div>
 							<div class="col-md-12 mb-3">
 								<label>
-									<strong>SILAHKAN KLIK SUBMIT DIBAWAH INI UNTUK MENYELESAIKAN.</strong>
+									<strong>Silahkan klik SUBMIT di bawah ini untuk menyelesaikan.</strong>
 								</label>
 							</div>
 						<?php } ?>
