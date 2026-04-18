@@ -340,7 +340,7 @@ var app = {
             $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
             $("#ukuran_barge").val(row.barge_loa)
             $("#tonnage").val(row.qty)
-            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
 
             $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
             .attr('data-from', row.loading_availability_date_from)
@@ -384,7 +384,7 @@ var app = {
             $("#ukuran_barge").val(row.barge_loa)
             // $("#load_type").val(row.load_type)
             $("#tonnage").val($ummu.formatter.id(row.qty))
-            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
 
             $("#eta_loading_port").val(row.eta_loading_port)
             $("#eta_loading_port_to").val(row.eta_loading_port_to)
@@ -438,7 +438,7 @@ var app = {
 
         forClear: function() {
             $("#form_input input").val('');
-            $("#status").html('')
+            $("#status, #uom").html('')
 
             $("#created_at").html('');
             $("#updated_at").html('');

@@ -15,22 +15,8 @@
     <div id="form_input"> 
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">IJO<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Pilih daftar IJO" disabled required data-toggle="tooltip" data-placement="top" title="Daftar IJO yang ditampilkan adalah Dokumen yang statusnya sudah Release dan On Progress.">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ijo" type="button" disabled
-                                    data-inputid="ijo" data-modaltitle="List IJO">
-                                    <i class="fas fa-list-ul"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Date<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Date<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Pilih tanggal berlayar" disabled data-toggle="tooltip" data-placement="top" title="Pilih tanggal berlayar">
@@ -43,72 +29,75 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Tugboat<sup class="text-info"> auto</sup></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">IJO<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Pilih daftar IJO" disabled required data-toggle="tooltip" data-placement="top" title="Daftar IJO yang ditampilkan adalah Dokumen yang statusnya sudah Release dan On Progress.">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ijo" type="button" disabled
+                                    data-inputid="ijo" data-modaltitle="List IJO">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat<sup class="text-info"> auto</sup></label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control form-control-sm" id="tugboat" data-label="Tugboat" disabled data-toggle="tooltip" data-placement="top" title="Tugboat terisi otomatis saat setelah memilih Daftar SI, hasil dari inputan Form SI oleh marketing.">
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Voyage Code<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <input type="text" name="voyage_kode" id="voyage_kode" class="form-control form-control-sm endis" data-toggle="tooltip" data-placement="top" title="Masukan kode pelayaran" placeholder="Masukan kode pelayaran" required disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Conditions<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Conditions<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-3 mb-2">
                         <select id="sailing_conditions" class="form-control form-control-sm endis" disabled data-toggle="tooltip" data-placement="top" title="Silahkan pilih kondisi berlayar">
                             <option value="" selected disabled>Choose...</option>
                             <option value="1">Laden</option>
                             <option value="2">Ballast</option>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="row">
-                    <label class="col-sm-3 col-form-label text-right">Kecepatan<sup class="text-info"> auto</sup></label>
-                    <div class="col-sm-9">
+
+                    <label class="col-sm-3 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Speed<sup class="text-info"> auto</sup></label>
+                    <div class="col-sm-3 mb-2">
                         <div class="input-group input-group-sm">
-                            <input type="text" name="kecepatan" id="kecepatan" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Kecepatan Pelayaran (Avg.) otomatis terisi dari master Vessel (Tugboat)">
+                            <input type="text" name="kecepatan" id="kecepatan" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Kecepatan Pelayaran (Avg.) otomatis terisi setelah pilih Conditions, nilai ini diambil dari master vessel.">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">Knots</span>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">@example.com</span>
-                        </div>
-                    </div> -->
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label text-right">From</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-toggle="tooltip" data-placement="top" required disabled placeholder="Masukan pelabuhan berangkat" title="Masukan pelabuhan berangkat">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Loading<sup class="text-info"> auto</sup></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan berangkat">
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label text-right">To</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-toggle="tooltip" data-placement="top" required disabled placeholder="Masukan pelabuhan tujuan" title="Masukan pelabuhan tujuan">
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Discharge<sup class="text-info"> auto</sup></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan tujuan">
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label text-right">Captain<sup class="text-info"> auto</sup></label>
-                    <div class="col-sm-9">
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Captain<sup class="text-info"> auto</sup></label>
+                    <div class="col-sm-8">
                         <input type="text" name="captain" id="captain" class="form-control form-control-sm" required disabled placeholder="" data-toggle="tooltip" data-placement="top" title="Captain otomatis setelah pilih IJO, hasil dari Setting Crew Assignment terhadap IJO.">
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label text-right">Jabatan<sup class="text-info"> auto</sup></label>
-                    <div class="col-sm-9">
-                        <input type="text" name="jabatan" id="jabatan" class="form-control form-control-sm" required disabled placeholder="" data-toggle="tooltip" data-placement="top" title="Jabatan Captain otomatis setelah pilih IJO, hasil dari Setting Crew Assignment terhadap IJO, Teregistrasi pada Master Employee">
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Chief Engineer<sup class="text-info"> auto</sup></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="chief_engineer" id="chief_engineer" class="form-control form-control-sm" required disabled placeholder="" data-toggle="tooltip" data-placement="top" title="Chief Engineer / Kepala Kamar Mesin (KKM) otomatis setelah pilih IJO, hasil dari Setting Crew Assignment terhadap IJO.">
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-12 mt-3">
                 <nav class="ummu-nav">
                     <div class="nav nav-tabs">

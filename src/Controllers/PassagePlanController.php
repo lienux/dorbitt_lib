@@ -73,21 +73,4 @@ class PassagePlanController extends ResourceController
 
         return $this->respond($builder, 200);
     }
-
-    public function company_profile()
-    {
-        $params = [
-            "path"      => "company_profile",
-            "method"    => "GET",
-            "payload"   => [],
-            "headers"   => array(
-                'Content-Type: application/json',
-                'Company-Token: '.getenv('app.company_token')
-            )
-        ];
-
-        $request = $this->cH->ummu2($params);
-
-        return $this->respond($request, 200);
-    }
 }

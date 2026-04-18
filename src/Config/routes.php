@@ -10,6 +10,7 @@
 */
 
 $routes->get('/', 'UmmuController::index', ['namespace' => 'Dorbitt\Controllers']);
+$routes->get('form_konfirmasi_kehadiran_pertemuan_supplier', 'FormKehadiranController::index', ['namespace' => 'Dorbitt\Controllers']);
 
 $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
     $routes->get('/', 'LoginController::index');
@@ -96,6 +97,17 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'VesselController::delete/$1');
 
         $routes->get('show_data', 'VesselController::show_data');
+    });
+
+    $routes->group('master-data-pelabuhan', function ($routes) {
+        $routes->get('/', 'PelabuhanController::index');
+        $routes->get('show', 'PelabuhanController::show');
+        $routes->post('create', 'PelabuhanController::create');
+        $routes->post('update/(:num)', 'PelabuhanController::update/$1');
+        $routes->post('delete/(:num)', 'PelabuhanController::delete/$1');
+
+        $routes->get('show-country', 'PelabuhanController::showCountry');
+        $routes->get('show-province', 'PelabuhanController::showProvince');
     });
 
     $routes->group('ms_activity', function ($routes) {
@@ -230,6 +242,38 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('passage_plan', function ($routes) {
         $routes->get('/', 'PassagePlanController::index');
         $routes->get('show_ijo', 'PassagePlanController::show_ijo');
+    });
+
+    $routes->group('time_sheet', function ($routes) {
+        $routes->get('/', 'TimeSheetController::index');
+        $routes->get('show', 'TimeSheetController::show');
+        $routes->post('create', 'TimeSheetController::create');
+        $routes->post('update/(:num)', 'TimeSheetController::update/$1');
+        $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
+
+        $routes->get('show_clients', 'TimeSheetController::show_clients');
+        $routes->get('show_tugboat', 'TimeSheetController::show_tugboat');
+        $routes->get('show_barge', 'TimeSheetController::show_barge');
+        $routes->get('show_uom', 'TimeSheetController::show_uom');
+        $routes->get('show_si', 'TimeSheetController::show_si');
+        $routes->get('show_ijo', 'TimeSheetController::show_ijo');
+    });
+
+    $routes->group('vendor_verification', function ($routes) {
+        $routes->get('/', 'VendorController::index_verification');
+        $routes->get('show', 'VendorVerificationController::show_verification');
+        // $routes->post('create', 'VendorController::create');
+        // $routes->post('update/(:num)', 'VendorController::update/$1');
+        // $routes->post('delete/(:num)', 'VendorController::delete/$1');
+    });
+
+    $routes->group('blast_whatsapp', function ($routes) {
+        $routes->get('/', 'BlastWhatsappController::index');
+        $routes->get('show', 'BlastWhatsappController::show');
+        // $routes->post('create', 'BlastWhatsappController::create');
+        // $routes->post('update/(:num)', 'BlastWhatsappController::update/$1');
+        // $routes->post('delete/(:num)', 'BlastWhatsappController::delete/$1');
+        $routes->post('send', 'BlastWhatsappController::send');
     });
 
     $routes->group('dorbitt', function ($routes) {

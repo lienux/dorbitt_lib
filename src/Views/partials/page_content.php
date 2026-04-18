@@ -27,28 +27,28 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <label class="col-sm-2 col-form-label text-right">Created At</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Created At</label>
+                    <div class="col-sm-2 mb-2">
                         <div id="created_at" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
                     </div>
                 
-                    <label class="col-sm-2 col-form-label text-right">Updated At</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Updated At</label>
+                    <div class="col-sm-2 mb-2">
                         <div id="updated_at" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
                     </div>
 
-                    <label class="col-sm-2 col-form-label text-right"></label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0"></label>
+                    <div class="col-sm-2 mb-2">
                         <!-- <div id="" class="form-control form-control-sm"> -->
                     </div>
                 
-                    <label class="col-sm-2 col-form-label text-right">Created By</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Created By</label>
+                    <div class="col-sm-2 mb-2">
                         <div id="created_by" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
                     </div>
                 
-                    <label class="col-sm-2 col-form-label text-right">Updated By</label>
-                    <div class="col-sm-2">
+                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Updated By</label>
+                    <div class="col-sm-2 mb-2">
                         <div id="updated_by" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
                     </div>
                 </div>

@@ -170,19 +170,21 @@ class LoginController extends ResourceController
 
                 $employee_show = $this->qbEmployee->show_by_nik_for_login($nika, $msdb_token);
 
-                if ($employee_show->status == true) {
-                    $kode_site = $employee_show->rows[0]->KdSite;
-                    $KdLevel = $employee_show->rows[0]->KdLevel;
-                    $NmLevel = $employee_show->rows[0]->NmLevel;
-                    $KdDepar = $employee_show->rows[0]->KdDepar;
-                    $NmDepar = $employee_show->rows[0]->NmDepar;
-                    $KdJabatan = $employee_show->rows[0]->KdJabatan;
-                    $jabatanxx = $employee_show->rows[0]->jabatanxx;
-                    $region_name = $employee_show->rows[0]->region_name;
-                    $Alamat = $employee_show->rows[0]->Alamat;
+                if ($employee_show) {
+                    if ($employee_show->status == true) {
+                        $kode_site = $employee_show->rows[0]->KdSite;
+                        $KdLevel = $employee_show->rows[0]->KdLevel;
+                        $NmLevel = $employee_show->rows[0]->NmLevel;
+                        $KdDepar = $employee_show->rows[0]->KdDepar;
+                        $NmDepar = $employee_show->rows[0]->NmDepar;
+                        $KdJabatan = $employee_show->rows[0]->KdJabatan;
+                        $jabatanxx = $employee_show->rows[0]->jabatanxx;
+                        $region_name = $employee_show->rows[0]->region_name;
+                        $Alamat = $employee_show->rows[0]->Alamat;
 
-                    if ($kode_site != $Oa2_KdSite) {
-                        $update_myKdSite = $this->qBuilder->update_myKdSite(["KdSite" => $kode_site], $token);
+                        if ($kode_site != $Oa2_KdSite) {
+                            $update_myKdSite = $this->qBuilder->update_myKdSite(["KdSite" => $kode_site], $token);
+                        }
                     }
                 }
 
