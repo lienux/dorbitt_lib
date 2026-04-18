@@ -682,4 +682,18 @@ class CurlHelper
 
         return $res;
     }
+
+    // company-token diambil dari .env
+    // token diambil dari .env
+    public function headers4($moduleCode)
+    {
+        $res = [
+            'Content-Type: application/json',
+            'Module-Code: ' . $moduleCode,
+            'Company-Token: ' . getenv('company_token'),
+            'Authorization: Bearer ' . getenv('openapi2.token'),
+        ];
+
+        return $res;
+    }
 }

@@ -89,7 +89,7 @@ class FormKehadiranController extends ResourceController
             "path" => "api/event_management/visitor/create",
             "method" => 'POST',
             "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
+            "headers" => $this->cH->headers4($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
@@ -100,7 +100,7 @@ class FormKehadiranController extends ResourceController
             $this->session->setFlashdata('msg', 'Insert data failed.');
         }
 
-        return redirect('form_konfirmasi_kehadiran_pertemuan_supplier');
-        // return $this->respond($payload, 200);
+        // return redirect('form_konfirmasi_kehadiran_pertemuan_supplier');
+        return $this->respond($builder, 200);
     }
 }
