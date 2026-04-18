@@ -14,7 +14,7 @@ class FormKehadiranController extends ResourceController
 {
     public function __construct()
     {
-        $this->module_kode = 'vessel';
+        $this->module_kode = 'visitor';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -22,6 +22,7 @@ class FormKehadiranController extends ResourceController
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
+        $this->session = session();
     }
 
     public function index()
@@ -70,147 +71,20 @@ class FormKehadiranController extends ResourceController
         // } else {
             // return view('pages/HCM/form_pelamar/close_recruitment');
         // }
-        return view($this->vH->ummuView('pages/form_hehadiran_pertemuan_supplier/index'), $data);
-    }
-
-    private function index_show()
-    {
-        $params = [
-            "path"      => "api/". $this->module_kode,
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $builder;
-    }
-
-    public function show_data()
-    {
-        $params = [
-            "path"      => "api/". $this->module_kode,
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function show($id = null)
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
-
-        $params = [
-            "path"      => "api/". $this->module_kode ."/show",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    private function payload()
-    {
-        $type = $this->request->getVar("type");
-        $kode = $this->request->getVar("kode");
-        $name = $this->request->getVar("name");
-        $flag_registry = $this->request->getVar("flag_registry");
-        $classification = $this->request->getVar("classification");
-        $yearBuild_place = $this->request->getVar("yearBuild_place");//
-        $MainEngines = $this->request->getVar("MainEngines");
-        $BrandMainEngines = $this->request->getVar("BrandMainEngines");
-        $AuxiliaryEngines = $this->request->getVar("AuxiliaryEngines");
-        $BrandAuxiliaryEngines = $this->request->getVar("BrandAuxiliaryEngines");
-        $HorsePower = $this->request->getVar("HorsePower");
-        $lightship = $this->request->getVar("lightship");
-        $propulsion = $this->request->getVar("propulsion");
-        $ServiceSpeed = $this->request->getVar("ServiceSpeed");//
-        $fot = $this->request->getVar("fot");
-        $fwt = $this->request->getVar("fwt");//
-        $loa = $this->request->getVar("loa");
-        $breadth = $this->request->getVar("breadth");
-        $depth = $this->request->getVar("depth");
-        $MaxDraft = $this->request->getVar("MaxDraft");
-        $Sideboard = $this->request->getVar("Sideboard");
-        $GrossTonnage = $this->request->getVar("GrossTonnage");
-        $Deadweight = $this->request->getVar("Deadweight");
-        $DeckStrength = $this->request->getVar("DeckStrength");
-        $NetTonnage = $this->request->getVar("NetTonnage");//
-        $fuelConsumtion_laden_river = $this->request->getVar("fuelConsumtion_laden_river");
-        $fuelConsumtion_laden_sea = $this->request->getVar("fuelConsumtion_laden_sea");
-        $fuelConsumtion_ballast_river = $this->request->getVar("fuelConsumtion_ballast_river");
-        $fuelConsumtion_ballast_sea = $this->request->getVar("fuelConsumtion_ballast_sea");
-        $fuelConsumtion_runningfree = $this->request->getVar("fuelConsumtion_runningfree");
-        $fuelConsumtion_standby = $this->request->getVar("fuelConsumtion_standby");//
-        $speed_laden_river = $this->request->getVar("speed_laden_river");
-        $speed_laden_sea = $this->request->getVar("speed_laden_sea");
-        $speed_ballast_river = $this->request->getVar("speed_ballast_river");
-        $speed_ballast_sea = $this->request->getVar("speed_ballast_sea");
-        $speed_runningfree = $this->request->getVar("speed_runningfree");
-
-        $payload = [
-            "type_id" => $type,
-            "kode" => $kode,
-            "name" => $name,
-            "flag_registry" => $flag_registry,
-            "classification" => $classification,
-            "yearBuild_place" => $yearBuild_place,
-            "MainEngines" => $MainEngines,
-            "BrandMainEngines" => $BrandMainEngines,
-            "AuxiliaryEngines" => $AuxiliaryEngines,
-            "BrandAuxiliaryEngines" => $BrandAuxiliaryEngines,
-            "HorsePower" => $HorsePower,
-            "lightship" => $lightship,
-            "propulsion" => $propulsion,
-            "ServiceSpeed" => $ServiceSpeed,
-            "fot" => $fot,
-            "fwt" => $fwt,
-            "loa" => $loa,
-            "breadth" => $breadth,
-            "depth" => $depth,
-            "MaxDraft" => $MaxDraft,
-            "Sideboard" => $Sideboard,
-            "GrossTonnage" => $GrossTonnage,
-            "Deadweight" => $Deadweight,
-            "DeckStrength" => $DeckStrength,
-            "NetTonnage" => $NetTonnage,
-            "fuelConsumtion_laden_river" => $fuelConsumtion_laden_river,
-            "fuelConsumtion_laden_sea" => $fuelConsumtion_laden_sea,
-            "fuelConsumtion_ballast_river" => $fuelConsumtion_ballast_river,
-            "fuelConsumtion_ballast_sea" => $fuelConsumtion_ballast_sea,
-            "fuelConsumtion_runningfree" => $fuelConsumtion_runningfree,
-            "fuelConsumtion_standby" => $fuelConsumtion_standby,
-            "speed_laden_river" => $speed_laden_river,
-            "speed_laden_sea" => $speed_laden_sea,
-            "speed_ballast_river" => $speed_ballast_river,
-            "speed_ballast_sea" => $speed_ballast_sea,
-            "speed_runningfree" => $speed_runningfree,
-        ];
-
-        return $payload;
+        return view($this->vH->ummuView('pages/form_kehadiran_pertemuan_supplier/index'), $data);
     }
 
     public function create()
     {
-        $payload = $this->payload();
+        $payload = [
+            "event_id" => $this->request->getVar('event_id'),
+            "supplier_id" => $this->request->getPost('supplier'),
+            "name" => $this->request->getPost('nama'),
+            "name2" => $this->request->getPost('nama2'),
+        ];
 
         $params = [
-            "path"      => "api/". $this->module_kode ."/create",
+            "path" => "api/event_management/visitor/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -218,36 +92,13 @@ class FormKehadiranController extends ResourceController
 
         $builder = $this->cH->ummu2($params);
 
-        return $this->respond($builder, 200);
-    }
+        if ($builder->status == true) {
+            $this->session->setFlashdata('msg', $builder->message);
+        } else {
+            $this->session->setFlashdata('msg', 'Insert data failed.');
+        }
 
-    public function update($id = null)
-    {
-        $payload = $this->payload();
-
-        $params = [
-            "path"      => "api/". $this->module_kode ."/update/" . $id,
-            "method" => 'PUT',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function delete($id = null)
-    {
-        $params = [
-            "path"      => "api/". $this->module_kode ."/delete/" . $id,
-            "method" => 'DELETE',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
+        return redirect('form_konfirmasi_kehadiran_pertemuan_supplier');
+        // return $this->respond($payload, 200);
     }
 }

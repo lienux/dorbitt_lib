@@ -412,7 +412,7 @@
 					</div>
 				</div>
 
-				<form class="needs-validation" action="<?= base_url('recruitment/create?recruitment_id=' . $id) ?>"
+				<form class="needs-validation" action="<?= base_url('form_konfirmasi_kehadiran_pertemuan_supplier/create?event_id=2') ?>"
 					method="POST" enctype="multipart/form-data" id="form_applicant" novalidate>
 					<!-- DATA DIRI -->
 					<div class="card mb-2">
@@ -424,7 +424,7 @@
 									<strong>Nama perusahaan anda ?</strong>
 								</label>
 								<select class="form-select select2" name="supplier" id="supplier" required>
-									<option selected disabled>Choose...</option>
+									<option value="" selected disabled>Choose...</option>
 									<option value="1">SINOPACIFIC PERALATAN INDONUSA, PT</option>
 									<option value="2">BACH MULTI GLOBAL, PT</option>
 									<option value="3">MULTITECH PRIMA UTAMA, PT</option>
@@ -682,24 +682,26 @@
 									<option value="255">J & T EXPRESS</option>
 								</select>
 								<div class="invalid-feedback">
-									Please insert your company.
+									Please choose your company.
 								</div>
 							</div>
 
 							<!-- <form class="row g-3"> -->
 							<div class="col-md-12 mb-3">
-								<label for="nama" class="form-label small mb-0">Nama Peserta 1 <span
-										class="text-danger">*</span></label>
-								<input type="text" class="form-control" id="nama" required>
+								<label for="nama" class="form-label small mb-0">
+									<strong>Nama Peserta 1</strong><span class="text-danger"> *</span>
+								</label>
+								<input type="text" class="form-control" name="nama" id="nama" required>
 								<div class="invalid-feedback">
 									Please insert your name.
 								</div>
 							</div>
 
 							<div class="col-md-12 mb-3">
-								<label for="nama" class="form-label small mb-0">Nama Peserta 2 <span
-										class="text-danger">*</span></label>
-								<input type="text" class="form-control" id="nama2" required>
+								<label for="nama" class="form-label small mb-0">
+									<strong>Nama Peserta 2</strong>
+								</label>
+								<input type="text" class="form-control" name="nama2" id="nama2" required>
 								<div class="invalid-feedback">
 									Please insert your name2.
 								</div>
@@ -714,11 +716,13 @@
 						<div class="col-md-12 mb-3">
 							<label class="mb-3">Kami tunggu kehadiran Bapak/Ibu.</label><br>
 						</div>
-						<div class="col-md-12 mb-3">
-							<label>
-								<strong>SILAHKAN KLIK SUBMIT DIBAWAH INI UNTUK MENYELESAIKAN.</strong>
-							</label>
-						</div>
+						<?php if (!$msg) { ?>
+							<div class="col-md-12 mb-3">
+								<label>
+									<strong>SILAHKAN KLIK SUBMIT DIBAWAH INI UNTUK MENYELESAIKAN.</strong>
+								</label>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 
@@ -772,86 +776,86 @@
 			$('.select2').select2();
 		});
 
-		$('#input_perusahaan_lainnya').on('click', function () {
-			$('#perusahaan_terakhir_lainnya').prop('checked', true);
-		})
+		// $('#input_perusahaan_lainnya').on('click', function () {
+		// 	$('#perusahaan_terakhir_lainnya').prop('checked', true);
+		// })
 
-		$('#input_perusahaan_lainnya2').on('click', function () {
-			$('#perusahaan_terakhir_lainnya2').prop('checked', true);
-		})
+		// $('#input_perusahaan_lainnya2').on('click', function () {
+		// 	$('#perusahaan_terakhir_lainnya2').prop('checked', true);
+		// })
 
-		function insert() {
-			$('#spinner_kirim').removeClass('collapse');
-			$('#btn_kirim').addClass('disabled');
-			var lainnya2 = $('#lainnya2').val();
-			var body = {
-				"body": {
-					"event_id": $('#event').val(),
-					"contact": $('#contact').val(),
-					"name": $('#name').val(),
-					"status_kehadiran": $('input:radio[name=status_kehadiran]:checked').val(),
-					"status_kehadiran_lainnya": $('#lainnya2').val(),
-					"sudah_mengenal": $('input:radio[name=sudah_mengenal]:checked').val()
-				}
-			};
-			// controllers.create(payload);
-			// console.log(body);
+		// function insert() {
+		// 	$('#spinner_kirim').removeClass('collapse');
+		// 	$('#btn_kirim').addClass('disabled');
+		// 	var lainnya2 = $('#lainnya2').val();
+		// 	var body = {
+		// 		"body": {
+		// 			"event_id": $('#event').val(),
+		// 			"contact": $('#contact').val(),
+		// 			"name": $('#name').val(),
+		// 			"status_kehadiran": $('input:radio[name=status_kehadiran]:checked').val(),
+		// 			"status_kehadiran_lainnya": $('#lainnya2').val(),
+		// 			"sudah_mengenal": $('input:radio[name=sudah_mengenal]:checked').val()
+		// 		}
+		// 	};
+		// 	// controllers.create(payload);
+		// 	// console.log(body);
 
-			var params = {
-				"type": "post",
-				"action": "insert",
-				"data": JSON.stringify(body),
-				"cache": true,
-				"contentType": "application/json",
-				"dataType": "json"
-			};
+		// 	var params = {
+		// 		"type": "post",
+		// 		"action": "insert",
+		// 		"data": JSON.stringify(body),
+		// 		"cache": true,
+		// 		"contentType": "application/json",
+		// 		"dataType": "json"
+		// 	};
 
-			var url = $base_url + '/event_registration/create'
-			var ummu = $globalAjax.ummu(url, params);
-			ummu.done(function (result) {
-				console.log(result)
-				var response = JSON.parse(result);
-				if (response.status == true) {
-					window.location.href = $base_url + ('/event_registration/success');
-					// $('#InsertModal').modal('hide');
-					// var crRow = {
-					//     "id": response.response,
-					//     "kode": $('#kode').val(),
-					//     "name": $('#name').val(),
-					//     "jumlah_lantai": $('#jumlah_lantai').val(),
-					//     "address": $('#address').val(),
-					//     "latitude": $('#latitude').val(),
-					//     "longitude": $('#longitude').val()
-					// }
+		// 	var url = $base_url + '/event_registration/create'
+		// 	var ummu = $globalAjax.ummu(url, params);
+		// 	ummu.done(function (result) {
+		// 		console.log(result)
+		// 		var response = JSON.parse(result);
+		// 		if (response.status == true) {
+		// 			window.location.href = $base_url + ('/event_registration/success');
+		// 			// $('#InsertModal').modal('hide');
+		// 			// var crRow = {
+		// 			//     "id": response.response,
+		// 			//     "kode": $('#kode').val(),
+		// 			//     "name": $('#name').val(),
+		// 			//     "jumlah_lantai": $('#jumlah_lantai').val(),
+		// 			//     "address": $('#address').val(),
+		// 			//     "latitude": $('#latitude').val(),
+		// 			//     "longitude": $('#longitude').val()
+		// 			// }
 
-					// $table.bootstrapTable('insertRow', {
-					//     index: 0,
-					//     row: crRow
-					// })
+		// 			// $table.bootstrapTable('insertRow', {
+		// 			//     index: 0,
+		// 			//     row: crRow
+		// 			// })
 
-					// $globFunc.ch_message(response.message);
-					// app.Events.clear_form();
-				} else {
-					// $('#message_title, #text_message').empty();
-					// var message = response.message;
-					// var errors = response.errors;
-					// $('#message_title').html(message);
-					// for(let index in errors){
-					//     var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-					//                     '<i class="bi bi-exclamation-octagon me-1"></i>'+
-					//                     errors[index]+
-					//                  '</div>';
-					//     $('#text_message').append($error);
-					// }
-					// $('#message_modal').modal('show');
-					$('#spinner_kirim').addClass('collapse');
-					$('#btn_kirim').removeClass('disabled');
-				}
-			}).fail(function () {
-				// An error occurred
-				console.log(ummu)
-			});
-		}
+		// 			// $globFunc.ch_message(response.message);
+		// 			// app.Events.clear_form();
+		// 		} else {
+		// 			// $('#message_title, #text_message').empty();
+		// 			// var message = response.message;
+		// 			// var errors = response.errors;
+		// 			// $('#message_title').html(message);
+		// 			// for(let index in errors){
+		// 			//     var $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+		// 			//                     '<i class="bi bi-exclamation-octagon me-1"></i>'+
+		// 			//                     errors[index]+
+		// 			//                  '</div>';
+		// 			//     $('#text_message').append($error);
+		// 			// }
+		// 			// $('#message_modal').modal('show');
+		// 			$('#spinner_kirim').addClass('collapse');
+		// 			$('#btn_kirim').removeClass('disabled');
+		// 		}
+		// 	}).fail(function () {
+		// 		// An error occurred
+		// 		console.log(ummu)
+		// 	});
+		// }
 
 		function addClsClps() {
 			$('#alert_name').addClass('collapse');
