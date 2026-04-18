@@ -3,7 +3,6 @@ var $ref = JSON.parse($referensi);
 var $listdata_tableID = $("#modal_list_datatable #tb_list_data");
 var $tbListDataID = $("#modal_listData #modalLeft_table_ListData");
 var $modalLeft_table_ListData = $('#modalLeft_table_ListData');
-// var $tb_client = $("#modal_listData #tb_client");
 
 var $ummu = {
     register: function () {
@@ -2626,6 +2625,73 @@ var $ummu = {
 
             $($tbListDataID).data('init', 'crew');
             $ummu.dt.crew.onClick();
+        },
+
+        show_country: function () {
+            let lcg = localStorage.getItem('country')
+
+            if ($($tbListDataID).data('init') != 'country') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.country.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.country.init == null) {
+                    $ummu.dt.country.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                            { title: "Region", data: "region" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.country.init.destroy();
+                                            $ummu.dt.country.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.country.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.country.init == null) {
+                    $ummu.dt.country.create()
+                } else {
+                    $ummu.dt.country.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'country');
+            $ummu.dt.country.onClick();
         },
 
         // onClick_btnApprove: function() {
@@ -13357,6 +13423,108 @@ var $ummu = {
                         if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
                             console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
                             app.controllers.on_click_tbody_trtd_child_crew(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                        }
+                    });
+                }
+            }
+        },
+
+        country: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.country.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.country.config()
+                );
+
+                $ummu.dt.country.init.on('xhr', function () {
+                    var response = $ummu.dt.country.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('country', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show-country",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.country.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                        { title: "Region", data: "region" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.country.init !== null) {
+                    $ummu.dt.country.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.country.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#country").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                            app.controllers.on_click_tbody_trtd_child_country(row);
                         } else {
                             console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
                         }

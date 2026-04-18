@@ -6,31 +6,89 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-
-            $ummu.dt.init2_kosong(table2);
-            $ummu.dt.layout.buttonDefaultAndCustom($ummu.dt.init2, ['btn_new']);
-            $ummu.dt.init2.button('#dt_btn_new').disable();
-
-            $ummu.localStorage.dt_default('passage_plan');
+            $ummu.localStorage.dt_default($localStrgKey);
             $ummu.dt.layout.buttonAll($ummu.dt.init);
 
-            $("#sailing_conditions").on("change", function() {
-                // console.log($(this).val())
-                if ($("#tugboat").val() == '') {
-                    $ummu.views.errors_msg("Silahkan pilih IJO terlebih dahulu");
-                    $("#sailing_conditions").val('')
-                }else{
-                    if ($(this).val() == 1) {
-                        $("#kecepatan").val($("#tugboat").attr('data-ladensea'))
-                    }else{
-                        $("#kecepatan").val($("#tugboat").attr('data-ballastsea'))
-                    }
-                }
+            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = $ummu.dt.init.row(this).data();
+                // console.log(row)
+                $ummu.url.setParamFromRow(row)
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                app.views.setRow_toForm(row);
             });
+        },
+    },
 
-            $("#modal_btnSave_waypoint").on("click", function() {
-                app.controllers.tambahWaypoint();
-            });
+    vars: {
+        initTable2: null,
+        runing_id: null,
+        init: null,
+
+        general_information: function() {
+            return {
+                "type": $("#form_input #type").val(),
+                "kode": $("#form_input #kode").val(),
+                "name": $("#form_input #name").val(),
+                "flag_registry": $("#form_input #flag_registry").val(),
+                "classification": $("#form_input #classification").val(),
+                "yearBuild_place": $("#form_input #yearBuild_place").val(),
+            }
+        },
+
+        machinary_propulsion: function() {
+            return {
+                "MainEngines": $("#form_input #MainEngines").val(),
+                "BrandMainEngines": $("#form_input #BrandMainEngines").val(),
+                "AuxiliaryEngines": $("#form_input #AuxiliaryEngines").val(),
+                "BrandAuxiliaryEngines": $("#form_input #BrandAuxiliaryEngines").val(),
+                "HorsePower": $("#form_input #HorsePower").val(),
+                "lightship": $("#form_input #lightship").val(),
+                "propulsion": $("#form_input #propulsion").val(),
+                "ServiceSpeed": $("#form_input #ServiceSpeed").val(),
+            }
+        },
+
+        tank_capacity:function() {
+            return {
+                "fot": $("#form_input #fot").val(),
+                "fwt": $("#form_input #fwt").val(),
+            }
+        },
+
+        dimension_capacity:function() {
+            return {
+                "loa": $("#form_input #loa").val(),
+                "breadth": $("#form_input #breadth").val(),
+                "depth": $("#form_input #depth").val(),
+                "MaxDraft": $("#form_input #MaxDraft").val(),
+                "Sideboard": $("#form_input #Sideboard").val(),
+                "GrossTonnage": $("#form_input #GrossTonnage").val(),
+                "Deadweight": $("#form_input #Deadweight").val(),
+                "DeckStrength": $("#form_input #DeckStrength").val(),
+                "NetTonnage": $("#form_input #NetTonnage").val(),
+            }
+        },
+
+        fuel_consumtion:function() {
+            return {
+                "fuelConsumtion_laden_river": $("#form_input #fuelConsumtion_laden_river").val(),
+                "fuelConsumtion_laden_sea": $("#form_input #fuelConsumtion_laden_sea").val(),
+                "fuelConsumtion_ballast_river": $("#form_input #fuelConsumtion_ballast_river").val(),
+                "fuelConsumtion_ballast_sea": $("#form_input #fuelConsumtion_ballast_sea").val(),
+                "fuelConsumtion_runningfree": $("#form_input #fuelConsumtion_runningfree").val(),
+                "fuelConsumtion_standby": $("#form_input #fuelConsumtion_standby").val(),
+            }
+        },
+
+        speed:function() {
+            return {
+                "speed_laden_river": $("#form_input #speed_laden_river").val(),
+                "speed_laden_sea": $("#form_input #speed_laden_sea").val(),
+                "speed_ballast_river": $("#form_input #speed_ballast_river").val(),
+                "speed_ballast_sea": $("#form_input #speed_ballast_sea").val(),
+                "speed_runningfree": $("#form_input #speed_runningfree").val(),
+            }
         },
     },
 
@@ -66,45 +124,72 @@ var app = {
             app.views.forClear()
             $("#status").html('<span class="badge badge-secondary">Draft</span>')
             $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-            $ummu.dt.init2.button('#dt_btn_new').enable();
         },
 
         sbSave: function () {
-            var ijo_id = $("#ijo").attr('data-id');
+            var spal_id = $("#spal").attr('data-id');
+            var spal_number = $("#spal").val();
             var tgl = $("#iDate").val();
+            var number = $("#number").val();
+            var from_dept_id = $("#from_dept").attr('data-id');
+            var to_dept_id = $("#to_dept").attr('data-id');
+
+            var client_id = $("#client").attr('data-id');
+            var tugboat_id = $("#tugboat").attr('data-id');
             var barge_id = $("#barge").attr('data-id');
-            var location = $("#location").val();
-            var auditor_id = $("#auditor").attr('data-id');
-            var auditor_jobtitle_id = $("#job_title").attr('data-id');
+            var ukuran_barge = $("#ukuran_barge").val();
+            var tonnage = $("#tonnage").val();
+            var uom_id = $("#uom").attr('data-id');
 
-            // $ummu.vars.formData.append("spal_id", spal_id);
-            // $ummu.vars.formData.append("spal_number", spal_number);
-            // $ummu.vars.formData.append("tgl", tgl);
-            // $ummu.vars.formData.append("number", number);
-            // $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            // $ummu.vars.formData.append("to_dept_id", to_dept_id);
+            var eta_loading_port = $("#eta_loading_port").attr('data-from');
+            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
+            var eta_discharge_port = $("#eta_discharge_port").val();
 
-            // $ummu.vars.formData.append("client_id", client_id);
-            // $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            // $ummu.vars.formData.append("barge_id", barge_id);
-            // $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            // $ummu.vars.formData.append("tonnage", tonnage);
-            // $ummu.vars.formData.append("uom_id", uom_id);
+            var loading_port = $("#loading_port").val();
+            var discharge_port = $("#discharge_port").val();
 
-            // $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            // $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
-            // $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+            $ummu.vars.formData.append("spal_id", spal_id);
+            $ummu.vars.formData.append("spal_number", spal_number);
+            $ummu.vars.formData.append("tgl", tgl);
+            $ummu.vars.formData.append("number", number);
+            $ummu.vars.formData.append("from_dept_id", from_dept_id);
+            $ummu.vars.formData.append("to_dept_id", to_dept_id);
 
-            // $ummu.vars.formData.append("loading_port", loading_port);
-            // $ummu.vars.formData.append("discharge_port", discharge_port);
+            $ummu.vars.formData.append("client_id", client_id);
+            $ummu.vars.formData.append("tugboat_id", tugboat_id);
+            $ummu.vars.formData.append("barge_id", barge_id);
+            $ummu.vars.formData.append("barge_loa", ukuran_barge);
+            $ummu.vars.formData.append("tonnage", tonnage);
+            $ummu.vars.formData.append("uom_id", uom_id);
+
+            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+
+            $ummu.vars.formData.append("loading_port", loading_port);
+            $ummu.vars.formData.append("discharge_port", discharge_port);
 
             var payload = {
-                "ijo_id": ijo_id,
+                "spal_id": spal,
+                "spal_number": spal_number,
                 "tgl": tgl,
+                "number": number,
+                "from_dept_id": from_dept_id,
+                "to_dept_id": to_dept_id,
+
+                "client_id": client_id,
+                "tugboat_id": tugboat_id,
                 "barge_id": barge_id,
-                "location": location,
-                "auditor_id": auditor_id,
-                "auditor_jobtitle_id": auditor_jobtitle_id,
+                "barge_loa": ukuran_barge,
+                "tonnage": tonnage,
+                "uom_id": uom_id,
+
+                "eta_loading_port": eta_loading_port,
+                "eta_loading_port_to": eta_loading_port_to,
+                "eta_discharge_port": eta_discharge_port,
+
+                "loading_port": loading_port,
+                "discharge_port": discharge_port,
             };
 
             const id = $ummu.url.getParam('id');
@@ -115,39 +200,38 @@ var app = {
                 var func = "create"
             }
 
-            // var params = {
-            //     "function": func,
-            //     "data": $ummu.vars.formData,
-            //     "loader": true,
-            // };
+            var params = {
+                "function": func,
+                "data": $ummu.vars.formData,
+                "loader": true,
+            };
 
             const validation = app.validation.save();
 
             if (validation.length > 0) {
                 $ummu.views.errors_msg(validation)
                 $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                $ummu.dt.init2.button('#dt_btn_new').disable();
             }else{
-                // var ummu = $ummu.ajax.ummu7(params);   
-                // ummu.done(function(result) {
-                //     const response = JSON.parse(result);
-                //     $ummu.views.after_sbToolbar_save(response, func, id, payload);
+                var ummu = $ummu.ajax.ummu7(params);   
+                ummu.done(function(result) {
+                    const response = JSON.parse(result);
+                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
 
-                //     if (response.status == true) {
-                //         $("#file_url").attr("href", response.data.fileUrl)
-                //         let is_release = response.data.is_release;
-                //         if (is_release == null || is_release == '' || is_release == 0) {
-                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                //         }else{
-                //             $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                //         }
-                //     }else{
-                //         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                //     }
-                // }).fail(function() {
-                //     // An error occurred
-                //     console.log(ummu)
-                // });
+                    if (response.status == true) {
+                        $("#file_url").attr("href", response.data.fileUrl)
+                        let is_release = response.data.is_release;
+                        if (is_release == null || is_release == '' || is_release == 0) {
+                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                        }else{
+                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                        }
+                    }else{
+                        $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    }
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
             }
         },
 
@@ -160,7 +244,7 @@ var app = {
         },
 
         sbEdit: function () {
-            $ummu.dt.init2.button('#dt_btn_new').enable();
+            // 
         },
 
         sbDelete: function(id) {
@@ -214,7 +298,6 @@ var app = {
                 if (result.status == true) {
                     if (result.data.is_release == 1) {
                         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                        $ummu.dt.init2.button('#dt_btn_new').disable();
                     }
                 }
             }).fail(function() {
@@ -241,10 +324,6 @@ var app = {
                 $ummu.controllers.show_dept(id);
             }else if (id == 'ijo') {
                 $ummu.controllers.show_ijo(id);
-            }else if (id == 'auditor') {
-                $ummu.controllers.show_crew(id);
-            }else{
-                //
             }
         },
 
@@ -280,60 +359,18 @@ var app = {
 
         on_click_tbody_trtd_child_ijo: function(row) {
             $("#ijo").val(row.number).attr('data-id', row.id);
-            $("#tugboat").val(row.tugboat_name)
-            .attr('data-id', row.tugboat_id)
-            .attr('data-ladensea', row.laden_sea_speed)
-            .attr('data-ballastsea', row.ballast_sea_speed)
+            $("#client").val(row.client_name).attr('data-id', row.client_id);
+            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id);
+            $("#barge").val(row.barge_name).attr('data-id', row.barge_id);
         },
+    },
 
-        on_dtBtnNew_click: function() {
-            var kondisiBerlayar = $("#sailing_conditions").val();
+    validation: {
+        save: function() {
+            var list = [];
+            list = $ummu.validation.inputValidate();
 
-            if (kondisiBerlayar == "" || kondisiBerlayar == null) {
-                $ummu.views.errors_msg("Silahkan pilih Conditions terlebih dahulu.");
-            }else{
-                $("#modalForm_inputWaypoint").modal('show');
-            }
-        },
-
-        tambahWaypoint: function() {
-            var kecepatan = $("#kecepatan").val();
-            var waypoint_name = $("#waypoint_name").val();
-            var lintang = $("#lintang").val();
-            var lintang_menit = $("#lintang_menit").val();
-            var lintang_s = $("#lintang_s").val();
-            var bujur = $("#bujur").val();
-            var bujur_menit = $("#bujur_menit").val();
-            var bujur_e = $("#bujur_e").val();
-        },
-
-        contoh: function() {
-            const wp1 = { lat: $ummu.func.parseCoordinate("04-20.000S"), lon: $ummu.func.parseCoordinate("113-50.000E") };
-            const wp2 = { lat: $ummu.func.parseCoordinate("05-00.000S"), lon: $ummu.func.parseCoordinate("114-30.000E") };
-
-            const result = $ummu.func.calculateLeg(wp1.lat, wp1.lon, wp2.lat, wp2.lon);
-            console.log(`Haluan: ${result.bearing}°T, Jarak: ${result.distance} NM`);
-
-            // Untuk estimasi total (Asumsi kecepatan 10 knots, konsumsi 100 liter/jam)
-            const summary = $ummu.func.calculateVoyageSummary([wp1, wp2], 10, 100);
-            console.log(summary);
-        },
-
-        contoh2: function() {
-            // Data dari Form atau API
-            const passageData = {
-                voyage_id: "V-2023-001",
-                config: { speed: 12.5, consumption: 150 },
-                waypoints: [
-                    { wp_name: "WP 01", lat_raw: "04-20.000S", lon_raw: "113-50.000E" },
-                    { wp_name: "WP 02", lat_raw: "05-00.000S", lon_raw: "114-30.000E" },
-                    { wp_name: "WP 03", lat_raw: "06-10.000S", lon_raw: "115-20.000E" }
-                ]
-            };
-
-            // Eksekusi
-            const report = $ummu.func.processPassagePlan(passageData);
-            console.log(JSON.stringify(report, null, 2));
+            return list;
         }
     },
 
@@ -411,7 +448,6 @@ var app = {
         forClear: function() {
             $("#form_input input").val('');
             $("#status").html('')
-            $ummu.dt.init2.button('#dt_btn_new').disable();
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -469,11 +505,35 @@ var app = {
             config_columns: function () {
                 let columns = [
                     { data: null, render: DataTable.render.select() },
-                    { data: "id"},
-                    { data: "kode"},
-                    { data: "name"},
-                    { data: "capacity"},
-                    { data: "is_rental"},
+                    { data: "id",
+                        render: function (data, type) {
+                            return (
+                                '<a href="javascript:void(0);">'+
+                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                '</a>'
+                            );
+                        }
+                    },
+                    { data: "release_name",
+                        render: function(data, type, row) {
+                            if (row.is_release == null || row.is_release == 0 || row.is_release == 1) {
+                                return '<span class="text-secondary">'+data+'</span>';
+                            }else if (row.is_release == 2) {
+                                return '<span class="text-primary">'+data+'</span>';
+                            }else if (row.is_release == 3) {
+                                return '<span class="text-warning">'+data+'</span>';
+                            }else{
+                                return '<span class="text-success">'+data+'</span>';
+                            }
+                        }
+                    },
+                    { data: "tgl"},
+                    { data: "number"},
+                    { data: "from_dept_name"},
+                    { data: "to_dept_name"},
+                    { data: "spal_number"},
+                    { data: "loading_port"},
+                    { data: "discharge_port"},
                 ];
         
                 return columns;

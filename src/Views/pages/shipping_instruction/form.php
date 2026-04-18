@@ -15,8 +15,8 @@
     <div id="form_input"> 
         <div class="row">
             <div class="col-lg-6 col-sm-12">
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Date<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Date<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control ummu-datepicker" id="iDate" data-label="Tanggal SI" placeholder="Pilih tanggal SI" readonly disabled required>
@@ -30,15 +30,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Number<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Number<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="number" id="number" class="form-control form-control-sm endis" placeholder="Masukan Nomor SI" data-label="Number" required disabled required>
                         <span class="popup-text">ex: Nomor SI</span>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Shipper<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Shipper<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="client" placeholder="Pilih Shipper / Client" data-label="Shipper" disabled required>
@@ -51,8 +51,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Tugboat<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="tugboat" placeholder="Pilih Tugboat" data-label="Tugboat" required disabled>
@@ -65,8 +65,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Barge<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Barge<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="barge" placeholder="Pilih Barge" data-label="Barge" disabled required>
@@ -79,20 +79,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 col-form-label">Load Type<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Load Type<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" placeholder="Enter Load Type" data-label="Load Type" required disabled>
                         <span class="popup-text">ex: Batubara / Pasir / etc.</span>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Quantity<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
+                    <label class="col-sm-3 col-form-label mb-0 pb-0">Quantity<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-3 mb-2">
                         <input type="text" name="qty" id="qty" class="form-control form-control-sm endis" placeholder="Masukan Jumlah Muatan" data-label="Quantity" required disabled>
                     </div>
-                    <label class="col-sm-3 col-form-label text-right">UoM<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-3">
+
+                    <label class="col-sm-3 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
+                        UoM<span class="text-danger small"> *</span>
+                    </label>
+                    <div class="col-sm-3 mb-2">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="uom" placeholder="Pilih Satuan" data-label="UoM" disabled required>
                             <div class="input-group-append">
@@ -107,8 +110,8 @@
             </div>
 
             <div class="col-lg-6 col-sm-12">
-                <div class="row">
-                    <label class="col-sm-4 col-form-label text-right">Date of Loading From<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading From<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control ummu-datepicker" id="iDateLoadingFrom" placeholder="Pilih Batas Awal Tanggal Muat" data-label="Date of Loading From" readonly disabled required>
@@ -121,8 +124,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-4 col-form-label text-right">Date of Loading To</label>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading To</label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" placeholder="Pilih Batas Akhir Muat" data-label="Date of Loading To" required readonly disabled>
@@ -135,22 +138,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-4 col-form-label text-right">Port of Loading<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Loading<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" placeholder="Masukan Nama Pelabuhan Muat" data-label="Port of Loading" required disabled>
                         <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-4 col-form-label text-right">Port of Discharge<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Discharge<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm endis" placeholder="Masukan Nama Pelabuhan Bongkar" data-label= "Port of Discharge" required disabled>
                         <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span>
                     </div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-4 col-form-label text-right">File<span class="text-danger small"> *</span></label>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">File<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
                             <!-- <input type="file" class="form-control endis" id="file_upload" disabled> -->

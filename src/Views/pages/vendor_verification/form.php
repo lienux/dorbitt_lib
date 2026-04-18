@@ -15,8 +15,8 @@
     <div id="form_input"> 
         <div class="row">
             <div class="col-lg-6 col-sm-12 mb-3">
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">Shipment (SI)</label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Shipment (SI)</label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control is-data-id" id="shipment" placeholder="Pilih List SI" data-label="Shipping Instruction" disabled required>
@@ -29,8 +29,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">Tanggal Kontrak<span class="text-danger small"> *</span></label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Tanggal Kontrak<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Pilih Tanggal Kontrak" data-label="Tanggal Surat Perjanjian" readonly disabled required>
@@ -44,29 +44,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">Nomor Kontrak<span class="text-danger small"> *</span></label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Nomor Kontrak<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="number" id="number" class="form-control form-control-sm endis" placeholder="Masukan Nomor Kontrak" data-label="Nomor Surat Perjanjian" required disabled>
                         <span class="popup-text">Number of contract</span>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">Biaya Angkutan<span class="text-danger small"> *</span></label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Biaya Angkutan<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="biaya_angkutan" id="biaya_angkutan" placeholder="Masukan Biaya Angkutan" class="form-control form-control-sm endis" data-label="Biaya Angkutan" required disabled>
                         <!-- <span class="popup-text">Biaya Angkutan</span> -->
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">Perjanjian<span class="text-danger small"> *</span></label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Perjanjian<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="kondisi_perjanjian" id="kondisi_perjanjian" placeholder="Masukan Kondisi Perjanjian" class="form-control form-control-sm endis" data-label="Kondisi Perjanjian" required disabled>
                         <span class="popup-text">Kondisi Perjanjian, ex: FIOST</span>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0">File</label>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">File</label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <div class="custom-file custom-file-sm">
@@ -84,65 +84,62 @@
             </div>
 
             <div class="col-lg-6 col-sm-12">
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Penyewa Kapal <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Penyewa Kapal <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control form-control-sm" id="client" data-label="Penyewa Kapal" disabled required>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Tugboat <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Tugboat <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control form-control-sm is-data-id" data-label="Tugboat" id="tugboat" disabled required>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Barge <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Barge <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control form-control-sm is-data-id" id="barge" data-label="Barge / Tongkang" disabled required>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Jenis Muatan <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Jenis Muatan <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" name="load_type" id="load_type" class="form-control form-control-sm" required disabled data-label="Jenis Muatan">
                         <span class="popup-text">ex: Batubara / Pasir / etc.</span>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
-                        Volume Muatan <sup class="text-info">auto</sup>
-                    </label>
-                    <div class="col-sm-7">
-                        <div class="input-group input-group-sm">
-                            <input type="text" name="qty" id="qty" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Volume Muatan" data-label="Volume Muatan">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="uom"></span>
-                            </div>
-                        </div>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Volume Muatan <sup class="text-info">auto</sup></label>
+                    <div class="col-sm-5">
+                        <input type="text" name="qty" id="qty" class="form-control form-control-sm" required disabled data-label="Volume Muatan">
+                        <!-- <span class="popup-text">ex: Batubara / Pasir / etc.</span> -->
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control form-control-sm" id="uom" disabled>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading From <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Date of Loading From <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control form-control-sm ummu-datepicker" id="iDateLoadingFrom" required disabled>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading To <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Date of Loading To <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control form-control-sm ummu-datepicker" id="iDateLoadingTo" required disabled>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Loading <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Port of Loading <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm" required disabled data-label="Port of Loading">
                         <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-5 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Discharge <sup class="text-info">auto</sup></label>
+                <div class="row">
+                    <label class="col-sm-5 col-form-label text-right">Port of Discharge <sup class="text-info">auto</sup></label>
                     <div class="col-sm-7">
                         <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm" required disabled data-label="Port of Discharge">
                         <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span>
