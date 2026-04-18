@@ -10,7 +10,11 @@
 */
 
 $routes->get('/', 'UmmuController::index', ['namespace' => 'Dorbitt\Controllers']);
-$routes->get('form_konfirmasi_kehadiran_pertemuan_supplier', 'FormKehadiranController::index', ['namespace' => 'Dorbitt\Controllers']);
+
+$routes->group('form_konfirmasi_kehadiran_pertemuan_supplier', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->get('/', 'FormKehadiranController::index');
+    $routes->post('create', 'FormKehadiranController::create');
+});
 
 $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
     $routes->get('/', 'LoginController::index');
