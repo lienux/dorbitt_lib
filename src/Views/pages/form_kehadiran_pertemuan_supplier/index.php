@@ -754,7 +754,8 @@
 						<?php if (!$msg) { ?>
 							<div class="col-md-12 mb-4">
 								<strong>Note :</strong>
-								<ol><li>&nbsp;Wajib membawa surat tugas.</li></ol>
+								<!-- <ol><li>&nbsp;Wajib membawa surat tugas.</li></ol> -->
+								<br>Dimohon Peserta yang akan hadir membawa surat tugas dari perusahaan.
 							</div>
 							<div class="col-md-12 mb-3">
 								<label>
