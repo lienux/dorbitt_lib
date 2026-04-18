@@ -100,7 +100,7 @@ class FormKehadiranController extends ResourceController
             $this->session->setFlashdata('msg', 'Insert data failed.');
         }
 
-        // return redirect('form_konfirmasi_kehadiran_pertemuan_supplier');
-        return $this->respond($builder, 200);
+        return redirect('form_konfirmasi_kehadiran_pertemuan_supplier');
+        // return $this->respond($builder, 200);
     }
 }
