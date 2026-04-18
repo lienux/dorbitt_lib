@@ -78,9 +78,11 @@ class FormKehadiranController extends ResourceController
     {
         $payload = [
             "event_id" => $this->request->getVar('event_id'),
-            "supplier_id" => $this->request->getPost('supplier'),
+            "supplier" => $this->request->getPost('supplier'),
             "name" => $this->request->getPost('nama'),
+            "jabatan" => $this->request->getPost('jabatan'),
             "name2" => $this->request->getPost('nama2'),
+            "jabatan2" => $this->request->getPost('jabatan2'),
         ];
 
         $params = [
