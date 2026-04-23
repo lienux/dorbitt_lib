@@ -65,7 +65,7 @@ class FormKehadiranController extends ResourceController
                     // $this->gViews->modal_loader()
                 ],
                 // 'expired' => $rows->expired
-                'expired' => '2026-04-22'
+                'expired' => '2026-04-22 23:59:00'
             ];
             // return view('pages/HCM/form_pelamar/index', $data);
         // } else {
