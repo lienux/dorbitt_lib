@@ -5,6 +5,12 @@
 		$banner_path = "";
 	}
 	$msg = session()->getFlashdata('msg');
+
+	if (strtotime($expired) < strtotime(date('Y-m-d H:i:s'))) {
+		$is_expired = true;
+	}else{
+		$is_expired = false;
+	}
 ?>
 
 <!DOCTYPE html>
@@ -371,411 +377,168 @@
 				</div>
 			</div>
 
-			<?php if ($msg) { ?>
+			<!-- <?//php if (strtotime($expired) < strtotime(date('Y-m-d H:i:s')) { ?> -->
+			<?php if ($is_expired == true) { ?>
 				<div class="card mb-2 rounded border rounded-top" style="border-top: .50rem solid #6c3483 !important;">
 					<div class="card-body">
-						<h1 class="card-title"><?= $msg ?></h1>
+						<h1 class="card-title">Mohon ma'af form konfirmasi kehadiran telah ditutup.</h1>
 					</div>
 				</div>
-			<?php } else { ?>
-				<!-- INFORMATION -->
-				<div class="card mb-2 rounded border rounded-top" style="border-top: .50rem solid #6c3483 !important;">
-					<div class="card-body">
-						<h1 class="card-title">FORM Konfirmasi Kehadiran Rekanan (Supplier) PT Hillconjaya Sakti</h1>
-						<div class="">
-							Mohon Bapak/Ibu semua berkenan mengisi form kehadiran ini untuk mempermudah jalannya acara.
-							<p>
-							<p>Batas pengisian form : <strong><?= date("d F Y", strtotime($expired)); ?></strong></p>
-
-							<p>
-								<!-- <img src="<?= base_url('assets/img/rYZqPCBaG70.png') ?>" alt="" width="30px">
-								Nomor Whatsapp Official :
-								<a href="https://web.whatsapp.com/send?phone=+6281389883029" target="_blank">
-									081389883029
-								</a><br> -->
-
-								<img src="<?= base_url('assets/img/VsNE-OHk_8a.png') ?>" alt="" width="23px" class="m-1">
-								Instagram :
-								<a href="https://www.instagram.com/hillconindonesia/" target="_blank">@hillconindonesia</a>
-
-								<br>
-								<img src="<?= base_url('assets/img/world-wide-web_1927746.png') ?>" alt="" width="23px" class="m-1">
-								Website :
-								<a href="https://hillcon.co.id/" target="_blank">hillcon.co.id</a>
-							</p>
-
-							<p>
-								Terimakasih.<br>
-								PT. Hillconjaya Sakti<br>
-							</p>
+				<?php 
+			}else{
+				if ($msg) { ?>
+					<div class="card mb-2 rounded border rounded-top" style="border-top: .50rem solid #6c3483 !important;">
+						<div class="card-body">
+							<h1 class="card-title"><?= $msg ?></h1>
 						</div>
 					</div>
-				</div>
-
-				<form class="needs-validation" action="<?= base_url('form_konfirmasi_kehadiran_pertemuan_supplier/create?event_id=2') ?>"
-					method="POST" enctype="multipart/form-data" id="form_applicant" novalidate>
-					<!-- DATA PERUSAHAAN -->
-					<div class="card mb-2">
+					<?php 
+				} else { ?>
+					<!-- INFORMATION -->
+					<div class="card mb-2 rounded border rounded-top" style="border-top: .50rem solid #6c3483 !important;">
 						<div class="card-body">
-							<h5 class="card-title"><i class="bi bi-building-fill-check"></i> DATA PERUSAHAAN <span class="text-danger"> *</span></h5>
+							<h1 class="card-title">FORM Konfirmasi Kehadiran Rekanan (Supplier) PT Hillconjaya Sakti</h1>
+							<div class="">
+								Mohon Bapak/Ibu semua berkenan mengisi form kehadiran ini untuk mempermudah jalannya acara.
+								<p>
+								<p>Batas pengisian form : <strong><?= date("d F Y", strtotime($expired)); ?></strong></p>
 
-							<div class="col-md-12 mb-3">
-								<label class="form-label small mb-0">
-									<strong>Nama perusahaan anda ?</strong>
-								</label>
-								<!-- <select class="form-select select2" name="supplier" id="supplier" required>
-									<option value="" selected disabled>Choose...</option>
-									<option value="1">SINOPACIFIC PERALATAN INDONUSA, PT</option>
-									<option value="2">BACH MULTI GLOBAL, PT</option>
-									<option value="3">MULTITECH PRIMA UTAMA, PT</option>
-									<option value="4">SOLIDSTEEL TAMAJAYA INDONESIA, PT</option>
-									<option value="5">UNIVERSAL TRAKTOR INDONESIA, PT</option>
-									<option value="6">SANGGAR SARANA BAJA, PT</option>
-									<option value="7">TRI SWARDANA UTAMA, PT</option>
-									<option value="8">DWIPA YUDHA PERDANA, PT</option>
-									<option value="9">SUMBER KEMBANG TRANSPORT, CV</option>
-									<option value="10">DELILAS CATERING</option>
-									<option value="11">BRANJANGAN PUTRA UTAMA, PT</option>
-									<option value="12">SAMATOR GAS INDUSTRI, PT</option>
-									<option value="13">SEJAHTERA TRIDAYA PRIMA, PT</option>
-									<option value="14">FITRI UTAMA, CV</option>
-									<option value="15">LOGISTIC ONE SOLUTION, PT</option>
-									<option value="16">SINAR BINTANG ALBAR, PT</option>
-									<option value="17">BINTANG JAYA STEEL, PT</option>
-									<option value="18">SALSABHILA, CV</option>
-									<option value="19">QUADRA PACIFIC INDONESIA, PT</option>
-									<option value="20">PRODIA WIDYAHUSADA JAKARTA, PT</option>
-									<option value="21">INTEGRASI AVIASI SOLUSI, PT</option>
-									<option value="22">BUANA BERKAH MANDIRI, CV</option>
-									<option value="23">PUTRA MEMBANGUN BERSAMA, CV</option>
-									<option value="24">BERKAT JAYA KOMPUTINDO, PT</option>
-									<option value="25">INDOPRIMA MANDIRI UTAMA,PT</option>
-									<option value="26">ARSHAKA MANDIRI PERKASA, CV</option>
-									<option value="27">CAKRA MITRA SENTOSA, PT</option>
-									<option value="28">JAYA MANGGALA INDONESIA, CV</option>
-									<option value="29">IWAN MOTOR, CV</option>
-									<option value="30">SINAGA SUKSES DIESELINDO, CV</option>
-									<option value="31">THEKO DIGITAL SOLUSINDO, PT</option>
-									<option value="32">CAHAYA, UD (ERLA SAFETY)</option>
-									<option value="33">RSUD. PURUK CAHU</option>
-									<option value="34">RSUD PANGERAN JAYA SUMITRA KOTABARU</option>
-									<option value="35">PORTI MULTI INDONESIA, PT</option>
-									<option value="36">BERDIKARI JAYA DIESEL, PT</option>
-									<option value="37">TANJUNG BERSAMA LESTARI, CV</option>
-									<option value="38">MANDARA SERVIS PRATAMA, PT</option>
-									<option value="39">BUANA PENTAPRIMA, PT</option>
-									<option value="40">GALA JAYA MANADO, UD</option>
-									<option value="41">LANDSO BUMI JAYA, PT</option>
-									<option value="42">KHAHAYAN JAYA PERSADA, PT</option>
-									<option value="43">GLOBAL INTI SEJATI, PT</option>
-									<option value="44">ASTRINUSA JAYA DHARMA, PT</option>
-									<option value="45">HYUNDAI OTO KOMERSIAL INDONESIA. PT</option>
-									<option value="46">TRISTAN FABIAN UTAMA, CV</option>
-									<option value="47">SAMATOR INDO GAS TBK, PT (KENDARI)</option>
-									<option value="48">FERINDO ENERGI INSTRUMEN, PT</option>
-									<option value="49">JEROLIN INDONESIA TEKNIK, PT</option>
-									<option value="50">ENGGAL SUKSES PERKASA,PT</option>
-									<option value="51">BIG BENGKEL DIESELTAMA, PT</option>
-									<option value="52">LOTTE GLOBAL LOGISTICS, PT</option>
-									<option value="53">STAR WAGEN INDONESIA, PT</option>
-									<option value="54">JAYA BERKAT USAHA, PT</option>
-									<option value="55">RSUD ULIN BANJARMASIN</option>
-									<option value="56">BOMM AKSES TEKNOLOGI, PT</option>
-									<option value="57">FAHMAN BERKAT ABADI, PT</option>
-									<option value="58">SEPAKAT, CV</option>
-									<option value="59">TOP JAYA AUTOPART CENTER, CV</option>
-									<option value="60">ANEKA MITRA CIPTA, PT</option>
-									<option value="61">DYANDRA  ASTAGINA, CV</option>
-									<option value="62">SAPTA BUANA LOGISTIC, PT</option>
-									<option value="63">DJAJA LISTRIK, PT</option>
-									<option value="64">JAYARAMA ARTHA RODA, PT</option>
-									<option value="65">TRIJAYA PRIMA, CV</option>
-									<option value="66">PHOENIX CAHAYA TECHNIQUE, PT</option>
-									<option value="67">TELEKOMUNIKASI SELULAR, PT</option>
-									<option value="68">RS.ANANDA BEKASI</option>
-									<option value="69">GALAJAYA TIMUR PERKASA, PT</option>
-									<option value="70">EDELWEISS, RS</option>
-									<option value="71">BEKTI JAYA MANDIRI, CV</option>
-									<option value="72">MITRA USAHA FURNITURE, CV</option>
-									<option value="73">BU TANTO, WARUNG</option>
-									<option value="74">KASANA TEKNINDO GEMILANG, PT</option>
-									<option value="75">BINTANG SELATAN, CV</option>
-									<option value="76">MERANTI SARANA NIAGA, PT</option>
-									<option value="77">HENDRA JAYA MAKMUR, CV</option>
-									<option value="78">CHARIS PERKASA AMARTA, PT</option>
-									<option value="79">OSEANLAND SURVEI INDONESIA, PT</option>
-									<option value="80">DARMANSYAH ( DESA TABULANG )</option>
-									<option value="81">AGUNG KENDARI, TOKO</option>
-									<option value="82">RUKUN SEJAHTERA TEKNIK, PT</option>
-									<option value="83">INDOTEKNIK DOTCOM GEMILANG, PT</option>
-									<option value="84">DUA PUTRI LESTARI ENERGI, PT</option>
-									<option value="85">ALPHA OMEGA TRANSPORTINDO, PT</option>
-									<option value="86">SULTRA ALAM PERKASA, PT</option>
-									<option value="87">TRIATRA SINERGIA PRATAMA, PT</option>
-									<option value="88">IMAR ( DESA OLONG ULU )</option>
-									<option value="89">SUMBER INTI GLOBAL SUKSES, PT</option>
-									<option value="90">HERMINA KENDARI, RS UMUM</option>
-									<option value="91">PACIFIC FIRSTRACK INDONESIA, PT( IDR )</option>
-									<option value="92">KAMANDRI ( DESA OSOM TOMPOK )</option>
-									<option value="93">SUKU CADANG OTO SEJAHTERA , PT</option>
-									<option value="94">HUDAYA MAJU MANDIRI, PT</option>
-									<option value="95">OBED NDAWA WOHANGARA</option>
-									<option value="96">MAKMUR PERSADA, CV</option>
-									<option value="97">BLUD RS KONAWE UTARA</option>
-									<option value="98">ANUGERAH CIPTA KARYA, CV</option>
-									<option value="99">ASURANSI CENTRAL ASIA, PT ( MAKASSAR )</option>
-									<option value="100">RAFVINDOTAMA JAYA PERSADA, CV</option>
-									<option value="101">DINAMIKA JAYA SEMESTA, PT</option>
-									<option value="102">MAKMUR PERSADA, CV (CONSIGNMENT)</option>
-									<option value="103">SURYA SEALINDO TEKNOLOGI, PT</option>
-									<option value="104">TUGU MAS ABADI, PT</option>
-									<option value="105">BARAK TRANSPORT, CV</option>
-									<option value="106">ANAK BUNGSU, CV</option>
-									<option value="107">PROLINTAS TRANSUTAMA LOGISTIK, PT</option>
-									<option value="108">KALIMANTAN CIPTA TEKNINDO, PT</option>
-									<option value="109">PANRITA MARINA FARMASI, PT</option>
-									<option value="110">LIUS PIKAL ( DESA OLUNG BALO )</option>
-									<option value="111">SUMBER NUSA SEJAHTERA, PT</option>
-									<option value="112">JAKARTA ANUGERAH MANDIRI, PT</option>
-									<option value="113">DEWATA SOLUSI TEKNOLOGI, PT</option>
-									<option value="114">IMMCO ALISON INDONESIA, PT</option>
-									<option value="115">ANTAM MEDIKA, RS</option>
-									<option value="116">SENTRAL AC, CV</option>
-									<option value="117">ANEKA MAKMUR UTAMA, CV</option>
-									<option value="118">MITRA AC MOBIL</option>
-									<option value="119">KARYA TIKA BORNEO, CV (TITAN)</option>
-									<option value="120">RSUD KOLONODALE, BENDAHARA PENERIMA</option>
-									<option value="121">SRIKANDI MAJU MANDIRI, PT</option>
-									<option value="122">SRIKANDI DIAMOND MOTORS, PT</option>
-									<option value="123">KARYA MANUNTUNG,CV</option>
-									<option value="124">NURRAHMAN PETIRO KARYA ABADI, PT</option>
-									<option value="125">APOTEK SAUDARA BEKASI</option>
-									<option value="126">JAGAT TEKNIK DIGDAYA, PT</option>
-									<option value="127">SOLID UNIVERSAL INDONESIA, PT</option>
-									<option value="128">TRACTOR PART INDONESIA,CV</option>
-									<option value="129">ANDALAN BARU SOLUSITAMA, PT</option>
-									<option value="130">TITIAN JAYA BOGA, PT</option>
-									<option value="131">ABE MANDIRI, PT ( MUARA TEWEH )</option>
-									<option value="132">KEMKOMINFO (KOMDIGI)</option>
-									<option value="133">EVOTEK GLOBAL PRIMA, PT</option>
-									<option value="134">MAXINDO MITRA SOLUSI</option>
-									<option value="135">KOKANO SUKSES SEJAHTERA, PT</option>
-									<option value="136">SOLUSI MONITORING INDONESIA, PT</option>
-									<option value="137">INDOCORE PERKASA, PT</option>
-									<option value="138">SAMATOR INDO GAS TBK, PT (MOROWALI)</option>
-									<option value="139">RSUD BATARA GURU</option>
-									<option value="140">HOKKY INTI MEDIKA, PT</option>
-									<option value="141">VIDISTAR INDOQUIP PRADANA, PT</option>
-									<option value="142">GLOBAL ANDALAN SOLUSI SUKSES,  PT </option>
-									<option value="143">CARTO ANDRIYANTO</option>
-									<option value="144">TETY HERAWATI</option>
-									<option value="145">LIMPAH MAS INDONESIA, PT</option>
-									<option value="146">MANDIRI PERKASA LOGIS, CV</option>
-									<option value="147">RONNY RAMBING (NABE SURYA LESTARI)</option>
-									<option value="148">BINTANG PARIAMA MANDIRI, CV (SOMIL PAK ALI)*</option>
-									<option value="149">CRYSTAL GRAFIKA, CV *</option>
-									<option value="150">INDRIA INTEREDINDO, PT</option>
-									<option value="151">SAMATOR GAS INDUSTRI, PT (MUARA TEWEH)</option>
-									<option value="152">ANUGERAH BERKAH LIMA TUJUH SATU, PT</option>
-									<option value="153">IWIN</option>
-									<option value="154">BERKAT TECHNICA ABADI, PT</option>
-									<option value="155">SISKA APRILIANTY (DESA DIRUNG BAKUNG)</option>
-									<option value="156">AIRINDO SAKTI, PT</option>
-									<option value="157">ROMANDY PASIR, DEPO</option>
-									<option value="158">EKO SAPUTRA  UG (DESA TUMBANG BAHAN)</option>
-									<option value="159">DEDI IRAWAN, AMK ( DESA DOAN ARUNG )</option>
-									<option value="160">BANUA OLAH NIAGA, PT</option>
-									<option value="161">SUPRIADI</option>
-									<option value="162">DUTA KREASI TEHNIK,PT</option>
-									<option value="163">TUNAS OPTIMA PERKASA, PT</option>
-									<option value="164">PILAR PRATAMA DINAMIKA, PT</option>
-									<option value="165">INDOMOBIL PRIMA NIAGA,PT</option>
-									<option value="166">SACON INDONESIA, PT</option>
-									<option value="167">KAWAN LAMA SOLUSI, PT</option>
-									<option value="168">CAHAYA BUANA NUSANTARA, CV</option>
-									<option value="169">BAHANA SAMUDERA KREASINDO, PT</option>
-									<option value="170">ASURANSI CENTRAL ASIA, PT ( JAKARTA )</option>
-									<option value="171">CATERING PCN</option>
-									<option value="172">BINAJAYA BERSAMA, CV</option>
-									<option value="173">RELAZINDO USAHA BERSAMA, PT</option>
-									<option value="174">HANS SUKU CADANG, PT</option>
-									<option value="175">EONCHEMICALS PUTRA, PT</option>
-									<option value="176">KAVA PRIMATAMA INDONESIA, PT</option>
-									<option value="177">TRIMITRA SINERGI NUSA, PT</option>
-									<option value="178">YAPINDO TRANSPORTAMA, PT</option>
-									<option value="179">ABDUL ASIS</option>
-									<option value="180">SUGIONO ( DESA CANGKANG )</option>
-									<option value="181">ULTRA MEDICA SEJAHTERA, PT</option>
-									<option value="182">ETEK ( DESA MAHANYAN )</option>
-									<option value="183">PATIROI TAHIR (AIR ISI ULANG)</option>
-									<option value="184">BUMEN REDJA ABADI, PT</option>
-									<option value="185">SURYA BANJAR UTAMA, PT</option>
-									<option value="186">BU SUGI, CATERING</option>
-									<option value="187">CATERING TC</option>
-									<option value="188">TIRTA INVESTAMA, PT</option>
-									<option value="189">RSUD WEDA</option>
-									<option value="190">ERLY SUTISNA ( DESA OLUNG DOJOU )</option>
-									<option value="191">HAFARA TEKNIK, CV</option>
-									<option value="192">GLOBAL DIGITAL NIAGA, PT</option>
-									<option value="193">PEGASUS MANDIRI PRESSINDO, PT</option>
-									<option value="194">ABISTAR GEMILANG RAJASANEGARA, CV</option>
-									<option value="195">INDOMAX ASCARYA MACHINERY, PT</option>
-									<option value="196">ATIQAH DIAN AMELIA, PT</option>
-									<option value="197">EBET ( DESA MANTIAT PARI )</option>
-									<option value="198">BILLY ANTHONY LIE & REKAN, KJPP</option>
-									<option value="199">NICO JAYA TEKNIK, UD</option>
-									<option value="200">LUTHFI ANGKASA RAYA, PT</option>
-									<option value="201">RIFAI TRAKTOR DIESEL, CV</option>
-									<option value="202">AFFIK BERKAH, TOKO</option>
-									<option value="203">PATRA SUPPLIES AND SERVICES, PT</option>
-									<option value="204">IEFPE PRATAMA DESAIN, PT</option>
-									<option value="205">PELAYARAN SUMBER BAHARI, PT</option>
-									<option value="206">YSA WELDINDO TEHNIK, PT</option>
-									<option value="207">EMIRSYAH FAROUQ UTAMA, PT</option>
-									<option value="208">PRIMED SUMBER BERKAH UTAMA, PT</option>
-									<option value="209">CITRA ANDALAN MOBILINDO CEMERLANG, PT</option>
-									<option value="210">MEKTEK TANJUNG LESTARI, PT</option>
-									<option value="211">KLINIK SIMPANG</option>
-									<option value="212">SATO LABEL SOLUTIONS, PT</option>
-									<option value="213">ATHALLAH TEKNIK, CV</option>
-									<option value="214">KADER ABD MUIN</option>
-									<option value="215">BERLIAN KHARISMA PASIFIK, PT.</option>
-									<option value="216">DIAMOND STAR, CV </option>
-									<option value="217">NAJWA POWER. PT</option>
-									<option value="218">GLOMINPRO INDONESIA, PT</option>
-									<option value="219">SINERGI SAFETYPRENUR MULTIUSAHA, PT</option>
-									<option value="220">TEKENOMIKS INDONESIA, PT</option>
-									<option value="221">TEJA AULYA, CV</option>
-									<option value="222">PUSAKA JAYA SARANA, CV</option>
-									<option value="223">PUSKESMAS GEBE, UPTD</option>
-									<option value="224">PANA OIL INDONESIA, PT</option>
-									<option value="225">BERKAT KAWAN TEKNIK, CV.</option>
-									<option value="226">BORNEO INDO TEHNIK,CV</option>
-									<option value="227">TANJUNG SARANA INVESTAMA, PT</option>
-									<option value="228">CAKRAWALA ENERGI KONSTRUKSI, PT</option>
-									<option value="229">SLISIC INOVASI PRAKARSA, PT </option>
-									<option value="230">DIESEL UTAMA INDONESIA, PT</option>
-									<option value="231">ANDIKA TEGUH SETYA, PT</option>
-									<option value="232">SANY INDONESIA HEAVY EQUIPMENT, PT</option>
-									<option value="233">LESTARI MOTOR</option>
-									<option value="234">OTR TIRE INDONESIA, TOKO</option>
-									<option value="235">UU, PAK (AIR ISI ULANG)</option>
-									<option value="236">WARUNG NEY SELLA</option>
-									<option value="237">MAJU MANDIRI, UD</option>
-									<option value="238">ANEKA GAS INDUSTRI, PT (KENDARI)</option>
-									<option value="239">BAHTERA ALAM SEJAHTERA, PT</option>
-									<option value="240">TELESAVE TELEKOMUNIKASI INDONESIA, PT</option>
-									<option value="241">USAHA BARU *</option>
-									<option value="242">AIR BERSIH DURAHMAN</option>
-									<option value="243">AKBAR TRAVEL </option>
-									<option value="244">INTAN PRIMA MINERAL INDONESIA, PT</option>
-									<option value="245">AZHAR JAYA *</option>
-									<option value="246">METCOINDO PENTA PERKASA, PT</option>
-									<option value="247">MAJU,UD</option>
-									<option value="248">JK MOTOR SPORT </option>
-									<option value="249">HAMZAH</option>
-									<option value="250">SETIA BENGKEL</option>
-									<option value="251">DUNIA MOTOR (DAVID YAORI) *</option>
-									<option value="252">AMCO SPAREPART INDONESIA, PT</option>
-									<option value="253">PUNCAK TOMPIRA</option>
-									<option value="254">ALIF AUTO VARIASI, BENGKEL</option>
-									<option value="255">J & T EXPRESS</option>
-								</select>
-								<div class="invalid-feedback">
-									Please choose your company.
-								</div> -->
-								<input type="text" class="form-control" name="supplier" id="supplier" required>
-								<div class="invalid-feedback">
-									Please insert your company name.
-								</div>
+								<p>
+									<!-- <img src="<?= base_url('assets/img/rYZqPCBaG70.png') ?>" alt="" width="30px">
+									Nomor Whatsapp Official :
+									<a href="https://web.whatsapp.com/send?phone=+6281389883029" target="_blank">
+										081389883029
+									</a><br> -->
+
+									<img src="<?= base_url('assets/img/VsNE-OHk_8a.png') ?>" alt="" width="23px" class="m-1">
+									Instagram :
+									<a href="https://www.instagram.com/hillconindonesia/" target="_blank">@hillconindonesia</a>
+
+									<br>
+									<img src="<?= base_url('assets/img/world-wide-web_1927746.png') ?>" alt="" width="23px" class="m-1">
+									Website :
+									<a href="https://hillcon.co.id/" target="_blank">hillcon.co.id</a>
+								</p>
+
+								<p>
+									Terimakasih.<br>
+									PT. Hillconjaya Sakti<br>
+								</p>
 							</div>
 						</div>
 					</div>
+
+					<form class="needs-validation" action="<?= base_url('form_konfirmasi_kehadiran_pertemuan_supplier/create?event_id=2') ?>"
+						method="POST" enctype="multipart/form-data" id="form_applicant" novalidate>
+						<!-- DATA PERUSAHAAN -->
+						<div class="card mb-2">
+							<div class="card-body">
+								<h5 class="card-title"><i class="bi bi-building-fill-check"></i> DATA PERUSAHAAN <span class="text-danger"> *</span></h5>
+
+								<div class="col-md-12 mb-3">
+									<label class="form-label small mb-0">
+										<strong>Nama perusahaan anda ?</strong>
+									</label>
+									<!-- <select class="form-select select2" name="supplier" id="supplier" required>
+										<option value="" selected disabled>Choose...</option>
+										<option value="1">SINOPACIFIC PERALATAN INDONUSA, PT</option>
+									</select>
+									<div class="invalid-feedback">
+										Please choose your company.
+									</div> -->
+									<input type="text" class="form-control" name="supplier" id="supplier" required>
+									<div class="invalid-feedback">
+										Please insert your company name.
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card mb-2">
+							<div class="card-body">
+								<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 1 <span class="text-danger"> *</span></h5>
+
+								<div class="col-md-12 mb-3">
+									<label for="nama" class="form-label small mb-0">
+										<strong>Nama</strong><span class="text-danger"> *</span>
+									</label>
+									<input type="text" class="form-control" name="nama" id="nama" required>
+									<div class="invalid-feedback">
+										Please insert nama peserta.
+									</div>
+								</div>
+
+								<div class="col-md-12 mb-3">
+									<label for="jabatan" class="form-label small mb-0">
+										<strong>Jabatan</strong><span class="text-danger"> *</span>
+									</label>
+									<input type="text" class="form-control" name="jabatan" id="jabatan" required>
+									<div class="invalid-feedback">
+										Please insert jabatan peserta 1.
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card mb-2">
+							<div class="card-body">
+								<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 2</h5>
+
+								<div class="col-md-12 mb-3">
+									<label for="nama" class="form-label small mb-0">
+										<strong>Nama</strong>
+									</label>
+									<input type="text" class="form-control" name="nama2" id="nama2">
+									<div class="invalid-feedback">
+										Please insert nama peserta 2.
+									</div>
+								</div>
+
+								<div class="col-md-12 mb-3">
+									<label for="jabatan2" class="form-label small mb-0">
+										<strong>Jabatan</strong>
+									</label>
+									<input type="text" class="form-control" name="jabatan2" id="jabatan2">
+									<div class="invalid-feedback">
+										Please insert jabatan peserta 2.
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
 
 					<div class="card mb-2">
 						<div class="card-body">
-							<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 1 <span class="text-danger"> *</span></h5>
-
+							<h1 class="card-title">Terimakasih telah mengisi form.</h1>
 							<div class="col-md-12 mb-3">
-								<label for="nama" class="form-label small mb-0">
-									<strong>Nama</strong><span class="text-danger"> *</span>
-								</label>
-								<input type="text" class="form-control" name="nama" id="nama" required>
-								<div class="invalid-feedback">
-									Please insert nama peserta.
-								</div>
+								<label class="">Kami tunggu kehadiran Bapak/Ibu.</label><br>
 							</div>
-
-							<div class="col-md-12 mb-3">
-								<label for="jabatan" class="form-label small mb-0">
-									<strong>Jabatan</strong><span class="text-danger"> *</span>
-								</label>
-								<input type="text" class="form-control" name="jabatan" id="jabatan" required>
-								<div class="invalid-feedback">
-									Please insert jabatan peserta 1.
+							<?php if (!$msg) { ?>
+								<div class="col-md-12 mb-4">
+									<strong>Note :</strong>
+									<!-- <ol><li>&nbsp;Wajib membawa surat tugas.</li></ol> -->
+									<br>Dimohon Peserta yang akan hadir membawa surat tugas dari perusahaan.
 								</div>
-							</div>
+								<div class="col-md-12 mb-3">
+									<label>
+										<strong>Silahkan klik SUBMIT di bawah ini untuk menyelesaikan.</strong>
+									</label>
+								</div>
+							<?php } ?>
 						</div>
 					</div>
 
-					<div class="card mb-2">
-						<div class="card-body">
-							<h5 class="card-title"><i class="bi bi-person-fill-check"></i> DATA PESERTA 2</h5>
+					<?php if (!$msg) { ?>
+						<input type="submit" class="btn px-4" style="background-color: #6c3483; color: #ffff;"
+							value="Submit"></input>
+					<?php } ?>
+				</form>
 
-							<div class="col-md-12 mb-3">
-								<label for="nama" class="form-label small mb-0">
-									<strong>Nama</strong>
-								</label>
-								<input type="text" class="form-control" name="nama2" id="nama2">
-								<div class="invalid-feedback">
-									Please insert nama peserta 2.
-								</div>
-							</div>
-
-							<div class="col-md-12 mb-3">
-								<label for="jabatan2" class="form-label small mb-0">
-									<strong>Jabatan</strong>
-								</label>
-								<input type="text" class="form-control" name="jabatan2" id="jabatan2">
-								<div class="invalid-feedback">
-									Please insert jabatan peserta 2.
-								</div>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
-
-				<div class="card mb-2">
-					<div class="card-body">
-						<h1 class="card-title">Terimakasih telah mengisi form.</h1>
-						<div class="col-md-12 mb-3">
-							<label class="">Kami tunggu kehadiran Bapak/Ibu.</label><br>
-						</div>
-						<?php if (!$msg) { ?>
-							<div class="col-md-12 mb-4">
-								<strong>Note :</strong>
-								<!-- <ol><li>&nbsp;Wajib membawa surat tugas.</li></ol> -->
-								<br>Dimohon Peserta yang akan hadir membawa surat tugas dari perusahaan.
-							</div>
-							<div class="col-md-12 mb-3">
-								<label>
-									<strong>Silahkan klik SUBMIT di bawah ini untuk menyelesaikan.</strong>
-								</label>
-							</div>
-						<?php } ?>
-					</div>
-				</div>
-
-				<?php if (!$msg) { ?>
-					<input type="submit" class="btn px-4" style="background-color: #6c3483; color: #ffff;"
-						value="Submit"></input>
-				<?php } ?>
-			</form>
-
-			<?php
-			if (isset($include)) {
-				foreach ($include as $key => $value) {
-					echo $this->include($value);
+				<?php
+				if (isset($include)) {
+					foreach ($include as $key => $value) {
+						echo $this->include($value);
+					}
 				}
 			}
 			?>
