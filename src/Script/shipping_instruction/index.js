@@ -24,6 +24,15 @@ var app = {
             // $ummu.formatter.number($("#form_input #capacity"), 5);
             // $ummu.formatter.number($("#form_input .speed"), 1, ' Knot');
             // $ummu.formatter.number($("#form_input .fuelcons"), 3);
+
+            flatpickr("#rangePicker", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                minDate: "today", // Opsional: mencegah pilih tanggal lampau
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log("Tanggal terpilih:", dateStr);
+                }
+            });
         },
     },
 
@@ -74,6 +83,7 @@ var app = {
             var load_type = $("#load_type").val();
             var qty = $("#qty").val();
             var uom_id = $("#uom").attr('data-id');
+            var rute_id = $("#voyage_route").attr('data-id');
             var loading_availability_date_from = $("#iDateLoadingFrom").val();
             var loading_availability_date_to = $("#iDateLoadingTo").val();
             var loading_port = $("#loading_port").val();
@@ -89,6 +99,7 @@ var app = {
             formData.append("load_type", load_type);
             formData.append("qty", qty);
             formData.append("uom_id", uom_id);
+            formData.append("rute_id", rute_id);
             formData.append("loading_availability_date_from", loading_availability_date_from);
             formData.append("loading_availability_date_to", loading_availability_date_to);
             formData.append("loading_port", loading_port);
@@ -103,6 +114,7 @@ var app = {
                 "load_type": load_type,
                 "qty": qty,
                 "uom_id": uom_id,
+                "rute_id": rute_id,
                 "loading_availability_date_from": loading_availability_date_from,
                 "loading_availability_date_to": loading_availability_date_to,
                 "loading_port": loading_port,
@@ -197,7 +209,15 @@ var app = {
                 $ummu.controllers.show_barge();
             }else if (id == 'uom') {
                 $ummu.controllers.show_uom();
+            }else if (id == 'voyage_route') {
+                $ummu.controllers.show_voyage_route();
             }
+        },
+
+        on_click_tbody_trtd_child_voyage_route2: function(row) {
+            $("#voyage_route").val(row.name).attr('data-id', row.id);
+            $("#loading_port").val(row.from_name);
+            $("#discharge_port").val(row.to_name);
         },
     },
 
@@ -252,11 +272,12 @@ var app = {
             $("#load_type").val(row.load_type)
             $("#qty").val(row.qty)
             $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+            $("#voyage_route").val(row.rute_name).attr('data-id', row.rute_id)
 
             $("#iDateLoadingFrom").val(row.loading_availability_date_from)
             $("#iDateLoadingTo").val(row.loading_availability_date_to)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
+            $("#loading_port").val(row.from_name)
+            $("#discharge_port").val(row.to_name)
             $(".custom-file-label").html(row.fileNameOrigin)
             $("#file_url").attr("href", row.fileUrl)
 
@@ -270,13 +291,7 @@ var app = {
             }
 
             $ummu.views.setIdentitiyToForm(row)
-
-            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
-            
-            $("#ummu_nav_tab #nav-tab-form").addClass("active")
-            $("#ummu_tab_contnet #nav-form").addClass("show active")
-
+            $ummu.views.tab_content('setRow_toForm')
             $ummu.button.sbBtn_on_showData()
         },
 

@@ -114,6 +114,16 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show-province', 'PelabuhanController::showProvince');
     });
 
+    $routes->group('voyage_route', function ($routes) {
+        $routes->get('/', 'VoyageRouteController::index');
+        $routes->get('show', 'VoyageRouteController::show');
+        $routes->post('create', 'VoyageRouteController::create');
+        $routes->post('update/(:num)', 'VoyageRouteController::update/$1');
+        $routes->post('delete/(:num)', 'VoyageRouteController::delete/$1');
+
+        $routes->get('show-pelabuhan', 'VoyageRouteController::show_pelabuhan');
+    });
+
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
@@ -165,6 +175,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_tugboat', 'ShippingInstructionController::show_tugboat');
         $routes->get('show_barge', 'ShippingInstructionController::show_barge');
         $routes->get('show_uom', 'ShippingInstructionController::show_uom');
+        $routes->get('show-voyage-route', 'ShippingInstructionController::show_voyage_route');
     });
 
     $routes->group('spal_standard', function ($routes) {

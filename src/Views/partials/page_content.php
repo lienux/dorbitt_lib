@@ -16,7 +16,7 @@
     <div class="section-body">
         <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
             <div class="card-body pt-2">
-                <div class="tab-content" id="ummu_tab_contnet">
+                <div class="tab-content" id="ummu_tab_content">
                     <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
                         <?= $this->include(config('Vh')->ummuView($dir_views . 'form')) ?>
                     </div>

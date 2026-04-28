@@ -14,7 +14,7 @@ class PelabuhanController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/master-data/pelabuhan/show-country";
+        $this->pathAPI = "api/master-data/pelabuhan";
         $this->module_kode = 'master-data-pelabuhan';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
@@ -51,33 +51,33 @@ class PelabuhanController extends ResourceController
         return view($this->vH->ummuView($this->dir_view . 'index'), $data);
     }
 
-    private function index_show()
-    {
-        $params = [
-            "path"      => "api/". $this->module_kode,
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+    // private function index_show()
+    // {
+    //     $params = [
+    //         "path"      => "api/". $this->module_kode,
+    //         "method" => 'GET',
+    //         "payload" => [],
+    //         "headers" => $this->cH->headers3($this->module_kode)
+    //     ];
 
-        $builder = $this->cH->ummu2($params);
+    //     $builder = $this->cH->ummu2($params);
 
-        return $builder;
-    }
+    //     return $builder;
+    // }
 
-    public function show_data()
-    {
-        $params = [
-            "path"      => "api/". $this->module_kode,
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+    // public function show_data()
+    // {
+    //     $params = [
+    //         "path"      => "api/". $this->module_kode,
+    //         "method" => 'GET',
+    //         "payload" => [],
+    //         "headers" => $this->cH->headers3($this->module_kode)
+    //     ];
 
-        $builder = $this->cH->ummu2($params);
+    //     $builder = $this->cH->ummu2($params);
 
-        return $this->respond($builder, 200);
-    }
+    //     return $this->respond($builder, 200);
+    // }
 
     public function show($id = null)
     {
@@ -91,7 +91,7 @@ class PelabuhanController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/". $this->module_kode ."/show",
+            "path"      => $this->pathAPI ."/show",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)

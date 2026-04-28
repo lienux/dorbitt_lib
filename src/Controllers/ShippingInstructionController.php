@@ -250,4 +250,28 @@ class ShippingInstructionController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function show_voyage_route($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*",
+            "type_id" => 1
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/show-rute",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }

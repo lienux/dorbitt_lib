@@ -9,13 +9,82 @@ var app = {
             $ummu.localStorage.dt_default($localStrgKey);
             $ummu.dt.layout.buttonAll($ummu.dt.init);
 
+            // $ummu.dt.init2_kosong(table2);
+
+            var waypoint_rows = [];
+
+            app.dt.waypoint.init = new DataTable(
+                table2, {
+                columns: [
+                    {
+                        title: "ID",
+                        data: "id",
+                        className: "text-center",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { 
+                        title: "Sequence", 
+                        data: "sequence",
+                        className: "text-center"
+                    },
+                    { title: "Name", data: "nama" },
+                    { title: "Latitude", data: "lintang" },
+                    { title: "Longitude", data: "bujur" },
+                    { title: "Course (°T)", data: "haluan" },
+                    { title: "Distance between points (NM)", data: "jarak_antar_titik" },
+                    { title: "Total distance (NM)", data: "total_jarak" },
+                ],
+                createdRow: function(row, data, dataIndex) {
+                    // Ambil total jumlah data
+                    const totalRows = this.api().rows().count();
+
+                    // Cek jika baris pertama (index 0) 
+                    // atau baris terakhir (index totalRows - 1)
+                    if (dataIndex === 0 || dataIndex === totalRows - 1) {
+                        $(row).addClass('font-weight-bold');
+                    }
+                },
+                data: waypoint_rows,
+                layout: {
+                    topStart: {
+                        buttons: [],
+                    },
+                },
+            });
+
+            setTimeout(() => {
+                $ummu.dt.layout.buttonDefaultAndCustom(app.dt.waypoint.init, ['btn_new']);
+                app.dt.waypoint.init.button('#dt_btn_new').disable();
+            }, 1000); // 2000 ms = 2 detik
+
             $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
                 var row = $ummu.dt.init.row(this).data();
                 // console.log(row)
+                
                 $ummu.url.setParamFromRow(row)
+
+                // 2. Ubah bagian array (detail_waypoint) menjadi string JSON
+                // Karena URL params tidak mendukung struktur nested secara native
+                const detail_waypoint = JSON.stringify(row.detail_waypoint);
+
+                // 3. Masukkan ke URLSearchParams
+                // const params = new URLSearchParams(formattedData);
+                $ummu.url.setParam('detail_waypoint', detail_waypoint);
+
                 // $ummu.vars.is_row = true;
                 // app.controllers.detail(row);
                 app.views.setRow_toForm(row);
+            });
+
+            $("#modal_btnSave_waypoint").on('click', function(){
+                // console.log('ok')
+                app.controllers.collect_waypoint();
             });
         },
     },
@@ -58,72 +127,22 @@ var app = {
             app.views.forClear()
             $("#status").html('<span class="badge badge-secondary">Draft</span>')
             $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+            app.dt.waypoint.init.button('#dt_btn_new').enable();
         },
 
         sbSave: function () {
-            var spal_id = $("#spal").attr('data-id');
-            var spal_number = $("#spal").val();
-            var tgl = $("#iDate").val();
-            var number = $("#number").val();
-            var from_dept_id = $("#from_dept").attr('data-id');
-            var to_dept_id = $("#to_dept").attr('data-id');
+            var name = $("#name").val();
+            var from_id = $("#port_of_loading").attr('data-id');
+            var to_id = $("#port_of_discharge").attr('data-id');
 
-            var client_id = $("#client").attr('data-id');
-            var tugboat_id = $("#tugboat").attr('data-id');
-            var barge_id = $("#barge").attr('data-id');
-            var ukuran_barge = $("#ukuran_barge").val();
-            var tonnage = $("#tonnage").val();
-            var uom_id = $("#uom").attr('data-id');
-
-            var eta_loading_port = $("#eta_loading_port").attr('data-from');
-            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
-            var eta_discharge_port = $("#eta_discharge_port").val();
-
-            var loading_port = $("#loading_port").val();
-            var discharge_port = $("#discharge_port").val();
-
-            $ummu.vars.formData.append("spal_id", spal_id);
-            $ummu.vars.formData.append("spal_number", spal_number);
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            $ummu.vars.formData.append("to_dept_id", to_dept_id);
-
-            $ummu.vars.formData.append("client_id", client_id);
-            $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            $ummu.vars.formData.append("tonnage", tonnage);
-            $ummu.vars.formData.append("uom_id", uom_id);
-
-            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
-            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
-
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
+            $ummu.vars.formData.append("name", name);
+            $ummu.vars.formData.append("from_id", from_id);
+            $ummu.vars.formData.append("to_id", to_id);
 
             var payload = {
-                "spal_id": spal,
-                "spal_number": spal_number,
-                "tgl": tgl,
-                "number": number,
-                "from_dept_id": from_dept_id,
-                "to_dept_id": to_dept_id,
-
-                "client_id": client_id,
-                "tugboat_id": tugboat_id,
-                "barge_id": barge_id,
-                "barge_loa": ukuran_barge,
-                "tonnage": tonnage,
-                "uom_id": uom_id,
-
-                "eta_loading_port": eta_loading_port,
-                "eta_loading_port_to": eta_loading_port_to,
-                "eta_discharge_port": eta_discharge_port,
-
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
+                "name": name,
+                "from_id": from_id,
+                "to_id": to_id,
             };
 
             const id = $ummu.url.getParam('id');
@@ -143,7 +162,7 @@ var app = {
             const validation = app.validation.save();
 
             if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
+                $ummu.views.errors_msg(validation) //string or array
                 $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
             }else{
                 var ummu = $ummu.ajax.ummu7(params);   
@@ -170,6 +189,7 @@ var app = {
         },
 
         sbCancle: function () {
+            app.dt.waypoint.init.button('#dt_btn_new').disable();
             if ($ummu.url.getParam('id')) {
                 // 
             }else{
@@ -178,7 +198,7 @@ var app = {
         },
 
         sbEdit: function () {
-            // 
+            app.dt.waypoint.init.button('#dt_btn_new').enable();
         },
 
         sbDelete: function(id) {
@@ -242,50 +262,93 @@ var app = {
 
         on_showLeftModal: function(id) {
             console.log(id)
-            if (id == 'country') {
-                $ummu.controllers.show_country(id);
-            }else if (id == 'province') {
-                $ummu.controllers.show_province(id);
-            }else{
+            if (id == 'port_of_loading' || id == 'port_of_discharge') {
+                $ummu.url.setParam('set_to_id', id);
+                $ummu.controllers.show_pelabuhan(id);
+            } else{
                 //
             }
         },
 
-        on_click_tbody_trtd_child1: function(row) {
+        // on_click_tbody_trtd_child1: function(row) {
+        //     console.log(row)
+        //     // app.views.setRow_toForm_freightCharter(row)
+        // },
+
+        // on_click_tbody_trtd_child_spal: function(row) {
+        //     console.log(row)
+        //     $("#loading_port").val(row.loading_port)
+        //     $("#discharge_port").val(row.discharge_port)
+
+        //     $("#client").val(row.client_name).attr('data-id', row.client_id)
+        //     $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+        //     $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+        //     $("#ukuran_barge").val(row.barge_loa)
+        //     $("#tonnage").val(row.qty)
+        //     $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
+
+        //     $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+        //     .attr('data-from', row.loading_availability_date_from)
+        //     .attr('data-to', row.loading_availability_date_to)
+
+        //     $("#si_number").val(row.si_number)
+        //     $("#si_url").attr('href', row.si_fileUrl)
+        // },
+
+        // on_click_tbody_trtd_child_country: function(row) {
+        //     // console.log(row)
+        //     $("#country").val(row.name).attr('data-id', row.id);
+        // },
+
+        on_click_tbody_trtd_child_pelabuhan: function(row) {
             // console.log(row)
-            app.views.setRow_toForm_freightCharter(row)
+            var set_to_id = $ummu.url.getParam('set_to_id');
+
+            if (set_to_id == 'port_of_loading' && $("#port_of_discharge").attr('data-id') == row.id) {
+                let msg = "Has been used for Discharge.";
+                $ummu.views.errors_msg(msg) //string or array
+            }else if (set_to_id == 'port_of_discharge' && $("#port_of_loading").attr('data-id') == row.id) {
+                let msg = "Has been used for Loading.";
+                $ummu.views.errors_msg(msg) //string or array
+            } else{
+                $("#"+set_to_id).val(row.name).attr('data-id', row.id);
+                $ummu.url.delParam('set_to_id');
+            }
         },
 
-        on_click_tbody_trtd_child_spal: function(row) {
-            console.log(row)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
+        on_dtBtnNew_click: function() {
+            // var kondisiBerlayar = $("#sailing_conditions").val();
 
-            $("#client").val(row.client_name).attr('data-id', row.client_id)
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#ukuran_barge").val(row.barge_loa)
-            $("#tonnage").val(row.qty)
-            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
-
-            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
-            .attr('data-from', row.loading_availability_date_from)
-            .attr('data-to', row.loading_availability_date_to)
-
-            $("#si_number").val(row.si_number)
-            $("#si_url").attr('href', row.si_fileUrl)
+            // if (kondisiBerlayar == "" || kondisiBerlayar == null) {
+            //     $ummu.views.errors_msg("Silahkan pilih Conditions terlebih dahulu.");
+            // }else{
+                $("#modalForm_inputWaypoint").modal('show');
+            // }
         },
 
-        on_click_tbody_trtd_child_country: function(row) {
-            // console.log(row)
-            $("#country").val(row.name).attr('data-id', row.id);
+        collect_waypoint: function() {
+            var name = $("#name").val();
+            var lintang = $("#lintang").val();
+            var lintang_menit = $("#lintang_menit").val();
+            var arah_sn = $("#arah_sn").val();
+            var bujur = $("#bujur").val();
+            var bujur_menit = $("#bujur_menit").val();
+            var arah_ew = $("#arah_ew").val();
+
+            var payload = {
+                "nama": name,
+                "lintang": lintang+'-'+lintang_menit+arah_sn,
+                "bujur": bujur+'-'+bujur_menit+arah_ew,
+            };
+
+            console.log(payload)
         },
     },
 
     validation: {
         save: function() {
             var list = [];
-            list = $ummu.validation.inputValidate();
+            list = $ummu.validation.inputValidate3();
 
             return list;
         }
@@ -297,74 +360,32 @@ var app = {
         },
 
         setRow_toForm: function(row) {
-            // console.log(row)
-            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
-            $("#iDate").val(row.tgl)
-            $("#number").val(row.number)
-            $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
-            $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
+            // console.log(JSON.parse(row.detail_waypoint))
 
-            $("#client").val(row.client_name).attr('data-id', row.client_id)
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#ukuran_barge").val(row.barge_loa)
-            // $("#load_type").val(row.load_type)
-            $("#tonnage").val($ummu.formatter.id(row.qty))
-            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
+            $ummu.views.tab_content('setRow_toForm')
 
-            $("#eta_loading_port").val(row.eta_loading_port)
-            $("#eta_loading_port_to").val(row.eta_loading_port_to)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
-            $(".custom-file-label").html(row.fileNameOrigin)
-            $("#file_url").attr("href", row.fileUrl)
+            $("#name").val(row.name)
+            $("#port_of_loading").val(row.from_name).attr('data-id', row.from_id)
+            $("#port_of_discharge").val(row.to_name).attr('data-id', row.to_id)
 
-            if (row.fileNameOrigin) {
-                // $("#form_input #file_url span").html(row.fileNameOrigin)
-                $("#file_url").attr("href", row.fileUrl)
-            }else{
-                // $("#form_input #file_url span").html("File not available.")
-                $(".custom-file-label").html('No file...')
-
-            }
 
             $ummu.views.setIdentitiyToForm(row)
-
-            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
-            
-            $("#ummu_nav_tab #nav-tab-form").addClass("active")
-            $("#ummu_tab_contnet #nav-form").addClass("show active")
-
             $ummu.button.sbBtn_on_showData()
-
-            if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
-                $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
-                $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
-
-                $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            }else{
-                $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                // $('#btn_edit, #btn_delete').addClass('collapse')
-                $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
-                $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
-
-                if (row.is_release == 1) {
-                    $("#status").html('<span class="badge badge-secondary">Draft</span>')
-                }else if (row.is_release == 2) {
-                    $("#status").html('<span class="badge badge-primary">Approve</span>')
-                }else if (row.is_release == 3) {
-                    $("#status").html('<span class="badge badge-warning">Progress</span>')
-                }else if (row.is_release == 4) {
-                    $("#status").html('<span class="badge badge-success">Done</span>')
-                }
-            }
+            
+            setTimeout(() => {
+                var detail_waypoint = JSON.parse($ummu.url.getParam('detail_waypoint'));
+                // console.log("Eksekusi setelah 2 detik");
+                app.dt.waypoint.init.clear().rows.add(detail_waypoint).draw();
+            }, 1000); // 2000 ms = 2 detik
         },
 
         forClear: function() {
             $("#form_input input").val('');
-            $("#status, #uom").html('')
+            // $("#status, #uom").html('')
+
+            if (app.dt.waypoint.init.rows().count() > 0) {
+                app.dt.waypoint.init.clear().draw();
+            }
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -431,15 +452,10 @@ var app = {
                             );
                         }
                     },
-                    { data: "kode"},
                     { data: "name"},
-                    { data: "latitude_ddm"},
-                    { data: "longitude_ddm"},
-                    { data: "country_name"},
-                    { data: "province_name"},
-                    { data: "time_zone"},
-                    { data: "kedalaman"},
-                    { data: "type_name"},
+                    { data: "from_name"},
+                    { data: "to_name"},
+                    { data: "distance"},
                 ];
         
                 return columns;
@@ -665,6 +681,9 @@ var app = {
                 return rowGroup;
             },
         },
+        waypoint: {
+            init: null,
+        }
     },
 };
 

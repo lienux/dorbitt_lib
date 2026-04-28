@@ -12,8 +12,9 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/<?=$module_kode?>/';
-        var table = $('#tbPort')
-        var $table = $('#tbPort')
+        var table = $('#tbRute')
+        var table2 = $('#tbWaypoint')
+        var $table = $('#tbRute')
         var $remove = $('#remove')
         var selections = []
         var $crud = ["new","edit","delete"]
