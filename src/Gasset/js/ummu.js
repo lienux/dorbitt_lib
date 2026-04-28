@@ -2694,6 +2694,138 @@ var $ummu = {
             $ummu.dt.country.onClick();
         },
 
+        show_pelabuhan: function () {
+            let lcg = localStorage.getItem('pelabuhan')
+
+            if ($($tbListDataID).data('init') != 'pelabuhan') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.pelabuhan.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.pelabuhan.init == null) {
+                    $ummu.dt.pelabuhan.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                            { title: "Province", data: "province_name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.pelabuhan.init.destroy();
+                                            $ummu.dt.pelabuhan.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.pelabuhan.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.pelabuhan.init == null) {
+                    $ummu.dt.pelabuhan.create()
+                } else {
+                    $ummu.dt.pelabuhan.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'pelabuhan');
+            $ummu.dt.pelabuhan.onClick();
+        },
+
+        show_voyage_route: function () {
+            let lcg = localStorage.getItem('voyage_route2')
+
+            if ($($tbListDataID).data('init') != 'voyage_route2') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.voyage_route2.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.voyage_route2.init == null) {
+                    $ummu.dt.voyage_route2.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.voyage_route2.init.destroy();
+                                            $ummu.dt.voyage_route2.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.voyage_route2.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.voyage_route2.init == null) {
+                    $ummu.dt.voyage_route2.create()
+                } else {
+                    $ummu.dt.voyage_route2.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'voyage_route2');
+            $ummu.dt.voyage_route2.onClick();
+        },
         // onClick_btnApprove: function() {
         //     // if ($ummu.url.getParam('id')) {
         //     //     $ummu.button.sbBtn_default()
@@ -8857,6 +8989,16 @@ var $ummu = {
             $("#created_by").html(row.created_by_name)
             $("#updated_by").html(row.updated_by_name)
         },
+
+        tab_content: function(a) {
+            if (a == 'setRow_toForm') {
+                $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+                $("#ummu_tab_content #nav-listData").removeClass("show active")
+                
+                $("#ummu_nav_tab #nav-tab-form").addClass("active")
+                $("#ummu_tab_content #nav-form").addClass("show active")
+            }
+        }
     },
 
     formatter: {
@@ -9308,6 +9450,36 @@ var $ummu = {
                         // const attrId = input.id;
                         // const txtMsg = $('#' + input.id).attr('data-label');
                         arrayList.push(teks + ' field is required.')
+                    }
+                }
+            });
+
+            return arrayList;
+        },
+
+        // Ambil text nya dari label dengan attr for = id inputnya
+        // Untuk contoh format dengan urutan <label>text elementlainnya</label>
+        inputValidate3: function() {
+            var arrayList = [];
+
+            // Mengambil semua elemen input yang memiliki atribut required
+            const inputsRequired = document.querySelectorAll('#form_input input[required]');
+
+            inputsRequired.forEach(input => {
+                // Mencari elemen label pertama yang memiliki for="name"
+                const labelElement = document.querySelector('label[for="'+input.id+'"]');
+
+                // Mengambil text node pertama dan membersihkan spasi kosong
+                const labelText = labelElement.childNodes[0].textContent.trim();
+
+                // cek apakah terdapat class is-data-id
+                if ($("#" + input.id).hasClass('is-data-id')) {
+                   if ($ummu.func.isValue($("#" + input.id).attr('data-id')) === false) {
+                        arrayList.push(labelText + ' field is required.')
+                    }
+                }else{
+                    if ($ummu.func.isValue($("#" + input.id).val()) === false) {
+                        arrayList.push(labelText + ' field is required.')
                     }
                 }
             });
@@ -13527,6 +13699,209 @@ var $ummu = {
                             app.controllers.on_click_tbody_trtd_child_country(row);
                         } else {
                             console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                        }
+                    });
+                }
+            }
+        },
+
+        pelabuhan: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.pelabuhan.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.pelabuhan.config()
+                );
+
+                $ummu.dt.pelabuhan.init.on('xhr', function () {
+                    var response = $ummu.dt.pelabuhan.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('pelabuhan', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show-pelabuhan",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.pelabuhan.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Port Name", data: "name" },
+                        { title: "Province", data: "province_name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.pelabuhan.init !== null) {
+                    $ummu.dt.pelabuhan.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.pelabuhan.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#pelabuhan").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                            app.controllers.on_click_tbody_trtd_child_pelabuhan(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                        }
+                    });
+                }
+            }
+        },
+
+        voyage_route2: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.voyage_route2.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.voyage_route2.config()
+                );
+
+                $ummu.dt.voyage_route2.init.on('xhr', function () {
+                    var response = $ummu.dt.voyage_route2.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('voyage_route2', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show-voyage-route",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.pelabuhan.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Port Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.voyage_route2.init !== null) {
+                    $ummu.dt.voyage_route2.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.voyage_route2.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#voyage_route2").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_voyage_route2 !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_voyage_route2 is OK.');
+                            app.controllers.on_click_tbody_trtd_child_voyage_route2(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_voyage_route2.');
                         }
                     });
                 }

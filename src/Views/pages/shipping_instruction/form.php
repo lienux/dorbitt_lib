@@ -110,7 +110,9 @@
             </div>
 
             <div class="col-lg-6 col-sm-12">
-                <div class="row mb-2">
+                <!-- <input type="text" id="rangePicker" placeholder="Pilih rentang tanggal.."> -->
+
+                <!-- <div class="row mb-2">
                     <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading From<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <div class="input-group input-group-sm">
@@ -137,8 +139,40 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingFrom" placeholder="Pilih Tanggal Muat" data-label="Date of Loading From" readonly disabled required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                    data-inputid="iDateLoadingFrom" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" placeholder="Sampai tanggal." data-label="Date of Loading To" required readonly disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                    data-inputid="iDateLoadingTo" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-4">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control ummu-datepicker" id="iDateLoadingTo" placeholder="Pilih Batas Akhir Muat" data-label="Date of Loading To" required readonly disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                    data-inputid="iDateLoadingTo" disabled>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- <div class="row mb-2">
                     <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Loading<span class="text-danger small"> *</span></label>
                     <div class="col-sm-8">
                         <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" placeholder="Masukan Nama Pelabuhan Muat" data-label="Port of Loading" required disabled>
@@ -150,6 +184,40 @@
                     <div class="col-sm-8">
                         <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm endis" placeholder="Masukan Nama Pelabuhan Bongkar" data-label= "Port of Discharge" required disabled>
                         <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span>
+                    </div>
+                </div> -->
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
+                        Voyage Route<span class="text-danger small"> *</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <!-- <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm endis" placeholder="Pilih list voyage route" data-label="Port of Loading" required disabled>
+                        <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span> -->
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="voyage_route" placeholder="Pilih voyage route" data-label="Voyage Route" disabled required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_voyage_route" type="button" disabled
+                                    data-inputid="voyage_route" data-modaltitle="Master Data Voyage Route">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
+                        Port of Loading
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm" placeholder="Auto setelah pilih Voyage Route..." disabled>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
+                        Port of Discharge
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm" placeholder="Auto setelah pilih Voyage Route..." disabled>
                     </div>
                 </div>
                 <div class="row mb-2">
