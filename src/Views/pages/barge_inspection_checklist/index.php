@@ -29,11 +29,6 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/'+ '<?=$module_kode?>' +'/';
-        var table = $('#tbBargeChecklist')
-        var $table = $('#tbBargeChecklist')
-        // var $table2 = $('#tbIjoDetail')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
         var $localStrgKey = '<?=$module_kode?>'
         var $equipment_count = '<?=$equipment_count?>'

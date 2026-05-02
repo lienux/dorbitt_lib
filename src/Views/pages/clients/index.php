@@ -12,10 +12,6 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/clients/';
-        var table = $('#tbClients')
-        var $table = $('#tbClients')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
         var $localStrgKey = "clients"
     </script>

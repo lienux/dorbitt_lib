@@ -561,6 +561,6 @@ var app = {
     },
 };
 
-$(document).ready(function () {
-    app.config.autoload()
-});
+// $(document).ready(function () {
+//     app.config.autoload()
+// });

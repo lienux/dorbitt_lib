@@ -680,5 +680,5 @@ var app = {
 };
 
 $(document).ready(function () {
-    app.config.autoload()
+    // app.config.autoload()
 });

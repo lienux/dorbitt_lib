@@ -12,10 +12,6 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/ms_barge/';
-        var table = $('#tbBarge')
-        var $table = $('#tbBarge')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>

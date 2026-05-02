@@ -12,10 +12,7 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/shipping_instruction/';
-        var table = $('#tbShippingInstruction')
-        var $table = $('#tbShippingInstruction')
-        var $remove = $('#remove')
-        var selections = []
+        var $table = $('#v_dataTable')
         var $crud = ["new","edit","delete"]
         var $localStrgKey = "shipping_instruction"
     </script>
