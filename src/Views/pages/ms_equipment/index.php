@@ -12,10 +12,6 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/equipment/';
-        var table = $('#tbEquipment')
-        var $table = $('#tbEquipment')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
         var $localStrgKey = "equipment"
     </script>

@@ -1,22 +1,7 @@
 <div class="table-responsive">
-    <table class="table table-sm table-striped table-bordered text-sm text-nowrap table-hover dataTable" id="tbEquipment"
+    <table class="table table-sm table-striped table-bordered text-sm text-nowrap table-hover dataTable" id="v_dataTable"
         width="100%" cellspacing="0">
-        <thead class="bg-success text-light">
-            <tr>
-                <th></th>
-                <th>ID</th>
-                <th>Kode</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Model</th>
-                <th>Serial Number</th>
-                <th>Manufacture</th>
-                <th>Maintenance Schedule</th>
-                <th>Criticality Level</th>
-                <th>Location</th>
-                <th>Description</th>
-            </tr>
-        </thead>
+        <thead class="bg-success text-light"></thead>
         <tbody></tbody>
     </table>
 </div>

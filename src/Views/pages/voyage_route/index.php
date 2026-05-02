@@ -12,11 +12,7 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/<?=$module_kode?>/';
-        var table = $('#tbRute')
         var table2 = $('#tbWaypoint')
-        var $table = $('#tbRute')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
         var $localStrgKey = '<?=$module_kode?>'
     </script>

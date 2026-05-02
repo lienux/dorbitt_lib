@@ -23,7 +23,43 @@
                 </div>
 
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">Name<span class="text-danger small"> *</span></label>
+                    <label class="col-sm-3 col-form-label">Nama<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Jenis Kelamin<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Tanggal Lahir<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Alamat<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Negara<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Provinsi<span class="text-danger small"> *</span></label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Kota<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <input type="text" name="name" id="name" class="form-control form-control-sm endis" data-label="Name Karyawan" required disabled placeholder="Masukan Nama Karyawan">
                     </div>

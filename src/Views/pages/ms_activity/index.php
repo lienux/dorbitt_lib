@@ -12,11 +12,6 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/ms_activity/';
-        var table = $('#tbMsActivity')
-        var $table = $('#tbMsActivity')
-        var $remove = $('#remove')
-        var selections = []
-        var $crud = ["new","edit","delete"]
         var $localStrgKey = "ms_activity"
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>

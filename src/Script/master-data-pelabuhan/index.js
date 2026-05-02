@@ -6,17 +6,7 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.localStorage.dt_default($localStrgKey);
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
-
-            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
-                var row = $ummu.dt.init.row(this).data();
-                // console.log(row)
-                $ummu.url.setParamFromRow(row)
-                // $ummu.vars.is_row = true;
-                // app.controllers.detail(row);
-                app.views.setRow_toForm(row);
-            });
+            $ummu.dt.load2();
         },
     },
 
@@ -33,13 +23,13 @@ var app = {
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init(table) == true) {
+            if ($ummu.dt.is_init($table) == true) {
                 $ummu.dt.init_destroy();
             }
 
             $ummu.dt.init = new DataTable(
-                table,
-                app.dt.default.config_show()
+                $table,
+                $ummu.dt.config.show()
             );
 
             $ummu.dt.layout.buttonAll($ummu.dt.init)
@@ -298,73 +288,66 @@ var app = {
 
         setRow_toForm: function(row) {
             // console.log(row)
-            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
-            $("#iDate").val(row.tgl)
-            $("#number").val(row.number)
-            $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
-            $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
+            $("#name").val(row.name)
+            // $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
+            // $("#number").val(row.number)
+            // $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
+            // $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
 
-            $("#client").val(row.client_name).attr('data-id', row.client_id)
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#ukuran_barge").val(row.barge_loa)
-            // $("#load_type").val(row.load_type)
-            $("#tonnage").val($ummu.formatter.id(row.qty))
-            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
+            // $("#client").val(row.client_name).attr('data-id', row.client_id)
+            // $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+            // $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+            // $("#ukuran_barge").val(row.barge_loa)
+            // // $("#load_type").val(row.load_type)
+            // $("#tonnage").val($ummu.formatter.id(row.qty))
+            // $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
 
-            $("#eta_loading_port").val(row.eta_loading_port)
-            $("#eta_loading_port_to").val(row.eta_loading_port_to)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
-            $(".custom-file-label").html(row.fileNameOrigin)
-            $("#file_url").attr("href", row.fileUrl)
+            // $("#eta_loading_port").val(row.eta_loading_port)
+            // $("#eta_loading_port_to").val(row.eta_loading_port_to)
+            // $("#loading_port").val(row.loading_port)
+            // $("#discharge_port").val(row.discharge_port)
+            // $(".custom-file-label").html(row.fileNameOrigin)
+            // $("#file_url").attr("href", row.fileUrl)
 
-            if (row.fileNameOrigin) {
-                // $("#form_input #file_url span").html(row.fileNameOrigin)
-                $("#file_url").attr("href", row.fileUrl)
-            }else{
-                // $("#form_input #file_url span").html("File not available.")
-                $(".custom-file-label").html('No file...')
+            // if (row.fileNameOrigin) {
+            //     // $("#form_input #file_url span").html(row.fileNameOrigin)
+            //     $("#file_url").attr("href", row.fileUrl)
+            // }else{
+            //     // $("#form_input #file_url span").html("File not available.")
+            //     $(".custom-file-label").html('No file...')
 
-            }
+            // }
 
             $ummu.views.setIdentitiyToForm(row)
-
-            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
-            
-            $("#ummu_nav_tab #nav-tab-form").addClass("active")
-            $("#ummu_tab_contnet #nav-form").addClass("show active")
-
             $ummu.button.sbBtn_on_showData()
 
-            if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
-                $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
-                $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
+            // if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
+            //     $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+            //     $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
+            //     $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
 
-                $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            }else{
-                $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                // $('#btn_edit, #btn_delete').addClass('collapse')
-                $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
-                $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
+            //     $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            // }else{
+            //     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+            //     // $('#btn_edit, #btn_delete').addClass('collapse')
+            //     $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
+            //     $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
 
-                if (row.is_release == 1) {
-                    $("#status").html('<span class="badge badge-secondary">Draft</span>')
-                }else if (row.is_release == 2) {
-                    $("#status").html('<span class="badge badge-primary">Approve</span>')
-                }else if (row.is_release == 3) {
-                    $("#status").html('<span class="badge badge-warning">Progress</span>')
-                }else if (row.is_release == 4) {
-                    $("#status").html('<span class="badge badge-success">Done</span>')
-                }
-            }
+            //     if (row.is_release == 1) {
+            //         $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            //     }else if (row.is_release == 2) {
+            //         $("#status").html('<span class="badge badge-primary">Approve</span>')
+            //     }else if (row.is_release == 3) {
+            //         $("#status").html('<span class="badge badge-warning">Progress</span>')
+            //     }else if (row.is_release == 4) {
+            //         $("#status").html('<span class="badge badge-success">Done</span>')
+            //     }
+            // }
         },
 
         forClear: function() {
             $("#form_input input").val('');
-            $("#status, #uom").html('')
+            // $("#status, #uom").html('')
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -374,55 +357,13 @@ var app = {
     },
 
     dt: {
-        default: {
-            config_show: function () {
-                return {
-                    ajax: {
-                        dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show",
-                        data: function (d) {
-                            // // d.myKey = "myValue";
-                            // // d.custom = $('#myInput').val();
-                            // // d.release = [0];
-                            // // etc
-                            // d.tgl = tgl.replace(/-/g, "");
-                            // d.tgl2 = tgl2.replace(/-/g, "");
-                            // d.site = site;
-                        },
-                    },
-                    columns: app.dt.default.config_columns(),
-                    processing: true,
-                    // serverSide: true,
-                    responsive: true,
-                    keys: true,
-                    deferLoading: 57,
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [],
-                        }
-                    },
-                    columnDefs: app.dt.default.config_columnDefs(),
-                    select: $ummu.dt.config.select(),
-                    // order: [[26, "asc"],[27,"asc"]],
-                    // rowGroup: app.dt.clients.config_rowGroup(),
-                    // fixedColumns: {
-                    //     start: 2,
-                    //     // end: 1
-                    // },
-                    paging: true,
-                    // scrollCollapse: true,
-                    // scrollX: true,
-                    // scrollY: '60vh',
-                    drawCallback: function (settings) {
-                        // var api = this.api();
-                    },
-                };
-            },  
-            config_columns: function () {
+        config: {
+            columns: function () {
                 let columns = [
                     { data: null, render: DataTable.render.select() },
-                    { data: "id",
+                    { 
+                        title: "ID",
+                        data: "id",
                         render: function (data, type) {
                             return (
                                 '<a href="javascript:void(0);">'+
@@ -431,238 +372,44 @@ var app = {
                             );
                         }
                     },
-                    { data: "kode"},
-                    { data: "name"},
-                    { data: "latitude_ddm"},
-                    { data: "longitude_ddm"},
-                    { data: "country_name"},
-                    { data: "province_name"},
-                    { data: "time_zone"},
-                    { data: "kedalaman"},
-                    { data: "type_name"},
+                    { 
+                        title: "Code",
+                        data: "kode"
+                    },
+                    { 
+                        title: "Name",
+                        data: "name"
+                    },
+                    { 
+                        title: "Latitude",
+                        data: "latitude_ddm"
+                    },
+                    { 
+                        title: "Longitude",
+                        data: "longitude_ddm"
+                    },
+                    { 
+                        title: "Country",
+                        data: "country_name"
+                    },
+                    { 
+                        title: "Province",
+                        data: "province_name"
+                    },
+                    { 
+                        title: "Time Zone",
+                        data: "time_zone"
+                    },
+                    {   title: "Draft Limit",
+                        data: "kedalaman"
+                    },
+                    { 
+                        title: "Type",
+                        data: "type_name"
+                    },
                 ];
         
                 return columns;
-            },  
-            config_columnDefs: function() {
-                let columnDefs = [
-                    {
-                        targets: 0,
-                        orderable: false,
-                        render: DataTable.render.select(),
-                    },
-                    // { 
-                    //     targets: [26,27], 
-                    //     visible: false 
-                    // },
-                ];
-                return columnDefs;
-            },  
-            config_rowGroup: function() {
-                let rowGroup = {
-                    dataSrc: ["tipe","unit_code"],
-                    startRender: function (rows, group) {
-                    // Display the group name and the number of rows in that group
-                    return group + " (" + rows.count() + " rows)";
-                    },
-                    endRender: function (rows, group, level) {
-                    // =======================================================
-                    // OB ====================================================
-                    // =======================================================
-                    var day_rit_ob_count = rows
-                    .data()
-                    .pluck('day_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_ob_count = rows
-                    .data()
-                    .pluck('night_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var total_rit_ob_count = rows
-                    .data()
-                    .pluck('total_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var day_ob_count = rows
-                    .data()
-                    .pluck('day_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_ob_count = rows
-                    .data()
-                    .pluck('night_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_ob_count = rows
-                    .data()
-                    .pluck('total_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-                    
-                    // =========================================================
-                    // Coal Getting ============================================
-                    // =========================================================
-                    var day_rit_cg_count = rows
-                    .data()
-                    .pluck('day_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_cg_count = rows
-                    .data()
-                    .pluck('night_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_rit_cg_count = rows
-                    .data()
-                    .pluck('total_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var day_cg_count = rows
-                    .data()
-                    .pluck('day_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_cg_count = rows
-                    .data()
-                    .pluck('night_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_cg_count = rows
-                    .data()
-                    .pluck('total_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-
-                    // =========================================================
-                    // Coal Hauling ============================================
-                    // =========================================================
-                    var day_rit_cl_count = rows
-                    .data()
-                    .pluck('day_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_cl_count = rows
-                    .data()
-                    .pluck('night_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_rit_cl_count = rows
-                    .data()
-                    .pluck('total_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var day_cl_count = rows
-                    .data()
-                    .pluck('day_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_cl_count = rows
-                    .data()
-                    .pluck('night_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_cl_count = rows
-                    .data()
-                    .pluck('total_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-                    // ===========================================================================
-                    var fuel_count = rows
-                    .data()
-                    .pluck('fuel')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                        
-                    if (level === 0) {
-                        let tr = document.createElement('tr');
-                        let classs = $ummu.dt.endRender_class();
-                        $ummu.dt.addCell(tr, group, 2, classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 5, classs);
-                        return tr;
-                    } else if (level === 1) {
-                        let tr = document.createElement('tr');
-                        let classs = 'text-right font-weight-bold bg-warning';
-                        $ummu.dt.addCell(tr, '', 4);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 5);            
-                        return tr;
-                    }          
-                    }
-                };
-        
-                return rowGroup;
             },
         },
     },

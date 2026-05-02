@@ -11,6 +11,7 @@ var app = {
     },
 
     vars: {
+        initTable2: null,
         runing_id: null,
         init: null,
     },
@@ -31,11 +32,11 @@ var app = {
             );
 
             $ummu.dt.layout.buttonAll($ummu.dt.init)
-            
+
             $ummu.dt.init.on('xhr', function () {
                 var response = $ummu.dt.init.ajax.json();
                 if (response.status == true) {
-                    localStorage.setItem('ms_activity', JSON.stringify(response));
+                    localStorage.setItem($localStrgKey, JSON.stringify(response));
                 }else{
                     $ummu.modal.ummu_msg(response.message)
                 }
@@ -43,23 +44,22 @@ var app = {
         },
 
         sbNew: function () {
-            // 
+            app.views.forClear()
         },
 
         sbSave: function () {
-            var payload = {
-                "kode": $("#form_input #kode").val(),
-                "name": $("#form_input #name").val(),
-                "description": $("#form_input #description").val(),
-            };
-
-            const id = $ummu.url.getParam('id');
+            var id = $ummu.url.getParam('id');
 
             if (id) {
                 var func = "update/" + id
             }else{
                 var func = "create"
             }
+
+            var payload = {
+                "kode": $("#kode").val(),
+                "name": $("#name").val(),
+            };
 
             var params = {
                 "function": func,
@@ -71,9 +71,13 @@ var app = {
                 "loader": true,
             };
 
-            if (app.validation.save == false) {
-                console.log('ada validation')
+            const validation = app.validation.save();
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                // $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
             }else{
+                // console.log('tidak ada validation')
                 var ummu = $ummu.ajax.ummu8(params);   
                 ummu.done(function(result) {
                     $ummu.views.after_sbToolbar_save(result, func, id, payload);
@@ -85,11 +89,25 @@ var app = {
         },
 
         sbCancle: function () {
-            // 
+            if ($ummu.url.getParam('id')) {
+                //
+            }else{
+                // $("#nav-tab-machinery").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-tank").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-dimension").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-fuelconsum").prop("disabled", true).removeClass("active");
+                // $("#nav-tab-speed").prop("disabled", true).removeClass("active");
+
+                // $("#nav-machinery").removeClass("show active");
+                // $("#nav-tank").removeClass("show active");
+                // $("#nav-dimension").removeClass("show active");
+                // $("#nav-fuelconsum").removeClass("show active");
+                // $("#nav-speed").removeClass("show active");
+            }
         },
 
         sbEdit: function () {
-            //
+            // 
         },
 
         sbDelete: function(id) {
@@ -106,33 +124,63 @@ var app = {
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
                 $ummu.views.after_sbToolbar_delete(id, result);
+
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
-        }
+        },
+
+        sbClear: function() {
+            // $("#nav-tab-machinery").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-tank").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-dimension").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-fuelconsum").prop("disabled", true).removeClass("active");
+            // $("#nav-tab-speed").prop("disabled", true).removeClass("active");
+
+            // $("#nav-machinery").removeClass("show active");
+            // $("#nav-tank").removeClass("show active");
+            // $("#nav-dimension").removeClass("show active");
+            // $("#nav-fuelconsum").removeClass("show active");
+            // $("#nav-speed").removeClass("show active");
+        },
     },
 
     validation: {
         save: function() {
-            if ($("#form_input #name").val() == '') {
+            var list = [];
+            list = $ummu.validation.inputValidate();
 
-            }
+            return list;
         }
     },
 
     views: {
-        formParams: function () {
-            return $("#form_input input, #form_input textarea");
+        formParams: function() {
+            return $("#form_input input, #form_input select");
         },
 
         setRow_toForm: function(row) {
             $("#kode").val(row.kode)
             $("#name").val(row.name)
-            $("#description").val(row.description)
 
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
+        },
+
+        forClear: function() {
+            // $("#form_input input").not('#FreightCharter, #TimeCharter, #file_uploadz').val('');
+            $("#form_input input").val('');
+            // // $("#form_input #file_url span").html('')
+            // $("#file_url").removeAttr('href')
+            // $(".custom-file-label").html('Choose file...')
+            // $("#FreightCharter, #TimeCharter").prop('checked', false)
+            // $("#FreightCharter, #TimeCharter, #file_upload").prop('disabled', true)
+
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
         },
     },
 
@@ -152,24 +200,16 @@ var app = {
                             );
                         }
                     },
-                    // { 
-                    //     title: "Type",
-                    //     data: "type_id"
-                    // },
-                    // { 
-                    //     title: "Kode",
-                    //     data: "kode"
-                    // },
+                    { 
+                        title: "NIK",
+                        data: "nikaryawan"
+                    },
                     { 
                         title: "Name",
                         data: "name"
                     },
-                    { 
-                        title: "Description",
-                        data: "description"
-                    },
                 ];
-
+        
                 return columns;
             },
         }

@@ -16,12 +16,6 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12 mb-3">
                 <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="kode">Code</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="kode" class="form-control form-control-sm endis" placeholder="" data-toggle="tooltip" data-placement="top" title="Kode Pelabuhan" required disabled>
-                    </div>
-                </div>
-                <div class="row mb-2">
                     <label class="col-sm-3 col-form-label mb-0 pb-0" for="name">
                         Name<span class="text-danger small"> *</span>
                     </label>

@@ -29,12 +29,9 @@
 <?= $this->section('script') ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/passage_plan/';
-        var table = $('#tbPassagePlan')
         var table2 = $('#tbWaypoint')
-        var $table = $('#tbPassagePlan')
-        var $remove = $('#remove')
-        var selections = []
         var $crud = ["new","edit","delete"]
+        var $localStrgKey = '<?=$module_kode?>'
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>
