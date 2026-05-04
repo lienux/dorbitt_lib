@@ -10250,11 +10250,12 @@ var $ummu = {
                 }
             },
 
-            show: function () {
+            show: function (params) {
                 return {
                     ajax: {
                         dataSrc: "rows",
                         url: $ummu.vars.page_url + "show",
+                        type: "POST",
                         data: function (d) {
                             // // d.myKey = "myValue";
                             // // d.custom = $('#myInput').val();
