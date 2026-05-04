@@ -59,6 +59,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('employee', function ($routes) {
         $routes->get('/', 'EmployeeController::index');
         $routes->get('show', 'EmployeeController::show');
+        $routes->post('show', 'EmployeeController::show');
         $routes->post('create', 'EmployeeController::create');
         $routes->post('update/(:num)', 'EmployeeController::update/$1');
         $routes->post('delete/(:num)', 'EmployeeController::delete/$1');
@@ -67,6 +68,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('department', function ($routes) {
         $routes->get('/', 'DepartmentController::index');
         $routes->get('show', 'DepartmentController::show');
+        $routes->post('show', 'DepartmentController::show');
         $routes->post('create', 'DepartmentController::create');
         $routes->post('update/(:num)', 'DepartmentController::update/$1');
         $routes->post('delete/(:num)', 'DepartmentController::delete/$1');
@@ -75,6 +77,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('clients', function ($routes) {
         $routes->get('/', 'MsClientController::index');
         $routes->get('show', 'MsClientController::show');
+        $routes->post('show', 'MsClientController::show');
         $routes->post('create', 'MsClientController::create');
         $routes->post('update/(:num)', 'MsClientController::update/$1');
         $routes->post('delete/(:num)', 'MsClientController::delete/$1');
@@ -83,6 +86,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_barge', function ($routes) {
         $routes->get('/', 'BargeController::index');
         $routes->get('show', 'BargeController::show');
+        $routes->post('show', 'BargeController::show');
         $routes->post('create', 'BargeController::create');
         $routes->post('update/(:num)', 'BargeController::update/$1');
         $routes->post('delete/(:num)', 'BargeController::delete/$1');
@@ -91,6 +95,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('tugboat', function ($routes) {
         $routes->get('/', 'TugboatController::index');
         $routes->get('show', 'TugboatController::show');
+        $routes->post('show', 'TugboatController::show');
         $routes->post('create', 'TugboatController::create');
         $routes->post('update/(:num)', 'TugboatController::update/$1');
         $routes->post('delete/(:num)', 'TugboatController::delete/$1');
@@ -99,6 +104,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('vessel', function ($routes) {
         $routes->get('/', 'VesselController::index');
         $routes->get('show', 'VesselController::show');
+        $routes->post('show', 'VesselController::show');
         $routes->post('create', 'VesselController::create');
         $routes->post('update/(:num)', 'VesselController::update/$1');
         $routes->post('delete/(:num)', 'VesselController::delete/$1');
@@ -109,6 +115,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('master-data-pelabuhan', function ($routes) {
         $routes->get('/', 'PelabuhanController::index');
         $routes->get('show', 'PelabuhanController::show');
+        $routes->post('show', 'PelabuhanController::show');
         $routes->post('create', 'PelabuhanController::create');
         $routes->post('update/(:num)', 'PelabuhanController::update/$1');
         $routes->post('delete/(:num)', 'PelabuhanController::delete/$1');
@@ -121,6 +128,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('voyage_route', function ($routes) {
         $routes->get('/', 'VoyageRouteController::index');
         $routes->get('show', 'VoyageRouteController::show');
+        $routes->post('show', 'VoyageRouteController::show');
         $routes->post('create', 'VoyageRouteController::create');
         $routes->post('update/(:num)', 'VoyageRouteController::update/$1');
         $routes->post('delete/(:num)', 'VoyageRouteController::delete/$1');
@@ -131,6 +139,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
+        $routes->post('show', 'MsActivityController::show');
         $routes->post('create', 'MsActivityController::create');
         $routes->post('update/(:num)', 'MsActivityController::update/$1');
         $routes->post('delete/(:num)', 'MsActivityController::delete/$1');
@@ -139,6 +148,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('equipment', function ($routes) {
         $routes->get('/', 'MsEquipmentController::index');
         $routes->get('show', 'MsEquipmentController::show');
+        $routes->post('show', 'MsEquipmentController::show');
         $routes->post('create', 'MsEquipmentController::create');
         $routes->post('update/(:num)', 'MsEquipmentController::update/$1');
         $routes->post('delete/(:num)', 'MsEquipmentController::delete/$1');
@@ -147,21 +157,25 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_location', function ($routes) {
         $routes->get('/', 'MsLocationController::index');
         $routes->get('show', 'MsLocationController::show');
+        $routes->post('show', 'MsLocationController::show');
     });
 
     $routes->group('project_site', function ($routes) {
         $routes->get('/', 'MsProjectSiteController::index');
         $routes->get('show', 'MsProjectSiteController::show');
+        $routes->post('show', 'MsProjectSiteController::show');
     });
 
     $routes->group('sounding_report', function ($routes) {
         $routes->get('/', 'SoundingReportController::index');
         $routes->get('show', 'SoundingReportController::show');
+        $routes->post('show', 'SoundingReportController::show');
     });
 
     $routes->group('barge_inspection_checklist', function ($routes) {
         $routes->get('/', 'BargeInspectionController::index');
         $routes->get('show', 'BargeInspectionController::show');
+        $routes->post('show', 'BargeInspectionController::show');
 
         $routes->get('show_equipment', 'BargeInspectionController::show_equipment');
         $routes->get('show_barge', 'BargeInspectionController::show_barge');
@@ -171,6 +185,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('shipping_instruction', function ($routes) {
         $routes->get('/', 'ShippingInstructionController::index');
         $routes->get('show', 'ShippingInstructionController::show');
+        $routes->post('show', 'ShippingInstructionController::show');
         $routes->post('create', 'ShippingInstructionController::create');
         $routes->post('update/(:num)', 'ShippingInstructionController::update/$1');
         $routes->post('delete/(:num)', 'ShippingInstructionController::delete/$1');
@@ -185,6 +200,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('spal_standard', function ($routes) {
         $routes->get('/', 'SpalController::index');
         $routes->get('show', 'SpalController::show');
+        $routes->post('show', 'SpalController::show');
         $routes->post('create', 'SpalController::create');
         $routes->post('update/(:num)', 'SpalController::update/$1');
         $routes->post('delete/(:num)', 'SpalController::delete/$1');
@@ -199,6 +215,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('freight_charter', function ($routes) {
         $routes->get('/', 'FreightCharterController::index');
         $routes->get('show', 'FreightCharterController::show');
+        $routes->post('show', 'FreightCharterController::show');
         $routes->post('create', 'FreightCharterController::create');
         $routes->post('update/(:num)', 'FreightCharterController::update/$1');
         $routes->post('delete/(:num)', 'FreightCharterController::delete/$1');
@@ -213,6 +230,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('time_charter', function ($routes) {
         $routes->get('/', 'TimeCharterController::index');
         $routes->get('show', 'TimeCharterController::show');
+        $routes->post('show', 'TimeCharterController::show');
         $routes->post('create', 'TimeCharterController::create');
         $routes->post('update/(:num)', 'TimeCharterController::update/$1');
         $routes->post('delete/(:num)', 'TimeCharterController::delete/$1');
@@ -227,6 +245,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ijo_from_spal', function ($routes) {
         $routes->get('/', 'IjoFromSpalController::index');
         $routes->get('show', 'IjoFromSpalController::show');
+        $routes->post('show', 'IjoFromSpalController::show');
         $routes->post('create', 'IjoFromSpalController::create');
         $routes->post('update/(:num)', 'IjoFromSpalController::update/$1');
         $routes->post('delete/(:num)', 'IjoFromSpalController::delete/$1');
@@ -240,6 +259,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('gallery_photos', function ($routes) {
         $routes->get('/', 'MyGallery\PhotosController::index');
         $routes->get('show', 'MyGallery\PhotosController::show');
+        $routes->post('show', 'MyGallery\PhotosController::show');
         $routes->post('create', 'MyGallery\PhotosController::create');
         $routes->post('upload', 'MyGallery\PhotosController::upload');
         $routes->delete('delete/(:num)', 'MyGallery\PhotosController::delete/$1');
@@ -248,6 +268,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('gallery_files', function ($routes) {
         $routes->get('/', 'MyGallery\FilesController::index');
         $routes->get('show', 'MyGallery\FilesController::show');
+        $routes->post('show', 'MyGallery\FilesController::show');
         $routes->post('create', 'MyGallery\FilesController::create');
         $routes->post('upload', 'MyGallery\FilesController::upload');
         $routes->delete('delete/(:num)', 'MyGallery\FilesController::delete/$1');
@@ -256,16 +277,19 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('file_pomailer', function ($routes) {
         $routes->get('/', 'FilePomailerController::index');
         $routes->get('show', 'FilePomailerController::show');
+        $routes->post('show', 'FilePomailerController::show');
     });
 
     $routes->group('passage_plan', function ($routes) {
         $routes->get('/', 'PassagePlanController::index');
         $routes->get('show_ijo', 'PassagePlanController::show_ijo');
+        $routes->post('show_ijo', 'PassagePlanController::show_ijo');
     });
 
     $routes->group('time_sheet', function ($routes) {
         $routes->get('/', 'TimeSheetController::index');
         $routes->get('show', 'TimeSheetController::show');
+        $routes->post('show', 'TimeSheetController::show');
         $routes->post('create', 'TimeSheetController::create');
         $routes->post('update/(:num)', 'TimeSheetController::update/$1');
         $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
@@ -281,6 +305,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('vendor_verification', function ($routes) {
         $routes->get('/', 'VendorController::index_verification');
         $routes->get('show', 'VendorVerificationController::show_verification');
+        $routes->post('show', 'VendorVerificationController::show_verification');
         // $routes->post('create', 'VendorController::create');
         // $routes->post('update/(:num)', 'VendorController::update/$1');
         // $routes->post('delete/(:num)', 'VendorController::delete/$1');
@@ -289,6 +314,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('blast_whatsapp', function ($routes) {
         $routes->get('/', 'BlastWhatsappController::index');
         $routes->get('show', 'BlastWhatsappController::show');
+        $routes->post('show', 'BlastWhatsappController::show');
         // $routes->post('create', 'BlastWhatsappController::create');
         // $routes->post('update/(:num)', 'BlastWhatsappController::update/$1');
         // $routes->post('delete/(:num)', 'BlastWhatsappController::delete/$1');
@@ -298,6 +324,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('port-charges', function ($routes) {
         $routes->get('/', 'PortChargesController::index');
         $routes->get('show', 'PortChargesController::show');
+        $routes->post('show', 'PortChargesController::show');
         $routes->post('create', 'PortChargesController::create');
         $routes->post('update/(:num)', 'PortChargesController::update/$1');
         $routes->post('delete/(:num)', 'PortChargesController::delete/$1');
@@ -310,6 +337,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms-costs', function ($routes) {
         $routes->get('/', 'MsCostsController::index');
         $routes->get('show', 'MsCostsController::show');
+        $routes->post('show', 'MsCostsController::show');
         $routes->post('create', 'MsCostsController::create');
         $routes->post('update/(:num)', 'MsCostsController::update/$1');
         $routes->post('delete/(:num)', 'MsCostsController::delete/$1');
@@ -334,6 +362,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('she_hazard_report', function ($routes) {
         $routes->get('/', 'HazardReportController::index');
         $routes->get('show', 'HazardReportController::show');
+        $routes->post('show', 'HazardReportController::show');
         $routes->get('kosong', 'HazardReportController::kosong');
         // $routes->get('show/(:any)', 'HazardReportController::show/$1');
         $routes->post('create', 'HazardReportController::create');
