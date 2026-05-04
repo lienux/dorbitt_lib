@@ -6,17 +6,7 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.localStorage.dt_default($localStrgKey);
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
-
-            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
-                var row = $ummu.dt.init.row(this).data();
-                // console.log(row)
-                $ummu.url.setParamFromRow(row)
-                // $ummu.vars.is_row = true;
-                // app.controllers.detail(row);
-                app.views.setRow_toForm(row);
-            });
+            $ummu.dt.load2();
 
             $ummu.formatter.number2($("#form_input .meterKoma"), 2);
 
@@ -120,13 +110,13 @@ var app = {
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init(table) == true) {
+            if ($ummu.dt.is_init($table) == true) {
                 $ummu.dt.init_destroy();
             }
 
             $ummu.dt.init = new DataTable(
-                table,
-                app.dt.default.config_show()
+                $table,
+               $ummu.dt.config.show()
             );
 
             $ummu.dt.layout.buttonAll($ummu.dt.init)
@@ -389,13 +379,6 @@ var app = {
             $("#speed_runningfree").val(row.speed_runningfree)
 
             $ummu.views.setIdentitiyToForm(row)
-
-            $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-            $("#ummu_tab_contnet #nav-listData").removeClass("show active")
-            
-            $("#ummu_nav_tab #nav-tab-form").addClass("active")
-            $("#ummu_tab_contnet #nav-form").addClass("show active")
-
             $ummu.button.sbBtn_on_showData()
 
             app.views.showHide_form(row.type_id)
@@ -456,7 +439,7 @@ var app = {
     },
 
     dt: {
-        default: {
+        config: {
             config_show: function () {
                 return {
                     ajax: {
@@ -501,7 +484,7 @@ var app = {
                     },
                 };
             },  
-            config_columns: function () {
+            columns: function () {
                 let columns = [
                     { data: null, render: DataTable.render.select() },
                     { data: "id",
