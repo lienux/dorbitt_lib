@@ -53,6 +53,9 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
 });
 
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
+    // g/{{module_kode}}/{{function}}
+    $routes->get('g/(:any)', 'GlobalController::showAll/$1');
+
     $routes->group('employee', function ($routes) {
         $routes->get('/', 'EmployeeController::index');
         $routes->get('show', 'EmployeeController::show');
@@ -112,6 +115,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
         $routes->get('show-country', 'PelabuhanController::showCountry');
         $routes->get('show-province', 'PelabuhanController::showProvince');
+        $routes->get('show-ms-cost', 'PelabuhanController::showMsCost');
     });
 
     $routes->group('voyage_route', function ($routes) {
@@ -289,6 +293,18 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         // $routes->post('update/(:num)', 'BlastWhatsappController::update/$1');
         // $routes->post('delete/(:num)', 'BlastWhatsappController::delete/$1');
         $routes->post('send', 'BlastWhatsappController::send');
+    });
+
+    $routes->group('port-charges', function ($routes) {
+        $routes->get('/', 'PortChargesController::index');
+        $routes->get('show', 'PortChargesController::show');
+        $routes->post('create', 'PortChargesController::create');
+        $routes->post('update/(:num)', 'PortChargesController::update/$1');
+        $routes->post('delete/(:num)', 'PortChargesController::delete/$1');
+
+        $routes->get('show-ijo', 'PortChargesController::show_ijo');
+        $routes->get('show-port', 'PortChargesController::show_port');
+        $routes->get('show-cost', 'PortChargesController::show_cost');
     });
 
     $routes->group('dorbitt', function ($routes) {

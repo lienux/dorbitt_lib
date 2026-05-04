@@ -4,6 +4,7 @@ var $listdata_tableID = $("#modal_list_datatable #tb_list_data")
 var $tbListDataID = $("#modal_listData #modalLeft_table_ListData")
 var $modalLeft_table_ListData = $('#modalLeft_table_ListData')
 var $table = $('#v_dataTable')
+var table = $table;
 var $remove = $('#remove')
 var selections = []
 
@@ -13,322 +14,9 @@ var $ummu = {
         $ummu.auth.load();
     },
 
-    routes: {
-        mechanic_activity: {
-            edit: function (row, index) {
-                app.Controllers.edit(row, index);
-            },
-        },
-
-        auth: {
-            username: function () {
-                app.Controllers.username();
-            },
-        },
-
-        toPage: {
-            new: function (table_id) {
-                $ummu.vars.action = "new";
-
-                console.log('button new')
-                if (typeof app.controllers.new !== "undefined") {
-                    console.log('function app.controllers.new is OK.');
-                    app.controllers.new(table_id);
-                } else {
-                    console.log('plese create function app.controllers.new');
-                }
-            },
-
-            save_selected: function (table_id) {
-                $ummu.vars.action = "save";
-
-                console.log('button save_selected')
-                if (typeof app.controllers.save_selected !== "undefined") {
-                    console.log('function app.controllers.save_selected is OK.');
-                    app.controllers.save_selected(table_id);
-                } else {
-                    console.log('plese create function app.controllers.save_selected');
-                }
-            },
-
-            edit: function (rows) {
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "edit";
-
-                console.log('button edit')
-                if (typeof app.controllers.edit !== "undefined") {
-                    console.log('function app.controllers.edit is OK.');
-                    app.controllers.edit(rows[0]);
-                } else {
-                    console.log('plese create function app.controllers.edit');
-                }
-            },
-
-            delete: function (rows) {
-                $ummu.vars.rows = rows;
-                $ummu.vars.row = rows[0];
-                $ummu.vars.action = "delete";
-
-                console.log('button delete')
-                if (typeof app.controllers.edit !== "undefined") {
-                    console.log('function app.controllers.delete is OK.');
-                    app.controllers.delete(rows);
-                } else {
-                    console.log('plese create function app.controllers.delete');
-                }
-            },
-
-            delete2: function ($table_id, ids) {
-                // $ummu.vars.rows = rows;
-                // $ummu.vars.row = rows[0];
-                $ummu.vars.action = "delete";
-
-                console.log('button delete')
-                if (typeof app.controllers.edit !== "undefined") {
-                    console.log('function app.controllers.delete is OK.');
-                    app.controllers.delete2($table_id, ids);
-                } else {
-                    console.log('plese create function app.controllers.delete');
-                }
-            },
-
-            clickID: function (table_id, row) {
-                console.log('click field id on ' + table_id)
-                if (typeof app.controllers.clickID !== "undefined") {
-                    console.log('function app.controllers.clickID is OK.');
-                    app.controllers.clickID(table_id, row);
-                } else {
-                    console.log('plese create function app.controllers.clickID');
-                }
-            },
-
-            on_bs_refresh: function (params) {
-                console.log('on_bs_refresh click')
-                if (typeof app.controllers.on_bs_refresh !== "undefined") {
-                    console.log('function app.controllers.on_bs_refresh is OK.');
-                    app.controllers.on_bs_refresh(params)
-                } else {
-                    console.log('plese create function app.controllers.on_bs_refresh');
-                }
-            },
-        }
-    },
-
-    vars: {
-        response: null,
-        response2: null,
-        id: null,
-        ids: null,
-        id_onClick: null,
-        id_onCheck: null,
-        ids_onChheck: null,
-        base_url: null,
-        page_url: null,
-        page: null,
-        action: null,
-        class: null,
-        location_hash: null,
-        error_ids: [],
-        page_previous: null,
-        errors: [],
-        row: null,
-        rows: null,
-        is_row: null,
-        rad_external: 0,
-        nav_tab: null,
-        nav_tab_id: null,
-        nav_child_tab_id: null,
-        crud: null,
-        crud_name: null,
-        module_kode: null,
-        site_project_kode: null,
-        required_field: [],
-        index: null,
-        element_id: null,
-        arrayqu: [],
-        kode: null,
-        status_id: null,
-        token: null,
-        otp: null,
-        currentAgent: null,
-        agentIs: null,
-        platformIs: null,
-        last_id: null,
-        login_module: null,
-        initTable: null,
-        initTable2: null,
-        parentTableID: null,
-        rows_on_getData: null,
-        modal_id_show: null,
-        modalLeft_table_ListData: null,
-
-        rows_daily: null,
-        rows_monthly: null,
-        rows_yearly: null,
-
-        msdbToken: localStorage.getItem("msdbToken"),
-        urlpath: window.location.href,
-        url: new URL(window.location.href),
-        urlParams: new URLSearchParams(window.location.search),
-        show_col_images: localStorage.getItem("show_col_images"),
-        show_col_id: localStorage.getItem("show_col_id"),
-        toggle_sidebar: localStorage.getItem("toggle_sidebar"),
-        no_image_path: "uploads/no_image.jpg",
-        show_data_empty: {
-            "status": true,
-            "message": "Get data success.",
-            "rows": [],
-            "total": 0,
-            "count": 0
-        },
-
-        mode_form: null,
-        dataIndex: null,
-        woID: null,
-
-        date_start: null,
-        date_end: null,
-
-        time_start: null,
-        time_end: null,
-
-        min_time: null,
-        max_time: null,
-
-        newDate: new Date(),
-        fdNow: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-        dNow: new Date().toISOString().slice(0, 10),
-        tNow: new Date().toTimeString().slice(0, 8),
-
-        select2: {
-            id: null,
-            text: null,
-            name: null,
-            data: null,
-            change: null,
-            rows: null
-        },
-
-        identity: {
-            account_id: null,
-            nikaryawan: null,
-            name: null,
-
-            plant_id: null,
-            plant_kode: null,
-            plant_name: null,
-            plant: null,
-
-            lokasi_temuan_id: null,
-            site_project_kode: null,
-            site_project_kode2: null,
-            site_project_name: null,
-            site_project: null,
-        },
-
-        account: {
-            id: null,
-            role: null,
-            level_id: null,
-        },
-
-        employee: {
-            id: null,
-            nik: null,
-            jabatan: null,
-            level: null,
-            department: null,
-            site: null,
-        },
-
-        dismod: {
-            id: null,
-        },
-
-        enmod: {
-            id: null,
-        },
-
-        dt: {
-            init: null,
-            new: null,
-            nth_child_onclick: null,
-            row: null,
-            rows: null
-        },
-
-        hcm: {
-            payroll: {
-                gapok: null,
-                rapel_gaji: null,
-                lain_lain: null,
-                insentif_produksi: null,
-                insentif_kehadiran: null,
-                tj_kesetaraan: null,
-                tj_acting: null,
-                potongan_jamsostek_jht: null,
-                potongan_jamsostek_jp: null,
-                potongan_kasbon: null,
-                potongan_tiket: null,
-                total_tunjangan: null,
-                total_potongan: null,
-                gaji_bruto: null,
-                gaji_netto: null,
-                saldo_kasbon: null,
-                qrcode: null,
-
-                payslip: {
-                    show: {
-                        periode_id: null,
-                        row: null
-                    },
-
-                    pdf: {
-                        periode_id: null,
-                        url: null
-                    }
-                }
-            },
-        },
-
-        safety: {
-            hazard_report: {
-                data: null,
-                document_number: null,
-            },
-        },
-
-        file: {
-            // formData: new FormData().append("file_upload",$("#file_upload")[0].files[0]),
-            // $ummu.vars.file.formData.append("file_description", $("#file_description").val()),
-        },
-
-        select_option: {
-            on_change: null,
-        },
-
-        mining: {
-            rowsModif: null,
-            rowsData: null,
-            timeAll: [],
-            timeD: [],
-            timeN: [],
-            timeShift: null,
-        },
-
-        listData: {
-            rows: null,
-            selectID: null,
-            selectKode: null,
-        },
-
-        formData: new FormData(),
-    },
-
     config: {
         autoload: function () {
             // app.Events.initTable()
-            $ummu.gallery.button()
             $ummu.events.onClick.dorbittButton()
             $ummu.events.onChange.dorbittCheckBox()
             $ummu.events.onChange.dorbittRadio()
@@ -336,9 +24,12 @@ var $ummu = {
             $ummu.events.onChangeFileGalleryUpload()
             $ummu.events.gallery.btn_show_gallery()
             $ummu.events.onChange.inputFile_onChange_fileUpload()
+
+            $ummu.gallery.button()
             $ummu.mygallery.photos.btn_mygallery_photos_submit_on_modal()
             $ummu.mygallery.files.btn_mygallery_files_submit_on_modal()
             $ummu.mygallery.autoload()
+            
             $ummu.button.sbToolbar()
             $ummu.url.load()
             $ummu.formatter.load()
@@ -971,7 +662,322 @@ var $ummu = {
 
                 $(".canvasjs-chart-credit").html('canvas.omdoo.id')
             });
+        },
+
+        localStorage: false,
+        dataLink_localStorage: false,
+    },
+
+    routes: {
+        mechanic_activity: {
+            edit: function (row, index) {
+                app.Controllers.edit(row, index);
+            },
+        },
+
+        auth: {
+            username: function () {
+                app.Controllers.username();
+            },
+        },
+
+        toPage: {
+            new: function (table_id) {
+                $ummu.vars.action = "new";
+
+                console.log('button new')
+                if (typeof app.controllers.new !== "undefined") {
+                    console.log('function app.controllers.new is OK.');
+                    app.controllers.new(table_id);
+                } else {
+                    console.log('plese create function app.controllers.new');
+                }
+            },
+
+            save_selected: function (table_id) {
+                $ummu.vars.action = "save";
+
+                console.log('button save_selected')
+                if (typeof app.controllers.save_selected !== "undefined") {
+                    console.log('function app.controllers.save_selected is OK.');
+                    app.controllers.save_selected(table_id);
+                } else {
+                    console.log('plese create function app.controllers.save_selected');
+                }
+            },
+
+            edit: function (rows) {
+                $ummu.vars.row = rows[0];
+                $ummu.vars.action = "edit";
+
+                console.log('button edit')
+                if (typeof app.controllers.edit !== "undefined") {
+                    console.log('function app.controllers.edit is OK.');
+                    app.controllers.edit(rows[0]);
+                } else {
+                    console.log('plese create function app.controllers.edit');
+                }
+            },
+
+            delete: function (rows) {
+                $ummu.vars.rows = rows;
+                $ummu.vars.row = rows[0];
+                $ummu.vars.action = "delete";
+
+                console.log('button delete')
+                if (typeof app.controllers.edit !== "undefined") {
+                    console.log('function app.controllers.delete is OK.');
+                    app.controllers.delete(rows);
+                } else {
+                    console.log('plese create function app.controllers.delete');
+                }
+            },
+
+            delete2: function ($table_id, ids) {
+                // $ummu.vars.rows = rows;
+                // $ummu.vars.row = rows[0];
+                $ummu.vars.action = "delete";
+
+                console.log('button delete')
+                if (typeof app.controllers.edit !== "undefined") {
+                    console.log('function app.controllers.delete is OK.');
+                    app.controllers.delete2($table_id, ids);
+                } else {
+                    console.log('plese create function app.controllers.delete');
+                }
+            },
+
+            clickID: function (table_id, row) {
+                console.log('click field id on ' + table_id)
+                if (typeof app.controllers.clickID !== "undefined") {
+                    console.log('function app.controllers.clickID is OK.');
+                    app.controllers.clickID(table_id, row);
+                } else {
+                    console.log('plese create function app.controllers.clickID');
+                }
+            },
+
+            on_bs_refresh: function (params) {
+                console.log('on_bs_refresh click')
+                if (typeof app.controllers.on_bs_refresh !== "undefined") {
+                    console.log('function app.controllers.on_bs_refresh is OK.');
+                    app.controllers.on_bs_refresh(params)
+                } else {
+                    console.log('plese create function app.controllers.on_bs_refresh');
+                }
+            },
         }
+    },
+
+    vars: {
+        response: null,
+        response2: null,
+        id: null,
+        ids: null,
+        id_onClick: null,
+        id_onCheck: null,
+        ids_onChheck: null,
+        base_url: null,
+        page_url: null,
+        page: null,
+        action: null,
+        class: null,
+        location_hash: null,
+        error_ids: [],
+        page_previous: null,
+        errors: [],
+        row: null,
+        rows: null,
+        is_row: null,
+        rad_external: 0,
+        nav_tab: null,
+        nav_tab_id: null,
+        nav_child_tab_id: null,
+        crud: null,
+        crud_name: null,
+        module_kode: null,
+        site_project_kode: null,
+        required_field: [],
+        index: null,
+        element_id: null,
+        arrayqu: [],
+        kode: null,
+        status_id: null,
+        token: null,
+        otp: null,
+        currentAgent: null,
+        agentIs: null,
+        platformIs: null,
+        last_id: null,
+        login_module: null,
+        initTable: null,
+        initTable2: null,
+        parentTableID: null,
+        rows_on_getData: null,
+        modal_id_show: null,
+        modalLeft_table_ListData: null,
+
+        rows_daily: null,
+        rows_monthly: null,
+        rows_yearly: null,
+
+        msdbToken: localStorage.getItem("msdbToken"),
+        urlpath: window.location.href,
+        url: new URL(window.location.href),
+        urlParams: new URLSearchParams(window.location.search),
+        show_col_images: localStorage.getItem("show_col_images"),
+        show_col_id: localStorage.getItem("show_col_id"),
+        toggle_sidebar: localStorage.getItem("toggle_sidebar"),
+        no_image_path: "uploads/no_image.jpg",
+        show_data_empty: {
+            "status": true,
+            "message": "Get data success.",
+            "rows": [],
+            "total": 0,
+            "count": 0
+        },
+
+        mode_form: null,
+        dataIndex: null,
+        woID: null,
+
+        date_start: null,
+        date_end: null,
+
+        time_start: null,
+        time_end: null,
+
+        min_time: null,
+        max_time: null,
+
+        newDate: new Date(),
+        fdNow: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+        dNow: new Date().toISOString().slice(0, 10),
+        tNow: new Date().toTimeString().slice(0, 8),
+
+        select2: {
+            id: null,
+            text: null,
+            name: null,
+            data: null,
+            change: null,
+            rows: null
+        },
+
+        identity: {
+            account_id: null,
+            nikaryawan: null,
+            name: null,
+
+            plant_id: null,
+            plant_kode: null,
+            plant_name: null,
+            plant: null,
+
+            lokasi_temuan_id: null,
+            site_project_kode: null,
+            site_project_kode2: null,
+            site_project_name: null,
+            site_project: null,
+        },
+
+        account: {
+            id: null,
+            role: null,
+            level_id: null,
+        },
+
+        employee: {
+            id: null,
+            nik: null,
+            jabatan: null,
+            level: null,
+            department: null,
+            site: null,
+        },
+
+        dismod: {
+            id: null,
+        },
+
+        enmod: {
+            id: null,
+        },
+
+        dt: {
+            init: null,
+            new: null,
+            nth_child_onclick: null,
+            row: null,
+            rows: null
+        },
+
+        hcm: {
+            payroll: {
+                gapok: null,
+                rapel_gaji: null,
+                lain_lain: null,
+                insentif_produksi: null,
+                insentif_kehadiran: null,
+                tj_kesetaraan: null,
+                tj_acting: null,
+                potongan_jamsostek_jht: null,
+                potongan_jamsostek_jp: null,
+                potongan_kasbon: null,
+                potongan_tiket: null,
+                total_tunjangan: null,
+                total_potongan: null,
+                gaji_bruto: null,
+                gaji_netto: null,
+                saldo_kasbon: null,
+                qrcode: null,
+
+                payslip: {
+                    show: {
+                        periode_id: null,
+                        row: null
+                    },
+
+                    pdf: {
+                        periode_id: null,
+                        url: null
+                    }
+                }
+            },
+        },
+
+        safety: {
+            hazard_report: {
+                data: null,
+                document_number: null,
+            },
+        },
+
+        file: {
+            // formData: new FormData().append("file_upload",$("#file_upload")[0].files[0]),
+            // $ummu.vars.file.formData.append("file_description", $("#file_description").val()),
+        },
+
+        select_option: {
+            on_change: null,
+        },
+
+        mining: {
+            rowsModif: null,
+            rowsData: null,
+            timeAll: [],
+            timeD: [],
+            timeN: [],
+            timeShift: null,
+        },
+
+        listData: {
+            rows: null,
+            selectID: null,
+            selectKode: null,
+        },
+
+        formData: new FormData(),
     },
 
     events: {
@@ -1620,6 +1626,60 @@ var $ummu = {
     },
 
     controllers: {
+        show_data_link: function (dataLink_moduleCode) {
+            let lcg = localStorage.getItem("g_" + dataLink_moduleCode)
+            // console.log(lcg)
+
+            if ($($tbListDataID).data('init') != dataLink_moduleCode) {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.init_j[dataLink_moduleCode] = null
+            }
+
+            if (lcg && $ummu.config.dataLink_localStorage == true) {
+                if ($ummu.dt.init_j[dataLink_moduleCode] == null) {
+                    $ummu.dt.init_j[dataLink_moduleCode] = new DataTable(
+                        $tbListDataID, {
+                        columns: $ummu.dt.config.v2.columns[dataLink_moduleCode](),
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.init_j[dataLink_moduleCode].destroy();
+                                            $ummu.dt.show_data_link.create(dataLink_moduleCode)
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.init_j[dataLink_moduleCode].clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.init_j[dataLink_moduleCode] == null) {
+                    $ummu.dt.show_data_link.create(dataLink_moduleCode)
+                } else {
+                    $ummu.dt.init_j[dataLink_moduleCode].clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', dataLink_moduleCode);
+            $ummu.dt.show_data_link.onClick(dataLink_moduleCode);
+        },
+
         show: function (params) {
             // console.log(params)
             var url = $base_url + "/admin/ruangan/show";
@@ -2000,65 +2060,6 @@ var $ummu = {
         reLoad_modules: function () {
             console.log('OK tinggal bikin php nya')
         },
-
-        // show_clients: function () {
-        //     var lcg = localStorage.getItem('clients')
-
-        //     if (lcg) {
-        //         if ($ummu.dt.clients.init == null) {
-        //             $ummu.dt.clients.init = new DataTable(
-        //                 $tbListDataID, {
-        //                 columns: [
-        //                     {
-        //                         title: "ID",
-        //                         data: "id",
-        //                         render: function (data, type, row) {
-        //                             return (
-        //                                 '<a href="javascript:void(0);"><div><span class="">' +
-        //                                 data +
-        //                                 '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-        //                             );
-        //                         },
-        //                     },
-        //                     { title: "Name", data: "name" },
-        //                 ],
-        //                 data: JSON.parse(lcg).rows,
-        //                 layout: {
-        //                     topStart: {
-        //                         buttons: [
-        //                             {
-        //                                 extend: "pageLength",
-        //                                 className: "py-1 dt-btn-ummu",
-        //                                 attr: { id: "btn_page_length" },
-        //                             },
-        //                             {
-        //                                 text: '<i class="fas fa-sync-alt"></i>',
-        //                                 attr: { id: "btn_reload" },
-        //                                 className: "btn-showall-color py-1 dt-btn-ummu",
-        //                                 action: function (e, dt, node, config) {
-
-        //                                     // /*Destroy and Re-create*/
-        //                                     $ummu.dt.clients.init.destroy();
-        //                                     $ummu.dt.clients.create()
-        //                                 },
-        //                             },
-        //                         ],
-        //                     },
-        //                 },
-        //             });
-        //         } else {
-        //             $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-        //         }
-        //     } else {
-        //         if ($ummu.dt.clients.init == null) {
-        //             $ummu.dt.clients.create()
-        //         } else {
-        //             $ummu.dt.clients.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-        //         }
-        //     }
-
-        //     $ummu.dt.clients.onClick();
-        // },
 
         show_clients: function () {
             let lcg = localStorage.getItem('clients')
@@ -2835,7 +2836,6 @@ var $ummu = {
                                         attr: { id: "btn_reload" },
                                         className: "btn-showall-color py-1 dt-btn-ummu",
                                         action: function (e, dt, node, config) {
-
                                             // /*Destroy and Re-create*/
                                             $ummu.dt.voyage_route2.init.destroy();
                                             $ummu.dt.voyage_route2.create()
@@ -2859,45 +2859,6 @@ var $ummu = {
             $($tbListDataID).data('init', 'voyage_route2');
             $ummu.dt.voyage_route2.onClick();
         },
-        // onClick_btnApprove: function() {
-        //     // if ($ummu.url.getParam('id')) {
-        //     //     $ummu.button.sbBtn_default()
-        //     //     $ummu.url.delParamNotIn(['g']);
-        //     //     app.views.formParams().prop('disabled', true).val('');
-        //     //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
-        //     // }
-
-        //     // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
-
-        //     console.log('btn_approve is clicked.')
-        //     if (typeof app.controllers.sbApprove !== "undefined") {
-        //         console.log('$ummu.controllers.onClick_btnApprove is running.')
-        //         // app.controllers.sbApprove()
-        //     } else {
-        //         console.log('plese create function app.controllers.sbApprove')
-        //     }
-        // },
-
-        // onClick_btnRelease: function() {
-        //     // if ($ummu.url.getParam('id')) {
-        //     //     $ummu.button.sbBtn_default()
-        //     //     $ummu.url.delParamNotIn(['g']);
-        //     //     app.views.formParams().prop('disabled', true).val('');
-        //     //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
-        //     // }
-
-        //     // $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
-
-        //     $(".sb-toolbar #modalReleaseConfirm").modal("show")
-
-        //     console.log('btn_release is clicked.')
-        //     if (typeof app.controllers.sbRelease !== "undefined") {
-        //         console.log('$ummu.controllers.sbRelease is running.')
-        //         app.controllers.sbRelease()
-        //     } else {
-        //         console.log('plese create function app.controllers.sbRelease')
-        //     }
-        // },
 
         config: {
             show_hierarchy_modules: function () {
@@ -10095,6 +10056,533 @@ var $ummu = {
         init_sitePorject: null,
         init_dtModalRight: null,
 
+        init_j: {
+            ijo: null,
+            ms_port: null,
+            ms_cost: null,
+        },
+
+        show_data_link: {
+            // create: function (dataLink_moduleCode) {
+            //     console.log(dataLink_moduleCode)
+            //     $ummu.dt.init_j[dataLink_moduleCode] = new DataTable(
+            //         $tbListDataID,
+            //         $ummu.dt.config.v2.show(dataLink_moduleCode)
+            //     );
+
+            //     // Parameter: e (event), settings, json (data dari server), xhr
+            //     $ummu.dt.init_j[dataLink_moduleCode].on('xhr.dt', function (e, settings, json, xhr) {
+            //         // Gunakan parameter 'json' langsung, bukan .ajax.json()
+            //         if (json && json.status === true) {
+            //             if ($ummu.config.localStorage == true) {
+            //                 console.log('setItem localStorage g_'+dataLink_moduleCode);
+            //                 localStorage.setItem("g_" + dataLink_moduleCode, JSON.stringify(json));
+            //             }
+            //         } else {
+            //             console.warn("Status response false atau JSON tidak valid");
+            //         }
+            //     });
+            // },
+
+            create: function (dataLink_moduleCode) {
+                // console.log("Inisialisasi Module:", dataLink_moduleCode);
+
+                // 1. Hancurkan instance lama jika sudah ada untuk menghindari konflik memory & event
+                if ($.fn.DataTable.isDataTable($tbListDataID)) {
+                    $ummu.dt.init_j[dataLink_moduleCode]?.destroy(); 
+                    // Penting: Kosongkan elemen atau hapus listener lama
+                    $($tbListDataID).off('xhr.dt'); 
+                }
+
+                // 2. Inisialisasi DataTable
+                $ummu.dt.init_j[dataLink_moduleCode] = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.config.v2.show(dataLink_moduleCode)
+                );
+
+                // 3. Gunakan .one() atau pastikan .off() sebelum .on()
+                // Ini memastikan hanya ada SATU handler xhr untuk module yang sedang aktif
+                $($tbListDataID).off('xhr.dt').on('xhr.dt', function (e, settings, json, xhr) {
+                    
+                    if (json && json.status === true) {
+                        if ($ummu.config.localStorage == true) {
+                            // Pastikan kita menggunakan kode modul dari settings jika memungkinkan 
+                            // untuk menjamin sinkronisasi data dengan tabel yang sedang aktif
+                            // console.log('Menyimpan ke localStorage: g_' + dataLink_moduleCode);
+                            localStorage.setItem("g_" + dataLink_moduleCode, JSON.stringify(json));
+                        }
+                    } else {
+                        console.warn("Status response false atau JSON tidak valid untuk:", dataLink_moduleCode);
+                    }
+                });
+            },
+
+            onClick: function (dataLink_moduleCode) {
+                if ($ummu.dt.init_j[dataLink_moduleCode] !== null) {
+                    $ummu.dt.init_j[dataLink_moduleCode].off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.init_j[dataLink_moduleCode].row(this).data();
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child[dataLink_moduleCode] !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child.'+dataLink_moduleCode+' is OK.');
+                            app.controllers.on_click_tbody_trtd_child[dataLink_moduleCode](row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child.'+dataLink_moduleCode+'.');
+                        }
+                    });
+                }
+            }
+        },
+
+        config: {
+            v2: {
+                show: function(dataLink_moduleCode) {
+                    let show = {
+                        ajax: {
+                            dataSrc: "rows",
+                            url: $base_url + "admin/g/"+$ummu.vars.module_kode+"?f=show-"+dataLink_moduleCode,
+                            data: function (d) {
+                                // d.myKey = "myValue";
+                                // d.custom = $('#myInput').val();
+                                // d.release = [0];
+                                // etc
+                            },
+                        },
+                        retrieve: true,
+                        processing: true,
+                        // serverSide: true,
+                        responsive: true,
+                        keys: true,
+                        deferLoading: 57,
+                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            $ummu.dt.init_j[dataLink_moduleCode].ajax.reload();
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                        order: [[0, "desc"]],
+                        scrollCollapse: true,
+                        scrollX: true,
+                        scrollY: 500,
+                        columns: $ummu.dt.config.v2.columns[dataLink_moduleCode](),
+                        drawCallback: function (data, callback, settings) {
+                            var api = this.api();
+                        },
+                    };
+
+                    return show;
+                },
+
+                columns: {
+                    ijo: function() {
+                        let columns = [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Nomor IJO", data: "number" },
+                            { title: "Client", data: "client_name" },
+                        ];
+
+                        return columns;
+                    },
+
+                    ms_port: function() {
+                        let columns = [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Name", data: "name" },
+                        ];
+
+                        return columns;
+                    },
+
+                    ms_cost: function() {
+                        let columns = [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Cost Name", data: "name" },
+                        ];
+
+                        return columns;
+                    },
+                }
+            },
+
+            show: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show",
+                        data: function (d) {
+                            // // d.myKey = "myValue";
+                            // // d.custom = $('#myInput').val();
+                            // // d.release = [0];
+                            // // etc
+                            // d.tgl = tgl.replace(/-/g, "");
+                            // d.tgl2 = tgl2.replace(/-/g, "");
+                            // d.site = site;
+                        },
+                    },
+                    columns: app.dt.config.columns(),
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [],
+                        }
+                    },
+                    columnDefs: $ummu.dt.config.columnDefs(),
+                    select: $ummu.dt.config.select(),
+                    // order: [[26, "asc"],[27,"asc"]],
+                    // rowGroup: app.dt.clients.config_rowGroup(),
+                    // fixedColumns: {
+                    //     start: 2,
+                    //     // end: 1
+                    // },
+                    paging: true,
+                    // scrollCollapse: true,
+                    // scrollX: true,
+                    // scrollY: '60vh',
+                    drawCallback: function (settings) {
+                        // var api = this.api();
+                    },
+                };
+            },
+
+            columns: function () {
+                var myColumn;
+
+                if(typeof app.dt.config?.columns !== "undefined") {
+                    myColumn = app.dt.config.columns();
+                }else{
+                    myColumn = [
+                        { data: null, render: DataTable.render.select() },
+                        { 
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type) {
+                                return (
+                                    '<a href="javascript:void(0);">'+
+                                        '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                    '</a>'
+                                );
+                            }
+                        },
+                        { 
+                            title: "Name",
+                            data: "name"
+                        },
+                    ];
+                }
+        
+                return myColumn;
+            },
+
+            rowGroup: function() {
+                var myRowGroup;
+
+                if(typeof app.dt.config?.columns !== "undefined") {
+                    myRowGroup = app.dt.config.rowGroup();
+                }else{
+                    myRowGroup = {
+                        dataSrc: ["tipe","unit_code"],
+                        startRender: function (rows, group) {
+                        // Display the group name and the number of rows in that group
+                        return group + " (" + rows.count() + " rows)";
+                        },
+                        endRender: function (rows, group, level) {
+                        // =======================================================
+                        // OB ====================================================
+                        // =======================================================
+                        var day_rit_ob_count = rows
+                        .data()
+                        .pluck('day_rit_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_rit_ob_count = rows
+                        .data()
+                        .pluck('night_rit_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var total_rit_ob_count = rows
+                        .data()
+                        .pluck('total_rit_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var day_ob_count = rows
+                        .data()
+                        .pluck('day_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_ob_count = rows
+                        .data()
+                        .pluck('night_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var total_ob_count = rows
+                        .data()
+                        .pluck('total_ob')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+                        
+                        
+                        // =========================================================
+                        // Coal Getting ============================================
+                        // =========================================================
+                        var day_rit_cg_count = rows
+                        .data()
+                        .pluck('day_rit_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_rit_cg_count = rows
+                        .data()
+                        .pluck('night_rit_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var total_rit_cg_count = rows
+                        .data()
+                        .pluck('total_rit_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var day_cg_count = rows
+                        .data()
+                        .pluck('day_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_cg_count = rows
+                        .data()
+                        .pluck('night_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var total_cg_count = rows
+                        .data()
+                        .pluck('total_cg')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+                        
+
+                        // =========================================================
+                        // Coal Hauling ============================================
+                        // =========================================================
+                        var day_rit_cl_count = rows
+                        .data()
+                        .pluck('day_rit_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_rit_cl_count = rows
+                        .data()
+                        .pluck('night_rit_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var total_rit_cl_count = rows
+                        .data()
+                        .pluck('total_rit_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var day_cl_count = rows
+                        .data()
+                        .pluck('day_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                        var night_cl_count = rows
+                        .data()
+                        .pluck('night_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+
+                        var total_cl_count = rows
+                        .data()
+                        .pluck('total_cl')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+                        
+                        // ===========================================================================
+                        var fuel_count = rows
+                        .data()
+                        .pluck('fuel')
+                        .reduce( function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0) ;
+            
+                            
+                        if (level === 0) {
+                            let tr = document.createElement('tr');
+                            let classs = $ummu.dt.endRender_class();
+                            $ummu.dt.addCell(tr, group, 2, classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
+
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 5, classs);
+                            return tr;
+                        } else if (level === 1) {
+                            let tr = document.createElement('tr');
+                            let classs = 'text-right font-weight-bold bg-warning';
+                            $ummu.dt.addCell(tr, '', 4);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 2);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 2);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 2);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 2);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 2);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
+                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
+                            $ummu.dt.addCell(tr, '', 5);            
+                            return tr;
+                        }          
+                        }
+                    };
+                }
+                
+                return myRowGroup;
+            },
+
+            columnDefs: function() {
+                var myColumnDefs;
+
+                if(typeof app.dt.config?.columnDefs !== "undefined") {
+                    myColumnDefs = app.dt.config.columnDefs();
+                }else{
+                    myColumnDefs = [
+                        {
+                            targets: 0,
+                            orderable: false,
+                            render: DataTable.render.select(),
+                        },
+                        // { 
+                        //     targets: [26,27], 
+                        //     visible: false 
+                        // },
+                    ];
+                }
+
+                return myColumnDefs;
+            },
+
+            select: function () {
+                var selectConfig;
+
+                if(typeof app.dt.config?.select !== "undefined") {
+                    selectConfig = app.dt.config.select();
+                }else{
+                    selectConfig = {
+                        style: "multi+shift",
+                        selector: "td:first-child",
+                        headerCheckbox: "select-page",
+                    }
+                }
+
+                // var selectConfig = (typeof app.dt.config.select !== "undefined") 
+                //     ? app.dt.config.select() 
+                //     : {
+                //         style: "multi+shift",
+                //         selector: "td:first-child",
+                //         headerCheckbox: "select-page",
+                //     };
+
+                return selectConfig;
+            },
+        },
+
         is_init: function ($tableID) {
             if ($.fn.DataTable.isDataTable($tableID)) {
                 return true;
@@ -10756,9 +11244,6 @@ var $ummu = {
                 }
             },
 
-            column: {
-            },
-
             button_all: function (init) {
                 table.button().add(0, {
                     extend: "pageLength",
@@ -11248,6 +11733,10 @@ var $ummu = {
                         },
                     });
                 }
+            },
+
+            column: {
+                //
             },
         },
 
@@ -12727,341 +13216,6 @@ var $ummu = {
             tr.appendChild(td);
         },
 
-        config: {
-            show: function () {
-                return {
-                    ajax: {
-                        dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show",
-                        data: function (d) {
-                            // // d.myKey = "myValue";
-                            // // d.custom = $('#myInput').val();
-                            // // d.release = [0];
-                            // // etc
-                            // d.tgl = tgl.replace(/-/g, "");
-                            // d.tgl2 = tgl2.replace(/-/g, "");
-                            // d.site = site;
-                        },
-                    },
-                    columns: app.dt.config.columns(),
-                    processing: true,
-                    // serverSide: true,
-                    responsive: true,
-                    keys: true,
-                    deferLoading: 57,
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [],
-                        }
-                    },
-                    columnDefs: $ummu.dt.config.columnDefs(),
-                    select: $ummu.dt.config.select(),
-                    // order: [[26, "asc"],[27,"asc"]],
-                    // rowGroup: app.dt.clients.config_rowGroup(),
-                    // fixedColumns: {
-                    //     start: 2,
-                    //     // end: 1
-                    // },
-                    paging: true,
-                    // scrollCollapse: true,
-                    // scrollX: true,
-                    // scrollY: '60vh',
-                    drawCallback: function (settings) {
-                        // var api = this.api();
-                    },
-                };
-            },
-
-            columns: function () {
-                var myColumn;
-
-                if(typeof app.dt.config?.columns !== "undefined") {
-                    myColumn = app.dt.config.columns();
-                }else{
-                    myColumn = [
-                        { data: null, render: DataTable.render.select() },
-                        { 
-                            title: "ID",
-                            data: "id",
-                            render: function (data, type) {
-                                return (
-                                    '<a href="javascript:void(0);">'+
-                                        '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
-                                    '</a>'
-                                );
-                            }
-                        },
-                        { 
-                            title: "Name",
-                            data: "name"
-                        },
-                    ];
-                }
-        
-                return myColumn;
-            },
-
-            rowGroup: function() {
-                var myRowGroup;
-
-                if(typeof app.dt.config?.columns !== "undefined") {
-                    myRowGroup = app.dt.config.rowGroup();
-                }else{
-                    myRowGroup = {
-                        dataSrc: ["tipe","unit_code"],
-                        startRender: function (rows, group) {
-                        // Display the group name and the number of rows in that group
-                        return group + " (" + rows.count() + " rows)";
-                        },
-                        endRender: function (rows, group, level) {
-                        // =======================================================
-                        // OB ====================================================
-                        // =======================================================
-                        var day_rit_ob_count = rows
-                        .data()
-                        .pluck('day_rit_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_rit_ob_count = rows
-                        .data()
-                        .pluck('night_rit_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var total_rit_ob_count = rows
-                        .data()
-                        .pluck('total_rit_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var day_ob_count = rows
-                        .data()
-                        .pluck('day_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_ob_count = rows
-                        .data()
-                        .pluck('night_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var total_ob_count = rows
-                        .data()
-                        .pluck('total_ob')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-                        
-                        
-                        // =========================================================
-                        // Coal Getting ============================================
-                        // =========================================================
-                        var day_rit_cg_count = rows
-                        .data()
-                        .pluck('day_rit_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_rit_cg_count = rows
-                        .data()
-                        .pluck('night_rit_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var total_rit_cg_count = rows
-                        .data()
-                        .pluck('total_rit_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var day_cg_count = rows
-                        .data()
-                        .pluck('day_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_cg_count = rows
-                        .data()
-                        .pluck('night_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var total_cg_count = rows
-                        .data()
-                        .pluck('total_cg')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-                        
-
-                        // =========================================================
-                        // Coal Hauling ============================================
-                        // =========================================================
-                        var day_rit_cl_count = rows
-                        .data()
-                        .pluck('day_rit_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_rit_cl_count = rows
-                        .data()
-                        .pluck('night_rit_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var total_rit_cl_count = rows
-                        .data()
-                        .pluck('total_rit_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var day_cl_count = rows
-                        .data()
-                        .pluck('day_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                        var night_cl_count = rows
-                        .data()
-                        .pluck('night_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-
-                        var total_cl_count = rows
-                        .data()
-                        .pluck('total_cl')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-                        
-                        // ===========================================================================
-                        var fuel_count = rows
-                        .data()
-                        .pluck('fuel')
-                        .reduce( function (a, b) {
-                            return parseFloat(a) + parseFloat(b);
-                        }, 0) ;
-            
-                            
-                        if (level === 0) {
-                            let tr = document.createElement('tr');
-                            let classs = $ummu.dt.endRender_class();
-                            $ummu.dt.addCell(tr, group, 2, classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
-
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 5, classs);
-                            return tr;
-                        } else if (level === 1) {
-                            let tr = document.createElement('tr');
-                            let classs = 'text-right font-weight-bold bg-warning';
-                            $ummu.dt.addCell(tr, '', 4);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 2);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
-                            $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                            $ummu.dt.addCell(tr, '', 5);            
-                            return tr;
-                        }          
-                        }
-                    };
-                }
-                
-                return myRowGroup;
-            },
-
-            columnDefs: function() {
-                var myColumnDefs;
-
-                if(typeof app.dt.config?.columnDefs !== "undefined") {
-                    myColumnDefs = app.dt.config.columnDefs();
-                }else{
-                    myColumnDefs = [
-                        {
-                            targets: 0,
-                            orderable: false,
-                            render: DataTable.render.select(),
-                        },
-                        // { 
-                        //     targets: [26,27], 
-                        //     visible: false 
-                        // },
-                    ];
-                }
-
-                return myColumnDefs;
-            },
-
-            select: function () {
-                var selectConfig;
-
-                if(typeof app.dt.config?.select !== "undefined") {
-                    selectConfig = app.dt.config.select();
-                }else{
-                    selectConfig = {
-                        style: "multi+shift",
-                        selector: "td:first-child",
-                        headerCheckbox: "select-page",
-                    }
-                }
-
-                // var selectConfig = (typeof app.dt.config.select !== "undefined") 
-                //     ? app.dt.config.select() 
-                //     : {
-                //         style: "multi+shift",
-                //         selector: "td:first-child",
-                //         headerCheckbox: "select-page",
-                //     };
-
-                return selectConfig;
-            },
-        },
-
         loader_show: function () {
             $("#modal_loader_dt").modal("show");
         },
@@ -14341,17 +14495,9 @@ var $ummu = {
 
         referensi: JSON.parse(localStorage.getItem("referensi")),
 
-        setjsontostr: function (key, value) {
-            localStorage.setItem(key, value);
-        },
-
-        getstrtojson: function (key) {
-            localStorage.getItem(key);
-        },
-
         dt_default: function (key) {
             var lcg = localStorage.getItem(key);
-            if (lcg) {
+            if (lcg && $ummu.config.localStorage == true) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable($table, {
                         data: JSON.parse(lcg).rows,
@@ -14399,6 +14545,14 @@ var $ummu = {
             setTimeout(function () {
                 $ummu.dt.init.columns.adjust();
             }, 3000);
+        },
+
+        setjsontostr: function (key, value) {
+            localStorage.setItem(key, value);
+        },
+
+        getstrtojson: function (key) {
+            localStorage.getItem(key);
         },
 
         dtInit: function (tb, key, col, coldef) {
@@ -14510,8 +14664,7 @@ var $ummu = {
             }
         },
 
-        deleteRowById: function(key, id)
-        {
+        deleteRowById: function(key, id) {
             const storageKey = key;
             const rawData = localStorage.getItem(storageKey);
 
@@ -14576,7 +14729,7 @@ var $ummu = {
 
                 console.log("Data berhasil ditambahkan ke posisi teratas!");
             }
-        }
+        },
     },
 
     ls: {
