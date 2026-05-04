@@ -307,6 +307,14 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show-cost', 'PortChargesController::show_cost');
     });
 
+    $routes->group('ms-costs', function ($routes) {
+        $routes->get('/', 'MsCostsController::index');
+        $routes->get('show', 'MsCostsController::show');
+        $routes->post('create', 'MsCostsController::create');
+        $routes->post('update/(:num)', 'MsCostsController::update/$1');
+        $routes->post('delete/(:num)', 'MsCostsController::delete/$1');
+    });
+
     $routes->group('dorbitt', function ($routes) {
         // $routes->get('/', 'DorbittController::index');
         

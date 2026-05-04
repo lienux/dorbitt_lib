@@ -664,7 +664,6 @@ var $ummu = {
             });
         },
 
-        localStorage: false,
         dataLink_localStorage: false,
     },
 
@@ -1636,7 +1635,7 @@ var $ummu = {
                 $ummu.dt.init_j[dataLink_moduleCode] = null
             }
 
-            if (lcg && $ummu.config.dataLink_localStorage == true) {
+            if (lcg && $ummu.localStorage.config.init_j == true) {
                 if ($ummu.dt.init_j[dataLink_moduleCode] == null) {
                     $ummu.dt.init_j[dataLink_moduleCode] = new DataTable(
                         $tbListDataID, {
@@ -8867,8 +8866,8 @@ var $ummu = {
         },
 
         after_sbToolbar_save: function(result, func, id, payload) {
-            console.log(result)
-            console.log(payload)
+            // console.log(result)
+            // console.log(payload)
             if (result.status == true) {
                 $(".sb-toolbar #modalSuccessMessage #alert").html("");
                 $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
@@ -10105,7 +10104,7 @@ var $ummu = {
                 $($tbListDataID).off('xhr.dt').on('xhr.dt', function (e, settings, json, xhr) {
                     
                     if (json && json.status === true) {
-                        if ($ummu.config.localStorage == true) {
+                        if ($ummu.localStorage.config.init == true) {
                             // Pastikan kita menggunakan kode modul dari settings jika memungkinkan 
                             // untuk menjamin sinkronisasi data dengan tabel yang sedang aktif
                             // console.log('Menyimpan ke localStorage: g_' + dataLink_moduleCode);
@@ -10136,6 +10135,8 @@ var $ummu = {
         },
 
         config: {
+            serverSide: true,
+
             v2: {
                 show: function(dataLink_moduleCode) {
                     let show = {
@@ -10151,7 +10152,7 @@ var $ummu = {
                         },
                         retrieve: true,
                         processing: true,
-                        // serverSide: true,
+                        serverSide: false,
                         responsive: true,
                         keys: true,
                         deferLoading: 57,
@@ -10267,6 +10268,7 @@ var $ummu = {
                     columns: app.dt.config.columns(),
                     processing: true,
                     // serverSide: true,
+                    serverSide: $ummu.dt.config.serverSide,
                     responsive: true,
                     keys: true,
                     deferLoading: 57,
@@ -14434,6 +14436,11 @@ var $ummu = {
     },
 
     localStorage: {
+        config: {
+            init: false,
+            init_j: false,
+        },
+
         approval: {
             sum: {
                 create: function (data) {
@@ -14497,7 +14504,7 @@ var $ummu = {
 
         dt_default: function (key) {
             var lcg = localStorage.getItem(key);
-            if (lcg && $ummu.config.localStorage == true) {
+            if (lcg && $ummu.localStorage.config.init == true) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable($table, {
                         data: JSON.parse(lcg).rows,
@@ -14526,18 +14533,22 @@ var $ummu = {
                     $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
                 }
             } else {
-                $ummu.dt.init = new DataTable(
-                    $table,
-                    {
-                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                        layout: {
-                            topStart: {
-                                buttons: [],
-                            }
-                        },
-                        columns: app.dt.config.columns(),
-                    }
-                );
+                // $ummu.dt.init.destroy();
+                // $($table).DataTable().destroy();
+                if ($ummu.dt.init == null) {
+                    $ummu.dt.init = new DataTable(
+                        $table,
+                        {
+                            lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                            layout: {
+                                topStart: {
+                                    buttons: [],
+                                }
+                            },
+                            columns: app.dt.config.columns(),
+                        }
+                    );
+                }
             }
 
             $ummu.dt.init.columns.adjust();
