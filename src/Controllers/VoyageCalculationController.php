@@ -10,11 +10,11 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class MsCostsController extends ResourceController
+class VoyageCalculationController extends ResourceController
 {
     public function __construct()
     {
-        $this->module_kode = 'ms-costs';
+        $this->module_kode = 'voyage-calculation';
         $this->pathAPI = "api/master-data/" . $this->module_kode;
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
@@ -77,10 +77,9 @@ class MsCostsController extends ResourceController
     public function create()
     {
         $payload = [
-            "behavior" => $this->request->getPost('behavior'),
             "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            "amount" => $this->request->getPost('amount'),
+            "tarif" => $this->request->getPost('tarif'),
         ];
 
         $params = [
@@ -98,10 +97,9 @@ class MsCostsController extends ResourceController
     public function update($id = null)
     {
         $payload = [
-            "behavior" => $this->request->getPost('behavior'),
-            "category" => $this->request->getPost('category'),
+             "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            "amount" => $this->request->getPost('amount'),
+            "tarif" => $this->request->getPost('tarif'),
         ];
 
         $params = [

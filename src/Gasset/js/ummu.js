@@ -357,6 +357,17 @@ var $ummu = {
 
             $("#config_settings").on('click', function () {
                 $('#modal_form_settings').modal('show');
+                if (localStorage.getItem('isDataLocalStorage')) {
+                    $('#is_localstorage').prop('checked', true)
+                }else{
+                    $('#is_localstorage').prop('checked', false)
+                }
+
+                if (localStorage.getItem('isAutoGetDataonTable')) {
+                    $('#dt_autoGetData').prop('checked', true)
+                }else{
+                    $('#dt_autoGetData').prop('checked', false)
+                }
             })
 
             $("#QQ_btnToLoginModule button").on('click', function () {
@@ -611,6 +622,22 @@ var $ummu = {
                 // Ubah teks pada label di sebelahnya
                 $(this).next('.custom-file-label').addClass("selected").html(fileName);
             });
+
+            $('#is_localstorage').on('change', function() {
+                if ($(this).is(':checked')) {
+                    localStorage.setItem('isDataLocalStorage', true);
+                }else{
+                    localStorage.removeItem('isDataLocalStorage');
+                }
+            });
+
+            $("#dt_autoGetData").on('change', function() {
+                if ($(this).is(':checked')) {
+                    localStorage.setItem('isAutoGetDataonTable', true);
+                }else{
+                    localStorage.removeItem('isAutoGetDataonTable');
+                }
+            })
 
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
@@ -8867,7 +8894,8 @@ var $ummu = {
 
         after_sbToolbar_save: function(result, func, id, payload) {
             // console.log(result)
-            // console.log(payload)
+            var lcg = localStorage.getItem($localStrgKey);
+
             if (result.status == true) {
                 $(".sb-toolbar #modalSuccessMessage #alert").html("");
                 $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
@@ -8876,33 +8904,74 @@ var $ummu = {
                 $ummu.button.sbBtn_on_showData();
                 app.views.formParams().prop('disabled', true);
 
-                if (func == "create") {
-                    if (localStorage.getItem($localStrgKey) == null) {
-                        app.controllers.show();
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    if (func == "create") {
+                        if (lcg == null) {
+                            // Ambil data dari database / API
+                            app.controllers.show();
+                        }else{
+                            // tambah rows pada localStorage
+                            $ummu.localStorage.controllers.create($localStrgKey, result.data);
+                        }
+
+                        // tambah url params
+                        $ummu.url.setParamFromRow(result.data)
+
+                        // // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                        // $ummu.dt.controllers.index()
                     }else{
-                        // tambah rows pada localStorage
-                        $ummu.localStorage.addNewRow($localStrgKey, result.data);
+                        if (lcg == null) {
+                            // Ambil data dari database / API
+                            app.controllers.show();
+                        }else{
+                            // Update row pada localstorage
+                            $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
+                        }
 
-                        // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                        $ummu.localStorage.dt_default($localStrgKey);
+                        //update params params url
+                        $ummu.url.setParamFromRow(result.data);
+
+                        // // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                        // $ummu.dt.controllers.index()
                     }
-
-                    // tambah url params
-                    $ummu.url.setParamFromRow(result.data)
-                }else{
-                    if (localStorage.getItem($localStrgKey) == null) {
-                        app.controllers.show();
-                    }else{
-                        //update row pada localstorage
-                        $ummu.localStorage.updateRows($localStrgKey, id, result.data);
-                    }
-
-                    //update params params url
-                    $ummu.url.setParamFromRow(result.data);
 
                     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                    $ummu.localStorage.dt_default($localStrgKey);
+                    $ummu.dt.controllers.index()
+                }else{
+                    $ummu.dt.init.ajax.reload();
                 }
+
+                // if (func == "create") {
+                //     if (localStorage.getItem($localStrgKey) == null) {
+                //         app.controllers.show();
+                //     }else{
+                //         // tambah rows pada localStorage
+                //         $ummu.localStorage.addNewRow($localStrgKey, result.data);
+
+                //         // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                //         // $ummu.localStorage.dt_default($localStrgKey);
+                //         $ummu.dt.controllers.index()
+                //     }
+
+                //     // tambah url params
+                //     $ummu.url.setParamFromRow(result.data)
+                // }else{
+                //     if (lcg == null) {
+                //         // Ambil data dari database / API
+                //         app.controllers.show();
+                //     }else{
+                //         // Update row pada localstorage
+                //         // $ummu.localStorage.updateRows($localStrgKey, id, result.data);
+                //         $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
+                //     }
+
+                //     //update params params url
+                //     $ummu.url.setParamFromRow(result.data);
+
+                //     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                //     // $ummu.localStorage.dt_default($localStrgKey);
+                //     $ummu.dt.controllers.index()
+                // }
             }else{
                 $ummu.views.after_sbToolbar_falseStatus(result);
             }
@@ -8940,10 +9009,13 @@ var $ummu = {
                 app.views.formParams().prop('disabled', true).val('');
 
                 // hapus row pada localStorage
-                $ummu.localStorage.deleteRowById($localStrgKey, id);
+                $ummu.localStorage.deleteRowById($ummu.vars.module_kode, id);
 
-                // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
-                $ummu.localStorage.dt_default($localStrgKey);
+                // // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
+                // $ummu.localStorage.dt_default($localStrgKey);
+
+                // Hapus row pada dataTable
+                $ummu.dt.controllers.deleteRowById(id);
 
                 // hide modal delete confirm
                 $(".sb-toolbar #modalDeleteConfirm").modal("hide")
@@ -10104,7 +10176,7 @@ var $ummu = {
                 $($tbListDataID).off('xhr.dt').on('xhr.dt', function (e, settings, json, xhr) {
                     
                     if (json && json.status === true) {
-                        if ($ummu.localStorage.config.init == true) {
+                        if (localStorage.getItem('isDataLocalStorage') == 'true') {
                             // Pastikan kita menggunakan kode modul dari settings jika memungkinkan 
                             // untuk menjamin sinkronisasi data dengan tabel yang sedang aktif
                             // console.log('Menyimpan ke localStorage: g_' + dataLink_moduleCode);
@@ -10136,6 +10208,7 @@ var $ummu = {
 
         config: {
             serverSide: true,
+            autoGetData: true,
 
             v2: {
                 show: function(dataLink_moduleCode) {
@@ -10268,7 +10341,6 @@ var $ummu = {
                     },
                     columns: app.dt.config.columns(),
                     processing: true,
-                    // serverSide: true,
                     serverSide: $ummu.dt.config.serverSide,
                     responsive: true,
                     keys: true,
@@ -10583,6 +10655,212 @@ var $ummu = {
                 //     };
 
                 return selectConfig;
+            },
+        },
+
+        controllers: {
+            // Digunakan saat page tampil pertama kali, untuk Instlal dataTable dan configurasi2 tampilan lainnya.
+            // Tapi jika localStorage.config.init == true, maka tampilkan jika datanya ada di localStorage.
+            index: function() {
+                if ($ummu.dt.is_init($table) == true) {
+                    $ummu.dt.init_destroy();
+                }
+
+                // 1. Install dataTable
+                $ummu.dt.init = new DataTable(
+                    $table,
+                    {
+                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                        layout: {
+                            topStart: {
+                                buttons: [],
+                            }
+                        },
+                        columns: app.dt.config.columns(),
+                    }
+                );
+
+                // 2. Pasang Button pada dataTable.
+                $ummu.dt.layout.buttonAll($ummu.dt.init);
+
+                // 3. Pasang Konfigurasi untuk event ketika klik coloum ke 3 biasanya bagian ID.
+                $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                    var row = $ummu.dt.init.row(this).data();
+                    // console.log(row)
+                    $ummu.url.setParamFromRow(row)
+                    app.views.setRow_toForm(row);
+                    $ummu.views.tab_content('setRow_toForm')
+                });
+
+                // 4. Cek apakah localStorage.getItem('isDataLocalStorage') == true
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    // Jika true, maka ambil dtanya
+                    var lcg = localStorage.getItem($ummu.vars.module_kode);
+                    if (lcg) { //jika ada datanya
+                        //Pasang datanya ke dataTable.
+                        $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
+                    }else{
+                        if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
+                            app.controllers.show()
+                        }
+                    }
+                }else{
+                    if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
+                        app.controllers.show()
+                    }else{
+                        // Update manual lewat button Get Data pada dataTable Button.
+                    }
+                }
+            },
+
+            // Digunakan untuk meranik data baru ke API
+            show: function(params) {
+                var MyServerSide = false;
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    MyServerSide = false;
+                }else{
+                    MyServerSide = true;
+                }
+
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "show",
+                        type: "POST",
+                        data: function (d) {
+                            // // d.myKey = "myValue";
+                            // // d.custom = $('#myInput').val();
+                            // // d.release = [0];
+                            // // etc
+                            // d.tgl = tgl.replace(/-/g, "");
+                            // d.tgl2 = tgl2.replace(/-/g, "");
+                            // d.site = site;
+                        },
+                    },
+                    columns: app.dt.config.columns(),
+                    processing: true,
+                    serverSide: MyServerSide,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [],
+                        }
+                    },
+                    columnDefs: $ummu.dt.config.columnDefs(),
+                    select: $ummu.dt.config.select(),
+                    // order: [[26, "asc"],[27,"asc"]],
+                    // rowGroup: app.dt.clients.config_rowGroup(),
+                    // fixedColumns: {
+                    //     start: 2,
+                    //     // end: 1
+                    // },
+                    paging: true,
+                    // scrollCollapse: true,
+                    // scrollX: true,
+                    // scrollY: '60vh',
+                    drawCallback: function (settings) {
+                        // var api = this.api();
+                    },
+                };
+            },
+
+            getRowById: function(key, id) {
+                // console.log(params)
+                // 1. Ambil data string dari localStorage
+                const storageKey = key;
+                const rawData = localStorage.getItem(storageKey);
+
+                if (rawData) {
+                    // 2. Parse string menjadi objek JavaScript
+                    let parsedData = JSON.parse(rawData);
+
+                    // // ID yang ingin diupdate (perhatikan: di JSON Anda ID-nya adalah string "10")
+                    const targetId = id; 
+
+                    // Mencari di dalam properti .rows
+                    const selectedRow = parsedData.rows.find(r => r.id == targetId);
+                    
+                    console.log(selectedRow);
+                } else {
+                    console.error("Data tidak ditemukan di localStorage.");
+                }
+            },
+
+            create: function(key, newRow) {
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    // 1. Definisikan data baru yang ingin ditambah
+                    // const newRow = {
+                    //     "id": "11", // Pastikan ID unik (bisa dari respon server)
+                    //     "is_testing": "1",
+                    //     "company_id": "23",
+                    //     "name": "DATA BARU DARI FORM",
+                    //     "address": "Alamat Lengkap Baru",
+                    //     "phone_number": "08123456789",
+                    //     "email": "baru@mail.com",
+                    //     "created_at": "2026-02-26 10:00:00",
+                    //     "updated_at": "2026-02-26 10:00:00",
+                    //     "deleted_at": null,
+                    //     "created_by": "1902",
+                    //     "updated_by": null,
+                    //     "deleted_by": null
+                    // };
+
+                    // 2. Ambil data lama dari localStorage
+                    const storageKey = key; // Ganti sesuai key Anda
+                    const rawData = localStorage.getItem(storageKey);
+
+                    if (rawData) {
+                        // 3. Ubah string JSON menjadi objek
+                        let response = JSON.parse(rawData);
+
+                        // 4. Tambahkan data baru ke posisi PALING ATAS (index 0)
+                        response.rows = [newRow, ...response.rows];
+
+                        // 5. Update informasi jumlah data agar tetap sinkron
+                        response.count = response.rows.length;
+                        response.total = response.rows.length;
+                        response.recordsTotal = response.rows.length;
+                        response.recordsFiltered = response.rows.length;
+
+                        // 6. Simpan kembali ke localStorage dalam bentuk string
+                        localStorage.setItem(storageKey, JSON.stringify(response));
+
+                        console.log("Data berhasil ditambahkan ke posisi teratas!");
+                    }
+                }else{
+                    $ummu.dt.init.ajax.reload();
+                }
+            },
+
+            update: function(key, id, params) {
+                // console.log(params)
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    // Update localStorage melalui localStorage.controllers
+                    $ummu.localStorage.controllers.update(key, id, params)
+
+                    // Reload tampilan dataTable
+
+                }else{
+                    $ummu.dt.init.ajax.reload();
+                }
+            },
+
+            deleteRowById: function(rowID) {
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    // Mencari row berdasarkan ID yang ada di kolom pertama (index 0)
+                    // Atau menggunakan selector atribut jika Anda menaruh ID di barisnya
+                    $ummu.dt.init.rows().every(function() {
+                        var data = this.data();
+                        if (data.id == rowID) {
+                            this.remove().draw();
+                        }
+                    });
+                }else{
+                    $ummu.dt.init.ajax.reload();
+                }
             },
         },
 
@@ -11355,12 +11633,14 @@ var $ummu = {
             },
 
             buttonAll: function (init) {
+                // pageLength
                 init.button().add(0, {
                     extend: "pageLength",
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "btn_page_length" },
                 });
 
+                // selectAll
                 init.button().add(2, {
                     extend: "selectAll",
                     className: "py-1 dt-btn-ummu",
@@ -11370,6 +11650,7 @@ var $ummu = {
                         '<span class="d-block d-sm-none"><i class="fas fa-check-square fa-lg"></i></span>',
                 });
 
+                // selectNone
                 init.button().add(3, {
                     extend: "selectNone",
                     className: "py-1 dt-btn-ummu",
@@ -11379,6 +11660,7 @@ var $ummu = {
                         '<span class="d-block d-sm-none"><i class="far fa-check-square fa-lg"></i></span>',
                 });
 
+                // copy
                 init.button().add(5, {
                     extend: "copy",
                     className: "py-1 dt-btn-ummu",
@@ -11386,6 +11668,7 @@ var $ummu = {
                     text: '<i class="fas fa-copy fa-lg"></i>',
                 });
 
+                // csv
                 init.button().add(6, {
                     extend: "csv",
                     className: "py-1 dt-btn-ummu",
@@ -11393,6 +11676,7 @@ var $ummu = {
                     text: '<i class="fas fa-file-csv text-info fa-lg"></i>',
                 });
 
+                // excel
                 init.button().add(7, {
                     extend: "excel",
                     className: "py-1 dt-btn-ummu",
@@ -11403,6 +11687,7 @@ var $ummu = {
                     },
                 });
 
+                // pdf
                 init.button().add(8, {
                     extend: "pdf",
                     className: "py-1 dt-btn-ummu",
@@ -11410,6 +11695,7 @@ var $ummu = {
                     text: '<i class="fas fa-file-pdf text-danger fa-lg"></i>',
                 });
 
+                // print
                 init.button().add(9, {
                     extend: "print",
                     className: "py-1 dt-btn-ummu",
@@ -11417,6 +11703,7 @@ var $ummu = {
                     text: '<i class="fas fa-print text-primary fa-lg"></i>',
                 });
 
+                // setting
                 init.button().add(10, {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_setting" },
@@ -11427,6 +11714,7 @@ var $ummu = {
                     },
                 });
 
+                // Get Data
                 init.button().add(11, {
                     className: "py-1 dt-btn-ummu",
                     attr: { id: "dt_btn_getData" },
@@ -14438,8 +14726,144 @@ var $ummu = {
 
     localStorage: {
         config: {
-            init: false,
-            init_j: false,
+            init: true,
+            init_j: true,
+        },
+
+        controllers: {
+            index: function() {
+                //
+            },
+
+            show: function() {
+                //
+            },
+
+            create: function(key, newRow) {
+                // 1. Definisikan data baru yang ingin ditambah
+                // const newRow = {
+                //     "id": "11", // Pastikan ID unik (bisa dari respon server)
+                //     "is_testing": "1",
+                //     "company_id": "23",
+                //     "name": "DATA BARU DARI FORM",
+                //     "address": "Alamat Lengkap Baru",
+                //     "phone_number": "08123456789",
+                //     "email": "baru@mail.com",
+                //     "created_at": "2026-02-26 10:00:00",
+                //     "updated_at": "2026-02-26 10:00:00",
+                //     "deleted_at": null,
+                //     "created_by": "1902",
+                //     "updated_by": null,
+                //     "deleted_by": null
+                // };
+
+                // 2. Ambil data lama dari localStorage
+                const storageKey = key; // Ganti sesuai key Anda
+                const rawData = localStorage.getItem(storageKey);
+
+                if (rawData) {
+                    // 3. Ubah string JSON menjadi objek
+                    let response = JSON.parse(rawData);
+
+                    // 4. Tambahkan data baru ke posisi PALING ATAS (index 0)
+                    response.rows = [newRow, ...response.rows];
+
+                    // 5. Update informasi jumlah data agar tetap sinkron
+                    response.count = response.rows.length;
+                    response.total = response.rows.length;
+                    response.recordsTotal = response.rows.length;
+                    response.recordsFiltered = response.rows.length;
+
+                    // 6. Simpan kembali ke localStorage dalam bentuk string
+                    localStorage.setItem(storageKey, JSON.stringify(response));
+
+                    console.log("Data berhasil ditambahkan ke posisi teratas!");
+                }
+            },
+
+            update: function(key, id, params) {
+                // console.log(params)
+                // 1. Ambil data string dari localStorage
+                const storageKey = key;
+                const rawData = localStorage.getItem(storageKey);
+
+                if (rawData) {
+                    // 2. Parse string menjadi objek JavaScript
+                    let parsedData = JSON.parse(rawData);
+
+                    // // ID yang ingin diupdate (perhatikan: di JSON Anda ID-nya adalah string "10")
+                    const targetId = id; 
+
+                    // 3. Update data di dalam array 'rows'
+                    // Kita gunakan .map() untuk membuat array baru yang sudah terupdate
+                    parsedData.rows = parsedData.rows.map(row => {
+                        // console.log(row.id)
+                        if (row.id == targetId) {
+                            // Kembalikan objek yang lama (...) tapi timpa field yang ingin diubah
+                            const newRow = { ...row, ...params };
+                            return newRow;
+                        }else{
+                            return row; // Jika ID tidak cocok, kembalikan data asli
+                        }
+                    });
+
+                    // 4. Simpan kembali ke localStorage
+                    localStorage.setItem(storageKey, JSON.stringify(parsedData));
+
+                    console.log("Update localStorage success.");
+                } else {
+                    console.error("Data tidak ditemukan di localStorage.");
+                }
+            },
+
+            delete: function(key, id) {
+                const storageKey = key;
+                const rawData = localStorage.getItem(storageKey);
+
+                if (rawData) {
+                    let data = JSON.parse(rawData);
+                    const targetId = id;
+
+                    // Hapus row berdasarkan ID
+                    data.rows = data.rows.filter(row => row.id != targetId);
+
+                    // Update info total (agar sinkron dengan jumlah row yang baru)
+                    data.count = data.rows.length;
+                    data.total = data.rows.length;
+                    data.recordsTotal = data.rows.length;
+                    data.recordsFiltered = data.rows.length;
+                    data.total_count = data.rows.length;
+
+                    // Simpan kembali ke localStorage
+                    localStorage.setItem(storageKey, JSON.stringify(data));
+                    
+                    console.log(`Row dengan ID ${targetId} berhasil dihapus.`);
+                }else{
+                    console.log("rowData is null")
+                }
+            },
+
+            getRowById: function(key, id) {
+                // console.log(params)
+                // 1. Ambil data string dari localStorage
+                const storageKey = key;
+                const rawData = localStorage.getItem(storageKey);
+
+                if (rawData) {
+                    // 2. Parse string menjadi objek JavaScript
+                    let parsedData = JSON.parse(rawData);
+
+                    // // ID yang ingin diupdate (perhatikan: di JSON Anda ID-nya adalah string "10")
+                    const targetId = id; 
+
+                    // Mencari di dalam properti .rows
+                    const selectedRow = parsedData.rows.find(r => r.id == targetId);
+                    
+                    console.log(selectedRow);
+                } else {
+                    console.error("Data tidak ditemukan di localStorage.");
+                }
+            },
         },
 
         approval: {
@@ -14505,7 +14929,7 @@ var $ummu = {
 
         dt_default: function (key) {
             var lcg = localStorage.getItem(key);
-            if (lcg && $ummu.localStorage.config.init == true) {
+            if (lcg) {
                 if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable($table, {
                         data: JSON.parse(lcg).rows,
@@ -14536,7 +14960,7 @@ var $ummu = {
             } else {
                 // $ummu.dt.init.destroy();
                 // $($table).DataTable().destroy();
-                if ($ummu.dt.init == null) {
+                // if ($ummu.dt.init == null) {
                     $ummu.dt.init = new DataTable(
                         $table,
                         {
@@ -14549,7 +14973,7 @@ var $ummu = {
                             columns: app.dt.config.columns(),
                         }
                     );
-                }
+                // }
             }
 
             $ummu.dt.init.columns.adjust();
@@ -14698,6 +15122,8 @@ var $ummu = {
                 localStorage.setItem(storageKey, JSON.stringify(data));
                 
                 console.log(`Row dengan ID ${targetId} berhasil dihapus.`);
+            }else{
+                console.log("rowData is null")
             }
         },
 

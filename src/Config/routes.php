@@ -343,6 +343,15 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'MsCostsController::delete/$1');
     });
 
+    $routes->group('voyage-calculation', function ($routes) {
+        $routes->get('/', 'VoyageCalculationController::index');
+        $routes->get('show', 'VoyageCalculationController::show');
+        $routes->post('show', 'VoyageCalculationController::show');
+        $routes->post('create', 'VoyageCalculationController::create');
+        $routes->post('update/(:num)', 'VoyageCalculationController::update/$1');
+        $routes->post('delete/(:num)', 'VoyageCalculationController::delete/$1');
+    });
+
     $routes->group('dorbitt', function ($routes) {
         // $routes->get('/', 'DorbittController::index');
         
