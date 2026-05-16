@@ -74,12 +74,10 @@ class MsActivityController extends ResourceController
 
     public function create()
     {
-        $kode = $this->request->getVar('kode');
         $name = $this->request->getVar('name');
         $description = $this->request->getVar('description');
 
         $payload = [
-            "kode" => $kode,
             "name" => $name,
             "description" => $description,
         ];
@@ -98,12 +96,10 @@ class MsActivityController extends ResourceController
 
     public function update($id = null)
     {
-        $kode = $this->request->getVar('kode');
         $name = $this->request->getVar('name');
         $description = $this->request->getVar('description');
 
         $payload = [
-            "kode" => $kode,
             "name" => $name,
             "description" => $description,
         ];

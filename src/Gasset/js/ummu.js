@@ -10656,34 +10656,71 @@ var $ummu = {
 
                 return selectConfig;
             },
-        },
 
-        controllers: {
-            // Digunakan saat page tampil pertama kali, untuk Instlal dataTable dan configurasi2 tampilan lainnya.
-            // Tapi jika localStorage.config.init == true, maka tampilkan jika datanya ada di localStorage.
-            index: function() {
+            install: function(d) {
                 if ($ummu.dt.is_init($table) == true) {
                     $ummu.dt.init_destroy();
                 }
 
-                // 1. Install dataTable
                 $ummu.dt.init = new DataTable(
                     $table,
                     {
+                        data: d,
+                        columns: $ummu.dt.config.columns(),
+                        processing: true,
+                        serverSide: false,
+                        responsive: true,
+                        keys: true,
+                        deferLoading: 57,
                         lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
                         layout: {
                             topStart: {
                                 buttons: [],
                             }
                         },
-                        columns: app.dt.config.columns(),
+                        columnDefs: $ummu.dt.config.columnDefs(),
+                        select: $ummu.dt.config.select(),
+                        paging: true,
+                        // scrollCollapse: true,
+                        // scrollX: true,
+                        // scrollY: '60vh',
+                        drawCallback: function (settings) {
+                            // var api = this.api();
+                        },
                     }
                 );
 
-                // 2. Pasang Button pada dataTable.
-                $ummu.dt.layout.buttonAll($ummu.dt.init);
+                $ummu.dt.layout.buttonAll($ummu.dt.init)
+            },
+        },
 
-                // 3. Pasang Konfigurasi untuk event ketika klik coloum ke 3 biasanya bagian ID.
+        controllers: {
+            index: function() {
+                var lcg = localStorage.getItem($ummu.vars.module_kode);
+
+                $ummu.dt.config.install([])
+
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    if (lcg) { //jika variable lcg ada datanya
+                        $ummu.dt.config.install(JSON.parse(lcg).rows)
+                        // $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
+                    }else{
+                        if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
+                            app.controllers.show()
+                        }else{
+                            // Klik button Get Data
+                        }
+                    }
+                }else{
+                    if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
+                        app.controllers.show()
+                    }else{
+                        // Klik button Get Data
+                    }
+                }
+
+
+                // Pasang Konfigurasi untuk event ketika klik coloum ke 3 biasanya bagian ID.
                 $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
                     var row = $ummu.dt.init.row(this).data();
                     // console.log(row)
@@ -10691,29 +10728,9 @@ var $ummu = {
                     app.views.setRow_toForm(row);
                     $ummu.views.tab_content('setRow_toForm')
                 });
-
-                // 4. Cek apakah localStorage.getItem('isDataLocalStorage') == true
-                if (localStorage.getItem('isDataLocalStorage') == 'true') {
-                    // Jika true, maka ambil dtanya
-                    var lcg = localStorage.getItem($ummu.vars.module_kode);
-                    if (lcg) { //jika ada datanya
-                        //Pasang datanya ke dataTable.
-                        $ummu.dt.init.clear().rows.add(JSON.parse(lcg).rows).draw().columns.adjust();
-                    }else{
-                        if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
-                            app.controllers.show()
-                        }
-                    }
-                }else{
-                    if (localStorage.getItem("isAutoGetDataonTable") == 'true') {
-                        app.controllers.show()
-                    }else{
-                        // Update manual lewat button Get Data pada dataTable Button.
-                    }
-                }
             },
 
-            // Digunakan untuk meranik data baru ke API
+            // Digunakan untuk menarik data baru ke API
             show: function(params) {
                 var MyServerSide = false;
                 if (localStorage.getItem('isDataLocalStorage') == 'true') {
@@ -10765,6 +10782,40 @@ var $ummu = {
                         // var api = this.api();
                     },
                 };
+            },
+
+            reload: function() {
+                var MyServerSide = false;
+
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    MyServerSide = false;
+                }else{
+                    MyServerSide = true;
+                }
+
+                // 1. Ambil akses ke internal settings
+                var settings = $ummu.dt.init.settings()[0];
+
+                // 2. Aktifkan fitur serverSide secara manual
+                settings.oFeatures.bServerSide = MyServerSide;
+
+                // 3. Pasang konfigurasi Ajax Anda
+                settings.ajax = {
+                    dataSrc: "rows",
+                    url: $ummu.vars.page_url + "show",
+                    type: "POST",
+                    data: function (d) {
+                        // Parameter custom Anda jika ada
+                        // d.tgl = tgl.replace(/-/g, "");
+                        // d.site = site;
+                    }
+                };
+
+                // 4. Reload tabel
+                // $ummu.dt.init.ajax.reload(function() { //ga tau kenapa yg ini jadi ngaco pagin nya, jadi doble request
+                //     $ummu.dt.init.columns.adjust().draw();
+                // });
+                $ummu.dt.init.ajax.reload();
             },
 
             getRowById: function(key, id) {
@@ -10843,6 +10894,21 @@ var $ummu = {
 
                     // Reload tampilan dataTable
 
+                }else{
+                    $ummu.dt.init.ajax.reload();
+                }
+            },
+
+            delete: function(id) {
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    // Mencari row berdasarkan ID yang ada di kolom pertama (index 0)
+                    // Atau menggunakan selector atribut jika Anda menaruh ID di barisnya
+                    $ummu.dt.init.rows().every(function() {
+                        var data = this.data();
+                        if (data.id == id) {
+                            this.remove().draw();
+                        }
+                    });
                 }else{
                     $ummu.dt.init.ajax.reload();
                 }

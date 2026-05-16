@@ -74,44 +74,26 @@ class MsEquipmentController extends ResourceController
 
     public function create()
     {
+        $category_id = $this->request->getVar('category');
         $kode = $this->request->getVar('kode');
         $name = $this->request->getVar('name');
-        $nome = $this->request->getVar('nome');
-        $hp = $this->request->getVar('hp');
-        $lightship = $this->request->getVar('lightship');
-        $capacity = $this->request->getVar('capacity');
-        // $client_id = $this->request->getVar('client_id');
-        $laden_river_speed = $this->request->getVar('laden_river_speed');
-        $laden_river_fuelcons = $this->request->getVar('laden_river_fuelcons');
-        $laden_sea_speed = $this->request->getVar('laden_sea_speed');
-        $laden_sea_fuelcons = $this->request->getVar('laden_sea_fuelcons');
-        $ballast_river_speed = $this->request->getVar('ballast_river_speed');
-        $ballast_river_fuelcons = $this->request->getVar('ballast_river_fuelcons');
-        $ballast_sea_speed = $this->request->getVar('ballast_sea_speed');
-        $ballast_sea_fuelcons = $this->request->getVar('ballast_sea_fuelcons');
-        $stby_fuelcons = $this->request->getVar('stby_fuelcons');
-        $runningfree_speed = $this->request->getVar('runningfree_speed');
-        $runningfree_cons = $this->request->getVar('runningfree_cons');
+        $model = $this->request->getVar('model');
+        $serial_number = $this->request->getVar('serial_number');
+        $manufacturer = $this->request->getVar('manufacturer');
+        $maintenance_schedule = $this->request->getVar('maintenance_schedule');
+        $criticality_level = $this->request->getVar('criticality_level');
+        $location_id = $this->request->getVar('location');
+        $description = $this->request->getVar('description');
 
         $payload = [
-            "kode" => $kode,
             "name" => $name,
-            "nome" => $nome,
-            "hp" => $hp,
-            "lightship" => $lightship,
-            "capacity" => $capacity,
-            // "client_id" => $client_id,
-            "laden_river_speed" => $laden_river_speed,
-            "laden_river_fuelcons" => $laden_river_fuelcons,
-            "laden_sea_speed" => $laden_sea_speed,
-            "laden_sea_fuelcons" => $laden_sea_fuelcons,
-            "ballast_river_speed" => $ballast_river_speed,
-            "ballast_river_fuelcons" => $ballast_river_fuelcons,
-            "ballast_sea_speed" => $ballast_sea_speed,
-            "ballast_sea_fuelcons" => $ballast_sea_fuelcons,
-            "stby_fuelcons" => $stby_fuelcons,
-            "runningfree_speed" => $runningfree_speed,
-            "runningfree_cons" => $runningfree_cons,
+            // "model" => $model,
+            // "serial_number" => $serial_number,
+            // "manufacturer" => $manufacturer,
+            // "maintenance_schedule" => $maintenance_schedule,
+            // "criticality_level" => $criticality_level,
+            // "location" => $location_id,
+            "description" => $description,
         ];
 
         $params = [
@@ -128,44 +110,12 @@ class MsEquipmentController extends ResourceController
 
     public function update($id = null)
     {
-        $kode = $this->request->getVar('kode');
         $name = $this->request->getVar('name');
-        $nome = $this->request->getVar('nome');
-        $hp = $this->request->getVar('hp');
-        $lightship = $this->request->getVar('lightship');
-        $capacity = $this->request->getVar('capacity');
-        // $client_id = $this->request->getVar('client_id');
-        $laden_river_speed = $this->request->getVar('laden_river_speed');
-        $laden_river_fuelcons = $this->request->getVar('laden_river_fuelcons');
-        $laden_sea_speed = $this->request->getVar('laden_sea_speed');
-        $laden_sea_fuelcons = $this->request->getVar('laden_sea_fuelcons');
-        $ballast_river_speed = $this->request->getVar('ballast_river_speed');
-        $ballast_river_fuelcons = $this->request->getVar('ballast_river_fuelcons');
-        $ballast_sea_speed = $this->request->getVar('ballast_sea_speed');
-        $ballast_sea_fuelcons = $this->request->getVar('ballast_sea_fuelcons');
-        $stby_fuelcons = $this->request->getVar('stby_fuelcons');
-        $runningfree_speed = $this->request->getVar('runningfree_speed');
-        $runningfree_cons = $this->request->getVar('runningfree_cons');
+        $description = $this->request->getVar('description');
 
         $payload = [
-            "kode" => $kode,
             "name" => $name,
-            "nome" => $nome,
-            "hp" => $hp,
-            "lightship" => $lightship,
-            "capacity" => $capacity,
-            // "client_id" => $client_id,
-            "laden_river_speed" => $laden_river_speed,
-            "laden_river_fuelcons" => $laden_river_fuelcons,
-            "laden_sea_speed" => $laden_sea_speed,
-            "laden_sea_fuelcons" => $laden_sea_fuelcons,
-            "ballast_river_speed" => $ballast_river_speed,
-            "ballast_river_fuelcons" => $ballast_river_fuelcons,
-            "ballast_sea_speed" => $ballast_sea_speed,
-            "ballast_sea_fuelcons" => $ballast_sea_fuelcons,
-            "stby_fuelcons" => $stby_fuelcons,
-            "runningfree_speed" => $runningfree_speed,
-            "runningfree_cons" => $runningfree_cons,
+            "description" => $description,
         ];
 
         $params = [

@@ -48,7 +48,6 @@ var app = {
 
         sbSave: function () {
             var payload = {
-                "kode": $("#form_input #kode").val(),
                 "name": $("#form_input #name").val(),
                 "description": $("#form_input #description").val(),
             };
