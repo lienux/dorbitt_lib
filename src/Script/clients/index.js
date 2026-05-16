@@ -6,7 +6,14 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.dt.load2();
+            if (localStorage.getItem('isDataLocalStorage') == false) {
+                // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
+                $ummu.dt.config.serverSide = true;
+
+                // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
+                $ummu.dt.config.autoGetData = false;
+            }
+            app.controllers.index();
         },
     },
 
@@ -16,28 +23,27 @@ var app = {
     },
 
     controllers: {
-        on_btn_getData_click: function () {
-            $ummu.views.after_sbToolbar_getData();
+        index: function() {
+            $ummu.dt.controllers.index();
         },
 
         show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
+            // if ($ummu.dt.is_init($table) == true) {
+            //     $ummu.dt.init_destroy();
+            // }
 
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.config.show()
-            );
+           $ummu.dt.controllers.reload()
 
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
-
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem($localStrgKey, JSON.stringify(response));
-                }else{
-                    $ummu.modal.ummu_msg(response.message)
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                // Gunakan parameter 'json' langsung, bukan .ajax.json()
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
                 }
             });
         },
@@ -108,7 +114,11 @@ var app = {
                 // An error occurred
                 console.log(ummu)
             });
-        }
+        },
+
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
+        },
     },
 
     views: {
@@ -133,7 +143,10 @@ var app = {
         config: {
             columns: function () {
                 let columns = [
-                    { data: null },
+                    { 
+                        data: null, 
+                        render: DataTable.render.select() 
+                    },
                     { 
                         title: "ID",
                         data: "id",

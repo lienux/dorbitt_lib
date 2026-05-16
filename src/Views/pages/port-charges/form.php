@@ -64,11 +64,20 @@
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="tarif">
-                        Rates
+                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="amount">
+                        Amount
                     </label>
                     <div class="col-sm-9">
-                        <input type="text" id="tarif" class="form-control form-control-sm endis" placeholder="" data-toggle="tooltip" data-placement="top" title="Tarif / Charges" disabled required>
+                        <!-- <input type="text" id="amount" class="form-control form-control-sm endis" placeholder="" data-toggle="tooltip" data-placement="top" title="Tarif / Harga (IDR)" disabled required> -->
+
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control endis" id="amount" data-toggle="tooltip" data-placement="top" title="Tarif / Harga" disabled required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" disabled>
+                                    IDR
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

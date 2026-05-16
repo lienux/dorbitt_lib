@@ -6,9 +6,6 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash();
-            // localStorage.getItem('isDataLocalStorage') = false;
-            // $ummu.localStorage.config.init_j = false;
-
             if (localStorage.getItem('isDataLocalStorage') == false) {
                 // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
                 $ummu.dt.config.serverSide = true;
@@ -16,9 +13,7 @@ var app = {
                 // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
                 $ummu.dt.config.autoGetData = false;
             }
-
-            // $ummu.dt.load2();
-            $ummu.dt.controllers.index();
+            app.controllers.index();
             $ummu.formatter.number2($("#amount"), 10);
         },
     },
@@ -30,23 +25,13 @@ var app = {
     },
 
     controllers: {
-        on_btn_getData_click: function () {
-            $ummu.views.after_sbToolbar_getData();
-            app.views.forClear()
+        index: function() {
+            $ummu.dt.controllers.index();
         },
 
         // Digunakan untuk mengambil data dari database / API, dan terdapat pengaturannya setelah proses xhr selesai.
-        show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
-
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.controllers.show()
-            );
-
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
+        show: function () {
+            $ummu.dt.controllers.reload()
 
             $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
                 // Gunakan parameter 'json' langsung, bukan .ajax.json()
@@ -178,6 +163,11 @@ var app = {
             // $('#fixed_cost, #variable_cost').prop('disabled', true);
         },
 
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
+            app.views.forClear()
+        },
+
         on_showLeftModal: function(id) {
             console.log(id)
             $ummu.controllers.show_data_link(id)
@@ -244,7 +234,11 @@ var app = {
         config: {
             columns: function () {
                 let columns = [
-                    { data: null, render: DataTable.render.select() },
+                    { 
+                        data: null,
+                        orderable: false,
+                        render: DataTable.render.select()
+                    },
                     { 
                         title: "ID",
                         data: "id",
@@ -271,7 +265,7 @@ var app = {
                         }
                     },
                     { 
-                        title: "Const Category",
+                        title: "Cost Category",
                         data: "category",
                         render: function(data, type, row) {
                             var text = "";

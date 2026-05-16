@@ -6,7 +6,17 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.dt.load2();
+            // $ummu.dt.load2();
+            if (localStorage.getItem('isDataLocalStorage') == false) {
+                // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
+                $ummu.dt.config.serverSide = true;
+
+                // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
+                $ummu.dt.config.autoGetData = false;
+            }
+
+            // $ummu.dt.load2();
+            $ummu.dt.controllers.index();
         },
     },
 
@@ -27,17 +37,21 @@ var app = {
 
             $ummu.dt.init = new DataTable(
                 $table,
-                $ummu.dt.config.show()
+                $ummu.dt.controllers.show()
             );
 
             $ummu.dt.layout.buttonAll($ummu.dt.init)
             
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem('ms_activity', JSON.stringify(response));
-                }else{
-                    $ummu.modal.ummu_msg(response.message)
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                // Gunakan parameter 'json' langsung, bukan .ajax.json()
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
                 }
             });
         },
@@ -48,7 +62,6 @@ var app = {
 
         sbSave: function () {
             var payload = {
-                "kode": $("#form_input #kode").val(),
                 "name": $("#form_input #name").val(),
                 "description": $("#form_input #description").val(),
             };
@@ -153,42 +166,42 @@ var app = {
                             );
                         }
                     },
-                    { 
-                        title: "Code",
-                        data: "kode"
-                    },
+                    // { 
+                    //     title: "Code",
+                    //     data: "kode"
+                    // },
                     { 
                         title: "Name",
                         data: "name"
                     },
-                    { 
-                        title: "Category",
-                        data: "category_id"
-                    },
-                    { 
-                        title: "Model",
-                        data: "model"
-                    },
-                    { 
-                        title: "Serial Number",
-                        data: "serial_number"
-                    },
-                    { 
-                        title: "Manufacturer",
-                        data: "manufacturer"
-                    },
-                    { 
-                        title: "Maintenance Schedule",
-                        data: "maintenance_schedule"
-                    },
-                    { 
-                        title: "Criticality Level",
-                        data: "criticality_level"
-                    },
-                    { 
-                        title: "Location Name",
-                        data: "location_name"
-                    },
+                    // { 
+                    //     title: "Category",
+                    //     data: "category_id"
+                    // },
+                    // { 
+                    //     title: "Model",
+                    //     data: "model"
+                    // },
+                    // { 
+                    //     title: "Serial Number",
+                    //     data: "serial_number"
+                    // },
+                    // { 
+                    //     title: "Manufacturer",
+                    //     data: "manufacturer"
+                    // },
+                    // { 
+                    //     title: "Maintenance Schedule",
+                    //     data: "maintenance_schedule"
+                    // },
+                    // { 
+                    //     title: "Criticality Level",
+                    //     data: "criticality_level"
+                    // },
+                    // { 
+                    //     title: "Location Name",
+                    //     data: "location_name"
+                    // },
                     { 
                         title: "Description",
                         data: "description"
