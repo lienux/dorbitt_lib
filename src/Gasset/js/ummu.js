@@ -357,16 +357,22 @@ var $ummu = {
 
             $("#config_settings").on('click', function () {
                 $('#modal_form_settings').modal('show');
-                if (localStorage.getItem('isDataLocalStorage')) {
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
                     $('#is_localstorage').prop('checked', true)
                 }else{
                     $('#is_localstorage').prop('checked', false)
                 }
 
-                if (localStorage.getItem('isAutoGetDataonTable')) {
+                if (localStorage.getItem('isAutoGetDataonTable') == 'true') {
                     $('#dt_autoGetData').prop('checked', true)
                 }else{
                     $('#dt_autoGetData').prop('checked', false)
+                }
+
+                if (localStorage.getItem(`${$ummu.vars.module_kode}_isDtServerSide`) == 'true') {
+                    $('#is_dtServerSide').prop('checked', true)
+                }else{
+                    $('#is_dtServerSide').prop('checked', false)
                 }
             })
 
@@ -639,6 +645,14 @@ var $ummu = {
                 }
             })
 
+            $("#is_dtServerSide").on('change', function() {
+                if ($(this).is(':checked')) {
+                    localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, true);
+                }else{
+                    localStorage.removeItem(`${$ummu.vars.module_kode}_isDtServerSide`);
+                }
+            })
+
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
 
@@ -802,7 +816,7 @@ var $ummu = {
         ids: null,
         id_onClick: null,
         id_onCheck: null,
-        ids_onChheck: null,
+        ids_onCheck: null,
         base_url: null,
         page_url: null,
         page: null,
@@ -10633,6 +10647,31 @@ var $ummu = {
                 return myColumnDefs;
             },
 
+            columnDefs2: function() {
+                var myColumnDefs;
+
+                if(typeof app.dt.config?.columnDefs !== "undefined") {
+                    myColumnDefs = app.dt.config.columnDefs();
+                }else{
+                    myColumnDefs = [
+                        {
+                            targets: 0,
+                            orderable: false,
+                            className: 'select-checkbox', // <-- TAMBAHKAN INI agar CSS DataTables merender checkbox di header & body
+                            render: function() {
+                                return ''; // Biarkan string kosong, CSS select-checkbox yang akan membuat kotaknya
+                            }
+                        },
+                        // { 
+                        //     targets: [26,27], 
+                        //     visible: false 
+                        // },
+                    ];
+                }
+
+                return myColumnDefs;
+            },
+
             select: function () {
                 var selectConfig;
 
@@ -10662,33 +10701,30 @@ var $ummu = {
                     $ummu.dt.init_destroy();
                 }
 
-                $ummu.dt.init = new DataTable(
-                    $table,
-                    {
-                        data: d,
-                        columns: $ummu.dt.config.columns(),
-                        processing: true,
-                        serverSide: false,
-                        responsive: true,
-                        keys: true,
-                        deferLoading: 57,
-                        lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                        layout: {
-                            topStart: {
-                                buttons: [],
-                            }
-                        },
-                        columnDefs: $ummu.dt.config.columnDefs(),
-                        select: $ummu.dt.config.select(),
-                        paging: true,
-                        // scrollCollapse: true,
-                        // scrollX: true,
-                        // scrollY: '60vh',
-                        drawCallback: function (settings) {
-                            // var api = this.api();
-                        },
-                    }
-                );
+                $ummu.dt.init = new DataTable($table,{
+                    data: d,
+                    columns: $ummu.dt.config.columns(),
+                    columnDefs: $ummu.dt.config.columnDefs(),
+                    select: $ummu.dt.config.select(),
+                    processing: true,
+                    serverSide: false,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [],
+                        }
+                    },
+                    paging: true,
+                    // scrollCollapse: true,
+                    // scrollX: true,
+                    // scrollY: '60vh',
+                    drawCallback: function (settings) {
+                        // var api = this.api();
+                    },
+                });
 
                 $ummu.dt.layout.buttonAll($ummu.dt.init)
             },
@@ -10733,10 +10769,13 @@ var $ummu = {
             // Digunakan untuk menarik data baru ke API
             show: function(params) {
                 var MyServerSide = false;
-                if (localStorage.getItem('isDataLocalStorage') == 'true') {
-                    MyServerSide = false;
-                }else{
+
+                if (localStorage.getItem(`${$ummu.vars.module_kode}_isDtServerSide`) == 'true') {
                     MyServerSide = true;
+                // }else if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                //     MyServerSide = false;
+                }else{
+                    MyServerSide = false;
                 }
 
                 return {
@@ -10755,6 +10794,8 @@ var $ummu = {
                         },
                     },
                     columns: app.dt.config.columns(),
+                    columnDefs: $ummu.dt.config.columnDefs(),
+                    select: $ummu.dt.config.select(),
                     processing: true,
                     serverSide: MyServerSide,
                     responsive: true,
@@ -10766,15 +10807,13 @@ var $ummu = {
                             buttons: [],
                         }
                     },
-                    columnDefs: $ummu.dt.config.columnDefs(),
-                    select: $ummu.dt.config.select(),
+                    paging: true,
                     // order: [[26, "asc"],[27,"asc"]],
                     // rowGroup: app.dt.clients.config_rowGroup(),
                     // fixedColumns: {
                     //     start: 2,
                     //     // end: 1
                     // },
-                    paging: true,
                     // scrollCollapse: true,
                     // scrollX: true,
                     // scrollY: '60vh',
@@ -10787,10 +10826,12 @@ var $ummu = {
             reload: function() {
                 var MyServerSide = false;
 
-                if (localStorage.getItem('isDataLocalStorage') == 'true') {
-                    MyServerSide = false;
-                }else{
+                if (localStorage.getItem(`${$ummu.vars.module_kode}_isDtServerSide`) == 'true') {
                     MyServerSide = true;
+                // }else if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                //     MyServerSide = false;
+                }else{
+                    MyServerSide = false;
                 }
 
                 // 1. Ambil akses ke internal settings

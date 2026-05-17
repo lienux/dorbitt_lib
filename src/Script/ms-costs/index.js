@@ -6,13 +6,14 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash();
-            if (localStorage.getItem('isDataLocalStorage') == false) {
-                // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
-                $ummu.dt.config.serverSide = true;
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
+            // if (localStorage.getItem('isDataLocalStorage') == false) {
+            //     // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
+            //     $ummu.dt.config.serverSide = true;
 
-                // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
-                $ummu.dt.config.autoGetData = false;
-            }
+            //     // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
+            //     $ummu.dt.config.autoGetData = false;
+            // }
             app.controllers.index();
             $ummu.formatter.number2($("#amount"), 10);
         },
@@ -27,6 +28,54 @@ var app = {
     controllers: {
         index: function() {
             $ummu.dt.controllers.index();
+            // $ummu.dt.config.install();
+
+            // $ummu.dt.init = new DataTable($table,{
+            //     ajax: {
+            //         dataSrc: "rows",
+            //         url: $ummu.vars.page_url + "show",
+            //         type: "POST",
+            //         data: function (d) {
+            //             // // d.myKey = "myValue";
+            //             // // d.custom = $('#myInput').val();
+            //             // // d.release = [0];
+            //             // // etc
+            //             // d.tgl = tgl.replace(/-/g, "");
+            //             // d.tgl2 = tgl2.replace(/-/g, "");
+            //             // d.site = site;
+            //         },
+            //     },
+            //     columns: app.dt.config.columns(),
+            //     columnDefs: $ummu.dt.config.columnDefs(),
+            //     select: $ummu.dt.config.select(),
+            //     processing: true,
+            //     serverSide: MyServerSide,
+            //     // serverSide: true,
+            //     responsive: true,
+            //     keys: true,
+            //     deferLoading: 57,
+            //     lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+            //     layout: {
+            //         topStart: {
+            //             buttons: [],
+            //         }
+            //     },
+            //     paging: true,
+            //     // order: [[26, "asc"],[27,"asc"]],
+            //     // rowGroup: app.dt.clients.config_rowGroup(),
+            //     // fixedColumns: {
+            //     //     start: 2,
+            //     //     // end: 1
+            //     // },
+            //     // scrollCollapse: true,
+            //     // scrollX: true,
+            //     // scrollY: '60vh',
+            //     drawCallback: function (settings) {
+            //         // var api = this.api();
+            //     },
+            // });
+
+            // $ummu.dt.layout.buttonAll($ummu.dt.init)
         },
 
         // Digunakan untuk mengambil data dari database / API, dan terdapat pengaturannya setelah proses xhr selesai.
@@ -239,6 +288,15 @@ var app = {
                         orderable: false,
                         render: DataTable.render.select()
                     },
+                    // { 
+                    //     data: null,
+                    //     orderable: false,
+                    //     className: 'select-checkbox', // <-- TAMBAHKAN INI
+                    //     targets: 0,
+                    //     render: function () {
+                    //         return ''; // Biarkan kosong karena CSS select-checkbox yang akan membuat kotaknya
+                    //     }
+                    // },
                     { 
                         title: "ID",
                         data: "id",
@@ -297,6 +355,10 @@ var app = {
         
                 return columns;
             },
+
+            serverSide: function() {
+                return false;
+            }
         },
     },
 };
@@ -304,3 +366,19 @@ var app = {
 $(document).ready(function () {
     app.config.autoload()
 });
+
+
+// new DataTable('#example', {
+//     ajax: `${$base_url}examples/ajax/data/objects.json`,
+//     columns: [
+//         {
+//             data: null,
+//             render: DataTable.render.select()
+//         },
+//         { title: "Name", data: 'name' },
+//         { title: "Position", data: 'position' },
+//         { title: "Office", data: 'office' },
+//         { title: "Salary", data: 'salary' }
+//     ],
+//     select: true
+// });

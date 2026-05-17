@@ -6,13 +6,14 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            if (localStorage.getItem('isDataLocalStorage') == false) {
-                // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
-                $ummu.dt.config.serverSide = true;
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
+            // if (localStorage.getItem('isDataLocalStorage') == false) {
+            //     // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
+            //     $ummu.dt.config.serverSide = true;
 
-                // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
-                $ummu.dt.config.autoGetData = false;
-            }
+            //     // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
+            //     $ummu.dt.config.autoGetData = false;
+            // }
             app.controllers.index();
         },
     },
@@ -28,10 +29,6 @@ var app = {
         },
 
         show: function (params) {
-            // if ($ummu.dt.is_init($table) == true) {
-            //     $ummu.dt.init_destroy();
-            // }
-
            $ummu.dt.controllers.reload()
 
             $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
