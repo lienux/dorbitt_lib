@@ -13,73 +13,50 @@
 
     <!-- Form -->
     <div id="form_input"> 
-        <!-- <div class="row">
-            <div class="col-lg-6 col-sm-12 mb-3">
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="category">Category<span class="text-danger small"> *</span></label>
-                    <div class="col-sm-9">
-                        <select id="category" class="form-control form-control-sm endis" title="Category" disabled required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="port_charges">Port Charges</option>
-                            <option value="fixed_cost">Fixed Cost</option>
-                            <option value="variable_cost">Variable Cost</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="name">
-                        Name<span class="text-danger small"> *</span>
-                    </label>
-                    <div class="col-sm-9">
-                        <input type="text" id="name" class="form-control form-control-sm endis" placeholder="" data-toggle="tooltip" data-placement="top" title="Cost Name" disabled required>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="tarif">
-                        Rates
-                    </label>
-                    <div class="col-sm-9">
-                        <input type="text" id="tarif" class="form-control form-control-sm endis" placeholder="" data-toggle="tooltip" data-placement="top" title="Tarif / Charges" disabled required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-12">
-                
-            </div>
-        </div> -->
-
-        <div class="row mb-3">
-            <div class="col-12 text-center">
-                <!-- <h2 class="display-5">Voyage Calculation Module</h2> -->
-                <p class="text-muted">Route: Palembang - Sintete</p>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <label class="col-sm-4 col-form-label mb-0 pb-0" for="voyage_route">
+                                Route<span class="text-danger small"> *</span>
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control is-data-id" id="voyage_route" data-toggle="tooltip" data-placement="top" title="Voyage Route" required disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_voyageRoute" type="button" disabled
+                                            data-inputid="voyage_route" data-modaltitle="Master Data - Voyage Route">
+                                            <i class="fas fa-list-ul"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-primary text-white">Constants & Rates (Fixed Cost)</div>
+                    <div class="card-header bg-primary text-white py-1">Constants & Rates (Fixed Cost)</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Exchange Rate</label>
-                                <div class="input-group mb-2">
+                                <div class="input-group input-group-sm mb-2">
                                     <input type="number" class="form-control" value="16500">
                                     <div class="input-group-append"><span class="input-group-text">IDR/USD</span></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label>Bunker Price</label>
-                                <div class="input-group mb-2">
+                                <div class="input-group input-group-sm mb-2">
                                     <input type="number" class="form-control" value="15000">
                                     <div class="input-group-append"><span class="input-group-text">IDR/Ltr</span></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <label>TFC (Daily)</label>
-                                <div class="input-group mb-2">
+                                <div class="input-group input-group-sm mb-2">
                                     <input type="number" class="form-control" value="1300">
                                     <div class="input-group-append"><span class="input-group-text">USD/Day</span></div>
                                 </div>
@@ -89,7 +66,7 @@
                 </div>
 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-secondary text-white">Vessel Particular & Speed (Variable)</div>
+                    <div class="card-header bg-secondary text-white py-1">Vessel Particular & Speed (Variable)</div>
                     <div class="card-body p-0">
                         <table class="table table-sm mb-0">
                             <thead>
@@ -128,17 +105,17 @@
                 </div>
 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-info text-white">Port Costs Breakdown</div>
+                    <div class="card-header bg-info text-white py-1">Port Costs Breakdown</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 border-right">
                                 <h6>Port of Loading (POL)</h6>
-                                <input type="text" class="form-control mb-2" placeholder="Agency Cost" value="30,000,000">
+                                <input type="text" class="form-control form-control-sm mb-2" placeholder="Agency Cost" value="30,000,000">
                                 <textarea class="form-control" rows="2" placeholder="Details (Akomodasi, Crane, dll)"></textarea>
                             </div>
                             <div class="col-md-6">
                                 <h6>Port of Discharge (POD)</h6>
-                                <input type="text" class="form-control mb-2" placeholder="Agency Cost" value="30,000,000">
+                                <input type="text" class="form-control form-control-sm mb-2" placeholder="Agency Cost" value="30,000,000">
                                 <textarea class="form-control" rows="2" placeholder="Other Costs"></textarea>
                             </div>
                         </div>

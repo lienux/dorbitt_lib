@@ -10,12 +10,12 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class PelabuhanController extends ResourceController
+class CoaController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/master-data/pelabuhan";
-        $this->module_kode = 'master-data-pelabuhan';
+        $this->module_kode = 'ms-costs';
+        $this->pathAPI = "api/master-data/" . $this->module_kode;
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -28,7 +28,7 @@ class PelabuhanController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Port',
+            'page_title' => 'Master Data Cost',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
             'group' => ['masterdata'],
@@ -42,7 +42,7 @@ class PelabuhanController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Port Master",
+                    "name" => "Costs",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -77,19 +77,14 @@ class PelabuhanController extends ResourceController
     public function create()
     {
         $payload = [
+            "behavior" => $this->request->getPost('behavior'),
+            "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            
-            "lintang_sudut" => $this->request->getPost('lintang_sudut'),
-            "lintang_menit" => $this->request->getPost('lintang_menit'),
-            "lintang_arah" => $this->request->getPost('lintang_arah'),
-
-            "bujur_sudut" => $this->request->getPost('bujur_sudut'),
-            "bujur_menit" => $this->request->getPost('bujur_menit'),
-            "bujur_arah" => $this->request->getPost('bujur_arah'),
+            "amount" => $this->request->getPost('amount'),
         ];
 
         $params = [
-            "path" => $this->pathAPI . "/create",
+            "path"      => $this->pathAPI ."/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -103,19 +98,14 @@ class PelabuhanController extends ResourceController
     public function update($id = null)
     {
         $payload = [
+            "behavior" => $this->request->getPost('behavior'),
+            "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            
-            "lintang_sudut" => $this->request->getPost('lintang_sudut'),
-            "lintang_menit" => $this->request->getPost('lintang_menit'),
-            "lintang_arah" => $this->request->getPost('lintang_arah'),
-
-            "bujur_sudut" => $this->request->getPost('bujur_sudut'),
-            "bujur_menit" => $this->request->getPost('bujur_menit'),
-            "bujur_arah" => $this->request->getPost('bujur_arah'),
+            "amount" => $this->request->getPost('amount'),
         ];
 
         $params = [
-            "path" => $this->pathAPI . "/update/" . $id,
+            "path" => $this->pathAPI ."/update/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -129,7 +119,7 @@ class PelabuhanController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path" => $this->pathAPI . "/delete/" . $id,
+            "path" => $this->pathAPI ."/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
             "headers" => $this->cH->headers3($this->module_kode)

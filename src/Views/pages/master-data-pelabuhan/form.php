@@ -24,34 +24,34 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label mb-2 pb-0" for="lintang">
-                        Latitude<span class="text-danger small"> *</span>
+                    <label class="col-sm-3 col-form-label mb-2 pb-0" for="lintang_sudut">
+                        Latitude
                     </label>
                     <div class="col-md-4 mb-2">
-                        <input type="text" class="form-control form-control-sm" id="lintang" name="lintang" placeholder="Deg (°)">
+                        <input type="text" class="form-control form-control-sm endis" id="lintang_sudut" name="lintang_sudut" placeholder="Deg (°)" disabled>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <input type="text" class="form-control form-control-sm" id="lintang_menit" name="lintang_menit" placeholder="Menit (')">
+                        <input type="text" class="form-control form-control-sm endis" id="lintang_menit" name="lintang_menit" placeholder="Menit (')" disabled>
                     </div>
                     <div class="col-md-2 mb-2">
-                        <select id="lintang_s" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="">
+                        <select id="lintang_arah" class="form-control form-control-sm endis" data-toggle="tooltip" data-placement="top" title="" disabled>
                             <option value="S" selected>S</option>
                             <option value="N">N</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-3 col-form-label mb-2 pb-0" for="bujur">
-                        Longitude<span class="text-danger small"> *</span>
+                    <label class="col-sm-3 col-form-label mb-2 pb-0" for="bujur_sudut">
+                        Longitude
                     </label>
                     <div class="col-md-4 mb-2">
-                        <input type="text" class="form-control form-control-sm" id="bujur" name="bujur" placeholder="Deg (°)">
+                        <input type="text" class="form-control form-control-sm endis" id="bujur_sudut" name="bujur_sudut" placeholder="Deg (°)" disabled>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <input type="text" class="form-control form-control-sm" id="bujur_menit" name="bujur_menit" placeholder="Menit (')">
+                        <input type="text" class="form-control form-control-sm endis" id="bujur_menit" name="bujur_menit" placeholder="Menit (')" disabled>
                     </div>
                     <div class="col-md-2 mb-2">
-                        <select id="bujur_e" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="">
+                        <select id="bujur_arah" class="form-control form-control-sm endis" data-toggle="tooltip" data-placement="top" title="" disabled>
                             <option value="E" selected>E</option>
                             <option value="W">W</option>
                         </select>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="col-lg-6 col-sm-12">
-                <div class="row mb-2">
+                <!-- <div class="row mb-2">
                     <label class="col-sm-3 col-form-label mb-0 pb-0" for="country">
                         Country
                     </label>
@@ -118,7 +118,7 @@
                             <option value="3">Bunker</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

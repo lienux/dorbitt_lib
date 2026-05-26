@@ -107,6 +107,9 @@
     <script src="<?=base_url();?>/templates/NiceAdmin/assets/vendor/echarts/echarts.min.js"></script>
     <script src="<?=base_url();?>/templates/NiceAdmin/assets/js/main.js"></script>
     <script src="<?= $gvH->ummujsInclude() ?>"></script>
+    <script>
+        $ummu.auth.load();
+    </script>
 
     <?= $this->renderSection('javascript') ?>
 </body>

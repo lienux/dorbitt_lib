@@ -22,6 +22,11 @@
                     </div>
                     <div class="tab-pane fade" id="nav-listData" role="tabpanel">
                         <?= $this->include(config('Vh')->ummuView($dir_views . 'table')) ?>
+                        <div class="pt-2" id="dtNote">
+                            <div class="alert alert-warning collapse" role="alert" id="info_localStorage_true">
+                                Anda mengaktifkan penyimpanan data sementara pada localStorage, untuk mendapatkan data terbaru silahkan klik button <span class='font-weight-bold text-danger'>Get Data</span> di atas
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
