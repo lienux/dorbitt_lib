@@ -6,7 +6,9 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash();
+            $ummu.button.sbToolbar()
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
+            $ummu.config.dataTables()
             // if (localStorage.getItem('isDataLocalStorage') == false) {
             //     // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
             //     $ummu.dt.config.serverSide = true;

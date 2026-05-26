@@ -148,8 +148,8 @@
 <div class="modal fade" id="modalForm_inputWaypoint" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable" id="modal_dialog">
         <div class="modal-content bg-light">
-            <div class="modal-header bg-primary py-2 text-light">
-                <h6 class="modal-title"><i class="fal fa-file-contract"></i> Form Input Waypoint</h6>
+            <div class="modal-header bg-purple py-2 text-light">
+                <h6 class="modal-title"><i class="fal fa-file-contract"></i> <span id="waypoint_modal_title">Form Input Waypoint</span></h6>
                 <div class="">
                     <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">
                         <i class="fa-light fa-rectangle-xmark"></i>
@@ -162,54 +162,86 @@
                 <!-- Lintang -->
                 <div class="col-lg-12 col-sm-12 text-sm">
                     <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-9">
                             <label for="waypoint_name" class="text-info mb-0">
                                 Nama Waypoint<span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm" id="waypoint_name"
-                                name="waypoint_name">
+                                name="waypoint_name" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="sequence" class="text-info mb-0">
+                                Sequence<span class="text-danger">*</span>
+                            </label>
+                            <input type="number" min="1" max="100" class="form-control form-control-sm" id="sequence"
+                                name="sequence" required>
                         </div>
 
                         <div class="form-group col-md-5">
-                            <label for="lintang" class="text-info mb-0">
+                            <label for="lintang_sudut" class="text-info mb-0">
                                 Lintang (Lat)<span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control form-control-sm" id="lintang" name="lintang" placeholder="Deg (°)">
+                            <input type="text" class="form-control form-control-sm" id="lintang_sudut" name="lintang_sudut" placeholder="Deg (°)" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="lintang_menit" class="text-info mb-0"></label>
-                            <input type="text" class="form-control form-control-sm" id="lintang_menit" name="lintang_menit" placeholder="Menit (')">
+                            <input type="text" class="form-control form-control-sm" id="lintang_menit" name="lintang_menit" placeholder="Menit (')" required>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="arah_sn" class="text-info mb-0"></label>
-                            <select id="arah_sn" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="">
+                            <label for="lintang_arah" class="text-info mb-0"></label>
+                            <select id="lintang_arah" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="" required>
                                 <option value="S" selected>S</option>
                                 <option value="N">N</option>
                             </select>
                         </div>
 
                         <div class="form-group col-md-5">
-                            <label for="bujur" class="text-info mb-0">
+                            <label for="bujur_sudut" class="text-info mb-0">
                                 Bujur (Lon)<span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control form-control-sm" id="bujur" name="bujur" placeholder="Deg (°)">
+                            <input type="text" class="form-control form-control-sm" id="bujur_sudut" name="bujur_sudut" placeholder="Deg (°)" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="bujur_menit" class="text-info mb-0"></label>
-                            <input type="text" class="form-control form-control-sm" id="bujur_menit" name="bujur_menit" placeholder="Menit (')">
+                            <input type="text" class="form-control form-control-sm" id="bujur_menit" name="bujur_menit" placeholder="Menit (')" required>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="arah_ew" class="text-info mb-0"></label>
-                            <select id="arah_ew" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="">
+                            <label for="bujur_arah" class="text-info mb-0"></label>
+                            <select id="bujur_arah" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" title="" required>
                                 <option value="E" selected>E</option>
                                 <option value="W">W</option>
                             </select>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="haluan" class="text-info mb-0">
+                                Haluan (°) <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="haluan"
+                                name="haluan" disabled required>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="jarak" class="text-info mb-0">
+                                Jarak (NM) <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="jarak"
+                                name="jarak" disabled required>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary" id="modal_btnSave_waypoint">
+                        <button class="btn btn-sm btn-primary" id="modal_btnSave_hitungKoordinat">
+                            <i class="fas fa-sigma"></i>
+                            Calculate
+                        </button>
+                        <button class="btn btn-sm btn-primary" id="modal_btnSave_waypoint">
                             <i class="fas fa-plus-circle"></i> 
-                            Save Waypoint
+                            Save
+                        </button>
+                        <button class="btn btn-sm btn-danger collapse" id="modal_btnDelete_waypoint">
+                            <i class="fas fa-trash-alt"></i> 
+                            Delete
                         </button>
                     </div>
                 </div>

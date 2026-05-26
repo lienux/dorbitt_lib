@@ -10,12 +10,12 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class PelabuhanController extends ResourceController
+class VoyageEstimationCostController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/master-data/pelabuhan";
-        $this->module_kode = 'master-data-pelabuhan';
+        $this->module_kode = 'voyage-estimation-cost';
+        $this->pathAPI = "api/master-data/" . $this->module_kode;
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -28,21 +28,21 @@ class PelabuhanController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Port',
+            'page_title' => 'Voyage Estimation Cost',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['masterdata'],
+            'group' => ['marketing_sales'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Master Data",
+                    "name" => "Marketing",
                     "page" => "#",
                     "active" => ""
                 ],
                 [
-                    "name" => "Port Master",
+                    "name" => "Voyage Estimation Cost",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -77,19 +77,13 @@ class PelabuhanController extends ResourceController
     public function create()
     {
         $payload = [
+            "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            
-            "lintang_sudut" => $this->request->getPost('lintang_sudut'),
-            "lintang_menit" => $this->request->getPost('lintang_menit'),
-            "lintang_arah" => $this->request->getPost('lintang_arah'),
-
-            "bujur_sudut" => $this->request->getPost('bujur_sudut'),
-            "bujur_menit" => $this->request->getPost('bujur_menit'),
-            "bujur_arah" => $this->request->getPost('bujur_arah'),
+            "tarif" => $this->request->getPost('tarif'),
         ];
 
         $params = [
-            "path" => $this->pathAPI . "/create",
+            "path"      => $this->pathAPI ."/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -103,19 +97,13 @@ class PelabuhanController extends ResourceController
     public function update($id = null)
     {
         $payload = [
+             "category" => $this->request->getPost('category'),
             "name" => $this->request->getPost('name'),
-            
-            "lintang_sudut" => $this->request->getPost('lintang_sudut'),
-            "lintang_menit" => $this->request->getPost('lintang_menit'),
-            "lintang_arah" => $this->request->getPost('lintang_arah'),
-
-            "bujur_sudut" => $this->request->getPost('bujur_sudut'),
-            "bujur_menit" => $this->request->getPost('bujur_menit'),
-            "bujur_arah" => $this->request->getPost('bujur_arah'),
+            "tarif" => $this->request->getPost('tarif'),
         ];
 
         $params = [
-            "path" => $this->pathAPI . "/update/" . $id,
+            "path" => $this->pathAPI ."/update/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -129,7 +117,7 @@ class PelabuhanController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path" => $this->pathAPI . "/delete/" . $id,
+            "path" => $this->pathAPI ."/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
             "headers" => $this->cH->headers3($this->module_kode)

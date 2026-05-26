@@ -6,7 +6,10 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.dt.load2();
+            $ummu.button.sbToolbar()
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
+            $ummu.config.dataTables()
+            app.controllers.index();
         },
     },
 
@@ -17,103 +20,64 @@ var app = {
     },
 
     controllers: {
-        on_btn_getData_click: function () {
-            $ummu.views.after_sbToolbar_getData();
-            app.views.forClear()
+        index: function() {
+            $ummu.dt.controllers.index();
         },
 
-        show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
+        show: function () {
+            $ummu.dt.controllers.reload()
 
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.config.show()
-            );
-
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
-
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem($localStrgKey, JSON.stringify(response));
-                }else{
-                    $ummu.modal.ummu_msg(response.message)
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
                 }
             });
         },
 
         sbNew: function () {
             app.views.forClear()
-            $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+            $("#lintang_arah, #bujur_arah").prop('disabled', false)
+            // $("#status").html('<span class="badge badge-secondary">Draft</span>')
+            // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
         },
 
         sbSave: function () {
-            var spal_id = $("#spal").attr('data-id');
-            var spal_number = $("#spal").val();
-            var tgl = $("#iDate").val();
-            var number = $("#number").val();
-            var from_dept_id = $("#from_dept").attr('data-id');
-            var to_dept_id = $("#to_dept").attr('data-id');
+            var name = $("#name").val();
 
-            var client_id = $("#client").attr('data-id');
-            var tugboat_id = $("#tugboat").attr('data-id');
-            var barge_id = $("#barge").attr('data-id');
-            var ukuran_barge = $("#ukuran_barge").val();
-            var tonnage = $("#tonnage").val();
-            var uom_id = $("#uom").attr('data-id');
+            var lintang_sudut = $("#lintang_sudut").val();
+            var lintang_menit = $("#lintang_menit").val();
+            var lintang_arah = $("#lintang_arah").val();
 
-            var eta_loading_port = $("#eta_loading_port").attr('data-from');
-            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
-            var eta_discharge_port = $("#eta_discharge_port").val();
+            var bujur_sudut = $("#bujur_sudut").val();
+            var bujur_menit = $("#bujur_menit").val();
+            var bujur_arah = $("#bujur_arah").val();
 
-            var loading_port = $("#loading_port").val();
-            var discharge_port = $("#discharge_port").val();
+            $ummu.vars.formData.append("name", name);
 
-            $ummu.vars.formData.append("spal_id", spal_id);
-            $ummu.vars.formData.append("spal_number", spal_number);
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            $ummu.vars.formData.append("to_dept_id", to_dept_id);
+            $ummu.vars.formData.append("lintang_sudut", lintang_sudut);
+            $ummu.vars.formData.append("lintang_menit", lintang_menit);
+            $ummu.vars.formData.append("lintang_arah", lintang_arah);
 
-            $ummu.vars.formData.append("client_id", client_id);
-            $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            $ummu.vars.formData.append("tonnage", tonnage);
-            $ummu.vars.formData.append("uom_id", uom_id);
-
-            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
-            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
-
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
+            $ummu.vars.formData.append("bujur_sudut", bujur_sudut);
+            $ummu.vars.formData.append("bujur_menit", bujur_menit);
+            $ummu.vars.formData.append("bujur_arah", bujur_arah);
 
             var payload = {
-                "spal_id": spal,
-                "spal_number": spal_number,
-                "tgl": tgl,
-                "number": number,
-                "from_dept_id": from_dept_id,
-                "to_dept_id": to_dept_id,
+                "name": name,
 
-                "client_id": client_id,
-                "tugboat_id": tugboat_id,
-                "barge_id": barge_id,
-                "barge_loa": ukuran_barge,
-                "tonnage": tonnage,
-                "uom_id": uom_id,
+                "lintang_sudut": lintang_sudut,
+                "lintang_menit": lintang_menit,
+                "lintang_arah": lintang_arah,
 
-                "eta_loading_port": eta_loading_port,
-                "eta_loading_port_to": eta_loading_port_to,
-                "eta_discharge_port": eta_discharge_port,
-
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
+                "bujur_sudut": bujur_sudut,
+                "bujur_menit": bujur_menit,
+                "bujur_arah": bujur_arah,
             };
 
             const id = $ummu.url.getParam('id');
@@ -140,17 +104,8 @@ var app = {
                 ummu.done(function(result) {
                     const response = JSON.parse(result);
                     $ummu.views.after_sbToolbar_save(response, func, id, payload);
-
                     if (response.status == true) {
-                        $("#file_url").attr("href", response.data.fileUrl)
-                        let is_release = response.data.is_release;
-                        if (is_release == null || is_release == '' || is_release == 0) {
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                        }else{
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                        }
-                    }else{
-                        $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                        $("#lintang_arah, #bujur_arah").prop('disabled', true)
                     }
                 }).fail(function() {
                     // An error occurred
@@ -160,6 +115,7 @@ var app = {
         },
 
         sbCancle: function () {
+            $("#lintang_arah, #bujur_arah").prop('disabled', true)
             if ($ummu.url.getParam('id')) {
                 // 
             }else{
@@ -168,7 +124,7 @@ var app = {
         },
 
         sbEdit: function () {
-            // 
+            $("#lintang_arah, #bujur_arah").prop('disabled', false)
         },
 
         sbDelete: function(id) {
@@ -198,36 +154,9 @@ var app = {
             app.views.forClear()
         },
 
-        sbRelease: function() {
-            $("#modalReleaseConfirm").modal('hide')
-            var id = $ummu.url.getParam('id');
-            var func = "release/" + id;
-            var payload = [];
-
-            var params = {
-                "function": func,
-                "method": "POST",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Release on progress...",
-            };
-
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                payload = result.data;
-                $ummu.views.after_sbToolbar_save(result, func, id, payload);
-                if (result.status == true) {
-                    if (result.data.is_release == 1) {
-                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    }
-                }
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
+            app.views.forClear()
         },
 
         on_showLeftModal: function(id) {
@@ -275,7 +204,7 @@ var app = {
     validation: {
         save: function() {
             var list = [];
-            list = $ummu.validation.inputValidate();
+            list = $ummu.validation.inputValidate3();
 
             return list;
         }
@@ -283,70 +212,27 @@ var app = {
 
     views: {
         formParams: function() {
-            return $("#form_input .endis");
+            return $("#form_input .endis").not('#lintang_arah, #bujur_arah');
         },
 
         setRow_toForm: function(row) {
             // console.log(row)
             $("#name").val(row.name)
-            // $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
-            // $("#number").val(row.number)
-            // $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
-            // $("#to_dept").val(row.to_dept_name).attr('data-id', row.to_dept_id)
 
-            // $("#client").val(row.client_name).attr('data-id', row.client_id)
-            // $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            // $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            // $("#ukuran_barge").val(row.barge_loa)
-            // // $("#load_type").val(row.load_type)
-            // $("#tonnage").val($ummu.formatter.id(row.qty))
-            // $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
+            $("#lintang_sudut").val(row.lintang_sudut)
+            $("#lintang_menit").val(row.lintang_menit)
+            $("#lintang_arah").val(row.lintang_arah)
 
-            // $("#eta_loading_port").val(row.eta_loading_port)
-            // $("#eta_loading_port_to").val(row.eta_loading_port_to)
-            // $("#loading_port").val(row.loading_port)
-            // $("#discharge_port").val(row.discharge_port)
-            // $(".custom-file-label").html(row.fileNameOrigin)
-            // $("#file_url").attr("href", row.fileUrl)
-
-            // if (row.fileNameOrigin) {
-            //     // $("#form_input #file_url span").html(row.fileNameOrigin)
-            //     $("#file_url").attr("href", row.fileUrl)
-            // }else{
-            //     // $("#form_input #file_url span").html("File not available.")
-            //     $(".custom-file-label").html('No file...')
-
-            // }
+            $("#bujur_sudut").val(row.bujur_sudut)
+            $("#bujur_menit").val(row.bujur_menit)
+            $("#bujur_arah").val(row.bujur_arah)
 
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
-
-            // if (row.is_release == null || row.is_release == '' || row.is_release == 0) {
-            //     $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-            //     $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
-            //     $ummu.button.sbBtnToolbar.addRemove_btnDelete('add')
-
-            //     $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            // }else{
-            //     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-            //     // $('#btn_edit, #btn_delete').addClass('collapse')
-            //     $ummu.button.sbBtnToolbar.addRemove_btnEdit('rm')
-            //     $ummu.button.sbBtnToolbar.addRemove_btnDelete('rm')
-
-            //     if (row.is_release == 1) {
-            //         $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            //     }else if (row.is_release == 2) {
-            //         $("#status").html('<span class="badge badge-primary">Approve</span>')
-            //     }else if (row.is_release == 3) {
-            //         $("#status").html('<span class="badge badge-warning">Progress</span>')
-            //     }else if (row.is_release == 4) {
-            //         $("#status").html('<span class="badge badge-success">Done</span>')
-            //     }
-            // }
         },
 
         forClear: function() {
-            $("#form_input input").val('');
+            $("#form_input input").not('#lintang_arah, #bujur_arah').val('');
             // $("#status, #uom").html('')
 
             $("#created_at").html('');
@@ -372,10 +258,10 @@ var app = {
                             );
                         }
                     },
-                    { 
-                        title: "Code",
-                        data: "kode"
-                    },
+                    // { 
+                    //     title: "Code",
+                    //     data: "kode"
+                    // },
                     { 
                         title: "Name",
                         data: "name"

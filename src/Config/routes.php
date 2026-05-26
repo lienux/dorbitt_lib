@@ -134,6 +134,12 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'VoyageRouteController::delete/$1');
 
         $routes->get('show-pelabuhan', 'VoyageRouteController::show_pelabuhan');
+        $routes->post('create-waypoint', 'VoyageRouteController::create_waypoint');
+        $routes->post('update-waypoint/(:num)', 'VoyageRouteController::update_waypoint/$1');
+
+        $routes->post('waypoint', 'VoyageRouteController::create_waypoint');
+        $routes->put('waypoint/(:num)', 'VoyageRouteController::update_waypoint/$1');
+        $routes->delete('waypoint/(:num)', 'VoyageRouteController::delete_waypoint/$1');
     });
 
     $routes->group('ms_activity', function ($routes) {
@@ -343,13 +349,22 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'MsCostsController::delete/$1');
     });
 
-    $routes->group('voyage-calculation', function ($routes) {
-        $routes->get('/', 'VoyageCalculationController::index');
-        $routes->get('show', 'VoyageCalculationController::show');
-        $routes->post('show', 'VoyageCalculationController::show');
-        $routes->post('create', 'VoyageCalculationController::create');
-        $routes->post('update/(:num)', 'VoyageCalculationController::update/$1');
-        $routes->post('delete/(:num)', 'VoyageCalculationController::delete/$1');
+    $routes->group('voyage-estimation-cost', function ($routes) {
+        $routes->get('/', 'VoyageEstimationCostController::index');
+        $routes->get('show', 'VoyageEstimationCostController::show');
+        $routes->post('show', 'VoyageEstimationCostController::show');
+        $routes->post('create', 'VoyageEstimationCostController::create');
+        $routes->post('update/(:num)', 'VoyageEstimationCostController::update/$1');
+        $routes->post('delete/(:num)', 'VoyageEstimationCostController::delete/$1');
+    });
+
+    $routes->group('unit_of_measure', function ($routes) {
+        $routes->get('/', 'CoaController::index');
+        $routes->get('show', 'CoaController::show');
+        $routes->post('show', 'CoaController::show');
+        $routes->post('create', 'CoaController::create');
+        $routes->post('update/(:num)', 'CoaController::update/$1');
+        $routes->post('delete/(:num)', 'CoaController::delete/$1');
     });
 
     $routes->group('dorbitt', function ($routes) {

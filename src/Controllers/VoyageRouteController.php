@@ -65,7 +65,7 @@ class VoyageRouteController extends ResourceController
         ]);
 
         $params = [
-            "path"      => $this->pathAPI ."/show",
+            "path"      => $this->pathAPI . "/show",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -78,10 +78,15 @@ class VoyageRouteController extends ResourceController
 
     public function create()
     {
-        $payload = $this->payload();
+        $payload = [
+            "type_id" => 1,
+            "name" => $this->request->getPost('name'),
+            "from_id" => $this->request->getPost('from_id'),
+            "to_id" => $this->request->getPost('to_id'),
+        ];
 
         $params = [
-            "path"      => "api/". $this->module_kode ."/create",
+            "path" => $this->pathAPI . "/create",
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -94,10 +99,15 @@ class VoyageRouteController extends ResourceController
 
     public function update($id = null)
     {
-        $payload = $this->payload();
+        $payload = [
+            "type_id" => 1,
+            "name" => $this->request->getPost('name'),
+            "from_id" => $this->request->getPost('from_id'),
+            "to_id" => $this->request->getPost('to_id'),
+        ];
 
         $params = [
-            "path"      => "api/". $this->module_kode ."/update/" . $id,
+            "path" => $this->pathAPI . "/update/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -111,7 +121,7 @@ class VoyageRouteController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path"      => "api/". $this->module_kode ."/delete/" . $id,
+            "path" => $this->pathAPI . "/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
             "headers" => $this->cH->headers3($this->module_kode)
@@ -161,6 +171,84 @@ class VoyageRouteController extends ResourceController
             "method"    => 'GET',
             "payload"   => $payload,
             "headers"   => $this->cH->headers3($this->moduleKodeAPI)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function create_waypoint()
+    {
+        $payload = [
+            "rute_id" => $this->request->getPost('rute_id'),
+            "name" => $this->request->getPost('name'),
+            "sequence" => $this->request->getPost('sequence'),
+
+            "lintang_sudut" => $this->request->getPost('lintang_sudut'),
+            "lintang_menit" => $this->request->getPost('lintang_menit'),
+            "lintang_arah" => $this->request->getPost('lintang_arah'),
+
+            "bujur_sudut" => $this->request->getPost('bujur_sudut'),
+            "bujur_menit" => $this->request->getPost('bujur_menit'),
+            "bujur_arah" => $this->request->getPost('bujur_arah'),
+
+            "haluan" => $this->request->getPost('haluan'),
+            "jarak_antar_titik" => $this->request->getPost('jarak'),
+        ];
+
+        $params = [
+            "path" => $this->pathAPI . "/waypoint",
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function update_waypoint($id)
+    {
+        $payload = [
+            "rute_id" => $this->request->getVar('rute_id'),
+            "name" => $this->request->getVar('name'),
+            "sequence" => $this->request->getVar('sequence'),
+
+            "lintang_sudut" => $this->request->getVar('lintang_sudut'),
+            "lintang_menit" => $this->request->getVar('lintang_menit'),
+            "lintang_arah" => $this->request->getVar('lintang_arah'),
+
+            "bujur_sudut" => $this->request->getVar('bujur_sudut'),
+            "bujur_menit" => $this->request->getVar('bujur_menit'),
+            "bujur_arah" => $this->request->getVar('bujur_arah'),
+
+            "haluan" => $this->request->getVar('haluan'),
+            "jarak_antar_titik" => $this->request->getVar('jarak'),
+        ];
+
+        $params = [
+            "path" => $this->pathAPI . "/waypoint/" . $id,
+            "method" => 'PUT',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function delete_waypoint($id)
+    {
+        $params = [
+            "path" => $this->pathAPI . "/waypoint/" . $id,
+            "method" => 'DELETE',
+            "payload" => [
+                "rute_id" => $this->request->getVar('rute_id')
+            ],
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
