@@ -17,6 +17,7 @@ var app = {
             app.controllers.index();
 
             // =================================================================
+            // START TABLE 2
             // PERBAIKAN 1: Ambil data dari URL terlebih dahulu jika ada
             // =================================================================
             const rawWaypoint = $ummu.url.getParam('detail_waypoint');
@@ -50,6 +51,7 @@ var app = {
                 $("#bujur_arah").val(row.bujur_arah);
                 $("#haluan").val(row.haluan);
                 $("#jarak").val(row.jarak_antar_titik);
+                $("#total_jarak").val(row.total_jarak);
 
                 $("#waypoint_modal_title").text('Form Edit Waypoint')
                 $("#modalForm_inputWaypoint").modal('show');
@@ -93,6 +95,7 @@ var app = {
                         });
 
                         if (prevRow) {
+                            jarak1 = prevRow.total_jarak;
                             lat1 = $ummu.gps.parseToDD(prevRow.lintang).toFixed(5);
                             lon1 = $ummu.gps.parseToDD(prevRow.bujur).toFixed(5);
                         } else {
@@ -103,6 +106,7 @@ var app = {
                     console.log('Mode: New Data');
                     // Jika data baru, koordinat asal diambil dari waypoint terakhir (max sequence)
                     if (lastRow) {
+                        jarak1 = lastRow.total_jarak;
                         lat1 = $ummu.gps.parseToDD(lastRow.lintang).toFixed(5);
                         lon1 = $ummu.gps.parseToDD(lastRow.bujur).toFixed(5);
                     }
@@ -125,23 +129,28 @@ var app = {
                     // Validasi jika koordinat kosong atau bukan angka
                     if (isNaN(nLat1) || isNaN(nLon1) || isNaN(nLat2) || isNaN(nLon2)) {
                         console.error('⚠️ Error: Ada koordinat yang tidak valid / NaN!');
-                        var jarak = 0;
                         var haluan = 0;
+                        var jarak = 0;
+                        var total_jarak = 0;
                     } else {
-                        var jarak = Math.round($ummu.gps.calculateDistance(nLat1, nLon1, nLat2, nLon2));
                         var haluan = Math.round($ummu.gps.calculateBearing(nLat1, nLon1, nLat2, nLon2));
+                        var jarak = Math.round($ummu.gps.calculateDistance(nLat1, nLon1, nLat2, nLon2));
+                        var total_jarak =  parseFloat(jarak) + parseFloat(jarak1);
                     }
                     
-                    console.log('Hasil Jarak Hitung:', jarak);
                     console.log('Hasil Haluan Hitung:', haluan);
+                    console.log('Hasil Jarak Hitung:', jarak);
+                    console.log('Hasil Total Jarak Hitung:', total_jarak);
                 } else {
                     console.log('MASUK BLOK ELSE (sequence == 1), NILAI OTOMATIS 0');
-                    var jarak = 0;
                     var haluan = 0;
+                    var jarak = 0;
+                    var total_jarak = 0;
                 }
 
                 $("#haluan").val(haluan).prop('disabled', false);
                 $("#jarak").val(jarak).prop('disabled', false);
+                $("#total_jarak").val(total_jarak).prop('disabled', false);
             });
 
             $("#modal_btnDelete_waypoint").on('click', function(){
@@ -151,6 +160,9 @@ var app = {
                     console.log('ID not found on app.vars.id')
                 }
             })
+            // =================================================================
+            // END TABLE 2
+            // =================================================================
         },
     },
 
@@ -326,7 +338,7 @@ var app = {
             const fields = [
                 "waypoint_name", "sequence", "lintang_sudut", "lintang_menit", 
                 "lintang_arah", "bujur_sudut", "bujur_menit", "bujur_arah", 
-                "haluan", "jarak"
+                "haluan", "jarak", "total_jarak"
             ];
 
             fields.forEach(field => {
@@ -817,6 +829,9 @@ var app = {
             },
         },
 
+        // =================================================================
+        // START TABLE 2
+        // =================================================================
         waypoint: {
             init: null,
         },
@@ -883,6 +898,9 @@ var app = {
                 },
             });
         },
+        // =================================================================
+        // END TABLE 2
+        // =================================================================
     },
 };
 

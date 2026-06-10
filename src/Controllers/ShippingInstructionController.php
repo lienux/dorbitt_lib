@@ -16,6 +16,7 @@ class ShippingInstructionController extends ResourceController
     public function __construct()
     {
         $this->module_kode = 'shipping_instruction';
+        $this->pathAPI = "api/" . $this->module_kode;
         $this->dir_view = 'pages/' . $this->module_kode . '/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -88,6 +89,7 @@ class ShippingInstructionController extends ResourceController
             "load_type" => $this->request->getPost('load_type'),
             "qty" => $this->request->getPost('qty'),
             "uom_id" => $this->request->getPost('uom_id'),
+            "rute_id" => $this->request->getPost('rute_id'),
             "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
             "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
             "loading_port" => $this->request->getPost('loading_port'),
@@ -123,6 +125,7 @@ class ShippingInstructionController extends ResourceController
             "load_type" => $this->request->getPost('load_type'),
             "qty" => $this->request->getPost('qty'),
             "uom_id" => $this->request->getPost('uom_id'),
+            "rute_id" => $this->request->getPost('rute_id'),
             "loading_availability_date_from" => $this->request->getPost('loading_availability_date_from'),
             "loading_availability_date_to" => $this->request->getPost('loading_availability_date_to'),
             "loading_port" => $this->request->getPost('loading_port'),
@@ -251,7 +254,7 @@ class ShippingInstructionController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function show_voyage_route($id = null)
+    public function showVoyageRoute($id = null)
     {
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -260,17 +263,14 @@ class ShippingInstructionController extends ResourceController
                 "to" => ""
             ],
             "selects" => "*",
-            "type_id" => 1
+            "type_id" => 1 //type_id = 1 artinya = voyage_route
         ]);
+        $queryString = http_build_query($payload);
 
-        $params = [
-            "path"      => "api/" . $this->module_kode . "/show-rute",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+        $path = $this->pathAPI . "/rute?" . $queryString;
+        $headers = $this->cH->headers3($this->module_kode);
 
-        $builder = $this->cH->ummu2($params);
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }

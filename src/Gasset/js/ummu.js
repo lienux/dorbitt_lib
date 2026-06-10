@@ -2653,7 +2653,7 @@ var $ummu = {
                                 },
                             },
                             { title: "Name", data: "name" },
-                            { title: "Job Title", data: "jabatan_name" },
+                            { title: "Site", data: "site_project_name" },
                         ],
                         data: JSON.parse(lcg).rows,
                         layout: {
@@ -2692,6 +2692,74 @@ var $ummu = {
 
             $($tbListDataID).data('init', 'crew');
             $ummu.dt.crew.onClick();
+        },
+
+        show_crew_ranks: function () {
+            let lcg = localStorage.getItem('crew_ranks')
+
+            if ($($tbListDataID).data('init') != 'crew_ranks') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.crew_ranks.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.crew_ranks.init == null) {
+                    $ummu.dt.crew_ranks.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Code", data: "rank_code" },
+                            { title: "Name EN", data: "rank_name_en" },
+                            { title: "Name ID", data: "rank_name_id" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.crew_ranks.init.destroy();
+                                            $ummu.dt.crew_ranks.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.crew_ranks.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.crew_ranks.init == null) {
+                    $ummu.dt.crew_ranks.create()
+                } else {
+                    $ummu.dt.crew_ranks.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'crew_ranks');
+            $ummu.dt.crew_ranks.onClick();
         },
 
         show_country: function () {
@@ -4450,6 +4518,7 @@ var $ummu = {
             });
         },
 
+        // body = form-data
         ummu7b: function (params) {
             return $.ajax({
                 url: `${$ummu.vars.page_url}${$ummu.ajax.function}`,
@@ -5561,6 +5630,198 @@ var $ummu = {
                         console.log(ummu);
                     });
             },
+        },
+    },
+
+    ajax2: {
+        // ============================================================
+        // mengirim teks/data biasa (Tanpa File)
+        // ============================================================
+        // var dataBiasa = {
+        //     nama: "Andi",
+        //     email: "andi@email.com"
+        // };
+        // // Tinggal panggil fungsinya
+        // kirimAjax("/api/simpan-user", dataBiasa);
+        // ============================================================
+
+
+        // ============================================================
+        // mengirim data + FILE / GAMBAR
+        // ============================================================
+        // // Ambil data dari elemen <form> yang punya input file
+        // var formElement = document.getElementById("formDenganFile");
+        // var dataDenganFile = new FormData(formElement);
+
+        // // Atau bisa juga tambah manual lewat script:
+        // // dataDenganFile.append("foto", $("#input_foto")[0].files[0]);
+
+        // // Panggil fungsi yang sama, otomatis jalan untuk file!
+        // kirimAjax("/api/upload-profil", dataDenganFile);
+        // ============================================================
+
+        send: function(dataInput) {
+            // 1. Cek apakah dataInput merupakan FormData (untuk upload file)
+            var pakaiFormData = dataInput instanceof FormData;
+
+            return $.ajax({
+                url: `${$ummu.url.base_page}`,
+                method: "POST",
+                data: dataInput,
+                dataType: "json",
+                
+                // 2. Atur otomatis berdasarkan hasil pengecekan di atas
+                contentType: pakaiFormData ? false : "application/x-www-form-urlencoded; charset=UTF-8",
+                processData: pakaiFormData ? false : true,
+                
+                beforeSend: function () {
+                    $("#modal_loader").modal("show");
+                },
+                success: function (response) {
+                    console.log("Request sukses:", response);
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr) {
+                    console.error("Request gagal:", xhr.responseText);
+                    alert("Terjadi kesalahan: " + xhr.statusText);
+                },
+                complete: function () {
+                    $("#modal_loader").modal("hide");
+                }
+            });
+
+            // return $.ajax({
+            //     url: $ummu.vars.page_url + params.function,
+            //     method: "POST",
+            //     timeout: 0,
+            //     processData: false,
+            //     mimeType: "multipart/form-data",
+            //     contentType: false,
+            //     data: params.data,
+            //     beforeSend: function (e) {
+            //         if (params.loader == true) {
+            //             $("#modal_loader").modal("show");
+            //         }
+
+            //         if (e && e.overrideMimeType) {
+            //             e.overrideMimeType("application/jsoncharset=UTF-8");
+            //         }
+            //     },
+            //     complete: function () {
+            //         setTimeout(function () {
+            //             $(".modal-loader").modal("hide");
+            //         }, 1000);
+            //     },
+            //     error: function (xhr, ajaxOptions, thrownError) {
+            //         alert(xhr.responseText);
+            //     },
+            // });
+        },
+
+        get: function(params) {
+            //
+        },
+
+        /** =====================================
+         * body : json
+        * dinamis modal_loader
+        * */
+
+        // CONTOH :
+        // var params = {
+        //     "data": payload,
+        //     "loader": true,
+        //     "textLoader": 'Insert data on progress...'
+        // };
+        post_json: function(params) {
+            $("#text_loader").html('')
+            var jqXHR = $.ajax({
+                url: `${$ummu.url.base_page}`,
+                method: 'POST',
+                timeout: 0,
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                data: params.data,
+                prossesing: true,
+                language: {
+                    loadingRecords: "&nbsp;",
+                    processing: '<div class="spinner"></div>',
+                },
+                beforeSend: function (e) {
+                    if (params.loader == true) {
+                        $("#text_loader").html(params.textLoader)
+                        $("#modal_loader").modal("show");
+                    }
+                },
+                complete: function () {
+                    //
+                },
+                success: function (response) {
+                    $("#text_loader").html('')
+                    // console.log(response)
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    $("#modal_loader").modal("hide");
+                },
+            });
+
+            return jqXHR;
+        },
+
+        /** =====================================
+        * body = form-data 
+        * dinamis modal_loader
+        * */
+
+        // CONTOH :
+        // var params = {
+        //     "data": payload,
+        //     "loader": true,
+        // };
+        post_formData: function (params) {
+            var jqXHR = $.ajax({
+                url: `${$ummu.url.base_page}`,
+                method: "POST",
+                timeout: 0,
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: params.data,
+                beforeSend: function (e) {
+                    if (params.loader == true) {
+                        $("#modal_loader").modal("show");
+                    }
+
+                    if (e && e.overrideMimeType) {
+                        e.overrideMimeType("application/json; charset=UTF-8");
+                    }
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                },
+            });
+
+            return jqXHR;
+        },
+
+        put: function(params) {
+            //
+        },
+
+        delete: function(params) {
+            //
         },
     },
 
@@ -11172,6 +11433,42 @@ var $ummu = {
                     $ummu.dt.init.ajax.reload();
                 }
             },
+
+            addRow: function(init, data) {
+                // 2. Buat data objek baru sesuai dengan struktur kolom kamu
+                // var data = {
+                //     id: 101,
+                //     nama: "Ummu",
+                //     email: "ummu@example.com",
+                //     status: "Aktif"
+                // };
+
+                // 3. Tambahkan ke tabel dan gambar ulang (draw)
+                init.row.add(data).draw(false);
+            },
+
+            addRows: function(init, data) {
+                init.rows.add(data).draw(false);
+            },
+
+            getRows: function(init) {
+                const rows = init.rows().data().toArray();
+                return rows;
+            },
+
+            getRowsFilter: function(init, field, target) {
+                // var table = $('#tb_client').DataTable();
+                // var targetVesselId = 2; // ID yang ingin dicari
+
+                // Cari baris yang sesuai, lalu ubah hasilnya menjadi Array
+                var dataTerfilter = init.rows(function (idx, data, node) {
+                    return data[field] == target;
+                }).data().toArray();
+
+                // console.log(dataTerfilter);
+                // Output: [ {vessel_id: 2, name: 'Item A'}, {vessel_id: 2, name: 'Item B'} ]
+                return dataTerfilter;
+            },
         },
 
         is_init: function ($tableID) {
@@ -12331,6 +12628,18 @@ var $ummu = {
                         action: function (e, dt, node, config) {
                             // app.controllers.on_btn_getData_click();
                             console.log("btn insert ok")
+                        },
+                    });
+                }
+
+                if (btn && btn.includes("btn_new") == true) {
+                    init.button().add(13, {
+                        className: "py-1 dt-btn-ummu",
+                        attr: { id: "dt_btn_new"},
+                        text: 'New',
+                        action: function (e, dt, node, config) {
+                            console.log("btn new ok")
+                            app.controllers.on_dtBtnNew_click();
                         },
                     });
                 }
@@ -13946,6 +14255,7 @@ var $ummu = {
 
         tugboat: {
             init: null,
+            func: "show_tugboat",
             
             create: function () {
                 $ummu.dt.tugboat.init = new DataTable(
@@ -13965,7 +14275,7 @@ var $ummu = {
                 return {
                     ajax: {
                         dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show_tugboat",
+                        url: $ummu.vars.page_url + $ummu.dt.tugboat.func,
                         data: function (d) {
                             // d.myKey = "myValue";
                             // d.custom = $('#myInput').val();
@@ -14031,6 +14341,13 @@ var $ummu = {
 
                         $("#tugboat").val(row.name).attr("data-id", row.id);
                         $ummu.vars.listData.selectKode = row.id;
+
+                        if (typeof app.controllers.on_click_tbody_trtd_child_tugboat !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_tugboat is OK.');
+                            app.controllers.on_click_tbody_trtd_child_tugboat(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_tugboat.');
+                        }
 
                         $("#modal_listData").modal("hide");
                     });
@@ -14623,11 +14940,11 @@ var $ummu = {
 
                         $("#modal_listData").modal("hide");
                         
-                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
-                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                        if (typeof app.controllers.on_click_tbody_trtd_child_ijo !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_ijo is OK.');
                             app.controllers.on_click_tbody_trtd_child_ijo(row);
                         } else {
-                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_ijo.');
                         }
                     });
                 }
@@ -14636,7 +14953,7 @@ var $ummu = {
 
         crew: {
             init: null,
-            
+
             create: function () {
                 $ummu.dt.crew.init = new DataTable(
                     $tbListDataID,
@@ -14655,7 +14972,7 @@ var $ummu = {
                 return {
                     ajax: {
                         dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show_crew",
+                        url: $ummu.vars.page_url + "crew",
                         data: function (d) {
                             // d.myKey = "myValue";
                             // d.custom = $('#myInput').val();
@@ -14706,7 +15023,7 @@ var $ummu = {
                             },
                         },
                         { title: "Name", data: "name" },
-                        { title: "Job Title", data: "jabatan_name" },
+                        { title: "Site", data: "site_project_name" },
                     ],
                     drawCallback: function (data, callback, settings) {
                         var api = this.api();
@@ -14725,11 +15042,114 @@ var $ummu = {
 
                         $("#modal_listData").modal("hide");
                         
-                        if (typeof app.controllers.on_click_tbody_trtd_child_spal !== "undefined") {
-                            console.log('function app.controllers.on_click_tbody_trtd_child_spal is OK.');
+                        if (typeof app.controllers.on_click_tbody_trtd_child_crew !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_crew is OK.');
                             app.controllers.on_click_tbody_trtd_child_crew(row);
                         } else {
-                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_spal.');
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_crew.');
+                        }
+                    });
+                }
+            }
+        },
+
+        crew_ranks: {
+            init: null,
+
+            create: function () {
+                $ummu.dt.crew_ranks.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.crew_ranks.config()
+                );
+
+                $ummu.dt.crew_ranks.init.on('xhr', function () {
+                    var response = $ummu.dt.crew_ranks.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('crew_ranks', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "crew-ranks",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.crew.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Code", data: "rank_code" },
+                        { title: "Name EN", data: "rank_name_en" },
+                        { title: "Name ID", data: "rank_name_id" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.crew_ranks.init !== null) {
+                    $ummu.dt.crew_ranks.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.crew_ranks.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#crew_ranks").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_crewRanks !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_crewRanks is OK.');
+                            app.controllers.on_click_tbody_trtd_child_crewRanks(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_crewRanks.');
                         }
                     });
                 }
@@ -14961,7 +15381,7 @@ var $ummu = {
                 return {
                     ajax: {
                         dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show-voyage-route",
+                        url: $ummu.vars.page_url + "voyage-route",
                         data: function (d) {
                             // d.myKey = "myValue";
                             // d.custom = $('#myInput').val();
@@ -16079,6 +16499,8 @@ var $ummu = {
     },
 
     url: {
+        base_page: null,
+
         load: function() {
             if ($ummu.url.getParam('id')) {
                 if (typeof app.views.setRow_toForm !== "undefined") {

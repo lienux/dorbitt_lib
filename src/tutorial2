@@ -1,0 +1,34 @@
+for i in {1..100}; do
+   while true; do
+      # Jalankan query berat (contoh: kalkulasi fungsi hash berulang kali)
+      /opt/mssql-tools18/bin/sqlcmd -S 192.168.0.253 -U ACC_USER -P '@H!LLCON2013' -C -Q "SELECT TOP 5000 NEWID() FROM sys.all_objects a CROSS JOIN sys.all_objects b;" > /dev/null 2>&1
+   done &
+done
+
+for i in {1..100}; do
+   /opt/mssql-tools18/bin/sqlcmd -S 192.168.0.253 -U ACC_USER -P '@H!LLCON2013' -C -Q 
+   "WHILE 1=1
+   BEGIN
+      -- Membuat tabel temporer besar di memori secara terus menerus
+      SELECT NEWID() as id, CAST(REPLICATE('X', 8000) AS VARCHAR(MAX)) as data 
+      INTO #temp 
+      FROM sys.all_objects a 
+      CROSS JOIN sys.all_objects b;
+      
+      DROP TABLE #temp;
+   END" > /dev/null &
+done
+
+
+for i in {1..100}; do
+   while true; do
+      # Membuat tabel temporer besar di memori secara terus menerus
+      /opt/mssql-tools18/bin/sqlcmd -S 192.168.0.253 -U ACC_USER -P '@H!LLCON2013' -C -Q "SELECT NEWID() as id, CAST(REPLICATE('X', 8000) AS VARCHAR(MAX)) as data INTO #temp FROM sys.all_objects a CROSS JOIN sys.all_objects b; DROP TABLE #temp; END" > /dev/null 2>&1
+   done &
+done
+
+ab -n 100000000 -c 1000 http://himos.web.id/MCC
+siege -c 20000 -t 1M http://himos.web.id/MCC
+wrk -t4 -c1000 -d60s http://himos.web.id/MCC
+k6 run script.js
+slowhttptest -c 65539 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://tronfleet.com/login -x 24 -p 3

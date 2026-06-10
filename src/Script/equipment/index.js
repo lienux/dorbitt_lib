@@ -6,17 +6,10 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            // $ummu.dt.load2();
-            if (localStorage.getItem('isDataLocalStorage') == false) {
-                // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
-                $ummu.dt.config.serverSide = true;
-
-                // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
-                $ummu.dt.config.autoGetData = false;
-            }
-
-            // $ummu.dt.load2();
-            $ummu.dt.controllers.index();
+            $ummu.button.sbToolbar()
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
+            $ummu.config.dataTables()
+            app.controllers.index();
         },
     },
 
@@ -26,22 +19,13 @@ var app = {
     },
 
     controllers: {
-        on_btn_getData_click: function () {
-            $ummu.views.after_sbToolbar_getData();
+        index: function() {
+            $ummu.dt.controllers.index();
         },
 
-        show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
+        show: function () {
+            $ummu.dt.controllers.reload()
 
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.controllers.show()
-            );
-
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
-            
             $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
                 // Gunakan parameter 'json' langsung, bukan .ajax.json()
                 if (json && json.status === true) {
@@ -54,6 +38,10 @@ var app = {
                     console.warn("Status response false atau JSON tidak valid");
                 }
             });
+        },
+        
+        on_btn_getData_click: function () {
+            $ummu.views.after_sbToolbar_getData();
         },
 
         sbNew: function () {

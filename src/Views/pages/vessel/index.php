@@ -11,13 +11,19 @@
 
 <?= $this->section('script') ?>
     <script>
-        $ummu.vars.page_url = $base_url + 'admin/'+ '<?=$module_kode?>' +'/';
-        var table = $('#tbVessel')
-        var $table = $('#tbVessel')
-        var $remove = $('#remove')
-        var selections = []
-        var $crud = ["new","edit","delete"]
-        var $localStrgKey = '<?=$module_kode?>'
+        // Membuat variabel global pendukung yang dinamis dari PHP
+        const PHP_VARS = {
+            moduleKode: '<?= $module_kode ?>'
+        };
+    </script>
+    <script>
+        // $ummu.vars.page_url = $base_url + 'admin/'+ '<?=$module_kode?>' +'/';
+        // var table = $('#tbVessel')
+        // var $table = $('#tbVessel')
+        // var $remove = $('#remove')
+        // var selections = []
+        // var $crud = ["new","edit","delete"]
+        // var $localStrgKey = '<?=$module_kode?>'
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
 <?= $this->endSection() ?>

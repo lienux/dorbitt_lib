@@ -19,7 +19,7 @@
                     <label class="col-sm-3 col-form-label mb-0 pb-0">Date<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Pilih tanggal berlayar" disabled data-toggle="tooltip" data-placement="top" title="Pilih tanggal berlayar">
+                            <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Choose..." disabled data-toggle="tooltip" data-placement="top" title="Pilih tanggal berlayar">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
                                     data-inputid="iDate" disabled>
@@ -33,7 +33,7 @@
                     <label class="col-sm-3 col-form-label mb-0 pb-0">IJO<span class="text-danger small"> *</span></label>
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Pilih daftar IJO" disabled required data-toggle="tooltip" data-placement="top" title="Daftar IJO yang ditampilkan adalah Dokumen yang statusnya sudah Release dan On Progress.">
+                            <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Choose..." disabled required data-toggle="tooltip" data-placement="top" title="Daftar IJO yang ditampilkan adalah Dokumen yang statusnya sudah Release dan On Progress.">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ijo" type="button" disabled
                                     data-inputid="ijo" data-modaltitle="List IJO">
@@ -75,13 +75,13 @@
                 <div class="row mb-2">
                     <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Loading<sup class="text-info"> auto</sup></label>
                     <div class="col-sm-8">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan berangkat">
+                        <input type="text" name="portOfLoading" id="portOfLoading" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan berangkat">
                     </div>
                 </div>
                 <div class="row mb-2">
                     <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Port of Discharge<sup class="text-info"> auto</sup></label>
                     <div class="col-sm-8">
-                        <input type="text" name="name" id="name" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan tujuan">
+                        <input type="text" name="portOfDischarge" id="portOfDischarge" class="form-control form-control-sm" data-toggle="tooltip" data-placement="top" required disabled placeholder="" title="Pelabuhan tujuan">
                     </div>
                 </div>
                 <div class="row mb-2">

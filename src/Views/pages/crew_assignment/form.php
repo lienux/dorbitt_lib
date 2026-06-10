@@ -16,6 +16,22 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12 mb-3">
                 <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label mb-0 pb-0" for="tugboat">
+                        Tugboat<span class="text-danger small"> *</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control is-data-id" id="tugboat" data-toggle="tooltip" data-placement="top" title="Tugboat" required disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_tugboat" type="button" disabled
+                                    data-inputid="tugboat" data-modaltitle="Master Data Vessel (Tugboat)">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row mb-2">
                     <label class="col-sm-4 col-form-label mb-0 pb-0" for="name">
                         Name<span class="text-danger small"> *</span>
                     </label>
@@ -54,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- <div class="row">
                     <label class="col-sm-3 col-form-label mb-2 pb-0" for="lintang">
                         Latitude<span class="text-danger small"> *</span>
@@ -125,7 +141,7 @@
                 <nav class="ummu-nav">
                     <div class="nav nav-tabs">
                         <button class="nav-link mr-1 py-0 active" id="nav-tab-waypoint" data-toggle="tab" data-target="#nav-waypoint" type="button" role="tab" aria-selected="true">
-                            Waypoint
+                            Crew
                         </button>
                     </div>
                 </nav>
@@ -134,7 +150,7 @@
                         <div class="card-body pt-2">
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-waypoint" role="tabpanel">
-                                    <?= $this->include(config('Vh')->ummuView($dir_views . 'table_waypoint')) ?>
+                                    <?= $this->include(config('Vh')->ummuView($dir_views . 'table2')) ?>
                                 </div>
                             </div>
                         </div>
@@ -145,11 +161,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalForm_inputWaypoint" tabindex="-1" data-bs-backdrop="static">
+<div class="modal fade" id="modalForm_inputCrew" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable" id="modal_dialog">
         <div class="modal-content bg-light">
             <div class="modal-header bg-purple py-2 text-light">
-                <h6 class="modal-title"><i class="fal fa-file-contract"></i> <span id="waypoint_modal_title">Form Input Waypoint</span></h6>
+                <h6 class="modal-title"><i class="fal fa-file-contract"></i> <span id="crewForm_modal_title">Form Input Crew</span></h6>
                 <div class="">
                     <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">
                         <i class="fa-light fa-rectangle-xmark"></i>
@@ -162,9 +178,39 @@
                 <!-- Lintang -->
                 <div class="col-lg-12 col-sm-12 text-sm">
                     <div class="form-row">
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-12">
                             <label for="waypoint_name" class="text-info mb-0">
-                                Nama Waypoint<span class="text-danger">*</span>
+                                Crew Name<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control is-data-id" id="crew" data-toggle="tooltip" data-placement="top" title="Crew Name" required disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_crew" type="button"
+                                        data-inputid="crew" data-modaltitle="Crew List">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="waypoint_name" class="text-info mb-0">
+                                Rank<span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control is-data-id" id="rank" data-toggle="tooltip" data-placement="top" title="Rank" required disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_rank" type="button"
+                                        data-inputid="rank" data-modaltitle="Master Data Crew Ranks">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group col-md-9">
+                            <label for="waypoint_name" class="text-info mb-0">
+                                Crew Nama<span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm" id="waypoint_name"
                                 name="waypoint_name" required>
@@ -236,21 +282,21 @@
                             </label>
                             <input type="text" class="form-control form-control-sm" id="total_jarak"
                                 name="total_jarak" disabled required>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-sm btn-primary" id="modal_btnSave_hitungKoordinat">
+                        <!-- <button class="btn btn-sm btn-primary" id="modal_btnSave_hitungKoordinat">
                             <i class="fas fa-sigma"></i>
                             Calculate
-                        </button>
-                        <button class="btn btn-sm btn-primary" id="modal_btnSave_waypoint">
+                        </button> -->
+                        <button class="btn btn-sm btn-primary" id="modal_btnSave_CrewItems">
                             <i class="fas fa-plus-circle"></i> 
                             Save
                         </button>
-                        <button class="btn btn-sm btn-danger collapse" id="modal_btnDelete_waypoint">
+                        <!-- <button class="btn btn-sm btn-danger collapse" id="modal_btnDelete_waypoint">
                             <i class="fas fa-trash-alt"></i> 
                             Delete
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
