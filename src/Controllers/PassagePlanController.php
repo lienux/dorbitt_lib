@@ -16,6 +16,7 @@ class PassagePlanController extends ResourceController
     public function __construct()
     {
         $this->module_kode = 'passage_plan';
+        $this->pathAPI = "api/".$this->module_kode;
         $this->dir_view = 'pages/' . $this->module_kode . '/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -49,6 +50,27 @@ class PassagePlanController extends ResourceController
             ]
         ];
         return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+    }
+
+    public function show($id = null)
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*",
+            "type_id" => 1,
+        ]);
+        $queryString = http_build_query($payload);
+
+        $path = $this->pathAPI . "/show?" . $queryString;
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
+
+        return $this->respond($builder, 200);
     }
 
     public function show_ijo()

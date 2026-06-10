@@ -475,6 +475,32 @@ class CurlHelper
         return json_decode($response, false);
     }
 
+    // ini sengaja dibuat untuk request codeigniter4 dengan method GET yang semua paramaternya dibuat di URL tidak lagi dibuat di body
+    // atau ketika menggunakan $this->request->getGet() / ->getVar() pada API nya
+    // pertama dibuat ketika membuat module rute / voyage_route / atau di situ ada waypoint juga.
+    public function ummuGet($path, $headers)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $this->api() . $path,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => $headers,
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        
+        return json_decode($response, false);
+    }
+
     public function efaktur($url)
     {
         $curl = curl_init();

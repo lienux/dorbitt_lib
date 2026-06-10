@@ -1,3 +1,7 @@
+$ummu.vars.page_url = $base_url + 'admin/' + PHP_VARS.moduleKode + '/';
+var $crud = ["new","edit","delete"]
+var $localStrgKey = PHP_VARS.moduleKode;
+
 var app = {
     register: function () {
         app.config.autoload()
@@ -6,8 +10,10 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.localStorage.dt_default('ms_location');
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
+            $ummu.button.sbToolbar()
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
+            $ummu.config.dataTables()
+            app.controllers.index();
         },
     },
 
@@ -26,28 +32,29 @@ var app = {
     },
 
     controllers: {
-        on_btn_getData_click: function () {
-            app.controllers.show()
+        index: function() {
+            $ummu.dt.controllers.index();
         },
 
-        show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
+        show: function () {
+            $ummu.dt.controllers.reload()
 
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.config.show()
-            );
-
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
-
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem('ms_location', JSON.stringify(response));
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                // Gunakan parameter 'json' langsung, bukan .ajax.json()
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
                 }
             });
+        },
+
+        on_btn_getData_click: function () {
+            app.controllers.show()
         },
 
         new: function () {
@@ -177,10 +184,6 @@ var app = {
                         title: "ID", 
                         data: "id"
                     },
-                    // {
-                    //     title: "K", 
-                    //     data: "kode"
-                    // },
                     {
                         title: "Name", 
                         data: "name"

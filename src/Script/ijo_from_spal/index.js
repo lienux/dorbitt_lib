@@ -6,7 +6,12 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            $ummu.dt.load2();
+            // $ummu.dt.load2();
+            $ummu.config.datepicker()
+            $ummu.button.sbToolbar()
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
+            $ummu.config.dataTables()
+            app.controllers.index();
         },
     },
 
@@ -17,32 +22,53 @@ var app = {
     },
 
     controllers: {
+        index: function() {
+            $ummu.dt.controllers.index();
+        },
+
+        show: function () {
+            $ummu.dt.controllers.reload()
+
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                // Gunakan parameter 'json' langsung, bukan .ajax.json()
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
+                }
+            });
+        },
+        
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
             app.views.forClear()
         },
 
-        show: function (params) {
-            if ($ummu.dt.is_init($table) == true) {
-                $ummu.dt.init_destroy();
-            }
+        // show: function (params) {
+        //     if ($ummu.dt.is_init($table) == true) {
+        //         $ummu.dt.init_destroy();
+        //     }
 
-            $ummu.dt.init = new DataTable(
-                $table,
-                $ummu.dt.config.show()
-            );
+        //     $ummu.dt.init = new DataTable(
+        //         $table,
+        //         $ummu.dt.config.show()
+        //     );
 
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
+        //     $ummu.dt.layout.buttonAll($ummu.dt.init)
 
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem($localStrgKey, JSON.stringify(response));
-                }else{
-                    $ummu.modal.ummu_msg(response.message)
-                }
-            });
-        },
+        //     $ummu.dt.init.on('xhr', function () {
+        //         var response = $ummu.dt.init.ajax.json();
+        //         if (response.status == true) {
+        //             localStorage.setItem($localStrgKey, JSON.stringify(response));
+        //         }else{
+        //             $ummu.modal.ummu_msg(response.message)
+        //         }
+        //     });
+        // },
 
         sbNew: function () {
             app.views.forClear()

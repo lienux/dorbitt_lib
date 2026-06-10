@@ -200,7 +200,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_tugboat', 'ShippingInstructionController::show_tugboat');
         $routes->get('show_barge', 'ShippingInstructionController::show_barge');
         $routes->get('show_uom', 'ShippingInstructionController::show_uom');
-        $routes->get('show-voyage-route', 'ShippingInstructionController::show_voyage_route');
+        $routes->get('voyage-route', 'ShippingInstructionController::showVoyageRoute');
     });
 
     $routes->group('spal_standard', function ($routes) {
@@ -288,6 +288,9 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
     $routes->group('passage_plan', function ($routes) {
         $routes->get('/', 'PassagePlanController::index');
+        $routes->get('show', 'PassagePlanController::show');
+        $routes->post('show', 'PassagePlanController::show');
+
         $routes->get('show_ijo', 'PassagePlanController::show_ijo');
         $routes->post('show_ijo', 'PassagePlanController::show_ijo');
     });
@@ -365,6 +368,21 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('create', 'CoaController::create');
         $routes->post('update/(:num)', 'CoaController::update/$1');
         $routes->post('delete/(:num)', 'CoaController::delete/$1');
+    });
+
+    $routes->group('crew_assignment', function ($routes) {
+        $routes->get('/', 'CrewAssignmentController::index');
+        $routes->get('show', 'CrewAssignmentController::show');
+        $routes->post('show', 'CrewAssignmentController::show');
+        $routes->post('/', 'CrewAssignmentController::create');
+        // $routes->post('show', 'CrewAssignmentController::show');
+        // $routes->post('create', 'CrewAssignmentController::create');
+        // $routes->post('update/(:num)', 'CrewAssignmentController::update/$1');
+        // $routes->post('delete/(:num)', 'CrewAssignmentController::delete/$1');
+
+        $routes->get('tugboat', 'CrewAssignmentController::show_tugboat');
+        $routes->get('crew', 'CrewAssignmentController::show_crew');
+        $routes->get('crew-ranks', 'CrewAssignmentController::show_crew_ranks');
     });
 
     $routes->group('dorbitt', function ($routes) {

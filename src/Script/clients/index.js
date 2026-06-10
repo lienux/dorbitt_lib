@@ -6,14 +6,9 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash()
-            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
-            // if (localStorage.getItem('isDataLocalStorage') == false) {
-            //     // Ini adalah config dataTable dalam mengambil data, serverSide menggunakan pagging dll ataukah tidak.
-            //     $ummu.dt.config.serverSide = true;
-
-            //     // Untuk menentukan apakah ketika setelah page loading, rows pada dataTable otomatis dimunculkan dengan cara Get Data?
-            //     $ummu.dt.config.autoGetData = false;
-            // }
+            $ummu.button.sbToolbar()
+            localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
+            $ummu.config.dataTables()
             app.controllers.index();
         },
     },
