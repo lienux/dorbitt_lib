@@ -508,3 +508,41 @@ $routes->group('encrypter', function ($routes) {
     $routes->get('jwtEncrypt', 'EncrypterController::jwtEncrypt');
     $routes->get('jwtDecrypt', 'EncrypterController::jwtDecrypt');
 });
+
+$routes->group('v2', function ($routes) {
+    $routes->group('auth', ['namespace' => 'Dorbitt\Controllers\Version2'], static  function ($routes) {
+        $routes->get('/', 'LoginController::index');
+        
+        $routes->group('phone_number', function ($routes) {
+            $routes->get('/', 'LoginController::oa2_index');
+            $routes->post('find', 'LoginController::find');
+            $routes->get('findSuccess', 'LoginController::findSuccess');
+            $routes->get('login_password', 'LoginController::login_password');
+            $routes->post('login_password_create', 'LoginController::login_password_create');
+            $routes->get('login_otp', 'LoginController::login_otp');
+
+            $routes->post('create_otp_email', 'LoginController::create_otp_email');
+            $routes->post('create_otp_sms', 'LoginController::create_otp_sms');
+            $routes->post('create_otp_wa', 'LoginController::create_otp_wa');
+
+            $routes->get('create_otpSuccess', 'LoginController::create_otpSuccess');
+        });
+
+        // $routes->group('phone_number', function ($routes) {
+        //     $routes->get('/', 'Auth\PhoneNumber::index');
+        //     // $routes->get('find', 'Auth\PhoneNumber::find');
+        //     $routes->post('find', 'Auth\PhoneNumber::find');
+        //     $routes->post('get_otp', 'Auth\Login::get_otp');
+        //     $routes->post('get_otp_email', 'Auth\Login::get_otp_email');
+        //     $routes->post('get_otp_wa', 'Auth\Login::get_otp_wa');
+        //     $routes->post('get_otp_sms', 'Auth\Login::get_otp_sms');
+        // });
+
+        $routes->group('oa2', function ($routes) {
+            $routes->get('/', 'LoginController::oa2_index');
+            $routes->get('create', 'LoginController::oa2_create');
+            $routes->post('create', 'LoginController::oa2_create');
+            // $routes->post('username', 'Auth\LoginController::username');
+        });
+    });
+});
