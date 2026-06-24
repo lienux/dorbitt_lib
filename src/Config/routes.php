@@ -385,6 +385,28 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('crew-ranks', 'CrewAssignmentController::show_crew_ranks');
     });
 
+    $routes->group('payslip', function ($routes) {
+        $routes->get('/', 'PayslipController::index');
+        $routes->get('show', 'PayslipController::show');
+        // $routes->get('show/(:num)', 'PayslipController::show/$1');
+        // $routes->get('print', 'PayslipController::print');
+        // $routes->get('print/(:num)', 'PayslipController::print/$1');
+        // $routes->get('download_pdf', 'PayslipController::download_pdf');
+        // $routes->get('download_pdf/(:num)', 'PayslipController::download_pdf/$1');
+        // $routes->get('delete_pdf', 'PayslipController::delete_pdf');
+        // $routes->get('delete_pdf/(:num)', 'PayslipController::delete_pdf/$1');
+        $routes->get('show_periode', 'PayslipController::show_periode');
+
+        $routes->get('create_pdf', 'PayslipController::create_pdf');
+        $routes->post('create_pdf', 'PayslipController::create_pdf');
+
+        $routes->get('version1Alya_create_pdf', 'PayslipController::version1Alya_create_pdf');
+        $routes->post('version1Alya_create_pdf', 'PayslipController::version1Alya_create_pdf');
+        
+        $routes->get('version1Alya_print_payslip_template', 'PayslipController::version1Alya_print_payslip_template');
+        $routes->post('version1Alya_print_payslip_template', 'PayslipController::version1Alya_print_payslip_template');
+    });
+
     $routes->group('dorbitt', function ($routes) {
         // $routes->get('/', 'DorbittController::index');
         
@@ -545,4 +567,38 @@ $routes->group('v2', function ($routes) {
             // $routes->post('username', 'Auth\LoginController::username');
         });
     });
+});
+
+
+// With version ===============
+$routes->group('v1-alya', function ($routes) {
+    $routes->group('payslip-print', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+        $routes->get('/', 'PayslipController::print');
+        $routes->post('/', 'PayslipController::print');
+
+        $routes->post('show_print', 'PayslipController::show_print');
+
+        $routes->get('(:num)', 'PayslipController::print/$1');
+        $routes->post('(:num)', 'PayslipController::print/$1');
+
+        // $routes->get('/payslip_print', 'PayslipController::print');
+        // $routes->post('/payslip_print', 'PayslipController::print');
+        // $routes->get('/payslip_print/(:num)', 'PayslipController::print/$1');
+    });
+
+    $routes->group('auth', function ($routes) {
+        // 
+    });
+
+    $routes->group('admin', ['filter' => 'auth'], function ($routes) {
+        // 
+    });
+});
+
+$routes->group('v2-aini', function ($routes) {
+    // 
+});
+
+$routes->group('v3-ummu', function ($routes) {
+    // 
 });

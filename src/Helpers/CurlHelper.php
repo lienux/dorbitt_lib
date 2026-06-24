@@ -709,6 +709,18 @@ class CurlHelper
         return $res;
     }
 
+    public function headers3_a($moduleCode, $token)
+    {
+        $res = [
+            'Content-Type: application/json',
+            'Module-Code: ' . $moduleCode,
+            'Company-Token: ' . getenv('company_token'),
+            'Authorization: Bearer ' . $token,
+        ];
+
+        return $res;
+    }
+
     // company-token diambil dari .env
     // token diambil dari .env
     public function headers4($moduleCode)
