@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
+use Dorbitt\Builder\BlogBuilder;
 
 class UmmuController extends ResourceController
 {
@@ -17,9 +18,10 @@ class UmmuController extends ResourceController
         $this->cH = new CurlHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
+        $this->qBlog = new BlogBuilder();
     }
 
-    public function index()
+    public function index($page = null)
     {
         $appType = getenv('app.type');
         $rdefault = getenv('app.rdefault');
@@ -29,12 +31,16 @@ class UmmuController extends ResourceController
         ];
 
         if ($appType) {
-            $data['page_title'] = 'Activity';
-            $data['activity'] = $this->get_blog_activity();
+            if ($page) {
+                if ($page == 'projects') {
+                    $data['projects'] = $this->qBlog->get_projects();
+                }
 
-            // return view($this->vH->ummuView($appType.'/frontend/layout/index'), $data);
-            return view($this->vH->ummuView($appType.'/frontend/pages/home/index'), $data);
-            // return $this->respond($data, 200);
+                return view($this->vH->ummuView($appType.'/frontend/pages/'.$page.'/index'), $data);
+            }else{
+                $data['activity'] = $this->qBlog->get_activity();
+                return view($this->vH->ummuView($appType.'/frontend/pages/home/index'), $data);
+            }
         }else{
             if ($rdefault) {
                 return redirect()->to($rdefault);
@@ -60,16 +66,5 @@ class UmmuController extends ResourceController
         $request = $this->cH->ummu2($params);
 
         return $this->respond($request, 200);
-    }
-
-    private function get_blog_activity()
-    {
-        $token = getenv('account.token');
-        $path = "api/blog/activity";
-        $headers = $this->cH->headers3_a("activity",$token);
-
-        $reqHttp = $this->cH->ummuGet($path, $headers);
-
-        return $reqHttp;
     }
 }

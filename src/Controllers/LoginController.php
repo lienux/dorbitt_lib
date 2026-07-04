@@ -820,18 +820,42 @@ class LoginController extends ResourceController
         return $this->respond($builder, 200);
     }
 
+    // public function logout()
+    // {
+    //     $login_module = session()->get('login_module');
+
+    //     session()->destroy();
+
+    //     if ($login_module == 'iescm') {
+    //         return redirect()->to('/auth/login/phone');
+    //     } else if ($login_module == 'mcp') {
+    //         return redirect()->to('/auth/login_mcp');
+    //     } else {
+    //         return redirect()->to('/auth');
+    //     }
+    // }
+
     public function logout()
     {
         $login_module = session()->get('login_module');
+        $rdefault = getenv('app.rdefault');
+
+        if (!$rdefault) {
+            $rdefault = $rdefault;
+        }
 
         session()->destroy();
 
-        if ($login_module == 'iescm') {
-            return redirect()->to('/auth/login/phone');
-        } else if ($login_module == 'mcp') {
-            return redirect()->to('/auth/login_mcp');
-        } else {
-            return redirect()->to('/auth');
+        if (!session()->get('logged_in')) {
+            if ($login_module == 'iescm') {
+                return redirect()->to('/'.$rdefault.'/login/phone');
+            } else if ($login_module == 'mcp') {
+                return redirect()->to('/'.$rdefault.'/login_mcp');
+            } else {
+                return redirect()->to('/'.$rdefault);
+            }
+        }else{
+            return redirect()->to('/'.$rdefault);
         }
     }
 

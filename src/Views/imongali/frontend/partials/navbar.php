@@ -13,15 +13,24 @@
 			<!-- Left navbar links -->
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a href="<?=base_url()?>home" class="nav-link">Home</a>
+					<a href="<?=base_url()?>" class="nav-link">
+						<i class="fas fa-home"></i>
+						<span class="d-none d-lg-inline">Home</span>
+					</a>
 				</li>
 				<li class="nav-item">
-					<a href="<?=base_url()?>gallery" class="nav-link">Gallery</a>
+					<a href="<?=base_url()?>gallery" class="nav-link">
+						<i class="fas fa-photo-video"></i>
+						<span class="d-none d-lg-inline">My Gallery</span>
+					</a>
 				</li>
 				<li class="nav-item">
-					<a href="<?=base_url()?>contact_us" class="nav-link">Contact us</a>
+					<a href="<?=base_url()?>contact_us" class="nav-link">
+						<i class="fas fa-id-card"></i>
+						<span class="d-none d-lg-inline">My Contact</span>
+					</a>
 				</li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown collapse">
 					<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
 					<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
 						<li><a href="#" class="dropdown-item">Some action </a></li>
@@ -57,7 +66,7 @@
 			</ul>
 
 			<!-- SEARCH FORM -->
-			<form class="form-inline ml-0 ml-md-3">
+			<form class="form-inline ml-0 ml-md-3 collapse">
 				<div class="input-group input-group-sm">
 					<input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
 					<div class="input-group-append">
@@ -70,7 +79,7 @@
 		</div>
 
 		<!-- Right navbar links -->
-		<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+		<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto collapse">
 			<!-- Messages and Notification Dropdown Menu -->
 
 			<!-- Message and Notification End -->

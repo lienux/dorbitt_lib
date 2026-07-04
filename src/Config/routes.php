@@ -11,6 +11,10 @@
 
 $routes->get('/', 'UmmuController::index', ['namespace' => 'Dorbitt\Controllers']);
 
+$routes->group('blog', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
+    $routes->get('show_activity', 'BlogController::show_activity');
+});
+
 $routes->group('form_konfirmasi_kehadiran_pertemuan_supplier', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
     $routes->get('/', 'FormKehadiranController::index');
     $routes->post('create', 'FormKehadiranController::create');
@@ -18,6 +22,8 @@ $routes->group('form_konfirmasi_kehadiran_pertemuan_supplier', ['namespace' => '
 
 $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
     $routes->get('/', 'LoginController::index');
+    $routes->get('logout', 'LoginController::logout');
+    // $routes->get('msdb', 'Auth\LoginController::msdb');
     
     $routes->group('phone_number', function ($routes) {
         $routes->get('/', 'LoginController::oa2_index');
@@ -602,3 +608,5 @@ $routes->group('v2-aini', function ($routes) {
 $routes->group('v3-ummu', function ($routes) {
     // 
 });
+
+$routes->get('(:any)', 'UmmuController::index/$1', ['namespace' => 'Dorbitt\Controllers']);
