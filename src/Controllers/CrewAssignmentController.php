@@ -49,7 +49,7 @@ class CrewAssignmentController extends ResourceController
                 ]
             ],
         ];
-        return view($this->vH->ummuView('pages/gIndex'), $data);
+        return view($this->vH->ummuViewPartialIndex(), $data);
     }
 
     public function show($id = null)

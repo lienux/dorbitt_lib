@@ -50,8 +50,7 @@ class BargeInspectionController extends ResourceController
             'equipment' => $equipment,
             'equipment_count' => count($equipment)
         ];
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
-        // var_dump($data);
+        return view($this->vH->ummuViewPartialIndex(), $data);
     }
 
     public function get_equipment()

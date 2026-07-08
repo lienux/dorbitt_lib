@@ -183,6 +183,11 @@ class ViewsHelper
         return "../../vendor/dorbitt/lib/src/Views/" . $path;
     }
 
+    public function ummuViewPartialIndex()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/partials/index";
+    }
+
     public function stylePath()
     {
         $a = getenv('app.tmp');

@@ -46,7 +46,7 @@ class MsActivityController extends ResourceController
                 ]
             ]
         ];
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+        return view($this->vH->ummuViewPartialIndex(), $data);
     }
 
     public function show($id = null)
