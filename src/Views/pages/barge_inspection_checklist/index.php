@@ -1,10 +1,11 @@
-<?= $this->extend('layout/' . config('Vh')->tmp()) ?>
+<?= (CLAYOUT == 'MPA') ? $this->extend('layout/' . config('Vh')->tmp()) : '' ?>
 
-<?= $this->section('css') ?>
+<?= (CLAYOUT == 'MPA') ? $this->section('css') : '' ?>
     <?= $this->include(config('Ummu')->Views('plugins/dt_style_001')) ?>
     <style></style>
-<?= $this->endSection() ?>
-<?= $this->section('content') ?>
+<?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>
+
+<?= (CLAYOUT == 'MPA') ? $this->section('content') : '' ?>
     <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
     <!-- <nav class="ummu-nav">
         <div class="nav nav-tabs">
@@ -24,9 +25,9 @@
             </div>
         </div>
     </div> -->
-<?= $this->endSection() ?>
+<?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>
 
-<?= $this->section('script') ?>
+<?= (CLAYOUT == 'MPA') ? $this->section('script') : '' ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/'+ '<?=$module_kode?>' +'/';
         var $crud = ["new","edit","delete"]
@@ -34,4 +35,4 @@
         var $equipment_count = '<?=$equipment_count?>'
     </script>
     <script src="<?=config('Ummu')->script($module_kode . '/index')?>"></script>
-<?= $this->endSection() ?>
+<?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>

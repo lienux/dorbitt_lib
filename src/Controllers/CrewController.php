@@ -10,13 +10,13 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class CrewAssignmentController extends ResourceController
+class CrewController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/crewing/crew-assignment";
-        $this->moduleKodeAPI = "crew_assignment";
-        $this->module_kode = 'crew_assignment';
+        $this->pathAPI = "api/crewing/ms-crew";
+        $this->moduleKodeAPI = "ms_crew";
+        $this->module_kode = 'ms_crew';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -29,7 +29,7 @@ class CrewAssignmentController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Crew Assignment',
+            'page_title' => '<i class="fas fa-users-cog text-info mr-2"></i> Master Crew Database',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
             'group' => ['crewing'],
@@ -43,7 +43,7 @@ class CrewAssignmentController extends ResourceController
                     "active" => ""
                 ],
                 [
-                    "name" => "Crew Assignment",
+                    "name" => "Master Crew",
                     "page" => "#",
                     "active" => "active"
                 ]

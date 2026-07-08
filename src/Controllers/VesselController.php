@@ -46,10 +46,8 @@ class VesselController extends ResourceController
                     "active" => "active"
                 ]
             ],
-            // "data" => $this->index_show()
         ];
-        // return $this->respond($data, 200);
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+        return view($this->vH->ummuView('pages/gIndex'), $data);
     }
 
     private function index_show()

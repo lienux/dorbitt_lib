@@ -11,53 +11,29 @@
 
 $routes->get('/', 'UmmuController::index', ['namespace' => 'Dorbitt\Controllers']);
 
-$routes->group('blog', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-    $routes->get('show_activity', 'BlogController::show_activity');
-});
-
 $routes->group('form_konfirmasi_kehadiran_pertemuan_supplier', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
     $routes->get('/', 'FormKehadiranController::index');
     $routes->post('create', 'FormKehadiranController::create');
 });
 
-$routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function ($routes) {
-    $routes->get('/', 'LoginController::index');
-    $routes->get('logout', 'LoginController::logout');
-    // $routes->get('msdb', 'Auth\LoginController::msdb');
-    
-    $routes->group('phone_number', function ($routes) {
-        $routes->get('/', 'LoginController::oa2_index');
-        $routes->post('find', 'LoginController::find');
-        $routes->get('findSuccess', 'LoginController::findSuccess');
-        $routes->get('login_password', 'LoginController::login_password');
-        $routes->post('login_password_create', 'LoginController::login_password_create');
-        $routes->get('login_otp', 'LoginController::login_otp');
+$routes->group('encrypter', function ($routes) {
+    $routes->get('generate_password', 'EncrypterController::generate_password');
+    $routes->get('jwtEncrypt', 'EncrypterController::jwtEncrypt');
+    $routes->get('jwtDecrypt', 'EncrypterController::jwtDecrypt');
+});
 
-        $routes->post('create_otp_email', 'LoginController::create_otp_email');
-        $routes->post('create_otp_sms', 'LoginController::create_otp_sms');
-        $routes->post('create_otp_wa', 'LoginController::create_otp_wa');
-
-        $routes->get('create_otpSuccess', 'LoginController::create_otpSuccess');
-    });
-
-    // $routes->group('phone_number', function ($routes) {
-    //     $routes->get('/', 'Auth\PhoneNumber::index');
-    //     // $routes->get('find', 'Auth\PhoneNumber::find');
-    //     $routes->post('find', 'Auth\PhoneNumber::find');
-    //     $routes->post('get_otp', 'Auth\Login::get_otp');
-    //     $routes->post('get_otp_email', 'Auth\Login::get_otp_email');
-    //     $routes->post('get_otp_wa', 'Auth\Login::get_otp_wa');
-    //     $routes->post('get_otp_sms', 'Auth\Login::get_otp_sms');
-    // });
-
-    $routes->group('oa2', function ($routes) {
-        $routes->get('/', 'LoginController::oa2_index');
-        $routes->get('create', 'LoginController::oa2_create');
-        $routes->post('create', 'LoginController::oa2_create');
-        // $routes->post('username', 'Auth\LoginController::username');
+$routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
+    $routes->group('photos', ['namespace' => 'Dorbitt\Controllers\MyGallery'], static function ($routes) {
+        $routes->get('/', 'PhotosController::index');
+        $routes->get('show', 'PhotosController::show');
+        $routes->post('create', 'PhotosController::create');
+        $routes->post('upload', 'PhotosController::upload');
+        $routes->delete('delete/(:num)', 'PhotosController::delete/$1');
     });
 });
 
+
+// START ADMIN -----------------------------
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
     // g/{{module_kode}}/{{function}}
     $routes->get('g/(:any)', 'GlobalController::showAll/$1');
@@ -391,6 +367,14 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('crew-ranks', 'CrewAssignmentController::show_crew_ranks');
     });
 
+    $routes->group('ms_crew', function ($routes) {
+        $routes->get('/', 'CrewController::index');
+        $routes->get('show', 'CrewController::show');
+        $routes->post('create', 'CrewController::create');
+        $routes->put('update/(:id)', 'CrewController::update/$1');
+        $routes->delete('delete/(:id)', 'CrewController::delete/$1');
+    });
+
     $routes->group('payslip', function ($routes) {
         $routes->get('/', 'PayslipController::index');
         $routes->get('show', 'PayslipController::show');
@@ -466,117 +450,10 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     });
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
 });
-
-$routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
-    $routes->group('photos', ['namespace' => 'Dorbitt\Controllers\MyGallery'], static function ($routes) {
-        $routes->get('/', 'PhotosController::index');
-        $routes->get('show', 'PhotosController::show');
-        $routes->post('create', 'PhotosController::create');
-        $routes->post('upload', 'PhotosController::upload');
-        $routes->delete('delete/(:num)', 'PhotosController::delete/$1');
-    });
-});
-
-$routes->group('ummu', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-    $routes->group('auth', function ($routes) {
-        $routes->group('phone_number', function ($routes) {
-            $routes->get('/', 'LoginController::index');
-            $routes->get('f_find', 'LoginController::index');
-            $routes->get('f_login_password', 'LoginController::login_password');
-            $routes->get('f_login_otp', 'LoginController::login_otp');
-
-            $routes->post('create_otp_email', 'LoginController::create_otp_email');
-            $routes->post('create_otp_sms', 'LoginController::create_otp_sms');
-            $routes->post('create_otp_wa', 'LoginController::create_otp_wa');
-        });
-
-        $routes->get('show_msdb', 'LoginController::show_msdb');
-        $routes->post('find_phone_number', 'LoginController::find_phone_number');
-        $routes->post('create_otp', 'LoginController::create_otp');
-        $routes->get('create_otp_email', 'LoginController::create_otp_email');
-        $routes->post('create_otp_email', 'LoginController::create_otp_email');
-        $routes->post('create_otp_sms', 'LoginController::create_otp_sms');
-        $routes->post('create_otp_wa', 'LoginController::create_otp_wa');
-
-        // $routes->group('login', function ($routes) {
-        //     $routes->get('/', 'Auth\LoginController::index');
-        //     $routes->get('phone', 'Auth\LoginController::phone');
-        //     $routes->get('cloud', 'Auth\LoginController::cloud');
-        //     $routes->get('create', 'Auth\LoginController::create');
-        //     $routes->post('create', 'Auth\LoginController::create');
-        //     $routes->post('create_without_msdb', 'Auth\LoginController::create_without_msdb');
-        //     $routes->post('create_shakti', 'Auth\LoginController::create_shakti');
-        //     $routes->post('create_with_phone', 'Auth\LoginController::create_with_phone');
-        //     $routes->post('create_cloud', 'Auth\LoginController::create_with_cloud');
-
-        //     $routes->post('username', 'Auth\LoginController::username');
-        // });
-
-        // $routes->group('login_mcp', function ($routes) {
-        //     $routes->get('/', 'Auth\LoginController::mcp_index');
-        //     $routes->get('create', 'Auth\LoginController::create');
-        //     $routes->post('create', 'Auth\LoginController::create');
-        //     $routes->post('username', 'Auth\LoginController::username');
-        // });
-
-        $routes->get('logout', 'Dorbitt\LoginController::logout');
-        $routes->get('msdb', 'Dorbitt\LoginController::msdb');
-    });
-
-    $routes->get('company_profile', 'UmmuController::company_profile');
-    
-    $routes->group('session', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
-        $routes->get('show', 'DorbittController::session_show');
-        $routes->get('destroy', 'DorbittController::session_destroy');
-    });
-});
-
-$routes->group('encrypter', function ($routes) {
-    $routes->get('generate_password', 'EncrypterController::generate_password');
-    $routes->get('jwtEncrypt', 'EncrypterController::jwtEncrypt');
-    $routes->get('jwtDecrypt', 'EncrypterController::jwtDecrypt');
-});
-
-$routes->group('v2', function ($routes) {
-    $routes->group('auth', ['namespace' => 'Dorbitt\Controllers\Version2'], static  function ($routes) {
-        $routes->get('/', 'LoginController::index');
-        
-        $routes->group('phone_number', function ($routes) {
-            $routes->get('/', 'LoginController::oa2_index');
-            $routes->post('find', 'LoginController::find');
-            $routes->get('findSuccess', 'LoginController::findSuccess');
-            $routes->get('login_password', 'LoginController::login_password');
-            $routes->post('login_password_create', 'LoginController::login_password_create');
-            $routes->get('login_otp', 'LoginController::login_otp');
-
-            $routes->post('create_otp_email', 'LoginController::create_otp_email');
-            $routes->post('create_otp_sms', 'LoginController::create_otp_sms');
-            $routes->post('create_otp_wa', 'LoginController::create_otp_wa');
-
-            $routes->get('create_otpSuccess', 'LoginController::create_otpSuccess');
-        });
-
-        // $routes->group('phone_number', function ($routes) {
-        //     $routes->get('/', 'Auth\PhoneNumber::index');
-        //     // $routes->get('find', 'Auth\PhoneNumber::find');
-        //     $routes->post('find', 'Auth\PhoneNumber::find');
-        //     $routes->post('get_otp', 'Auth\Login::get_otp');
-        //     $routes->post('get_otp_email', 'Auth\Login::get_otp_email');
-        //     $routes->post('get_otp_wa', 'Auth\Login::get_otp_wa');
-        //     $routes->post('get_otp_sms', 'Auth\Login::get_otp_sms');
-        // });
-
-        $routes->group('oa2', function ($routes) {
-            $routes->get('/', 'LoginController::oa2_index');
-            $routes->get('create', 'LoginController::oa2_create');
-            $routes->post('create', 'LoginController::oa2_create');
-            // $routes->post('username', 'Auth\LoginController::username');
-        });
-    });
-});
+// END ADMIN -------------------------------
 
 
-// With version ===============
+// WITH VERSION ----------------------------
 $routes->group('v1-alya', function ($routes) {
     $routes->group('payslip-print', ['namespace' => 'Dorbitt\Controllers'], static function ($routes) {
         $routes->get('/', 'PayslipController::print');
@@ -608,5 +485,13 @@ $routes->group('v2-aini', function ($routes) {
 $routes->group('v3-ummu', function ($routes) {
     // 
 });
+// END VERSION -----------------------------
 
-$routes->get('(:any)', 'UmmuController::index/$1', ['namespace' => 'Dorbitt\Controllers']);
+
+if (is_file(ROOTPATH . "vendor/dorbitt/lib/src/Config/auth.routes.php")) {
+    require ROOTPATH . "vendor/dorbitt/lib/src/Config/auth.routes.php";
+}
+
+if (is_file(ROOTPATH . "vendor/dorbitt/lib/src/Config/imongali.routes.php")) {
+    require ROOTPATH . "vendor/dorbitt/lib/src/Config/imongali.routes.php";
+}
