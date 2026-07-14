@@ -359,17 +359,31 @@ var app = {
                         data: null,
                         render: DataTable.render.select()
                     },
+                    {
+                        data: null,
+                        rowspan: true,
+                        render: function (data, type, row) {
+                            const is_mutabannat = row.is_mutabannat;
+                            if (is_mutabannat === '1') {
+                                return (
+                                    `<div class="text-muted">
+                                        <i class="far fa-lock"></i>
+                                    </div>`
+                                );
+                            }else{
+                                return (
+                                    `<a href="javascript:void(0);">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>`
+                                );
+                            }
+                        }
+                    },
                     { 
                         title: "ID",
-                        rowspan: true,
                         data: "id",
-                        render: function (data, type) {
-                            return (
-                                '<a href="javascript:void(0);">'+
-                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
-                                '</a>'
-                            );
-                        }
+                        width: '100px',
+                        rowspan: true
                     },
                     { 
                         title: "Shipment (SI)",

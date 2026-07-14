@@ -50,7 +50,7 @@ class ShippingInstructionController extends ResourceController
                 ]
             ]
         ];
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+        return view(config('Ummu')->Views('partials/index'), $data);
     }
 
     public function show($id = null)

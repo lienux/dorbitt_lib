@@ -344,12 +344,12 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     });
 
     $routes->group('unit_of_measure', function ($routes) {
-        $routes->get('/', 'CoaController::index');
-        $routes->get('show', 'CoaController::show');
-        $routes->post('show', 'CoaController::show');
-        $routes->post('create', 'CoaController::create');
-        $routes->post('update/(:num)', 'CoaController::update/$1');
-        $routes->post('delete/(:num)', 'CoaController::delete/$1');
+        $routes->get('/', 'UomController::index');
+        $routes->get('show', 'UomController::show');
+        $routes->post('show', 'UomController::show');
+        $routes->post('create', 'UomController::create');
+        $routes->post('update/(:num)', 'UomController::update/$1');
+        $routes->post('delete/(:num)', 'UomController::delete/$1');
     });
 
     $routes->group('crew_assignment', function ($routes) {

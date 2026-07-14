@@ -195,6 +195,16 @@ class Vh extends BaseConfig
         return "../../vendor/dorbitt/lib/src/Views/" . $path;
     }
 
+    public function ummuViewPartialIndex()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/partials/index";
+    }
+
+    public function ummuViewPartialTable()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/partials/table";
+    }
+
     public function stylePath()
     {
         $a = getenv('app.tmp');

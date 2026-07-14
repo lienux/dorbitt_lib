@@ -11,6 +11,7 @@ use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\GviewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use Dorbitt\Builder\HazardReportBuilder;
+use Dorbitt\Helpers\ViewsHelper;
 
 use App\Builder\GlobalBuilder;
 use App\Helpers\GlobalHelper;
@@ -28,6 +29,9 @@ class HazardReportController extends ResourceController
         $this->kode2 = 'she_hazard_report_achievement';
         $this->dir_view = 'pages/hazard_report/';
 
+        $this->module_kode = 'she_hazard_report';
+        $this->dir_view = 'pages/'. $this->module_kode .'/';
+
         $this->request = \Config\Services::request();
         $this->curl = new CurlHelper();
         $this->gBuilder = new GlobalBuilder();
@@ -38,17 +42,20 @@ class HazardReportController extends ResourceController
         $this->qbEmployee = new EmployeeBuilder();
         $this->qbWA = new WhatsappBuilder();
         $this->helper = new HazardReportHelper();
+        $this->vH = new ViewsHelper();
     }
 
     public function index()
     {
         $crud = $this->uHelp->index($this->kode);
         $data = [
-            'navlink' => $this->kode,
+            'module_kode' => $this->module_kode,
+            'navlink' => $this->module_kode,
+            // 'navlink' => $this->kode,
             'page_title' => 'Hazard Report',
             'group' => ['she_safety'],
             'tmp' => $this->gHelp->tmp(),
-            'module_kode' => $this->kode,
+            // 'module_kode' => $this->kode,
             'dir_views' => $this->dir_view,
             'include_tab' => $this->gView->nav_tab_doc_status(),
             'crud' => $crud
