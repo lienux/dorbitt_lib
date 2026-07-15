@@ -9347,7 +9347,11 @@ var $ummu = {
                     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                     $ummu.dt.controllers.index()
                 }else{
-                    $ummu.dt.init.ajax.reload();
+                    if ($ummu.dt.init.count() == 0) {
+                        app.controllers.show()
+                    }else{
+                        $ummu.dt.init.ajax.reload()
+                    }
                 }
 
                 // if (func == "create") {
@@ -11304,7 +11308,12 @@ var $ummu = {
                 };
             },
 
-            reload: function() {
+            reload: function(m) {
+                if (m) {
+                    var m_ = m;
+                }else{
+                    var m_ = 'POST';
+                }
                 var MyServerSide = false;
 
                 if (localStorage.getItem(`${$ummu.vars.module_kode}_isDtServerSide`) == 'true') {
@@ -11325,7 +11334,7 @@ var $ummu = {
                 settings.ajax = {
                     dataSrc: "rows",
                     url: $ummu.vars.page_url + "show",
-                    type: "POST",
+                    type: m_,
                     data: function (d) {
                         // Parameter custom Anda jika ada
                         // d.tgl = tgl.replace(/-/g, "");

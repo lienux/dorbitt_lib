@@ -348,8 +348,8 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show', 'UomController::show');
         $routes->post('show', 'UomController::show');
         $routes->post('create', 'UomController::create');
-        $routes->post('update/(:num)', 'UomController::update/$1');
-        $routes->post('delete/(:num)', 'UomController::delete/$1');
+        $routes->put('update/(:num)', 'UomController::update/$1');
+        $routes->delete('delete/(:num)', 'UomController::delete/$1');
     });
 
     $routes->group('crew_assignment', function ($routes) {

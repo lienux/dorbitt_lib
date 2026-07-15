@@ -54,46 +54,58 @@ var app = {
         },
 
         sbSave: function () {
-            var vessel_name = $("#tugboat").val();
-            var vessel_id = $("#tugboat").attr('data-id');
-            // var dtRows = $ummu.dt.controllers.getRows(app.dt.crew.init);
+            var kode = $("#kode").val();
+            var name = $("#name").val();
 
-            // 3. Gunakan .map() untuk menyisipkan field 'vessel_id' ke setiap objek/baris
-            var dataBaru = dtRows.map(function(row) {
-                // Jika data asal berupa OBJECT {}
-                return {
-                    ...row, // Salin semua field yang sudah ada (destructuring)
-                    vessel_id: vessel_id, // Tambahkan field baru di sini
-                    vessel_name: vessel_name
-                };
-            });
+            $ummu.vars.formData.append("kode", kode);
+            $ummu.vars.formData.append("name", name);
 
-            var data = JSON.stringify(dataBaru);
+            var payload = {
+                "kode": kode,
+                "name": name,
+            };
 
             const id = $ummu.url.getParam('id');
 
+            if (id) {
+                $ummu.vars.formData.append("_method", "PUT");
+                var func = "update/" + id
+            }else{
+                var func = "create"
+            }
+
             var params = {
-                "data": data,
+                "function": func,
+                "data": $ummu.vars.formData,
                 "loader": true,
-                "loaderText": 'Save data progress...'
             };
 
             const validation = app.validation.save();
 
             if (validation.length > 0) {
-                $ummu.views.errors_msg(validation) //string or array
+                $ummu.views.errors_msg(validation)
                 $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
             }else{
-                var ummu = $ummu.ajax2.post_json(params);
+                var ummu = $ummu.ajax.ummu7(params);   
                 ummu.done(function(result) {
                     const response = JSON.parse(result);
-                    // $ummu.views.after_sbToolbar_save(response, func, id, payload);
-                    console.log(result)
+                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
+
+                    // if (response.status == true) {
+                    //     $("#file_url").attr("href", response.data.fileUrl)
+                    //     let is_release = response.data.is_release;
+                    //     if (is_release == null || is_release == '' || is_release == 0) {
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                    //     }else{
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    //     }
+                    // }else{
+                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    // }
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
                 });
-                // console.log(ummu)
             }
         },
 

@@ -31,13 +31,13 @@ class UomController extends ResourceController
             'page_title' => 'Unit of Measure',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['masterdata'],
+            'group' => ['config'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Master Data",
+                    "name" => "Configuration",
                     "page" => "#",
                     "active" => ""
                 ],
@@ -82,7 +82,7 @@ class UomController extends ResourceController
         ];
 
         $params = [
-            "path"      => $this->pathAPI ."/create",
+            "path"      => $this->pathAPI,
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -96,14 +96,12 @@ class UomController extends ResourceController
     public function update($id = null)
     {
         $payload = [
-            "behavior" => $this->request->getPost('behavior'),
-            "category" => $this->request->getPost('category'),
+            "kode" => $this->request->getPost('kode'),
             "name" => $this->request->getPost('name'),
-            "amount" => $this->request->getPost('amount'),
         ];
 
         $params = [
-            "path" => $this->pathAPI ."/update/" . $id,
+            "path" => $this->pathAPI ."/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
