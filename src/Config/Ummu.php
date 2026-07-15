@@ -108,4 +108,14 @@ class Ummu extends BaseConfig
             return "https://cdn.openapi2.com/Script/" . $filename . ".js?time=" . date('YmdHis');
         }
     }
+
+    public function ViewPartialIndex()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/partials/index";
+    }
+
+    public function ViewPartialTable()
+    {
+        return "../../vendor/dorbitt/lib/src/Views/partials/table";
+    }
 }

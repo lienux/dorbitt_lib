@@ -207,6 +207,7 @@ class LoginController extends ResourceController
                     "email" => $response->data->email,
                     "email2" => $response->data->email2,
                     "company_id" => $response->data->company_id,
+                    "company_name" => $response->data->company->name,
                     "level_id" => $response->data->level_id,
                     "phone_number" => $response->data->phone_number,
                     "avatar" => $response->data->avatar,

@@ -5,16 +5,18 @@ namespace Dorbitt\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
-use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
+use App\Helpers\GlobalHelper;
 
-class MsClientController extends ResourceController
+class UomController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/clients/';
+        $this->module_kode = 'unit_of_measure';
+        $this->pathAPI = "api/master-data/" . $this->module_kode;
+        $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -26,27 +28,27 @@ class MsClientController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Client',
-            'module_kode' => 'clients',
-            'navlink' => 'clients',
-            'group' => ['masterdata'],
+            'page_title' => 'Unit of Measure',
+            'module_kode' => $this->module_kode,
+            'navlink' => $this->module_kode,
+            'group' => ['config'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Master Data",
+                    "name" => "Configuration",
                     "page" => "#",
                     "active" => ""
                 ],
                 [
-                    "name" => "Clients",
+                    "name" => "Unit of Measure (UoM)",
                     "page" => "#",
                     "active" => "active"
                 ]
-            ]
+            ],
         ];
-        return view($this->vH->ummuViewPartialIndex(), $data);
+        return view(config('Ummu')->Views('partials/index'), $data);
     }
 
     public function show($id = null)
@@ -60,14 +62,12 @@ class MsClientController extends ResourceController
             "selects" => "*"
         ]);
 
-        $params = [
-            "path"      => "api/clients/show",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3('clients')
-        ];
+        $queryString = http_build_query($payload);
 
-        $builder = $this->cH->ummu2($params);
+        $path = $this->pathAPI . "?" . $queryString;
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }
@@ -75,17 +75,17 @@ class MsClientController extends ResourceController
     public function create()
     {
         $payload = [
-            "name" => $this->request->getVar('name'),
-            "phone_number" => $this->request->getVar('phone_number'),
-            "email" => $this->request->getVar('email'),
-            "address" => $this->request->getVar('address'),
+            "behavior" => $this->request->getPost('behavior'),
+            "category" => $this->request->getPost('category'),
+            "name" => $this->request->getPost('name'),
+            "amount" => $this->request->getPost('amount'),
         ];
 
         $params = [
-            "path"      => "api/clients/create",
+            "path"      => $this->pathAPI,
             "method" => 'POST',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('clients')
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
@@ -96,17 +96,15 @@ class MsClientController extends ResourceController
     public function update($id = null)
     {
         $payload = [
-            "name" => $this->request->getVar('name'),
-            "phone_number" => $this->request->getVar('phone_number'),
-            "email" => $this->request->getVar('email'),
-            "address" => $this->request->getVar('address'),
+            "kode" => $this->request->getPost('kode'),
+            "name" => $this->request->getPost('name'),
         ];
 
         $params = [
-            "path"      => "api/clients/update/" . $id,
+            "path" => $this->pathAPI ."/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('clients')
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
@@ -117,10 +115,10 @@ class MsClientController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path"      => "api/clients/delete/" . $id,
+            "path" => $this->pathAPI ."/delete/" . $id,
             "method" => 'DELETE',
             "payload" => [],
-            "headers" => $this->cH->headers3('clients')
+            "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);

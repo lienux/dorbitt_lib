@@ -9347,7 +9347,11 @@ var $ummu = {
                     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                     $ummu.dt.controllers.index()
                 }else{
-                    $ummu.dt.init.ajax.reload();
+                    if ($ummu.dt.init.count() == 0) {
+                        app.controllers.show()
+                    }else{
+                        $ummu.dt.init.ajax.reload()
+                    }
                 }
 
                 // if (func == "create") {
@@ -11072,8 +11076,15 @@ var $ummu = {
                         {
                             targets: 0,
                             orderable: false,
+                            width: '40px',
                             render: DataTable.render.select(),
                         },
+                        {
+                            targets: 1,
+                            orderable: false,
+                            width: '50px',
+                            class: 'text-center',
+                        }
                         // { 
                         //     targets: [26,27], 
                         //     visible: false 
@@ -11150,6 +11161,7 @@ var $ummu = {
                     columns: $ummu.dt.config.columns(),
                     columnDefs: $ummu.dt.config.columnDefs(),
                     select: $ummu.dt.config.select(),
+                    autoWidth: false,
                     processing: true,
                     serverSide: false,
                     responsive: true,
@@ -11210,15 +11222,24 @@ var $ummu = {
 
                 // Pasang Konfigurasi untuk event ketika klik coloum ke 3 biasanya bagian ID.
                 $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                    // 1. Ambil data row terlebih dahulu
                     var row = $ummu.dt.init.row(this).data();
                     // console.log(row)
 
+                    // 2. Validasi properti is_mutabannat
+                    // Jika data row tidak ada, atau nilainya bukan 1, maka batalkan aksi klik
+                    if (!row || row.is_mutabannat == '1') {
+                        console.log(`Klik diabaikan karena data dengan ID = ${row.id} adalah baseline system.`);
+                        return false; 
+                    }
+
+                    // 3. Logika asli kamu (hanya berjalan jika is_mutabannat == 0)
                     if (typeof app.dt.config.onClick_nthChild_2 !== "undefined") {
-                        app.dt.config.onClick_nthChild_2(row)
-                    }else{
-                        $ummu.url.setParamFromRow(row)
+                        app.dt.config.onClick_nthChild_2(row);
+                    } else {
+                        $ummu.url.setParamFromRow(row);
                         app.views.setRow_toForm(row);
-                        $ummu.views.tab_content('setRow_toForm')
+                        $ummu.views.tab_content('setRow_toForm');
                     }
                 });
             },
@@ -11287,7 +11308,12 @@ var $ummu = {
                 };
             },
 
-            reload: function() {
+            reload: function(m) {
+                if (m) {
+                    var m_ = m;
+                }else{
+                    var m_ = 'POST';
+                }
                 var MyServerSide = false;
 
                 if (localStorage.getItem(`${$ummu.vars.module_kode}_isDtServerSide`) == 'true') {
@@ -11308,7 +11334,7 @@ var $ummu = {
                 settings.ajax = {
                     dataSrc: "rows",
                     url: $ummu.vars.page_url + "show",
-                    type: "POST",
+                    type: m_,
                     data: function (d) {
                         // Parameter custom Anda jika ada
                         // d.tgl = tgl.replace(/-/g, "");
@@ -11469,120 +11495,6 @@ var $ummu = {
                 // Output: [ {vessel_id: 2, name: 'Item A'}, {vessel_id: 2, name: 'Item B'} ]
                 return dataTerfilter;
             },
-        },
-
-        is_init: function ($tableID) {
-            if ($.fn.DataTable.isDataTable($tableID)) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-
-        init_destroy: function ($init = null) {
-            // console.log($init)
-            if ($init === null) {
-                $ummu.dt.init.destroy()
-            } else {
-                eval($init).destroy()
-            }
-        },
-
-        load: function () {
-            $ummu.dt.var_id();
-            $ummu.dt.button.crud();
-
-            table.on("click", "tbody tr td:first-child", function () {
-                $ummu.dt.var_id();
-                $ummu.dt.button.crud();
-            });
-
-            table.on("click", "tbody tr td:nth-child(2)", function () {
-                var row = table.row(this).data();
-                // $ummu.vars.is_row = true;
-                // app.controllers.detail(row);
-                // app.views.setRow_toForm(row);
-                console.log(row)
-            });
-
-            table.on("dblclick", "tbody tr", function () {
-                var row = table.row(this).data();
-                $ummu.vars.id = row.id;
-                app.config.routes.dt_tbody_tr_dblclick(row);
-            });
-
-            table.on("select", function (e, dt, type, indexes) {
-                $ummu.dt.var_id();
-                $ummu.dt.button.crud();
-            });
-
-            table.on("deselect", function (e, dt, type, indexes) {
-                $ummu.dt.var_id();
-                $ummu.dt.button.crud();
-            });
-
-            table.on("mouseenter", "td", function () {
-                let colIdx = table.cell(this).index().column;
-                table
-                    .cells()
-                    .nodes()
-                    .each((el) => el.classList.remove("highlight"));
-
-                table
-                    .column(colIdx)
-                    .nodes()
-                    .each((el) => el.classList.add("highlight"));
-            });
-
-            table.on('preXhr.dt', function (e, settings, data) {
-                console.log('AJAX request is about to be sent.');
-                $('#loadingIndicator').show();
-                $('#modal_loader').modal('show');
-            });
-
-            table.on('xhr.dt', function (e, settings, json, xhr) {
-                console.log('AJAX request completed.');
-                $('#loadingIndicator').hide();
-                $('#modal_loader').modal('hide');
-                console.log(json);
-            });
-
-            table.on('error.dt', function (e, settings, techNote, message) {
-                console.error('DataTables error:', message);
-                alert('An error occurred while loading data.');
-            });
-        },
-
-        load_with_init: function (init) {
-            init.on('preXhr.dt', function (e, settings, data) {
-                console.log('AJAX request is about to be sent.');
-                $('#loadingIndicator').show();
-                $('#modal_loader').modal('show');
-            });
-
-            init.on('xhr.dt', function (e, settings, json, xhr) {
-                console.log('AJAX request completed.');
-                $('#loadingIndicator').hide();
-                $('#modal_loader').modal('hide');
-                console.log(json);
-            });
-
-            init.on('error.dt', function (e, settings, techNote, message) {
-                console.error('DataTables error:', message);
-                alert('An error occurred while loading data.');
-            });
-        },
-
-        load2: function() {
-            $ummu.localStorage.dt_default($localStrgKey);
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
-            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
-                var row = $ummu.dt.init.row(this).data();
-                // console.log(row)
-                $ummu.url.setParamFromRow(row)
-                app.views.setRow_toForm(row);
-                $ummu.views.tab_content('setRow_toForm')
-            });
         },
 
         layout: {
@@ -13124,31 +13036,6 @@ var $ummu = {
             },
         },
 
-        after_cud: function () {
-            $ummu.views.button.dt.showhide1();
-            $("#text_loader").html("");
-        },
-
-        var_id: function () {
-            var count_selc = $ummu.dt.select.count();
-
-            if (count_selc == 1) {
-                var rows = $ummu.dt.select.data();
-                $ummu.vars.id = rows[0].id;
-                $ummu.vars.ids = null;
-            }
-
-            if (count_selc > 1) {
-                var rows = $ummu.dt.select.data();
-                $ummu.vars.id = null;
-            }
-
-            if (count_selc == 0) {
-                $ummu.vars.id = null;
-                $ummu.vars.ids = null;
-            }
-        },
-
         v2: {
             load: function () {
                 $ummu.dt.v2.var_id();
@@ -13896,81 +13783,6 @@ var $ummu = {
             },
         },
 
-        create_siteProject: function () {
-            $ummu.dt.init_sitePorject = new DataTable(
-                $listdata_tableID,
-                $ummu.dt.siteprojectConfig()
-            );
-
-            $ummu.dt.init_sitePorject.on('xhr', function () {
-                var response = $ummu.dt.init_sitePorject.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem('ummu_site_project', JSON.stringify(response));
-                }
-            });
-        },
-
-        siteprojectConfig: function () {
-            return {
-                ajax: {
-                    dataSrc: "rows",
-                    url: $base_url + "aini/site_project/showDync/region_code,region_name",
-                    data: function (d) {
-                        // d.myKey = "myValue";
-                        // d.custom = $('#myInput').val();
-                        // d.release = [0];
-                        // etc
-                    },
-                },
-                processing: true,
-                // serverSide: true,
-                responsive: true,
-                keys: true,
-                deferLoading: 57,
-                lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                layout: {
-                    topStart: {
-                        buttons: [
-                            {
-                                extend: "pageLength",
-                                className: "py-1 dt-btn-ummu",
-                                attr: { id: "btn_page_length" },
-                            },
-                            {
-                                text: '<i class="fas fa-sync-alt"></i>',
-                                attr: { id: "btn_reload" },
-                                className: "btn-showall-color py-1 dt-btn-ummu",
-                                action: function (e, dt, node, config) {
-                                    $ummu.dt.init_sitePorject.ajax.reload();
-                                },
-                            },
-                        ],
-                    },
-                },
-                order: [[0, "desc"]],
-                scrollCollapse: true,
-                scrollX: true,
-                scrollY: 500,
-                columns: [
-                    {
-                        title: "Code",
-                        data: "region_code",
-                        render: function (data, type, row) {
-                            return (
-                                '<a href="javascript:void(0);"><div><span class="">' +
-                                data +
-                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                            );
-                        },
-                    },
-                    { title: "Name", data: "region_name" },
-                ],
-                drawCallback: function (data, callback, settings) {
-                    var api = this.api();
-                },
-            };
-        },
-
         events: {
             initSitePorject_onClick: function () {
                 if ($ummu.dt.init_sitePorject !== null) {
@@ -14122,41 +13934,6 @@ var $ummu = {
                 ];
                 return columns;
             },
-        },
-
-        addCell: function (tr, content, colSpan = 1, d = '') {
-            let td = document.createElement('td');
-
-            td.colSpan = colSpan;
-            td.textContent = content;
-            td.className = d;
-
-            tr.appendChild(td);
-        },
-
-        loader_show: function () {
-            $("#modal_loader_dt").modal("show");
-        },
-
-        loader_hide: function () {
-            $("#modal_loader_dt").modal("hide");
-        },
-
-        endRender_class: function () {
-            return 'text-right font-weight-bold bg-purple py-2';
-        },
-
-        init2_kosong: function ($tableInit2) {
-            $ummu.dt.init2 = new DataTable($tableInit2,
-                {
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [],
-                        }
-                    },
-                }
-            );
         },
 
         clients: {
@@ -15459,6 +15236,255 @@ var $ummu = {
                     });
                 }
             }
+        },
+
+        is_init: function ($tableID) {
+            if ($.fn.DataTable.isDataTable($tableID)) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        init_destroy: function ($init = null) {
+            // console.log($init)
+            if ($init === null) {
+                $ummu.dt.init.destroy()
+            } else {
+                eval($init).destroy()
+            }
+        },
+
+        load: function () {
+            $ummu.dt.var_id();
+            $ummu.dt.button.crud();
+
+            table.on("click", "tbody tr td:first-child", function () {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = table.row(this).data();
+                // $ummu.vars.is_row = true;
+                // app.controllers.detail(row);
+                // app.views.setRow_toForm(row);
+                console.log(row)
+            });
+
+            table.on("dblclick", "tbody tr", function () {
+                var row = table.row(this).data();
+                $ummu.vars.id = row.id;
+                app.config.routes.dt_tbody_tr_dblclick(row);
+            });
+
+            table.on("select", function (e, dt, type, indexes) {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on("deselect", function (e, dt, type, indexes) {
+                $ummu.dt.var_id();
+                $ummu.dt.button.crud();
+            });
+
+            table.on("mouseenter", "td", function () {
+                let colIdx = table.cell(this).index().column;
+                table
+                    .cells()
+                    .nodes()
+                    .each((el) => el.classList.remove("highlight"));
+
+                table
+                    .column(colIdx)
+                    .nodes()
+                    .each((el) => el.classList.add("highlight"));
+            });
+
+            table.on('preXhr.dt', function (e, settings, data) {
+                console.log('AJAX request is about to be sent.');
+                $('#loadingIndicator').show();
+                $('#modal_loader').modal('show');
+            });
+
+            table.on('xhr.dt', function (e, settings, json, xhr) {
+                console.log('AJAX request completed.');
+                $('#loadingIndicator').hide();
+                $('#modal_loader').modal('hide');
+                console.log(json);
+            });
+
+            table.on('error.dt', function (e, settings, techNote, message) {
+                console.error('DataTables error:', message);
+                alert('An error occurred while loading data.');
+            });
+        },
+
+        load_with_init: function (init) {
+            init.on('preXhr.dt', function (e, settings, data) {
+                console.log('AJAX request is about to be sent.');
+                $('#loadingIndicator').show();
+                $('#modal_loader').modal('show');
+            });
+
+            init.on('xhr.dt', function (e, settings, json, xhr) {
+                console.log('AJAX request completed.');
+                $('#loadingIndicator').hide();
+                $('#modal_loader').modal('hide');
+                console.log(json);
+            });
+
+            init.on('error.dt', function (e, settings, techNote, message) {
+                console.error('DataTables error:', message);
+                alert('An error occurred while loading data.');
+            });
+        },
+
+        load2: function() {
+            $ummu.localStorage.dt_default($localStrgKey);
+            $ummu.dt.layout.buttonAll($ummu.dt.init);
+            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+                var row = $ummu.dt.init.row(this).data();
+                // console.log(row)
+                $ummu.url.setParamFromRow(row)
+                app.views.setRow_toForm(row);
+                $ummu.views.tab_content('setRow_toForm')
+            });
+        },
+
+        addCell: function (tr, content, colSpan = 1, d = '') {
+            let td = document.createElement('td');
+
+            td.colSpan = colSpan;
+            td.textContent = content;
+            td.className = d;
+
+            tr.appendChild(td);
+        },
+
+        loader_show: function () {
+            $("#modal_loader_dt").modal("show");
+        },
+
+        loader_hide: function () {
+            $("#modal_loader_dt").modal("hide");
+        },
+
+        endRender_class: function () {
+            return 'text-right font-weight-bold bg-purple py-2';
+        },
+
+        init2_kosong: function ($tableInit2) {
+            $ummu.dt.init2 = new DataTable($tableInit2,
+                {
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [],
+                        }
+                    },
+                }
+            );
+        },
+
+        after_cud: function () {
+            $ummu.views.button.dt.showhide1();
+            $("#text_loader").html("");
+        },
+
+        var_id: function () {
+            var count_selc = $ummu.dt.select.count();
+
+            if (count_selc == 1) {
+                var rows = $ummu.dt.select.data();
+                $ummu.vars.id = rows[0].id;
+                $ummu.vars.ids = null;
+            }
+
+            if (count_selc > 1) {
+                var rows = $ummu.dt.select.data();
+                $ummu.vars.id = null;
+            }
+
+            if (count_selc == 0) {
+                $ummu.vars.id = null;
+                $ummu.vars.ids = null;
+            }
+        },
+
+        create_siteProject: function () {
+            $ummu.dt.init_sitePorject = new DataTable(
+                $listdata_tableID,
+                $ummu.dt.siteprojectConfig()
+            );
+
+            $ummu.dt.init_sitePorject.on('xhr', function () {
+                var response = $ummu.dt.init_sitePorject.ajax.json();
+                if (response.status == true) {
+                    localStorage.setItem('ummu_site_project', JSON.stringify(response));
+                }
+            });
+        },
+
+        siteprojectConfig: function () {
+            return {
+                ajax: {
+                    dataSrc: "rows",
+                    url: $base_url + "aini/site_project/showDync/region_code,region_name",
+                    data: function (d) {
+                        // d.myKey = "myValue";
+                        // d.custom = $('#myInput').val();
+                        // d.release = [0];
+                        // etc
+                    },
+                },
+                processing: true,
+                // serverSide: true,
+                responsive: true,
+                keys: true,
+                deferLoading: 57,
+                lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                layout: {
+                    topStart: {
+                        buttons: [
+                            {
+                                extend: "pageLength",
+                                className: "py-1 dt-btn-ummu",
+                                attr: { id: "btn_page_length" },
+                            },
+                            {
+                                text: '<i class="fas fa-sync-alt"></i>',
+                                attr: { id: "btn_reload" },
+                                className: "btn-showall-color py-1 dt-btn-ummu",
+                                action: function (e, dt, node, config) {
+                                    $ummu.dt.init_sitePorject.ajax.reload();
+                                },
+                            },
+                        ],
+                    },
+                },
+                order: [[0, "desc"]],
+                scrollCollapse: true,
+                scrollX: true,
+                scrollY: 500,
+                columns: [
+                    {
+                        title: "Code",
+                        data: "region_code",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { title: "Name", data: "region_name" },
+                ],
+                drawCallback: function (data, callback, settings) {
+                    var api = this.api();
+                },
+            };
         },
     },
 

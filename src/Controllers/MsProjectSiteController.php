@@ -14,7 +14,8 @@ class MsProjectSiteController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/project_site/';
+        $this->module_kode = 'project_site';
+        $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -27,8 +28,8 @@ class MsProjectSiteController extends ResourceController
     {
         $data = [
             'page_title' => 'Master Data Project Site',
-            'module_kode' => 'project_site',
-            'navlink' => 'project_site',
+            'module_kode' => $this->module_kode,
+            'navlink' => $this->module_kode,
             'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
@@ -46,7 +47,7 @@ class MsProjectSiteController extends ResourceController
                 ]
             ]
         ];
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+        return view($this->vH->ummuViewPartialIndex(), $data);
     }
 
     public function show($id = null)

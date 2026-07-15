@@ -10,13 +10,13 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class VoyageRouteController extends ResourceController
+class CrewController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/master-data/rute";
-        $this->moduleKodeAPI = "master-date-rute";
-        $this->module_kode = 'voyage_route';
+        $this->pathAPI = "api/crewing/ms-crew";
+        $this->moduleKodeAPI = "ms_crew";
+        $this->module_kode = 'ms_crew';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -29,21 +29,21 @@ class VoyageRouteController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Voyage Route',
+            'page_title' => '<i class="fas fa-users-cog text-info mr-2"></i> Master Crew Database',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
-            'group' => ['masterdata'],
+            'group' => ['crewing'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Master Data",
+                    "name" => "Crewing",
                     "page" => "#",
                     "active" => ""
                 ],
                 [
-                    "name" => "Voyage Route",
+                    "name" => "Master Crew",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -65,7 +65,7 @@ class VoyageRouteController extends ResourceController
         ]);
         $queryString = http_build_query($payload);
 
-        $path = $this->pathAPI . "/show?" . $queryString;
+        $path = $this->pathAPI . "?" . $queryString;
         $headers = $this->cH->headers3($this->module_kode);
 
         $builder = $this->cH->ummuGet($path, $headers);
@@ -75,15 +75,12 @@ class VoyageRouteController extends ResourceController
 
     public function create()
     {
-        $payload = [
-            "type_id" => 1,
-            "name" => $this->request->getPost('name'),
-            "from_id" => $this->request->getPost('from_id'),
-            "to_id" => $this->request->getPost('to_id'),
-        ];
+        $getVar = $this->request->getVar();
+
+        $payload = $getVar;
 
         $params = [
-            "path" => $this->pathAPI . "/create",
+            "path" => $this->pathAPI,
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -175,6 +172,27 @@ class VoyageRouteController extends ResourceController
         return $this->respond($builder, 200);
     }
 
+    public function show_tugboat()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $queryString = http_build_query($payload);
+
+        $path = $this->pathAPI . "/tugboat";
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
+
+        return $this->respond($builder, 200);
+    }
+
     public function create_waypoint()
     {
         $payload = [
@@ -254,6 +272,48 @@ class VoyageRouteController extends ResourceController
         ];
 
         $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_crew()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $queryString = http_build_query($payload);
+
+        $path = $this->pathAPI . "/crew";
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_crew_ranks()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $queryString = http_build_query($payload);
+
+        $path = $this->pathAPI . "/crew-rank";
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }
