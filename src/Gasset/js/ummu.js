@@ -9295,10 +9295,15 @@ var $ummu = {
         },
 
         after_sbToolbar_getData: function() {
-            $ummu.url.delParamNotIn(['g']);
-            app.views.formParams().prop('disabled', true).val('');
-            $ummu.button.sbBtn_default();
+            $ummu.url.delParamNotIn(['g'])
+            app.views.formParams().prop('disabled', true).val('')
+            $ummu.button.sbBtn_default()
             app.controllers.show()
+
+            $("#created_at").html('')
+            $("#updated_at").html('')
+            $("#created_by").html('')
+            $("#updated_by").html('')
         },
 
         after_sbToolbar_save: function(result, func, id, payload) {

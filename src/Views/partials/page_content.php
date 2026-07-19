@@ -14,15 +14,42 @@
         </div>
     </nav>
     <div class="section-body">
-        <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
-            <div class="card-body pt-2">
-                <div class="tab-content" id="ummu_tab_content">
-                    <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
+        <div class="tab-content" id="ummu_tab_content">
+            <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
+                <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
+                    <div class="card-body pt-2">
                         <?= $this->include(config('Ummu')->Views($dir_views . 'form')) ?>
                     </div>
-                    <div class="tab-pane fade" id="nav-listData" role="tabpanel">
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 mb-3">
+                                <ul class="list-group text-muted small">
+                                    <li class="list-group-item py-1">
+                                        <i class="fas fa-calendar-plus"></i> Created at : <span class="badge badge-info" id="created_at"></span>
+                                    </li>
+                                    <li class="list-group-item py-1">
+                                        <i class="fas fa-calendar-check"></i> Updated at : <span class="badge badge-info" id="updated_at"></span>
+                                    </li>
+                                    <li class="list-group-item py-1">
+                                        <i class="fas fa-user-plus"></i> Created by : <span class="badge badge-info" id="created_by"></span>
+                                    </li>
+                                    <li class="list-group-item py-1">
+                                        <i class="fas fa-user-edit"></i> Updated by : <span class="badge badge-info" id="updated_by"></span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-12"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="nav-listData" role="tabpanel">
+                <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
+                    <div class="card-body pt-2">
                         <?php
-                            if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'table.php')) {
+                            if (is_file(VENDORPATH . 'dorbitt/lib/src/Views/' . $dir_views . 'table.php')) {
                                 echo $this->include(config('Ummu')->Views($dir_views . 'table'));
                             }else{
                                 echo $this->include(config('Ummu')->Views('partials/table'));
@@ -33,34 +60,6 @@
                                 Anda mengaktifkan penyimpanan data sementara pada localStorage, untuk mendapatkan data terbaru silahkan klik button <span class='font-weight-bold text-danger'>Get Data</span> di atas
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Created At</label>
-                    <div class="col-sm-2 mb-2">
-                        <div id="created_at" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
-                    </div>
-                
-                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Updated At</label>
-                    <div class="col-sm-2 mb-2">
-                        <div id="updated_at" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
-                    </div>
-
-                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0"></label>
-                    <div class="col-sm-2 mb-2">
-                        <!-- <div id="" class="form-control form-control-sm"> -->
-                    </div>
-                
-                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Created By</label>
-                    <div class="col-sm-2 mb-2">
-                        <div id="created_by" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
-                    </div>
-                
-                    <label class="col-sm-2 col-form-label text-lg-right text-sm-left mb-0 pb-0">Updated By</label>
-                    <div class="col-sm-2 mb-2">
-                        <div id="updated_by" class="form-control form-control-sm" style="background-color: #e9ecef;"></div>
                     </div>
                 </div>
             </div>

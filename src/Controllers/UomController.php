@@ -115,7 +115,7 @@ class UomController extends ResourceController
     public function delete($id = null)
     {
         $params = [
-            "path" => $this->pathAPI ."/delete/" . $id,
+            "path" => $this->pathAPI ."/" . $id,
             "method" => 'DELETE',
             "payload" => [],
             "headers" => $this->cH->headers3($this->module_kode)

@@ -311,7 +311,7 @@ var app = {
                         }
                     },
                     { 
-                        title: "Cost Behavior",
+                        title: "Nama Crew",
                         data: "behavior",
                         render: function(data, type, row) {
                             var text = "";
@@ -325,7 +325,21 @@ var app = {
                         }
                     },
                     { 
-                        title: "Cost Category",
+                        title: "Jabatan (Rank)",
+                        data: "behavior",
+                        render: function(data, type, row) {
+                            var text = "";
+                            if (data == '1') {
+                                text = "Fixed Cost";
+                            }else if (data == '2') {
+                                text = "Variable Cost";
+                            }
+
+                            return text;
+                        }
+                    },
+                    { 
+                        title: "Ijazah (COC)",
                         data: "category",
                         render: function(data, type, row) {
                             var text = "";
@@ -343,11 +357,11 @@ var app = {
                         }
                     },
                     { 
-                        title: "Cost Name",
+                        title: "Buku Pelaut (Expiry)",
                         data: "name"
                     },
                     { 
-                        title: "Amount",
+                        title: "Status Kerja",
                         data: "amount",
                         render: function (data, type, row) {
                             return $ummu.formatter.us(data);

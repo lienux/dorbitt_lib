@@ -123,9 +123,12 @@ var app = {
 
         sbDelete: function(id) {
             $("#modalDeleteConfirm").modal('hide')
+
+            $ummu.vars.formData.append("_method", "DELETE");
+
             var params = {
                 "function": "delete/" + id,
-                "method": "POST",
+                "method": "DELETE",
                 "data": [],
                 "cache": true,
                 "contentType": "application/json",
