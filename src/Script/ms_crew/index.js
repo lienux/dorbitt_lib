@@ -220,8 +220,23 @@ var app = {
         },
 
         on_showLeftModal: function(id) {
-            console.log(id)
-            $ummu.controllers.show_data_link(id)
+            // console.log(id)
+            // $ummu.controllers.show_data_link(id)
+            if (id == 'crew_ranks') {
+                $ummu.controllers.show_crew_ranks(id);
+            // }else if (id == 'tugboat') {
+            //     $ummu.controllers.show_tugboat(id);
+            // }else if (id == 'barge') {
+            //     $ummu.controllers.show_barge(id);
+            // }else if (id == 'uom') {
+            //     $ummu.controllers.show_uom(id);
+            // }else if (id == 'shipment') {
+            //     $ummu.controllers.show_shippingInstruction(id);
+            // }else if (id == 'spal') {
+            //     $ummu.controllers.show_spal(id);
+            // }else if (id == 'to_dept') {
+            //     $ummu.controllers.show_dept(id);
+            }
         },
 
         on_click_tbody_trtd_child: {
@@ -290,18 +305,10 @@ var app = {
                         orderable: false,
                         render: DataTable.render.select()
                     },
-                    // { 
-                    //     data: null,
-                    //     orderable: false,
-                    //     className: 'select-checkbox', // <-- TAMBAHKAN INI
-                    //     targets: 0,
-                    //     render: function () {
-                    //         return ''; // Biarkan kosong karena CSS select-checkbox yang akan membuat kotaknya
-                    //     }
-                    // },
                     { 
                         title: "ID",
                         data: "id",
+                        className: 'align-middle',
                         render: function (data, type) {
                             return (
                                 '<a href="javascript:void(0);">'+
@@ -312,59 +319,112 @@ var app = {
                     },
                     { 
                         title: "Nama Crew",
-                        data: "behavior",
-                        render: function(data, type, row) {
-                            var text = "";
-                            if (data == '1') {
-                                text = "Fixed Cost";
-                            }else if (data == '2') {
-                                text = "Variable Cost";
-                            }
-
-                            return text;
-                        }
+                        data: "name",
+                        className: 'align-middle',
                     },
                     { 
                         title: "Jabatan (Rank)",
-                        data: "behavior",
+                        data: null,
+                        className: 'align-middle',
                         render: function(data, type, row) {
-                            var text = "";
-                            if (data == '1') {
-                                text = "Fixed Cost";
-                            }else if (data == '2') {
-                                text = "Variable Cost";
+                            var html = "";
+                            if (row.crew_details != null) {
+                                var html = `<div>${row.crew_details.rank_name_en}</div>
+                                <div class="small text-muted">(${row.crew_details.rank_name_id})</div>`;
                             }
 
-                            return text;
+                            return html;
                         }
                     },
                     { 
                         title: "Ijazah (COC)",
-                        data: "category",
+                        data: null,
+                        className: 'align-middle',
                         render: function(data, type, row) {
-                            var text = "";
-                            if (data == 'port_charges') {
-                                text = "Port Charges";
-                            }else if (data == 'fixed_cost') {
-                                text = "Fixed Cost";
-                            }else if (data == 'variable_cost') {
-                                text = 'Variable Cost';
-                            }else if ('perjalanan_dinas') {
-                                text = 'Perjalanan Dinas';
+                            var html = "";
+                            if (row.crew_details != null && row.crew_details.highest_coc_certificate) {
+                                var html = `<span class="badge badge-light border border-secondary text-secondary">${row.crew_details.highest_coc_certificate}</span>`;
                             }
 
-                            return text;
+                            return html;
                         }
                     },
                     { 
                         title: "Buku Pelaut (Expiry)",
-                        data: "name"
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = "";
+
+                            if (row.crew_details != null && row.crew_details.seaman_book_number) {
+                                var seaman_book_number = row.crew_details.seaman_book_number;
+                                var seaman_book_expiry = $ummu.date.tglIndo(row.crew_details.seaman_book_expiry);
+                                var seaman_book_expiry_status = row.crew_details.seaman_book_expiry_status;
+
+                                var text = `<small class="text-success font-weight-bold">
+                                        <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
+                                    </small>`;
+                                var textExp = `<small class="text-danger font-weight-bold animate-pulse">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
+                                    </small>`;
+
+                                var textExpSoon = `<small class="text-warning font-weight-bold">
+                                        <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
+                                    </small>`;
+
+                                if (seaman_book_expiry_status == 'Active') {
+                                    var html_ = text;
+                                }else if (seaman_book_expiry_status == 'Expired') {
+                                    var html_ = textExp;
+                                }else{
+                                    var html_ = textExpSoon;
+                                }
+
+                                var html = `
+                                    <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
+                                    ${html_}
+                                `;
+                            }
+
+                            return html;
+                        }
                     },
                     { 
                         title: "Status Kerja",
-                        data: "amount",
-                        render: function (data, type, row) {
-                            return $ummu.formatter.us(data);
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = "";
+
+                            var on_board = `<span class="badge badge-success status-badge shadow-sm">
+                                    <i class="fas fa-ship mr-1"></i> ON BOARD
+                                </span>`;
+                            var standby = `<span class="badge badge-info status-badge shadow-sm">
+                                    <i class="fas fa-user-clock mr-1"></i> STANDBY
+                                </span>`;
+                            var off_sign = `<span class="badge badge-secondary status-badge shadow-sm">
+                                <i class="fas fa-home mr-1"></i> OFF SIGN / CUTI
+                            </span>`;
+                            var medical_leave = `<span class="badge badge-danger status-badge shadow-sm">
+                                <i class="fas fa-clinic-medical"></i> MEDICAL LEAVE
+                            </span>`;
+                            // 'STANDBY','ON_BOARD','OFF_SIGN','MEDICAL_LEAVE'
+
+                            if (row.crew_details != null) {
+                                var current_crew_status = row.crew_details.current_crew_status;
+
+                                if (current_crew_status == 'STANDBY') {
+                                    var html = standby;
+                                }else if (current_crew_status == 'ON_BOARD') {
+                                    var html = on_board;
+                                }else if (current_crew_status == 'OFF_SIGN') {
+                                    var html = off_sign;
+                                }else{
+                                    var html = medical_leave;
+                                }
+                            }
+
+                            return html;
                         }
                     },
                 ];
@@ -382,19 +442,3 @@ var app = {
 $(document).ready(function () {
     app.config.autoload()
 });
-
-
-// new DataTable('#example', {
-//     ajax: `${$base_url}examples/ajax/data/objects.json`,
-//     columns: [
-//         {
-//             data: null,
-//             render: DataTable.render.select()
-//         },
-//         { title: "Name", data: 'name' },
-//         { title: "Position", data: 'position' },
-//         { title: "Office", data: 'office' },
-//         { title: "Salary", data: 'salary' }
-//     ],
-//     select: true
-// });
