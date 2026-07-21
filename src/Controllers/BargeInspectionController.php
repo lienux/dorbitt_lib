@@ -73,7 +73,7 @@ class BargeInspectionController extends ResourceController
 
         $builder = $this->cH->ummu2($params);
 
-        if ($builder->status == true) {
+        if (isset($builder->status) AND $builder->status == true) {
             return $builder->rows;
         }else{
             return [];

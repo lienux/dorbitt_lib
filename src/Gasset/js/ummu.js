@@ -14922,8 +14922,8 @@ var $ummu = {
                         var row = $ummu.dt.crew_ranks.init.row(this).data();
                         // console.log(row);
 
-                        // $("#crew_ranks").val(row.name).attr("data-id", row.id);
-                        // $ummu.vars.listData.selectKode = row.id;
+                        $("#crew_ranks").val(row.rank_name_en).attr("data-id", row.id);
+                        $ummu.vars.listData.selectKode = row.id;
 
                         $("#modal_listData").modal("hide");
                         

@@ -370,9 +370,12 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_crew', function ($routes) {
         $routes->get('/', 'CrewController::index');
         $routes->get('show', 'CrewController::show');
+        $routes->post('show', 'CrewController::show');
         $routes->post('create', 'CrewController::create');
         $routes->put('update/(:id)', 'CrewController::update/$1');
         $routes->delete('delete/(:id)', 'CrewController::delete/$1');
+
+        $routes->get('crew-ranks', 'CrewController::show_ranks');
     });
 
     $routes->group('payslip', function ($routes) {

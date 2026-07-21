@@ -313,3 +313,20 @@ INSERT INTO `ms_location` (`id`, `is_testing`, `company_id`, `kode`, `name`, `cr
 
 
 terser ummu.js -o ummu.min.js
+
+
+# update app express + vite di vps
+git pull origin main
+npm install
+npm run build
+pm2 reload vtms
+pm2 restart vtms
+
+# atau cara cepatnya
+git pull origin main && npm install && npm run build && pm2 reload vtms && pm2 restart vtms
+(cd /home/sparkcode-vtms/htdocs/vtms.sparkcode.web.id && git pull origin main && npm install && npm run build && pm2 reload vtms)
+
+# Run expressjs + vite with build and change port
+PORT=3000 pm2 start dist/server.cjs --name "myApp"
+pm2 startup
+pm2 save

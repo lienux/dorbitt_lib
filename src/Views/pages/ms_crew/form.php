@@ -100,16 +100,14 @@
                     <div class="section-title mb-3 mt-4"><i class="fas fa-anchor mr-1"></i> Kompetensi & Jabatan</div>
                     <div class="form-group">
                         <label class="font-weight-bold small">Jabatan Utama (Base Rank) <span class="text-danger">*</span></label>
-                        <select class="form-control form-control-sm font-weight-bold border-info text-info" name="base_rank_id" required>
-                            <option value="">-- Pilih Jabatan Master --</option>
-                            <option value="1">Master / Captain (Nakhoda)</option>
-                            <option value="2">Chief Officer (Mualim I)</option>
-                            <option value="3">Second Officer (Mualim II)</option>
-                            <option value="9">Chief Engineer (KKM)</option>
-                            <option value="10">Masinis I (First Engineer)</option>
-                            <option value="6">Able Bodied Seaman (Juru Mudi)</option>
-                            <option value="14">Oiler (Juru Minyak)</option>
-                        </select>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm font-weight-bold border-info text-info" id="crew_ranks" placeholder="Pilih Rank" data-label="Rank" required disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ranks" type="button" disabled data-inputid="crew_ranks" data-modaltitle="Master Rank">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
