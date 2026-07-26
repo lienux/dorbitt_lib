@@ -67,26 +67,26 @@
                     <div class="section-title mb-3"><i class="fas fa-user mr-1"></i> Data Personal</div>
                     <div class="form-group">
                         <label class="font-weight-bold small">Nama Lengkap (Sesuai Buku Pelaut) <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-sm" name="full_name" placeholder="Contoh: Capt. Ahmad Subarjo" required>
+                        <input type="text" class="form-control form-control-sm endis" name="full_name" id="full_name" placeholder="Contoh: Capt. Ahmad Subarjo" required disabled>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Tempat Lahir</label>
-                            <input type="text" class="form-control form-control-sm" name="birth_place">
+                            <input type="text" class="form-control form-control-sm endis" name="birth_place" disabled>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Tanggal Lahir <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control form-control-sm" name="birth_date" required>
+                            <input type="date" class="form-control form-control-sm endis" name="birth_date" required disabled>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-7">
                             <label class="font-weight-bold small">No. Handphone (WhatsApp) <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control form-control-sm" name="phone_number" placeholder="0812xxxxxxxx" required>
+                            <input type="tel" class="form-control form-control-sm endis" name="phone_number" placeholder="0812xxxxxxxx" required disabled>
                         </div>
                         <div class="form-group col-md-5">
                             <label class="font-weight-bold small">Golongan Darah</label>
-                            <select class="form-control form-control-sm" name="blood_type">
+                            <select class="form-control form-control-sm endis" name="blood_type" disabled>
                                 <option value="">- Pilih -</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -112,7 +112,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Kualifikasi Ijazah (COC)</label>
-                            <select class="form-control form-control-sm" name="highest_coc_certificate">
+                            <select class="form-control form-control-sm endis" name="highest_coc_certificate" disabled>
                                 <option value="">- Pilih Kualifikasi -</option>
                                 <option value="ANT-III">ANT-III</option>
                                 <option value="ANT-IV">ANT-IV</option>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Status Hubungan Kerja</label>
-                            <select class="form-control form-control-sm" name="employment_status">
+                            <select class="form-control form-control-sm endis" name="employment_status endis" disabled>
                                 <option value="CONTRACT">Kontrak (PKL)</option>
                                 <option value="PERMANENT">Karyawan Tetap</option>
                                 <option value="DAILY">Harian Lepas</option>
@@ -142,27 +142,27 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="font-weight-bold small">No. Buku Pelaut <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-sm" name="seaman_book_number" placeholder="E-XXXXXX" required>
+                        <input type="text" class="form-control form-control-sm endis" name="seaman_book_number" placeholder="E-XXXXXX" required disabled>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="font-weight-bold small text-danger">Expired Buku Pelaut <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control form-control-sm border-danger" name="seaman_book_expiry" required>
+                        <input type="date" class="form-control form-control-sm border-danger endis" name="seaman_book_expiry" required disabled>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="font-weight-bold small">No. MCU Maritim</label>
-                        <input type="text" class="form-control form-control-sm" name="mcu_maritime_number">
+                        <input type="text" class="form-control form-control-sm endis" name="mcu_maritime_number" disabled>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="font-weight-bold small">Expired MCU Maritim</label>
-                        <input type="date" class="form-control form-control-sm" name="mcu_maritime_expiry">
+                        <input type="date" class="form-control form-control-sm endis" name="mcu_maritime_expiry" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold small">Upload Berkas Gabungan (CV & Dokumen) <span class="text-muted">(PDF Max 5MB)</span></label>
                     <div class="custom-file custom-file-sm">
-                        <input type="file" class="custom-file-input" id="customFile" name="crew_document_pdf" accept=".pdf">
+                        <input type="file" class="custom-file-input endis" id="customFile" name="crew_document_pdf" accept=".pdf" disabled>
                         <label class="custom-file-label" for="customFile">Pilih Berkas PDF...</label>
                     </div>
                 </div>
