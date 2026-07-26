@@ -11240,12 +11240,15 @@ var $ummu = {
 
                     // 3. Logika asli kamu (hanya berjalan jika is_mutabannat == 0)
                     if (typeof app.dt.config.onClick_nthChild_2 !== "undefined") {
+                        console.log('function app.controllers.onClick_nthChild_2 is OK.');
                         app.dt.config.onClick_nthChild_2(row);
                     } else {
+                        console.log('plese create function app.controllers.onClick_nthChild_2.');
                         $ummu.url.setParamFromRow(row);
                         app.views.setRow_toForm(row);
-                        $ummu.views.tab_content('setRow_toForm');
                     }
+                    
+                    $ummu.views.tab_content('setRow_toForm');
                 });
             },
 

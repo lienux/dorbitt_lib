@@ -240,15 +240,15 @@ var app = {
         },
 
         on_click_tbody_trtd_child: {
-            ijo: function(row) {
-                $("#ijo").val(row.number).attr('data-id', row.id)
-            },
-            ms_port: function(row) {
-                $("#ms_port").val(row.name).attr('data-id', row.id)
-            },
-            ms_cost: function(row) {
-                $("#ms_cost").val(row.name).attr('data-id', row.id)
-            },
+            // ijo: function(row) {
+            //     $("#ijo").val(row.number).attr('data-id', row.id)
+            // },
+            // ms_port: function(row) {
+            //     $("#ms_port").val(row.name).attr('data-id', row.id)
+            // },
+            // ms_cost: function(row) {
+            //     $("#ms_cost").val(row.name).attr('data-id', row.id)
+            // },
         },
     },
 
@@ -275,8 +275,8 @@ var app = {
 
         setRow_toForm: function(row) {
             // console.log(row)
-            $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
-            $("#category").val(row.category);
+            // $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
+            $("#full_name").val(row.name);
             $("#name").val(row.name);
             $("#amount").val($ummu.formatter.us(row.amount))
 
@@ -434,7 +434,13 @@ var app = {
 
             serverSide: function() {
                 return false;
-            }
+            },
+
+            onClick_nthChild_2: function(row) {
+                const row_for_urlParams = row;
+                // $ummu.url.setParamFromRow(row);
+                // app.views.setRow_toForm(row);
+            },
         },
     },
 };
