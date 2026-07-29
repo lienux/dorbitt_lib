@@ -16566,6 +16566,39 @@ var $ummu = {
             });
         },
 
+        setParamFromObject: function (row) {
+            $ummu.url.delParamNotIn(['g'])
+            
+            // Mengubah object menjadi query string standar
+            const queryString = $.param(row);
+            var newPath = '';
+
+            // Use URLSearchParams for easy parameter manipulation
+            // const url = new URL(window.location.href);
+            // const searchParams = url.searchParams;
+
+            // // Use the URLSearchParams.set() method to add or update the parameter
+            // url.searchParams.set(key, value);
+
+            // // Update the browser's history to reflect the new URL without reloading
+            // window.history.replaceState(null, null, url);
+
+            // Cek apakah ada query parameter sama sekali
+            if (window.location.search) {
+                newPath = '&' + queryString;
+            }else{
+                newPath = '?' + queryString;
+            }
+
+            const newUrl = window.location.href + newPath;
+
+
+            // Ubah URL di address bar tanpa mereload halaman
+            window.history.pushState({ path: newUrl }, '', newUrl);
+
+            // return newUrl;
+        },
+
         delParam: function (key) {
             // Create a URL object from the current window location
             const url = new URL(window.location.href);

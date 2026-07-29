@@ -277,7 +277,7 @@ var app = {
             // console.log(row)
             // $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
             $("#full_name").val(row.name);
-            $("#name").val(row.name);
+            $("#birth_place").val(row.name);
             $("#amount").val($ummu.formatter.us(row.amount))
 
             $ummu.views.setIdentitiyToForm(row)
@@ -437,9 +437,15 @@ var app = {
             },
 
             onClick_nthChild_2: function(row) {
-                const row_for_urlParams = row;
+                // console.log(row)
+                // const row_for_urlParams = row;
+                // const queryString = $.param(row);
+                // console.log(queryString)
                 // $ummu.url.setParamFromRow(row);
-                // app.views.setRow_toForm(row);
+                $ummu.url.setParamFromObject(row);
+                app.views.setRow_toForm(row);
+
+                // console.log(ummu)
             },
         },
     },
