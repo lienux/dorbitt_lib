@@ -6,6 +6,7 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash();
+            $ummu.config.datepicker()
             $ummu.button.sbToolbar()
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
             $ummu.config.dataTables()
@@ -99,7 +100,7 @@ var app = {
         },
 
         sbNew: function () {
-            app.views.forClear()
+            // app.views.forClear()
             $('#fixed_cost, #variable_cost').prop('disabled', false);
             // $("#status").html('<span class="badge badge-secondary">Draft</span>')
             // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
@@ -275,19 +276,41 @@ var app = {
 
         setRow_toForm: function(row) {
             // console.log(row)
+            $ummu.vars.row = row;
             // $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
             $("#full_name").val(row.name);
-            $("#birth_place").val(row.name);
-            $("#amount").val($ummu.formatter.us(row.amount))
+            var tanggal_lahir_text = '';
+
+            if (row?.row_from === 'urlParams') {
+                $("#birth_place").val(row['identities[tempat_lahir]']);
+                $("#birth_date").val(row['identities[tanggal_lahir]']);
+                tanggal_lahir_text = row['identities[tanggal_lahir]'];
+            }else{
+                $("#birth_place").val(row.identities.tempat_lahir);
+                $("#birth_date").val(row.identities.tanggal_lahir);
+                tanggal_lahir_text = row.identities.tanggal_lahir;
+            }
+
+            if (tanggal_lahir_text) {
+                var age = $ummu.date.hitungUmur(tanggal_lahir_text);
+            }else{
+                var age = '..........';
+            }
+
+            $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+
+            // $("#amount").val($ummu.formatter.us(row.amount))
 
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
         },
 
         forClear: function() {
-            $("#form_input input").not('#fixed_cost, #variable_cost').val('');
-            $('input[name="behavior"]').prop('checked', false);
-            $('input[name="behavior"]').prop('disabled', true);
+            // $("#form_input input").not('#fixed_cost, #variable_cost').val('');
+            $("#form_input input").val('');
+            $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
+            // $('input[name="behavior"]').prop('checked', false);
+            // $('input[name="behavior"]').prop('disabled', true);
 
             $("#created_at").html('');
             $("#updated_at").html('');
@@ -306,7 +329,7 @@ var app = {
                         render: DataTable.render.select()
                     },
                     { 
-                        title: "ID",
+                        title: "Employee ID",
                         data: "id",
                         className: 'align-middle',
                         render: function (data, type) {

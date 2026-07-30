@@ -424,6 +424,50 @@ var $ummu = {
                         $(this).datepicker('setDate', new Date(year, 0, 1));
                     }
                 });
+
+
+                // 1. Hitung tanggal hari ini
+                const today = new Date();
+
+                // 2. Maksimal umur 60 tahun -> Batas tanggal lahir TERPaling TUA (minDate)
+                // Mengambil tanggal hari ini, lalu dikurangi 60 tahun
+                const minBirthDate = new Date(today.getFullYear() - 60, today.getMonth(), today.getDate());
+
+                // 3. Minimal umur 18 tahun -> Batas tanggal lahir TERPaling MUDA (maxDate)
+                // Mengambil tanggal hari ini, lalu dikurangi 18 tahun
+                const maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+                // 4. Hitung range tahun untuk dropdown (misal: 1966 sampai 2011)
+                const startYear = minBirthDate.getFullYear();
+                const endYear = maxBirthDate.getFullYear();
+
+                // Inisialisasi Datepicker
+                $(".ummu-birth-datepicker").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: "yy-mm-dd",
+                    
+                    // Batas minimum dan maksimum tanggal yang bisa dipilih
+                    minDate: minBirthDate,  // Paling tua: 60 tahun lalu
+                    maxDate: maxBirthDate,  // Paling muda: 15 tahun lalu
+                    
+                    // Batas pilihan tahun pada dropdown agar rapi
+                    yearRange: `${startYear}:${endYear}`,
+                    
+                    showButtonPanel: false,
+
+                    // Event ini berjalan otomatis setiap kali tanggal selesai dipilih
+                    onSelect: function (dateText) {
+                        const age = $ummu.date.hitungUmur(dateText);
+                        
+                        // 4. Tampilkan hasilnya ke elemen HTML
+                        $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+                    },
+
+                    beforeShow: function (input, inst) {
+                        $(inst.dpDiv).removeClass('hide-calendar hide-month');
+                    }
+                });
             };
 
             $(".ummu-datepicker").change(function () {
@@ -16520,6 +16564,7 @@ var $ummu = {
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
         mNow: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'),
         yNow: new Date().getFullYear(),
+
         tglIndo: function(tanggalAsal) {
             // const tanggalAsal = "2026-03-16";
             const dateObj = new Date(tanggalAsal);
@@ -16529,6 +16574,25 @@ var $ummu = {
 
             // console.log(tanggalIndo); // Hasil: 16 Maret 2026
             return tanggalIndo;
+        },
+
+        hitungUmur: function(dateText) {
+            // 1. Ambil tanggal yang dipilih
+            const birthDate = new Date(dateText);
+            const now = new Date();
+            
+            // 2. Hitung selisih tahun
+            let age = now.getFullYear() - birthDate.getFullYear();
+            const monthDiff = now.getMonth() - birthDate.getMonth();
+            
+            // 3. Koreksi jika belum ulang tahun di tahun berjalan ini
+            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // 4. Tampilkan hasilnya ke elemen HTML
+            // $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+            return age;
         }
     },
 
@@ -16568,7 +16632,7 @@ var $ummu = {
 
         setParamFromObject: function (row) {
             $ummu.url.delParamNotIn(['g'])
-            
+
             // Mengubah object menjadi query string standar
             const queryString = $.param(row);
             var newPath = '';
@@ -16680,7 +16744,7 @@ var $ummu = {
 
             // 1. Ambil query string dari URL (misal: ?id=101&nama=Budi&catatan=null)
             const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
+            const urlParams = new URLSearchParams(queryString + '&row_from=urlParams');
 
             // 2. Ubah menjadi objek dasar
             let rowObject = Object.fromEntries(urlParams.entries());

@@ -18,8 +18,8 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: 700;
-        color: #495057;
-        background-color: #e9ecef;
+        color: #ffffff;
+        background-color: #7A29FF;
         padding: 6px 12px;
         border-radius: 5px;
     }
@@ -56,30 +56,63 @@
 <div id="form_input"> 
     <div class="row">
         <div class="col-lg-6 col-sm-12 mb-3">
-            <form action="#" method="POST" enctype="multipart/form-data">
-                <!-- BLOCK 1: PERSONAL -->
-                <div class="section-title mb-3"><i class="fas fa-user mr-1"></i> Data Personal</div>
-                <div class="form-group">
-                    <label class="font-weight-bold small">Nama Lengkap (Sesuai Buku Pelaut) <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control form-control-sm endis" name="full_name" id="full_name" placeholder="Contoh: Capt. Ahmad Subarjo" required disabled>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="font-weight-bold small">Tempat Lahir</label>
-                        <input type="text" class="form-control form-control-sm endis" name="birth_place" disabled>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="font-weight-bold small">Tanggal Lahir <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control form-control-sm endis" name="birth_date" required disabled>
+            <!-- BLOCK 1: PERSONAL -->
+            <div class="section-title mb-3"><i class="fas fa-user mr-1"></i> Data Personal</div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="full_name">
+                    Nama Lengkap<span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm endis" id="full_name" title="Nama Lengkap" required disabled>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-7">
-                        <label class="font-weight-bold small">No. Handphone (WhatsApp) <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control form-control-sm endis" name="phone_number" placeholder="0812xxxxxxxx" required disabled>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="birth_place">
+                    Tempat Lahir
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm endis" id="birth_place" title="Tempat Lahir" required disabled>
                     </div>
-                    <div class="form-group col-md-5">
-                        <label class="font-weight-bold small">Golongan Darah</label>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="birth_date">
+                    Tanggal Lahir
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control ummu-birth-datepicker" id="birth_date" title="Tanggal Lahir" placeholder="Pilih tanggal" readonly disabled required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                data-inputid="birth_date" disabled>
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                            <div class="input-group-text" id="info-umur"><strong class="mr-1">Usia:</strong>. . . . . . . .</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                    No. Handphone
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm endis" id="phone_number" placeholder="0812xxxxxxxx" title="No. Handphone" required disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                    Golongan Darah
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
                         <select class="form-control form-control-sm endis" name="blood_type" disabled>
                             <option value="">- Pilih -</option>
                             <option value="A">A</option>
@@ -89,11 +122,16 @@
                         </select>
                     </div>
                 </div>
+            </div>
 
-                <!-- BLOCK 2: KEPEGAWAIAN MARITIM -->
-                <div class="section-title mb-3 mt-4"><i class="fas fa-anchor mr-1"></i> Kompetensi & Jabatan</div>
-                <div class="form-group">
-                    <label class="font-weight-bold small">Jabatan Utama (Base Rank) <span class="text-danger">*</span></label>
+            <!-- BLOCK 2: KEPEGAWAIAN MARITIM -->
+            <div class="section-title mb-3 mt-4"><i class="fas fa-anchor mr-1"></i> Kompetensi & Jabatan</div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                    Base Rank
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control form-control-sm font-weight-bold border-info text-info" id="crew_ranks" placeholder="Pilih Rank" data-label="Rank" required disabled>
                         <div class="input-group-append">
@@ -103,9 +141,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="font-weight-bold small">Kualifikasi Ijazah (COC)</label>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                    Kualifikasi Ijazah (COC)
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
                         <select class="form-control form-control-sm endis" name="highest_coc_certificate" disabled>
                             <option value="">- Pilih Kualifikasi -</option>
                             <option value="ANT-III">ANT-III</option>
@@ -116,8 +159,15 @@
                             <option value="RATING">RATING (Asisten)</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label class="font-weight-bold small">Status Hubungan Kerja</label>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                    Status Hubungan Kerja
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
                         <select class="form-control form-control-sm endis" name="employment_status endis" disabled>
                             <option value="CONTRACT">Kontrak (PKL)</option>
                             <option value="PERMANENT">Karyawan Tetap</option>
@@ -125,9 +175,7 @@
                         </select>
                     </div>
                 </div>
-
-                
-            </form>
+            </div>
         </div>
 
         <div class="col-lg-6 col-sm-12">
