@@ -108,12 +108,12 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="blood_type">
                     Golongan Darah
                 </label>
                 <div class="col">
                     <div class="input-group input-group-sm">
-                        <select class="form-control form-control-sm endis" name="blood_type" disabled>
+                        <select class="form-control form-control-sm endis" id="blood_type" disabled>
                             <option value="">- Pilih -</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -127,7 +127,7 @@
             <!-- BLOCK 2: KEPEGAWAIAN MARITIM -->
             <div class="section-title mb-3 mt-4"><i class="fas fa-anchor mr-1"></i> Kompetensi & Jabatan</div>
             <div class="row mb-2">
-                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="crew_ranks">
                     Base Rank
                     <span class="text-danger"> *</span>
                 </label>
@@ -143,13 +143,13 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="phone_number">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="highest_coc_certificate">
                     Kualifikasi Ijazah (COC)
                     <span class="text-danger"> *</span>
                 </label>
                 <div class="col">
                     <div class="input-group input-group-sm">
-                        <select class="form-control form-control-sm endis" name="highest_coc_certificate" disabled>
+                        <select class="form-control form-control-sm endis" id="highest_coc_certificate" disabled>
                             <option value="">- Pilih Kualifikasi -</option>
                             <option value="ANT-III">ANT-III</option>
                             <option value="ANT-IV">ANT-IV</option>
@@ -168,10 +168,11 @@
                 </label>
                 <div class="col">
                     <div class="input-group input-group-sm">
-                        <select class="form-control form-control-sm endis" name="employment_status endis" disabled>
-                            <option value="CONTRACT">Kontrak (PKL)</option>
-                            <option value="PERMANENT">Karyawan Tetap</option>
-                            <option value="DAILY">Harian Lepas</option>
+                        <select class="form-control form-control-sm endis" id="employment_status" disabled>
+                            <option value="">- Pilih Hubungan Kerja-</option>
+                            <option value="1">Karyawan Tetap</option>
+                            <option value="2">Kontrak (PKL)</option>
+                            <option value="4">Harian Lepas</option>
                         </select>
                     </div>
                 </div>
@@ -184,29 +185,48 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold small">No. Buku Pelaut <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control form-control-sm endis" name="seaman_book_number" placeholder="E-XXXXXX" required disabled>
+                    <input type="text" class="form-control form-control-sm endis" id="seaman_book_number" placeholder="E-XXXXXX" required disabled>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold small text-danger">Expired Buku Pelaut <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control form-control-sm border-danger endis" name="seaman_book_expiry" required disabled>
+                    <!-- <input type="text" class="form-control form-control-sm border-danger endis" id="seaman_book_expiry" required disabled> -->
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control ummu-datepicker border-danger" id="seaman_book_expiry" title="Expired Buku Pelaut" placeholder="Pilih tanggal" readonly disabled required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger btn-show-datepicker endis btn-endis" type="button"
+                                data-inputid="seaman_book_expiry" disabled>
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold small">No. MCU Maritim</label>
-                    <input type="text" class="form-control form-control-sm endis" name="mcu_maritime_number" disabled>
+                    <input type="text" class="form-control form-control-sm endis" id="mcu_maritime_number" disabled>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold small">Expired MCU Maritim</label>
-                    <input type="date" class="form-control form-control-sm endis" name="mcu_maritime_expiry" disabled>
+                    <!-- <input type="date" class="form-control form-control-sm endis" id="mcu_maritime_expiry" disabled> -->
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control ummu-datepicker" id="mcu_maritime_expiry" title="Expired Buku Pelaut" placeholder="Pilih tanggal" readonly disabled required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
+                                data-inputid="mcu_maritime_expiry" disabled>
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="font-weight-bold small">Upload Berkas Gabungan (CV & Dokumen) <span class="text-muted">(PDF Max 5MB)</span></label>
+                <label class="font-weight-bold small" for="crew_document_pdf">Upload Berkas Gabungan (CV & Dokumen) <span class="text-muted">(PDF Max 5MB)</span></label>
                 <div class="custom-file custom-file-sm">
-                    <input type="file" class="custom-file-input endis" id="customFile" name="crew_document_pdf" accept=".pdf" disabled>
-                    <label class="custom-file-label" for="customFile">Pilih Berkas PDF...</label>
+                    <input type="file" class="custom-file-input endis" id="crew_document_pdf" accept=".pdf" disabled>
+                    <label class="custom-file-label" for="crew_document_pdf" id="crew_document_pdf_text">Pilih Berkas PDF...</label>
                 </div>
+                <a href="" class="click-to-open-file" id="click_to_open_file" target="_blank">Click here to open file</a>
             </div>
         </div>
     </div>

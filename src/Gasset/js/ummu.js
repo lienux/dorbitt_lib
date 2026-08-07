@@ -267,7 +267,7 @@ var $ummu = {
             })
 
             $(".canvasjs-chart-credit").html('canvas.omdoo.id')
-            $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
+            $(".ummu-auth .footer-text span").html('').html('ADEMT. All Rights Reserved.')
 
             $('[data-toggle="tooltip"]').tooltip()
 
@@ -9525,6 +9525,13 @@ var $ummu = {
                 $("#ummu_nav_tab #nav-tab-form").addClass("active")
                 $("#ummu_tab_content #nav-form").addClass("show active")
             }
+        },
+
+        clearInfoDate: function() {
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
         }
     },
 
@@ -16608,6 +16615,8 @@ var $ummu = {
                     console.log('plese create function app.views.setRow_toForm.');
                 }
             }
+
+            $ummu.url.click_url_response();
         },
 
         setParam: function (key, value) {
@@ -16760,6 +16769,25 @@ var $ummu = {
             // console.log(rowObject);
             return rowObject;
         },
+
+        click_url_response: function() {
+            document.querySelectorAll('.click-to-open-file').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    // Ambil nilai atribut href
+                    const href = this.getAttribute('href');
+
+                    // Cek apakah href kosong, "#", atau javascript:void(0)
+                    if (!href || href === '#' || href.trim() === '' || href.startsWith('javascript:')) {
+                        // Hentikan aksi browser untuk membuka link
+                        e.preventDefault(); 
+                        
+                        // Tampilkan alert
+                        alert('File/Link tidak tersedia!');
+                    }
+                    // Jika href ada leads/URL valid, browser akan otomatis membukanya
+                });
+            });
+        },
     },
 
     encrypter: {
@@ -16881,7 +16909,8 @@ var $ummu = {
                                     <a class="nav-link" href="${modulUrl}">
                                         ${icon} <span>${value.name}</span>
                                     </a>
-                                </li>`;
+                                </li>`
+                            ;
                         } else {
                             // PARENT WITH SUB-MODULE
                             let subModuleHtml = '';
@@ -16916,7 +16945,8 @@ var $ummu = {
                                                     ${grandchildHtml}
                                                 </nav>
                                             </div>
-                                        </nav>`;
+                                        </nav>`
+                                    ;
                                 }
                             });
 
@@ -16932,7 +16962,8 @@ var $ummu = {
                                             ${subModuleHtml}
                                         </div>
                                     </div>
-                                </li>`;
+                                </li>`
+                            ;
                         }
 
                         $sidebar.append(parentHtml);
