@@ -1152,3 +1152,17 @@ select:hover + .popup-text {
     scrollbar-width: thin; /* Ukuran tipis */
     scrollbar-color: rgba(255, 255, 255, 0.25) rgba(0, 0, 0, 0.15); /* [Warna Thumb] [Warna Track] */
 }
+
+
+/* Mengubah tinggi topbar */
+.topbar {
+    height: 3rem !important;
+    background-color: #350059 !important;
+}
+
+/* Mengatur tinggi dan perataan item nav-link di dalam topbar */
+.topbar .nav-item .nav-link {
+    height: 3rem !important;
+    display: flex;
+    align-items: center;
+}
