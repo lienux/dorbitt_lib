@@ -4,14 +4,14 @@
 ?>
 
 <?php if ($version) { ?>
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <a class="sidebar-brand d-flex align-items-center justify-content-between px-3" href="#">
         <div class="sidebar-brand-icon">
             <img class="ummu-brand-icon" src="<?= config('Vh')->appLogo() ?>" alt="" width="30px">
             <div class="sidebar-brand-text mx-1"><?=config('Vh')->appName()?></div>
         </div>
     </a>
 <?php } else { ?>
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <a class="sidebar-brand d-flex align-items-center justify-content-between px-3" href="#">
         <div class="sidebar-brand-icon">
             <?php if ($login_module == 'mcp') { ?>
                 <img class="ummu-brand-icon img-fluid d-sm-none d-md-block" src="<?= base_url('assets/hillcon/images/text240.png') ?>" alt="" width="200px">
@@ -27,5 +27,8 @@
                 <?php 
             } ?>
         </div>
+        <button class="btn text-white" id="closeSidebarBtn">
+            <i class="fas fa-times"></i>
+        </button>
     </a>
 <?php } ?>

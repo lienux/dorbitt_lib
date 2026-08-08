@@ -1,40 +1,39 @@
 <?php
+    use Dorbitt\Helpers\ViewsHelper;
 
-use Dorbitt\Helpers\ViewsHelper;
+    $vH = new ViewsHelper();
 
-$vH = new ViewsHelper();
+    $logged_by = session()->get('logged_by');
+    $nameV = "";
 
-$logged_by = session()->get('logged_by');
-$nameV = "";
+    /*if ($logged_by == "herp") {
+        $name = session()->get('name');
+    }elseif ($logged_by == "phone") {
+        $nameV = session()->get('phone_number');
+    }else{
+        $nameV = session()->get('dorbitt_username');
+    }*/
 
-/*if ($logged_by == "herp") {
     $name = session()->get('name');
-}elseif ($logged_by == "phone") {
-    $nameV = session()->get('phone_number');
-}else{
-    $nameV = session()->get('dorbitt_username');
-}*/
+    $username = session()->get('username');
+    $login_module = session()->get('login_module');
 
-$name = session()->get('name');
-$username = session()->get('username');
-$login_module = session()->get('login_module');
+    if ($name) {
+        $nameV = $name;
+    } else {
+        $nameV = $username;
+    }
 
-if ($name) {
-    $nameV = $name;
-} else {
-    $nameV = $username;
-}
-
-$avatar = session()->get('avatar');
-// if ($avatar) {
-//     if (file_exists(base_url($avatar))) {
-//         $avatar = base_url($avatar);
-//     } else {
-//         $avatar = base_url('avatar_default.png');
-//     }
-// } else {
-//     $avatar = base_url('avatar_default.png');
-// }
+    $avatar = session()->get('avatar');
+    // if ($avatar) {
+    //     if (file_exists(base_url($avatar))) {
+    //         $avatar = base_url($avatar);
+    //     } else {
+    //         $avatar = base_url('avatar_default.png');
+    //     }
+    // } else {
+    //     $avatar = base_url('avatar_default.png');
+    // }
 ?>
 
 <!-- Sidebar Toggle (Topbar) -->
@@ -43,8 +42,12 @@ $avatar = session()->get('avatar');
 <?php } else { ?>
 <nav class="navbar navbar-expand navbar-lightz bg-whitez bg-primaryz topbar static-top" style="height: 3rem; background-color: #350059 !important;">
 <?php } ?>
-    <button id="sidebarToggleTop" class="btn btn-link d-md-nonez rounded-circle mr-3">
+    <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-nonez rounded-circle mr-3">
         <i class="fa fa-bars"></i>
+    </button> -->
+    <button id="toggleSidebarModalBtn" class="btn btn-light mr-3">
+        <span class="d-none d-sm-block"><i class="bi bi-grid-fill"></i> Apps</span>
+        <span class="d-block d-sm-none"><i class="bi bi-grid-fill"></i></span>
     </button>
 
     <!-- Topbar Search -->
