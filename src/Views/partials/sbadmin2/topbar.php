@@ -58,7 +58,7 @@
     </button>
     <div class="navbar-collapse collapse" id="navbars02">
         <ul class="navbar-nav mr-auto text-light">
-            <li class="nav-item active">
+            <!-- <li class="nav-item active">
                 <a class="nav-link" href="#">
                     <i class="fas fa-home d-inline d-lg-none"></i>
                     <span class="d-none d-lg-inline ml-2">Home</span>
@@ -109,7 +109,7 @@
                         Bantuan
                     </a>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </div>
 

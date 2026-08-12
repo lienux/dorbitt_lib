@@ -3039,6 +3039,9 @@ var $ummu = {
     },
 
     auth: {
+        formActive: null,
+        is_password: null,
+
         load: function () {
             $("#username").focus();
             $("#username").keyup(function (event) {
@@ -3079,8 +3082,8 @@ var $ummu = {
                     $ummu.ajax.auth.phoneNumber_login_password();
                 }
             });
-
             $ummu.events.onClick.escmButton();
+
             if ($ummu.vars.login_module == "herp") {
                 $("#btn_login").on("click", function () {
                     $ummu.auth.login_herp();
@@ -3167,9 +3170,6 @@ var $ummu = {
                 }
             });
         },
-
-        formActive: null,
-        is_password: null,
 
         login: function (withMsdb = null) {
             $("#btn_login").on("click", function () {
@@ -16885,7 +16885,7 @@ var $ummu = {
                 return kode && kode !== "#" ? $ummu.$.base_url + "admin/" + kode : "#";
             },
 
-            renderSidebar: function () {
+            renderSidebar_20260810: function () {
                 const rawData = localStorage.getItem('ummu_sidebar_menu');
 
                 if (rawData) {
@@ -16972,7 +16972,253 @@ var $ummu = {
                     console.log("Data menu tidak ditemukan di localStorage");
                 }
             },
+
+            renderSidebar: function () {
+                const rawData = localStorage.getItem('ummu_sidebar_menu');
+
+                if (rawData) {
+                    const rows = JSON.parse(rawData);
+                    const $sidebar = $('#UmmuaccordionSidebarChild');
+                    $sidebar.empty(); // Bersihkan sidebar sebelum render
+
+                    $.each(rows, function (index, value) {
+                        let parentHtml = '';
+                        let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
+                        let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
+                        let g = $ummu.url.getParam('g') ? $ummu.url.getParam('g') : "";
+                        let g2 = $ummu.url.getParam('g2') ? $ummu.url.getParam('g2') : "";
+                        let activeClass = (g === value.kode) ? 'active' : '';
+
+
+                        if (!value.sub_module || value.sub_module.length === 0) {
+                            // SINGLE PARENT
+                            parentHtml = `
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${modulUrl}">
+                                        ${icon} <span>${value.name}</span>
+                                    </a>
+                                </li>
+                            `;
+                        } else {
+                            // PARENT WITH SUB-MODULE
+                            let subModuleHtml = '';
+
+                            $.each(value.sub_module, function (index2, value2) {
+                                let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
+                                let subSubModule = value2.sub_sub_module || null;
+                                let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
+                                let activeClass2 = ($ummu.vars.module_kode === value2.kode) ? 'active' : '';
+                                let activeClassGroup2 = (g2 === value2.kode) ? 'active' : '';
+
+                                if (!subSubModule) {
+                                    // SINGLE CHILD
+                                    subModuleHtml += `<a class="collapse-item ${activeClass2}" href="${subModuleUrl}">${value2.name}</a>`;
+                                    // <!-- Anak Level 1 (Bisa berupa link atau dropdown lagi) -->
+                                    // <a class="collapse-item" href="#">Anak Level 1.1</a>
+                                } else {
+                                    // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
+                                    let grandchildHtml = '';
+                                    $.each(subSubModule, function (index3, value3) {
+                                        let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
+                                        let activeClass3 = ($ummu.vars.module_kode === value3.kode) ? 'active' : '';
+                                        grandchildHtml += `<a class="collapse-item ${activeClass3}" href="${gChildUrl}">${value3.name}</a>`;
+                                    });
+
+                                        // <a class="nav-link collapsed ${activeClassGroup2}" href="javascript:void(0);" 
+                                        // data-toggle="collapse" data-target="#grandchild_${value2.kode}">
+                                        //     <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
+                                        // </a>
+                                        // <div class="collapse" id="accordionSidenavAppsMenu${value2.kode}">
+                                        //     <div class="collapse" id="grandchild_${value2.kode}" data-parent="#accordionSidenavAppsMenu${value2.kode}">
+                                        //         <nav class="sidenav-menu-nested nav">
+                                        //             ${grandchildHtml}
+                                        //         </nav>
+                                        //     </div>
+                                        // </div>
+                                    // <!-- Sub-dropdown Anak Level 1 ke Level 2 -->
+                                    subModuleHtml += `
+                                        <a class="nav-link collapsed ${activeClassGroup2}" href="#" data-toggle="collapse" data-target="#menuLevel2_${value2.kode}">
+                                            <span>${value2.name}</span>
+                                        </a>
+                                        <div id="menuLevel2_${value2.kode}" class="collapse">
+                                            <div class="collapse-inner">
+                                                ${grandchildHtml}
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            });
+
+                                    // <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" 
+                                    // data-target="#child_${value.kode}" aria-expanded="false">
+                                    //     ${icon} <span>${value.name}</span>
+                                    // </a>
+                                    // <div id="child_${value.kode}" class="collapse" data-parent="#accordionSidebar">
+                                    //     <div class="collapse-inner">
+                                    //         <h6 class="collapse-header">${value.category_name}</h6>
+                                    //         ${subModuleHtml}
+                                    //     </div>
+                                    // </div>
+                            parentHtml = `
+                                <li class="nav-item ${activeClass}">
+                                    <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" data-target="#menuLevel1_${value.kode}">
+                                        ${icon}
+                                        <span>${value.name}</span>
+                                    </a>
+                                  
+                                    <div id="menuLevel1_${value.kode}" class="collapse">
+                                        <div class="collapse-inner">
+                                            ${subModuleHtml}
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        }
+
+                        $sidebar.append(parentHtml);
+                    });
+                } else {
+                    console.log("Data menu tidak ditemukan di localStorage");
+                }
+            },
         },
+    },
+
+    topbar: {
+        renderTopbar: function() {
+                var html = `<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-caret-square-down d-inline d-lg-none"></i>
+                        <span class="d-none d-lg-inline ml-2">Dropdown</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>`;
+
+                const rawData = localStorage.getItem('ummu_sidebar_menu');
+                const menuList = JSON.parse(rawData) || [];
+
+                // Menggabungkan parent dan semua sub_module ke dalam 1 array
+                const allModules = menuList.flatMap(item => [
+                  item, 
+                  ...(item.sub_module || [])
+                ]);
+
+                // Cari item dengan kode dari $ummu.sidebar.group
+                const dataFind = allModules.find(item => item.kode === $ummu.sidebar.group);
+
+                if (rawData) {
+                    const rows = JSON.parse(rawData);
+                    const $sidebar = $('#UmmuaccordionSidebarChild');
+                    $sidebar.empty(); // Bersihkan sidebar sebelum render
+
+                    $.each(rows, function (index, value) {
+                        let parentHtml = '';
+                        let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
+                        let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
+                        let g = $ummu.url.getParam('g') ? $ummu.url.getParam('g') : "";
+                        let g2 = $ummu.url.getParam('g2') ? $ummu.url.getParam('g2') : "";
+                        let activeClass = (g === value.kode) ? 'active' : '';
+
+
+                        if (!value.sub_module || value.sub_module.length === 0) {
+                            // SINGLE PARENT
+                            parentHtml = `
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${modulUrl}">
+                                        ${icon} <span>${value.name}</span>
+                                    </a>
+                                </li>
+                            `;
+                        } else {
+                            // PARENT WITH SUB-MODULE
+                            let subModuleHtml = '';
+
+                            $.each(value.sub_module, function (index2, value2) {
+                                let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
+                                let subSubModule = value2.sub_sub_module || null;
+                                let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
+                                let activeClass2 = ($ummu.vars.module_kode === value2.kode) ? 'active' : '';
+                                let activeClassGroup2 = (g2 === value2.kode) ? 'active' : '';
+
+                                if (!subSubModule) {
+                                    // SINGLE CHILD
+                                    subModuleHtml += `<a class="collapse-item ${activeClass2}" href="${subModuleUrl}">${value2.name}</a>`;
+                                    // <!-- Anak Level 1 (Bisa berupa link atau dropdown lagi) -->
+                                    // <a class="collapse-item" href="#">Anak Level 1.1</a>
+                                } else {
+                                    // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
+                                    let grandchildHtml = '';
+                                    $.each(subSubModule, function (index3, value3) {
+                                        let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
+                                        let activeClass3 = ($ummu.vars.module_kode === value3.kode) ? 'active' : '';
+                                        grandchildHtml += `<a class="collapse-item ${activeClass3}" href="${gChildUrl}">${value3.name}</a>`;
+                                    });
+
+                                        // <a class="nav-link collapsed ${activeClassGroup2}" href="javascript:void(0);" 
+                                        // data-toggle="collapse" data-target="#grandchild_${value2.kode}">
+                                        //     <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
+                                        // </a>
+                                        // <div class="collapse" id="accordionSidenavAppsMenu${value2.kode}">
+                                        //     <div class="collapse" id="grandchild_${value2.kode}" data-parent="#accordionSidenavAppsMenu${value2.kode}">
+                                        //         <nav class="sidenav-menu-nested nav">
+                                        //             ${grandchildHtml}
+                                        //         </nav>
+                                        //     </div>
+                                        // </div>
+                                    // <!-- Sub-dropdown Anak Level 1 ke Level 2 -->
+                                    subModuleHtml += `
+                                        <a class="nav-link collapsed ${activeClassGroup2}" href="#" data-toggle="collapse" data-target="#menuLevel2_${value2.kode}">
+                                            <span>${value2.name}</span>
+                                        </a>
+                                        <div id="menuLevel2_${value2.kode}" class="collapse">
+                                            <div class="collapse-inner">
+                                                ${grandchildHtml}
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            });
+
+                                    // <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" 
+                                    // data-target="#child_${value.kode}" aria-expanded="false">
+                                    //     ${icon} <span>${value.name}</span>
+                                    // </a>
+                                    // <div id="child_${value.kode}" class="collapse" data-parent="#accordionSidebar">
+                                    //     <div class="collapse-inner">
+                                    //         <h6 class="collapse-header">${value.category_name}</h6>
+                                    //         ${subModuleHtml}
+                                    //     </div>
+                                    // </div>
+                            parentHtml = `
+                                <li class="nav-item ${activeClass}">
+                                    <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" data-target="#menuLevel1_${value.kode}">
+                                        ${icon}
+                                        <span>${value.name}</span>
+                                    </a>
+                                  
+                                    <div id="menuLevel1_${value.kode}" class="collapse">
+                                        <div class="collapse-inner">
+                                            ${subModuleHtml}
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        }
+
+                        $sidebar.append(parentHtml);
+                    });
+                } else {
+                    console.log("Data menu tidak ditemukan di localStorage");
+                }
+
+                console.log(dataFind);
+                console.log(dataFind.name);
+                console.log(dataFind.sub_module);
+            }
     },
 
     loader: function (modal) {
@@ -17002,6 +17248,9 @@ $(document).ready(function () {
     $ummu.register.apply();
 });
 
+/**
+ * Functions
+ * */
 function resdel() {
     $("#response_deleted").modal("show");
 }
@@ -17009,6 +17258,9 @@ function resdel() {
 function newURL() {
     return new URL(window.location.href)
 }
+/**
+ * End Function
+ * */
 
 /**
 * GLOBAL VARIABLE

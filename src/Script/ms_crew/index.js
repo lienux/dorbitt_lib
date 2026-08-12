@@ -19,6 +19,8 @@ var app = {
             // }
             app.controllers.index();
             $ummu.formatter.number2($("#amount"), 10);
+
+            $ummu.topbar.renderTopbar();
         },
     },
 

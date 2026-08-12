@@ -52,6 +52,10 @@
     }
 </style>
 
+<?php
+    echo $group[0];
+?>
+
 <!-- Form -->
 <div id="form_input"> 
     <div class="row">
@@ -231,3 +235,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    
+</script>

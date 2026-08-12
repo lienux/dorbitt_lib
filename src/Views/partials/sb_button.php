@@ -1,26 +1,31 @@
 <div class="mb-2" id="classic_button">
     <div class="sb-toolbar">
-        <button class="btn btn-sm btn-primary mb-1" type="button" id="btn_new">
-            <i class="bi bi-plus-circle-fill"></i> New
+        <!-- Tombol Action (Hanya Muncul di Mobile) -->
+        <button class="btn btn-purple d-md-none mb-1" type="button" id="btn_action_mobile">
+            Action <i class="bi bi-caret-down-fill small"></i>
         </button>
-        <button class="btn btn-sm mb-1" type="button" id="btn_edit" disabled>
-            <i class="bi bi-pencil-square"></i> Edit
-        </button>
-        <button class="btn btn-sm mb-1" type="button" id="btn_delete" disabled>
-            <i class="bi bi-trash-fill"></i> Delete
-        </button>
-        <button class="btn btn-sm mb-1" type="button" id="btn_cancle" disabled>
-            <i class="bi bi-x-circle-fill"></i> Cancle
-        </button>
-        <button class="btn btn-sm mb-1" type="button" id="btn_save" disabled>
-            <i class="bi bi-floppy-fill"></i> Save
-        </button>
-        <button class="btn btn-sm mb-1" type="button" id="btn_clear" disabled>
-            <i class="fas fa-times"></i> Clear
-        </button>
-        <!-- <button class="btn btn-sm" type="button" id="btn_close" disabled>
-            <i class="bi bi-box-arrow-right"></i> Close
-        </button> -->
+
+        <!-- Barisan Tombol Utama -->
+        <div class="toolbar-buttons" id="toolbar_buttons">
+            <button class="btn btn-sm mb-1 btn-primary" type="button" id="btn_new">
+                <i class="bi bi-plus-circle-fill"></i> New
+            </button>
+            <button class="btn btn-sm mb-1 btn-warning" type="button" id="btn_edit">
+                <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn btn-sm mb-1 btn-danger" type="button" id="btn_delete">
+                <i class="bi bi-trash-fill"></i> Delete
+            </button>
+            <button class="btn btn-sm mb-1" type="button" id="btn_cancle" disabled="">
+                <i class="bi bi-x-circle-fill"></i> Cancle
+            </button>
+            <button class="btn btn-sm mb-1" type="button" id="btn_save" disabled="">
+                <i class="bi bi-floppy-fill"></i> Save
+            </button>
+            <button class="btn btn-sm mb-1 btn-secondary" type="button" id="btn_clear">
+                <i class="fas fa-times"></i> Clear
+            </button>
+        </div>
 
         <div class="modal fade" id="modalDeleteConfirm" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog" id="modal_dialog">
