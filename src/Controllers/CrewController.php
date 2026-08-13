@@ -9,6 +9,7 @@ use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
+use Dorbitt\Helpers\FileHelper;
 
 class CrewController extends ResourceController
 {
@@ -24,6 +25,7 @@ class CrewController extends ResourceController
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
+        $this->fileH = new FileHelper();
     }
 
     public function index()
@@ -75,20 +77,22 @@ class CrewController extends ResourceController
 
     public function create()
     {
-        $getVar = $this->request->getVar();
+        $file = $this->request->getFile('crew_document_pdf');
+        $upload = $this->fileH->upload2($file);
+        // $getVar = $this->request->getVar();
 
-        $payload = $getVar;
+        // $payload = $getVar;
 
-        $params = [
-            "path" => $this->pathAPI,
-            "method" => 'POST',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+        // $params = [
+        //     "path" => $this->pathAPI,
+        //     "method" => 'POST',
+        //     "payload" => $payload,
+        //     "headers" => $this->cH->headers3($this->module_kode)
+        // ];
 
-        $builder = $this->cH->ummu2($params);
+        // $builder = $this->cH->ummu2($params);
 
-        return $this->respond($builder, 200);
+        return $this->respond($upload, 200);
     }
 
     public function update($id = null)

@@ -62,10 +62,13 @@ class FileHelper
         // }
     }
 
-    public function upload()
+    public function upload($file = null)
     {
-        $file       = $this->request->getFile('file');
-        $filez      = new \CodeIgniter\Files\File($file);
+        if ($file == null) {
+            $file = $this->request->getFile('file');
+        }
+
+        $filez = new \CodeIgniter\Files\File($file);
 
         $name = $file->getName();
         $originalName = $file->getClientName();
@@ -75,13 +78,46 @@ class FileHelper
         // $clientPath = $file->getClientPath(); //this is for ci 4.4.0
 
         $filepath = '';
+        $filestore = '';
         if ($filez->getBasename()) {
             if (! $file->hasMoved()) {
-                $filepath = WRITEPATH . 'uploads/' . $file->store();
+                $filestore = $file->store();
+                $filepath = WRITEPATH . 'uploads/' . $filestore;
             }
         }
 
         return $filepath;
+    }
+
+    public function upload2($file = null)
+    {
+        if ($file == null) {
+            $file = $this->request->getFile('file');
+        }
+
+        $filez = new \CodeIgniter\Files\File($file);
+
+        $name = $file->getName();
+        $originalName = $file->getClientName();
+        $tempfile = $file->getTempName();
+        $ext   = $file->getClientExtension();
+        $type = $file->getClientMimeType();      
+        // $clientPath = $file->getClientPath(); //this is for ci 4.4.0
+
+        $filepath = '';
+        $filestore = '';
+        if ($filez->getBasename()) {
+            if (! $file->hasMoved()) {
+                $filestore = $file->store();
+                $filepath = WRITEPATH . 'uploads/' . $filestore;
+            }
+        }
+
+        return [
+            "originalName" => $originalName,
+            "fileStore" => $filestore,
+            "filePath" => $filepath
+        ];
     }
 
     public function file_update()

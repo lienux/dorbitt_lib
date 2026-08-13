@@ -126,7 +126,7 @@ var app = {
             const seaman_book_expiry = $("#seaman_book_expiry").val();
             const mcu_maritime_number = $("#mcu_maritime_number").val();
             const mcu_maritime_expiry = $("#mcu_maritime_expiry").val();
-            const crew_document_pdf = $("#crew_document_pdf").val();
+            const crew_document_pdf = $("#crew_document_pdf")[0].files[0];
 
             $ummu.vars.formData.append("full_name", full_name);
             $ummu.vars.formData.append("tempat_lahir", tempat_lahir);
@@ -173,33 +173,34 @@ var app = {
             };
 
             // const validation = app.validation.save();
+            const validation = '';
 
-            // if (validation.length > 0) {
-            //     $ummu.views.errors_msg(validation)
-            //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            // }else{
-            //     var ummu = $ummu.ajax.ummu7(params);   
-            //     ummu.done(function(result) {
-            //         const response = JSON.parse(result);
-            //         $ummu.views.after_sbToolbar_save(response, func, id, payload);
-            //         // if (response.status == true) {
-            //         // //     $("#file_url").attr("href", response.data.fileUrl)
-            //         // //     let is_release = response.data.is_release;
-            //         // //     if (is_release == null || is_release == '' || is_release == 0) {
-            //         // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-            //         // //     }else{
-            //         // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-            //         // //     }
-            //         // }else{
-            //         // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            //         // }
-            //     }).fail(function() {
-            //         // An error occurred
-            //         console.log(ummu)
-            //     });
-            // }
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            }else{
+                var ummu = $ummu.ajax.ummu7(params);   
+                ummu.done(function(result) {
+                    const response = JSON.parse(result);
+                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
+                    // if (response.status == true) {
+                    // //     $("#file_url").attr("href", response.data.fileUrl)
+                    // //     let is_release = response.data.is_release;
+                    // //     if (is_release == null || is_release == '' || is_release == 0) {
+                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                    // //     }else{
+                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    // //     }
+                    // }else{
+                    // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    // }
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            }
 
-            console.log(payload)
+            // console.log(payload)
         },
 
         sbCancle: function () {

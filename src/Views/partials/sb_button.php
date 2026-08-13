@@ -10,10 +10,10 @@
             <button class="btn btn-sm mb-1 btn-primary" type="button" id="btn_new">
                 <i class="bi bi-plus-circle-fill"></i> New
             </button>
-            <button class="btn btn-sm mb-1 btn-warning" type="button" id="btn_edit">
+            <button class="btn btn-sm mb-1" type="button" id="btn_edit" disabled>
                 <i class="bi bi-pencil-square"></i> Edit
             </button>
-            <button class="btn btn-sm mb-1 btn-danger" type="button" id="btn_delete">
+            <button class="btn btn-sm mb-1" type="button" id="btn_delete" disabled>
                 <i class="bi bi-trash-fill"></i> Delete
             </button>
             <button class="btn btn-sm mb-1" type="button" id="btn_cancle" disabled="">
@@ -22,7 +22,7 @@
             <button class="btn btn-sm mb-1" type="button" id="btn_save" disabled="">
                 <i class="bi bi-floppy-fill"></i> Save
             </button>
-            <button class="btn btn-sm mb-1 btn-secondary" type="button" id="btn_clear">
+            <button class="btn btn-sm mb-1" type="button" id="btn_clear" disabled>
                 <i class="fas fa-times"></i> Clear
             </button>
         </div>
