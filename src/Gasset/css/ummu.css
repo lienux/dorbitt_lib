@@ -1047,3 +1047,8 @@ select:hover + .popup-text {
     display: flex;
     align-items: center;
 }
+
+.dropdown-scroll {
+    max-height: 300px; /* Sesuaikan tinggi maksimal menu sesuai kebutuhan */
+    overflow-y: auto;  /* Menampilkan scrollbar vertikal jika konten melebihi max-height */
+}
