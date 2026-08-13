@@ -270,4 +270,4 @@ if ($login_module == 'openapi2_php') { ?>
 } ?>
 
 <!-- Divider -->
-<hr class="sidebar-divider">
+<!-- <hr class="sidebar-divider"> -->

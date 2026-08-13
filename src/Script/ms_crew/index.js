@@ -6,6 +6,7 @@ var app = {
     config: {
         autoload: function () {
             $ummu.func.location_hash();
+            $ummu.config.datepicker()
             $ummu.button.sbToolbar()
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false);
             $ummu.config.dataTables()
@@ -106,24 +107,55 @@ var app = {
         },
 
         sbSave: function () {
-            var behavior = $("input:radio[name=behavior]:checked").val();
-            var category = $("#category").val();
-            var name = $("#name").val();
-            var amount = null;
-            if ($("#amount").val()) {
-                amount = $("#amount").val().replaceAll(',', '');
-            }
+            // var behavior = $("input:radio[name=behavior]:checked").val();
+            // var category = $("#category").val();
+            // var amount = null;
+            // if ($("#amount").val()) {
+            //     amount = $("#amount").val().replaceAll(',', '');
+            // }
 
-            $ummu.vars.formData.append("behavior", behavior);
-            $ummu.vars.formData.append("category", category);
-            $ummu.vars.formData.append("name", name);
-            $ummu.vars.formData.append("amount", amount);
+            const full_name = $("#full_name").val();
+            const tempat_lahir = $("#birth_place").val();
+            const tanggal_lahir = $("#birth_date").val();
+            const phone_number = $("#phone_number").val();
+            const golongan_darah = $("#blood_type").val();
+            const base_rank_id = $("#crew_ranks").data('id');
+            const highest_coc_certificate = $("#highest_coc_certificate").val();
+            const employment_status = $("employment_status").val();
+            const seaman_book_number = $("#seaman_book_number").val();
+            const seaman_book_expiry = $("#seaman_book_expiry").val();
+            const mcu_maritime_number = $("#mcu_maritime_number").val();
+            const mcu_maritime_expiry = $("#mcu_maritime_expiry").val();
+            const crew_document_pdf = $("#crew_document_pdf").val();
+
+            $ummu.vars.formData.append("full_name", full_name);
+            $ummu.vars.formData.append("tempat_lahir", tempat_lahir);
+            $ummu.vars.formData.append("tanggal_lahir", tanggal_lahir);
+            $ummu.vars.formData.append("phone_number", phone_number);
+            $ummu.vars.formData.append("golongan_darah", golongan_darah);
+            $ummu.vars.formData.append("base_rank_id", base_rank_id);
+            $ummu.vars.formData.append("highest_coc_certificate", highest_coc_certificate);
+            $ummu.vars.formData.append("employment_status", employment_status);
+            $ummu.vars.formData.append("seaman_book_number", seaman_book_number);
+            $ummu.vars.formData.append("seaman_book_expiry", seaman_book_expiry);
+            $ummu.vars.formData.append("mcu_maritime_number", mcu_maritime_number);
+            $ummu.vars.formData.append("mcu_maritime_expiry", mcu_maritime_expiry);
+            $ummu.vars.formData.append("crew_document_pdf", crew_document_pdf);
 
             var payload = {
-                "behavior": behavior,
-                "category": category,
-                "name": name,
-                "amount": amount,
+                "full_name": full_name,
+                "tempat_lahir": tempat_lahir,
+                "tanggal_lahir": tanggal_lahir,
+                "phone_number": phone_number,
+                "golongan_darah": golongan_darah,
+                "base_rank_id": base_rank_id,
+                "highest_coc_certificate": highest_coc_certificate,
+                "employment_status": employment_status,
+                "seaman_book_number": seaman_book_number,
+                "seaman_book_expiry": seaman_book_expiry,
+                "mcu_maritime_number": mcu_maritime_number,
+                "mcu_maritime_expiry": mcu_maritime_expiry,
+                "crew_document_pdf": crew_document_pdf,
             };
 
             const id = $ummu.url.getParam('id');
@@ -140,34 +172,34 @@ var app = {
                 "loader": true,
             };
 
-            const validation = app.validation.save();
+            // const validation = app.validation.save();
 
-            if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            }else{
-                var ummu = $ummu.ajax.ummu7(params);   
-                ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
-                    // if (response.status == true) {
-                    // //     $("#file_url").attr("href", response.data.fileUrl)
-                    // //     let is_release = response.data.is_release;
-                    // //     if (is_release == null || is_release == '' || is_release == 0) {
-                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                    // //     }else{
-                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    // //     }
-                    // }else{
-                    // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    // }
-                }).fail(function() {
-                    // An error occurred
-                    console.log(ummu)
-                });
-            }
+            // if (validation.length > 0) {
+            //     $ummu.views.errors_msg(validation)
+            //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            // }else{
+            //     var ummu = $ummu.ajax.ummu7(params);   
+            //     ummu.done(function(result) {
+            //         const response = JSON.parse(result);
+            //         $ummu.views.after_sbToolbar_save(response, func, id, payload);
+            //         // if (response.status == true) {
+            //         // //     $("#file_url").attr("href", response.data.fileUrl)
+            //         // //     let is_release = response.data.is_release;
+            //         // //     if (is_release == null || is_release == '' || is_release == 0) {
+            //         // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+            //         // //     }else{
+            //         // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+            //         // //     }
+            //         // }else{
+            //         // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            //         // }
+            //     }).fail(function() {
+            //         // An error occurred
+            //         console.log(ummu)
+            //     });
+            // }
 
-            // console.log(payload)
+            console.log(payload)
         },
 
         sbCancle: function () {
@@ -270,29 +302,73 @@ var app = {
 
     views: {
         formParams: function() {
-            return $("#form_input .endis").not('#fixed_cost, #variable_cost');
+            return $("#form_input .endis")
+                // .not('#fixed_cost, #variable_cost')
         },
 
         setRow_toForm: function(row) {
-            // console.log(row)
+            // console.log(row);
+            $ummu.vars.row = row;
             // $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
             $("#full_name").val(row.name);
-            $("#name").val(row.name);
-            $("#amount").val($ummu.formatter.us(row.amount))
+            var tanggal_lahir_text = '';
+            $("#employment_status").val(row.employment_status_id).trigger('change');
+
+            if (row?.row_from === 'urlParams') {
+                $("#birth_place").val(row['identities[tempat_lahir]']);
+                $("#birth_date").val(row['identities[tanggal_lahir]']);
+                tanggal_lahir_text = row['identities[tanggal_lahir]'];
+                $("#phone_number").val(row['identities[phone_number]']);
+                $("#blood_type").val(row['identities[golongan_darah]']).trigger('change');
+
+                $("#crew_ranks").val(row['crew_details[rank_name_id]']).attr('data-id', row['crew_details[base_rank_id]']);
+                $("#highest_coc_certificate").val(row['crew_details[highest_coc_certificate]']).trigger('change');
+                $("#seaman_book_number").val(row['crew_details[seaman_book_number]']);
+                $("#seaman_book_expiry").val(row['crew_details[seaman_book_expiry]']);
+                $("#mcu_maritime_number").val(row['crew_details[mcu_maritime_number]']);
+                $("#mcu_maritime_expiry").val(row['crew_details[mcu_maritime_expiry]']);
+                $("#crew_document_pdf_text").html(row['crew_details[file_name]']);
+                $("#click_to_open_file").attr('href', row['crew_details[file_url]']);
+            }else{
+                $("#birth_place").val(row.identities.tempat_lahir);
+                $("#birth_date").val(row.identities.tanggal_lahir);
+                tanggal_lahir_text = row.identities.tanggal_lahir;
+                $("#phone_number").val(row.identities.phone_number);
+                $("#blood_type").val(row.identities.golongan_darah);
+
+                $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
+                $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
+                $("#seaman_book_number").val(row.crew_details.seaman_book_number);
+                $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
+                $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
+                $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
+                $("#crew_document_pdf_text").html(row.crew_details.file_name);
+                $("#click_to_open_file").attr('href', row.crew_details.file_url);
+            }
+
+            if (tanggal_lahir_text) {
+                var age = $ummu.date.hitungUmur(tanggal_lahir_text);
+            }else{
+                var age = '..........';
+            }
+
+            $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+
+            // $("#amount").val($ummu.formatter.us(row.amount))
 
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
         },
 
         forClear: function() {
-            $("#form_input input").not('#fixed_cost, #variable_cost').val('');
-            $('input[name="behavior"]').prop('checked', false);
-            $('input[name="behavior"]').prop('disabled', true);
-
-            $("#created_at").html('');
-            $("#updated_at").html('');
-            $("#created_by").html('');
-            $("#updated_by").html('');
+            $("#form_input input")
+                // .not('#fixed_cost, #variable_cost')
+                .val('');
+            $("#crew_document_pdf_text").html('Pilih Berkas PDF...');
+            $("#click_to_open_file").attr('href', "");
+            $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
+            // $('input[name="behavior"]').prop('checked', false);
+            // $('input[name="behavior"]').prop('disabled', true);
         },
     },
 
@@ -306,7 +382,7 @@ var app = {
                         render: DataTable.render.select()
                     },
                     { 
-                        title: "ID",
+                        title: "Employee ID",
                         data: "id",
                         className: 'align-middle',
                         render: function (data, type) {
@@ -437,9 +513,15 @@ var app = {
             },
 
             onClick_nthChild_2: function(row) {
-                const row_for_urlParams = row;
+                // console.log(row)
+                // const row_for_urlParams = row;
+                // const queryString = $.param(row);
+                // console.log(queryString)
                 // $ummu.url.setParamFromRow(row);
-                // app.views.setRow_toForm(row);
+                $ummu.url.setParamFromObject(row);
+                app.views.setRow_toForm(row);
+
+                // console.log(ummu)
             },
         },
     },

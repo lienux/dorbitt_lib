@@ -267,7 +267,7 @@ var $ummu = {
             })
 
             $(".canvasjs-chart-credit").html('canvas.omdoo.id')
-            $(".ummu-auth .footer-text span").html('').html('PT. Digital Orbit Teknologi. All Rights Reserved.')
+            $(".ummu-auth .footer-text span").html('').html('ADEMT. All Rights Reserved.')
 
             $('[data-toggle="tooltip"]').tooltip()
 
@@ -422,6 +422,50 @@ var $ummu = {
                     onClose: function (dateText, inst) {
                         var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         $(this).datepicker('setDate', new Date(year, 0, 1));
+                    }
+                });
+
+
+                // 1. Hitung tanggal hari ini
+                const today = new Date();
+
+                // 2. Maksimal umur 60 tahun -> Batas tanggal lahir TERPaling TUA (minDate)
+                // Mengambil tanggal hari ini, lalu dikurangi 60 tahun
+                const minBirthDate = new Date(today.getFullYear() - 60, today.getMonth(), today.getDate());
+
+                // 3. Minimal umur 18 tahun -> Batas tanggal lahir TERPaling MUDA (maxDate)
+                // Mengambil tanggal hari ini, lalu dikurangi 18 tahun
+                const maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+                // 4. Hitung range tahun untuk dropdown (misal: 1966 sampai 2011)
+                const startYear = minBirthDate.getFullYear();
+                const endYear = maxBirthDate.getFullYear();
+
+                // Inisialisasi Datepicker
+                $(".ummu-birth-datepicker").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: "yy-mm-dd",
+                    
+                    // Batas minimum dan maksimum tanggal yang bisa dipilih
+                    minDate: minBirthDate,  // Paling tua: 60 tahun lalu
+                    maxDate: maxBirthDate,  // Paling muda: 15 tahun lalu
+                    
+                    // Batas pilihan tahun pada dropdown agar rapi
+                    yearRange: `${startYear}:${endYear}`,
+                    
+                    showButtonPanel: false,
+
+                    // Event ini berjalan otomatis setiap kali tanggal selesai dipilih
+                    onSelect: function (dateText) {
+                        const age = $ummu.date.hitungUmur(dateText);
+                        
+                        // 4. Tampilkan hasilnya ke elemen HTML
+                        $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+                    },
+
+                    beforeShow: function (input, inst) {
+                        $(inst.dpDiv).removeClass('hide-calendar hide-month');
                     }
                 });
             };
@@ -2995,6 +3039,9 @@ var $ummu = {
     },
 
     auth: {
+        formActive: null,
+        is_password: null,
+
         load: function () {
             $("#username").focus();
             $("#username").keyup(function (event) {
@@ -3035,8 +3082,8 @@ var $ummu = {
                     $ummu.ajax.auth.phoneNumber_login_password();
                 }
             });
-
             $ummu.events.onClick.escmButton();
+
             if ($ummu.vars.login_module == "herp") {
                 $("#btn_login").on("click", function () {
                     $ummu.auth.login_herp();
@@ -3123,9 +3170,6 @@ var $ummu = {
                 }
             });
         },
-
-        formActive: null,
-        is_password: null,
 
         login: function (withMsdb = null) {
             $("#btn_login").on("click", function () {
@@ -9481,6 +9525,13 @@ var $ummu = {
                 $("#ummu_nav_tab #nav-tab-form").addClass("active")
                 $("#ummu_tab_content #nav-form").addClass("show active")
             }
+        },
+
+        clearInfoDate: function() {
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
         }
     },
 
@@ -16520,6 +16571,7 @@ var $ummu = {
         yesterdayT: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate() - 1).padStart(2, '0'),
         mNow: new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'),
         yNow: new Date().getFullYear(),
+
         tglIndo: function(tanggalAsal) {
             // const tanggalAsal = "2026-03-16";
             const dateObj = new Date(tanggalAsal);
@@ -16529,6 +16581,25 @@ var $ummu = {
 
             // console.log(tanggalIndo); // Hasil: 16 Maret 2026
             return tanggalIndo;
+        },
+
+        hitungUmur: function(dateText) {
+            // 1. Ambil tanggal yang dipilih
+            const birthDate = new Date(dateText);
+            const now = new Date();
+            
+            // 2. Hitung selisih tahun
+            let age = now.getFullYear() - birthDate.getFullYear();
+            const monthDiff = now.getMonth() - birthDate.getMonth();
+            
+            // 3. Koreksi jika belum ulang tahun di tahun berjalan ini
+            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // 4. Tampilkan hasilnya ke elemen HTML
+            // $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+            return age;
         }
     },
 
@@ -16544,6 +16615,8 @@ var $ummu = {
                     console.log('plese create function app.views.setRow_toForm.');
                 }
             }
+
+            $ummu.url.click_url_response();
         },
 
         setParam: function (key, value) {
@@ -16564,6 +16637,39 @@ var $ummu = {
                 // console.log(`${key}: ${value}`);
                 $ummu.url.setParam(key, value)
             });
+        },
+
+        setParamFromObject: function (row) {
+            $ummu.url.delParamNotIn(['g'])
+
+            // Mengubah object menjadi query string standar
+            const queryString = $.param(row);
+            var newPath = '';
+
+            // Use URLSearchParams for easy parameter manipulation
+            // const url = new URL(window.location.href);
+            // const searchParams = url.searchParams;
+
+            // // Use the URLSearchParams.set() method to add or update the parameter
+            // url.searchParams.set(key, value);
+
+            // // Update the browser's history to reflect the new URL without reloading
+            // window.history.replaceState(null, null, url);
+
+            // Cek apakah ada query parameter sama sekali
+            if (window.location.search) {
+                newPath = '&' + queryString;
+            }else{
+                newPath = '?' + queryString;
+            }
+
+            const newUrl = window.location.href + newPath;
+
+
+            // Ubah URL di address bar tanpa mereload halaman
+            window.history.pushState({ path: newUrl }, '', newUrl);
+
+            // return newUrl;
         },
 
         delParam: function (key) {
@@ -16647,7 +16753,7 @@ var $ummu = {
 
             // 1. Ambil query string dari URL (misal: ?id=101&nama=Budi&catatan=null)
             const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
+            const urlParams = new URLSearchParams(queryString + '&row_from=urlParams');
 
             // 2. Ubah menjadi objek dasar
             let rowObject = Object.fromEntries(urlParams.entries());
@@ -16662,6 +16768,25 @@ var $ummu = {
 
             // console.log(rowObject);
             return rowObject;
+        },
+
+        click_url_response: function() {
+            document.querySelectorAll('.click-to-open-file').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    // Ambil nilai atribut href
+                    const href = this.getAttribute('href');
+
+                    // Cek apakah href kosong, "#", atau javascript:void(0)
+                    if (!href || href === '#' || href.trim() === '' || href.startsWith('javascript:')) {
+                        // Hentikan aksi browser untuk membuka link
+                        e.preventDefault(); 
+                        
+                        // Tampilkan alert
+                        alert('File/Link tidak tersedia!');
+                    }
+                    // Jika href ada leads/URL valid, browser akan otomatis membukanya
+                });
+            });
         },
     },
 
@@ -16760,7 +16885,7 @@ var $ummu = {
                 return kode && kode !== "#" ? $ummu.$.base_url + "admin/" + kode : "#";
             },
 
-            renderSidebar: function () {
+            renderSidebar_20260810: function () {
                 const rawData = localStorage.getItem('ummu_sidebar_menu');
 
                 if (rawData) {
@@ -16784,7 +16909,8 @@ var $ummu = {
                                     <a class="nav-link" href="${modulUrl}">
                                         ${icon} <span>${value.name}</span>
                                     </a>
-                                </li>`;
+                                </li>`
+                            ;
                         } else {
                             // PARENT WITH SUB-MODULE
                             let subModuleHtml = '';
@@ -16819,7 +16945,8 @@ var $ummu = {
                                                     ${grandchildHtml}
                                                 </nav>
                                             </div>
-                                        </nav>`;
+                                        </nav>`
+                                    ;
                                 }
                             });
 
@@ -16835,7 +16962,117 @@ var $ummu = {
                                             ${subModuleHtml}
                                         </div>
                                     </div>
-                                </li>`;
+                                </li>`
+                            ;
+                        }
+
+                        $sidebar.append(parentHtml);
+                    });
+                } else {
+                    console.log("Data menu tidak ditemukan di localStorage");
+                }
+            },
+
+            renderSidebar: function () {
+                const rawData = localStorage.getItem('ummu_sidebar_menu');
+
+                if (rawData) {
+                    const rows = JSON.parse(rawData);
+                    const $sidebar = $('#UmmuaccordionSidebarChild');
+                    $sidebar.empty(); // Bersihkan sidebar sebelum render
+
+                    $.each(rows, function (index, value) {
+                        let parentHtml = '';
+                        let icon = $ummu.sidebar.sbadmin2.decodeIcon(value.icon);
+                        let modulUrl = value.sub_module ? "#" : $ummu.sidebar.sbadmin2.getUrl(value.kode);
+                        let g = $ummu.url.getParam('g') ? $ummu.url.getParam('g') : "";
+                        let g2 = $ummu.url.getParam('g2') ? $ummu.url.getParam('g2') : "";
+                        let activeClass = (g === value.kode) ? 'active' : '';
+
+
+                        if (!value.sub_module || value.sub_module.length === 0) {
+                            // SINGLE PARENT
+                            parentHtml = `
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${modulUrl}">
+                                        ${icon} <span>${value.name}</span>
+                                    </a>
+                                </li>
+                            `;
+                        } else {
+                            // PARENT WITH SUB-MODULE
+                            let subModuleHtml = '';
+
+                            $.each(value.sub_module, function (index2, value2) {
+                                let icon2 = $ummu.sidebar.sbadmin2.decodeIcon(value2.icon);
+                                let subSubModule = value2.sub_sub_module || null;
+                                let subModuleUrl = subSubModule ? "#" : $ummu.sidebar.sbadmin2.getUrl(value2.kode);
+                                let activeClass2 = ($ummu.vars.module_kode === value2.kode) ? 'active' : '';
+                                let activeClassGroup2 = (g2 === value2.kode) ? 'active' : '';
+
+                                if (!subSubModule) {
+                                    // SINGLE CHILD
+                                    subModuleHtml += `<a class="collapse-item ${activeClass2}" href="${subModuleUrl}">${value2.name}</a>`;
+                                    // <!-- Anak Level 1 (Bisa berupa link atau dropdown lagi) -->
+                                    // <a class="collapse-item" href="#">Anak Level 1.1</a>
+                                } else {
+                                    // CHILD WITH GRANDCHILD (SUB-SUB-MODULE)
+                                    let grandchildHtml = '';
+                                    $.each(subSubModule, function (index3, value3) {
+                                        let gChildUrl = $ummu.sidebar.sbadmin2.getUrl(value3.kode);
+                                        let activeClass3 = ($ummu.vars.module_kode === value3.kode) ? 'active' : '';
+                                        grandchildHtml += `<a class="collapse-item ${activeClass3}" href="${gChildUrl}">${value3.name}</a>`;
+                                    });
+
+                                        // <a class="nav-link collapsed ${activeClassGroup2}" href="javascript:void(0);" 
+                                        // data-toggle="collapse" data-target="#grandchild_${value2.kode}">
+                                        //     <span>${value2.name}</span> <i class="bi bi-caret-right-fill"></i>
+                                        // </a>
+                                        // <div class="collapse" id="accordionSidenavAppsMenu${value2.kode}">
+                                        //     <div class="collapse" id="grandchild_${value2.kode}" data-parent="#accordionSidenavAppsMenu${value2.kode}">
+                                        //         <nav class="sidenav-menu-nested nav">
+                                        //             ${grandchildHtml}
+                                        //         </nav>
+                                        //     </div>
+                                        // </div>
+                                    // <!-- Sub-dropdown Anak Level 1 ke Level 2 -->
+                                    subModuleHtml += `
+                                        <a class="nav-link collapsed ${activeClassGroup2}" href="#" data-toggle="collapse" data-target="#menuLevel2_${value2.kode}">
+                                            <span>${value2.name}</span>
+                                        </a>
+                                        <div id="menuLevel2_${value2.kode}" class="collapse">
+                                            <div class="collapse-inner">
+                                                ${grandchildHtml}
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            });
+
+                                    // <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" 
+                                    // data-target="#child_${value.kode}" aria-expanded="false">
+                                    //     ${icon} <span>${value.name}</span>
+                                    // </a>
+                                    // <div id="child_${value.kode}" class="collapse" data-parent="#accordionSidebar">
+                                    //     <div class="collapse-inner">
+                                    //         <h6 class="collapse-header">${value.category_name}</h6>
+                                    //         ${subModuleHtml}
+                                    //     </div>
+                                    // </div>
+                            parentHtml = `
+                                <li class="nav-item ${activeClass}">
+                                    <a class="nav-link collapsed" href="${modulUrl}" data-toggle="collapse" data-target="#menuLevel1_${value.kode}">
+                                        ${icon}
+                                        <span>${value.name}</span>
+                                    </a>
+                                  
+                                    <div id="menuLevel1_${value.kode}" class="collapse">
+                                        <div class="collapse-inner">
+                                            ${subModuleHtml}
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
                         }
 
                         $sidebar.append(parentHtml);
@@ -16845,6 +17082,66 @@ var $ummu = {
                 }
             },
         },
+    },
+
+    topbar: {
+        renderTopbar: function() {
+            const navbar = $('#navbars02 ul');
+            navbar.empty(); // Bersihkan sidebar sebelum render
+
+            if ($ummu.sidebar.group) {
+                const rawData = localStorage.getItem('ummu_sidebar_menu');
+
+                if (rawData) {
+                    const menuList = JSON.parse(rawData) || [];
+
+                    // Menggabungkan parent dan semua sub_module ke dalam 1 array
+                    const allModules = menuList.flatMap(item => [
+                      item, 
+                      ...(item.sub_module || [])
+                    ]);
+
+                    // Cari item dengan kode dari $ummu.sidebar.group
+                    const dataGroup = allModules.find(item => item.kode === $ummu.sidebar.group);
+
+                    if (dataGroup) {
+                        // console.log(dataGroup);
+
+                        let icon = $ummu.sidebar.sbadmin2.decodeIcon(dataGroup.icon);
+                        let groupName = dataGroup.name;
+                        let subModule = dataGroup.sub_module;
+                        let rows = subModule;
+                        let listModule = '';
+
+                        $.each(rows, function (index, value) {
+                            listModule += `
+                                <a class="dropdown-item" href="${$ummu.sidebar.sbadmin2.getUrl(value.kode)}">
+                                    ${value.name}
+                                </a>
+                            `;
+                        });
+
+                        var htmlGroup = `<li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                    ${icon} 
+                                    <span class="d-none d-lg-inline ml-2">${groupName}</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in dropdown-scroll" aria-labelledby="customDropdown">
+                                    ${listModule}
+                                </div>
+                            </li>
+                        `;
+
+                        navbar.append(htmlGroup);
+
+                        // console.log(groupName);
+                        // console.log(subModule);
+                    }else{
+                        console.log('Tidak ada Sub-Module pada Module ini.')
+                    }
+                }
+            }
+        }
     },
 
     loader: function (modal) {
@@ -16874,6 +17171,9 @@ $(document).ready(function () {
     $ummu.register.apply();
 });
 
+/**
+ * Functions
+ * */
 function resdel() {
     $("#response_deleted").modal("show");
 }
@@ -16881,6 +17181,9 @@ function resdel() {
 function newURL() {
     return new URL(window.location.href)
 }
+/**
+ * End Function
+ * */
 
 /**
 * GLOBAL VARIABLE

@@ -18,7 +18,14 @@
             <div class="tab-pane fade show active" id="nav-form" role="tabpanel">
                 <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
                     <div class="card-body pt-2">
-                        <?= $this->include(config('Ummu')->Views($dir_views . 'form')) ?>
+                        <div class="mt-2">
+                            <div class="alert text-light collapse" id="alert_input"></div>
+
+                            <!-- SB Button -->
+                            <?=$this->include(config('Ummu')->Views('partials/sb_button'))?>
+
+                            <?= $this->include(config('Ummu')->Views($dir_views . 'form')) ?>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
