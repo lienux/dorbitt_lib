@@ -3,12 +3,12 @@
 namespace Dorbitt\Controllers;
 
 use App\Controllers\BaseController;
+use App\Helpers\GlobalHelper;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\HTTP\IncomingRequest;
 use Dorbitt\Helpers\CurlHelper;
 use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
-use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\FileHelper;
 
 class CrewController extends ResourceController
@@ -77,22 +77,35 @@ class CrewController extends ResourceController
 
     public function create()
     {
+        $getVar = $this->request->getVar();
         $file = $this->request->getFile('crew_document_pdf');
+        $fileName = null;
+        $ifleUrl = null;
+
+        // Proses save file
         $upload = $this->fileH->upload2($file);
-        // $getVar = $this->request->getVar();
+        if ($upload['status'] == true) {
+            $fileName = $upload['originalName'];
+            $ifleUrl = $upload['fileUrl'];
+        }
 
-        // $payload = $getVar;
+        $fileUpload = [
+            "file_name" => $fileName, 
+            "file_url" => $ifleUrl
+        ];
 
-        // $params = [
-        //     "path" => $this->pathAPI,
-        //     "method" => 'POST',
-        //     "payload" => $payload,
-        //     "headers" => $this->cH->headers3($this->module_kode)
-        // ];
+        $payload = [...$getVar, ...$fileUpload];
+
+        $params = [
+            "path" => $this->pathAPI,
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
 
         // $builder = $this->cH->ummu2($params);
 
-        return $this->respond($upload, 200);
+        return $this->respond($params, 200);
     }
 
     public function update($id = null)

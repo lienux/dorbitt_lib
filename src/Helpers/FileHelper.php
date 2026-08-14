@@ -95,29 +95,40 @@ class FileHelper
             $file = $this->request->getFile('file');
         }
 
-        $filez = new \CodeIgniter\Files\File($file);
+        if ($file) {
+            $filez = new \CodeIgniter\Files\File($file);
 
-        $name = $file->getName();
-        $originalName = $file->getClientName();
-        $tempfile = $file->getTempName();
-        $ext   = $file->getClientExtension();
-        $type = $file->getClientMimeType();      
-        // $clientPath = $file->getClientPath(); //this is for ci 4.4.0
+            $name = $file->getName();
+            $originalName = $file->getClientName();
+            $tempfile = $file->getTempName();
+            $ext   = $file->getClientExtension();
+            $type = $file->getClientMimeType();      
+            // $clientPath = $file->getClientPath(); //this is for ci 4.4.0
 
-        $filepath = '';
-        $filestore = '';
-        if ($filez->getBasename()) {
-            if (! $file->hasMoved()) {
-                $filestore = $file->store();
-                $filepath = WRITEPATH . 'uploads/' . $filestore;
+            $filepath = '';
+            $filestore = '';
+            if ($filez->getBasename()) {
+                if (! $file->hasMoved()) {
+                    $filestore = $file->store();
+                    $filepath = WRITEPATH . 'uploads/' . $filestore;
+                }
             }
+
+            $response = [
+                "status" => true,
+                "originalName" => $originalName,
+                "fileStore" => $filestore,
+                "filePath" => $filepath,
+                "fileUrl" => base_url('uploads/' . $filestore),
+            ];
+        }else{
+            $response = [
+                "status" => false,
+                "msg" => "Tidak ada file yang dipilih atau file tidak valid."
+            ];
         }
 
-        return [
-            "originalName" => $originalName,
-            "fileStore" => $filestore,
-            "filePath" => $filepath
-        ];
+        return $response;
     }
 
     public function file_update()
