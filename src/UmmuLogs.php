@@ -16,6 +16,9 @@ use Dorbitt\Helpers\CurlHelper;
 
 class UmmuLogs
 {
+    protected $curli;
+    protected $request;
+    
     public function __construct()
     {
         $this->curli = new CurlHelper();

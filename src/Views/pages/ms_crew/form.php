@@ -52,10 +52,6 @@
     }
 </style>
 
-<?php
-    echo $group[0];
-?>
-
 <!-- Form -->
 <div id="form_input"> 
     <div class="row">
@@ -173,7 +169,7 @@
                 <div class="col">
                     <div class="input-group input-group-sm">
                         <select class="form-control form-control-sm endis" id="employment_status" disabled>
-                            <option value="">- Pilih Hubungan Kerja-</option>
+                            <option value="">- Pilih Hubungan Kerja -</option>
                             <option value="1">Karyawan Tetap</option>
                             <option value="2">Kontrak (PKL)</option>
                             <option value="4">Harian Lepas</option>
