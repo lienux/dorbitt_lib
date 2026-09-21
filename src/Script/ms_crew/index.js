@@ -318,35 +318,54 @@ var app = {
             if (row?.row_from === 'urlParams') {
                 $("#birth_place").val(row['identities[tempat_lahir]']);
                 $("#birth_date").val(row['identities[tanggal_lahir]']);
-                tanggal_lahir_text = row['identities[tanggal_lahir]'];
+                var tanggal_lahir_text = row['identities[tanggal_lahir]'];
                 $("#phone_number").val(row['identities[phone_number]']);
                 $("#blood_type").val(row['identities[golongan_darah]']).trigger('change');
 
-                $("#crew_ranks").val(row['crew_details[rank_name_id]']).attr('data-id', row['crew_details[base_rank_id]']);
-                $("#highest_coc_certificate").val(row['crew_details[highest_coc_certificate]']).trigger('change');
-                $("#seaman_book_number").val(row['crew_details[seaman_book_number]']);
-                $("#seaman_book_expiry").val(row['crew_details[seaman_book_expiry]']);
-                $("#mcu_maritime_number").val(row['crew_details[mcu_maritime_number]']);
-                $("#mcu_maritime_expiry").val(row['crew_details[mcu_maritime_expiry]']);
-                $("#crew_document_pdf_text").html(row['crew_details[file_name]']);
-                $("#click_to_open_file").attr('href', row['crew_details[file_url]']);
+                // $("#crew_ranks").val(row['crew_details[rank_name_id]']).attr('data-id', row['crew_details[base_rank_id]']);
+                // $("#highest_coc_certificate").val(row['crew_details[highest_coc_certificate]']).trigger('change');
+                // $("#seaman_book_number").val(row['crew_details[seaman_book_number]']);
+                // $("#seaman_book_expiry").val(row['crew_details[seaman_book_expiry]']);
+                // $("#mcu_maritime_number").val(row['crew_details[mcu_maritime_number]']);
+                // $("#mcu_maritime_expiry").val(row['crew_details[mcu_maritime_expiry]']);
+                // $("#crew_document_pdf_text").html(row['crew_details[file_name]']);
+                // $("#click_to_open_file").attr('href', row['crew_details[file_url]']);
+
+                $("#crew_ranks").val(row['rank_name_id']).attr('data-id', row['base_rank_id']);
+                $("#highest_coc_certificate").val(row['highest_coc_certificate']).trigger('change');
+                $("#seaman_book_number").val(row['seaman_book_number']);
+                $("#seaman_book_expiry").val(row['seaman_book_expiry']);
+                $("#mcu_maritime_number").val(row['mcu_maritime_number']);
+                $("#mcu_maritime_expiry").val(row['mcu_maritime_expiry']);
+                $("#crew_document_pdf_text").html(row['file_name']);
+                $("#click_to_open_file").attr('href', row['file_url']);
             }else{
                 $("#birth_place").val(row.identities.tempat_lahir);
                 $("#birth_date").val(row.identities.tanggal_lahir);
-                tanggal_lahir_text = row.identities.tanggal_lahir;
+                var tanggal_lahir_text = row.identities.tanggal_lahir;
                 $("#phone_number").val(row.identities.phone_number);
                 $("#blood_type").val(row.identities.golongan_darah);
 
-                $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
-                $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
-                $("#seaman_book_number").val(row.crew_details.seaman_book_number);
-                $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
-                $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
-                $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
-                $("#crew_document_pdf_text").html(row.crew_details.file_name);
-                $("#click_to_open_file").attr('href', row.crew_details.file_url);
+                // $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
+                // $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
+                // $("#seaman_book_number").val(row.crew_details.seaman_book_number);
+                // $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
+                // $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
+                // $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
+                // $("#crew_document_pdf_text").html(row.crew_details.file_name);
+                // $("#click_to_open_file").attr('href', row.crew_details.file_url);
+
+                $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
+                $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
+                $("#seaman_book_number").val(row.seaman_book_number);
+                $("#seaman_book_expiry").val(row.seaman_book_expiry);
+                $("#mcu_maritime_number").val(row.mcu_maritime_number);
+                $("#mcu_maritime_expiry").val(row.mcu_maritime_expiry);
+                $("#crew_document_pdf_text").html(row.file_name);
+                $("#click_to_open_file").attr('href', row.file_url);
             }
 
+            console.log(tanggal_lahir_text)
             if (tanggal_lahir_text) {
                 var age = $ummu.date.hitungUmur(tanggal_lahir_text);
             }else{
@@ -383,7 +402,7 @@ var app = {
                         render: DataTable.render.select()
                     },
                     { 
-                        title: "Employee ID",
+                        title: "ID",
                         data: "id",
                         className: 'align-middle',
                         render: function (data, type) {
@@ -405,10 +424,8 @@ var app = {
                         className: 'align-middle',
                         render: function(data, type, row) {
                             var html = "";
-                            if (row.crew_details != null) {
-                                var html = `<div>${row.crew_details.rank_name_en}</div>
-                                <div class="small text-muted">(${row.crew_details.rank_name_id})</div>`;
-                            }
+                            var html = `<div>${row.rank_name_en}</div>
+                            <div class="small text-muted">(${row.rank_name_id})</div>`;
 
                             return html;
                         }
@@ -419,9 +436,7 @@ var app = {
                         className: 'align-middle',
                         render: function(data, type, row) {
                             var html = "";
-                            if (row.crew_details != null && row.crew_details.highest_coc_certificate) {
-                                var html = `<span class="badge badge-light border border-secondary text-secondary">${row.crew_details.highest_coc_certificate}</span>`;
-                            }
+                            var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
 
                             return html;
                         }
@@ -433,35 +448,33 @@ var app = {
                         render: function(data, type, row) {
                             var html = "";
 
-                            if (row.crew_details != null && row.crew_details.seaman_book_number) {
-                                var seaman_book_number = row.crew_details.seaman_book_number;
-                                var seaman_book_expiry = $ummu.date.tglIndo(row.crew_details.seaman_book_expiry);
-                                var seaman_book_expiry_status = row.crew_details.seaman_book_expiry_status;
+                            var seaman_book_number = row.seaman_book_number;
+                            var seaman_book_expiry = $ummu.date.tglIndo(row.seaman_book_expiry);
+                            var seaman_book_expiry_status = row.seaman_book_expiry_status;
 
-                                var text = `<small class="text-success font-weight-bold">
-                                        <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                                    </small>`;
-                                var textExp = `<small class="text-danger font-weight-bold animate-pulse">
-                                        <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
-                                    </small>`;
+                            var text = `<small class="text-success font-weight-bold">
+                                    <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
+                                </small>`;
+                            var textExp = `<small class="text-danger font-weight-bold animate-pulse">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
+                                </small>`;
 
-                                var textExpSoon = `<small class="text-warning font-weight-bold">
-                                        <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                                    </small>`;
+                            var textExpSoon = `<small class="text-warning font-weight-bold">
+                                    <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
+                                </small>`;
 
-                                if (seaman_book_expiry_status == 'Active') {
-                                    var html_ = text;
-                                }else if (seaman_book_expiry_status == 'Expired') {
-                                    var html_ = textExp;
-                                }else{
-                                    var html_ = textExpSoon;
-                                }
-
-                                var html = `
-                                    <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
-                                    ${html_}
-                                `;
+                            if (seaman_book_expiry_status == 'Active') {
+                                var html_ = text;
+                            }else if (seaman_book_expiry_status == 'Expired') {
+                                var html_ = textExp;
+                            }else{
+                                var html_ = textExpSoon;
                             }
+
+                            var html = `
+                                <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
+                                ${html_}
+                            `;
 
                             return html;
                         }
@@ -478,7 +491,7 @@ var app = {
                                 </span>`;
                             var standby = `<span class="badge badge-info status-badge shadow-sm">
                                     <i class="fas fa-user-clock mr-1"></i> STANDBY
-                                </span>`;
+                                </span>`
                             var off_sign = `<span class="badge badge-secondary status-badge shadow-sm">
                                 <i class="fas fa-home mr-1"></i> OFF SIGN / CUTI
                             </span>`;
@@ -487,18 +500,16 @@ var app = {
                             </span>`;
                             // 'STANDBY','ON_BOARD','OFF_SIGN','MEDICAL_LEAVE'
 
-                            if (row.crew_details != null) {
-                                var current_crew_status = row.crew_details.current_crew_status;
+                            var current_crew_status = row.current_crew_status;
 
-                                if (current_crew_status == 'STANDBY') {
-                                    var html = standby;
-                                }else if (current_crew_status == 'ON_BOARD') {
-                                    var html = on_board;
-                                }else if (current_crew_status == 'OFF_SIGN') {
-                                    var html = off_sign;
-                                }else{
-                                    var html = medical_leave;
-                                }
+                            if (current_crew_status == 'STANDBY') {
+                                var html = standby;
+                            }else if (current_crew_status == 'ON_BOARD') {
+                                var html = on_board;
+                            }else if (current_crew_status == 'OFF_SIGN') {
+                                var html = off_sign;
+                            }else{
+                                var html = medical_leave;
                             }
 
                             return html;
