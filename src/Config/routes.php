@@ -37,6 +37,7 @@ $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
     // g/{{module_kode}}/{{function}}
     $routes->get('g/(:any)', 'GlobalController::showAll/$1');
+    $routes->get('dash-vms-timesheet', 'DashboardController::vms_timesheet');
 
     $routes->group('employee', function ($routes) {
         $routes->get('/', 'EmployeeController::index');

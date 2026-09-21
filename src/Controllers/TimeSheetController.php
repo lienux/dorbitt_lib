@@ -28,8 +28,31 @@ class TimeSheetController extends ResourceController
 
     public function index()
     {
+        // $data = [
+        //     'page_title' => 'Daily Record - Time Sheet',
+        //     'module_kode' => $this->module_kode,
+        //     'navlink' => $this->module_kode,
+        //     'group' => ['operations','time_sheet'],
+        //     'tmp' => $this->gHelp->tmp(),
+        //     'dir_views' => $this->dir_view,
+        //     'crud' => null,
+        //     'breadcrumb' => [
+        //         [
+        //             "name" => "Operations",
+        //             "page" => "#",
+        //             "active" => ""
+        //         ],
+        //         [
+        //             "name" => "Time Sheet",
+        //             "page" => "#",
+        //             "active" => "active"
+        //         ]
+        //     ]
+        // ];
+        // return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+
         $data = [
-            'page_title' => 'Daily Record - Time Sheet',
+            'page_title' => '<i class="fas fa-users-cog text-info mr-2"></i> Time Sheet',
             'module_kode' => $this->module_kode,
             'navlink' => $this->module_kode,
             'group' => ['operations','time_sheet'],
@@ -47,9 +70,9 @@ class TimeSheetController extends ResourceController
                     "page" => "#",
                     "active" => "active"
                 ]
-            ]
+            ],
         ];
-        return view($this->vH->ummuView($this->dir_view . 'index'), $data);
+        return view($this->vH->ummuViewPartialIndex(), $data);
     }
 
     public function show($id = null)
