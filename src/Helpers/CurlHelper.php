@@ -42,14 +42,22 @@ class CurlHelper
             }
         }*/
 
+        $oa2dev = (getenv('openapi2.url.dev')) ? getenv('openapi2.url.dev') : 'http://localhost:8080/';
+        $oa2stg = (getenv('openapi2.url.stg')) ? getenv('openapi2.url.stg') : 'https://staging.openapi2.com/';
+        $oa2prod = (getenv('openapi2.url.prod')) ? getenv('openapi2.url.prod') : 'https://openapi2.com/';
+
         if ($openapi2URL == "development") {
-            $this->url = "http://localhost:8080/";
-            $this->host_api = "http://localhost:8080/";
-        // }elseif ($openapi2URL == "staging") {
-            // $this->host_api = "https://staging.openapi2.com/";
-        }else{
-            $this->url = "https://openapi2.com/";
-            $this->host_api = "https://openapi2.com/";
+            $this->url = $oa2dev;
+            $this->host_api = $oa2dev;
+        }
+        
+        elseif ($openapi2URL == "staging") {
+            $this->host_api = $oa2stg;
+        }
+
+        else{
+            $this->url = $oa2prod;
+            $this->host_api = $oa2prod;
         }
 
         if (getenv("DORBITT_TOKEN")) {

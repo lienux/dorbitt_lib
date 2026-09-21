@@ -220,7 +220,7 @@ class ViewsHelper
         if ($a AND is_file($a)) {
             $b = $a;
         }else{
-            $b = 'https://cdn.openapi2.com/img/avatar.png';
+            $b = 'https://cdn.alisatu.co.id/img/avatar.png';
         }
 
         return $b;
@@ -243,7 +243,7 @@ class ViewsHelper
         if ($t) {
             $t = base_url($t);
         }else{
-            $t = 'https://cdn.openapi2.com/img/favicon.ico';
+            $t = 'https://cdn.alisatu.co.id/img/favicon.ico';
         }
 
         return $t;
@@ -254,7 +254,7 @@ class ViewsHelper
         $t = getenv('app.name');
 
         if (!$t) {
-            $t = 'SparkCode 4.4.3';
+            $t = 'Sparkcode 4.4.3';
         }
 
         return $t;
@@ -265,9 +265,9 @@ class ViewsHelper
         $a = getenv('app.credit');
 
         if ($a) {
-            $b = '<a href="https://dorbitt.com/" target="_blank">'.$a.'</a>';
+            $b = '<a href="https://alisatu.co.id/" target="_blank">'.$a.'</a>';
         }else{
-            $b = '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
+            $b = '<a href="https://sparkcode.alisatu.co.id/" target="_blank">Sparkcode 4.4.3</a>';
         }
 
         return $b;
@@ -279,7 +279,7 @@ class ViewsHelper
         $t = getenv('app.copyright');
 
         if (!$t) {
-            $t = 'sparkcode.web.id';
+            $t = 'sparkcode.alisatu.co.id';
         }
 
         return $t;
@@ -290,7 +290,7 @@ class ViewsHelper
         $t = getenv('app.copyrightURL');
 
         if (!$t) {
-            $t = 'https://sparkcode.web.id/';
+            $t = 'https://sparkcode.alisatu.co.id/';
         }
 
         return $t;
@@ -301,7 +301,7 @@ class ViewsHelper
         $text = getenv('app.text');
 
         if (!$text) {
-            $text = 'Spark Code Version 4.4.3';
+            $text = 'Sparkcode Version 4.4.3';
         }
 
         return $text;
@@ -318,7 +318,7 @@ class ViewsHelper
             $b = $a2;
         }
         else{
-            $b = 'https://cdn.openapi2.com/img/logo.png';
+            $b = 'https://cdn.alisatu.co.id/img/logo.png';
         }
 
         return $b;
@@ -330,7 +330,7 @@ class ViewsHelper
         if ($a) {
             $b = $a;
         }else{
-            $b = 'https://cdn.openapi2.com/img/bg-auth.png';
+            $b = 'https://cdn.alisatu.co.id/img/bg-auth.png';
         }
 
         return $b;

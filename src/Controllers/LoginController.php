@@ -14,10 +14,14 @@ use Sparkhizb\Builder\SiteProjectBuilder;
 
 class LoginController extends ResourceController
 {
-    public $cH;
-    public $gViews;
-    public $vH;
-    public $encrypter;
+    protected $request;
+    protected $session;
+    protected $cH;
+    protected $vH;
+    protected $gViews;
+    protected $encrypter;
+    protected $qbEmployee;
+    protected $qbSite;
 
     public function __construct()
     {
