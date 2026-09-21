@@ -11,7 +11,13 @@
 <?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>
 
 <?= (CLAYOUT == 'MPA') ? $this->section('content') : '' ?>
-    <?= $this->include(config('Ummu')->Views('partials/page_content')) ?>
+    <?php
+        if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'dashboard.php') AND isset($page) AND $page = 'dashboard') {
+            echo $this->include(config('Vh')->ummuView($dir_views . 'dashboard'));
+        }else{
+            echo $this->include(config('Ummu')->Views('partials/page_content'));
+        }
+    ?>
 
     <?php
         if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'content.php')) {

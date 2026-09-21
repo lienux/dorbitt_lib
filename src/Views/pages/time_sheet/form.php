@@ -1,182 +1,109 @@
 <!-- Form -->
+            
+<!-- Judul Modul & Tombol Toggle -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4z">
+    <div>
+        <h2 class="h4 font-weight-bold text-dark">Modul Timesheet (Daily Noon Report)</h2>
+        <p class="text-muted small mb-0">Kelola dan pantau catatan waktu, bahan bakar, dan aktivitas harian kapal.</p>
+    </div>
+    <!-- <button class="btn btn-primary mt-3 mt-md-0 shadow-sm" type="button" data-toggle="collapse" data-target="#formTimesheetCard" aria-expanded="true" aria-controls="formTimesheetCard">
+        <i class="fa-solid fa-plus mr-1"></i> Toggle Form Input
+    </button> -->
+</div>
+
+<!-- SECTION: Form Input Timesheet (Collapsible) -->
+<!-- <div class="collapse show mb-5" id="formTimesheetCard"> -->
+    <!-- <div class="card shadow-sm border-0"> -->
+        <div class="card-header bg-secondaryz d-flex justify-content-between align-items-center py-3z">
+            <h5 class="mb-0 text-dark font-weight-bold">
+                <i class="fa-solid fa-file-pen text-primary mr-2"></i> Form Input Data Timesheet
+            </h5>
+            <span class="badge badge-warning p-2">Voyage: VYG-2026-09A (MV Nusantara Indah)</span>
+        </div>
+        <div class="card-body">
+            <form>
+                <!-- Row 1 -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Tanggal & Jam (UTC)</label>
+                        <input type="datetime-local" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Status Aktivitas Kapal</label>
+                        <select class="form-control form-control-sm">
+                            <option>Steaming (Berlayar)</option>
+                            <option>At Anchor (Berlabuh Jangkar)</option>
+                            <option>Loading (Muat Barang)</option>
+                            <option>Discharging (Bongkar Muat)</option>
+                            <option>Bunkering (Pengisian Bahan Bakar)</option>
+                            <option>Waiting / Drift</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Posisi (Lat / Long)</label>
+                        <input type="text" placeholder="Contoh: 05°12'S 106°45'E" class="form-control form-control-sm">
+                    </div>
+                </div>
+
+                <!-- Blok Konsumsi Bahan Bakar (Bunker) -->
+                <div class="card bg-light border mb-3 p-3">
+                    <h6 class="font-weight-bold text-dark small mb-3">
+                        <i class="fa-solid fa-gas-pump text-primary mr-1"></i> Konsumsi Bahan Bakar (MT)
+                    </h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 mb-2">
+                            <label class="small text-muted">FO (Fuel Oil) Consumed</label>
+                            <input type="number" step="0.1" placeholder="0.0" class="form-control form-control-sm bg-white">
+                        </div>
+                        <div class="form-group col-md-4 mb-2">
+                            <label class="small text-muted">MGO (Marine Gas Oil) Consumed</label>
+                            <input type="number" step="0.1" placeholder="0.0" class="form-control form-control-sm bg-white">
+                        </div>
+                        <div class="form-group col-md-4 mb-2">
+                            <label class="small text-muted">Fresh Water Remaining (MT)</label>
+                            <input type="number" step="0.1" placeholder="0.0" class="form-control form-control-sm bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Kondisi Cuaca / Angin</label>
+                        <input type="text" placeholder="Contoh: Beaufort Scale 4, Berawan" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Kecepatan Rata-rata (Knots)</label>
+                        <input type="number" step="0.1" placeholder="12.5" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="font-weight-bold small text-secondary">Jarak Tempuh Harian (NM)</label>
+                        <input type="number" step="0.1" placeholder="280.5" class="form-control form-control-sm">
+                    </div>
+                </div>
+
+                <!-- Keterangan / Remarks -->
+                <div class="form-group">
+                    <label class="font-weight-bold small text-secondary">Catatan / Remarks</label>
+                    <textarea rows="2" placeholder="Tambahkan catatan pelayaran atau kendala mesin jika ada..." class="form-control form-control-sm"></textarea>
+                </div>
+
+                <!-- Tombol Aksi Form -->
+                <!-- <div class="d-flex justify-content-end">
+                    <button type="reset" class="btn btn-outline-secondary btn-sm mr-2 px-3">Reset</button>
+                    <button type="submit" class="btn btn-primary btn-sm px-4">Simpan Laporan</button>
+                </div> -->
+            </form>
+        </div>
+    <!-- </div> -->
+<!-- </div> -->
+
+<!-- SECTION: List Data Timesheet (Tabel) -->
+
+
+
 <div id="form_input"> 
     <div class="row">
-        <div class="col-lg-6 col-sm-12 mb-3">
-            <div class="row">
-                <label class="col-sm-3 col-form-label">IJO<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="ijo" data-label="Internal Job Order (IJO)" placeholder="Choose..." disabled required>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ijo" type="button" disabled
-                                data-inputid="ijo" data-modaltitle="List IJO">
-                                <i class="fas fa-list-ul"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Client <sup class="text-info">auto</sup></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" id="client" data-label="Client" disabled required>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Tugboat <sup class="text-info">auto</sup></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm is-data-id" data-label="Tugboat" id="tugboat" disabled required>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Barge <sup class="text-info">auto</sup></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm is-data-id" id="barge" data-label="Barge / Tongkang" disabled required>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Start Time<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control ummu-datepicker" id="start_time" placeholder="" data-label="Tanggal Surat Perjanjian" readonly disabled required>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
-                                data-inputid="start_time" id="btn_iDate" disabled>
-                                <i class="fas fa-calendar-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Finish Time<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control ummu-datepicker" id="finish_time" placeholder="" data-label="Tanggal Surat Perjanjian" readonly disabled required>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
-                                data-inputid="finish_time" id="btn_iDate" disabled>
-                                <i class="fas fa-calendar-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="row">
-                <label class="col-sm-3 col-form-label">Tanggal Kontrak<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control ummu-datepicker" id="iDate" placeholder="Pilih Tanggal Kontrak" data-label="Tanggal Surat Perjanjian" readonly disabled required>
-                        <span class="popup-text">ex: Tanggal Kontrak dibuat</span>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btn-show-datepicker endis btn-endis" type="button"
-                                data-inputid="iDate" id="btn_iDate" disabled>
-                                <i class="fas fa-calendar-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Nomor Kontrak<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <input type="text" name="number" id="number" class="form-control form-control-sm endis" placeholder="Masukan Nomor Kontrak" data-label="Nomor Surat Perjanjian" required disabled>
-                    <span class="popup-text">Number of contract</span>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Biaya Angkutan<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <input type="text" name="biaya_angkutan" id="biaya_angkutan" placeholder="Masukan Biaya Angkutan" class="form-control form-control-sm endis" data-label="Biaya Angkutan" required disabled>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">Perjanjian<span class="text-danger small"> *</span></label>
-                <div class="col-sm-9">
-                    <input type="text" name="kondisi_perjanjian" id="kondisi_perjanjian" placeholder="Masukan Kondisi Perjanjian" class="form-control form-control-sm endis" data-label="Kondisi Perjanjian" required disabled>
-                    <span class="popup-text">Kondisi Perjanjian, ex: FIOST</span>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 col-form-label">File</label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <div class="custom-file custom-file-sm">
-                            <input type="file" class="custom-file-input endis" id="file_upload" name="file_upload" data-text="File Kontrak / Surat Perjanjian" disabled>
-                            <label class="custom-file-label" for="file_upload">Choose file...</label>
-                        </div>
-                    </div>
-                    <div>
-                        <a href="#" id="file_url" target="_blank">
-                            <span>Click here to open File.</span>
-                        </a>
-                    </div>
-                </div>
-            </div> -->
-        </div>
-
-        <div class="col-lg-6 col-sm-12">
-            <!-- <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Penyewa Kapal <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control form-control-sm" id="client" data-label="Penyewa Kapal" disabled required>
-                </div>
-            </div> -->
-            <!-- <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Tugboat <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control form-control-sm is-data-id" data-label="Tugboat" id="tugboat" disabled required>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Barge <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control form-control-sm is-data-id" id="barge" data-label="Barge / Tongkang" disabled required>
-                </div>
-            </div> -->
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Jenis Muatan <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" name="load_type" id="load_type" class="form-control form-control-sm" required disabled data-label="Jenis Muatan">
-                    <span class="popup-text">ex: Batubara / Pasir / etc.</span>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Volume Muatan <sup class="text-info">auto</sup></label>
-                <div class="col-sm-5">
-                    <input type="text" name="qty" id="qty" class="form-control form-control-sm" required disabled data-label="Volume Muatan">
-                    <!-- <span class="popup-text">ex: Batubara / Pasir / etc.</span> -->
-                </div>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control form-control-sm" id="uom" disabled>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Date of Loading From <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control form-control-sm ummu-datepicker" id="iDateLoadingFrom" required disabled>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Date of Loading To <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control form-control-sm ummu-datepicker" id="iDateLoadingTo" required disabled>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Port of Loading <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" name="loading_port" id="loading_port" class="form-control form-control-sm" required disabled data-label="Port of Loading">
-                    <span class="popup-text">ex: Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel</span>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-5 col-form-label text-right">Port of Discharge <sup class="text-info">auto</sup></label>
-                <div class="col-sm-7">
-                    <input type="text" name="discharge_port" id="discharge_port" class="form-control form-control-sm" required disabled data-label="Port of Discharge">
-                    <span class="popup-text">ex: Jettu Pelindo, Bojonegara, Jawa Barat</span>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
