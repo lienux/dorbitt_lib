@@ -37,7 +37,15 @@ $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
     // g/{{module_kode}}/{{function}}
     $routes->get('g/(:any)', 'GlobalController::showAll/$1');
-    $routes->get('dash-vms-timesheet', 'DashboardController::vms_timesheet');
+    $routes->get('dashboard-voyage', 'DashboardController::vms_timesheet');
+
+    $routes->group('owner', function ($routes) {
+        $routes->get('/', 'OwnerController::index');
+        $routes->get('show', 'OwnerController::show');
+        $routes->post('create', 'OwnerController::create');
+        $routes->post('update/(:num)', 'OwnerController::update/$1');
+        $routes->post('delete/(:num)', 'OwnerController::delete/$1');
+    });
 
     $routes->group('employee', function ($routes) {
         $routes->get('/', 'EmployeeController::index');
