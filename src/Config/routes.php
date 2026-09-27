@@ -37,7 +37,33 @@ $routes->group('mygallery', ['filter' => 'auth'], function ($routes) {
 $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth'], static function($routes) {
     // g/{{module_kode}}/{{function}}
     $routes->get('g/(:any)', 'GlobalController::showAll/$1');
-    $routes->get('dashboard-voyage', 'DashboardController::vms_timesheet');
+
+    # Dashboard ===========
+    $routes->get('dash_vessel_monitoring', 'DashboardVesselController::index');
+    $routes->get('dash_vessel_utilisasi', 'DashboardVesselController::utilisasi');
+
+    $routes->group('', ['namespace' => 'App\Controllers\Api\Admin'], function($r) {
+        $r->get('utilization/summary',     'Utilization::summary');
+        $r->get('utilization/trend',       'Utilization::trend');
+        $r->get('utilization/status',      'Utilization::statusBreakdown');
+        $r->get('utilization/by-vessel',   'Utilization::byVessel');
+        $r->get('utilization/heatmap',     'Utilization::heatmap');
+        $r->get('utilization/table',       'Utilization::table');
+        $r->get('utilization/alerts',      'Utilization::alerts');
+        $r->get('vessels',                 'Utilization::vesselsList');
+    });
+    
+    # Report ==============
+    $routes->get('report_tce', 'ReportController::tce');
+    $routes->get('report_voyage', 'ReportVoyageController::index');
+
+    $routes->group('jenis_muatan', function ($routes) {
+        $routes->get('/', 'JenisMuatanController::index');
+        $routes->get('show', 'JenisMuatanController::show');
+        $routes->post('create', 'JenisMuatanController::create');
+        $routes->post('update/(:num)', 'JenisMuatanController::update/$1');
+        $routes->post('delete/(:num)', 'JenisMuatanController::delete/$1');
+    });
 
     $routes->group('owner', function ($routes) {
         $routes->get('/', 'OwnerController::index');

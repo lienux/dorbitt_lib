@@ -1,5 +1,3 @@
-<?= $headerPage; ?>
-
 <!-- Cards List Data -->
 <div class="card shadow-sm">
   <div class="card-header bg-white py-3">
