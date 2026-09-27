@@ -1,3 +1,5 @@
+<?= (isset($page_content_title)) ? $page_content_title : '' ?>
+
 <div id="ummuPageContent">
     <nav class="ummu-nav">
         <div class="nav nav-tabs" id="ummu_nav_tab">

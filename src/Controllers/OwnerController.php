@@ -13,6 +13,18 @@ use Dorbitt\Helpers\FileHelper;
 
 class OwnerController extends ResourceController
 {
+    protected $pathAPI;
+    protected $moduleKodeAPI;
+    protected $module_kode;
+    protected $dir_view;
+    protected $request;
+    protected $cH;
+    protected $db;
+    protected $gHelp;
+    protected $vH;
+    protected $umHelp;
+    protected $fileH;
+
     public function __construct()
     {
         $this->pathAPI = "api/ms-owner";
@@ -50,8 +62,14 @@ class OwnerController extends ResourceController
                     "active" => "active"
                 ]
             ],
-            'headerPage' => '<h3 class="mb-0 text-primary"><i class="fas fa-building mr-2"></i>Master Owner</h3>
-                            <small class="text-muted">Kelola data pemilik kapal / vessel owner</small>',
+            'page_content_title' => '<div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="text-primary mb-0">
+                        <i class="fas fa-building mr-2"></i>Master Owner
+                    </h3>
+                    <small class="text-muted">Kelola data pemilik kapal / vessel owner</small>
+                </div>
+            </div>',
         ];
         return view($this->vH->ummuViewPartialIndex(), $data);
     }

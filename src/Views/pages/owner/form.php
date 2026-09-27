@@ -1,4 +1,3 @@
-<?= $headerPage; ?>
 <div class="form-row">
 <div class="form-group col-md-4">
   <label class="font-weight-bold">Kode Owner <span class="text-danger">*</span></label>
