@@ -171,6 +171,7 @@ class LoginController extends ResourceController
                 $update_myKdSite = null;
                 $login_module = "openapi2";
                 $kode2 = null;
+                $crew = (isset($response->data->crew)) ? $response->data->crew : null;
 
                 $employee_show = $this->qbEmployee->show_by_nik_for_login($nika, $msdb_token);
 
@@ -240,6 +241,7 @@ class LoginController extends ResourceController
                     "login_module" => $login_module,
                     "modules_kode" => (isset($response->data->child_module_kode)) ? $response->data->child_module_kode : null,
                     "oa2_employee" => (isset($response->data->employee)) ? $response->data->employee : null,
+                    "crew" => $crew,
                 ];
                 session()->set($sessData);
 
