@@ -159,6 +159,23 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->delete('waypoint/(:num)', 'VoyageRouteController::delete_waypoint/$1');
     });
 
+    $routes->group('ms_rute', function ($routes) {
+        $routes->get('/', 'VoyageRouteController::index');
+        $routes->get('show', 'VoyageRouteController::show');
+        $routes->post('show', 'VoyageRouteController::show');
+        $routes->post('create', 'VoyageRouteController::create');
+        $routes->post('update/(:num)', 'VoyageRouteController::update/$1');
+        $routes->post('delete/(:num)', 'VoyageRouteController::delete/$1');
+
+        $routes->get('show-pelabuhan', 'VoyageRouteController::show_pelabuhan');
+        $routes->post('create-waypoint', 'VoyageRouteController::create_waypoint');
+        $routes->post('update-waypoint/(:num)', 'VoyageRouteController::update_waypoint/$1');
+
+        $routes->post('waypoint', 'VoyageRouteController::create_waypoint');
+        $routes->put('waypoint/(:num)', 'VoyageRouteController::update_waypoint/$1');
+        $routes->delete('waypoint/(:num)', 'VoyageRouteController::delete_waypoint/$1');
+    });
+
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
@@ -486,6 +503,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('mcp_report', function ($routes) {
         require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
     });
+
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
 });
 // END ADMIN -------------------------------
@@ -513,6 +531,35 @@ $routes->group('v1-alya', function ($routes) {
 
     $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // 
+    });
+
+    $routes->group('api', ['namespace' => 'Dorbitt\Controllers\Alya\Api', 'filter' => 'auth'], static function($routes) {
+        $routes->group('master-data', function($routes) {
+            $routes->get('activity', 'ActivityApi::index');
+            $routes->get('pelabuhan', 'PelabuhanApi::index');
+        });
+
+        $routes->group('sounding', function($routes) {
+            $routes->get('/', 'SoundingReportApi::index');
+            $routes->get('(:num)', 'SoundingReportApi::show/$1');
+            $routes->post('store', 'SoundingReportApi::store');
+            $routes->put('update/(:num)', 'SoundingReportApi::update/$1');
+            $routes->delete('delete/(:num)', 'SoundingReportApi::delete/$1');
+            $routes->post('submit/(:num)', 'SoundingReportApi::submit/$1');
+            $routes->post('approve/(:num)', 'SoundingReportApi::approve/$1');
+            $routes->post('reject/(:num)', 'SoundingReportApi::reject/$1');
+            
+            // Charts & comparison
+            $routes->get('chart/consumption', 'SoundingReportApi::chartConsumption');
+            $routes->get('chart/trend/(:num)', 'SoundingReportApi::chartTrend/$1');
+            $routes->get('comparison/(:num)', 'SoundingReportApi::comparison/$1');
+            $routes->get('compare/(:num)/(:num)', 'SoundingReportApi::compareTwo/$1/$2');
+            
+            // Master data
+            $routes->get('master/vessels', 'SoundingReportApi::vessels');
+            $routes->get('master/tanks/(:num)', 'SoundingReportApi::tanks/$1');
+            $routes->get('master/voyages', 'SoundingReportApi::voyages');
+        });
     });
 });
 
