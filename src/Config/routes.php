@@ -185,6 +185,15 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'MsActivityController::delete/$1');
     });
 
+    $routes->group('vms_activity', function ($routes) {
+        $routes->get('/', 'VesselActivityController::index');
+        $routes->get('show', 'VesselActivityController::show');
+        // $routes->post('show', 'VesselActivityController::show');
+        $routes->post('create', 'VesselActivityController::create');
+        $routes->post('update/(:num)', 'VesselActivityController::update/$1');
+        $routes->post('delete/(:num)', 'VesselActivityController::delete/$1');
+    });
+
     $routes->group('equipment', function ($routes) {
         $routes->get('/', 'MsEquipmentController::index');
         $routes->get('show', 'MsEquipmentController::show');
