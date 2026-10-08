@@ -232,7 +232,7 @@ class Vh extends BaseConfig
         if ($a) {
             $b = $a;
         }else{
-            $b = 'https://cdn.openapi2.com/img/avatar.png';
+            $b = 'https://cdn.alisatu.co.id/img/avatar.png';
         }
 
         return $b;
@@ -255,7 +255,7 @@ class Vh extends BaseConfig
         if ($t) {
             $t = base_url($t);
         }else{
-            $t = 'https://cdn.openapi2.com/img/favicon.ico';
+            $t = 'https://cdn.alisatu.co.id/img/favicon.ico';
         }
 
         return $t;
@@ -277,7 +277,7 @@ class Vh extends BaseConfig
         $a = getenv('app.credit');
 
         if ($a) {
-            $b = '<a href="https://dorbitt.com/" target="_blank">'.$a.'</a>';
+            $b = '<a href="https://alisatu.co.id/" target="_blank">'.$a.'</a>';
         }else{
             $b = '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';
         }
@@ -330,7 +330,7 @@ class Vh extends BaseConfig
             $b = $a2;
         }
         else{
-            $b = 'https://cdn.openapi2.com/img/logo.png';
+            $b = 'https://cdn.alisatu.co.id/img/logo.png';
         }
 
         return $b;
@@ -342,7 +342,7 @@ class Vh extends BaseConfig
         if ($a) {
             $b = $a;
         }else{
-            $b = 'https://cdn.openapi2.com/img/bg-auth.png';
+            $b = 'https://cdn.alisatu.co.id/img/bg-auth.png';
         }
 
         return $b;

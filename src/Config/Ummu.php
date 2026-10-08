@@ -105,7 +105,7 @@ class Ummu extends BaseConfig
         if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Script/" . $filename . ".js?time=" . date('YmdHis');
         }else{
-            return "https://cdn.openapi2.com/Script/" . $filename . ".js?time=" . date('YmdHis');
+            return "https://cdn.alisatu.co.id/Script/" . $filename . ".js?time=" . date('YmdHis');
         }
     }
 
