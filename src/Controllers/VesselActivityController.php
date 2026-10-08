@@ -14,7 +14,8 @@ class VesselActivityController extends ResourceController
 {
     public function __construct()
     {
-        $this->dir_view = 'pages/vms_activity/';
+        $this->module_kode = 'vessel_activity';
+        $this->dir_view = 'pages/'.$this->module_kode.'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
@@ -27,9 +28,9 @@ class VesselActivityController extends ResourceController
     {
         $data = [
             'page_title' => 'Master Data Activity',
-            'module_kode' => 'vms_activity',
-            'navlink' => 'vms_activity',
-            'group' => ['masterdata','vessel_activity'],
+            'module_kode' => 'vessel_activity',
+            'navlink' => 'vessel_activity',
+            'group' => ['masterdata'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
@@ -42,13 +43,8 @@ class VesselActivityController extends ResourceController
                 [
                     "name" => "Vessel Activity",
                     "page" => "#",
-                    "active" => ""
-                ],
-                [
-                    "name" => "Activity",
-                    "page" => "#",
                     "active" => "active"
-                ]
+                ],
             ]
         ];
         return view($this->vH->ummuViewPartialIndex(), $data);

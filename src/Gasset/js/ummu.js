@@ -275,6 +275,38 @@ var $ummu = {
             if (typeof bsCustomFileInput !== 'undefined' && bsCustomFileInput == 'textpage') {
                 bsCustomFileInput.init();
             }
+
+            // $(document).on('click', '.ummu-clear-input', function() {
+            //     const id = $(this).attr('for');
+            //     if (!id) return;
+            //     const $el = $('#' + id);
+            //     if ($el.is('input, textarea')) $el.val('');
+            //     else if ($el.is('select')) $el.prop('selectedIndex', 0);
+            //     else $el.empty();
+            //     $el.trigger('change').trigger('input');
+            // });
+
+            $(document).on('click', '.ummu-clear-input', function() {
+                const targetId = $(this).attr('for');
+                if (!targetId) return;
+
+                const $el = $('#' + targetId);
+                if (!$el.length) return;
+
+                $el.removeAttr('data-id').removeData('id');
+
+                // Kosongkan value-nya juga (opsional, tergantung kebutuhan)
+                if ($el.is('input, textarea')) {
+                    $el.val('');
+                } else if ($el.is('select')) {
+                    $el.prop('selectedIndex', 0);
+                } else {
+                    $el.empty();
+                }
+
+                // Trigger event
+                $el.trigger('change').trigger('input');
+            });
             
             $(document).on("click", ".btn-in-modal", function () {
                 var id = $(this).attr("id");
@@ -3004,6 +3036,266 @@ var $ummu = {
 
             $($tbListDataID).data('init', 'voyage_route2');
             $ummu.dt.voyage_route2.onClick();
+        },
+
+        show_ms_category: function () {
+            let lcg = localStorage.getItem('ms_category')
+
+            if ($($tbListDataID).data('init') != 'ms_category') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.ms_category.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.ms_category.init == null) {
+                    $ummu.dt.ms_category.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.ms_category.init.destroy();
+                                            $ummu.dt.ms_category.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.ms_category.init == null) {
+                    $ummu.dt.ms_category.create()
+                } else {
+                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'ms_category');
+            $ummu.dt.ms_category.onClick();
+        },
+
+        show_ms_tcode: function () {
+            let lcg = localStorage.getItem('ms_tcode')
+
+            if ($($tbListDataID).data('init') != 'ms_tcode') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.ms_tcode.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.ms_tcode.init == null) {
+                    $ummu.dt.ms_tcode.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.ms_tcode.init.destroy();
+                                            $ummu.dt.ms_tcode.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.ms_tcode.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.ms_tcode.init == null) {
+                    $ummu.dt.ms_tcode.create()
+                } else {
+                    $ummu.dt.ms_tcode.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'ms_tcode');
+            $ummu.dt.ms_tcode.onClick();
+        },
+
+        show_ms_responsibility: function () {
+            let lcg = localStorage.getItem('ms_responsibility')
+
+            if ($($tbListDataID).data('init') != 'ms_responsibility') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.ms_responsibility.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.ms_responsibility.init == null) {
+                    $ummu.dt.ms_responsibility.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.ms_responsibility.init.destroy();
+                                            $ummu.dt.ms_responsibility.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.ms_responsibility.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.ms_responsibility.init == null) {
+                    $ummu.dt.ms_responsibility.create()
+                } else {
+                    $ummu.dt.ms_responsibility.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'ms_responsibility');
+            $ummu.dt.ms_responsibility.onClick();
+        },
+
+        show_activity_domains: function () {
+            let lcg = localStorage.getItem('activity_domains')
+
+            if ($($tbListDataID).data('init') != 'activity_domains') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.activity_domains.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.activity_domains.init == null) {
+                    $ummu.dt.activity_domains.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.activity_domains.init.destroy();
+                                            $ummu.dt.activity_domains.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.activity_domains.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.activity_domains.init == null) {
+                    $ummu.dt.activity_domains.create()
+                } else {
+                    $ummu.dt.activity_domains.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'activity_domains');
+            $ummu.dt.activity_domains.onClick();
         },
 
         config: {
@@ -11372,7 +11664,7 @@ var $ummu = {
                 if (m) {
                     var m_ = m;
                 }else{
-                    var m_ = 'POST';
+                    var m_ = 'GET';
                 }
                 var MyServerSide = false;
 
@@ -15292,6 +15584,411 @@ var $ummu = {
                             app.controllers.on_click_tbody_trtd_child_voyage_route2(row);
                         } else {
                             console.log('plese create function app.controllers.on_click_tbody_trtd_child_voyage_route2.');
+                        }
+                    });
+                }
+            }
+        },
+
+        ms_category: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.ms_category.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.ms_category.config()
+                );
+
+                $ummu.dt.ms_category.init.on('xhr', function () {
+                    var response = $ummu.dt.ms_category.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('ms_category', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "category",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.ms_category.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Kode", data: "kode" },
+                        { title: "Category Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.ms_category.init !== null) {
+                    $ummu.dt.ms_category.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.ms_category.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#ms_category").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_ms_category !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_ms_category is OK.');
+                            app.controllers.on_click_tbody_trtd_child_ms_category(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_ms_category.');
+                        }
+                    });
+                }
+            }
+        },
+
+        ms_tcode: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.ms_tcode.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.ms_tcode.config()
+                );
+
+                $ummu.dt.ms_tcode.init.on('xhr', function () {
+                    var response = $ummu.dt.ms_tcode.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('ms_tcode', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "tcode",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.ms_tcode.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.ms_tcode.init !== null) {
+                    $ummu.dt.ms_tcode.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.ms_tcode.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#ms_tcode").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_ms_tcode !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_ms_tcode is OK.');
+                            app.controllers.on_click_tbody_trtd_child_ms_tcode(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_ms_tcode.');
+                        }
+                    });
+                }
+            }
+        },
+
+        ms_responsibility: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.ms_responsibility.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.ms_responsibility.config()
+                );
+
+                $ummu.dt.ms_responsibility.init.on('xhr', function () {
+                    var response = $ummu.dt.ms_responsibility.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('ms_responsibility', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "responsibility",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.ms_responsibility.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.ms_responsibility.init !== null) {
+                    $ummu.dt.ms_responsibility.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.ms_responsibility.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#ms_responsibility").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_ms_responsibility !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_ms_responsibility is OK.');
+                            app.controllers.on_click_tbody_trtd_child_ms_responsibility(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_ms_responsibility.');
+                        }
+                    });
+                }
+            }
+        },
+
+        activity_domains: {
+            init: null,
+            
+            create: function () {
+                $ummu.dt.activity_domains.init = new DataTable(
+                    $tbListDataID,
+                    $ummu.dt.activity_domains.config()
+                );
+
+                $ummu.dt.activity_domains.init.on('xhr', function () {
+                    var response = $ummu.dt.activity_domains.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('activity_domains', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: $ummu.vars.page_url + "domains",
+                        data: function (d) {
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.activity_domains.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: [
+                        {
+                            title: "ID",
+                            data: "id",
+                            render: function (data, type, row) {
+                                return (
+                                    '<a href="javascript:void(0);"><div><span class="">' +
+                                    data +
+                                    '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                );
+                            },
+                        },
+                        { title: "Name", data: "name" },
+                    ],
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
+
+            onClick: function () {
+                if ($ummu.dt.activity_domains.init !== null) {
+                    $ummu.dt.activity_domains.init.off("click").on("click", "tbody tr td:nth-child(1)", function() {
+                        var row = $ummu.dt.activity_domains.init.row(this).data();
+                        // console.log(row);
+
+                        // $("#activity_domains").val(row.name).attr("data-id", row.id);
+                        // $ummu.vars.listData.selectKode = row.id;
+
+                        $("#modal_listData").modal("hide");
+                        
+                        if (typeof app.controllers.on_click_tbody_trtd_child_activity_domains !== "undefined") {
+                            console.log('function app.controllers.on_click_tbody_trtd_child_activity_domains is OK.');
+                            app.controllers.on_click_tbody_trtd_child_activity_domains(row);
+                        } else {
+                            console.log('plese create function app.controllers.on_click_tbody_trtd_child_activity_domains.');
                         }
                     });
                 }

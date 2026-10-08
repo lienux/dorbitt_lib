@@ -217,9 +217,8 @@ var app = {
                         }
                     },
                     { 
-                        title: "Activity Domain",
-                        data: "domain_name",
-                        class: "text-left",
+                        title: "Module Code",
+                        data: "module_kode",
                     },
                     { 
                         title: "Kode",
@@ -228,18 +227,6 @@ var app = {
                     { 
                         title: "Name",
                         data: "name"
-                    },
-                    { 
-                        title: "TCODE",
-                        data: "tcode_name"
-                    },
-                    { 
-                        title: "Category",
-                        data: "category_name"
-                    },
-                    { 
-                        title: "Responsibility",
-                        data: "responsibility_name"
                     },
                     { 
                         title: "Description",
