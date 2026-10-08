@@ -118,6 +118,7 @@ var app = {
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
                 $ummu.views.after_sbToolbar_delete(id, result);
+                app.views.forClear()
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
