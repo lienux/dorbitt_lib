@@ -203,7 +203,7 @@ class GviewsHelper
         if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/css/ummu.css?time=" . date('YmdHis');
         }else{
-            return "https://cdn.openapi2.com/ummu.css?time=" . date('YmdHis');
+            return "https://cdn.alisatu.co.id/ummu.css?time=" . date('YmdHis');
         }
     }
 
@@ -212,7 +212,7 @@ class GviewsHelper
         if (getenv('CI_DORBITT') == 'development') {
             return "http://localhost/dorbitt/dorbitt_lib/src/Gasset/js/ummu.js?time=" . date('YmdHis');
         }else{
-            return "https://cdn.openapi2.com/ummu.min.js?time=" . date('YmdHis');
+            return "https://cdn.alisatu.co.id/ummu.min.js?time=" . date('YmdHis');
         }
     }
 
