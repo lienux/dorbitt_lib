@@ -10,7 +10,7 @@ use Dorbitt\Helpers\ViewsHelper;
 use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 
-class MsActivityController extends ResourceController
+class MsCategoryController extends ResourceController
 {
     protected $module_kode;
     protected $dir_view;
@@ -24,7 +24,7 @@ class MsActivityController extends ResourceController
 
     public function __construct()
     {
-        $this->module_kode = 'ms_activity';
+        $this->module_kode = 'ms_category';
         $this->dir_view = 'pages/'.$this->module_kode.'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
@@ -37,21 +37,21 @@ class MsActivityController extends ResourceController
     public function index()
     {
         $data = [
-            'page_title' => 'Master Data Activity',
-            'module_kode' => 'ms_activity',
-            'navlink' => 'ms_activity',
-            'group' => ['masterdata'],
+            'page_title' => 'Master Category',
+            'module_kode' => $this->module_kode,
+            'navlink' => $this->module_kode,
+            'group' => ['config'],
             'tmp' => $this->gHelp->tmp(),
             'dir_views' => $this->dir_view,
             'crud' => null,
             'breadcrumb' => [
                 [
-                    "name" => "Master Data",
+                    "name" => "Config",
                     "page" => "#",
                     "active" => ""
                 ],
                 [
-                    "name" => "Activity",
+                    "name" => "Category List",
                     "page" => "#",
                     "active" => "active"
                 ]
@@ -72,10 +72,10 @@ class MsActivityController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/master-data/activity",
+            "path"      => "api/master-data/category",
             "method" => 'GET',
             "payload" => $payload,
-            "headers" => $this->cH->headers3('ms_activity')
+            "headers" => $this->cH->headers3('ms_category')
         ];
 
         $builder = $this->cH->ummu2($params);

@@ -65,6 +65,14 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('delete/(:num)', 'JenisMuatanController::delete/$1');
     });
 
+    $routes->group('ms_category', function ($routes) {
+        $routes->get('/', 'MsCategoryController::index');
+        $routes->get('show', 'MsCategoryController::show');
+        $routes->post('create', 'MsCategoryController::create');
+        $routes->post('update/(:num)', 'MsCategoryController::update/$1');
+        $routes->post('delete/(:num)', 'MsCategoryController::delete/$1');
+    });
+
     $routes->group('owner', function ($routes) {
         $routes->get('/', 'OwnerController::index');
         $routes->get('show', 'OwnerController::show');
@@ -179,10 +187,26 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('ms_activity', function ($routes) {
         $routes->get('/', 'MsActivityController::index');
         $routes->get('show', 'MsActivityController::show');
-        $routes->post('show', 'MsActivityController::show');
         $routes->post('create', 'MsActivityController::create');
         $routes->post('update/(:num)', 'MsActivityController::update/$1');
         $routes->post('delete/(:num)', 'MsActivityController::delete/$1');
+
+        $routes->get('domains', 'MsActivityController::domains');
+        $routes->get('category', 'MsActivityController::category');
+        $routes->get('tcode', 'MsActivityController::tcode');
+        $routes->get('responsibility', 'MsActivityController::responsibility');
+    });
+
+    $routes->group('vessel_activity', function ($routes) {
+        $routes->get('/', 'VesselActivityController::index');
+        $routes->get('show', 'VesselActivityController::show');
+        $routes->post('create', 'VesselActivityController::create');
+        $routes->post('update/(:num)', 'VesselActivityController::update/$1');
+        $routes->post('delete/(:num)', 'VesselActivityController::delete/$1');
+
+        $routes->get('category', 'VesselActivityController::category');
+        $routes->get('tcode', 'VesselActivityController::tcode');
+        $routes->get('responsibility', 'VesselActivityController::responsibility');
     });
 
     $routes->group('equipment', function ($routes) {
