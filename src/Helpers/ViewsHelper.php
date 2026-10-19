@@ -263,12 +263,14 @@ class ViewsHelper
     public function appCredit()
     {
         $a = getenv('app.credit');
+        $b = '';
 
         if ($a) {
             $b = '<a href="https://alisatu.co.id/" target="_blank">'.$a.'</a>';
-        }else{
-            $b = '<a href="https://sparkcode.alisatu.co.id/" target="_blank">Sparkcode 4.4.3</a>';
         }
+        // else{
+        //     $b = '<a href="https://alisatu.co.id/" target="_blank">Alisatu Digital</a>';
+        // }
 
         return $b;
         // return '<a href="https://sparkcode.web.id/" target="_blank">Sparkcode 4.4.3</a>';

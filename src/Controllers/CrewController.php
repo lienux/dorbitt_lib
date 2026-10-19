@@ -77,24 +77,84 @@ class CrewController extends ResourceController
 
     public function create()
     {
-        $getVar = $this->request->getVar();
+        // Personal
+        $full_name = $this->request->getPost('full_name');
+        $tempat_lahir = $this->request->getPost('tempat_lahir');
+        $tanggal_lahir = $this->request->getPost('tanggal_lahir');
+        $phone_number = $this->request->getPost('phone_number');
+        $golongan_darah = $this->request->getPost('golongan_darah');
+
+        // Jabatan
+        $tugboat_id = $this->request->getVar('tugboat_id');
+        $base_rank_id = $this->request->getVar('base_rank_id');
+        $highest_coc_certificate = $this->request->getVar('highest_coc_certificate');
+        $employment_status = $this->request->getVar('employment_status');
+
+        // Dokumen
+        $seaman_book_number = $this->request->getVar('seaman_book_number');
+        $seaman_book_expiry = $this->request->getVar('seaman_book_expiry');
+        $mcu_maritime_number = $this->request->getVar('mcu_maritime_number');
+        $mcu_maritime_expiry = $this->request->getVar('mcu_maritime_expiry');
+        $crew_document_pdf = $this->request->getVar('crew_document_pdf');
+
         $file = $this->request->getFile('crew_document_pdf');
-        $fileName = null;
-        $ifleUrl = null;
+        // $fileName = null;
+        // $ifleUrl = null;
+
+        $payload = [
+            // Identities
+            // 'identity_id' => null,
+            'name' => $full_name,
+            'tempat_lahir' => $tempat_lahir,
+            'tanggal_lahir' => $tanggal_lahir,
+            'phone_number' => $phone_number,
+            // 'email' => null,
+            'golongan_darah' => $golongan_darah,
+
+            // Jabatan
+            'tugboat_id' => $tugboat_id,
+            'base_rank_id' => $base_rank_id,
+            'highest_coc_certificate' => $highest_coc_certificate,
+            'employment_status_id' => $employment_status,
+            'departemen_id' => getenv('crewing.departemen_id'),
+            'jabatan_id' => getenv('crewing.jabatan_id'),
+            // 'rank_code' => null,
+            // 'rank_name_en' => null,
+            // 'rank_name_id' => null,
+            // 'current_crew_status' => null,
+            // 'current_vessel_id' => null,
+            // 'wearpack_size' => null,
+            // 'safety_shoes_size' => null,
+
+            // Dokumen
+            'seaman_book_number' => $seaman_book_number,
+            'seaman_book_expiry' => $seaman_book_expiry,
+            // 'seaman_book_expiry_status' => null,
+            // 'seaman_book_expiry_sisa' => null,
+            'mcu_maritime_number' => $mcu_maritime_number,
+            'mcu_maritime_expiry' => $mcu_maritime_expiry,
+            // 'passport_number' => null,
+            // 'passport_expiry' => null,
+            // 'coc_certificate_number' => null,
+            // 'coc_expiry_date' => null,
+            // 'file_name' => null,
+            // 'file_url' => null,
+        ];
 
         // Proses save file
         $upload = $this->fileH->upload2($file);
+
         if ($upload['status'] == true) {
             $fileName = $upload['originalName'];
             $ifleUrl = $upload['fileUrl'];
+
+            $fileUpload = [
+                "file_name" => $fileName, 
+                "file_url" => $ifleUrl
+            ];
+
+            $payload = [...$payload, ...$fileUpload];
         }
-
-        $fileUpload = [
-            "file_name" => $fileName, 
-            "file_url" => $ifleUrl
-        ];
-
-        $payload = [...$getVar, ...$fileUpload];
 
         $params = [
             "path" => $this->pathAPI,
@@ -103,22 +163,94 @@ class CrewController extends ResourceController
             "headers" => $this->cH->headers3($this->module_kode)
         ];
 
-        // $builder = $this->cH->ummu2($params);
+        $builder = $this->cH->ummu2($params);
 
-        return $this->respond($params, 200);
+        return $this->respond($builder, 200);
     }
 
     public function update($id = null)
     {
+        // Personal
+        $full_name = $this->request->getPost('full_name');
+        $tempat_lahir = $this->request->getPost('tempat_lahir');
+        $tanggal_lahir = $this->request->getPost('tanggal_lahir');
+        $phone_number = $this->request->getPost('phone_number');
+        $golongan_darah = $this->request->getPost('golongan_darah');
+
+        // Jabatan
+        $tugboat_id = $this->request->getVar('tugboat_id');
+        $base_rank_id = $this->request->getVar('base_rank_id');
+        $highest_coc_certificate = $this->request->getVar('highest_coc_certificate');
+        $employment_status = $this->request->getVar('employment_status');
+
+        // Dokumen
+        $seaman_book_number = $this->request->getVar('seaman_book_number');
+        $seaman_book_expiry = $this->request->getVar('seaman_book_expiry');
+        $mcu_maritime_number = $this->request->getVar('mcu_maritime_number');
+        $mcu_maritime_expiry = $this->request->getVar('mcu_maritime_expiry');
+        $crew_document_pdf = $this->request->getVar('crew_document_pdf');
+
+        $file = $this->request->getFile('crew_document_pdf');
+        // $fileName = null;
+        // $ifleUrl = null;
+
         $payload = [
-            "type_id" => 1,
-            "name" => $this->request->getPost('name'),
-            "from_id" => $this->request->getPost('from_id'),
-            "to_id" => $this->request->getPost('to_id'),
+            // Identities
+            // 'identity_id' => null,
+            'name' => $full_name,
+            'tempat_lahir' => $tempat_lahir,
+            'tanggal_lahir' => $tanggal_lahir,
+            'phone_number' => $phone_number,
+            // 'email' => null,
+            'golongan_darah' => $golongan_darah,
+
+            // Jabatan
+            'tugboat_id' => $tugboat_id,
+            'base_rank_id' => $base_rank_id,
+            'highest_coc_certificate' => $highest_coc_certificate,
+            'employment_status_id' => $employment_status,
+            'departemen_id' => getenv('crewing.departemen_id'),
+            'jabatan_id' => getenv('crewing.jabatan_id'),
+            // 'rank_code' => null,
+            // 'rank_name_en' => null,
+            // 'rank_name_id' => null,
+            // 'current_crew_status' => null,
+            // 'current_vessel_id' => null,
+            // 'wearpack_size' => null,
+            // 'safety_shoes_size' => null,
+
+            // Dokumen
+            'seaman_book_number' => $seaman_book_number,
+            'seaman_book_expiry' => $seaman_book_expiry,
+            // 'seaman_book_expiry_status' => null,
+            // 'seaman_book_expiry_sisa' => null,
+            'mcu_maritime_number' => $mcu_maritime_number,
+            'mcu_maritime_expiry' => $mcu_maritime_expiry,
+            // 'passport_number' => null,
+            // 'passport_expiry' => null,
+            // 'coc_certificate_number' => null,
+            // 'coc_expiry_date' => null,
+            // 'file_name' => null,
+            // 'file_url' => null,
         ];
 
+        // Proses save file
+        $upload = $this->fileH->upload2($file);
+
+        if ($upload['status'] == true) {
+            $fileName = $upload['originalName'];
+            $ifleUrl = $upload['fileUrl'];
+
+            $fileUpload = [
+                "file_name" => $fileName, 
+                "file_url" => $ifleUrl
+            ];
+
+            $payload = [...$payload, ...$fileUpload];
+        }
+
         $params = [
-            "path" => $this->pathAPI . "/update/" . $id,
+            "path" => $this->pathAPI . "/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
