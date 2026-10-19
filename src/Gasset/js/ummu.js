@@ -17298,7 +17298,75 @@ var $ummu = {
             // 4. Tampilkan hasilnya ke elemen HTML
             // $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
             return age;
-        }
+        },
+
+        /**
+         * Menghitung masa kerja berdasarkan tanggal masuk.
+         * @param {string|Date} tanggalMasuk - Tanggal mulai kerja (format: 'YYYY-MM-DD' atau objek Date)
+         * @param {string|Date} tanggalAkhir - Tanggal akhir (opsional, default: hari ini)
+         * @returns {object} Objek berisi years, months, days, totalMonths, dan formatted string
+         */
+        hitungMasaKerja: function(tanggalMasuk, tanggalAkhir = new Date()) {
+            // Konversi ke objek Date
+            const start = new Date(tanggalMasuk);
+            const end = new Date(tanggalAkhir);
+
+            // Validasi: pastikan tanggal valid dan tanggal masuk tidak lebih besar dari tanggal akhir
+            if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+                return { error: "Format tanggal tidak valid" };
+            }
+            if (start > end) {
+                return { error: "Tanggal masuk tidak boleh melebihi tanggal akhir" };
+            }
+
+            // Hitung selisih awal
+            let years = end.getFullYear() - start.getFullYear();
+            let months = end.getMonth() - start.getMonth();
+            let days = end.getDate() - start.getDate();
+
+            // Perbaiki jika hari minus (meminjam dari bulan sebelumnya)
+            if (days < 0) {
+                months--;
+                // Ambil jumlah hari pada bulan sebelum tanggal akhir
+                const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            // Perbaiki jika bulan minus (meminjam dari tahun)
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Hitung total bulan (berguna untuk sorting atau syarat HRD)
+            const totalMonths = (years * 12) + months;
+
+            // Format teks (contoh: "2 Tahun, 3 Bulan, 10 Hari")
+            let formatted = [];
+            if (years > 0) formatted.push(`${years} Tahun`);
+            if (months > 0) formatted.push(`${months} Bulan`);
+            if (days > 0) formatted.push(`${days} Hari`);
+            
+            // Jika baru masuk hari ini
+            if (formatted.length === 0) formatted.push("0 Hari");
+
+            return {
+                years: years,
+                months: months,
+                days: days,
+                totalMonths: totalMonths,
+                formatted: formatted.join(", ")
+            };
+
+            // 1. Penggunaan Basic (Menghitung sampai hari ini):
+            // const hasil = hitungMasaKerja('2020-05-15');
+            // console.log(hasil.formatted); // Output: "3 Tahun, 11 Bulan, X Hari" (tergantung tanggal hari ini)
+            // console.log(hasil.totalMonths); // Output: 47 (total bulan)
+
+            // 2. Menghitung sampai tanggal tertentu (misal untuk tanggal pensiun/kontrak):
+            // const hasil = hitungMasaKerja('2021-01-10', '2023-03-15');
+            // console.log(hasil.formatted); // Output: "2 Tahun, 2 Bulan, 5 Hari"
+        },
     },
 
     url: {
