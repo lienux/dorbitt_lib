@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?=(getenv('app.name')) ? getenv('app.name') : "D'ORBITT SYSTEM" ?></title>
+	<title><?=(getenv('app.name')) ? getenv('app.name') : "ALISATU" ?></title>
 	
 	<!-- Favicons -->
 	<link href="<?=base_url('assets/img/dorbitt_favicon.ico')?>" rel="icon">

@@ -127,13 +127,29 @@
             <!-- BLOCK 2: KEPEGAWAIAN MARITIM -->
             <div class="section-title mb-3 mt-4"><i class="fas fa-anchor mr-1"></i> Kompetensi & Jabatan</div>
             <div class="row mb-2">
+                <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="vessel">
+                    Vessel
+                    <span class="text-danger"> *</span>
+                </label>
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-sm font-weight-bold border-info text-info is-data-id" id="tugboat" placeholder="Pilih Vessel" data-label="Vessel" required disabled>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_vessel" type="button" disabled data-inputid="tugboat" data-modaltitle="Master Vessel">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
                 <label class="col-sm-3 mb-0 pb-0 font-weight-bold small" for="crew_ranks">
                     Base Rank
                     <span class="text-danger"> *</span>
                 </label>
                 <div class="col">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control form-control-sm font-weight-bold border-info text-info" id="crew_ranks" placeholder="Pilih Rank" data-label="Rank" required disabled>
+                        <input type="text" class="form-control form-control-sm font-weight-bold border-info text-info is-data-id" id="crew_ranks" placeholder="Pilih Rank" data-label="Rank" required disabled>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_ranks" type="button" disabled data-inputid="crew_ranks" data-modaltitle="Master Rank">
                                 <i class="fas fa-list-ul"></i>

@@ -119,23 +119,30 @@ var app = {
             const tanggal_lahir = $("#birth_date").val();
             const phone_number = $("#phone_number").val();
             const golongan_darah = $("#blood_type").val();
+
+            const tugboat_id = $("#tugboat").data('id');
             const base_rank_id = $("#crew_ranks").data('id');
             const highest_coc_certificate = $("#highest_coc_certificate").val();
-            const employment_status = $("employment_status").val();
+            const employment_status = $("#employment_status").val();
+            
             const seaman_book_number = $("#seaman_book_number").val();
             const seaman_book_expiry = $("#seaman_book_expiry").val();
             const mcu_maritime_number = $("#mcu_maritime_number").val();
             const mcu_maritime_expiry = $("#mcu_maritime_expiry").val();
             const crew_document_pdf = $("#crew_document_pdf")[0].files[0];
 
+            $ummu.vars.formData = new FormData();
             $ummu.vars.formData.append("full_name", full_name);
             $ummu.vars.formData.append("tempat_lahir", tempat_lahir);
             $ummu.vars.formData.append("tanggal_lahir", tanggal_lahir);
             $ummu.vars.formData.append("phone_number", phone_number);
             $ummu.vars.formData.append("golongan_darah", golongan_darah);
+
+            $ummu.vars.formData.append("tugboat_id", tugboat_id);
             $ummu.vars.formData.append("base_rank_id", base_rank_id);
             $ummu.vars.formData.append("highest_coc_certificate", highest_coc_certificate);
             $ummu.vars.formData.append("employment_status", employment_status);
+
             $ummu.vars.formData.append("seaman_book_number", seaman_book_number);
             $ummu.vars.formData.append("seaman_book_expiry", seaman_book_expiry);
             $ummu.vars.formData.append("mcu_maritime_number", mcu_maritime_number);
@@ -148,9 +155,12 @@ var app = {
                 "tanggal_lahir": tanggal_lahir,
                 "phone_number": phone_number,
                 "golongan_darah": golongan_darah,
+
+                "tugboat_id": tugboat_id,
                 "base_rank_id": base_rank_id,
                 "highest_coc_certificate": highest_coc_certificate,
                 "employment_status": employment_status,
+
                 "seaman_book_number": seaman_book_number,
                 "seaman_book_expiry": seaman_book_expiry,
                 "mcu_maritime_number": mcu_maritime_number,
@@ -257,8 +267,8 @@ var app = {
             // $ummu.controllers.show_data_link(id)
             if (id == 'crew_ranks') {
                 $ummu.controllers.show_crew_ranks(id);
-            // }else if (id == 'tugboat') {
-            //     $ummu.controllers.show_tugboat(id);
+            }else if (id == 'tugboat') {
+                $ummu.controllers.show_tugboat(id);
             // }else if (id == 'barge') {
             //     $ummu.controllers.show_barge(id);
             // }else if (id == 'uom') {
@@ -272,7 +282,7 @@ var app = {
             }
         },
 
-        on_click_tbody_trtd_child: {
+        on_click_tbody_trtd_child: function() {
             // ijo: function(row) {
             //     $("#ijo").val(row.number).attr('data-id', row.id)
             // },
@@ -308,62 +318,88 @@ var app = {
         },
 
         setRow_toForm: function(row) {
-            // console.log(row);
+            console.log(row);
+
             $ummu.vars.row = row;
             // $('input[name="behavior"][value="'+row.behavior+'"]').prop('checked', true);
             $("#full_name").val(row.name);
             var tanggal_lahir_text = '';
             $("#employment_status").val(row.employment_status_id).trigger('change');
 
-            if (row?.row_from === 'urlParams') {
-                $("#birth_place").val(row['identities[tempat_lahir]']);
-                $("#birth_date").val(row['identities[tanggal_lahir]']);
-                var tanggal_lahir_text = row['identities[tanggal_lahir]'];
-                $("#phone_number").val(row['identities[phone_number]']);
-                $("#blood_type").val(row['identities[golongan_darah]']).trigger('change');
+            // if (row?.row_from === 'urlParams') {
+            //     $("#birth_place").val(row['identities[tempat_lahir]']);
+            //     $("#birth_date").val(row['identities[tanggal_lahir]']);
+            //     var tanggal_lahir_text = row['identities[tanggal_lahir]'];
+            //     $("#phone_number").val(row['identities[phone_number]']);
+            //     $("#blood_type").val(row['identities[golongan_darah]']).trigger('change');
 
-                // $("#crew_ranks").val(row['crew_details[rank_name_id]']).attr('data-id', row['crew_details[base_rank_id]']);
-                // $("#highest_coc_certificate").val(row['crew_details[highest_coc_certificate]']).trigger('change');
-                // $("#seaman_book_number").val(row['crew_details[seaman_book_number]']);
-                // $("#seaman_book_expiry").val(row['crew_details[seaman_book_expiry]']);
-                // $("#mcu_maritime_number").val(row['crew_details[mcu_maritime_number]']);
-                // $("#mcu_maritime_expiry").val(row['crew_details[mcu_maritime_expiry]']);
-                // $("#crew_document_pdf_text").html(row['crew_details[file_name]']);
-                // $("#click_to_open_file").attr('href', row['crew_details[file_url]']);
+            //     // $("#crew_ranks").val(row['crew_details[rank_name_id]']).attr('data-id', row['crew_details[base_rank_id]']);
+            //     // $("#highest_coc_certificate").val(row['crew_details[highest_coc_certificate]']).trigger('change');
+            //     // $("#seaman_book_number").val(row['crew_details[seaman_book_number]']);
+            //     // $("#seaman_book_expiry").val(row['crew_details[seaman_book_expiry]']);
+            //     // $("#mcu_maritime_number").val(row['crew_details[mcu_maritime_number]']);
+            //     // $("#mcu_maritime_expiry").val(row['crew_details[mcu_maritime_expiry]']);
+            //     // $("#crew_document_pdf_text").html(row['crew_details[file_name]']);
+            //     // $("#click_to_open_file").attr('href', row['crew_details[file_url]']);
 
-                $("#crew_ranks").val(row['rank_name_id']).attr('data-id', row['base_rank_id']);
-                $("#highest_coc_certificate").val(row['highest_coc_certificate']).trigger('change');
-                $("#seaman_book_number").val(row['seaman_book_number']);
-                $("#seaman_book_expiry").val(row['seaman_book_expiry']);
-                $("#mcu_maritime_number").val(row['mcu_maritime_number']);
-                $("#mcu_maritime_expiry").val(row['mcu_maritime_expiry']);
-                $("#crew_document_pdf_text").html(row['file_name']);
-                $("#click_to_open_file").attr('href', row['file_url']);
-            }else{
-                $("#birth_place").val(row.identities.tempat_lahir);
-                $("#birth_date").val(row.identities.tanggal_lahir);
-                var tanggal_lahir_text = row.identities.tanggal_lahir;
-                $("#phone_number").val(row.identities.phone_number);
-                $("#blood_type").val(row.identities.golongan_darah);
+            //     $("#crew_ranks").val(row['rank_name_id']).attr('data-id', row['base_rank_id']);
+            //     $("#highest_coc_certificate").val(row['highest_coc_certificate']).trigger('change');
+            //     $("#seaman_book_number").val(row['seaman_book_number']);
+            //     $("#seaman_book_expiry").val(row['seaman_book_expiry']);
+            //     $("#mcu_maritime_number").val(row['mcu_maritime_number']);
+            //     $("#mcu_maritime_expiry").val(row['mcu_maritime_expiry']);
+            //     $("#crew_document_pdf_text").html(row['file_name']);
+            //     $("#click_to_open_file").attr('href', row['file_url']);
+            // }else{
+            //     $("#birth_place").val(row.identities.tempat_lahir);
+            //     $("#birth_date").val(row.identities.tanggal_lahir);
+            //     var tanggal_lahir_text = row.identities.tanggal_lahir;
+            //     $("#phone_number").val(row.identities.phone_number);
+            //     $("#blood_type").val(row.identities.golongan_darah);
 
-                // $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
-                // $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
-                // $("#seaman_book_number").val(row.crew_details.seaman_book_number);
-                // $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
-                // $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
-                // $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
-                // $("#crew_document_pdf_text").html(row.crew_details.file_name);
-                // $("#click_to_open_file").attr('href', row.crew_details.file_url);
+            //     // $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
+            //     // $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
+            //     // $("#seaman_book_number").val(row.crew_details.seaman_book_number);
+            //     // $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
+            //     // $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
+            //     // $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
+            //     // $("#crew_document_pdf_text").html(row.crew_details.file_name);
+            //     // $("#click_to_open_file").attr('href', row.crew_details.file_url);
 
-                $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
-                $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
-                $("#seaman_book_number").val(row.seaman_book_number);
-                $("#seaman_book_expiry").val(row.seaman_book_expiry);
-                $("#mcu_maritime_number").val(row.mcu_maritime_number);
-                $("#mcu_maritime_expiry").val(row.mcu_maritime_expiry);
-                $("#crew_document_pdf_text").html(row.file_name);
-                $("#click_to_open_file").attr('href', row.file_url);
-            }
+            //     $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
+            //     $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
+            //     $("#seaman_book_number").val(row.seaman_book_number);
+            //     $("#seaman_book_expiry").val(row.seaman_book_expiry);
+            //     $("#mcu_maritime_number").val(row.mcu_maritime_number);
+            //     $("#mcu_maritime_expiry").val(row.mcu_maritime_expiry);
+            //     $("#crew_document_pdf_text").html(row.file_name);
+            //     $("#click_to_open_file").attr('href', row.file_url);
+            // }
+
+            $("#birth_place").val(row.tempat_lahir);
+            $("#birth_date").val(row.tanggal_lahir);
+            var tanggal_lahir_text = row.tanggal_lahir;
+            $("#phone_number").val(row.phone_number);
+            $("#blood_type").val(row.golongan_darah);
+
+            // $("#crew_ranks").val(row.crew_details.rank_name_id).attr('data-id', row.crew_details.base_rank_id);
+            // $("#highest_coc_certificate").val(row.crew_details.highest_coc_certificate).trigger('change');
+            // $("#seaman_book_number").val(row.crew_details.seaman_book_number);
+            // $("#seaman_book_expiry").val(row.crew_details.seaman_book_expiry);
+            // $("#mcu_maritime_number").val(row.crew_details.mcu_maritime_number);
+            // $("#mcu_maritime_expiry").val(row.crew_details.mcu_maritime_expiry);
+            // $("#crew_document_pdf_text").html(row.crew_details.file_name);
+            // $("#click_to_open_file").attr('href', row.crew_details.file_url);
+
+            $("#tugboat").val(row.vessel_name).attr('data-id', row.vessel_id);
+            $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
+            $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
+            $("#seaman_book_number").val(row.seaman_book_number);
+            $("#seaman_book_expiry").val(row.seaman_book_expiry);
+            $("#mcu_maritime_number").val(row.mcu_maritime_number);
+            $("#mcu_maritime_expiry").val(row.mcu_maritime_expiry);
+            $("#crew_document_pdf_text").html(row.file_name);
+            $("#click_to_open_file").attr('href', row.file_url);
 
             console.log(tanggal_lahir_text)
             if (tanggal_lahir_text) {
@@ -382,8 +418,9 @@ var app = {
 
         forClear: function() {
             $("#form_input input")
-                // .not('#fixed_cost, #variable_cost')
-                .val('');
+            // .not('#fixed_cost, #variable_cost')
+            .val('');
+            $(".is-data-id").removeAttr('data-id').removeData('id');
             $("#crew_document_pdf_text").html('Pilih Berkas PDF...');
             $("#click_to_open_file").attr('href', "");
             $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
@@ -414,9 +451,19 @@ var app = {
                         }
                     },
                     { 
+                            // <div class="small text-muted">(${row.vessel_name})</div>`;
                         title: "Nama Crew",
-                        data: "name",
+                        data: null,
                         className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = "";
+                            var html = `<div>${row.name}</div>
+                                <small class="text-success font-weight-bold">
+                                    <i class="fas fa-ship mr-1"></i> ${row.vessel_name}
+                                </small>`;
+
+                            return html;
+                        }
                     },
                     { 
                         title: "Jabatan (Rank)",
