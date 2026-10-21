@@ -13,8 +13,11 @@ use Dorbitt\Helpers\FileHelper;
 
 class TimeSheetController extends ResourceController
 {
+    protected $db;
+
     public function __construct()
     {
+        $this->db = \Config\Database::connect();
         $this->module_kode = 'time_sheet';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();

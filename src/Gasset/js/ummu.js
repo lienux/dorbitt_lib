@@ -9689,10 +9689,12 @@ var $ummu = {
                     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
                     $ummu.dt.controllers.index()
                 }else{
-                    if ($ummu.dt.init.count() == 0) {
-                        app.controllers.show()
-                    }else{
-                        $ummu.dt.init.ajax.reload()
+                    if ($ummu.dt.init) {
+                        if ($ummu.dt.init.count() == 0) {
+                            app.controllers.show()
+                        }else{
+                            $ummu.dt.init.ajax.reload()
+                        }
                     }
                 }
 
