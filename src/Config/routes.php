@@ -452,6 +452,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->delete('delete/(:num)', 'CrewController::delete/$1');
 
         $routes->get('crew-ranks', 'CrewController::show_ranks');
+        $routes->get('show_tugboat', 'CrewController::show_vessel');
     });
 
     $routes->group('payslip', function ($routes) {
