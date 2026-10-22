@@ -9827,6 +9827,15 @@ var $ummu = {
             $("#updated_at").html('');
             $("#created_by").html('');
             $("#updated_by").html('');
+        },
+
+        clearForm: function() {
+            // menghapus nilai data-id 
+            $("#form_input .is-data-id")
+                .attr('data-id', '')
+                .data('id', '')
+                .removeData('id')
+                .removeAttr('data-id')
         }
     },
 
@@ -9851,6 +9860,11 @@ var $ummu = {
             });
         },
 
+        /**
+         * Contoh penggunakaan :
+         * $ummu.formatter.number($("#basic_salary"), 8);
+         * 
+         * */
         number: function(element_id, maxDigit, unit) {
             if (unit) {
                 var setUnit = unit
@@ -9872,6 +9886,11 @@ var $ummu = {
             });
         },
 
+        /**
+         * Contoh penggunakaan :
+         * $ummu.formatter.number($("#basic_salary"), 8);
+         * 
+         * */
         number2: function(element_id, maxDigit) {
             $(element_id).on('input', function() {
                 if ($(this).val().includes('.')) {
@@ -9930,6 +9949,7 @@ var $ummu = {
         },
 
         // format number 1234567 to Rp. 1.234.567,00
+        // format ini jadi ada Rp. nya
         id2: function (data) {
             return new Intl.NumberFormat("id-ID", {
                 style: "currency",
@@ -10114,6 +10134,149 @@ var $ummu = {
                 row.id + '<i class="bi bi-link-45deg"></i>' +
                 '</div>' +
                 '</a>';
+        },
+
+        /**
+         * Cara manggil valuenya:
+         * var basic_salary = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#basic_salary').val());
+         * 
+         * */
+        input_rupiah: {
+            load: function($jQueryElement) {
+                $jQueryElement.on('input', function () {
+                    const el = this;
+
+                    // 1. simpan posisi kursor
+                    const cursorPos = el.selectionStart;
+                    const oldLength = el.value.length;
+                    const oldRaw    = el.value.slice(0, cursorPos).replace(/[^\d]/g, '').length;
+
+                    // 2. format ulang
+                    const formatted = $ummu.formatter.input_rupiah.formatRupiah(el.value);
+
+                    // 3. kalau berubah, set ulang & hitung posisi kursor baru
+                    if (el.value !== formatted) {
+                        el.value = formatted;
+
+                        // cari posisi kursor berdasarkan jumlah digit di kiri
+                        let newPos = 0, digits = 0;
+                        while (newPos < formatted.length && digits < oldRaw) {
+                            if (/\d/.test(formatted[newPos])) digits++;
+                            newPos++;
+                        }
+                        try { el.setSelectionRange(newPos, newPos); } catch (e) {}
+                    }
+                });
+
+                // ------------------------------------------------------
+                // Saat paste: bersihkan & format
+                // ------------------------------------------------------
+                $jQueryElement.on('paste', function (e) {
+                    e.preventDefault();
+                    const text = (e.originalEvent || e).clipboardData.getData('text') || '';
+                    this.value = $ummu.formatter.input_rupiah.formatRupiah(text);
+                    this.dispatchEvent(new Event('input'));
+                });
+
+                // ------------------------------------------------------
+                // Saat blur: kalau kosong, kosongkan. Kalau 0, tampil "0"
+                // ------------------------------------------------------
+                $jQueryElement.on('blur', function () {
+                    const raw = $ummu.formatter.input_rupiah.parseRupiah(this.value);
+                    if (raw === '' || raw === '0') {
+                        this.value = '';
+                    } else {
+                        this.value = $ummu.formatter.input_rupiah.formatRupiah(raw);
+                    }
+                });
+            },
+
+            // Ubah angka / string apapun menjadi "1.234.567"
+            formatRupiah: function (value) {
+                if (value === null || value === undefined || value === '') return '';
+
+                // buang semua karakter non-digit kecuali minus (kalau perlu)
+                let num = String(value).replace(/[^\d]/g, '');
+                if (num === '') return '';
+
+                // hilangkan leading zero berlebih: "000123" -> "123"
+                num = num.replace(/^0+(?=\d)/, '');
+
+                // beri titik ribuan
+                return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            },
+
+            // Ubah angka / string dari 1234567.12 menjadi "1.234.567"
+            // Desimal 2 angka dibelakang titik dibuang.
+            formatRupiah2: function (value) {
+                if (value === null || value === undefined || value === '') return '';
+
+                // ambil bagian sebelum titik desimal (kalau ada)
+                let str = String(value).split('.')[0];
+
+                // buang semua karakter non-digit
+                let num = str.replace(/[^\d]/g, '');
+                if (num === '') return '';
+
+                // hilangkan leading zero berlebih
+                num = num.replace(/^0+(?=\d)/, '');
+
+                // beri titik ribuan
+                return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            },
+
+            // Ubah angka / string apapun menjadi "1.234.567" (dibulatkan)
+            // Contoh: dari "1234567.89" menjadi "1.234.568"
+            formatRupiah3: function (value) {
+                if (value === null || value === undefined || value === '') return '';
+
+                // ubah ke Number, lalu bulatkan
+                let num = Math.round(Number(value));
+
+                // kalau hasilnya bukan angka valid (misal "abc"), kembalikan string kosong
+                if (isNaN(num)) return '';
+
+                // beri titik ribuan
+                return String(num).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            },
+
+            // Ubah dengan ditambahkan titik, dan tetap desimalnya dibawa
+            // Contoh :
+            // "5000000.00" → "5.000.000,00"
+            // "1234567.5" → "1.234.567,50"
+            formatRupiah4: function (value) {
+                if (value === null || value === undefined || value === '') return '';
+
+                let str = String(value);
+                let [intPart, decPart] = str.split('.');
+
+                // bersihkan integer
+                intPart = intPart.replace(/[^\d]/g, '').replace(/^0+(?=\d)/, '');
+                if (intPart === '') return '';
+
+                // format ribuan
+                let formatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                // kalau ada desimal, pertahankan 2 digit
+                if (decPart !== undefined) {
+                    decPart = decPart.replace(/[^\d]/g, '').slice(0, 2).padEnd(2, '0');
+                    formatted += ',' + decPart; // atau '.' tergantung selera
+                }
+
+                return formatted;
+            },
+
+            // Ambil angka murni dari "1.234.567" -> "1234567"
+            parseRupiah: function (value) {
+                if (value === null || value === undefined) return '';
+                return String(value).replace(/[^\d]/g, '');
+            },
+
+            // Ambil angka murni sebagai Number (untuk payload AJAX)
+            parseRupiahNumber: function (value) {
+                const clean = $ummu.formatter.input_rupiah.parseRupiah(value);
+                return clean === '' ? 0 : parseInt(clean, 10);
+            },
         },
     },
 
@@ -16918,6 +17081,9 @@ var $ummu = {
                     $(".card-footer #created_by").html($ummu.vars.identity.name)
 
                     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    
+                    // menghapus nilai data-id 
+                    $ummu.views.clearForm();
 
                     console.log('btn_new is clicked.')
                     if (typeof app.controllers.sbNew !== "undefined") {
@@ -16957,6 +17123,9 @@ var $ummu = {
 
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
 
+                    // menghapus nilai data-id 
+                    $ummu.views.clearForm();
+
                     console.log('btn_cancle is clicked.')
                     if (typeof app.controllers.sbCancle !== "undefined") {
                         console.log('function app.controllers.sbCancle is OK.')
@@ -16982,12 +17151,16 @@ var $ummu = {
                     $(".sb-toolbar #modalDeleteConfirm").modal("show")
                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+                    // menghapus nilai data-id 
+                    $ummu.views.clearForm();
                 }
 
                 else if (elID == 'sb_modal_btn_delete') {
                     app.controllers.sbDelete($ummu.url.getParam('id'))
                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+                    // menghapus nilai data-id 
+                    $ummu.views.clearForm();
                 }
 
                 else if (elID == 'btn_clear') {
@@ -17005,6 +17178,8 @@ var $ummu = {
                     $("#btn_delete").prop('disabled', true).removeClass('btn-danger')
 
                     $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+                    // menghapus nilai data-id 
+                    $ummu.views.clearForm();
 
                     console.log('btn_clear is clicked.')
                     if (typeof app.controllers.sbClear !== "undefined") {

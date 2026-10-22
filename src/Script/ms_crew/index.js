@@ -18,7 +18,9 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
-            $ummu.formatter.number2($("#amount"), 10);
+            // $ummu.formatter.number2($("#amount"), 10);
+            // $ummu.formatter.number($("#basic_salary"), 8)
+            $ummu.formatter.input_rupiah.load(jQuery('#basic_salary'));
         },
     },
 
@@ -125,6 +127,7 @@ var app = {
 
             // Kesehatan & Komersial
             const vaccination_info = $('#vaccination_info').val();
+            const basic_salary = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#basic_salary').val());
 
             // Jabatan & Penempatan
             const tugboat_id = $("#tugboat").data('id');
@@ -178,6 +181,7 @@ var app = {
             $ummu.vars.formData.append("tax_id_number", tax_id_number);
 
             $ummu.vars.formData.append("vaccination_info", vaccination_info);
+            $ummu.vars.formData.append("basic_salary", basic_salary);
 
             $ummu.vars.formData.append("tugboat_id", tugboat_id);
             $ummu.vars.formData.append("base_rank_id", base_rank_id);
@@ -222,6 +226,7 @@ var app = {
                 "tax_id_number": tax_id_number,
 
                 "vaccination_info": vaccination_info,
+                "basic_salary": basic_salary,
 
                 "tugboat_id": tugboat_id,
                 "base_rank_id": base_rank_id,
@@ -428,6 +433,7 @@ var app = {
             $("#passport_expiry").val(row.passport_expiry);
             $("#address").val(row.alamat);
             $("#vaccination_info").val(row.vaccination_info);
+            $("#basic_salary").val($ummu.formatter.input_rupiah.formatRupiah2(row.basic_salary));
 
             $("#tugboat").val(row.vessel_name).attr('data-id', row.vessel_id);
             $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
@@ -454,7 +460,7 @@ var app = {
             $("#crew_document_pdf_text").html(row.file_name);
             $("#click_to_open_file").attr('href', row.file_url);
 
-            console.log(tanggal_lahir_text)
+            // console.log(tanggal_lahir_text)
             if (tanggal_lahir_text) {
                 var age = $ummu.date.hitungUmur(tanggal_lahir_text);
             }else{
@@ -468,10 +474,11 @@ var app = {
         },
 
         forClear: function() {
+            $ummu.views.clearForm();
             $("#form_input input")
             // .not('#fixed_cost, #variable_cost')
             .val('');
-            $(".is-data-id").removeAttr('data-id').removeData('id');
+            // $(".is-data-id").removeAttr('data-id').removeData('id');
             $("#crew_document_pdf_text").html('Pilih Berkas PDF...');
             $("#click_to_open_file").attr('href', "");
             $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
@@ -536,6 +543,23 @@ var app = {
                             var html = "";
                             var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
 
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Gaji Pokok",
+                        data: null,
+                        className: 'align-middle text-right',
+                        render: function(data, type, row) {
+                            const basic_salary = row.basic_salary;
+                            const currency = row.currency;
+                            const basic_salary_format = $ummu.formatter.input_rupiah.formatRupiah2(row.basic_salary);
+                            var html = '';
+
+                            if (basic_salary) {
+                                // var html = `${currency} ${basic_salary_format}`
+                                var html = basic_salary_format
+                            }
                             return html;
                         }
                     },
@@ -836,6 +860,7 @@ var app = {
             },
 
             onClick_nthChild_2: function(row) {
+                app.views.forClear()
                 // console.log(row)
                 // const row_for_urlParams = row;
                 // const queryString = $.param(row);
@@ -1215,3 +1240,90 @@ function _resetSummernote(el) {
         }
     }
 }
+
+// // ============================================================
+// // HELPER: FORMAT RUPIAH (input) & PARSER (simpan)
+// // ============================================================
+
+// // Ubah angka / string apapun menjadi "1.234.567"
+// window.formatRupiah = function (value) {
+//     if (value === null || value === undefined || value === '') return '';
+
+//     // buang semua karakter non-digit kecuali minus (kalau perlu)
+//     let num = String(value).replace(/[^\d]/g, '');
+//     if (num === '') return '';
+
+//     // hilangkan leading zero berlebih: "000123" -> "123"
+//     num = num.replace(/^0+(?=\d)/, '');
+
+//     // beri titik ribuan
+//     return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+// };
+
+// // Ambil angka murni dari "1.234.567" -> "1234567"
+// window.parseRupiah = function (value) {
+//     if (value === null || value === undefined) return '';
+//     return String(value).replace(/[^\d]/g, '');
+// };
+
+// // Ambil angka murni sebagai Number (untuk payload AJAX)
+// window.parseRupiahNumber = function (value) {
+//     const clean = window.parseRupiah(value);
+//     return clean === '' ? 0 : parseInt(clean, 10);
+// };
+
+
+// jQuery(function () {
+
+//     const $salary = jQuery('#basic_salary');
+
+//     // ------------------------------------------------------
+//     // Saat user mengetik: format ulang, pertahankan posisi kursor
+//     // ------------------------------------------------------
+//     $salary.on('input', function () {
+//         const el = this;
+
+//         // 1. simpan posisi kursor
+//         const cursorPos = el.selectionStart;
+//         const oldLength = el.value.length;
+//         const oldRaw    = el.value.slice(0, cursorPos).replace(/[^\d]/g, '').length;
+
+//         // 2. format ulang
+//         const formatted = window.formatRupiah(el.value);
+
+//         // 3. kalau berubah, set ulang & hitung posisi kursor baru
+//         if (el.value !== formatted) {
+//             el.value = formatted;
+
+//             // cari posisi kursor berdasarkan jumlah digit di kiri
+//             let newPos = 0, digits = 0;
+//             while (newPos < formatted.length && digits < oldRaw) {
+//                 if (/\d/.test(formatted[newPos])) digits++;
+//                 newPos++;
+//             }
+//             try { el.setSelectionRange(newPos, newPos); } catch (e) {}
+//         }
+//     });
+
+//     // ------------------------------------------------------
+//     // Saat paste: bersihkan & format
+//     // ------------------------------------------------------
+//     $salary.on('paste', function (e) {
+//         e.preventDefault();
+//         const text = (e.originalEvent || e).clipboardData.getData('text') || '';
+//         this.value = window.formatRupiah(text);
+//         this.dispatchEvent(new Event('input'));
+//     });
+
+//     // ------------------------------------------------------
+//     // Saat blur: kalau kosong, kosongkan. Kalau 0, tampil "0"
+//     // ------------------------------------------------------
+//     $salary.on('blur', function () {
+//         const raw = window.parseRupiah(this.value);
+//         if (raw === '' || raw === '0') {
+//             this.value = '';
+//         } else {
+//             this.value = window.formatRupiah(raw);
+//         }
+//     });
+// });

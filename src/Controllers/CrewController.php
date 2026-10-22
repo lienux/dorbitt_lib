@@ -330,6 +330,7 @@ class CrewController extends ResourceController
         $tax_id_number = $this->request->getPost('tax_id_number');
 
         $vaccination_info = $this->request->getPost('vaccination_info');
+        $basic_salary = $this->request->getPost('basic_salary');
 
         $tugboat_id = $this->request->getPost('tugboat_id');
         $base_rank_id = $this->request->getPost('base_rank_id');
@@ -377,6 +378,7 @@ class CrewController extends ResourceController
             'tax_id_number' => $tax_id_number,
 
             'vaccination_info' => $vaccination_info,
+            'basic_salary' => $basic_salary,
 
             'tugboat_id' => $tugboat_id,
             'base_rank_id' => $base_rank_id,

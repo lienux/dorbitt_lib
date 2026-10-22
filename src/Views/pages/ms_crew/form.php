@@ -280,7 +280,7 @@
                         </div>
                     </div>
 
-                    <!-- <div class="row mb-2">
+                    <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="basic_salary">
                             Gaji Pokok
                         </label>
@@ -289,10 +289,10 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                 </div>
-                                <input type="number" step="0.01" min="0" class="form-control form-control-sm endis text-right" id="basic_salary" placeholder="0" title="Gaji Pokok" disabled>
+                                <input type="text" inputmode="numeric" step="0.01" min="0" class="form-control form-control-sm endis text-right" id="basic_salary" placeholder="0" title="Gaji Pokok" disabled>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -337,17 +337,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="rank_code">
-                            Rank Code
-                        </label>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm endis" id="rank_code" placeholder="cth: 10100 (Master)" title="Rank Code IMO" disabled>
-                            </div>
-                        </div>
-                    </div> -->
 
                     <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="employment_status">
@@ -416,22 +405,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="coc_status">
-                            Status COC
-                        </label>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <select class="form-control form-control-sm endis" id="coc_status" disabled>
-                                    <option value="">- Pilih -</option>
-                                    <option value="AMAN">AMAN</option>
-                                    <option value="EXPIRED">EXPIRED</option>
-                                    <option value="PROSES">PROSES</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -463,15 +436,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label class="font-weight-bold small">Status Buku Pelaut</label>
-                        <select class="form-control form-control-sm endis" id="seaman_book_status" disabled>
-                            <option value="">- Pilih -</option>
-                            <option value="AMAN">AMAN</option>
-                            <option value="EXPIRED">EXPIRED</option>
-                            <option value="PROSES">PROSES</option>
-                        </select>
-                    </div> -->
 
                     <div class="form-row mt-2">
                         <div class="form-group col-md-6">
@@ -491,15 +455,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label class="font-weight-bold small">Status MCU</label>
-                        <select class="form-control form-control-sm endis" id="mcu_maritime_status" disabled>
-                            <option value="">- Pilih -</option>
-                            <option value="AMAN">AMAN</option>
-                            <option value="EXPIRED">EXPIRED</option>
-                            <option value="PROSES">PROSES</option>
-                        </select>
-                    </div> -->
                 </div>
 
                 <!-- Paspor & Berkas -->
@@ -524,15 +479,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label class="font-weight-bold small">Status Paspor</label>
-                        <select class="form-control form-control-sm endis" id="passport_status" disabled>
-                            <option value="">- Pilih -</option>
-                            <option value="AMAN">AMAN</option>
-                            <option value="EXPIRED">EXPIRED</option>
-                            <option value="PROSES">PROSES</option>
-                        </select>
-                    </div> -->
 
                     <div class="form-group mt-3">
                         <label class="font-weight-bold small" for="crew_document_pdf">Upload Berkas Gabungan (CV & Dokumen) <span class="text-muted">(PDF Max 5MB)</span></label>
