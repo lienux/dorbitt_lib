@@ -1,5 +1,6 @@
 <?= (CLAYOUT == 'MPA') ? $this->extend('layout/' . config('Vh')->tmp()) : '' ?>
 
+<!-- Style Section -->
 <?= (CLAYOUT == 'MPA') ? $this->section('css') : '' ?>
     <?= $this->include(config('Ummu')->Views('plugins/dt_style_001')) ?>
 
@@ -10,12 +11,23 @@
     ?>
 <?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>
 
+<!-- Content Section -->
 <?= (CLAYOUT == 'MPA') ? $this->section('content') : '' ?>
     <?php
-        if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'dashboard.php') AND isset($page) AND $page = 'dashboard') {
+        $dir_views_path = ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views;
+        
+        if (is_file($dir_views_path . 'page_content.php')) {
+
+            echo $this->include(config('Vh')->ummuView($dir_views . 'page_content'));
+
+        }else if (is_file($dir_views_path . 'dashboard.php') AND isset($page) AND $page = 'dashboard') {
+
             echo $this->include(config('Vh')->ummuView($dir_views . 'dashboard'));
+
         }else{
+
             echo $this->include(config('Ummu')->Views('partials/page_content'));
+
         }
     ?>
 
@@ -26,6 +38,7 @@
     ?>
 <?= (CLAYOUT == 'MPA') ? $this->endSection() : '' ?>
 
+<!-- Script Section -->
 <?= (CLAYOUT == 'MPA') ? $this->section('script') : '' ?>
     <script>
         $ummu.vars.page_url = $base_url + 'admin/<?=$module_kode?>/';

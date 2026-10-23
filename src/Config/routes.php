@@ -455,6 +455,25 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_tugboat', 'CrewController::show_vessel');
     });
 
+    $routes->group('crew_basic_salary', function ($routes) {
+        $routes->get('/', 'CrewBasicSalaryController::index');
+        $routes->get('show', 'CrewBasicSalaryController::show');
+        $routes->post('create', 'CrewBasicSalaryController::create');
+        $routes->post('update/(:num)', 'CrewBasicSalaryController::update/$1');
+        $routes->delete('delete/(:num)', 'CrewBasicSalaryController::delete/$1');
+
+        // $routes->get('crew-ranks', 'CrewController::show_ranks');
+        // $routes->get('show_tugboat', 'CrewController::show_vessel');
+    });
+
+    $routes->group('ops_ijo', function ($routes) {
+        $routes->get('/', 'OpsIjoController::index');
+        $routes->get('show', 'OpsIjoController::show');
+        // $routes->post('create', 'OpsIjoController::create');
+        $routes->post('update/(:num)', 'OpsIjoController::update/$1');
+        // $routes->delete('delete/(:num)', 'OpsIjoController::delete/$1');
+    });
+
     $routes->group('payslip', function ($routes) {
         $routes->get('/', 'PayslipController::index');
         $routes->get('show', 'PayslipController::show');
