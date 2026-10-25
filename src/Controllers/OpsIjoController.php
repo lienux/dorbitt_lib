@@ -15,6 +15,7 @@ class OpsIjoController extends ResourceController
 {
     public function __construct()
     {
+        $this->pathAPI = "api/ops_ijo/";
         $this->module_kode = 'ops_ijo';
         $this->dir_view = 'pages/' . $this->module_kode . '/';
         $this->request = \Config\Services::request();
@@ -54,13 +55,16 @@ class OpsIjoController extends ResourceController
 
     public function show($id = null)
     {
+        $tugboat_id = $this->request->getVar('vessel_id');
+
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "date" => [
                 "from" => "",
                 "to" => ""
             ],
-            "selects" => "*"
+            "selects" => "*",
+            "tugboat_id" => $tugboat_id,
         ]);
 
         $params = [
@@ -75,70 +79,55 @@ class OpsIjoController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function create()
-    {
-        $payload = [
-            "spal_id" => $this->request->getPost('spal_id'),
-            "spal_number" => $this->request->getPost('spal_number'),
-            "tgl" => $this->request->getPost('tgl'),
-            "number" => $this->request->getPost('number'),
-            "from_dept_id" => $this->request->getPost('from_dept_id'),
-            "to_dept_id" => $this->request->getPost('to_dept_id'),
+    // public function create()
+    // {
+    //     // $payload = [
+    //     //     "spal_id" => $this->request->getPost('spal_id'),
+    //     //     "spal_number" => $this->request->getPost('spal_number'),
+    //     //     "tgl" => $this->request->getPost('tgl'),
+    //     //     "number" => $this->request->getPost('number'),
+    //     //     "from_dept_id" => $this->request->getPost('from_dept_id'),
+    //     //     "to_dept_id" => $this->request->getPost('to_dept_id'),
 
-            "client_id" => $this->request->getPost("client_id"),
-            "tugboat_id" => $this->request->getPost("tugboat_id"),
-            "barge_id" => $this->request->getPost("barge_id"),
-            "barge_loa" => $this->request->getPost("barge_loa"),
-            "qty" => $this->request->getPost("tonnage"),
-            "uom_id" => $this->request->getPost("uom_id"),
+    //     //     "client_id" => $this->request->getPost("client_id"),
+    //     //     "tugboat_id" => $this->request->getPost("tugboat_id"),
+    //     //     "barge_id" => $this->request->getPost("barge_id"),
+    //     //     "barge_loa" => $this->request->getPost("barge_loa"),
+    //     //     "qty" => $this->request->getPost("tonnage"),
+    //     //     "uom_id" => $this->request->getPost("uom_id"),
 
-            "eta_loading_port" => $this->request->getPost("eta_loading_port"),
-            "eta_loading_port_to" => $this->request->getPost("eta_loading_port_to"),
-            "eta_discharge_port" => $this->request->getPost("eta_discharge_port"),
+    //     //     "eta_loading_port" => $this->request->getPost("eta_loading_port"),
+    //     //     "eta_loading_port_to" => $this->request->getPost("eta_loading_port_to"),
+    //     //     "eta_discharge_port" => $this->request->getPost("eta_discharge_port"),
             
-            "loading_port" => $this->request->getPost("loading_port"),
-            "discharge_port" => $this->request->getPost("discharge_port"),
-        ];
+    //     //     "loading_port" => $this->request->getPost("loading_port"),
+    //     //     "discharge_port" => $this->request->getPost("discharge_port"),
+    //     // ];
 
-        $params = [
-            "path"      => "api/ijo/create",
-            "method" => 'POST',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+    //     // $params = [
+    //     //     "path"      => "api/ijo/create",
+    //     //     "method" => 'POST',
+    //     //     "payload" => $payload,
+    //     //     "headers" => $this->cH->headers3($this->module_kode)
+    //     // ];
 
-        $builder = $this->cH->ummu2($params);
+    //     // $builder = $this->cH->ummu2($params);
 
-        return $this->respond($builder, 200);
-    }
+    //     // return $this->respond($builder, 200);
+    // }
 
     public function update($id = null)
     {
+        $nomor_ijo = $this->request->getVar('nomor_ijo');
+        $status_id = $this->request->getVar('ijo_status');
+
         $payload = [
-            "spal_id" => $this->request->getPost('spal_id'),
-            "spal_number" => $this->request->getPost('spal_number'),
-            "tgl" => $this->request->getPost('tgl'),
-            "number" => $this->request->getPost('number'),
-            "from_dept_id" => $this->request->getPost('from_dept_id'),
-            "to_dept_id" => $this->request->getPost('to_dept_id'),
-
-            "client_id" => $this->request->getPost("client_id"),
-            "tugboat_id" => $this->request->getPost("tugboat_id"),
-            "barge_id" => $this->request->getPost("barge_id"),
-            "barge_loa" => $this->request->getPost("barge_loa"),
-            "qty" => $this->request->getPost("tonnage"),
-            "uom_id" => $this->request->getPost("uom_id"),
-
-            "eta_loading_port" => $this->request->getPost("eta_loading_port"),
-            "eta_loading_port_to" => $this->request->getPost("eta_loading_port_to"),
-            "eta_discharge_port" => $this->request->getPost("eta_discharge_port"),
-            
-            "loading_port" => $this->request->getPost("loading_port"),
-            "discharge_port" => $this->request->getPost("discharge_port"),
+            "number" => $nomor_ijo,
+            "is_release" => $status_id,
         ];
 
         $params = [
-            "path"      => "api/ijo/update/" . $id,
+            "path"      => "api/ops_ijo/update_status/" . $id,
             "method" => 'PUT',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -149,21 +138,95 @@ class OpsIjoController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function delete($id = null)
-    {
-        $params = [
-            "path"      => "api/ijo/delete/" . $id,
-            "method" => 'DELETE',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+    // public function delete($id = null)
+    // {
+    //     // $params = [
+    //     //     "path"      => "api/ijo/delete/" . $id,
+    //     //     "method" => 'DELETE',
+    //     //     "payload" => [],
+    //     //     "headers" => $this->cH->headers3($this->module_kode)
+    //     // ];
 
-        $builder = $this->cH->ummu2($params);
+    //     // $builder = $this->cH->ummu2($params);
 
-        return $this->respond($builder, 200);
-    }
+    //     // return $this->respond($builder, 200);
+    // }
 
-    public function show_si($id = null)
+    // public function show_si($id = null)
+    // {
+    //     // $payload = $this->umHelp->dt_payload2();
+    //     // $payload = array_merge($payload, [
+    //     //     "date" => [
+    //     //         "from" => "",
+    //     //         "to" => ""
+    //     //     ],
+    //     //     "selects" => "*"
+    //     // ]);
+
+    //     // $params = [
+    //     //     "path"      => "api/ijo/show_si",
+    //     //     "method" => 'GET',
+    //     //     "payload" => $payload,
+    //     //     "headers" => $this->cH->headers3($this->module_kode)
+    //     // ];
+
+    //     // $builder = $this->cH->ummu2($params);
+
+    //     // return $this->respond($builder, 200);
+    // }
+
+    // public function show_spal()
+    // {
+    //     // $payload = $this->umHelp->dt_payload2();
+    //     // $payload = array_merge($payload, [
+    //     //     "date" => [
+    //     //         "from" => "",
+    //     //         "to" => ""
+    //     //     ],
+    //     //     "selects" => "*"
+    //     // ]);
+
+    //     // $params = [
+    //     //     "path"      => "api/ijo/show_spal",
+    //     //     "method" => 'GET',
+    //     //     "payload" => $payload,
+    //     //     "headers" => $this->cH->headers3($this->module_kode)
+    //     // ];
+
+    //     // $builder = $this->cH->ummu2($params);
+
+    //     // return $this->respond($builder, 200);
+    // }
+
+    // public function show_dept()
+    // {
+    //     // $params = [
+    //     //     "path"      => "api/ijo/show_dept",
+    //     //     "method" => 'GET',
+    //     //     "payload" => [],
+    //     //     "headers" => $this->cH->headers3($this->module_kode)
+    //     // ];
+
+    //     // $builder = $this->cH->ummu2($params);
+
+    //     // return $this->respond($builder, 200);
+    // }
+
+    // public function release($id)
+    // {
+    //     $params = [
+    //         "path"      => "api/ijo/release/" . $id,
+    //         "method" => 'PUT',
+    //         "payload" => [],
+    //         "headers" => $this->cH->headers3($this->module_kode)
+    //     ];
+
+    //     $builder = $this->cH->ummu2($params);
+
+    //     return $this->respond($builder, 200);
+    // }
+
+    public function show_tugboat()
     {
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -171,68 +234,15 @@ class OpsIjoController extends ResourceController
                 "from" => "",
                 "to" => ""
             ],
-            "selects" => "*"
+            "selects" => "*",
         ]);
 
-        $params = [
-            "path"      => "api/ijo/show_si",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
+        $queryString = http_build_query($payload);
 
-        $builder = $this->cH->ummu2($params);
+        $path = $this->pathAPI . "/tugboat";
+        $headers = $this->cH->headers3($this->module_kode);
 
-        return $this->respond($builder, 200);
-    }
-
-    public function show_spal()
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
-
-        $params = [
-            "path"      => "api/ijo/show_spal",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function show_dept()
-    {
-        $params = [
-            "path"      => "api/ijo/show_dept",
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function release($id)
-    {
-        $params = [
-            "path"      => "api/ijo/release/" . $id,
-            "method" => 'PUT',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }

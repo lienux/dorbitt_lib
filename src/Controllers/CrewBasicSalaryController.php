@@ -15,7 +15,7 @@ class CrewBasicSalaryController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/crewing/ms-crew";
+        $this->pathAPI = "api/crewing/basic_salary";
         $this->moduleKodeAPI = "crew_basic_salary";
         $this->module_kode = 'crew_basic_salary';
         $this->dir_view = 'pages/'. $this->module_kode .'/';

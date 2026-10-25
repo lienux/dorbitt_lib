@@ -530,22 +530,22 @@ var app = {
                         data: "vessel_name",
                         className: 'align-middle',
                     },
-                    { 
-                        title: "Phone Number",
-                        data: "phone_number",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Ijazah (COC)",
-                        data: null,
-                        className: 'align-middle',
-                        render: function(data, type, row) {
-                            var html = "";
-                            var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
+                    // { 
+                    //     title: "Phone Number",
+                    //     data: "phone_number",
+                    //     className: 'align-middle',
+                    // },
+                    // { 
+                    //     title: "Ijazah (COC)",
+                    //     data: null,
+                    //     className: 'align-middle',
+                    //     render: function(data, type, row) {
+                    //         var html = "";
+                    //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
 
-                            return html;
-                        }
-                    },
+                    //         return html;
+                    //     }
+                    // },
                     { 
                         title: "Gaji Pokok",
                         data: null,

@@ -12,6 +12,33 @@ var app = {
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
             $ummu.config.dataTables()
             app.controllers.index();
+ 
+            $ummu.dt.modal_list.register("vessel_id", {
+                url: "tugboat",
+                inputId: "vessel_id",
+                inputValueField: "name",
+                columns: [
+                    {
+                        title: "ID",
+                        data: "id",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { title: "Name", data: "name" },
+                ],
+                onSelect: function (row) {
+                    console.log("tugboat_id dipilih:", row);
+                }
+            });
+
+            $('#modal_btnUpdate_status').on('click', function(){
+                app.controllers.update_status();
+            })
         },
     },
 
@@ -48,6 +75,46 @@ var app = {
             app.views.forClear()
         },
 
+        update_status: function () {
+            var id = $("#id").val();
+            var nomor_ijo = $("#nomor_ijo").val();
+            var ijo_status = $("#ijo_status").val();
+
+            $ummu.vars.formData.append("nomor_ijo", nomor_ijo);
+            $ummu.vars.formData.append("ijo_status", ijo_status);
+        
+            var payload = {
+                "ijo_status": ijo_status,
+                "nomor_ijo": nomor_ijo,
+            };
+
+            var func = "update/" + id
+
+            var params = {
+                "function": 'update/' + id,
+                "data": $ummu.vars.formData,
+                "loader": true,
+            };
+           
+            var ummu = $ummu.ajax.ummu7(params);   
+            ummu.done(function(result) {
+                const response = JSON.parse(result);
+                $ummu.views.after_sbToolbar_save(response, func, id, payload);
+
+                if (response.status == true) {
+                    $('#modalForm_updateStatus').modal('hide');
+                    $("#ummu_modal_message #alert").html("");
+                    $("#ummu_modal_message #alert").html(response.message);
+                    $("#ummu_modal_message").modal("show");
+                }else{
+                    $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                }
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+        },
+
         // show: function (params) {
         //     if ($ummu.dt.is_init($table) == true) {
         //         $ummu.dt.init_destroy();
@@ -70,191 +137,191 @@ var app = {
         //     });
         // },
 
-        sbNew: function () {
-            app.views.forClear()
-            $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-        },
+        // sbNew: function () {
+        //     app.views.forClear()
+        //     $("#status").html('<span class="badge badge-secondary">Draft</span>')
+        //     $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+        // },
 
-        sbSave: function () {
-            var spal_id = $("#spal").attr('data-id');
-            var spal_number = $("#spal").val();
-            var tgl = $("#iDate").val();
-            var number = $("#number").val();
-            var from_dept_id = $("#from_dept").attr('data-id');
-            var to_dept_id = $("#to_dept").attr('data-id');
+        // sbSave: function () {
+        //     var spal_id = $("#spal").attr('data-id');
+        //     var spal_number = $("#spal").val();
+        //     var tgl = $("#iDate").val();
+        //     var number = $("#number").val();
+        //     var from_dept_id = $("#from_dept").attr('data-id');
+        //     var to_dept_id = $("#to_dept").attr('data-id');
 
-            var client_id = $("#client").attr('data-id');
-            var tugboat_id = $("#tugboat").attr('data-id');
-            var barge_id = $("#barge").attr('data-id');
-            var ukuran_barge = $("#ukuran_barge").val();
-            var tonnage = $("#tonnage").val();
-            var uom_id = $("#uom").attr('data-id');
+        //     var client_id = $("#client").attr('data-id');
+        //     var tugboat_id = $("#tugboat").attr('data-id');
+        //     var barge_id = $("#barge").attr('data-id');
+        //     var ukuran_barge = $("#ukuran_barge").val();
+        //     var tonnage = $("#tonnage").val();
+        //     var uom_id = $("#uom").attr('data-id');
 
-            var eta_loading_port = $("#eta_loading_port").attr('data-from');
-            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
-            var eta_discharge_port = $("#eta_discharge_port").val();
+        //     var eta_loading_port = $("#eta_loading_port").attr('data-from');
+        //     var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
+        //     var eta_discharge_port = $("#eta_discharge_port").val();
 
-            var loading_port = $("#loading_port").val();
-            var discharge_port = $("#discharge_port").val();
+        //     var loading_port = $("#loading_port").val();
+        //     var discharge_port = $("#discharge_port").val();
 
-            $ummu.vars.formData.append("spal_id", spal_id);
-            $ummu.vars.formData.append("spal_number", spal_number);
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            $ummu.vars.formData.append("to_dept_id", to_dept_id);
+        //     $ummu.vars.formData.append("spal_id", spal_id);
+        //     $ummu.vars.formData.append("spal_number", spal_number);
+        //     $ummu.vars.formData.append("tgl", tgl);
+        //     $ummu.vars.formData.append("number", number);
+        //     $ummu.vars.formData.append("from_dept_id", from_dept_id);
+        //     $ummu.vars.formData.append("to_dept_id", to_dept_id);
 
-            $ummu.vars.formData.append("client_id", client_id);
-            $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            $ummu.vars.formData.append("tonnage", tonnage);
-            $ummu.vars.formData.append("uom_id", uom_id);
+        //     $ummu.vars.formData.append("client_id", client_id);
+        //     $ummu.vars.formData.append("tugboat_id", tugboat_id);
+        //     $ummu.vars.formData.append("barge_id", barge_id);
+        //     $ummu.vars.formData.append("barge_loa", ukuran_barge);
+        //     $ummu.vars.formData.append("tonnage", tonnage);
+        //     $ummu.vars.formData.append("uom_id", uom_id);
 
-            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
-            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+        //     $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+        //     $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+        //     $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
 
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
+        //     $ummu.vars.formData.append("loading_port", loading_port);
+        //     $ummu.vars.formData.append("discharge_port", discharge_port);
 
-            var payload = {
-                "spal_id": spal,
-                "spal_number": spal_number,
-                "tgl": tgl,
-                "number": number,
-                "from_dept_id": from_dept_id,
-                "to_dept_id": to_dept_id,
+        //     var payload = {
+        //         "spal_id": spal,
+        //         "spal_number": spal_number,
+        //         "tgl": tgl,
+        //         "number": number,
+        //         "from_dept_id": from_dept_id,
+        //         "to_dept_id": to_dept_id,
 
-                "client_id": client_id,
-                "tugboat_id": tugboat_id,
-                "barge_id": barge_id,
-                "barge_loa": ukuran_barge,
-                "tonnage": tonnage,
-                "uom_id": uom_id,
+        //         "client_id": client_id,
+        //         "tugboat_id": tugboat_id,
+        //         "barge_id": barge_id,
+        //         "barge_loa": ukuran_barge,
+        //         "tonnage": tonnage,
+        //         "uom_id": uom_id,
 
-                "eta_loading_port": eta_loading_port,
-                "eta_loading_port_to": eta_loading_port_to,
-                "eta_discharge_port": eta_discharge_port,
+        //         "eta_loading_port": eta_loading_port,
+        //         "eta_loading_port_to": eta_loading_port_to,
+        //         "eta_discharge_port": eta_discharge_port,
 
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
-            };
+        //         "loading_port": loading_port,
+        //         "discharge_port": discharge_port,
+        //     };
 
-            const id = $ummu.url.getParam('id');
+        //     const id = $ummu.url.getParam('id');
 
-            if (id) {
-                var func = "update/" + id
-            }else{
-                var func = "create"
-            }
+        //     if (id) {
+        //         var func = "update/" + id
+        //     }else{
+        //         var func = "create"
+        //     }
 
-            var params = {
-                "function": func,
-                "data": $ummu.vars.formData,
-                "loader": true,
-            };
+        //     var params = {
+        //         "function": func,
+        //         "data": $ummu.vars.formData,
+        //         "loader": true,
+        //     };
 
-            const validation = app.validation.save();
+        //     const validation = app.validation.save();
 
-            if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            }else{
-                var ummu = $ummu.ajax.ummu7(params);   
-                ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
+        //     if (validation.length > 0) {
+        //         $ummu.views.errors_msg(validation)
+        //         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+        //     }else{
+        //         var ummu = $ummu.ajax.ummu7(params);   
+        //         ummu.done(function(result) {
+        //             const response = JSON.parse(result);
+        //             $ummu.views.after_sbToolbar_save(response, func, id, payload);
 
-                    if (response.status == true) {
-                        $("#file_url").attr("href", response.data.fileUrl)
-                        let is_release = response.data.is_release;
-                        if (is_release == null || is_release == '' || is_release == 0) {
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                        }else{
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                        }
-                    }else{
-                        $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    }
-                }).fail(function() {
-                    // An error occurred
-                    console.log(ummu)
-                });
-            }
-        },
+        //             if (response.status == true) {
+        //                 $("#file_url").attr("href", response.data.fileUrl)
+        //                 let is_release = response.data.is_release;
+        //                 if (is_release == null || is_release == '' || is_release == 0) {
+        //                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+        //                 }else{
+        //                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+        //                 }
+        //             }else{
+        //                 $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+        //             }
+        //         }).fail(function() {
+        //             // An error occurred
+        //             console.log(ummu)
+        //         });
+        //     }
+        // },
 
-        sbCancle: function () {
-            if ($ummu.url.getParam('id')) {
-                // 
-            }else{
-                app.views.forClear()
-            }
-        },
+        // sbCancle: function () {
+        //     if ($ummu.url.getParam('id')) {
+        //         // 
+        //     }else{
+        //         app.views.forClear()
+        //     }
+        // },
 
-        sbEdit: function () {
-            // 
-        },
+        // sbEdit: function () {
+        //     // 
+        // },
 
-        sbDelete: function(id) {
-            $("#modalDeleteConfirm").modal('hide')
-            var params = {
-                "function": "delete/" + id,
-                "method": "POST",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Delete on progress..."
-            };
+        // sbDelete: function(id) {
+        //     $("#modalDeleteConfirm").modal('hide')
+        //     var params = {
+        //         "function": "delete/" + id,
+        //         "method": "POST",
+        //         "data": [],
+        //         "cache": true,
+        //         "contentType": "application/json",
+        //         "dataType": "json",
+        //         "loader": true,
+        //         "textLoader": "Delete on progress..."
+        //     };
 
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                $ummu.views.after_sbToolbar_delete(id, result);
-                app.views.forClear()
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-        },
+        //     var ummu = $ummu.ajax.ummu8(params);   
+        //     ummu.done(function(result) {
+        //         $ummu.views.after_sbToolbar_delete(id, result);
+        //         app.views.forClear()
+        //     }).fail(function() {
+        //         // An error occurred
+        //         console.log(ummu)
+        //     });
+        // },
 
-        sbClear: function() {
-            app.views.forClear()
-        },
+        // sbClear: function() {
+        //     app.views.forClear()
+        // },
 
-        sbRelease: function() {
-            $("#modalReleaseConfirm").modal('hide')
-            var id = $ummu.url.getParam('id');
-            var func = "release/" + id;
-            var payload = [];
+        // sbRelease: function() {
+        //     $("#modalReleaseConfirm").modal('hide')
+        //     var id = $ummu.url.getParam('id');
+        //     var func = "release/" + id;
+        //     var payload = [];
 
-            var params = {
-                "function": func,
-                "method": "POST",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Release on progress...",
-            };
+        //     var params = {
+        //         "function": func,
+        //         "method": "POST",
+        //         "data": [],
+        //         "cache": true,
+        //         "contentType": "application/json",
+        //         "dataType": "json",
+        //         "loader": true,
+        //         "textLoader": "Release on progress...",
+        //     };
 
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                payload = result.data;
-                $ummu.views.after_sbToolbar_save(result, func, id, payload);
-                if (result.status == true) {
-                    if (result.data.is_release == 1) {
-                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    }
-                }
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-        },
+        //     var ummu = $ummu.ajax.ummu8(params);   
+        //     ummu.done(function(result) {
+        //         payload = result.data;
+        //         $ummu.views.after_sbToolbar_save(result, func, id, payload);
+        //         if (result.status == true) {
+        //             if (result.data.is_release == 1) {
+        //                 $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+        //             }
+        //         }
+        //     }).fail(function() {
+        //         // An error occurred
+        //         console.log(ummu)
+        //     });
+        // },
 
         on_showLeftModal: function(id) {
             // console.log(id)
@@ -272,37 +339,48 @@ var app = {
                 $ummu.controllers.show_spal(id);
             }else if (id == 'to_dept') {
                 $ummu.controllers.show_dept(id);
+            }else if (id == 'vessel_id') {
+                $ummu.dt.modal_list.show("vessel_id");
             }
         },
 
-        on_click_tbody_trtd_child1: function(row) {
+        // on_click_tbody_trtd_child1: function(row) {
+        //     // console.log(row)
+        //     app.views.setRow_toForm_freightCharter(row)
+        // },
+
+        // onClick_nthChild_2: function(row) {
+        //     console.log(row)
+        // },
+
+        // on_click_tbody_trtd_child_spal: function(row) {
+        //     console.log(row)
+        //     $("#loading_port").val(row.loading_port)
+        //     $("#discharge_port").val(row.discharge_port)
+
+        //     $("#client").val(row.client_name).attr('data-id', row.client_id)
+        //     $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+        //     $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+        //     $("#ukuran_barge").val(row.barge_loa)
+        //     $("#tonnage").val(row.qty)
+        //     $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
+
+        //     $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+        //     .attr('data-from', row.loading_availability_date_from)
+        //     .attr('data-to', row.loading_availability_date_to)
+
+        //     $("#si_number").val(row.si_number)
+        //     $("#si_url").attr('href', row.si_fileUrl)
+        // },
+
+        // on_click_tbody_trtd_child_dept: function(row) {
+        //     // console.log(row)
+        //     $("#to_dept").val(row.name).attr('data-id', row.id);
+        // },
+
+        on_click_tbody_trtd_child_vessel_id: function(row) {
             // console.log(row)
-            app.views.setRow_toForm_freightCharter(row)
-        },
-
-        on_click_tbody_trtd_child_spal: function(row) {
-            console.log(row)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
-
-            $("#client").val(row.client_name).attr('data-id', row.client_id)
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#ukuran_barge").val(row.barge_loa)
-            $("#tonnage").val(row.qty)
-            $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
-
-            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
-            .attr('data-from', row.loading_availability_date_from)
-            .attr('data-to', row.loading_availability_date_to)
-
-            $("#si_number").val(row.si_number)
-            $("#si_url").attr('href', row.si_fileUrl)
-        },
-
-        on_click_tbody_trtd_child_dept: function(row) {
-            // console.log(row)
-            $("#to_dept").val(row.name).attr('data-id', row.id);
+            $("#vessel_id").val(row.name).attr('data-id', row.id)
         },
     },
 
@@ -392,6 +470,19 @@ var app = {
 
     dt: {        
         config: {
+            index: function() {
+                $ummu.dt.init.on("click", "tbody tr td:nth-child(3)", function () {
+                    // 1. Ambil data row terlebih dahulu
+                    var row = $ummu.dt.init.row(this).data();
+                    console.log(row)
+
+                    // app.controllers.onClick_nthChild_3(row);
+                    $('#modalForm_updateStatus #id').val(row.id)
+                    $('#modalForm_updateStatus #nomor_ijo').val(row.number)
+                    $('#modalForm_updateStatus').modal('show')
+                });
+            },
+
             columns: function () {
                 let columns = [
                     { 
@@ -413,15 +504,23 @@ var app = {
                         title: "Status",
                         data: "release_name",
                         render: function(data, type, row) {
+                            var text = '';
+
                             if (row.is_release == null || row.is_release == 0 || row.is_release == 1) {
-                                return '<span class="text-secondary">'+data+'</span>';
+                                var text = `<span class="text-secondary">${data}</span>`;
                             }else if (row.is_release == 2) {
-                                return '<span class="text-primary">'+data+'</span>';
+                                var text = `<span class="text-primary">${data}</span>`;
                             }else if (row.is_release == 3) {
-                                return '<span class="text-warning">'+data+'</span>';
+                                var text = `<span class="text-warning">${data}</span>`;
                             }else{
-                                return '<span class="text-success">'+data+'</span>';
+                                var text = `<span class="text-success">${data}</span>`;
                             }
+
+                            var html = `<a href="javascript:void(0);">
+                                            <div>${text} <i class="fas fa-external-link-alt ml-2"></i></div>
+                                        </a>`;
+
+                            return html;
                         }
                     },
                     { 
@@ -433,16 +532,40 @@ var app = {
                         data: "number"
                     },
                     { 
-                        title: "Dari Departemen",
-                        data: "from_dept_name"
+                        title: "Tugboat",
+                        data: "tugboat_name"
                     },
                     { 
-                        title: "Untuk Departemen",
-                        data: "to_dept_name"
+                        title: "Barge",
+                        data: "barge_name"
                     },
+                    { 
+                        title: "Dari Departemen",
+                        data: "from_dept_name",
+                        render: function(data, type, row) {
+                            var html = `<div class="text-muted">${row.from_dept_name}</div>`;
+
+                            return html;
+                        }
+                    },
+                    // { 
+                    //     title: "Departemen",
+                    //     data: null,
+                    //     render: function(data, type, row) {
+                    //         var html = `<div class="text-muted">${row.to_dept_name}</div>`;
+
+                    //         return html;
+                    //     }
+                    // },
                     { 
                         title: "SPAL Number",
-                        data: "spal_number"
+                        data: null,
+                        render: function(data, type, row) {
+                            // var html = `${row.spal_number}`;
+                            var html = `<div class="text-muted">${row.spal_number}</div>`;
+
+                            return html;
+                        }
                     },
                     { 
                         title: "Port of Loading",
@@ -455,6 +578,15 @@ var app = {
                 ];
         
                 return columns;
+            },
+
+            on_reload_params: function (d) {
+                var vessel_id = $("#form_filter #vessel_id").data('id');
+                if (vessel_id) d.vessel_id = vessel_id;
+            },
+
+            onClick_nthChild_2: function(row) {
+                console.log(row)
             },
         },
     },

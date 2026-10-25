@@ -318,6 +318,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_si', 'IjoFromSpalController::show_si');
         $routes->get('show_spal', 'IjoFromSpalController::show_spal');
         $routes->get('show_dept', 'IjoFromSpalController::show_dept');
+        $routes->get('tugboat', 'IjoFromSpalController::show_tugboat');
     });
 
     $routes->group('gallery_photos', function ($routes) {
@@ -472,6 +473,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         // $routes->post('create', 'OpsIjoController::create');
         $routes->post('update/(:num)', 'OpsIjoController::update/$1');
         // $routes->delete('delete/(:num)', 'OpsIjoController::delete/$1');
+        $routes->get('tugboat', 'OpsIjoController::show_tugboat');
     });
 
     $routes->group('payslip', function ($routes) {

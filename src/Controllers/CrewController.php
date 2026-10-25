@@ -56,6 +56,9 @@ class CrewController extends ResourceController
 
     public function show($id = null)
     {
+        $vessel_id = $this->request->getVar('vessel_id');
+        $rank_id = $this->request->getVar('rank_id');
+        
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "date" => [
@@ -64,6 +67,8 @@ class CrewController extends ResourceController
             ],
             "selects" => "*",
             "type_id" => 1,
+            "vessel_id" => $vessel_id,
+            "rank_id" => $rank_id,
         ]);
         $queryString = http_build_query($payload);
 
