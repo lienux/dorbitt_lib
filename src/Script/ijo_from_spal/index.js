@@ -12,6 +12,29 @@ var app = {
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
             $ummu.config.dataTables()
             app.controllers.index();
+
+            $ummu.dt.modal_list.register("vessel_id", {
+                url: "tugboat",
+                inputId: "vessel_id",
+                inputValueField: "name",
+                columns: [
+                    {
+                        title: "ID",
+                        data: "id",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { title: "Name", data: "name" },
+                ],
+                onSelect: function (row) {
+                    console.log("tugboat_id dipilih:", row);
+                }
+            });
         },
     },
 
@@ -272,6 +295,8 @@ var app = {
                 $ummu.controllers.show_spal(id);
             }else if (id == 'to_dept') {
                 $ummu.controllers.show_dept(id);
+            }else if (id == 'vessel_id') {
+                $ummu.dt.modal_list.show("vessel_id");
             }
         },
 
@@ -303,6 +328,11 @@ var app = {
         on_click_tbody_trtd_child_dept: function(row) {
             // console.log(row)
             $("#to_dept").val(row.name).attr('data-id', row.id);
+        },
+
+        on_click_tbody_trtd_child_vessel_id: function(row) {
+            // console.log(row)
+            $("#vessel_id").val(row.name).attr('data-id', row.id)
         },
     },
 
@@ -433,16 +463,35 @@ var app = {
                         data: "number"
                     },
                     { 
-                        title: "Dari Departemen",
-                        data: "from_dept_name"
+                        title: "Tugboat",
+                        data: "tugboat_name"
                     },
                     { 
-                        title: "Untuk Departemen",
-                        data: "to_dept_name"
+                        title: "Barge",
+                        data: "barge_name"
+                    },
+                    // { 
+                    //     title: "Dari Departemen",
+                    //     data: "from_dept_name"
+                    // },
+                    { 
+                        title: "Departemen",
+                        data: null,
+                        render: function(data, type, row) {
+                            var html = `<div class="text-muted">${row.to_dept_name}</div>`;
+
+                            return html;
+                        }
                     },
                     { 
                         title: "SPAL Number",
-                        data: "spal_number"
+                        data: null,
+                        render: function(data, type, row) {
+                            // var html = `${row.spal_number}`;
+                            var html = `<div class="text-muted">${row.spal_number}</div>`;
+
+                            return html;
+                        }
                     },
                     { 
                         title: "Port of Loading",
@@ -455,6 +504,11 @@ var app = {
                 ];
         
                 return columns;
+            },
+
+            on_reload_params: function (d) {
+                var vessel_id = $("#form_filter #vessel_id").data('id');
+                if (vessel_id) d.vessel_id = vessel_id;
             },
         },
     },

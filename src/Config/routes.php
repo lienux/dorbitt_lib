@@ -318,6 +318,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_si', 'IjoFromSpalController::show_si');
         $routes->get('show_spal', 'IjoFromSpalController::show_spal');
         $routes->get('show_dept', 'IjoFromSpalController::show_dept');
+        $routes->get('tugboat', 'IjoFromSpalController::show_tugboat');
     });
 
     $routes->group('gallery_photos', function ($routes) {
@@ -453,6 +454,26 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
         $routes->get('crew-ranks', 'CrewController::show_ranks');
         $routes->get('show_tugboat', 'CrewController::show_vessel');
+    });
+
+    $routes->group('crew_basic_salary', function ($routes) {
+        $routes->get('/', 'CrewBasicSalaryController::index');
+        $routes->get('show', 'CrewBasicSalaryController::show');
+        $routes->post('create', 'CrewBasicSalaryController::create');
+        $routes->post('update/(:num)', 'CrewBasicSalaryController::update/$1');
+        $routes->delete('delete/(:num)', 'CrewBasicSalaryController::delete/$1');
+
+        // $routes->get('crew-ranks', 'CrewController::show_ranks');
+        // $routes->get('show_tugboat', 'CrewController::show_vessel');
+    });
+
+    $routes->group('ops_ijo', function ($routes) {
+        $routes->get('/', 'OpsIjoController::index');
+        $routes->get('show', 'OpsIjoController::show');
+        // $routes->post('create', 'OpsIjoController::create');
+        $routes->post('update/(:num)', 'OpsIjoController::update/$1');
+        // $routes->delete('delete/(:num)', 'OpsIjoController::delete/$1');
+        $routes->get('tugboat', 'OpsIjoController::show_tugboat');
     });
 
     $routes->group('payslip', function ($routes) {

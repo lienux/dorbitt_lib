@@ -22,10 +22,10 @@
                     <div class="card-body pt-2">
                         <div class="mt-2">
                             <div class="alert text-light collapse" id="alert_input"></div>
-
                             <!-- SB Button -->
                             <?=$this->include(config('Ummu')->Views('partials/sb_button'))?>
 
+                            <!-- Form -->
                             <?= $this->include(config('Ummu')->Views($dir_views . 'form')) ?>
                         </div>
                     </div>
@@ -57,7 +57,12 @@
             <div class="tab-pane fade" id="nav-listData" role="tabpanel">
                 <div class="card mb-3 border-top-0 rounded-0 rounded-bottom">
                     <div class="card-body pt-2">
+                        <!-- Filters -->
                         <?php
+                            if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'filters.php')) {
+                                echo $this->include(config('Ummu')->Views($dir_views . 'filters'));
+                            }
+                        
                             if (is_file(VENDORPATH . 'dorbitt/lib/src/Views/' . $dir_views . 'table.php')) {
                                 echo $this->include(config('Ummu')->Views($dir_views . 'table'));
                             }else{

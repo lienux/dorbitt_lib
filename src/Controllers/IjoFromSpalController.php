@@ -15,6 +15,7 @@ class IjoFromSpalController extends ResourceController
 {
     public function __construct()
     {
+        $this->pathAPI = "api/ijo/";
         $this->module_kode = 'ijo_from_spal';
         $this->dir_view = 'pages/' . $this->module_kode . '/';
         $this->request = \Config\Services::request();
@@ -59,13 +60,16 @@ class IjoFromSpalController extends ResourceController
 
     public function show($id = null)
     {
+        $tugboat_id = $this->request->getVar('vessel_id');
+        
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "date" => [
                 "from" => "",
                 "to" => ""
             ],
-            "selects" => "*"
+            "selects" => "*",
+            "tugboat_id" => $tugboat_id,
         ]);
 
         $params = [
@@ -238,6 +242,27 @@ class IjoFromSpalController extends ResourceController
         ];
 
         $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_tugboat()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*",
+        ]);
+
+        $queryString = http_build_query($payload);
+
+        $path = $this->pathAPI . "/tugboat";
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }

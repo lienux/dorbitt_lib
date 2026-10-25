@@ -18,9 +18,58 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
+
             // $ummu.formatter.number2($("#amount"), 10);
             // $ummu.formatter.number($("#basic_salary"), 8)
             $ummu.formatter.input_rupiah.load(jQuery('#basic_salary'));
+
+            $ummu.dt.modal_list.register("vessel_id", {
+                url: "show_tugboat",
+                inputId: "vessel_id",
+                inputValueField: "name",
+                columns: [
+                    {
+                        title: "ID",
+                        data: "id",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { title: "Name", data: "name" },
+                ],
+                onSelect: function (row) {
+                    console.log("vessel_id dipilih:", row);
+                }
+            });
+
+            $ummu.dt.modal_list.register("rank_id", {
+                url: "crew-ranks",
+                inputId: "rank_id",
+                inputValueField: "rank_name_en",
+                columns: [
+                    {
+                        title: "ID",
+                        data: "id",
+                        render: function (data, type, row) {
+                            return (
+                                '<a href="javascript:void(0);"><div><span class="">' +
+                                data +
+                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                            );
+                        },
+                    },
+                    { title: "Code", data: "rank_code" },
+                    { title: "Name EN", data: "rank_name_en" },
+                    { title: "Name ID", data: "rank_name_id" },
+                ],
+                onSelect: function (row) {
+                    console.log("rank_id dipilih:", row);
+                }
+            });
         },
     },
 
@@ -33,54 +82,6 @@ var app = {
     controllers: {
         index: function() {
             $ummu.dt.controllers.index();
-            // $ummu.dt.config.install();
-
-            // $ummu.dt.init = new DataTable($table,{
-            //     ajax: {
-            //         dataSrc: "rows",
-            //         url: $ummu.vars.page_url + "show",
-            //         type: "POST",
-            //         data: function (d) {
-            //             // // d.myKey = "myValue";
-            //             // // d.custom = $('#myInput').val();
-            //             // // d.release = [0];
-            //             // // etc
-            //             // d.tgl = tgl.replace(/-/g, "");
-            //             // d.tgl2 = tgl2.replace(/-/g, "");
-            //             // d.site = site;
-            //         },
-            //     },
-            //     columns: app.dt.config.columns(),
-            //     columnDefs: $ummu.dt.config.columnDefs(),
-            //     select: $ummu.dt.config.select(),
-            //     processing: true,
-            //     serverSide: MyServerSide,
-            //     // serverSide: true,
-            //     responsive: true,
-            //     keys: true,
-            //     deferLoading: 57,
-            //     lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-            //     layout: {
-            //         topStart: {
-            //             buttons: [],
-            //         }
-            //     },
-            //     paging: true,
-            //     // order: [[26, "asc"],[27,"asc"]],
-            //     // rowGroup: app.dt.clients.config_rowGroup(),
-            //     // fixedColumns: {
-            //     //     start: 2,
-            //     //     // end: 1
-            //     // },
-            //     // scrollCollapse: true,
-            //     // scrollX: true,
-            //     // scrollY: '60vh',
-            //     drawCallback: function (settings) {
-            //         // var api = this.api();
-            //     },
-            // });
-
-            // $ummu.dt.layout.buttonAll($ummu.dt.init)
         },
 
         // Digunakan untuk mengambil data dari database / API, dan terdapat pengaturannya setelah proses xhr selesai.
@@ -357,22 +358,16 @@ var app = {
         },
 
         on_showLeftModal: function(id) {
-            // console.log(id)
+            console.log(id)
             // $ummu.controllers.show_data_link(id)
             if (id == 'crew_ranks') {
                 $ummu.controllers.show_crew_ranks(id);
             }else if (id == 'tugboat') {
                 $ummu.controllers.show_tugboat(id);
-            // }else if (id == 'barge') {
-            //     $ummu.controllers.show_barge(id);
-            // }else if (id == 'uom') {
-            //     $ummu.controllers.show_uom(id);
-            // }else if (id == 'shipment') {
-            //     $ummu.controllers.show_shippingInstruction(id);
-            // }else if (id == 'spal') {
-            //     $ummu.controllers.show_spal(id);
-            // }else if (id == 'to_dept') {
-            //     $ummu.controllers.show_dept(id);
+            }else if (id == 'vessel_id') {
+                $ummu.dt.modal_list.show("vessel_id");
+            }else if (id == 'rank_id') {
+                $ummu.dt.modal_list.show("rank_id");
             }
         },
 
@@ -386,6 +381,16 @@ var app = {
             // ms_cost: function(row) {
             //     $("#ms_cost").val(row.name).attr('data-id', row.id)
             // },
+        },
+
+        on_click_tbody_trtd_child_vessel_id: function(row) {
+            // console.log(row)
+            $("#vessel_id").val(row.name).attr('data-id', row.id)
+        },
+
+        on_click_tbody_trtd_child_rank_id: function(row) {
+            // console.log(row)
+            $("#rank_id").val(row.rank_name_en).attr('data-id', row.id)
         },
     },
 
@@ -891,6 +896,25 @@ var app = {
                     //     visible: false 
                     // },
                 ];
+            },
+
+            on_reload_params: function (d) {
+                // // filter wajib
+                // d.date_from = $("#date_from").val() || "";
+                // d.date_to   = $("#date_to").val()   || "";
+
+                // filter opsional
+                var vessel_id = $("#form_filter #vessel_id").data('id');
+                if (vessel_id) d.vessel_id = vessel_id;
+
+                var rank_id = $("#form_filter #rank_id").data('id');
+                if (rank_id) d.rank_id = rank_id;
+
+                // // filter dari modal_filter (via localStorage)
+                // var lcFrom = localStorage.getItem("date_from");
+                // var lcTo   = localStorage.getItem("date_to");
+                // if (lcFrom) d.date_from = lcFrom;
+                // if (lcTo)   d.date_to   = lcTo;
             },
         },
     },

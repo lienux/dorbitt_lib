@@ -286,6 +286,24 @@ var $ummu = {
             //     $el.trigger('change').trigger('input');
             // });
 
+            $('#form_filter #btn_clear_filter').on('click', function() {
+                $ummu.views.clearFilter();
+
+                console.log('clearFilter click');
+                if (typeof app.controllers.clearFilter !== "undefined") {
+                    console.log('function app.controllers.clearFilter is OK.');
+                    app.controllers.clearFilter();
+                } else {
+                    console.log('plese create function app.controllers.clearFilter.');
+                }
+            })
+
+            $('.ummu-close-modal').on('click', function(){
+                var elId = $(this).attr('for');
+
+                $(`#${elId}`).modal('hide');
+            })
+
             $(document).on('click', '.ummu-clear-input', function() {
                 const targetId = $(this).attr('for');
                 if (!targetId) return;
@@ -293,7 +311,10 @@ var $ummu = {
                 const $el = $('#' + targetId);
                 if (!$el.length) return;
 
-                $el.removeAttr('data-id').removeData('id');
+                $el.attr('data-id', '')
+                    .data('id', '')
+                    .removeData('id')
+                    .removeAttr('data-id');
 
                 // Kosongkan value-nya juga (opsional, tergantung kebutuhan)
                 if ($el.is('input, textarea')) {
@@ -2771,10 +2792,11 @@ var $ummu = {
             $ummu.dt.crew.onClick();
         },
 
-        show_crew_ranks: function () {
-            let lcg = localStorage.getItem('crew_ranks')
+        show_crew_ranks: function (id) {
+            console.log(id)
+            let lcg = localStorage.getItem(id)
 
-            if ($($tbListDataID).data('init') != 'crew_ranks') {
+            if ($($tbListDataID).data('init') != id) {
                 $tbListDataID.DataTable().destroy();
                 $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
                 $ummu.dt.crew_ranks.init = null
@@ -8923,6 +8945,322 @@ var $ummu = {
             $("#carousel_foto_ruangan").append(html);
         },
 
+        resdel: function () {
+            $("#response_deleted").modal("show");
+        },
+
+        select_option_append: function (params) {
+            var rows = params.rows;
+            var element_id = params.element_id;
+            var with_kode = params.with_kode;
+
+            $("#" + element_id).empty();
+            $("#" + element_id).append(
+                "<option value='' selected disabled>Choose...</option>"
+            );
+            for (let index in rows) {
+                if (with_kode == 1) {
+                    var text = rows[index].kode + " - " + rows[index].name;
+                } else {
+                    var text = rows[index].name;
+                }
+                $("#" + element_id).append(
+                    "<option value='" + rows[index].id + "'>" + text + "</option>"
+                );
+            }
+        },
+
+        select_option_append2: function (params) {
+            var rows = params.rows;
+            var element_id = params.element_id;
+            var id = "rows[index]." + params.id;
+            var name = "rows[index]." + params.name;
+
+            $("#" + element_id).empty();
+            $("#" + element_id).append(
+                "<option value='' selected disabled>Choose...</option>"
+            );
+            for (let index in rows) {
+                $("#" + element_id).append(
+                    "<option value='" + eval(id) + "'>" + eval(name) + "</option>"
+                );
+            }
+        },
+
+        list_to_badge: function (index, row) {
+            var html = row.kode + " | " + row.name;
+            return html;
+        },
+
+        emailFormatter: function (data) {
+            var email = "";
+            if (data) {
+                const array = data.split(",");
+                $.each(array, function (index, val) {
+                    email += '<a href="#" class="badge bg-primary">' + val + "</a><br> ";
+                });
+
+                return email;
+            }
+        },
+
+        errors_msg: function (errors) {
+            $("#modal_message #alert").html("");
+
+            if (typeof errors == 'string') {
+                $("#modal_message #alert").append(errors);
+            } else {
+                var errors_value = Object.values(errors);
+                for (const [key, value] of Object.entries(errors)) {
+                    $("#modal_message #alert").append("<div><i class='fas fa-angle-right'></i> " + `${value}` + "</div>");
+                }
+            }
+
+            $('#modal_message').modal('show');
+        },
+
+        transportasiMilikSiapa_option: function (arr) {
+            var elID = $("#transportasi_milikSiapa");
+            var dinas = $("<option>").val(1).text("Kendaraan Operasional Dinas");
+            var pribadi = $("<option>").val(2).text("Kendaraan Pribadi");
+            var umum = $("<option>").val(3).text("Transportasi Umum");
+
+            if ($.inArray('dinas', arr)) {
+                $(elID).append(dinas);
+            }
+
+            if ($.inArray('pribadi', arr)) {
+                $(elID).append(pribadi);
+            }
+
+            if ($.inArray('umum', arr)) {
+                $(elID).append(umum);
+            }
+        },
+
+        after_sbToolbar_getData: function() {
+            $ummu.url.delParamNotIn(['g'])
+            app.views.formParams().prop('disabled', true).val('')
+            $ummu.button.sbBtn_default()
+            app.controllers.show()
+
+            $("#created_at").html('')
+            $("#updated_at").html('')
+            $("#created_by").html('')
+            $("#updated_by").html('')
+        },
+
+        after_sbToolbar_save: function(result, func, id, payload) {
+            // console.log(result)
+            var lcg = localStorage.getItem($localStrgKey);
+
+            if (result.status == true) {
+                $(".sb-toolbar #modalSuccessMessage #alert").html("");
+                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
+                $(".sb-toolbar #modalSuccessMessage").modal("show");
+
+                $ummu.button.sbBtn_on_showData();
+                app.views.formParams().prop('disabled', true);
+
+                if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                    if (func == "create") {
+                        if (lcg == null) {
+                            // Ambil data dari database / API
+                            app.controllers.show();
+                        }else{
+                            // tambah rows pada localStorage
+                            $ummu.localStorage.controllers.create($localStrgKey, result.data);
+                        }
+
+                        // tambah url params
+                        $ummu.url.setParamFromRow(result.data)
+
+                        // // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                        // $ummu.dt.controllers.index()
+                    }else{
+                        if (lcg == null) {
+                            // Ambil data dari database / API
+                            app.controllers.show();
+                        }else{
+                            // Update row pada localstorage
+                            $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
+                        }
+
+                        //update params params url
+                        $ummu.url.setParamFromRow(result.data);
+
+                        // // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                        // $ummu.dt.controllers.index()
+                    }
+
+                    // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                    $ummu.dt.controllers.index()
+                }else{
+                    if ($ummu.dt.init) {
+                        if ($ummu.dt.init.count() == 0) {
+                            app.controllers.show()
+                        }else{
+                            $ummu.dt.init.ajax.reload()
+                        }
+                    }
+                }
+
+                // if (func == "create") {
+                //     if (localStorage.getItem($localStrgKey) == null) {
+                //         app.controllers.show();
+                //     }else{
+                //         // tambah rows pada localStorage
+                //         $ummu.localStorage.addNewRow($localStrgKey, result.data);
+
+                //         // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                //         // $ummu.localStorage.dt_default($localStrgKey);
+                //         $ummu.dt.controllers.index()
+                //     }
+
+                //     // tambah url params
+                //     $ummu.url.setParamFromRow(result.data)
+                // }else{
+                //     if (lcg == null) {
+                //         // Ambil data dari database / API
+                //         app.controllers.show();
+                //     }else{
+                //         // Update row pada localstorage
+                //         // $ummu.localStorage.updateRows($localStrgKey, id, result.data);
+                //         $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
+                //     }
+
+                //     //update params params url
+                //     $ummu.url.setParamFromRow(result.data);
+
+                //     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
+                //     // $ummu.localStorage.dt_default($localStrgKey);
+                //     $ummu.dt.controllers.index()
+                // }
+            }else{
+                $ummu.views.after_sbToolbar_falseStatus(result);
+            }
+        },
+
+        after_sbToolbar_save_stFalse: function(result)
+        {
+            $("#message_title, #text_message").empty();
+            var message = result.message;
+            var errors = result.errors;
+            $("#message_title").html(message);
+            for (let index in errors) {
+                var $error =
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
+                    errors[index] +
+                "</div>";
+                $("#text_message").append($error);
+            }
+            $("#message_modal").modal("show");
+            setTimeout(function () {
+                $("#modal_loader").modal("hide");
+            }, 1000);
+        },
+
+        after_sbToolbar_delete: function(id, result) {
+            if (result.status == true) {
+                // hapus params para url
+                $ummu.url.delParamNotIn(['g']);
+
+                // sb-button default
+                $ummu.button.sbBtn_default();
+
+                // disable dan kosongkan form
+                app.views.formParams().prop('disabled', true).val('');
+
+                // hapus row pada localStorage
+                $ummu.localStorage.deleteRowById($ummu.vars.module_kode, id);
+
+                // // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
+                // $ummu.localStorage.dt_default($localStrgKey);
+
+                // Hapus row pada dataTable
+                $ummu.dt.controllers.deleteRowById(id);
+
+                // hide modal delete confirm
+                $(".sb-toolbar #modalDeleteConfirm").modal("hide")
+
+                $(".sb-toolbar #modalSuccessMessage #alert").html("");
+                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
+                $(".sb-toolbar #modalSuccessMessage").modal("show");
+            }else{
+                $ummu.views.after_sbToolbar_falseStatus(result);
+            }
+        },
+
+        after_sbToolbar_falseStatus: function(result)
+        {
+            $("#message_title, #text_message").empty();
+            var message = result.message;
+            var errors = result.errors;
+            $("#message_title").html(message);
+            for (let index in errors) {
+                var $error =
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
+                    errors[index] +
+                "</div>";
+                $("#text_message").append($error);
+            }
+            $("#message_modal").modal("show");
+            setTimeout(function () {
+                $("#modal_loader").modal("hide");
+            }, 1000);
+        },
+
+        setIdentitiyToForm(row) {
+            $("#created_at").html(row.created_at)
+            $("#updated_at").html(row.updated_at)
+            $("#created_by").html(row.created_by_name)
+            $("#updated_by").html(row.updated_by_name)
+        },
+
+        tab_content: function(a) {
+            if (a == 'setRow_toForm') {
+                $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
+                $("#ummu_tab_content #nav-listData").removeClass("show active")
+                
+                $("#ummu_nav_tab #nav-tab-form").addClass("active")
+                $("#ummu_tab_content #nav-form").addClass("show active")
+            }
+        },
+
+        clearInfoDate: function() {
+            $("#created_at").html('');
+            $("#updated_at").html('');
+            $("#created_by").html('');
+            $("#updated_by").html('');
+        },
+
+        clearForm: function() {
+            // menghapus nilai data-id 
+            $("#form_input .is-data-id")
+                .attr('data-id', '')
+                .data('id', '')
+                .removeData('id')
+                .removeAttr('data-id');
+
+            $("#form_filter .is-data-id")
+                .attr('data-id', '')
+                .data('id', '')
+                .removeData('id')
+                .removeAttr('data-id');
+        },
+
+        clearFilter: function() {
+            $("#form_filter .is-data-id")
+                .attr('data-id', '')
+                .data('id', '')
+                .removeData('id')
+                .removeAttr('data-id');
+
+            $("#form_filter input").val('');
+        },
+
         images: {
             default_dorbitt_avatar: function () {
                 var dorbitt_avatar = $("#dorbitt_avatar img").data("origin");
@@ -8934,10 +9272,6 @@ var $ummu = {
                 $("#accset_avatar img").prop("src", accset_avatar);
                 $("#avatar_filename").val("");
             },
-        },
-
-        resdel: function () {
-            $("#response_deleted").modal("show");
         },
 
         modal: {
@@ -9406,61 +9740,6 @@ var $ummu = {
             },
         },
 
-        select_option_append: function (params) {
-            var rows = params.rows;
-            var element_id = params.element_id;
-            var with_kode = params.with_kode;
-
-            $("#" + element_id).empty();
-            $("#" + element_id).append(
-                "<option value='' selected disabled>Choose...</option>"
-            );
-            for (let index in rows) {
-                if (with_kode == 1) {
-                    var text = rows[index].kode + " - " + rows[index].name;
-                } else {
-                    var text = rows[index].name;
-                }
-                $("#" + element_id).append(
-                    "<option value='" + rows[index].id + "'>" + text + "</option>"
-                );
-            }
-        },
-
-        select_option_append2: function (params) {
-            var rows = params.rows;
-            var element_id = params.element_id;
-            var id = "rows[index]." + params.id;
-            var name = "rows[index]." + params.name;
-
-            $("#" + element_id).empty();
-            $("#" + element_id).append(
-                "<option value='' selected disabled>Choose...</option>"
-            );
-            for (let index in rows) {
-                $("#" + element_id).append(
-                    "<option value='" + eval(id) + "'>" + eval(name) + "</option>"
-                );
-            }
-        },
-
-        list_to_badge: function (index, row) {
-            var html = row.kode + " | " + row.name;
-            return html;
-        },
-
-        emailFormatter: function (data) {
-            var email = "";
-            if (data) {
-                const array = data.split(",");
-                $.each(array, function (index, val) {
-                    email += '<a href="#" class="badge bg-primary">' + val + "</a><br> ";
-                });
-
-                return email;
-            }
-        },
-
         hazard_report: {
             button_in_modal_form: function (action = null) {
                 $("#form_entry_data input, #form_entry_data button, select").prop(
@@ -9585,21 +9864,6 @@ var $ummu = {
             },
         },
 
-        errors_msg: function (errors) {
-            $("#modal_message #alert").html("");
-
-            if (typeof errors == 'string') {
-                $("#modal_message #alert").append(errors);
-            } else {
-                var errors_value = Object.values(errors);
-                for (const [key, value] of Object.entries(errors)) {
-                    $("#modal_message #alert").append("<div><i class='fas fa-angle-right'></i> " + `${value}` + "</div>");
-                }
-            }
-
-            $('#modal_message').modal('show');
-        },
-
         goods_evaluation: {
             close_status: function (s) {
                 if (s == "close" || s == 4) {
@@ -9611,232 +9875,6 @@ var $ummu = {
                 }
             },
         },
-
-        transportasiMilikSiapa_option: function (arr) {
-            var elID = $("#transportasi_milikSiapa");
-            var dinas = $("<option>").val(1).text("Kendaraan Operasional Dinas");
-            var pribadi = $("<option>").val(2).text("Kendaraan Pribadi");
-            var umum = $("<option>").val(3).text("Transportasi Umum");
-
-            if ($.inArray('dinas', arr)) {
-                $(elID).append(dinas);
-            }
-
-            if ($.inArray('pribadi', arr)) {
-                $(elID).append(pribadi);
-            }
-
-            if ($.inArray('umum', arr)) {
-                $(elID).append(umum);
-            }
-        },
-
-        after_sbToolbar_getData: function() {
-            $ummu.url.delParamNotIn(['g'])
-            app.views.formParams().prop('disabled', true).val('')
-            $ummu.button.sbBtn_default()
-            app.controllers.show()
-
-            $("#created_at").html('')
-            $("#updated_at").html('')
-            $("#created_by").html('')
-            $("#updated_by").html('')
-        },
-
-        after_sbToolbar_save: function(result, func, id, payload) {
-            // console.log(result)
-            var lcg = localStorage.getItem($localStrgKey);
-
-            if (result.status == true) {
-                $(".sb-toolbar #modalSuccessMessage #alert").html("");
-                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
-                $(".sb-toolbar #modalSuccessMessage").modal("show");
-
-                $ummu.button.sbBtn_on_showData();
-                app.views.formParams().prop('disabled', true);
-
-                if (localStorage.getItem('isDataLocalStorage') == 'true') {
-                    if (func == "create") {
-                        if (lcg == null) {
-                            // Ambil data dari database / API
-                            app.controllers.show();
-                        }else{
-                            // tambah rows pada localStorage
-                            $ummu.localStorage.controllers.create($localStrgKey, result.data);
-                        }
-
-                        // tambah url params
-                        $ummu.url.setParamFromRow(result.data)
-
-                        // // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                        // $ummu.dt.controllers.index()
-                    }else{
-                        if (lcg == null) {
-                            // Ambil data dari database / API
-                            app.controllers.show();
-                        }else{
-                            // Update row pada localstorage
-                            $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
-                        }
-
-                        //update params params url
-                        $ummu.url.setParamFromRow(result.data);
-
-                        // // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                        // $ummu.dt.controllers.index()
-                    }
-
-                    // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                    $ummu.dt.controllers.index()
-                }else{
-                    if ($ummu.dt.init) {
-                        if ($ummu.dt.init.count() == 0) {
-                            app.controllers.show()
-                        }else{
-                            $ummu.dt.init.ajax.reload()
-                        }
-                    }
-                }
-
-                // if (func == "create") {
-                //     if (localStorage.getItem($localStrgKey) == null) {
-                //         app.controllers.show();
-                //     }else{
-                //         // tambah rows pada localStorage
-                //         $ummu.localStorage.addNewRow($localStrgKey, result.data);
-
-                //         // tambah row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                //         // $ummu.localStorage.dt_default($localStrgKey);
-                //         $ummu.dt.controllers.index()
-                //     }
-
-                //     // tambah url params
-                //     $ummu.url.setParamFromRow(result.data)
-                // }else{
-                //     if (lcg == null) {
-                //         // Ambil data dari database / API
-                //         app.controllers.show();
-                //     }else{
-                //         // Update row pada localstorage
-                //         // $ummu.localStorage.updateRows($localStrgKey, id, result.data);
-                //         $ummu.localStorage.controllers.update($localStrgKey, id, result.data);
-                //     }
-
-                //     //update params params url
-                //     $ummu.url.setParamFromRow(result.data);
-
-                //     // update row pada table dengan cara get rows dari localStorage yang sudah ditambahkan row baru
-                //     // $ummu.localStorage.dt_default($localStrgKey);
-                //     $ummu.dt.controllers.index()
-                // }
-            }else{
-                $ummu.views.after_sbToolbar_falseStatus(result);
-            }
-        },
-
-        after_sbToolbar_save_stFalse: function(result)
-        {
-            $("#message_title, #text_message").empty();
-            var message = result.message;
-            var errors = result.errors;
-            $("#message_title").html(message);
-            for (let index in errors) {
-                var $error =
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
-                    errors[index] +
-                "</div>";
-                $("#text_message").append($error);
-            }
-            $("#message_modal").modal("show");
-            setTimeout(function () {
-                $("#modal_loader").modal("hide");
-            }, 1000);
-        },
-
-        after_sbToolbar_delete: function(id, result) {
-            if (result.status == true) {
-                // hapus params para url
-                $ummu.url.delParamNotIn(['g']);
-
-                // sb-button default
-                $ummu.button.sbBtn_default();
-
-                // disable dan kosongkan form
-                app.views.formParams().prop('disabled', true).val('');
-
-                // hapus row pada localStorage
-                $ummu.localStorage.deleteRowById($ummu.vars.module_kode, id);
-
-                // // delete row pada table dengan cara get rows dari localStorage yang sudah diupdate
-                // $ummu.localStorage.dt_default($localStrgKey);
-
-                // Hapus row pada dataTable
-                $ummu.dt.controllers.deleteRowById(id);
-
-                // hide modal delete confirm
-                $(".sb-toolbar #modalDeleteConfirm").modal("hide")
-
-                $(".sb-toolbar #modalSuccessMessage #alert").html("");
-                $(".sb-toolbar #modalSuccessMessage #alert").html(result.message);
-                $(".sb-toolbar #modalSuccessMessage").modal("show");
-            }else{
-                $ummu.views.after_sbToolbar_falseStatus(result);
-            }
-        },
-
-        after_sbToolbar_falseStatus: function(result)
-        {
-            $("#message_title, #text_message").empty();
-            var message = result.message;
-            var errors = result.errors;
-            $("#message_title").html(message);
-            for (let index in errors) {
-                var $error =
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<i class="bi bi-exclamation-octagon me-1"></i> ' +
-                    errors[index] +
-                "</div>";
-                $("#text_message").append($error);
-            }
-            $("#message_modal").modal("show");
-            setTimeout(function () {
-                $("#modal_loader").modal("hide");
-            }, 1000);
-        },
-
-        setIdentitiyToForm(row) {
-            $("#created_at").html(row.created_at)
-            $("#updated_at").html(row.updated_at)
-            $("#created_by").html(row.created_by_name)
-            $("#updated_by").html(row.updated_by_name)
-        },
-
-        tab_content: function(a) {
-            if (a == 'setRow_toForm') {
-                $("#ummu_nav_tab #nav-tab-listData").removeClass("active")
-                $("#ummu_tab_content #nav-listData").removeClass("show active")
-                
-                $("#ummu_nav_tab #nav-tab-form").addClass("active")
-                $("#ummu_tab_content #nav-form").addClass("show active")
-            }
-        },
-
-        clearInfoDate: function() {
-            $("#created_at").html('');
-            $("#updated_at").html('');
-            $("#created_by").html('');
-            $("#updated_by").html('');
-        },
-
-        clearForm: function() {
-            // menghapus nilai data-id 
-            $("#form_input .is-data-id")
-                .attr('data-id', '')
-                .data('id', '')
-                .removeData('id')
-                .removeAttr('data-id')
-        }
     },
 
     formatter: {
@@ -11305,6 +11343,9 @@ var $ummu = {
                             // d.tgl = tgl.replace(/-/g, "");
                             // d.tgl2 = tgl2.replace(/-/g, "");
                             // d.site = site;
+                            if (typeof app.dt.on_reload_params === "function") {
+                                try { app.dt.on_reload_params(d); } catch (e) {}
+                            }
                         },
                     },
                     columns: app.dt.config.columns(),
@@ -11733,7 +11774,6 @@ var $ummu = {
                     }
                 }
 
-
                 // Pasang Konfigurasi untuk event ketika klik coloum ke 3 biasanya bagian ID.
                 $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
                     // 1. Ambil data row terlebih dahulu
@@ -11749,16 +11789,21 @@ var $ummu = {
 
                     // 3. Logika asli kamu (hanya berjalan jika is_mutabannat == 0)
                     if (typeof app.dt.config.onClick_nthChild_2 !== "undefined") {
-                        console.log('function app.controllers.onClick_nthChild_2 is OK.');
+                        console.log('function app.dt.config.onClick_nthChild_2 is OK.');
                         app.dt.config.onClick_nthChild_2(row);
                     } else {
-                        console.log('plese create function app.controllers.onClick_nthChild_2.');
+                        console.log('plese create function app.dt.config.onClick_nthChild_2.');
                         $ummu.url.setParamFromRow(row);
                         app.views.setRow_toForm(row);
                     }
                     
                     $ummu.views.tab_content('setRow_toForm');
                 });
+
+                if (typeof app.dt.config.index !== "undefined") {
+                    console.log('app.dt.config.index() is running');
+                    app.dt.config.index();
+                }
             },
 
             // Digunakan untuk menarik data baru ke API
@@ -11786,6 +11831,9 @@ var $ummu = {
                             // d.tgl = tgl.replace(/-/g, "");
                             // d.tgl2 = tgl2.replace(/-/g, "");
                             // d.site = site;
+                            if (typeof app.dt.config.on_reload_params === "function") {
+                                try { app.dt.config.on_reload_params(d); } catch (e) {}
+                            }
                         },
                     },
                     columns: app.dt.config.columns(),
@@ -11856,6 +11904,22 @@ var $ummu = {
                         // Parameter custom Anda jika ada
                         // d.tgl = tgl.replace(/-/g, "");
                         // d.site = site;
+
+                        // 1) callback dari halaman
+                        if (typeof app.dt.config.on_reload_params === "function") {
+                            try { app.dt.config.on_reload_params(d); } catch (e) {}
+                        }
+
+                        // // 2) callback global per module_kode (opsional)
+                        // var fn = $ummu.dt.config.getFilterParams($ummu.vars.module_kode);
+                        // if (typeof fn === "function") {
+                        //     try { fn(d); } catch (e) {}
+                        // }
+
+                        // // 3) fallback otomatis dari DOM
+                        // if (typeof $ummu.dt.config.collectDefaultFilters === "function") {
+                        //     $ummu.dt.config.collectDefaultFilters(d);
+                        // }
                     }
                 };
 
@@ -16158,6 +16222,228 @@ var $ummu = {
                     });
                 }
             }
+        },
+
+        modal_list: {
+            // Registry semua module yang terdaftar
+            registry: {},
+
+            /**
+             * Daftarkan module baru
+             * @param {string} key - unique key (mis. "crew_ranks")
+             * @param {object} opts - konfigurasi
+             */
+            register: function (key, opts) {
+                if (!this.registry) this.registry = {};
+                this.registry[key] = opts || {};
+                return this;
+            },
+
+            /**
+             * Ambil config module
+             */
+            getConfig: function (key) {
+                return this.registry && this.registry[key] ? this.registry[key] : null;
+            },
+
+            /**
+             * Destroy instance lama
+             */
+            destroy: function (key) {
+                // 1. Hancurkan instance milik key ini (jika ada)
+                if ($ummu.dt.init_j[key]) {
+                    try { $ummu.dt.init_j[key].destroy(); } catch (e) {}
+                    $ummu.dt.init_j[key] = null;
+                }
+
+                // 2. Hancurkan instance lain yang masih "nyangkut" di element yang sama
+                //    karena DataTable hanya bisa 1 instance per element
+                if ($.fn.DataTable.isDataTable($tbListDataID)) {
+                    try { $tbListDataID.DataTable().destroy(); } catch (e) {}
+                }
+
+                // 3. Reset SEMUA slot init_j yang menunjuk ke element yang sama
+                //    (karena hanya 1 DataTable yang boleh aktif di $tbListDataID)
+                Object.keys($ummu.dt.init_j).forEach(function (k) {
+                    if (k !== key && $ummu.dt.init_j[k]) {
+                        try { $ummu.dt.init_j[k].destroy(); } catch (e) {}
+                        $ummu.dt.init_j[k] = null;
+                    }
+                });
+
+                // 4. Bersihkan event lama (semua namespace dtmodal_* + non-namespaced)
+                $($tbListDataID)
+                    .off('click.dtmodal_' + key)
+                    .off('xhr.dtmodal_' + key)
+                    .off('click')      // ← hapus semua click handler lain (crew, tugboat, dll)
+                    .off('xhr.dt')     // ← hapus semua xhr.dt handler (show_data_link dll)
+                    .off('draw.dt')
+                    .off('preXhr.dt')
+                    .off('error.dt');
+            },
+
+            /**
+             * Show / open DataTable di modal list
+             * @param {string} key - unique key module
+             * @param {object} params - optional override (bisa juga untuk param tambahan ajax)
+             */
+            show: function (key, params) {
+                var cfg = this.getConfig(key);
+
+                if (!cfg) {
+                    console.error('[modal_list] Module "' + key + '" belum terdaftar. Gunakan $ummu.dt.modal_list.register("' + key + '", {...})');
+                    return;
+                }
+
+                params = params || {};
+
+                var lcg = localStorage.getItem(key);
+
+                // Reset jika table sebelumnya dipakai module lain
+                if ($($tbListDataID).data('init') != key) {
+                    // Destroy instance sebelumnya secara menyeluruh
+                    var prevKey = $($tbListDataID).data('init');
+                    if (prevKey) this.destroy(prevKey);   // ← gunakan prevKey, bukan key
+                    this.destroy(key);                     // destroy juga key yang mau dipakai (jaga-jaga)
+                    $tbListDataID.empty();
+                }
+
+                // ==== BUILD CONFIG ====
+                var dataTableConfig = {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: (cfg.url.indexOf('http') === 0 || cfg.url.indexOf($base_url) === 0)
+                            ? cfg.url
+                            : $ummu.vars.page_url + cfg.url,
+                        data: function (d) {
+                            // Inject param dari pemanggil
+                            if (params && typeof params.ajaxData === "function") {
+                                params.ajaxData(d);
+                            }
+                            if (cfg.ajaxData && typeof cfg.ajaxData === "function") {
+                                cfg.ajaxData(d);
+                            }
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: cfg.deferLoading || 57,
+                    lengthMenu: cfg.lengthMenu || [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        if ($ummu.dt.init_j[key]) {
+                                            $ummu.dt.init_j[key].ajax.reload();
+                                        }
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: cfg.order || [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: cfg.scrollY || 500,
+                    columns: cfg.columns || [],
+                    drawCallback: function (data, callback, settings) {
+                        if (cfg.drawCallback && typeof cfg.drawCallback === "function") {
+                            cfg.drawCallback.call(this, data, callback, settings, params);
+                        }
+                        if (params && typeof params.drawCallback === "function") {
+                            params.drawCallback.call(this, data, callback, settings);
+                        }
+                    },
+                };
+
+                // Data lokal vs server
+                if (lcg && !params.forceServer) {
+                    dataTableConfig.data = JSON.parse(lcg).rows;
+                    delete dataTableConfig.ajax;
+                }
+
+                // ==== INIT ====
+                if ($ummu.dt.init_j[key] == null) {
+                    $ummu.dt.init_j[key] = new DataTable($tbListDataID, dataTableConfig);
+
+                    // Cache ke localStorage
+                    $($tbListDataID).off('xhr.dtmodal_' + key);
+                    $($tbListDataID).on('xhr.dtmodal_' + key, function (e, settings, json) {
+                        if (json && json.status === true) {
+                            localStorage.setItem(key, JSON.stringify(json));
+                        }
+                    });
+                } else {
+                    if (lcg && !params.forceServer) {
+                        $ummu.dt.init_j[key].clear().rows.add(JSON.parse(lcg).rows).draw();
+                    } else {
+                        $ummu.dt.init_j[key].ajax.reload();
+                    }
+                }
+
+                $($tbListDataID).data('init', key);
+
+                // ==== ON CLICK ====
+                this.onClick(key, params);
+            },
+
+            /**
+             * Pasang event onClick (td:nth-child(1))
+             */
+            onClick: function (key, params) {
+                console.log('onClick ' + key)
+                var cfg = this.getConfig(key);
+                if (!cfg) return;
+
+                $($tbListDataID).off('click.dtmodal_' + key);
+                $($tbListDataID).on('click.dtmodal_' + key, "tbody tr td:nth-child(1)", function () {
+                    $(`#${key}`)
+                        .attr('data-id', '')
+                        .data('id', '')
+                        .removeData('id')
+                        .removeAttr('data-id');
+
+                    var row = $ummu.dt.init_j[key].row(this).data();
+
+                    // 1. Set value default ke input target (jika didefinisikan)
+                    if (cfg.inputId) {
+                        $("#" + cfg.inputId).val(row[cfg.inputValueField || "name"]).attr("data-id", row.id);
+                    }
+                    if (cfg.inputKodeField && cfg.inputId) {
+                        $ummu.vars.listData.selectKode = row[cfg.inputKodeField];
+                    } else {
+                        $ummu.vars.listData.selectKode = row.id;
+                    }
+
+                    // 2. Tutup modal
+                    $("#modal_listData").modal("hide");
+
+                    // 3. Callback custom dari config
+                    if (cfg.onSelect && typeof cfg.onSelect === "function") {
+                        cfg.onSelect(row, key, params);
+                    }
+
+                    // 4. Backward compat: callback di app.controllers
+                    var handlerName = cfg.onSelectName || ('on_click_tbody_trtd_child_' + key);
+                    if (app && app.controllers && typeof app.controllers[handlerName] !== "undefined") {
+                        console.log('function app.controllers.' + handlerName + ' is OK.');
+                        app.controllers[handlerName](row);
+                    } else if (!cfg.onSelect) {
+                        console.log('plese create function app.controllers.' + handlerName + '.');
+                    }
+                });
+            },
         },
 
         is_init: function ($tableID) {
