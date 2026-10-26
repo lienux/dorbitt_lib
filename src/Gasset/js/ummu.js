@@ -16373,17 +16373,28 @@ var $ummu = {
                     delete dataTableConfig.ajax;
                 }
 
+                // // ==== INIT ====
+                // if ($ummu.dt.init_j[key] == null) {
+                //     $ummu.dt.init_j[key] = new DataTable($tbListDataID, dataTableConfig);
+
+                //     // Cache ke localStorage
+                //     $($tbListDataID).off('xhr.dtmodal_' + key);
+                //     $($tbListDataID).on('xhr.dtmodal_' + key, function (e, settings, json) {
+                //         if (json && json.status === true) {
+                //             localStorage.setItem(key, JSON.stringify(json));
+                //         }
+                //     });
+                // } else {
+                //     if (lcg && !params.forceServer) {
+                //         $ummu.dt.init_j[key].clear().rows.add(JSON.parse(lcg).rows).draw();
+                //     } else {
+                //         $ummu.dt.init_j[key].ajax.reload();
+                //     }
+                // }
+
                 // ==== INIT ====
                 if ($ummu.dt.init_j[key] == null) {
                     $ummu.dt.init_j[key] = new DataTable($tbListDataID, dataTableConfig);
-
-                    // Cache ke localStorage
-                    $($tbListDataID).off('xhr.dtmodal_' + key);
-                    $($tbListDataID).on('xhr.dtmodal_' + key, function (e, settings, json) {
-                        if (json && json.status === true) {
-                            localStorage.setItem(key, JSON.stringify(json));
-                        }
-                    });
                 } else {
                     if (lcg && !params.forceServer) {
                         $ummu.dt.init_j[key].clear().rows.add(JSON.parse(lcg).rows).draw();
@@ -16392,7 +16403,18 @@ var $ummu = {
                     }
                 }
 
+                // ==== SAVE KE LOCALSTORAGE (selalu pasang) ====
+                $($tbListDataID).on('xhr.dt', function (e, settings, json, xhr) {
+                    if (json && json.status === true) {
+                        localStorage.setItem(key, JSON.stringify(json));
+                    }
+                });
+
                 $($tbListDataID).data('init', key);
+
+                // if ($.fn.DataTable.isDataTable($tbListDataID)) {
+                //     $($tbListDataID).DataTable().columns.adjust().draw();
+                // }
 
                 // ==== ON CLICK ====
                 this.onClick(key, params);
@@ -19665,3 +19687,17 @@ var $app = {
 }
 
 // terser ummu.js -o ummu.min.js
+
+
+// Pasang listener global untuk lihat apakah xhr.dt benar-benar fire
+$(document).on('xhr.dt', function(e, settings, json, xhr) {
+    console.log('=== xhr.dt FIRED ===');
+    console.log('settings:', settings);
+    console.log('json:', json);
+    console.log('json.status:', json ? json.status : 'json is NULL/undefined');
+});
+
+// Cek juga xhr.dtmodal_*
+$(document).on('xhr.dtmodal_crew_ranks', function(e, settings, json) {
+    console.log('=== xhr.dtmodal_crew_ranks FIRED ===', json);
+});
