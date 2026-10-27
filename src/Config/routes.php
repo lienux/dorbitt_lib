@@ -357,7 +357,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('time_sheet', function ($routes) {
         $routes->get('/', 'TimeSheetController::index');
         $routes->get('show', 'TimeSheetController::show');
-        $routes->post('show', 'TimeSheetController::show');
+        // $routes->post('show', 'TimeSheetController::show');
         $routes->post('create', 'TimeSheetController::create');
         $routes->post('update/(:num)', 'TimeSheetController::update/$1');
         $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
@@ -367,7 +367,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_barge', 'TimeSheetController::show_barge');
         $routes->get('show_uom', 'TimeSheetController::show_uom');
         $routes->get('show_si', 'TimeSheetController::show_si');
-        $routes->get('show_ijo', 'TimeSheetController::show_ijo');
+        $routes->get('ijo', 'TimeSheetController::show_ijo');
     });
 
     $routes->group('vendor_verification', function ($routes) {
