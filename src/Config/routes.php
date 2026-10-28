@@ -456,12 +456,12 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_tugboat', 'CrewController::show_vessel');
     });
 
-    $routes->group('crew_basic_salary', function ($routes) {
-        $routes->get('/', 'CrewBasicSalaryController::index');
-        $routes->get('show', 'CrewBasicSalaryController::show');
-        $routes->post('create', 'CrewBasicSalaryController::create');
-        $routes->post('update/(:num)', 'CrewBasicSalaryController::update/$1');
-        $routes->delete('delete/(:num)', 'CrewBasicSalaryController::delete/$1');
+    $routes->group('crew_payroll', function ($routes) {
+        $routes->get('/', 'CrewPayrollController::index');
+        $routes->get('show', 'CrewPayrollController::show');
+        $routes->post('create', 'CrewPayrollController::create');
+        $routes->post('update/(:num)', 'CrewPayrollController::update/$1');
+        $routes->delete('delete/(:num)', 'CrewPayrollController::delete/$1');
 
         // $routes->get('crew-ranks', 'CrewController::show_ranks');
         // $routes->get('show_tugboat', 'CrewController::show_vessel');
@@ -498,6 +498,22 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('version1Alya_print_payslip_template', 'PayslipController::version1Alya_print_payslip_template');
     });
 
+    // ============================================
+    // ROUTES: PIC KAPAL MANAGEMENT
+    // ============================================
+   $routes->group('pic_kapal', ['namespace' => 'App\Controllers'], function ($routes) {
+        $routes->get('/', 'PicKapal::index');
+        $routes->get('list', 'PicKapal::list');
+        $routes->get('vessels', 'PicKapal::vessels');
+        $routes->get('available-accounts', 'PicKapal::availableAccounts');
+        $routes->get('detail/(:num)', 'PicKapal::detail/$1');
+        $routes->post('save', 'PicKapal::save');
+        $routes->delete('delete/(:num)', 'PicKapal::delete/$1');
+    });
+
+
+
+    // ===========
     $routes->group('dorbitt', function ($routes) {
         // $routes->get('/', 'DorbittController::index');
         

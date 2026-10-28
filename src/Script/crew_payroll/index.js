@@ -510,12 +510,36 @@ var app = {
                         }
                     },
                     { 
-                        title: "Nama Crew",
+                        title: "Perusahaan",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            // var html = `(${row.rank_code}) ${row.rank_name_id}`;
+                            // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
+
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Tugboat",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            // var html = `(${row.rank_code}) ${row.rank_name_id}`;
+                            // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
+
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Nama",
                         data: "name",
                         className: 'align-middle',
                     },
                     { 
-                        title: "Jabatan (Rank)",
+                        title: "Jabatan",
                         data: null,
                         className: 'align-middle',
                         render: function(data, type, row) {
@@ -525,27 +549,6 @@ var app = {
                             return html;
                         }
                     },
-                    { 
-                        title: "Vessel",
-                        data: "vessel_name",
-                        className: 'align-middle',
-                    },
-                    // { 
-                    //     title: "Phone Number",
-                    //     data: "phone_number",
-                    //     className: 'align-middle',
-                    // },
-                    // { 
-                    //     title: "Ijazah (COC)",
-                    //     data: null,
-                    //     className: 'align-middle',
-                    //     render: function(data, type, row) {
-                    //         var html = "";
-                    //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
-
-                    //         return html;
-                    //     }
-                    // },
                     { 
                         title: "Gaji Pokok",
                         data: null,
@@ -564,62 +567,38 @@ var app = {
                         }
                     },
                     { 
-                        title: "Seafarer Code",
-                        data: "seafarer_code",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Tempat Lahir",
-                        data: "tempat_lahir",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Tanggal Lahir",
-                        data: "tanggal_lahir",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Usia",
+                        title: "Hari",
                         data: null,
                         className: 'align-middle',
                         render: function(data, type, row) {
-                            // 1. Ambil data tanpa deklarasi ganda
-                            var tanggal_lahir_text = row.tanggal_lahir;
+                            var html = '';
+                            // var html = `(${row.rank_code}) ${row.rank_name_id}`;
+                            // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
 
-                            // 2. Validasi string dasar (kosong, null, atau format default MySQL)
-                            if (!tanggal_lahir_text || tanggal_lahir_text === '0000-00-00' || tanggal_lahir_text === 'null' || tanggal_lahir_text.trim() === '') {
-                                return '.....';
-                            }
-
-                            // 3. Validasi apakah string benar-benar tanggal yang valid
-                            var parsedDate = new Date(tanggal_lahir_text);
-                            if (isNaN(parsedDate.getTime())) {
-                                return '.....';
-                            }
-
-                            // 4. Hitung umur
-                            var umur = $ummu.date.hitungUmur(tanggal_lahir_text);
-
-                            // 5. Pastikan hasil perhitungan valid (bukan NaN atau undefined)
-                            if (umur !== null && umur !== undefined && !isNaN(umur)) {
-                                return umur + ' Tahun';
-                            }
-
-                            return '.....';
+                            return html;
                         }
                     },
                     { 
-                        title: "Sign On Place",
-                        data: "sign_on_place",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Sign On Date",
+                        title: "Sign On",
                         data: "sign_on_date",
                         className: 'align-middle',
                     },
                     { 
-                        title: "Masa Kerja",
+                        title: "Sign Off",
+                        data: "sign_of_date",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Days",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "EMP MTH",
                         data: null,
                         className: 'align-middle',
                         render: function(data, type, row) {
@@ -650,205 +629,85 @@ var app = {
                         }
                     },
                     { 
-                        title: "MCU",
-                        data: "mcu_maritime_number",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "MCU (Expiry)",
-                        data: "mcu_maritime_expiry",
-                        className: 'align-middle',
-                    },
-                    
-                    // { 
-                    //     title: "Buku Pelaut (Expiry)",
-                    //     data: null,
-                    //     className: 'align-middle',
-                    //     render: function(data, type, row) {
-                    //         var html = "";
-
-                    //         var seaman_book_number = row.seaman_book_number;
-                    //         var seaman_book_expiry = $ummu.date.tglIndo(row.seaman_book_expiry);
-                    //         var seaman_book_expiry_status = row.seaman_book_expiry_status;
-
-                    //         var text = `<small class="text-success font-weight-bold">
-                    //                 <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                    //             </small>`;
-                    //         var textExp = `<small class="text-danger font-weight-bold animate-pulse">
-                    //                 <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
-                    //             </small>`;
-
-                    //         var textExpSoon = `<small class="text-warning font-weight-bold">
-                    //                 <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                    //             </small>`;
-
-                    //         if (seaman_book_expiry_status == 'Active') {
-                    //             var html_ = text;
-                    //         }else if (seaman_book_expiry_status == 'Expired') {
-                    //             var html_ = textExp;
-                    //         }else{
-                    //             var html_ = textExpSoon;
-                    //         }
-
-                    //         var html = `
-                    //             <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
-                    //             ${html_}
-                    //         `;
-
-                    //         return html;
-                    //     }
-                    // },
-                    { 
-                        title: "Buku Pelaut (Number)",
-                        data: "seaman_book_number",
-                        className: 'align-middle',
-                        // render: function(data, type, row) {
-                        //     var html = "";
-
-                        //     var seaman_book_number = row.seaman_book_number;
-                        //     var seaman_book_expiry = $ummu.date.tglIndo(row.seaman_book_expiry);
-                        //     var seaman_book_expiry_status = row.seaman_book_expiry_status;
-
-                        //     var text = `<small class="text-success font-weight-bold">
-                        //             <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                        //         </small>`;
-                        //     var textExp = `<small class="text-danger font-weight-bold animate-pulse">
-                        //             <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
-                        //         </small>`;
-
-                        //     var textExpSoon = `<small class="text-warning font-weight-bold">
-                        //             <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                        //         </small>`;
-
-                        //     if (seaman_book_expiry_status == 'Active') {
-                        //         var html_ = text;
-                        //     }else if (seaman_book_expiry_status == 'Expired') {
-                        //         var html_ = textExp;
-                        //     }else{
-                        //         var html_ = textExpSoon;
-                        //     }
-
-                        //     var html = `
-                        //         <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
-                        //         ${html_}
-                        //     `;
-
-                        //     return html;
-                        // }
-                    },
-                    { 
-                        title: "Buku Pelaut (Expiry)",
-                        data: "seaman_book_number",
-                        className: 'align-middle',
-                        render: function(data, type, row) {
-                            var html = "";
-
-                            var seaman_book_number = row.seaman_book_number;
-                            var seaman_book_expiry = $ummu.date.tglIndo(row.seaman_book_expiry);
-                            var seaman_book_expiry_status = row.seaman_book_expiry_status;
-
-                            var text = `<small class="text-success font-weight-bold">
-                                    <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                                </small>`;
-                            var textExp = `<small class="text-danger font-weight-bold animate-pulse">
-                                    <i class="fas fa-exclamation-triangle mr-1"></i> ${seaman_book_expiry}
-                                </small>`;
-
-                            var textExpSoon = `<small class="text-warning font-weight-bold">
-                                    <i class="fas fa-calendar-check mr-1"></i> ${seaman_book_expiry}
-                                </small>`;
-
-                            if (seaman_book_expiry_status == 'Active') {
-                                var html_ = text;
-                            }else if (seaman_book_expiry_status == 'Expired') {
-                                var html_ = textExp;
-                            }else{
-                                var html_ = textExpSoon;
-                            }
-
-                                // <div class="mb-0 font-weight-bold">${seaman_book_number}</div>
-                            var html = `
-                                ${html_}
-                            `;
-
-                            return html;
-                        }
-                    },
-                    { 
-                        title: "Passpor",
-                        data: "passport_number",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Passpor (Expiry)",
-                        data: "passport_expiry",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "KTP",
-                        data: "nik",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "KK",
-                        data: "kk",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "NPWP",
-                        data: "npwp",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Vaksin",
-                        data: "vaccination_info",
-                        className: 'align-middle',
-                    },
-                    { 
-                        title: "Status Kerja",
+                        title: "Biaya Gaji",
                         data: null,
-                        className: 'align-middle small',
+                        className: 'align-middle',
                         render: function(data, type, row) {
-                            var html = "";
-
-                            var on_board = `<span class="badge badge-success status-badge shadow-sm">
-                                    <i class="fas fa-ship mr-1"></i> ON BOARD
-                                </span>`;
-                            var standby = `<span class="badge badge-info status-badge shadow-sm">
-                                    <i class="fas fa-user-clock mr-1"></i> STANDBY
-                                </span>`
-                            var off_sign = `<span class="badge badge-secondary status-badge shadow-sm">
-                                <i class="fas fa-home mr-1"></i> OFF SIGN / CUTI
-                            </span>`;
-                            var medical_leave = `<span class="badge badge-danger status-badge shadow-sm">
-                                <i class="fas fa-clinic-medical"></i> MEDICAL LEAVE
-                            </span>`;
-                            // 'STANDBY','ON_BOARD','OFF_SIGN','MEDICAL_LEAVE'
-
-                            var current_crew_status = row.current_crew_status;
-
-                            if (current_crew_status == 'STANDBY') {
-                                var html = standby;
-                            }else if (current_crew_status == 'ON_BOARD') {
-                                var html = on_board;
-                            }else if (current_crew_status == 'OFF_SIGN') {
-                                var html = off_sign;
-                            }else{
-                                var html = medical_leave;
-                            }
-
+                            var html = '';
                             return html;
                         }
                     },
                     { 
-                        title: "Alamat",
-                        data: "alamat",
+                        title: "Potongan Gaji",
+                        data: null,
                         className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
                     },
                     { 
-                        title: "Remarks",
-                        data: "remarks",
+                        title: "Potongan Hutang",
+                        data: null,
                         className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Jumlah Gaji",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Ketarangan",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Nama Bank",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Bank Penerima",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "No. Rekening",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Jumlah Gaji Yang Dibayarkan",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = '';
+                            return html;
+                        }
                     },
                 ];
         
