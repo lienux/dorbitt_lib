@@ -153,6 +153,8 @@ class TimeSheetController extends ResourceController
 
     public function show($id = null)
     {
+        $ijo_id = $this->request->getVar('ijo_id');
+
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "date" => [
@@ -161,13 +163,16 @@ class TimeSheetController extends ResourceController
             ],
             "selects" => "*",
             // "where" => ["type_id", "1"]
+            "ijo_id" => $ijo_id,
         ]);
 
+        $urlParams = $this->cH->payload_http_build_query($payload);
+
         $params = [
-            "path"      => "api/time_sheet?ijo_id=",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
+            "path"      => "api/time_sheet?" . $urlParams,
+            "method"    => 'GET',
+            "payload"   => [],
+            "headers"   => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);

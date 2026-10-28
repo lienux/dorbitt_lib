@@ -43,8 +43,8 @@ class CurlHelper
         }*/
 
         $oa2dev = (getenv('openapi2.url.dev')) ? getenv('openapi2.url.dev') : 'http://localhost:8080/';
-        $oa2stg = (getenv('openapi2.url.stg')) ? getenv('openapi2.url.stg') : 'https://staging.openapi2.com/';
-        $oa2prod = (getenv('openapi2.url.prod')) ? getenv('openapi2.url.prod') : 'https://openapi2.com/';
+        $oa2stg = (getenv('openapi2.url.stg')) ? getenv('openapi2.url.stg') : 'https://staging-api.alisatu.co.id/';
+        $oa2prod = (getenv('openapi2.url.prod')) ? getenv('openapi2.url.prod') : 'https://api.alisatu.co.id/';
 
         if ($openapi2URL == "development") {
             $this->url = $oa2dev;
@@ -342,19 +342,19 @@ class CurlHelper
             // You can now process the $response string and the $http_code
         }*/
 
-        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        // $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         // Close the cURL session
         curl_close($curl);
 
-        // if ($http_code == 500) {
-        //     return (object)[
-        //         "status"    => false,
-        //         "messages"   => "db_connection failed @".$this->host_api . " Please contact maintenance support." 
-        //     ];
-        // } else {
-        //     return json_decode($response, false);
-        // }
+        /*if ($http_code == 500) {
+            return (object)[
+                "status"    => false,
+                "messages"   => "db_connection failed @".$this->host_api . " Please contact maintenance support." 
+            ];
+        } else {
+            return json_decode($response, false);
+        }*/
 
         return json_decode($response, false);
     }
@@ -741,5 +741,15 @@ class CurlHelper
         ];
 
         return $res;
+    }
+
+    public function payload_http_build_query($payload)
+    {
+        // Konversi null menjadi string kosong
+        $payload = array_map(function($v) {
+            return $v === null ? '' : $v;
+        }, $payload);
+
+        return http_build_query($payload);
     }
 }

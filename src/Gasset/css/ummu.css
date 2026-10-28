@@ -3,6 +3,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+    background:#f4f6f9; font-size:14px;
 }
 
 .bg-gradient-1 {
@@ -1087,3 +1088,11 @@ select:hover + .popup-text {
     max-height: 300px; /* Sesuaikan tinggi maksimal menu sesuai kebutuhan */
     overflow-y: auto;  /* Menampilkan scrollbar vertikal jika konten melebihi max-height */
 }
+
+/*Filter*/
+.filter-selector-card {
+    background: #fff; border: 1px solid #007bff;
+    border-radius: .5rem; padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,123,255,.15);
+}
+.filter-label-header { font-weight: 700; color: #007bff; font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; }
