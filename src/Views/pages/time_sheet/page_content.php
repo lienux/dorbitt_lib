@@ -6,8 +6,6 @@
 ?>
 <?php echo $this->include(config('Ummu')->Views($dir_views . 'style')); ?>
 
-<!-- <?php// echo $this->include(config('Ummu')->Views($dir_views . 'header')); ?> -->
-
 <!-- ALERT FLASH -->
 <?php if (session()->getFlashdata('error')): ?>
     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
