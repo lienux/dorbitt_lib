@@ -63,21 +63,26 @@
 </div><!-- End Full Screen Modal-->
 
 <div class="modal fade" id="ummu_modal_message" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog" id="modal_dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-purple py-2 text-light">
-                <h6 class="modal-title text-light"><i class="fas fa-exclamation-circle"></i> Messages</h6>
-                <div class="">
-                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">
-                        <i class="fa-light fa-rectangle-xmark"></i>
-                    </button>
+    <div class="modal-dialog modal-dialog-centered" id="modal_dialog">
+        <div class="modal-content ummu-modal">
+            <div class="modal-header ummu-modal-header">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="ummu-modal-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </span>
+                    <h6 class="modal-title mb-0">Messages</h6>
                 </div>
+                <button type="button" class="ummu-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-light fa-rectangle-xmark"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="alert alert-warningz text-sm" id="alert"></div>
+                <div class="ummu-alert" id="alert"></div>
             </div>
-            <div class="modal-footer py-1">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer ummu-modal-footer">
+                <button type="button" class="btn ummu-btn-close" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Close
+                </button>
             </div>
         </div>
     </div>
@@ -104,3 +109,36 @@
         </div>
     </div>
 </div>
+
+<!-- Tambahkan di layout/master -->
+<div class="modal fade" id="loadingModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-3 mb-0" id="loadingModalText">Memproses...</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- contoh penggunaan -->
+<!-- $(document).on('click', '.btn-delete', function() {
+    if (!confirm('Yakin hapus data timesheet ini? Tindakan tidak bisa dibatalkan.')) return;
+    const id = $(this).data('id');
+
+    $('#loadingModalText').text('Menghapus data...');
+    $('#loadingModal').modal('show');
+
+    $.post(`${BASE_URL}/delete/${id}`, { [CSRF_NAME]: CSRF_HASH }, function(res) {
+        $('#loadingModal').modal('hide');
+        if (res.status) {
+            alert(res.message || 'Berhasil dihapus.');
+            loadTimesheets();
+        } else {
+            alert(res.message || 'Gagal menghapus.');
+        }
+    }, 'json').fail(function() {
+        $('#loadingModal').modal('hide');
+        alert('Terjadi kesalahan server.');
+    });
+}); -->

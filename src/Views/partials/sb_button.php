@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalSuccessMessage" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal fade" id="modalSuccessMessage_20261030" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog" id="modal_dialog">
                 <div class="modal-content bg-light">
                     <div class="modal-header bg-purple py-2 text-light">
@@ -72,6 +72,30 @@
                     </div>
                     <div class="modal-footer py-1">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalSuccessMessage" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-sm" id="modal_dialog">
+                <div class="modal-content ummu-modal">
+                    <div class="modal-header ummu-modal-header ummu-modal-header-success">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="ummu-modal-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            <h6 class="modal-title mb-0">Success Messages</h6>
+                        </div>
+                        <button type="button" class="ummu-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ummu-alert ummu-alert-success" id="alert"></div>
+                    </div>
+                    <div class="ummu-modal-footer">
+                        <button type="button" class="ummu-btn-close ummu-btn-close-success" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

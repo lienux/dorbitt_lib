@@ -12,7 +12,7 @@
 
         <div class="form-group" id="accountSelectWrap">
           <label>Pilih Akun (belum jadi PIC)</label>
-          <select id="accountSelect">
+          <select id="accountSelect" style="width:100%;">
             <option value="">-- Pilih Akun --</option>
           </select>
         </div>
@@ -37,8 +37,25 @@
         </div>
 
         <div class="form-group" id="vesselSection">
-          <label>Assign Kapal (bisa pilih lebih dari satu)</label>
+          <label>
+            Assign Kapal (bisa pilih lebih dari satu)
+            <span id="vesselSelectedCount" style="float:right;font-weight:600;color:#2563eb;font-size:12px;"></span>
+          </label>
+
+          <div class="vessel-search-wrap">
+            <input type="text" id="vesselSearchInput" class="vessel-search-input pl-4" placeholder="Cari nama kapal... (ketik untuk filter)">
+            <button type="button" class="vessel-search-clear" id="vesselSearchClear" title="Bersihkan pencarian">&times;</button>
+          </div>
+
+          <div class="vessel-quick-actions">
+            <button type="button" class="btn-quick" id="btnCheckAll" title="Centang semua kapal yang tampil">✓ Centang Semua (tampil)</button>
+            <button type="button" class="btn-quick" id="btnUncheckAll" title="Hapus centang semua">✗ Hapus Semua</button>
+          </div>
+
           <div class="vessel-checklist" id="vesselChecklist"></div>
+          <div id="vesselEmptyState" class="vessel-empty" style="display:none;">
+            Tidak ada kapal yang cocok dengan pencarian.
+          </div>
         </div>
 
         <div class="form-group" id="allVesselNote" style="display:none;">
