@@ -66,6 +66,127 @@
     .pk-toast.show { opacity: 1; transform: translateY(0); }
     .pk-toast.success { background: #16a34a; }
     .pk-toast.error { background: #dc2626; }
+
+
+    /* ===== VESSEL SEARCH ===== */
+    .pic-kapal-modal .vessel-search-wrap {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .pic-kapal-modal .vessel-search-input {
+      width: 100%;
+      padding: 9px 36px 9px 36px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      transition: .2s;
+    }
+    .pic-kapal-modal .vessel-search-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+    .pic-kapal-modal .vessel-search-wrap::before {
+      content: "🔍";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .pic-kapal-modal .vessel-search-clear {
+      display: none;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      color: #9ca3af;
+      padding: 0 4px;
+    }
+    .pic-kapal-modal .vessel-search-clear:hover { color: #374151; }
+    .pic-kapal-modal .vessel-search-clear.show { display: block; }
+
+    .pic-kapal-modal .vessel-quick-actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .pic-kapal-modal .btn-quick {
+      padding: 5px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 11.5px;
+      color: #374151;
+      transition: .2s;
+    }
+    .pic-kapal-modal .btn-quick:hover {
+      background: #eff6ff;
+      border-color: #2563eb;
+      color: #1e40af;
+    }
+
+    .pic-kapal-modal .vessel-empty {
+      text-align: center;
+      padding: 20px 15px;
+      color: #9ca3af;
+      font-size: 13px;
+      border: 1px dashed #e5e7eb;
+      border-radius: 6px;
+    }
+
+    /* Highlight nama kapal yang match */
+    .pic-kapal-modal .vessel-item mark {
+      background: #fef08a;
+      padding: 0 2px;
+      border-radius: 2px;
+      color: inherit;
+    }
+
+    /* ===== Select2 di dalam modal ===== */
+    .pic-kapal-modal .select2-container {
+      width: 100% !important;
+    }
+    .pic-kapal-modal .select2-container .select2-selection--single {
+      height: 38px !important;
+      padding: 5px 10px;
+      border: 1px solid #d1d5db !important;
+      border-radius: 6px !important;
+    }
+    .pic-kapal-modal .select2-container .select2-selection--single .select2-selection__rendered {
+      line-height: 26px !important;
+      color: #374151;
+      padding-left: 2px;
+    }
+    .pic-kapal-modal .select2-container .select2-selection--single .select2-selection__arrow {
+      height: 36px !important;
+    }
+    .pic-kapal-modal .select2-container--default.select2-container--focus .select2-selection--single,
+    .pic-kapal-modal .select2-container--default.select2-container--open .select2-selection--single {
+      border-color: #2563eb !important;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 6px 8px;
+      outline: none;
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+      border-color: #2563eb;
+    }
+    .select2-dropdown {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      z-index: 100001 !important;   /* penting: di atas modal */
+    }
 </style>
 
 <div class="pic-kapal-page">
@@ -98,6 +219,10 @@
 <?= $this->include(config('Ummu')->Views($dir_views . '_form_modal')); ?>
 
 <script>
+var BASE = '<?= base_url('admin/pic_kapal') ?>';
+var allVessels = [];
+var selectedVesselIds = [];   // ⬅️ STATE UTAMA, jangan dihapus saat search
+
 (function () {
     function boot() {
         if (typeof window.jQuery === 'undefined') {
@@ -106,9 +231,6 @@
         var $ = window.jQuery;
 
         $(function () {
-            var BASE = '<?= base_url('admin/pic_kapal') ?>';
-            var allVessels = [];
-
             function showToast(msg, type) {
                 type = type || 'success';
                 var $t = $('<div class="pk-toast"></div>').addClass(type).text(msg);
@@ -144,54 +266,60 @@
             }
 
             function renderTable(rows) {
-            var $wrap = $('#tableWrap');
-            if (!rows.length) {
-              $wrap.html('<div class="empty">Belum ada PIC terdaftar.</div>');
-              return;
-            }
+                var $wrap = $('#tableWrap');
+                if (!rows.length) {
+                    $wrap.html('<div class="empty">Belum ada PIC terdaftar.</div>');
+                    return;
+                }
 
-            var html = '<table><thead><tr>'
-              + '<th style="width:40px;">No</th>'
-              + '<th>Nama PIC</th>'
-              + '<th>Departemen</th>'
-              + '<th>Scope</th>'
-              + '<th>Kapal yang Di-handle</th>'
-              + '<th style="width:140px;">Aksi</th>'
-              + '</tr></thead><tbody>';
+                var html = '<table><thead><tr>'
+                    + '<th style="width:40px;">No</th>'
+                    + '<th>Nama PIC</th>'
+                    + '<th>Departemen</th>'
+                    + '<th>Scope</th>'
+                    + '<th>Kapal yang Di-handle</th>'
+                    + '<th style="width:140px;">Aksi</th>'
+                    + '</tr></thead><tbody>'
+                ;
 
-            rows.forEach(function (r, i) {
-              var vesselBadges;
-              if (r.scope_type === 'ALL_VESSELS') {
-                vesselBadges = '<span class="badge badge-green">🌐 Semua Kapal</span>';
-              } else if (r.vessels && r.vessels.length) {
-                vesselBadges = r.vessels.map(function (v) {
-                  return '<span class="badge badge-blue">' + escapeHtml(v.name) + '</span>';
-                }).join('');
-              } else {
-                vesselBadges = '<span class="badge badge-gray">Belum ada kapal</span>';
-              }
+                rows.forEach(function (r, i) {
+                    var vesselBadges;
+                    if (r.scope_type === 'ALL_VESSELS') {
+                        vesselBadges = '<span class="badge badge-green">🌐 Semua Kapal</span>';
+                    } else if (r.vessels && r.vessels.length) {
+                        vesselBadges = r.vessels.map(function (v) {
+                            return '<span class="badge badge-blue">' + escapeHtml(v.name) + '</span>';
+                        }).join('');
+                    } else {
+                        vesselBadges = '<span class="badge badge-gray">Belum ada kapal</span>';
+                    }
 
-              var deptBadge = r.department_name
-                ? '<span class="badge badge-purple">' + escapeHtml(r.department_name) + '</span>'
-                : '<span class="badge badge-gray">-</span>';
+                  var deptBadge = r.department_name
+                    ? '<span class="badge badge-purple">' + escapeHtml(r.department_name) + '</span>'
+                    : '<span class="badge badge-gray">-</span>';
 
-              var scopeBadge = r.scope_type === 'ALL_VESSELS'
-                ? '<span class="badge badge-green">All Vessels</span>'
-                : '<span class="badge badge-gray">By Vessel</span>';
+                  var scopeBadge = r.scope_type === 'ALL_VESSELS'
+                    ? '<span class="badge badge-green">All Vessels</span>'
+                    : '<span class="badge badge-gray">By Vessel</span>';
 
-              html += '<tr>'
-                + '<td>' + (i + 1) + '</td>'
-                + '<td><strong>' + escapeHtml(r.name || r.username) + '</strong><br><small style="color:#6b7280;">' + escapeHtml(r.email || '') + '</small></td>'
-                + '<td>' + deptBadge + '</td>'
-                + '<td>' + scopeBadge + '</td>'
-                + '<td>' + vesselBadges + '</td>'
-                + '<td><button class="btn btn-secondary btn-sm btn-edit" data-id="' + r.account_id + '">Edit</button> '
-                + '<button class="btn btn-danger btn-del" data-id="' + r.account_id + '">Hapus</button></td>'
-                + '</tr>';
-            });
+                    html += '<tr>'
+                        + '<td>' + (i + 1) + '</td>'
+                        + '<td><strong>' 
+                            + escapeHtml(r.name || r.username) + '</strong><br><small style="color:#6b7280;">' 
+                            + escapeHtml(r.phone_number || '') + '<br>'
+                            + escapeHtml(r.email || '')
+                        + '</small></td>'
+                        + '<td>' + deptBadge + '</td>'
+                        + '<td>' + scopeBadge + '</td>'
+                        + '<td>' + vesselBadges + '</td>'
+                        + '<td><button class="btn btn-secondary btn-sm btn-edit" data-id="' + r.account_id + '">Edit</button> '
+                        + '<button class="btn btn-danger btn-del" data-id="' + r.account_id + '">Hapus</button></td>'
+                        + '</tr>'
+                    ;
+                });
 
-            html += '</tbody></table>';
-            $wrap.html(html);
+                html += '</tbody></table>';
+                $wrap.html(html);
             }
 
             function loadVessels() {
@@ -204,9 +332,16 @@
             }
 
             function openModal() {
-            $('#modalPIC').addClass('active');
-            $('body').css('overflow', 'hidden');
+              $('#modalPIC').addClass('active');
+              $('body').css('overflow', 'hidden');
+              // fokus ke search input setelah modal muncul
+              setTimeout(function () {
+                if ($('#vesselSection').is(':visible')) {
+                  $('#vesselSearchInput').focus();
+                }
+              }, 250);
             }
+
             function closeModal() {
             $('#modalPIC').removeClass('active');
             $('body').css('overflow', '');
@@ -215,129 +350,362 @@
             window.setScope = setScope;
 
             function setScope(type) {
-            $('#scopeType').val(type);
-            $('.scope-option').each(function () {
-              $(this).toggleClass('selected', $(this).data('scope') === type);
-            });
-            $('#vesselSection').toggle(type === 'BY_VESSEL');
-            $('#allVesselNote').toggle(type === 'ALL_VESSELS');
+                $('#scopeType').val(type);
+                $('.scope-option').each(function () {
+                    $(this).toggleClass('selected', $(this).data('scope') === type);
+                });
+                $('#vesselSection').toggle(type === 'BY_VESSEL');
+                $('#allVesselNote').toggle(type === 'ALL_VESSELS');
             }
 
             function loadAvailableAccounts() {
-            var $sel = $('#accountSelect');
-            $sel.html('<option value="">-- Pilih Akun --</option>');
-            $.ajax({
-              url: BASE + '/available-accounts',
-              method: 'GET',
-              dataType: 'json',
-              success: function (json) {
-                (json.data || []).forEach(function (a) {
-                  var label = (a.id) + ' - ' + (a.name || a.username) + ' (' + (a.email || '-') + ')'
-                    + (a.department_name ? ' — ' + a.department_name : '');
-                  $sel.append($('<option>').val(a.id).text(label));
-                });
+              var $sel = $('#accountSelect');
+
+              // destroy dulu kalau sudah pernah di-init
+              if ($sel.data('select2')) {
+                $sel.select2('destroy');
               }
-            });
+
+              $sel.html('<option value="">-- Pilih Akun --</option>');
+
+              $.ajax({
+                url: BASE + '/available-accounts',
+                method: 'GET',
+                dataType: 'json',
+                success: function (json) {
+                  (json.data || []).forEach(function (a) {
+                    var label = (a.name || a.username) + ' (' + (a.email || '-') + ')'
+                      + (a.department_name ? ' — ' + a.department_name : '');
+                    $sel.append($('<option>').val(a.id).text(label));
+                  });
+
+                  // ✅ Init Select2 dengan search
+                  $sel.select2({
+                    placeholder: '-- Cari & Pilih Akun --',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $('#modalPIC'),   // penting agar posisi benar di dalam modal
+                    language: {
+                      noResults: function () { return 'Akun tidak ditemukan'; },
+                      searching: function () { return 'Mencari...'; }
+                    }
+                  });
+                }
+              });
             }
 
+            // /* ===== RENDER CHECKBOX KAPAL + SEARCH ===== */
+            // function renderVesselChecklist(selectedIds) {
+            //   selectedIds = selectedIds || [];
+            //   var $wrap = $('#vesselChecklist');
+
+            //   // Simpan state terpilih di data-attribute (biar tahan saat filter)
+            //   $wrap.data('selected', selectedIds.map(Number));
+
+            //   // Reset search tiap kali buka modal
+            //   $('#vesselSearchInput').val('');
+            //   $('#vesselSearchClear').removeClass('show');
+
+            //   renderVesselList('');
+
+            //   if (!allVessels.length) {
+            //     $wrap.html('<div class="empty" style="padding:15px;font-size:12px;">Tidak ada kapal</div>');
+            //     updateSelectedCount();
+            //     return;
+            //   }
+            // }
+
+            // // Render list kapal sesuai keyword
+            // function renderVesselList(keyword) {
+            //   var $wrap = $('#vesselChecklist');
+            //   var $empty = $('#vesselEmptyState');
+            //   var selected = $wrap.data('selected') || [];
+            //   var q = (keyword || '').toLowerCase().trim();
+
+            //   if (!allVessels.length) {
+            //     $wrap.html('<div class="empty" style="padding:15px;font-size:12px;">Tidak ada kapal</div>');
+            //     $empty.hide();
+            //     updateSelectedCount();
+            //     return;
+            //   }
+
+            //   var filtered = allVessels.filter(function (v) {
+            //     return q === '' || String(v.name || '').toLowerCase().indexOf(q) !== -1;
+            //   });
+
+            //   if (!filtered.length) {
+            //     $wrap.html('');
+            //     $empty.show();
+            //     updateSelectedCount();
+            //     return;
+            //   }
+            //   $empty.hide();
+
+            //   var html = '';
+            //   filtered.forEach(function (v) {
+            //     var isChecked = selected.indexOf(Number(v.id)) !== -1;
+            //     var name = escapeHtml(v.name);
+
+            //     // Highlight keyword
+            //     if (q !== '') {
+            //       var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+            //       name = escapeHtml(v.name).replace(re, '<mark>$1</mark>');
+            //     }
+
+            //     html += '<label class="vessel-item">'
+            //       + '<input type="checkbox" value="' + v.id + '" ' + (isChecked ? 'checked' : '') + '>'
+            //       + '<span>🚢 ' + name + '</span>'
+            //       + '</label>';
+            //   });
+            //   $wrap.html(html);
+            //   updateSelectedCount();
+            // }
+
+            // // Hitung & tampilkan jumlah kapal terpilih
+            // function updateSelectedCount() {
+            //   var count = $('#vesselChecklist input:checked').length;
+            //   $('#vesselSelectedCount').text(count > 0 ? count + ' dipilih' : '');
+            // }
+
+            /* ===== SET STATE + RENDER AWAL (dipanggil saat buka modal / edit) ===== */
             function renderVesselChecklist(selectedIds) {
-            selectedIds = selectedIds || [];
-            var $wrap = $('#vesselChecklist');
-            var sel = selectedIds.map(Number);
+              // Set state utama
+              selectedVesselIds = (selectedIds || []).map(Number);
 
-            if (!allVessels.length) {
-              $wrap.html('<div class="empty" style="padding:15px;font-size:12px;">Tidak ada kapal</div>');
-              return;
+              // Reset search tiap buka modal
+              $('#vesselSearchInput').val('');
+              $('#vesselSearchClear').removeClass('show');
+
+              // Render semua kapal (tanpa filter)
+              renderVesselList('');
             }
 
-            var html = '';
-            allVessels.forEach(function (v) {
-              var checked = sel.indexOf(Number(v.id)) !== -1 ? 'checked' : '';
-              html += '<label class="vessel-item"><input type="checkbox" value="' + v.id + '" ' + checked + '><span>🚢 ' + escapeHtml(v.name) + '</span></label>';
+            /* ===== RENDER LIST (dipanggil setiap kali search berubah) ===== */
+            function renderVesselList(keyword) {
+              var $wrap = $('#vesselChecklist');
+              var $empty = $('#vesselEmptyState');
+              var q = (keyword || '').toLowerCase().trim();
+
+              if (!allVessels.length) {
+                $wrap.html('<div class="empty" style="padding:15px;font-size:12px;">Tidak ada kapal</div>');
+                $empty.hide();
+                updateSelectedCount();
+                return;
+              }
+
+              // Filter berdasarkan keyword
+              var filtered = allVessels.filter(function (v) {
+                return q === '' || String(v.name || '').toLowerCase().indexOf(q) !== -1;
+              });
+
+              if (!filtered.length) {
+                $wrap.html('');
+                $empty.show();
+                updateSelectedCount();
+                return;
+              }
+              $empty.hide();
+
+              var html = '';
+              filtered.forEach(function (v) {
+                // ✅ Cek dari STATE, bukan dari DOM
+                var isChecked = selectedVesselIds.indexOf(Number(v.id)) !== -1;
+                var name = escapeHtml(v.name);
+
+                // Highlight keyword
+                if (q !== '') {
+                  var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+                  name = escapeHtml(v.name).replace(re, '<mark>$1</mark>');
+                }
+
+                html += '<label class="vessel-item">'
+                  + '<input type="checkbox" value="' + v.id + '" ' + (isChecked ? 'checked' : '') + '>'
+                  + '<span>🚢 ' + name + '</span>'
+                  + '</label>';
+              });
+              $wrap.html(html);
+              updateSelectedCount();
+            }
+
+            /* ===== UPDATE COUNTER ===== */
+            function updateSelectedCount() {
+              var count = selectedVesselIds.length;
+              $('#vesselSelectedCount').text(count > 0 ? count + ' dipilih' : '');
+            }
+
+            // /* ===== SEARCH KAPAL ===== */
+            // $(document).on('input', '#vesselSearchInput', function () {
+            //   var val = $(this).val();
+            //   $('#vesselSearchClear').toggleClass('show', val.length > 0);
+            //   renderVesselList(val);
+            // });
+
+            // $(document).on('click', '#vesselSearchClear', function () {
+            //   $('#vesselSearchInput').val('').focus();
+            //   $(this).removeClass('show');
+            //   renderVesselList('');
+            // });
+
+            // /* ===== CHECKBOX CHANGE (update state + counter) ===== */
+            // $(document).on('change', '#vesselChecklist input[type=checkbox]', function () {
+            //   var $wrap = $('#vesselChecklist');
+            //   var selected = [];
+
+            //   $wrap.find('input:checked').each(function () {
+            //     selected.push(Number(this.value));
+            //   });
+            //   $wrap.data('selected', selected);
+            //   updateSelectedCount();
+            // });
+
+            // /* ===== QUICK ACTIONS ===== */
+            // $(document).on('click', '#btnCheckAll', function () {
+            //   var $wrap = $('#vesselChecklist');
+            //   var selected = ($wrap.data('selected') || []).slice();
+            //   // centang yang tampil sekarang
+            //   $wrap.find('input[type=checkbox]').each(function () {
+            //     var id = Number(this.value);
+            //     if (selected.indexOf(id) === -1) selected.push(id);
+            //     $(this).prop('checked', true);
+            //   });
+            //   $wrap.data('selected', selected);
+            //   updateSelectedCount();
+            // });
+
+            // $(document).on('click', '#btnUncheckAll', function () {
+            //   var $wrap = $('#vesselChecklist');
+            //   $wrap.find('input[type=checkbox]').prop('checked', false);
+            //   $wrap.data('selected', []);
+            //   updateSelectedCount();
+            // });
+
+            /* ===== SEARCH KAPAL ===== */
+            $(document).on('input', '#vesselSearchInput', function () {
+              var val = $(this).val();
+              $('#vesselSearchClear').toggleClass('show', val.length > 0);
+              renderVesselList(val);
             });
-            $wrap.html(html);
-            }
+
+            $(document).on('click', '#vesselSearchClear', function () {
+              $('#vesselSearchInput').val('').focus();
+              $(this).removeClass('show');
+              renderVesselList('');
+            });
+
+            /* ===== CHECKBOX CHANGE (delegated — tahan re-render) ===== */
+            $(document).on('change', '#vesselChecklist input[type=checkbox]', function () {
+              var id = Number(this.value);
+              var checked = this.checked;
+
+              if (checked) {
+                if (selectedVesselIds.indexOf(id) === -1) selectedVesselIds.push(id);
+              } else {
+                selectedVesselIds = selectedVesselIds.filter(function (x) { return x !== id; });
+              }
+              updateSelectedCount();
+            });
+
+            /* ===== QUICK ACTIONS ===== */
+            $(document).on('click', '#btnCheckAll', function () {
+              // Centang semua yang SEDANG TAMPIL (hasil filter)
+              $('#vesselChecklist input[type=checkbox]').each(function () {
+                var id = Number(this.value);
+                if (selectedVesselIds.indexOf(id) === -1) selectedVesselIds.push(id);
+                this.checked = true;
+              });
+              updateSelectedCount();
+            });
+
+            $(document).on('click', '#btnUncheckAll', function () {
+                // Hapus centang semua (termasuk yang sedang tidak tampil)
+                selectedVesselIds = [];
+                $('#vesselChecklist input[type=checkbox]').prop('checked', false);
+                updateSelectedCount();
+            });
 
             $('#btnAdd').on('click', function () {
-            $('#modalTitle').text('Tambah PIC Kapal');
-            $('#formPic')[0].reset();
-            $('#accountId').val('');
-            $('#accountSelectWrap').show();
-            $('#accountInfoWrap').hide();
-            loadAvailableAccounts();
-            loadVessels().then(function () { renderVesselChecklist([]); });
-            setScope('BY_VESSEL');
-            openModal();
+                $('#modalTitle').text('Tambah PIC Kapal');
+                $('#formPic')[0].reset();
+                $('#accountId').val('');
+                $('#accountSelectWrap').show();
+                $('#accountInfoWrap').hide();
+                loadAvailableAccounts();
+                loadVessels().then(function () { renderVesselChecklist([]); });
+                setScope('BY_VESSEL');
+                openModal();
             });
 
             $(document).on('click', '.btn-edit', function () {
-            var accountId = $(this).data('id');
-            $.ajax({
-              url: BASE + '/detail/' + accountId,
-              method: 'GET',
-              dataType: 'json',
-              success: function (json) {
-                if (!json.data) return showToast('Data tidak ditemukan', 'error');
-                var d = json.data;
+                var accountId = $(this).data('id');
+                $.ajax({
+                  url: BASE + '/detail/' + accountId,
+                  method: 'GET',
+                  dataType: 'json',
+                  success: function (json) {
+                    if (!json.data) return showToast('Data tidak ditemukan', 'error');
+                    var d = json.data;
 
-                $('#modalTitle').text('Edit PIC Kapal');
-                $('#accountId').val(d.account_id);
-                $('#accountSelectWrap').hide();
-                $('#accountInfoWrap').show();
-                $('#accountInfo').html(
-                  '<strong>' + escapeHtml(d.name || d.username) + '</strong><br>' +
-                  '<small style="color:#6b7280;">' + escapeHtml(d.email || '') +
-                  (d.department_name ? ' · ' + escapeHtml(d.department_name) : '') + '</small>'
-                );
+                    $('#modalTitle').text('Edit PIC Kapal');
+                    $('#accountId').val(d.account_id);
+                    $('#accountSelectWrap').hide();
+                    $('#accountInfoWrap').show();
+                    $('#accountInfo').html(
+                      '<strong>' + escapeHtml(d.name || d.username) + '</strong><br>' +
+                      '<small style="color:#6b7280;">' + escapeHtml(d.email || '') +
+                      (d.department_name ? ' · ' + escapeHtml(d.department_name) : '') + '</small>'
+                    );
 
-                loadVessels().then(function () {
-                  renderVesselChecklist((d.vessels || []).map(function (v) { return v.id; }));
+                    loadVessels().then(function () {
+                      renderVesselChecklist((d.vessels || []).map(function (v) { return v.id; }));
+                    });
+                    setScope(d.scope_type || 'BY_VESSEL');
+                    openModal();
+                  },
+                  error: function () { showToast('Gagal memuat detail PIC', 'error'); }
                 });
-                setScope(d.scope_type || 'BY_VESSEL');
-                openModal();
-              },
-              error: function () { showToast('Gagal memuat detail PIC', 'error'); }
-            });
             });
 
             $(document).on('click', '.scope-option', function () { setScope($(this).data('scope')); });
 
+            /* ====== SUBMIT ====== */
             $('#formPic').on('submit', function (e) {
-            e.preventDefault();
-            var accountId = $('#accountId').val() || $('#accountSelect').val();
-            if (!accountId) return showToast('Pilih akun terlebih dahulu', 'error');
+                e.preventDefault();
+                var accountId = $('#accountId').val() || $('#accountSelect').val();
+                if (!accountId) return showToast('Pilih akun terlebih dahulu', 'error');
 
-            var scopeType = $('#scopeType').val();
-            var vesselIds = scopeType === 'BY_VESSEL'
-              ? $('#vesselChecklist input:checked').map(function () { return this.value; }).get()
-              : [];
+                var scopeType = $('#scopeType').val();
+                var vesselIds = scopeType === 'BY_VESSEL'
+                    // ? $('#vesselChecklist input:checked').map(function () { return this.value; }).get()
+                    ? selectedVesselIds
+                    : [];
 
-            if (scopeType === 'BY_VESSEL' && !vesselIds.length) {
-              return showToast('Pilih minimal 1 kapal', 'error');
-            }
+                if (scopeType === 'BY_VESSEL' && !vesselIds.length) {
+                    return showToast('Pilih minimal 1 kapal', 'error');
+                }
 
-            var $btn = $('#btnSave');
-            $btn.prop('disabled', true).html('<span class="spinner"></span> Menyimpan...');
+                var $btn = $('#btnSave');
+                $btn.prop('disabled', true).html('<span class="spinner"></span> Menyimpan...');
 
-            $.ajax({
-              url: BASE + '/save',
-              method: 'POST',
-              dataType: 'json',
-              data: { account_id: accountId, scope_type: scopeType, vessel_ids: vesselIds },
-              success: function (json) {
-                showToast(json.message || 'Berhasil', 'success');
-                closeModal();
-                loadList();
-              },
-              error: function (xhr) {
-                var msg = 'Gagal menyimpan';
-                try { msg = JSON.parse(xhr.responseText).error || msg; } catch (e) {}
-                showToast(msg, 'error');
-              },
-              complete: function () { $btn.prop('disabled', false).text('Simpan'); }
+                $.ajax({
+                    url: BASE + '/save',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { account_id: accountId, scope_type: scopeType, vessel_ids: vesselIds },
+                    success: function (json) {
+                        showToast(json.message || 'Berhasil', 'success');
+                        closeModal();
+                        loadList();
+                    },
+                    error: function (xhr) {
+                        var msg = 'Gagal menyimpan';
+                        try { msg = JSON.parse(xhr.responseText).error || msg; } catch (e) {}
+                        showToast(msg, 'error');
+                    },
+                    complete: function () { $btn.prop('disabled', false).text('Simpan'); }
+                });
             });
-            });
 
+            /* ====== DELETE ====== */
             $(document).on('click', '.btn-del', function () {
             var accountId = $(this).data('id');
             if (!confirm('Yakin hapus PIC ini?')) return;
@@ -354,6 +722,7 @@
             });
             });
 
+            /* ====== Modal ====== */
             $(document).on('click', '.pk-close', closeModal);
             $(document).on('click', '.pic-kapal-modal', function (e) {
             if (e.target === this) closeModal();

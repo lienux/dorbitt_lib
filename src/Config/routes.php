@@ -357,7 +357,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('time_sheet', function ($routes) {
         $routes->get('/', 'TimeSheetController::index');
         $routes->get('show', 'TimeSheetController::show');
-        // $routes->post('show', 'TimeSheetController::show');
+        $routes->get('show/(:num)', 'TimeSheetController::show/$1');
         $routes->post('create', 'TimeSheetController::create');
         $routes->post('update/(:num)', 'TimeSheetController::update/$1');
         $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
