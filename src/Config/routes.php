@@ -362,6 +362,11 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('update/(:num)', 'TimeSheetController::update/$1');
         $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
 
+        $routes->get('report-wa',         'TimeSheetKapal::reportWa');
+        $routes->get('latest-coordinate', 'TimeSheetKapal::latestCoordinate');
+        // $routes->get('my-ijo', 'TimeSheetKapal::show_myIjo');
+        // $routes->get('me-crew', 'TimeSheetKapal::show_meCrew');
+
         $routes->get('show_clients', 'TimeSheetController::show_clients');
         $routes->get('show_tugboat', 'TimeSheetController::show_tugboat');
         $routes->get('show_barge', 'TimeSheetController::show_barge');
@@ -498,10 +503,20 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('version1Alya_print_payslip_template', 'PayslipController::version1Alya_print_payslip_template');
     });
 
+    $routes->group('user_captain', function ($routes) {
+        $routes->get('/', 'UserCaptainController::index');
+        $routes->get('show', 'UserCaptainController::show');
+        $routes->post('create', 'UserCaptainController::create');
+        $routes->post('update/(:num)', 'UserCaptainController::update/$1');
+        $routes->delete('delete/(:num)', 'UserCaptainController::delete/$1');
+
+        $routes->get('captain', 'CrewController::show_captain');
+    });
+
     // ============================================
     // ROUTES: PIC KAPAL MANAGEMENT
     // ============================================
-   $routes->group('pic_kapal', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->group('pic_kapal', ['namespace' => 'App\Controllers'], function ($routes) {
         $routes->get('/', 'PicKapal::index');
         $routes->get('list', 'PicKapal::list');
         $routes->get('vessels', 'PicKapal::vessels');
@@ -510,8 +525,6 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('save', 'PicKapal::save');
         $routes->delete('delete/(:num)', 'PicKapal::delete/$1');
     });
-
-
 
     // ===========
     $routes->group('dorbitt', function ($routes) {
