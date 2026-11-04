@@ -157,7 +157,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title"><i class="fas fa-edit text-primary mr-2"></i><span id="formTitle">Form Input Timesheet</span></h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" id="close_modal_form_timesheet"><span>&times;</span></button>
             </div>
             <div class="modal-body">
                 <form id="formTimesheet">
@@ -618,6 +618,10 @@
                 $btn.prop('disabled', false).html(orig);
             }, 1200);
         });*/
+
+        $('#close_modal_form_timesheet').on('click', function(){
+            $('#timesheetModal').modal('hide')
+        })
     });
 
     // ==================== UTIL ====================
@@ -1004,7 +1008,7 @@
         if (!currentIjo) { alert('Pilih IJO terlebih dahulu.'); return; }
 
         const id = $('#timesheetId').val();
-        const url = id ? `${BASE_URL}/update/${id}` : `${BASE_URL}/store`;
+        const url = id ? `${BASE_URL}/update/${id}` : `${BASE_URL}/create`;
         const $form = $('#formTimesheet');
         const activityId = $('#activitySelect').val();
 
@@ -1051,9 +1055,13 @@
         const origHtml = $btn.html();
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...');
 
+        // Tampilkan loader
+        $ummu.showLoader('Menyimpan data...');
+
         $.ajax({
             url: url, type: 'POST', data: $.param(formData), dataType: 'json',
             success: function(res) {
+                $ummu.hideLoader();
                 if (res.status) {
                     alert(res.message || 'Berhasil disimpan.');
                     $('#timesheetModal').modal('hide');
@@ -1062,10 +1070,11 @@
                     let msg = res.message || 'Gagal menyimpan.';
                     if (res.errors) msg += '\n' + Object.values(res.errors).join('\n');
                     alert(msg);
-                    $btn.prop('disabled', false).html(origHtml);
                 }
+                $btn.prop('disabled', false).html(origHtml);
             },
             error: function(xhr) {
+                $ummu.hideLoader();
                 let msg = 'Terjadi kesalahan server.';
                 try { const r = JSON.parse(xhr.responseText); msg = r.message || msg; } catch (e) {}
                 alert(msg);
