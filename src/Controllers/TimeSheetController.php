@@ -154,16 +154,22 @@ class TimeSheetController extends ResourceController
     public function show($id = null)
     {
         $ijo_id = $this->request->getVar('ijo_id');
+        $status = $this->request->getVar('status');
+        $date_from = $this->request->getVar('date_from');
+        $date_to = $this->request->getVar('date_to');
 
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "id"        => $id,
             "date"      => [
-                "from"  => "",
-                "to"    => ""
+                "from"  => $date_from,
+                "to"    => $date_to
             ],
             "selects"   => "*",
             "ijo_id"    => $ijo_id,
+            "status"    => $status,
+            "date_from" => $date_from,
+            "date_to"   => $date_to
             // "where"     => ["type_id", "1"],
         ]);
 
