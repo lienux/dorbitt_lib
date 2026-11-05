@@ -124,7 +124,7 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Jam</th>
-                        <th>Crew / NIK</th>
+                        <!-- <th>Crew / NIK</th> -->
                         <th>Activity</th>
                         <th>Lokasi / Posisi</th>
                         <th>Speed</th>
