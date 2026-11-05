@@ -519,10 +519,10 @@ class TimeSheetController extends ResourceController
     public function reportWa()
     {
         $ijo_id = $this->request->getGet('ijo_id');
-        $dateFrom = $this->request->getGet('date_from');
-        $dateTo   = $this->request->getGet('date_to');
-        $tugboatName   = $this->request->getGet('tugboat_name');
-        $bargeName   = $this->request->getGet('barge_name');
+        $date_from = $this->request->getGet('date_from');
+        $date_to   = $this->request->getGet('date_to');
+        $tugboat_name   = $this->request->getGet('tugboat_name');
+        $barge_name   = $this->request->getGet('barge_name');
         // $oa2_employee = session()->get('oa2_employee');
 
         // if (!$crew || !$oa2_employee) {
@@ -559,7 +559,12 @@ class TimeSheetController extends ResourceController
                 "to"    => ""
             ],
             "selects"   => "*",
-            "limitAll"  => $limitAll
+            // "limitAll"  => $limitAll,
+            "ijo_id"    => $ijo_id,
+            "date_from" => $date_from,
+            "date_to"   => $date_to,
+            "tugboat_name"  => $tugboat_name,
+            "barge_name"    => $barge_name,
         ]);
 
         $urlParams = $this->cH->payload_http_build_query($payload);
@@ -572,21 +577,24 @@ class TimeSheetController extends ResourceController
         ];
 
         $builder = $this->cH->ummu2($params);
+        // $builder = $params;
 
-        $meta = [
-            'tugboat_name' => $tugboatName ?? '',
-            'barge_name'   => $bargeName ?? '',
-            // 'pic_name'     => $crew->pic_name ?? '',
-            // 'client_name'  => $crew->client_name ?? '',
-        ];
+        // $meta = [
+        //     'tugboat_name' => $tugboat_name ?? '',
+        //     'barge_name'   => $barge_name ?? '',
+        //     // 'pic_name'     => $crew->pic_name ?? '',
+        //     // 'client_name'  => $crew->client_name ?? '',
+        // ];
 
-        $text = $this->buildWaReport($meta, $builder->$rows);
+        // $text = $this->buildWaReport($meta, $builder->$rows);
 
-        return $this->response->setJSON([
-            'status' => true,
-            'text'   => $text,
-            'count'  => count($builder->rows),
-        ]);
+        // return $this->response->setJSON([
+        //     'status' => true,
+        //     'text'   => $text,
+        //     'count'  => count($builder->rows),
+        // ]);
+
+        return $this->respond($builder, 200);
     }
 
     /**

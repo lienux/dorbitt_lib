@@ -5,18 +5,18 @@ var app = {
 
     config: {
         autoload: function () {
-            $ummu.func.location_hash()
-            $ummu.localStorage.dt_default($localStrgKey);
-            $ummu.dt.layout.buttonAll($ummu.dt.init);
+            // $ummu.func.location_hash()
+            // $ummu.localStorage.dt_default($localStrgKey);
+            // $ummu.dt.layout.buttonAll($ummu.dt.init);
 
-            $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
-                var row = $ummu.dt.init.row(this).data();
-                // console.log(row)
-                $ummu.url.setParamFromRow(row)
-                // $ummu.vars.is_row = true;
-                // app.controllers.detail(row);
-                app.views.setRow_toForm(row);
-            });
+            // $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
+            //     var row = $ummu.dt.init.row(this).data();
+            //     // console.log(row)
+            //     $ummu.url.setParamFromRow(row)
+            //     // $ummu.vars.is_row = true;
+            //     // app.controllers.detail(row);
+            //     app.views.setRow_toForm(row);
+            // });
         },
     },
 
@@ -763,7 +763,7 @@ var app = {
 };
 
 $(document).ready(function () {
-    // app.config.autoload()
+    app.config.autoload()
 
     // ==================== STATE ====================
     let currentIjo   = null;
@@ -987,6 +987,10 @@ $(document).ready(function () {
     function handleIjoChange() {
         const $sel = $('#ijoSelect');
         const id = $sel.val();
+        
+        if (id && String(id) !== String($ummu.url.getParam('ijo_id') || '')) {
+            $ummu.url.setParam('ijo_id', id);
+        }
 
         // DEBUG
         console.log('[IJO] change triggered. id =', id);
@@ -1181,12 +1185,12 @@ $(document).ready(function () {
             const tr = `
                 <tr data-id="${t.id}">
                     <td class="text-nowrap">${t.activity_date || '-'}</td>
-                    <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>
-                    <td>
-                        <div class="font-weight-bold" style="font-size:.8rem;">${escapeHtml(t.crew_name || '-')}</div>
-                        <small class="text-muted">${escapeHtml(t.nika || '')}</small>
-                    </td>
-                    <td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
+                    <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>`+
+                    // <td>
+                    //     <div class="font-weight-bold" style="font-size:.8rem;">${escapeHtml(t.crew_name || '-')}</div>
+                    //     <small class="text-muted">${escapeHtml(t.nika || '')}</small>
+                    // </td>
+                    `<td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
                     <td>${escapeHtml(t.location || '-')}</td>
                     <td>${t.speed_knot ? parseFloat(t.speed_knot).toFixed(2)+' kn' : '-'}</td>
                     <td>${t.distance_nm ? parseFloat(t.distance_nm).toFixed(2)+' NM' : '-'}</td>
@@ -1244,6 +1248,20 @@ $(document).ready(function () {
                     $('#activityCount').text(`${rows.length} activity tersedia`);
                 }
                 $sel.trigger('change.select2');
+
+                const ijoId = $ummu.url.getParam('ijo_id');
+
+                // Jika ada ijo_id di URL, jalankan handler otomatis
+                if (ijoId) {
+                    // Set value ke select2 (opsional, agar tampilan select juga ter-update)
+                    $('#ijoSelect').val(ijoId).trigger('change.select2');
+                //     $ummu.url.setParam('ijo_id', ijoId)
+
+                    // Panggil handler yang sama seperti saat select2:select
+                    // handleIjoChange({ params: { data: { id: ijoId } } });
+                    handleIjoChange();
+                    // handleIjoChange
+                }
             },
             error: function() {
                 $sel.empty().append('<option value="">-- Error memuat activity --</option>');

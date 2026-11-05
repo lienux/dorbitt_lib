@@ -362,8 +362,8 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('update/(:num)', 'TimeSheetController::update/$1');
         $routes->post('delete/(:num)', 'TimeSheetController::delete/$1');
 
-        $routes->get('report-wa',         'TimeSheetKapal::reportWa');
-        $routes->get('latest-coordinate', 'TimeSheetKapal::latestCoordinate');
+        $routes->get('report-wa',         'TimeSheetController::reportWa');
+        $routes->get('latest-coordinate', 'TimeSheetController::latestCoordinate');
         // $routes->get('my-ijo', 'TimeSheetKapal::show_myIjo');
         // $routes->get('me-crew', 'TimeSheetKapal::show_meCrew');
 
