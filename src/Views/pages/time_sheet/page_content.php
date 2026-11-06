@@ -15,67 +15,53 @@
 <?php endif; ?>
 
 <!-- PILIH IJO -->
-<div class="ijo-selector-card mb-4">
-    <div class="form-row align-items-end">
-        <div class="col-md-9">
-            <label for="ijoSelect"><i class="fas fa-file-contract mr-1"></i>Pilih IJO</label>
-            <select id="ijoSelect" class="form-control"></select>
-            <small class="text-muted" id="ijoHint">Pilih IJO untuk menampilkan Tugboat, Barge, dan daftar timesheet.</small>
-            <div class="ijo-meta-badges" id="ijoMetaBadges"></div>
-        </div>
-        <div class="col-md-3 text-right">
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReloadIjo">
-                <i class="fas fa-sync-alt mr-1"></i>Get IJO per PIC
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="btnGetAllIjo">
-                <i class="fas fa-sync-alt mr-1"></i>Get All IJO
-            </button>
+<div class="card mb-2">
+    <div class="card-body">
+        <div class="form-row align-items-end">
+            <div class="col-md-9">
+                <label for="ijoSelect"><i class="fas fa-file-contract mr-1"></i>Pilih IJO</label>
+                <select id="ijoSelect" class="form-control"></select>
+                <small class="text-muted" id="ijoHint">Pilih IJO untuk menampilkan Tugboat, Barge, dan daftar timesheet.</small>
+                <div class="ijo-meta-badges" id="ijoMetaBadges"></div>
+            </div>
+            <div class="col-md-3 text-right">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReloadIjo">
+                    <i class="fas fa-sync-alt mr-1"></i>Get IJO per PIC
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnGetAllIjo">
+                    <i class="fas fa-sync-alt mr-1"></i>Get All IJO
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- STATUS IJO -->
-<div class="card mb-4" id="ijoInfoCard" style="display:none;">
-    <div class="card-body p-3">
-        <div class="ijo-badge mb-3">
-            <div>
-                <div class="label">Internal Job Order (IJO)</div>
-                <div class="value">
-                    <span id="ijoIdLabel" style="opacity:.7;"></span>
-                    <i class="fas fa-file-contract mr-2"></i><span id="ijoNumberLabel">-</span>
-                </div>
-            </div>
-            <div>
-                <span class="badge badge-light px-3 py-2 text-primary font-weight-bold" id="ijoStatusBadge">
-                    <i class="fas fa-check-circle mr-1"></i>Active
-                </span>
-            </div>
+<div class="card mb-2" id="ijoInfoCard" style="display:none;">
+    <div class="card-body vessel-info">
+        <div class="item">
+            <span class="lbl">Tugboat</span>
+            <span class="val"><i class="fas fa-anchor"></i> <span id="tugboatLabel">-</span></span>
         </div>
-        <div class="vessel-info">
-            <div class="item">
-                <span class="lbl">Tugboat</span>
-                <span class="val"><i class="fas fa-anchor"></i><span id="tugboatLabel">-</span></span>
-            </div>
-            <div class="item">
-                <span class="lbl">Barge</span>
-                <span class="val"><i class="fas fa-ship"></i><span id="bargeLabel">-</span></span>
-            </div>
-            <div class="item">
-                <span class="lbl">Rute Pelayaran</span>
-                <span class="val"><i class="fas fa-route"></i><span id="routeLabel">-</span></span>
-            </div>
-            <div class="item">
-                <span class="lbl">Client</span>
-                <span class="val"><i class="fas fa-building"></i><span id="clientLabel">-</span></span>
-            </div>
-            <div class="item">
-                <span class="lbl">SPAL</span>
-                <span class="val"><i class="fas fa-file-alt"></i><span id="spalLabel">-</span></span>
-            </div>
-            <div class="item">
-                <span class="lbl">ETA Loading</span>
-                <span class="val"><i class="fas fa-calendar-check"></i><span id="etaLoadingLabel">-</span></span>
-            </div>
+        <div class="item">
+            <span class="lbl">Barge</span>
+            <span class="val"><i class="fas fa-ship"></i> <span id="bargeLabel">-</span></span>
+        </div>
+        <div class="item">
+            <span class="lbl">Rute Pelayaran</span>
+            <span class="val"><i class="fas fa-route"></i> <span id="routeLabel">-</span></span>
+        </div>
+        <div class="item">
+            <span class="lbl">Client</span>
+            <span class="val"><i class="fas fa-building"></i> <span id="clientLabel">-</span></span>
+        </div>
+        <div class="item">
+            <span class="lbl">SPAL</span>
+            <span class="val"><i class="fas fa-file-alt"></i> <span id="spalLabel">-</span></span>
+        </div>
+        <div class="item">
+            <span class="lbl">ETA Loading</span>
+            <span class="val"><i class="fas fa-calendar-check"></i> <span id="etaLoadingLabel">-</span></span>
         </div>
     </div>
 </div>

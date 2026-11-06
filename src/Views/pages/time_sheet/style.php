@@ -11,12 +11,12 @@
     .ijo-badge .label { font-size:.75rem; opacity:.85; text-transform:uppercase; letter-spacing:.5px; }
     .ijo-badge .value { font-size:1.05rem; font-weight:700; }
     .vessel-info {
-        background:#f8f9fa; border:1px solid #e9ecef; border-radius:.4rem;
+        border-radius:.4rem;
         padding:.75rem 1rem; display:flex; gap:1.5rem; flex-wrap:wrap;
     }
     .vessel-info .item { display:flex; flex-direction:column; }
     .vessel-info .item .lbl { font-size:.7rem; color:#6c757d; text-transform:uppercase; letter-spacing:.4px; }
-    .vessel-info .item .val { font-weight:600; color:#212529; font-size:.95rem; }
+    .vessel-info .item .val { color:#212529; font-size:.95rem; }
     .vessel-info .item .val i { color:#007bff; margin-right:.35rem; }
     .status-badge { font-size:.72rem; padding:.3rem .6rem; border-radius:.25rem; }
     .table thead th { background:#f8f9fa; font-size:.78rem; text-transform:uppercase; letter-spacing:.4px; color:#6c757d; border-top:none; }
