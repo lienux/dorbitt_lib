@@ -91,6 +91,9 @@
                 <div class="input-group-prepend input-group-append"><span class="input-group-text">s/d</span></div>
                 <input type="date" class="form-control form-control-sm" id="waDateTo" title="Sampai tanggal" style="width:130px;">
             </div>
+            <button type="button" class="btn btn-sm btn-success font-weight-bold" id="btnExportExcel">
+                <i class="fas fa-file-excel mr-1"></i> Export Excel
+            </button>
             <button type="button" class="btn btn-sm btn-wa" id="btnCopyWA">
                 <i class="fab fa-whatsapp mr-1"></i>Copy ke WA
             </button>

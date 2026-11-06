@@ -935,6 +935,67 @@ $(document).ready(function () {
         $('#close_modal_form_timesheet').on('click', function(){
             $('#timesheetModal').modal('hide')
         })
+
+        // ==================== EXPORT EXCEL (AJAX) ====================
+        $('#btnExportExcel').on('click', function () {
+            const ijoId = $('#ijoSelect').val();
+            if (!ijoId) return alert('Pilih IJO terlebih dahulu!');
+
+            const params = new URLSearchParams({
+                ijo_id: ijoId,
+                date_from: $('#waDateFrom').val() || '',
+                date_to:   $('#waDateTo').val() || '',
+                status:    $('#filterStatus').val() || '',
+            });
+
+            const $btn = $(this);
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Exporting...');
+
+            $.ajax({
+                url: BASE_URL + '/export-excel?' + params.toString(),
+                method: 'GET',
+                xhrFields: { responseType: 'blob' },  // ⬅️ KUNCI
+                success: function (blob, status, xhr) {
+                    // Cek kalau ternyata error JSON
+                    const ct = xhr.getResponseHeader('Content-Type') || '';
+                    if (ct.includes('application/json')) {
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            try {
+                                const json = JSON.parse(reader.result);
+                                alert('Export gagal: ' + (json.message || 'Unknown error'));
+                            } catch (e) {
+                                alert('Export gagal.');
+                            }
+                        };
+                        reader.readAsText(blob);
+                        return;
+                    }
+
+                    // Ambil filename
+                    let filename = 'Timesheet.xlsx';
+                    const disposition = xhr.getResponseHeader('Content-Disposition') || '';
+                    const match = disposition.match(/filename\*?=(?:UTF-8'')?["']?([^"';]+)["']?/i);
+                    if (match && match[1]) filename = decodeURIComponent(match[1]);
+
+                    // Download
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                },
+                error: function (xhr) {
+                    alert('Export gagal: HTTP ' + xhr.status);
+                },
+                complete: function () {
+                    $btn.prop('disabled', false).html('<i class="fas fa-file-excel mr-1"></i> Export Excel');
+                }
+            });
+        });
     });
 
     // ==================== UTIL ====================
@@ -987,7 +1048,7 @@ $(document).ready(function () {
     function handleIjoChange() {
         const $sel = $('#ijoSelect');
         const id = $sel.val();
-        
+
         if (id && String(id) !== String($ummu.url.getParam('ijo_id') || '')) {
             $ummu.url.setParam('ijo_id', id);
         }
