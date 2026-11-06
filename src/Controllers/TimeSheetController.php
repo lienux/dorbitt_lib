@@ -524,11 +524,12 @@ class TimeSheetController extends ResourceController
      */
     public function reportWa()
     {
-        $ijo_id = $this->request->getGet('ijo_id');
-        $date_from = $this->request->getGet('date_from');
-        $date_to   = $this->request->getGet('date_to');
+        $ijo_id         = $this->request->getGet('ijo_id');
+        $date_from      = $this->request->getGet('date_from');
+        $date_to        = $this->request->getGet('date_to');
         $tugboat_name   = $this->request->getGet('tugboat_name');
-        $barge_name   = $this->request->getGet('barge_name');
+        $barge_name     = $this->request->getGet('barge_name');
+        $rows           = [];
 
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -541,14 +542,12 @@ class TimeSheetController extends ResourceController
             "ijo_id"    => $ijo_id,
             "date_from" => $date_from,
             "date_to"   => $date_to,
-            "tugboat_name"  => $tugboat_name,
-            "barge_name"    => $barge_name,
         ]);
 
         $urlParams = $this->cH->payload_http_build_query($payload);
 
         $params = [
-            "path"          => "api/" . $this->module_kode . "/reportWa?" . $urlParams,
+            "path"          => "api/" . $this->module_kode . "?" . $urlParams,
             "method"        => "GET",
             "payload"       => $payload,
             "headers"       => $this->cH->headers3($this->module_kode)
@@ -557,22 +556,24 @@ class TimeSheetController extends ResourceController
         $builder = $this->cH->ummu2($params);
         // $builder = $params;
 
-        // $meta = [
-        //     'tugboat_name' => $tugboat_name ?? '',
-        //     'barge_name'   => $barge_name ?? '',
-        //     // 'pic_name'     => $crew->pic_name ?? '',
-        //     // 'client_name'  => $crew->client_name ?? '',
-        // ];
+        $rows = $builder->rows;
 
-        // $text = $this->buildWaReport($meta, $builder->$rows);
+        $meta = [
+            'tugboat_name' => $tugboat_name ?? '',
+            'barge_name'   => $barge_name ?? '',
+            // 'pic_name'     => $crew->pic_name ?? '',
+            // 'client_name'  => $crew->client_name ?? '',
+        ];
 
-        // return $this->response->setJSON([
-        //     'status' => true,
-        //     'text'   => $text,
-        //     'count'  => count($builder->rows),
-        // ]);
+        $text = $this->buildWaReport($meta, $rows);
 
-        return $this->respond($builder, 200);
+        $response = [
+            'status' => true,
+            'text'   => $text,
+            'count'  => count($rows),
+        ];
+
+        return $this->respond($response, 200);
     }
 
     /**
@@ -593,12 +594,12 @@ class TimeSheetController extends ResourceController
 
         // Status terkini
         $latest = $rows[0];
-        $lines[] = 'Tanggal:*' . $this->formatTanggalIndo($latest['activity_date']) . '*';
-        $lines[] = 'Time:' . (!empty($latest['activity_time']) ? substr($latest['activity_time'], 0, 5) : '-');
-        $lines[] = 'Posisi:' . ($latest['location'] ?: '-');
-        $lines[] = 'Status:' . ($latest['activity_name'] ?: '-');
-        if (!empty($latest['weather_condition'])) {
-            $lines[] = 'Cuaca:' . $latest['weather_condition'];
+        $lines[] = 'Tanggal:*' . $this->formatTanggalIndo($latest->activity_date) . '*';
+        $lines[] = 'Time:' . (!empty($latest->activity_time) ? substr($latest->activity_time, 0, 5) : '-');
+        $lines[] = 'Posisi:' . ($latest->location ?: '-');
+        $lines[] = 'Status:' . ($latest->activity_name ?: '-');
+        if (!empty($latest->weather_condition)) {
+            $lines[] = 'Cuaca:' . $latest->weather_condition;
         }
         $lines[] = '';
         $lines[] = '';
@@ -606,7 +607,7 @@ class TimeSheetController extends ResourceController
         // Group per tanggal
         $grouped = [];
         foreach ($rows as $r) {
-            $grouped[$r['activity_date']][] = $r;
+            $grouped[$r->activity_date][] = $r;
         }
         ksort($grouped);
 
@@ -614,12 +615,12 @@ class TimeSheetController extends ResourceController
             $lines[] = '*' . $this->formatTanggalIndo($date) . '*';
 
             usort($items, function ($a, $b) {
-                return strcmp($a['activity_time'] ?? '', $b['activity_time'] ?? '');
+                return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
             });
 
             foreach ($items as $it) {
-                $time = !empty($it['activity_time']) ? substr($it['activity_time'], 0, 5) : '--:--';
-                $activity = $it['activity_name'] ?? '-';
+                $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+                $activity = $it->activity_name ?? '-';
                 $lines[] = '-' . $time . ' ' . $activity;
             }
         }
@@ -627,7 +628,7 @@ class TimeSheetController extends ResourceController
         // Note
         $lines[] = '';
         $lines[] = 'Note:';
-        $lines[] = !empty($latest['remarks']) ? $latest['remarks'] : '-';
+        $lines[] = !empty($latest->remarks) ? $latest->remarks : '-';
 
         return implode("\n", $lines);
     }
@@ -700,116 +701,6 @@ class TimeSheetController extends ResourceController
             ]);
         }
 
-        // $model = new TimesheetModel();
-
-        // $builder = $model->db->table('timesheets t')
-        //     ->select([
-        //         't.id', 't.activity_date', 't.activity_time', 't.activity_id',
-        //         't.activity_name', 't.location', 't.latitude', 't.longitude',
-        //         't.distance_nm', 't.speed_knot', 't.eta_time',
-        //         't.weather_condition', 't.remarks', 't.status',
-        //         'a.activity_name AS activity_master',
-        //     ])
-        //     ->join('master_activities a', 'a.id = t.activity_id', 'left')
-        //     ->where('t.ijo_id', $ijoId)
-        //     ->where('t.deleted_at IS NULL');
-
-        // if (!empty($dateFrom)) $builder->where('t.activity_date >=', $dateFrom);
-        // if (!empty($dateTo))   $builder->where('t.activity_date <=', $dateTo);
-        // if (!empty($status))   $builder->where('t.status', $status);
-
-        // $rows = $builder->orderBy('t.activity_date', 'ASC')
-        //     ->orderBy('t.activity_time', 'ASC')
-        //     ->get()->getResultArray();
-
-        // if (empty($rows)) {
-        //     return $this->response->setStatusCode(404)->setJSON([
-        //         'status'  => false,
-        //         'message' => 'Tidak ada data untuk diexport.',
-        //     ]);
-        // }
-
-        // $ijo = $model->db->table('ijos')
-        //     ->select('ijo_number, client_name, vessel_name, barge_name, route')
-        //     ->where('id', $ijoId)
-        //     ->get()->getRowArray();
-
-        // // ============ BUILD SPREADSHEET ============
-        // $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-        // $sheet = $spreadsheet->getActiveSheet();
-        // $sheet->setTitle('Timesheet');
-
-        // $sheet->mergeCells('A1:J1');
-        // $sheet->setCellValue('A1', 'LAPORAN TIMESHEET');
-        // $sheet->mergeCells('A2:J2');
-        // $sheet->setCellValue('A2', 'IJO: ' . ($ijo['ijo_number'] ?? '-') . ' | Client: ' . ($ijo['client_name'] ?? '-'));
-        // $sheet->mergeCells('A3:J3');
-        // $sheet->setCellValue('A3', 'Vessel: ' . ($ijo['vessel_name'] ?? '-') . ' | Barge: ' . ($ijo['barge_name'] ?? '-'));
-
-        // $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
-        // $sheet->getStyle('A1:J3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-
-        // $headers = ['No','Tanggal','Jam','Activity','Lokasi / Posisi','Koordinat','Speed (Knot)','Jarak (NM)','ETA','Status'];
-        // $col = 'A';
-        // foreach ($headers as $h) {
-        //     $sheet->setCellValue($col . '5', $h);
-        //     $col++;
-        // }
-        // $sheet->getStyle('A5:J5')->applyFromArray([
-        //     'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
-        //     'fill'      => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
-        //     'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
-        //     'borders'   => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
-        // ]);
-
-        // $rowNum = 6; $no = 1;
-        // foreach ($rows as $r) {
-        //     $coord = (!empty($r['latitude']) && !empty($r['longitude']))
-        //            ? $r['latitude'] . ', ' . $r['longitude'] : '-';
-        //     $eta  = !empty($r['eta_time']) ? date('d/m/Y H:i', strtotime($r['eta_time'])) : '-';
-        //     $time = !empty($r['activity_time']) ? substr($r['activity_time'], 0, 5) : '-';
-        //     $date = !empty($r['activity_date']) ? date('d/m/Y', strtotime($r['activity_date'])) : '-';
-
-        //     $sheet->setCellValue('A'.$rowNum, $no++);
-        //     $sheet->setCellValue('B'.$rowNum, $date);
-        //     $sheet->setCellValue('C'.$rowNum, $time);
-        //     $sheet->setCellValue('D'.$rowNum, $r['activity_master'] ?? $r['activity_name'] ?? '-');
-        //     $sheet->setCellValue('E'.$rowNum, $r['location'] ?? '-');
-        //     $sheet->setCellValue('F'.$rowNum, $coord);
-        //     $sheet->setCellValue('G'.$rowNum, $r['speed_knot'] ?? 0);
-        //     $sheet->setCellValue('H'.$rowNum, $r['distance_nm'] ?? 0);
-        //     $sheet->setCellValue('I'.$rowNum, $eta);
-        //     $sheet->setCellValue('J'.$rowNum, ucfirst($r['status'] ?? '-'));
-        //     $rowNum++;
-        // }
-
-        // $lastRow = $rowNum - 1;
-        // $sheet->getStyle("A5:J{$lastRow}")->applyFromArray([
-        //     'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
-        // ]);
-        // foreach (range('A','J') as $c) $sheet->getColumnDimension($c)->setAutoSize(true);
-        // $sheet->freezePane('A6');
-
-        // // ============ SAVE KE TEMP FILE (untuk AJAX download) ============
-        // $filename = 'Timesheet_' . preg_replace('/[^A-Za-z0-9]/', '_', $ijo['ijo_number'] ?? 'IJO')
-        //           . '_' . date('Ymd_His') . '.xlsx';
-
-        // // CI4 Response download -> trigger via blob di JS
-        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-        // $tmpFile = WRITEPATH . 'uploads/' . $filename;
-        //     // pastikan folder ada
-        // if (!is_dir(dirname($tmpFile))) mkdir(dirname($tmpFile), 0755, true);
-        // $writer->save($tmpFile);
-
-        // // Return JSON berisi URL download (lebih aman untuk AJAX)
-        // return $this->response->setJSON([
-        //     'status'   => true,
-        //     'message'  => 'Export berhasil.',
-        //     'filename' => $filename,
-        //     'download_url' => base_url('admin/time_sheet/download-export?file=' . urlencode($filename)),
-        // ]);
-
-
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
             "date"      => [
@@ -820,14 +711,11 @@ class TimeSheetController extends ResourceController
             "ijo_id"    => $ijoId,
             "date_from" => $dateFrom,
             "date_to"   => $dateTo,
-            // "tugboat_name"  => $tugboat_name,
-            // "barge_name"    => $barge_name,
         ]);
 
         $urlParams = $this->cH->payload_http_build_query($payload);
 
         $params = [
-            // "path"          => "api/" . $this->module_kode . "/exportExcel?" . $urlParams,
             "path"          => "api/" . $this->module_kode . "?" . $urlParams,
             "method"        => "GET",
             "payload"       => $payload,
@@ -905,25 +793,6 @@ class TimeSheetController extends ResourceController
         // ============ SAVE KE TEMP FILE (untuk AJAX download) ============
         $filename = 'Timesheet_' . preg_replace('/[^A-Za-z0-9]/', '_', $ijoId ?? 'IJO')
                   . '_' . date('Ymd_His') . '.xlsx';
-
-        // // CI4 Response download -> trigger via blob di JS
-        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-        // $tmpFile = WRITEPATH . 'uploads/' . $filename;
-        //     // pastikan folder ada
-        // if (!is_dir(dirname($tmpFile))) mkdir(dirname($tmpFile), 0755, true);
-        // $writer->save($tmpFile);
-
-        // // Return JSON berisi URL download (lebih aman untuk AJAX)
-        // return $this->response->setJSON([
-        //     'status'   => true,
-        //     'message'  => 'Export berhasil.',
-        //     'filename' => $filename,
-        //     // 'download_url' => base_url('admin/time_sheet/download-export?file=' . urlencode($filename)),
-        //     'download_url' => base_url('uploads/' . urlencode($filename)),
-        // ]);
-
-        // return $this->respond($builder, 200);
-
 
         $tmpPath = WRITEPATH . 'uploads/export/' . $filename;
         if (!is_dir(dirname($tmpPath))) mkdir(dirname($tmpPath), 0755, true);
