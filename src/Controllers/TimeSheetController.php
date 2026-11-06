@@ -11,6 +11,12 @@ use Dorbitt\Helpers\UmmuHelper;
 use App\Helpers\GlobalHelper;
 use Dorbitt\Helpers\FileHelper;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+
 class TimeSheetController extends ResourceController
 {
     protected $db;
@@ -523,34 +529,6 @@ class TimeSheetController extends ResourceController
         $date_to   = $this->request->getGet('date_to');
         $tugboat_name   = $this->request->getGet('tugboat_name');
         $barge_name   = $this->request->getGet('barge_name');
-        // $oa2_employee = session()->get('oa2_employee');
-
-        // if (!$crew || !$oa2_employee) {
-        //     return $this->response->setJSON(['status' => false, 'message' => 'Session tidak valid.'])->setStatusCode(401);
-        // }
-
-        // $builder = $this->timesheetModel->builder()
-        //     ->where('ijo_id', $ijo_id)
-        //     ->where('deleted_at', null);
-
-
-        // // Default backend: 3 hari ke belakang jika kosong
-        // if (empty($dateFrom) && empty($dateTo)) {
-        //     $dateTo   = date('Y-m-d');
-        //     $dateFrom = date('Y-m-d', strtotime('-2 days'));
-        // } elseif (!empty($dateFrom) && empty($dateTo)) {
-        //     $dateTo = $dateFrom;
-        // } elseif (empty($dateFrom) && !empty($dateTo)) {
-        //     $dateFrom = $dateTo;
-        // }
-
-        // if ($dateFrom) $builder->where('activity_date >=', $dateFrom);
-        // if ($dateTo)   $builder->where('activity_date <=', $dateTo);
-
-        // $rows = $builder->orderBy('activity_date', 'DESC')
-        //             ->orderBy('activity_time', 'DESC')
-        //             ->get()
-        //             ->getResultArray();
 
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -705,5 +683,258 @@ class TimeSheetController extends ResourceController
                 'activity_date'=> $row['activity_date'],
             ]
         ]);
+    }
+
+    public function exportExcel()
+    {
+        $ijoId      = $this->request->getGet('ijo_id');
+        $dateFrom   = $this->request->getGet('date_from');
+        $dateTo     = $this->request->getGet('date_to');
+        $status     = $this->request->getGet('status');
+        $rows       = [];
+
+        if (empty($ijoId)) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status'  => false,
+                'message' => 'IJO wajib dipilih.',
+            ]);
+        }
+
+        // $model = new TimesheetModel();
+
+        // $builder = $model->db->table('timesheets t')
+        //     ->select([
+        //         't.id', 't.activity_date', 't.activity_time', 't.activity_id',
+        //         't.activity_name', 't.location', 't.latitude', 't.longitude',
+        //         't.distance_nm', 't.speed_knot', 't.eta_time',
+        //         't.weather_condition', 't.remarks', 't.status',
+        //         'a.activity_name AS activity_master',
+        //     ])
+        //     ->join('master_activities a', 'a.id = t.activity_id', 'left')
+        //     ->where('t.ijo_id', $ijoId)
+        //     ->where('t.deleted_at IS NULL');
+
+        // if (!empty($dateFrom)) $builder->where('t.activity_date >=', $dateFrom);
+        // if (!empty($dateTo))   $builder->where('t.activity_date <=', $dateTo);
+        // if (!empty($status))   $builder->where('t.status', $status);
+
+        // $rows = $builder->orderBy('t.activity_date', 'ASC')
+        //     ->orderBy('t.activity_time', 'ASC')
+        //     ->get()->getResultArray();
+
+        // if (empty($rows)) {
+        //     return $this->response->setStatusCode(404)->setJSON([
+        //         'status'  => false,
+        //         'message' => 'Tidak ada data untuk diexport.',
+        //     ]);
+        // }
+
+        // $ijo = $model->db->table('ijos')
+        //     ->select('ijo_number, client_name, vessel_name, barge_name, route')
+        //     ->where('id', $ijoId)
+        //     ->get()->getRowArray();
+
+        // // ============ BUILD SPREADSHEET ============
+        // $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        // $sheet = $spreadsheet->getActiveSheet();
+        // $sheet->setTitle('Timesheet');
+
+        // $sheet->mergeCells('A1:J1');
+        // $sheet->setCellValue('A1', 'LAPORAN TIMESHEET');
+        // $sheet->mergeCells('A2:J2');
+        // $sheet->setCellValue('A2', 'IJO: ' . ($ijo['ijo_number'] ?? '-') . ' | Client: ' . ($ijo['client_name'] ?? '-'));
+        // $sheet->mergeCells('A3:J3');
+        // $sheet->setCellValue('A3', 'Vessel: ' . ($ijo['vessel_name'] ?? '-') . ' | Barge: ' . ($ijo['barge_name'] ?? '-'));
+
+        // $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
+        // $sheet->getStyle('A1:J3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        // $headers = ['No','Tanggal','Jam','Activity','Lokasi / Posisi','Koordinat','Speed (Knot)','Jarak (NM)','ETA','Status'];
+        // $col = 'A';
+        // foreach ($headers as $h) {
+        //     $sheet->setCellValue($col . '5', $h);
+        //     $col++;
+        // }
+        // $sheet->getStyle('A5:J5')->applyFromArray([
+        //     'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+        //     'fill'      => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
+        //     'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+        //     'borders'   => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+        // ]);
+
+        // $rowNum = 6; $no = 1;
+        // foreach ($rows as $r) {
+        //     $coord = (!empty($r['latitude']) && !empty($r['longitude']))
+        //            ? $r['latitude'] . ', ' . $r['longitude'] : '-';
+        //     $eta  = !empty($r['eta_time']) ? date('d/m/Y H:i', strtotime($r['eta_time'])) : '-';
+        //     $time = !empty($r['activity_time']) ? substr($r['activity_time'], 0, 5) : '-';
+        //     $date = !empty($r['activity_date']) ? date('d/m/Y', strtotime($r['activity_date'])) : '-';
+
+        //     $sheet->setCellValue('A'.$rowNum, $no++);
+        //     $sheet->setCellValue('B'.$rowNum, $date);
+        //     $sheet->setCellValue('C'.$rowNum, $time);
+        //     $sheet->setCellValue('D'.$rowNum, $r['activity_master'] ?? $r['activity_name'] ?? '-');
+        //     $sheet->setCellValue('E'.$rowNum, $r['location'] ?? '-');
+        //     $sheet->setCellValue('F'.$rowNum, $coord);
+        //     $sheet->setCellValue('G'.$rowNum, $r['speed_knot'] ?? 0);
+        //     $sheet->setCellValue('H'.$rowNum, $r['distance_nm'] ?? 0);
+        //     $sheet->setCellValue('I'.$rowNum, $eta);
+        //     $sheet->setCellValue('J'.$rowNum, ucfirst($r['status'] ?? '-'));
+        //     $rowNum++;
+        // }
+
+        // $lastRow = $rowNum - 1;
+        // $sheet->getStyle("A5:J{$lastRow}")->applyFromArray([
+        //     'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+        // ]);
+        // foreach (range('A','J') as $c) $sheet->getColumnDimension($c)->setAutoSize(true);
+        // $sheet->freezePane('A6');
+
+        // // ============ SAVE KE TEMP FILE (untuk AJAX download) ============
+        // $filename = 'Timesheet_' . preg_replace('/[^A-Za-z0-9]/', '_', $ijo['ijo_number'] ?? 'IJO')
+        //           . '_' . date('Ymd_His') . '.xlsx';
+
+        // // CI4 Response download -> trigger via blob di JS
+        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        // $tmpFile = WRITEPATH . 'uploads/' . $filename;
+        //     // pastikan folder ada
+        // if (!is_dir(dirname($tmpFile))) mkdir(dirname($tmpFile), 0755, true);
+        // $writer->save($tmpFile);
+
+        // // Return JSON berisi URL download (lebih aman untuk AJAX)
+        // return $this->response->setJSON([
+        //     'status'   => true,
+        //     'message'  => 'Export berhasil.',
+        //     'filename' => $filename,
+        //     'download_url' => base_url('admin/time_sheet/download-export?file=' . urlencode($filename)),
+        // ]);
+
+
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date"      => [
+                "from"  => "",
+                "to"    => ""
+            ],
+            "selects"   => "*",
+            "ijo_id"    => $ijoId,
+            "date_from" => $dateFrom,
+            "date_to"   => $dateTo,
+            // "tugboat_name"  => $tugboat_name,
+            // "barge_name"    => $barge_name,
+        ]);
+
+        $urlParams = $this->cH->payload_http_build_query($payload);
+
+        $params = [
+            // "path"          => "api/" . $this->module_kode . "/exportExcel?" . $urlParams,
+            "path"          => "api/" . $this->module_kode . "?" . $urlParams,
+            "method"        => "GET",
+            "payload"       => $payload,
+            "headers"       => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+        // $builder = $params;
+
+        $rows = $builder->rows;
+
+        if (empty($rows)) {
+            return $this->response->setStatusCode(404)->setJSON([
+                'status'  => false,
+                'message' => 'Tidak ada data untuk diexport.',
+            ]);
+        }
+
+        // ============ BUILD SPREADSHEET ============
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Timesheet');
+
+        $sheet->mergeCells('A1:J1');
+        $sheet->setCellValue('A1', 'LAPORAN TIMESHEET');
+        $sheet->mergeCells('A2:J2');
+        $sheet->setCellValue('A2', 'IJO: ' . ($rows->ijo['ijo_number'] ?? '-') . ' | Client: ' . ($rows->ijo['client_name'] ?? '-'));
+        $sheet->mergeCells('A3:J3');
+        $sheet->setCellValue('A3', 'Vessel: ' . ($rows->ijo['vessel_name'] ?? '-') . ' | Barge: ' . ($rows->ijo['barge_name'] ?? '-'));
+
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1:J3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        $headers = ['No','Tanggal','Jam','Activity','Lokasi / Posisi','Koordinat','Speed (Knot)','Jarak (NM)','ETA','Status'];
+        $col = 'A';
+        foreach ($headers as $h) {
+            $sheet->setCellValue($col . '5', $h);
+            $col++;
+        }
+        $sheet->getStyle('A5:J5')->applyFromArray([
+            'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill'      => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
+            'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+            'borders'   => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+        ]);
+
+        $rowNum = 6; $no = 1;
+        foreach ($rows as $r) {
+            $coord = (!empty($r->latitude) && !empty($r->longitude))
+                   ? $r->latitude . ', ' . $r->longitude : '-';
+            $eta  = !empty($r->eta_time) ? date('d/m/Y H:i', strtotime($r->eta_time)) : '-';
+            $time = !empty($r->activity_time) ? substr($r->activity_time, 0, 5) : '-';
+            $date = !empty($r->activity_date) ? date('d/m/Y', strtotime($r->activity_date)) : '-';
+
+            $sheet->setCellValue('A'.$rowNum, $no++);
+            $sheet->setCellValue('B'.$rowNum, $date);
+            $sheet->setCellValue('C'.$rowNum, $time);
+            $sheet->setCellValue('D'.$rowNum, $r->activity_master ?? $r->activity_name ?? '-');
+            $sheet->setCellValue('E'.$rowNum, $r->location ?? '-');
+            $sheet->setCellValue('F'.$rowNum, $coord);
+            $sheet->setCellValue('G'.$rowNum, $r->speed_knot ?? 0);
+            $sheet->setCellValue('H'.$rowNum, $r->distance_nm ?? 0);
+            $sheet->setCellValue('I'.$rowNum, $eta);
+            $sheet->setCellValue('J'.$rowNum, ucfirst($r->status ?? '-'));
+            $rowNum++;
+        }
+
+        $lastRow = $rowNum - 1;
+        $sheet->getStyle("A5:J{$lastRow}")->applyFromArray([
+            'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+        ]);
+        foreach (range('A','J') as $c) $sheet->getColumnDimension($c)->setAutoSize(true);
+        $sheet->freezePane('A6');
+
+        // ============ SAVE KE TEMP FILE (untuk AJAX download) ============
+        $filename = 'Timesheet_' . preg_replace('/[^A-Za-z0-9]/', '_', $ijoId ?? 'IJO')
+                  . '_' . date('Ymd_His') . '.xlsx';
+
+        // // CI4 Response download -> trigger via blob di JS
+        // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        // $tmpFile = WRITEPATH . 'uploads/' . $filename;
+        //     // pastikan folder ada
+        // if (!is_dir(dirname($tmpFile))) mkdir(dirname($tmpFile), 0755, true);
+        // $writer->save($tmpFile);
+
+        // // Return JSON berisi URL download (lebih aman untuk AJAX)
+        // return $this->response->setJSON([
+        //     'status'   => true,
+        //     'message'  => 'Export berhasil.',
+        //     'filename' => $filename,
+        //     // 'download_url' => base_url('admin/time_sheet/download-export?file=' . urlencode($filename)),
+        //     'download_url' => base_url('uploads/' . urlencode($filename)),
+        // ]);
+
+        // return $this->respond($builder, 200);
+
+
+        $tmpPath = WRITEPATH . 'uploads/export/' . $filename;
+        if (!is_dir(dirname($tmpPath))) mkdir(dirname($tmpPath), 0755, true);
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer->save($tmpPath);
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
+
+        // response()->download() -> CI4 kirim header Content-Disposition
+        return $this->response->download($tmpPath, null)
+            ->setFileName($filename);
     }
 }

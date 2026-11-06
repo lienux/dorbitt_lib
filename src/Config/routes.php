@@ -364,6 +364,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
         $routes->get('report-wa',         'TimeSheetController::reportWa');
         $routes->get('latest-coordinate', 'TimeSheetController::latestCoordinate');
+        $routes->get('export-excel', 'TimeSheetController::exportExcel');
         // $routes->get('my-ijo', 'TimeSheetKapal::show_myIjo');
         // $routes->get('me-crew', 'TimeSheetKapal::show_meCrew');
 
