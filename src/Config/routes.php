@@ -457,6 +457,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('create', 'CrewController::create');
         $routes->post('update/(:num)', 'CrewController::update/$1');
         $routes->delete('delete/(:num)', 'CrewController::delete/$1');
+        $routes->post('tr_sign_on_off/(:any)', 'CrewController::tr_sign_on_off/$1');
 
         $routes->get('crew-ranks', 'CrewController::show_ranks');
         $routes->get('show_tugboat', 'CrewController::show_vessel');
