@@ -485,7 +485,7 @@ var $ummu = {
 
                 // 2. Maksimal umur 60 tahun -> Batas tanggal lahir TERPaling TUA (minDate)
                 // Mengambil tanggal hari ini, lalu dikurangi 60 tahun
-                const minBirthDate = new Date(today.getFullYear() - 60, today.getMonth(), today.getDate());
+                const minBirthDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
 
                 // 3. Minimal umur 18 tahun -> Batas tanggal lahir TERPaling MUDA (maxDate)
                 // Mengambil tanggal hari ini, lalu dikurangi 18 tahun
