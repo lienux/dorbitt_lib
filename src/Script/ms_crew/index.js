@@ -70,6 +70,10 @@ var app = {
                     console.log("rank_id dipilih:", row);
                 }
             });
+
+            $('#btn_tr_sign_on').on('click', function(){
+                app.controllers.tr_sign_on_off('on');
+            });
         },
     },
 
@@ -320,7 +324,14 @@ var app = {
 
         sbEdit: function () {
             // 
-            $('#fixed_cost, #variable_cost').prop('disabled', false);
+            // $('#fixed_cost, #variable_cost').prop('disabled', false);
+            if ($('#tugboat').val()) {
+                $('#btn_show_vessel').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
+            }
+
+            if ($('#crew_ranks').val()) {
+                $('#btn_show_ranks').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
+            }
         },
 
         sbDelete: function(id) {
@@ -392,6 +403,70 @@ var app = {
             // console.log(row)
             $("#rank_id").val(row.rank_name_en).attr('data-id', row.id)
         },
+
+        tr_sign_on_off: function (tr) {
+            const id = $ummu.url.getParam('id');
+            const employee_id = $ummu.url.getParam('employee_id');
+
+            const sign_on_place = $("#sign_on_place").val();
+            const sign_on_date = $("#sign_on_date").val();
+            const sign_off_place = $("#sign_off_place").val();
+            const sign_off_date = $("#sign_off_date").val();
+            const remarks = $("#remarks").val();
+
+            // =============================================================
+            // =============================================================
+            // =============================================================
+            $ummu.vars.formData = new FormData();
+            
+            $ummu.vars.formData.append("employee_id", employee_id);
+            $ummu.vars.formData.append("sign_on_place", sign_on_place);
+            $ummu.vars.formData.append("sign_on_date", sign_on_date);
+            $ummu.vars.formData.append("sign_off_place", sign_off_place);
+            $ummu.vars.formData.append("sign_off_date", sign_off_date);
+
+            var params = {
+                "function": 'tr_sign_on_off/' + tr,
+                "data": $ummu.vars.formData,
+                "loader": true,
+            };
+
+            // // validasi dulu
+            // if (typeof validateCrewForm === 'function' && !validateCrewForm()) {
+            //     // otomatis pindah ke tab yang error
+            //     return;
+            // }
+
+            // const validation = app.validation.save();
+            const validation = '';
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            }else{
+                var ummu = $ummu.ajax.ummu7(params);   
+                ummu.done(function(result) {
+                    const response = JSON.parse(result);
+                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
+                    // if (response.status == true) {
+                    // //     $("#file_url").attr("href", response.data.fileUrl)
+                    // //     let is_release = response.data.is_release;
+                    // //     if (is_release == null || is_release == '' || is_release == 0) {
+                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                    // //     }else{
+                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    // //     }
+                    // }else{
+                    // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    // }
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            }
+
+            // console.log(payload)
+        },
     },
 
     validation: {
@@ -442,7 +517,11 @@ var app = {
 
             $("#tugboat").val(row.vessel_name).attr('data-id', row.vessel_id);
             $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
-            $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
+            if (row.coc_id) {
+                $("#highest_coc_certificate").val(row.coc_id).trigger('change');
+            }else{
+                $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
+            }
             $("#coc_certificate_number").val(row.coc_certificate_number);
             $("#coc_expiry_date").val(row.coc_expiry_date);
             $("#seaman_book_number").val(row.seaman_book_number);
@@ -546,7 +625,11 @@ var app = {
                         className: 'align-middle',
                         render: function(data, type, row) {
                             var html = "";
-                            var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
+                            if (row.coc_id) {
+                                var html = `<span class="badge badge-light border border-secondary text-secondary">${row.coc_bagian} - ${row.coc_name}</span>`;
+                            }else{
+                                var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
+                            }
 
                             return html;
                         }

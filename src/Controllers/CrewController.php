@@ -30,6 +30,12 @@ class CrewController extends ResourceController
 
     public function index()
     {
+        $rows_keahlian = [];
+        $keahlian = $this->get_keahlian();
+        if ($keahlian->status == true) {
+            $rows_keahlian = $keahlian->rows;
+        }
+
         $data = [
             'page_title' => '<i class="fas fa-users-cog text-info mr-2"></i> Master Crew Database',
             'module_kode' => $this->module_kode,
@@ -50,8 +56,10 @@ class CrewController extends ResourceController
                     "active" => "active"
                 ]
             ],
+            'keahlian' => $rows_keahlian,
         ];
         return view($this->vH->ummuViewPartialIndex(), $data);
+        // return $this->respond($data, 200);
     }
 
     public function show($id = null)
@@ -168,7 +176,7 @@ class CrewController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function show_keahlian()
+    private function get_keahlian()
     {
         $payload = $this->umHelp->dt_payload2();
         // $payload = array_merge($payload, [
@@ -186,7 +194,12 @@ class CrewController extends ResourceController
 
         $builder = $this->cH->ummuGet($path, $headers);
 
-        return $this->respond($builder, 200);
+        return $builder;
+    }
+
+    public function show_keahlian()
+    {
+        return $this->respond($this->get_keahlian(), 200);
     }
 
     private function payload()
@@ -275,10 +288,10 @@ class CrewController extends ResourceController
             'passport_expiry' => $passport_expiry,
 
             'current_crew_status' => $current_crew_status,
-            'sign_on_place' => $sign_on_place,
-            'sign_on_date' => $sign_on_date,
-            'sign_off_place' => $sign_off_place,
-            'sign_off_date' => $sign_off_date,
+            // 'sign_on_place' => $sign_on_place,
+            // 'sign_on_date' => $sign_on_date,
+            // 'sign_off_place' => $sign_off_place,
+            // 'sign_off_date' => $sign_off_date,
 
             'wearpack_size' => $wearpack_size,
             'safety_shoes_size' => $safety_shoes_size,
@@ -294,5 +307,40 @@ class CrewController extends ResourceController
         }
 
         return $payload;
+    }
+
+    public function tr_sign_on_off($tr)
+    {
+        $employee_id = $this->request->getPost('employee_id');
+        $sign_on_place = $this->request->getPost('sign_on_place');
+        $sign_on_date = $this->request->getPost('sign_on_date');
+        $sign_off_place = $this->request->getPost('sign_off_place');
+        $sign_off_date = $this->request->getPost('sign_off_date');
+
+        if ($tr == 'on') {
+            $payload = [
+                'employee_id' => $employee_id,
+                'sign_on_place' => $sign_on_place,
+                'sign_on_date' => $sign_on_date,
+            ];
+        }else{
+            $payload = [
+                'employee_id' => $employee_id,
+                'sign_off_place' => $sign_off_place,
+                'sign_off_date' => $sign_off_date,
+            ];
+        }
+
+        $params = [
+            "path" => $this->pathAPI . '/tr_sign_on_off/' . $tr,
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        // $builder = $this->cH->ummu2($params);
+        $builder = $params;
+
+        return $this->respond($builder, 200);
     }
 }

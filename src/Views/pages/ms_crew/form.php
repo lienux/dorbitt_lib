@@ -86,6 +86,12 @@
                 <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-status">0</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-transaction" data-toggle="tab" href="#pane-transaction" role="tab">
+                <i class="fas fa-toggle-off"></i> Transaction
+                <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-transaction">0</span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content" id="crewFormTabContent">
@@ -268,7 +274,7 @@
                 <div class="col-lg-6 col-sm-12">
                     <div class="section-title mb-3"><i class="fas fa-syringe mr-1"></i> Kesehatan & Komersial</div>
 
-                    <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="vaccination_info">
                             Vaksin
                         </label>
@@ -277,7 +283,7 @@
                                 <input type="text" class="form-control form-control-sm endis" id="vaccination_info" placeholder="cth: BOOSTER 1" title="Vaksin" disabled>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="basic_salary">
@@ -366,12 +372,15 @@
                             <div class="input-group input-group-sm">
                                 <select class="form-control form-control-sm endis" id="highest_coc_certificate" disabled>
                                     <option value="">- Pilih Kualifikasi -</option>
-                                    <option value="ANT-III">ANT-III</option>
+                                    <?php foreach ($keahlian as $key => $value) { ?>
+                                        <option value="<?=$value->id?>"><?='[' . $value->bagian . '] ' . $value->name?></option>
+                                    <?php } ?>
+                                    <!-- <option value="ANT-III">ANT-III</option>
                                     <option value="ANT-IV">ANT-IV</option>
                                     <option value="ANT-V">ANT-V</option>
                                     <option value="ATT-III">ATT-III</option>
                                     <option value="ATT-IV">ATT-IV</option>
-                                    <option value="RATING">RATING (Asisten)</option>
+                                    <option value="RATING">RATING (Asisten)</option> -->
                                 </select>
                             </div>
                         </div>
@@ -516,7 +525,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="sign_on_place">
                             Tempat Sign On
                         </label>
@@ -570,7 +579,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Perlengkapan & Catatan -->
@@ -613,6 +622,146 @@
                         </label>
                         <div class="col">
                             <textarea class="form-control form-control-sm endis" id="remarks" rows="3" placeholder="Catatan tambahan, mis. dokumen sedang proses perpanjangan..." disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 6: TRANSACTION                                        -->
+        <!-- ============================================================ -->
+        <div class="tab-pane fade" id="pane-transaction" role="tabpanel">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="tr_tugboat">
+                            Perpindahan Kapal
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm is-data-id" id="tr_tugboat" placeholder="Pilih Kapal" data-label="Vessel" required disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary show-left-modal" id="btn_show_vessel" type="button" data-inputid="tr_tugboat" data-modaltitle="Master Vessel">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button class="btn btn-warning" id="btn_update_tr_kapal" type="button">
+                                        <i class="fas fa-save"></i> Update
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control form-control-sm" id="remark_pindah_kapal" placeholder="Alasan Perpindahan Rank">
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="tr_rank">
+                            Update Rank
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm is-data-id" id="tr_rank" placeholder="Pilih Rank" data-label="Rank" required disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary endis show-left-modal btn-endis" id="btn_show_rank" type="button" data-inputid="tr_rank" data-modaltitle="Master Rank">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button class="btn btn-warning" id="btn_update_tr_rank" type="button">
+                                        <i class="fas fa-save"></i> Update
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control form-control-sm" id="remark_update_rank" placeholder="Alasan Update Rank">
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="tr_gapok">
+                            Kenaikan Gaji Pokok
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm is-data-id" id="tr_gapok" placeholder="Pilih Vessel" data-label="Vessel" required disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary endis show-left-modal btn-endis" id="btn_show_vessel" type="button" data-inputid="tr_gapok" data-modaltitle="Master Vessel">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button class="btn btn-warning" id="btn_update_tr_kapal" type="button">
+                                        <i class="fas fa-save"></i> Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="section-title mb-3"><i class="fas fa-ship mr-1"></i> Transaction Sign On / Sign Off Crew</div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_status">
+                            Current Sign Status
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div id="sign_status"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_type">
+                            Sign Type <span class="text-danger"> *</span>
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <select class="form-control form-control-sm endis" id="sign_type">
+                                    <option value="">- Pilih Sign On / Off -</option>
+                                    <option value="on">Sign On</option>
+                                    <option value="off">Sign Off</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_place">
+                            Sign Place
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" id="sign_place" title="Tempat Sign">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_date">
+                            Sign Date
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control ummu-datepicker" id="sign_date" title="Tanggal Sign" placeholder="Pilih tanggal" readonly disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-show-datepicker" type="button"
+                                        data-inputid="sign_date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </button>
+                                    <button class="btn btn-warning" id="btn_tr_sign_on_off" type="button">
+                                        <i class="fas fa-save"></i> Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_remark">
+                            Remark
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <textarea class="form-control form-control-sm" id="sign_remark"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
