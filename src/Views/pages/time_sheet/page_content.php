@@ -113,7 +113,6 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Jam</th>
-                        <!-- <th>Crew / NIK</th> -->
                         <th>Activity</th>
                         <th>Lokasi / Posisi</th>
                         <th>Speed</th>
@@ -146,7 +145,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light">
                 <h5 class="modal-title"><i class="fas fa-edit text-primary mr-2"></i><span id="formTitle">Form Input Timesheet</span></h5>
-                <button type="button" class="close" data-dismiss="modal" id="close_modal_form_timesheet"><span>&times;</span></button>
+                <button type="button" class="close ummu-close-modal" data-dismiss="modal" for="timesheetModal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
                 <form id="formTimesheet">
@@ -223,20 +222,35 @@
                                 <div class="mb-2">
                                     <small class="text-muted d-block mb-1">Latitude</small>
                                     <div class="form-row">
-                                        <div class="form-group col-3 mb-1"><div class="input-group input-group-sm">
-                                            <input type="number" class="form-control dms-input" id="lat_deg" min="0" max="90" placeholder="6">
-                                            <div class="input-group-append"><span class="input-group-text dms-suffix">°</span></div>
-                                        </div></div>
-                                        <div class="form-group col-3 mb-1"><div class="input-group input-group-sm">
-                                            <input type="number" class="form-control dms-input" id="lat_min" min="0" max="59" placeholder="6">
-                                            <div class="input-group-append"><span class="input-group-text dms-suffix">'</span></div>
-                                        </div></div>
-                                        <div class="form-group col-3 mb-1"><div class="input-group input-group-sm">
-                                            <input type="number" step="0.01" class="form-control dms-input" id="lat_sec" min="0" max="59.99" placeholder="0">
-                                            <div class="input-group-append"><span class="input-group-text dms-suffix">"</span></div>
-                                        </div></div>
                                         <div class="form-group col-3 mb-1">
-                                            <select class="form-control form-control-sm" id="lat_dir"><option value="N">N</option><option value="S">S</option></select>
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control dms-input" id="lat_deg" min="0" max="90" placeholder="6">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text dms-suffix">°</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3 mb-1">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control dms-input" id="lat_min" min="0" max="59" placeholder="6">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text dms-suffix">'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3 mb-1">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" step="0.01" class="form-control dms-input" id="lat_sec" min="0" max="59.99" placeholder="0">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text dms-suffix">"</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3 mb-1">
+                                            <select class="form-control form-control-sm" id="lat_dir">
+                                                <option value="N">N</option>
+                                                <option value="S">S</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -392,7 +406,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title"><i class="fab fa-whatsapp mr-2"></i>Preview Laporan WhatsApp</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                <button type="button" class="close text-white ummu-close-modal" data-dismiss="modal" for="waModal"><span>&times;</span></button>
             </div>
             <div class="modal-body p-0">
                 <textarea id="waPreview" class="form-control border-0"
@@ -400,7 +414,7 @@
                           readonly></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-times mr-1"></i>Tutup</button>
+                <button type="button" class="btn btn-secondary btn-sm ummu-close-modal" for="waModal" data-dismiss="modal"><i class="fas fa-times mr-1"></i>Tutup</button>
                 <button type="button" class="btn btn-outline-success btn-sm" id="btnOpenWA"><i class="fab fa-whatsapp mr-1"></i>Buka WhatsApp</button>
                 <button type="button" class="btn btn-success btn-sm" id="btnCopyClipboard"><i class="fas fa-copy mr-1"></i>Copy ke Clipboard</button>
             </div>
