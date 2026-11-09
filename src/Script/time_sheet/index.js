@@ -763,7 +763,7 @@ var app = {
 };
 
 $(document).ready(function () {
-    app.config.autoload()
+    // app.config.autoload()
 
     // ==================== STATE ====================
     let currentIjo   = null;
@@ -773,228 +773,201 @@ $(document).ready(function () {
     let currentFormat = 'DMS';
 
     // ==================== INIT ====================
-    $(function() {
-        $('#ijoSelect').select2({
-            placeholder: '-- Cari / Pilih Shipping / IJO --',
-            allowClear: true,
-            width: '100%'
-        });
+    $('#ijoSelect').select2({
+        placeholder: '-- Cari / Pilih Shipping / IJO --',
+        allowClear: true,
+        width: '100%'
+    });
 
-        $('#activitySelect').select2({
-            placeholder: '-- Cari / Pilih Activity --',
-            allowClear: true,
-            width: '100%',
-            dropdownParent: $('#timesheetModal')
-        });
+    $('#activitySelect').select2({
+        placeholder: '-- Cari / Pilih Activity --',
+        allowClear: true,
+        width: '100%',
+        dropdownParent: $('#timesheetModal')
+    });
 
-        loadIjoList();
+    // FIX #5: tunggu IJO list selesai dulu, baru load activities + auto-select URL
+    loadIjoList(function () {
         loadActivities();
+    });
 
-
-        // === BINDING BERLAPIS (paling aman) ===
-        // 1. Native change (untuk browser normal)
-        // $(document).on('change', '#ijoSelect', handleIjoChange);
-
-        // 2. Select2 event (untuk Select2 UI)
-        $(document).on('select2:select', '#ijoSelect', handleIjoChange);
-        $(document).on('select2:unselect', '#ijoSelect', handleIjoChange);
-
-        // 3. Fallback: pantau perubahan value secara berkala (hanya jika 1 & 2 gagal)
-        //    — TIDAK direkomendasikan kecuali darurat
-        // let lastVal = null;
-        // setInterval(function() {
-        //     const v = $('#ijoSelect').val();
-        //     if (v !== lastVal) { lastVal = v; handleIjoChange(); }
-        // }, 300);
-
-        // 4. Debug: pastikan binding terpasang
-        console.log('[IJO] bindings attached. Element count:', $('#ijoSelect').length);
-
-        // ==================== FILTER ====================
-        $('#btnFilter').on('click', loadTimesheets);
-        $('#btnResetFilter').on('click', function() {
-            $('#filterStatus').val('');
-            $('#filterDateFrom').val('');
-            $('#filterDateTo').val('');
-            loadTimesheets();
-        });
-        $('#btnReloadIjo').on('click', loadIjoList);
-        $('#btnGetAllIjo').on('click', loadAllIjoList);
-
-        $('#formatSwitch button').on('click', function() {
-            const fmt = $(this).data('format');
-            if (fmt === currentFormat) return;
-            currentFormat = fmt;
-            $('#coord_format').val(fmt);
-            $('#formatSwitch button').removeClass('active');
-            $(this).addClass('active');
-            $('.coord-format-section').removeClass('active');
-            $(`.coord-format-section[data-format="${fmt}"]`).addClass('active');
-            if (fmt === 'DD') syncFromDMS(); else syncFromDD();
-        });
-
-        $('#latitude_dd, #longitude_dd').on('input', function () { $('#coord_source').val('manual'); syncFromDD(); });
-        $('#lat_deg, #lat_min, #lat_sec, #lat_dir, #lng_deg, #lng_min, #lng_sec, #lng_dir').on('input change', function () {
-            $('#coord_source').val('manual'); syncFromDMS();
-        });
-
-        $('#btnGetLocation').on('click', function() {
-            const $btn = $(this), $status = $('#coordStatus');
-            if (!navigator.geolocation) {
-                $status.removeClass('success').addClass('error').html('<i class="fas fa-times-circle mr-1"></i>Browser tidak mendukung Geolocation.');
-                return;
-            }
-            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
-            $status.removeClass('success error').html('<i class="fas fa-spinner fa-spin mr-1"></i>Mengambil koordinat...');
-            navigator.geolocation.getCurrentPosition(
-                function(pos) {
-                    const lat = pos.coords.latitude.toFixed(6);
-                    const lng = pos.coords.longitude.toFixed(6);
-                    const acc = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : '-';
-                    setCoordinates(lat, lng, 'gps');
-                    $status.removeClass('error').addClass('success').html(`<i class="fas fa-check-circle mr-1"></i>Koordinat diambil (akurasi ±${acc} m)`);
-                    $btn.prop('disabled', false).html('<i class="fas fa-crosshairs mr-1"></i>GPS');
-                },
-                function(err) {
-                    let msg = 'Gagal mengambil lokasi.';
-                    if (err.code === 1) msg = 'Akses lokasi ditolak.';
-                    if (err.code === 2) msg = 'Posisi tidak tersedia.';
-                    if (err.code === 3) msg = 'Timeout. Coba lagi.';
-                    $status.removeClass('success').addClass('error').html(`<i class="fas fa-times-circle mr-1"></i>${msg}`);
-                    $btn.prop('disabled', false).html('<i class="fas fa-crosshairs mr-1"></i>GPS');
-                },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-            );
-        });
-
-        $('#btnReset').on('click', resetForm);
-
-        $('#btnSubmitForm').on('click', function() { submitTimesheet('submit'); });
-
-        // ==================== TAMBAH BARU ====================
-        $('#btnTambahData').on('click', function() {
-            if (!currentIjo) { alert('Pilih IJO terlebih dahulu.'); return; }
-            resetForm();
-            $('#timesheetModal').modal('show');
-        });
-
-        $('#btnCopyWA').on('click', function() {
-            const $btn = $(this);
-            const orig = $btn.html();
-            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Memuat...');
-
-            loadWaReport(function(text) {
-                $('#waPreview').val(text);
-                $('#waModal').modal('show');
-                $btn.prop('disabled', false).html(orig);
-            });
-        });
-
-        $('#btnCopyClipboard').on('click', function() {
-            const text = $('#waPreview').val();
-            if (!text) { alert('Tidak ada text.'); return; }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(function() {
-                    alert('Laporan berhasil dicopy. Silakan paste di WhatsApp.');
-                    $('#waModal').modal('hide');
-                }).catch(function() { fallbackCopy(text); });
-            } else { fallbackCopy(text); }
-        });
-
-        $('#btnOpenWA').on('click', function() {
-            const text = $('#waPreview').val();
-            if (!text) { alert('Tidak ada text.'); return; }
-            const encoded = encodeURIComponent(text);
-            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            if (isMobile) window.open('whatsapp://send?text=' + encoded, '_blank');
-            else window.open('https://web.whatsapp.com/send?text=' + encoded, '_blank');
-        });
-
-        /*$('#btnReloadIjo').on('click', function() {
-            const $btn = $(this);
-            const orig = $btn.html();
-            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Loading...');
-            loadIjoList();
-            // Re-enable setelah loader selesai (delay mengikuti loader)
-            setTimeout(function() {
-                $btn.prop('disabled', false).html(orig);
-            }, 1200);
-        });*/
-
-        /*$('#btnGetAllIjo').on('click', function() {
-            const $btn = $(this);
-            const orig = $btn.html();
-            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Loading...');
-            loadAllIjoList();
-            // Re-enable setelah loader selesai (delay mengikuti loader)
-            setTimeout(function() {
-                $btn.prop('disabled', false).html(orig);
-            }, 1200);
-        });*/
-
-        $('#close_modal_form_timesheet').on('click', function(){
-            $('#timesheetModal').modal('hide')
+    // FIX #1: binding pakai wrapper, bukan langsung handleIjoChange
+    // FIX #4: tambahkan juga handler 'change' sebagai fallback programmatic trigger
+    $('#ijoSelect')
+        .on('select2:select', function (e) {
+            handleIjoChange(e.params.data.id);
         })
+        .on('select2:unselect', function () {
+            handleIjoChange(null);
+        })
+        .on('change', function () {
+            const v = $(this).val();
+            // hanya trigger kalau beda dari currentIjo (hindari double-call dari select2:select)
+            if (v && (!currentIjo || String(currentIjo.id) !== String(v))) {
+                handleIjoChange(v);
+            } else if (!v && currentIjo) {
+                handleIjoChange(null);
+            }
+        });
 
-        // ==================== EXPORT EXCEL (AJAX) ====================
-        $('#btnExportExcel').on('click', function () {
-            const ijoId = $('#ijoSelect').val();
-            if (!ijoId) return alert('Pilih IJO terlebih dahulu!');
+    console.log('[IJO] bindings attached. Element count:', $('#ijoSelect').length);
 
-            const params = new URLSearchParams({
-                ijo_id: ijoId,
-                date_from: $('#waDateFrom').val() || '',
-                date_to:   $('#waDateTo').val() || '',
-                status:    $('#filterStatus').val() || '',
-            });
+    // ==================== FILTER ====================
+    $('#btnFilter').on('click', loadTimesheets);
+    $('#btnResetFilter').on('click', function() {
+        $('#filterStatus').val('');
+        $('#filterDateFrom').val('');
+        $('#filterDateTo').val('');
+        loadTimesheets();
+    });
+    $('#btnReloadIjo').on('click', function () { loadIjoList(); });
+    $('#btnGetAllIjo').on('click', loadAllIjoList);
 
-            const $btn = $(this);
-            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Exporting...');
+    $('#formatSwitch button').on('click', function() {
+        const fmt = $(this).data('format');
+        if (fmt === currentFormat) return;
+        currentFormat = fmt;
+        $('#coord_format').val(fmt);
+        $('#formatSwitch button').removeClass('active');
+        $(this).addClass('active');
+        $('.coord-format-section').removeClass('active');
+        $(`.coord-format-section[data-format="${fmt}"]`).addClass('active');
+        if (fmt === 'DD') syncFromDMS(); else syncFromDD();
+    });
 
-            $.ajax({
-                url: BASE_URL + '/export-excel?' + params.toString(),
-                method: 'GET',
-                xhrFields: { responseType: 'blob' },  // ⬅️ KUNCI
-                success: function (blob, status, xhr) {
-                    // Cek kalau ternyata error JSON
-                    const ct = xhr.getResponseHeader('Content-Type') || '';
-                    if (ct.includes('application/json')) {
-                        const reader = new FileReader();
-                        reader.onload = function () {
-                            try {
-                                const json = JSON.parse(reader.result);
-                                alert('Export gagal: ' + (json.message || 'Unknown error'));
-                            } catch (e) {
-                                alert('Export gagal.');
-                            }
-                        };
-                        reader.readAsText(blob);
-                        return;
-                    }
+    $('#latitude_dd, #longitude_dd').on('input', function () { $('#coord_source').val('manual'); syncFromDD(); });
+    $('#lat_deg, #lat_min, #lat_sec, #lat_dir, #lng_deg, #lng_min, #lng_sec, #lng_dir').on('input change', function () {
+        $('#coord_source').val('manual'); syncFromDMS();
+    });
 
-                    // Ambil filename
-                    let filename = 'Timesheet.xlsx';
-                    const disposition = xhr.getResponseHeader('Content-Disposition') || '';
-                    const match = disposition.match(/filename\*?=(?:UTF-8'')?["']?([^"';]+)["']?/i);
-                    if (match && match[1]) filename = decodeURIComponent(match[1]);
+    $('#btnGetLocation').on('click', function() {
+        const $btn = $(this), $status = $('#coordStatus');
+        if (!navigator.geolocation) {
+            $status.removeClass('success').addClass('error').html('<i class="fas fa-times-circle mr-1"></i>Browser tidak mendukung Geolocation.');
+            return;
+        }
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+        $status.removeClass('success error').html('<i class="fas fa-spinner fa-spin mr-1"></i>Mengambil koordinat...');
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                const lat = pos.coords.latitude.toFixed(6);
+                const lng = pos.coords.longitude.toFixed(6);
+                const acc = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : '-';
+                setCoordinates(lat, lng, 'gps');
+                $status.removeClass('error').addClass('success').html(`<i class="fas fa-check-circle mr-1"></i>Koordinat diambil (akurasi ±${acc} m)`);
+                $btn.prop('disabled', false).html('<i class="fas fa-crosshairs mr-1"></i>GPS');
+            },
+            function(err) {
+                let msg = 'Gagal mengambil lokasi.';
+                if (err.code === 1) msg = 'Akses lokasi ditolak.';
+                if (err.code === 2) msg = 'Posisi tidak tersedia.';
+                if (err.code === 3) msg = 'Timeout. Coba lagi.';
+                $status.removeClass('success').addClass('error').html(`<i class="fas fa-times-circle mr-1"></i>${msg}`);
+                $btn.prop('disabled', false).html('<i class="fas fa-crosshairs mr-1"></i>GPS');
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+        );
+    });
 
-                    // Download
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                },
-                error: function (xhr) {
-                    alert('Export gagal: HTTP ' + xhr.status);
-                },
-                complete: function () {
-                    $btn.prop('disabled', false).html('<i class="fas fa-file-excel mr-1"></i> Export Excel');
+    $('#btnReset').on('click', resetForm);
+
+    $('#btnSubmitForm').on('click', function() { submitTimesheet('submit'); });
+
+    // ==================== TAMBAH BARU ====================
+    $('#btnTambahData').on('click', function() {
+        if (!currentIjo) { alert('Pilih IJO terlebih dahulu.'); return; }
+        resetForm();
+        $('#timesheetModal').modal('show');
+    });
+
+    $('#btnCopyWA').on('click', function() {
+        const $btn = $(this);
+        const orig = $btn.html();
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Memuat...');
+
+        loadWaReport(function(text) {
+            $('#waPreview').val(text);
+            $('#waModal').modal('show');
+            $btn.prop('disabled', false).html(orig);
+        });
+    });
+
+    $('#btnCopyClipboard').on('click', function() {
+        const text = $('#waPreview').val();
+        if (!text) { alert('Tidak ada text.'); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Laporan berhasil dicopy. Silakan paste di WhatsApp.');
+                $('#waModal').modal('hide');
+            }).catch(function() { fallbackCopy(text); });
+        } else { fallbackCopy(text); }
+    });
+
+    $('#btnOpenWA').on('click', function() {
+        const text = $('#waPreview').val();
+        if (!text) { alert('Tidak ada text.'); return; }
+        const encoded = encodeURIComponent(text);
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isMobile) window.open('whatsapp://send?text=' + encoded, '_blank');
+        else window.open('https://web.whatsapp.com/send?text=' + encoded, '_blank');
+    });
+
+    // ==================== EXPORT EXCEL (AJAX) ====================
+    $('#btnExportExcel').on('click', function () {
+        const ijoId = $('#ijoSelect').val();
+        if (!ijoId) return alert('Pilih IJO terlebih dahulu!');
+
+        const params = new URLSearchParams({
+            ijo_id: ijoId,
+            date_from: $('#waDateFrom').val() || '',
+            date_to:   $('#waDateTo').val() || '',
+            status:    $('#filterStatus').val() || '',
+        });
+
+        const $btn = $(this);
+        const origHtml = $btn.html();
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Exporting...');
+
+        $.ajax({
+            url: BASE_URL + '/export-excel?' + params.toString(),
+            method: 'GET',
+            xhrFields: { responseType: 'blob' },
+            success: function (blob, status, xhr) {
+                const ct = xhr.getResponseHeader('Content-Type') || '';
+                if (ct.includes('application/json')) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        try {
+                            const json = JSON.parse(reader.result);
+                            alert('Export gagal: ' + (json.message || 'Unknown error'));
+                        } catch (e) {
+                            alert('Export gagal.');
+                        }
+                    };
+                    reader.readAsText(blob);
+                    return;
                 }
-            });
+
+                let filename = 'Timesheet.xlsx';
+                const disposition = xhr.getResponseHeader('Content-Disposition') || '';
+                const match = disposition.match(/filename\*?=(?:UTF-8'')?["']?([^"';]+)["']?/i);
+                if (match && match[1]) filename = decodeURIComponent(match[1]);
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            },
+            error: function (xhr) {
+                alert('Export gagal: HTTP ' + xhr.status);
+            },
+            complete: function () {
+                $btn.prop('disabled', false).html(origHtml);
+            }
         });
     });
 
@@ -1044,16 +1017,32 @@ $(document).ready(function () {
         return d && d !== '0000-00-00' && !d.startsWith('0000');
     }
 
-    // ==================== PILIH IJO (DEFENSIVE) ====================
-    function handleIjoChange() {
-        const $sel = $('#ijoSelect');
-        const id = $sel.val();
-
-        if (id && String(id) !== String($ummu.url.getParam('ijo_id') || '')) {
+    // FIX #3: helper untuk ambil ijo_id dari URL dengan guard $ummu
+    function getUrlIjoId() {
+        if (window.$ummu && $ummu.url && typeof $ummu.url.getParam === 'function') {
+            return $ummu.url.getParam('ijo_id');
+        }
+        return new URLSearchParams(location.search).get('ijo_id');
+    }
+    function setUrlIjoId(id) {
+        if (window.$ummu && $ummu.url && typeof $ummu.url.setParam === 'function') {
             $ummu.url.setParam('ijo_id', id);
         }
+        // fallback: tidak wajib, kalau $ummu tidak ada, biarkan
+    }
 
-        // DEBUG
+    // ==================== PILIH IJO (DEFENSIVE) ====================
+    // FIX #2: ekspos ke window supaya bisa dipanggil dari mana saja
+    window.handleIjoChange = function (id) {
+        const $sel = $('#ijoSelect');
+        // FIX #1: pakai assignment, bukan const redeclare
+        if (id === undefined) id = $sel.val();
+
+        const urlIjoId = getUrlIjoId();
+        if (id && String(id) !== String(urlIjoId || '')) {
+            setUrlIjoId(id);
+        }
+
         console.log('[IJO] change triggered. id =', id);
 
         if (!id) {
@@ -1064,35 +1053,42 @@ $(document).ready(function () {
             return;
         }
 
-        // Ambil data-ijo — coba via attr, lalu fallback via .data()
+        // FIX #6: pakai .data() sebagai primary, fallback ke attr
         const $opt = $sel.find('option:selected');
-        let dataIjo = $opt.attr('data-ijo');
+        let dataIjo = $opt.data('ijo');
+
         if (!dataIjo) {
-            // Fallback: kadang Select2 men-clone option, cek via data()
-            const raw = $opt.data('ijo');
-            if (raw && typeof raw === 'object') {
-                currentIjo = raw;
-                console.log('[IJO] loaded via .data()', currentIjo);
-                finishIjoSelection();
-                return;
+            const raw = $opt.attr('data-ijo');
+            if (raw) {
+                try { dataIjo = JSON.parse(raw); }
+                catch (e) {
+                    console.error('[IJO] Gagal parse JSON data-ijo:', e, '\nRaw:', raw);
+                    alert('Data IJO rusak / tidak valid. Coba reload halaman.');
+                    return;
+                }
             }
-            console.error('[IJO] data-ijo tidak ditemukan pada option. Cek apakah option punya attr data-ijo.');
+        }
+
+        if (!dataIjo) {
+            console.error('[IJO] data IJO tidak ditemukan pada option. Cek apakah option punya .data("ijo").');
             alert('Data IJO tidak ditemukan. Coba reload halaman.');
             return;
         }
 
-        // Parse JSON dengan try/catch
-        try {
-            currentIjo = JSON.parse(dataIjo);
-        } catch (e) {
-            console.error('[IJO] Gagal parse JSON data-ijo:', e, '\nRaw:', dataIjo);
-            alert('Data IJO rusak / tidak valid. Coba reload halaman.');
-            return;
+        // kalau dataIjo ternyata string (dari attr), parse
+        if (typeof dataIjo === 'string') {
+            try { dataIjo = JSON.parse(dataIjo); }
+            catch (e) {
+                console.error('[IJO] Gagal parse string dataIjo:', e);
+                alert('Data IJO rusak / tidak valid.');
+                return;
+            }
         }
 
+        currentIjo = dataIjo;
         console.log('[IJO] loaded:', currentIjo);
         finishIjoSelection();
-    }
+    };
 
     function finishIjoSelection() {
         if (!currentIjo) return;
@@ -1101,43 +1097,8 @@ $(document).ready(function () {
         loadTimesheets();
     }
 
-    // Bind ke event native change
-    // $('#ijoSelect').on('change', handleIjoChange);
-    // $(document).on('change', '#ijoSelect', handleIjoChange);
-
-    // // Bind juga ke Select2 event (backup, karena Select2 kadang tidak trigger native change)
-    // $(document).on('select2:select', '#ijoSelect', function(e) {
-    //     console.log('[IJO] select2:select event');
-    //     handleIjoChange();
-    // });
-    // $(document).on('select2:unselect', '#ijoSelect', function(e) {
-    //     console.log('[IJO] select2:unselect event');
-    //     handleIjoChange();
-    // });
-
-    // ==================== PILIH IJO ====================
-    /*$('#ijoSelect').on('change', function() {
-        const id = $(this).val();
-        const $opt = $(this).find('option:selected');
-        const dataIjo = $opt.attr('data-ijo');
-
-        if (!id || !dataIjo) {
-            currentIjo = null;
-            $('#ijoInfoCard, #listCard').hide();
-            $('#ijoMetaBadges').empty();
-            $('#timesheetList').html('<tr><td colspan="11" class="text-center text-muted py-4"><i class="fas fa-inbox fa-2x d-block mb-2"></i>Pilih IJO terlebih dahulu</td></tr>');
-            return;
-        }
-
-        currentIjo = JSON.parse(dataIjo);
-        renderIjoInfo(currentIjo);
-        $('#ijoInfoCard, #listCard').show();
-        loadTimesheets();
-    });*/
-
     // ==================== RENDER INFO IJO ====================
     function renderIjoInfo(ijo) {
-        // Header badge
         $('#ijoIdLabel').text('(ID ' + ijo.id + ')');
         $('#ijoNumberLabel').text(ijo.number || '-');
         $('#tugboatLabel').text(ijo.tugboat_name || '-');
@@ -1146,7 +1107,6 @@ $(document).ready(function () {
         $('#clientLabel').text(ijo.client_name || '-');
         $('#spalLabel').text(ijo.spal_number || '-');
 
-        // ETA loading
         let etaLoad = '-';
         if (isValidDate(ijo.eta_loading_port)) {
             etaLoad = formatDateIndo(ijo.eta_loading_port);
@@ -1156,7 +1116,6 @@ $(document).ready(function () {
         }
         $('#etaLoadingLabel').text(etaLoad);
 
-        // Status badge berdasarkan release_name
         const rel = (ijo.release_name || '').toLowerCase();
         let statusClass = 'text-primary', statusText = 'Release', statusIcon = 'check-circle';
         if (rel === 'done') { statusClass = 'text-success'; statusText = 'Done'; statusIcon = 'check-double'; }
@@ -1167,7 +1126,6 @@ $(document).ready(function () {
             .addClass(statusClass)
             .html(`<i class="fas fa-${statusIcon} mr-1"></i>${statusText}`);
 
-        // Meta badges di atas (client, spal, eta)
         const badges = [];
         if (ijo.client_name) badges.push(`<span class="badge badge-info"><i class="fas fa-building mr-1"></i>${escapeHtml(ijo.client_name)}</span>`);
         if (ijo.spal_number) badges.push(`<span class="badge badge-secondary"><i class="fas fa-file-alt mr-1"></i>SPAL ${escapeHtml(ijo.spal_number)}</span>`);
@@ -1175,7 +1133,6 @@ $(document).ready(function () {
         if (isValidDate(ijo.eta_loading_port)) badges.push(`<span class="badge badge-light border"><i class="fas fa-calendar-check mr-1"></i>ETA Load: ${formatDateIndo(ijo.eta_loading_port)}</span>`);
         $('#ijoMetaBadges').html(badges.join(''));
 
-        // Sinkron ke hidden form
         $('#formIjoId').val(ijo.id);
         $('#formIjoNumber').val(ijo.number);
         $('#formVesselId').val(ijo.tugboat_id || '');
@@ -1197,13 +1154,11 @@ $(document).ready(function () {
         if (dateFrom) qs += `&date_from=${dateFrom}`;
         if (dateTo)   qs += `&date_to=${dateTo}`;
 
-        // Tampilkan loader
         $ummu.showLoader('Mengambil data...');
 
         $('#timesheetList').html('<tr><td colspan="11" class="text-center py-4"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>');
 
         $.ajax({
-            // url: `${BASE_URL}/show/${currentIjo.id}?${qs}`,
             url: `${BASE_URL}/show?${qs}`,
             type: 'GET',
             dataType: 'json',
@@ -1246,12 +1201,8 @@ $(document).ready(function () {
             const tr = `
                 <tr data-id="${t.id}">
                     <td class="text-nowrap">${t.activity_date || '-'}</td>
-                    <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>`+
-                    // <td>
-                    //     <div class="font-weight-bold" style="font-size:.8rem;">${escapeHtml(t.crew_name || '-')}</div>
-                    //     <small class="text-muted">${escapeHtml(t.nika || '')}</small>
-                    // </td>
-                    `<td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
+                    <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>
+                    <td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
                     <td>${escapeHtml(t.location || '-')}</td>
                     <td>${t.speed_knot ? parseFloat(t.speed_knot).toFixed(2)+' kn' : '-'}</td>
                     <td>${t.distance_nm ? parseFloat(t.distance_nm).toFixed(2)+' NM' : '-'}</td>
@@ -1310,18 +1261,15 @@ $(document).ready(function () {
                 }
                 $sel.trigger('change.select2');
 
-                const ijoId = $ummu.url.getParam('ijo_id');
-
-                // Jika ada ijo_id di URL, jalankan handler otomatis
+                // FIX #4 & #5: auto-select ijo dari URL (list IJO sudah selesai load)
+                const ijoId = getUrlIjoId();
                 if (ijoId) {
-                    // Set value ke select2 (opsional, agar tampilan select juga ter-update)
-                    $('#ijoSelect').val(ijoId).trigger('change.select2');
-                //     $ummu.url.setParam('ijo_id', ijoId)
-
-                    // Panggil handler yang sama seperti saat select2:select
-                    // handleIjoChange({ params: { data: { id: ijoId } } });
-                    handleIjoChange();
-                    // handleIjoChange
+                    const exists = $('#ijoSelect option[value="' + ijoId + '"]').length > 0;
+                    if (exists) {
+                        $('#ijoSelect').val(ijoId).trigger('change');  // akan trigger handler 'change'
+                    } else {
+                        console.warn('[IJO] ijo_id dari URL tidak ada di daftar:', ijoId);
+                    }
                 }
             },
             error: function() {
@@ -1382,16 +1330,21 @@ $(document).ready(function () {
         $('#coord_source').val('manual');
         $('#coordStatus').removeClass('success error')
             .html('<i class="fas fa-info-circle mr-1"></i>Klik "GPS" untuk mengambil titik otomatis, atau ketik manual.');
+
+        // FIX #10: pakai format lokal, bukan toISOString() (hindari shift timezone)
         const now = new Date();
-        $('input[name="activity_date"]').val(now.toISOString().slice(0, 10));
+        const yyyy = now.getFullYear();
+        const mm   = String(now.getMonth() + 1).padStart(2, '0');
+        const dd   = String(now.getDate()).padStart(2, '0');
+        $('input[name="activity_date"]').val(`${yyyy}-${mm}-${dd}`);
+
         const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
+        const min = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
         $('#activityHour').val(hh);
-        $('#activityMinute').val(mm);
+        $('#activityMinute').val(min);
         syncActivityTime();
         $('#etaDate').val(''); $('#etaHour').val(''); $('#etaMinute').val(''); $('#etaTime').val('');
         $('#weatherCondition').val(''); $('#weatherOther').hide().val('');
-        // Sinkron IJO
         if (currentIjo) renderIjoInfo(currentIjo);
     }
 
@@ -1447,7 +1400,6 @@ $(document).ready(function () {
         const origHtml = $btn.html();
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...');
 
-        // Tampilkan loader
         $ummu.showLoader('Menyimpan data...');
 
         $.ajax({
@@ -1477,11 +1429,9 @@ $(document).ready(function () {
 
     // ==================== EDIT ====================
     $(document).on('click', '.btn-edit', function() {
-        console.log('.btn-edit is clicked.')
         if (!currentIjo) return;
         const id = $(this).data('id');
 
-        // Tampilkan loader
         $ummu.showLoader('Mengambil data...');
 
         $.get(`${BASE_URL}/show/${id}`, function(res) {
@@ -1553,7 +1503,6 @@ $(document).ready(function () {
     $(document).on('click', '.btn-detail', function() {
         const id = $(this).data('id');
 
-        // Tampilkan loader
         $ummu.showLoader('Mengambil data...');
 
         $.get(`${BASE_URL}/show/${id}`, function(res) {
@@ -1585,12 +1534,11 @@ $(document).ready(function () {
     // ==================== DELETE ====================
     $(document).on('click', '.btn-delete', function() {
         if (!confirm('Yakin hapus data timesheet ini? Tindakan tidak bisa dibatalkan.')) return;
-        
+
         const id = $(this).data('id');
-        
-        // Tampilkan loader
+
         $ummu.showLoader('Menghapus data...');
-        
+
         $.post(`${BASE_URL}/delete/${id}`, { [CSRF_NAME]: CSRF_HASH }, function(res) {
             $ummu.hideLoader();
             if (res.status) {
@@ -1604,36 +1552,6 @@ $(document).ready(function () {
             alert('Terjadi kesalahan server.');
         });
     });
-
-    // // Helper functions
-    // function showLoader(message = 'Memproses...') {
-    //     if ($('#global-loader').length === 0) {
-    //         $('body').append(`
-    //             <div id="global-loader" style="
-    //                 position: fixed; inset: 0; z-index: 9999;
-    //                 background: rgba(0,0,0,0.5);
-    //                 display: flex; align-items: center; justify-content: center;
-    //                 flex-direction: column; color: #fff; font-family: sans-serif;
-    //             ">
-    //                 <div class="loader-spinner" style="
-    //                     width: 50px; height: 50px;
-    //                     border: 5px solid rgba(255,255,255,0.3);
-    //                     border-top-color: #fff;
-    //                     border-radius: 50%;
-    //                     animation: spin 0.8s linear infinite;
-    //                 "></div>
-    //                 <p style="margin-top: 15px; font-size: 16px;">${message}</p>
-    //                 <style>
-    //                     @keyframes spin { to { transform: rotate(360deg); } }
-    //                 </style>
-    //             </div>
-    //         `);
-    //     }
-    // }
-
-    // function hideLoader() {
-    //     $('#global-loader').remove();
-    // }
 
     // ==================== WHATSAPP ====================
     function getLatestCoordinate(callback) {
@@ -1745,65 +1663,12 @@ $(document).ready(function () {
     }
 
     // ==================== LOAD IJO LIST ====================
-    /*function loadIjoList() {
+    // FIX #5: tambah parameter onDone callback
+    function loadIjoList(onDone) {
         const $sel = $('#ijoSelect');
         $sel.empty().append('<option value="">-- Memuat IJO... --</option>');
         $('#ijoMetaBadges').empty();
 
-        $.ajax({
-            url: API_IJO_URL,
-            type: 'GET',
-            dataType: 'json',
-            success: function(res) {
-                if (res.status && Array.isArray(res.rows)) {
-                    $sel.empty().append('<option value="">-- Pilih Shipping / IJO --</option>');
-
-                    // Filter: buang yang deleted_at
-                    const rows = res.rows.filter(r => !r.deleted_at);
-
-                    // Urutkan: terbaru dulu (id desc)
-                    rows.sort((a, b) => (parseInt(b.id) || 0) - (parseInt(a.id) || 0));
-
-                    rows.forEach(r => {
-                        // Label ringkas: nomor - Tug / Barge (loading → discharge)
-                        const tug = r.tugboat_name || '-';
-                        const barge = r.barge_name || '-';
-                        const load = r.loading_port || '-';
-                        const disc = r.discharge_port || '-';
-                        const label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
-                        // $sel.append(
-                        //     $('<option>').val(r.id).text(label).attr('data-ijo', JSON.stringify(r))
-                        // );
-                        const $option = $('<option>').val(r.id).text(label);
-                        $option.data('ijo', r);        // ← simpan sebagai OBJECT, bukan string
-                        $sel.append($option);
-                    });
-                    $sel.trigger('change.select2');
-
-                    // Tampilkan hint
-                    $('#ijoHint').html(
-                        `<i class="fas fa-info-circle mr-1"></i>${rows.length} IJO tersedia — pilih untuk menampilkan timesheet.`
-                    );
-                } else {
-                    $sel.empty().append('<option value="">-- Gagal memuat IJO --</option>');
-                    $('#ijoHint').text('Gagal memuat IJO. Coba reload.');
-                }
-            },
-            error: function() {
-                $sel.empty().append('<option value="">-- Error memuat IJO --</option>');
-                $('#ijoHint').text('Error memuat IJO. Cek koneksi / endpoint.');
-            }
-        });
-    }*/
-
-    // ==================== LOAD IJO LIST ====================
-    function loadIjoList() {
-        console.log('function loadIjoList() is running.')
-        const $sel = $('#ijoSelect');
-        $sel.empty().append('<option value="">-- Memuat IJO... --</option>');
-        $('#ijoMetaBadges').empty();
-
-        // Tampilkan loader modal
         showIjoLoader('Memuat Data IJO', 'Mengambil daftar Shipping / IJO...');
 
         $.ajax({
@@ -1814,14 +1679,10 @@ $(document).ready(function () {
                 if (res.status && Array.isArray(res.rows)) {
                     $sel.empty().append('<option value="">-- Pilih Shipping / IJO --</option>');
 
-                    // Filter: buang yang deleted_at
                     const rows = res.rows.filter(r => !r.deleted_at);
-
-                    // Urutkan: terbaru dulu (id desc)
                     rows.sort((a, b) => (parseInt(b.id) || 0) - (parseInt(a.id) || 0));
 
                     rows.forEach(r => {
-                        // Label ringkas: nomor - Tug / Barge (loading → discharge)
                         const tug = r.tugboat_name || '-';
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
@@ -1833,12 +1694,10 @@ $(document).ready(function () {
                     });
                     $sel.trigger('change.select2');
 
-                    // Tampilkan hint
                     $('#ijoHint').html(
                         `<i class="fas fa-info-circle mr-1"></i>${rows.length} IJO tersedia — pilih untuk menampilkan timesheet.`
                     );
 
-                    // Update loader text sebelum ditutup
                     $('#ijoLoadingText').text(`${rows.length} IJO berhasil dimuat.`);
                 } else {
                     $sel.empty().append('<option value="">-- Gagal memuat IJO --</option>');
@@ -1855,19 +1714,17 @@ $(document).ready(function () {
                 $('#ijoLoadingText').text('Tidak dapat menghubungi server.');
             },
             complete: function() {
-                // Tutup loader dengan delay singkat agar user melihat status
                 setTimeout(hideIjoLoader, 400);
+                if (typeof onDone === 'function') onDone();
             }
         });
     }
 
-    function loadAllIjoList() {
-        console.log('function loadAllIjoList() is running.')
+    function loadAllIjoList(onDone) {
         const $sel = $('#ijoSelect');
         $sel.empty().append('<option value="">-- Memuat IJO... --</option>');
         $('#ijoMetaBadges').empty();
 
-        // Tampilkan loader modal
         showIjoLoader('Memuat Data IJO', 'Mengambil daftar Shipping / IJO...');
 
         $.ajax({
@@ -1878,14 +1735,10 @@ $(document).ready(function () {
                 if (res.status && Array.isArray(res.rows)) {
                     $sel.empty().append('<option value="">-- Pilih Shipping / IJO --</option>');
 
-                    // Filter: buang yang deleted_at
                     const rows = res.rows.filter(r => !r.deleted_at);
-
-                    // Urutkan: terbaru dulu (id desc)
                     rows.sort((a, b) => (parseInt(b.id) || 0) - (parseInt(a.id) || 0));
 
                     rows.forEach(r => {
-                        // Label ringkas: nomor - Tug / Barge (loading → discharge)
                         const tug = r.tugboat_name || '-';
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
@@ -1897,12 +1750,10 @@ $(document).ready(function () {
                     });
                     $sel.trigger('change.select2');
 
-                    // Tampilkan hint
                     $('#ijoHint').html(
                         `<i class="fas fa-info-circle mr-1"></i>${rows.length} IJO tersedia — pilih untuk menampilkan timesheet.`
                     );
 
-                    // Update loader text sebelum ditutup
                     $('#ijoLoadingText').text(`${rows.length} IJO berhasil dimuat.`);
                 } else {
                     $sel.empty().append('<option value="">-- Gagal memuat IJO --</option>');
@@ -1918,8 +1769,8 @@ $(document).ready(function () {
                 $('#ijoLoadingText').text('Tidak dapat menghubungi server.');
             },
             complete: function() {
-                // Tutup loader dengan delay singkat agar user melihat status
                 setTimeout(hideIjoLoader, 400);
+                if (typeof onDone === 'function') onDone();
             }
         });
     }

@@ -248,8 +248,8 @@ class TimeSheetController extends ResourceController
             "headers"       => $this->cH->headers3($this->module_kode)
         ];
 
-        $builder = $this->cH->ummu2($params);
-        // $builder = $params;
+        // $builder = $this->cH->ummu2($params);
+        $builder = $params;
 
         return $this->respond($builder, 200);
     }
@@ -375,121 +375,6 @@ class TimeSheetController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    // public function show_clients($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/spal/show_clients",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
-
-    // public function show_tugboat($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/spal/show_tugboat",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
-
-    // public function show_barge($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/spal/show_barge",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
-
-    // public function show_uom($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/spal/show_uom",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
-
-    // public function show_si($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/spal/show_si",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
-
     public function show_ijo()
     {
         $limitAll = $this->request->getVar('limitAll');
@@ -517,7 +402,6 @@ class TimeSheetController extends ResourceController
 
         return $this->respond($builder, 200);
     }
-
 
     /**
      * Generate laporan WhatsApp
@@ -582,14 +466,14 @@ class TimeSheetController extends ResourceController
     private function buildWaReport(array $meta, array $rows): string
     {
         if (empty($rows)) {
-            return "Belum ada data timesheet untuk dilaporkan.";
+            return "Belum ada data timesheet untuk dilaporkan, silahkan pilih tanggal lain.";
         }
 
         $lines = [];
 
         // Header
-        $lines[] = '*Tugboat: ' . ($meta['tugboat_name'] ?: 'TB: -') . '*';
-        $lines[] = '*Barge: ' . ($meta['barge_name'] ?: 'BG: -') . '*';
+        $lines[] = '*Tugboat: ' . ($rows[0]->j_tugboat_name ?: 'TB: -') . '*';
+        $lines[] = '*Barge: ' . ($rows[0]->j_barge_name ?: 'BG: -') . '*';
         $lines[] = '================';
 
         // Status terkini
@@ -742,9 +626,9 @@ class TimeSheetController extends ResourceController
         $sheet->mergeCells('A1:J1');
         $sheet->setCellValue('A1', 'LAPORAN TIMESHEET');
         $sheet->mergeCells('A2:J2');
-        $sheet->setCellValue('A2', 'IJO: ' . ($rows->ijo['ijo_number'] ?? '-') . ' | Client: ' . ($rows->ijo['client_name'] ?? '-'));
+        $sheet->setCellValue('A2', 'IJO: ' . ($rows[0]->ijo_number ?? '-') . ' | Client: ' . ($rows[0]->j_client_name ?? '-'));
         $sheet->mergeCells('A3:J3');
-        $sheet->setCellValue('A3', 'Vessel: ' . ($rows->ijo['vessel_name'] ?? '-') . ' | Barge: ' . ($rows->ijo['barge_name'] ?? '-'));
+        $sheet->setCellValue('A3', 'Tugboat: ' . ($rows[0]->j_tugboat_name ?? '-') . ' | Barge: ' . ($rows[0]->j_barge_name ?? '-'));
 
         $sheet->getStyle('A1:J1')->getFont()->setBold(true)->setSize(14);
         $sheet->getStyle('A1:J3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
