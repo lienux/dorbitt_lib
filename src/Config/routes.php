@@ -460,6 +460,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
         $routes->get('crew-ranks', 'CrewController::show_ranks');
         $routes->get('show_tugboat', 'CrewController::show_vessel');
+        $routes->get('show_keahlian', 'CrewController::show_keahlian');
     });
 
     $routes->group('crew_payroll', function ($routes) {

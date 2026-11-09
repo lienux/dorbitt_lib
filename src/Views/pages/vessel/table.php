@@ -17,6 +17,7 @@
                 <th colspan="9">Dimension & Capacity</th>
                 <th colspan="6">Fuel Consumtion</th>
                 <th colspan="5">Fuel Consumtion</th>
+                <th colspan="3">Last Position</th>
             </tr>
             <tr>
                 <th>Number of Main Engines</th>
@@ -53,6 +54,10 @@
                 <th>Ballast River</th>
                 <th>Ballast Sea</th>
                 <th>Runningfree</th>
+
+                <th>Date</th>
+                <th>Coordinat</th>
+                <th>Location Name</th>
             </tr>
         </thead>
         <tbody></tbody>

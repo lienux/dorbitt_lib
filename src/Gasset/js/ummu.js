@@ -19731,3 +19731,25 @@ $(document).on('xhr.dt', function(e, settings, json, xhr) {
 $(document).on('xhr.dtmodal_crew_ranks', function(e, settings, json) {
     console.log('=== xhr.dtmodal_crew_ranks FIRED ===', json);
 });
+
+function showMap(lat, lng) {
+    var url = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&output=embed';
+    // Tampilkan di modal
+    $('#mapModal iframe').attr('src', url);
+    $('#mapModal').modal('show');
+}
+
+// Event delegation — WAJIB karena DataTables re-render baris
+$(document).on('click', '.btn-map', function (e) {
+    e.preventDefault();
+    
+    var lat = $(this).data('lat');
+    var lng = $(this).data('lng');
+    var url = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&output=embed';
+    
+    console.log('Opening map:', url); // untuk debug
+    
+    $('#mapIframe').attr('src', url);
+    $('#mapModal').modal('show'); // Bootstrap 4
+    // $('#mapModal').modal('show'); // Bootstrap 5 juga sama
+});
