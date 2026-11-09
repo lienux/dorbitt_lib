@@ -590,6 +590,37 @@ var app = {
                     { data: "speed_ballast_river"},
                     { data: "speed_ballast_sea"},
                     { data: "speed_runningfree"},
+
+                    { data: "last_location_date"},
+                    // { data: null,
+                    //     render: function (data, type, row) {
+                    //         var html = row.last_lat + ', ' + row.last_lng;
+                    //         return html;
+                    //     }
+                    // },
+                    // {
+                    //     data: null,
+                    //     render: function (data, type, row) {
+                    //         if (row.last_lat == null) return '-';
+                    //         var mapUrl = 'https://www.google.com/maps?q=' + row.last_lat + ',' + row.last_lng;
+                    //         return '<a href="#" onclick="showMap(\'' 
+                    //              + row.last_lat + '\',\'' + row.last_lng + '\'); return false;">'
+                    //              + row.last_lat + ', ' + row.last_lng + '</a>';
+                    //     }
+                    // },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (row.last_lat == null || row.last_lng == null) return '-';
+                            
+                            var lat = row.last_lat;
+                            var lng = row.last_lng;
+                            
+                            return '<a href="#" class="btn-map" data-lat="' + lat + '" data-lng="' + lng + '">'
+                                 + lat + ', ' + lng + '</a>';
+                        }
+                    },
+                    { data: "last_location_name"},
                 ];
         
                 return columns;

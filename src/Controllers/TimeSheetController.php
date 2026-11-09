@@ -20,15 +20,24 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 class TimeSheetController extends ResourceController
 {
     protected $db;
+    protected $dorbitt;
+    protected $module_kode;
+    protected $dir_view;
+    protected $request;
+    protected $cH;
+    protected $gHelp;
+    protected $vH;
+    protected $umHelp;
+    protected $fileH;
 
     public function __construct()
     {
         $this->db = \Config\Database::connect();
+        $this->dorbitt = \Config\Database::connect('dorbitt');
         $this->module_kode = 'time_sheet';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
         $this->cH = new CurlHelper();
-        $this->db = \Config\Database::connect();
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
@@ -153,6 +162,7 @@ class TimeSheetController extends ResourceController
             // 'pager'         => $this->timesheetModel->pager,
             'pager'         => [],
             'filters'       => $filters,
+            'cuaca'         => $this->dorbitt->table('voyage_condition')->where('category', 'Cuaca')->get()->getResultArray()
         ];
         return view($this->vH->ummuViewPartialIndex(), $data);
     }
@@ -248,8 +258,8 @@ class TimeSheetController extends ResourceController
             "headers"       => $this->cH->headers3($this->module_kode)
         ];
 
-        // $builder = $this->cH->ummu2($params);
-        $builder = $params;
+        $builder = $this->cH->ummu2($params);
+        // $builder = $params;
 
         return $this->respond($builder, 200);
     }
@@ -268,6 +278,12 @@ class TimeSheetController extends ResourceController
 
         $data = [
             'ijo_id'            => $post['ijo_id'],
+            'ijo_number'        => $post['ijo_number'],
+            'vessel_id'         => $post['vessel_id'] ?? null,
+            'tugboat_id'        => $post['vessel_id'] ?? null,
+            'tugboat_name'      => $post['vessel_name'] ?? null,
+            'barge_id'          => $post['barge_id'] ?? null,
+            'barge_name'        => $post['barge_name'] ?? null,
             'activity_id'       => (int) ($post['activity_id'] ?? 0),
             'activity_name'     => $post['activity_name'] ?? '',
             'activity_kode'     => $post['activity_kode'] ?? null,

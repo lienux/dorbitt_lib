@@ -5,9 +5,9 @@ var app = {
 
     config: {
         autoload: function () {
-            // $ummu.func.location_hash()
-            // $ummu.localStorage.dt_default($localStrgKey);
-            // $ummu.dt.layout.buttonAll($ummu.dt.init);
+            $ummu.func.location_hash()
+            $ummu.localStorage.dt_default($localStrgKey);
+            $ummu.dt.layout.buttonAll($ummu.dt.init);
 
             // $ummu.dt.init.on("click", "tbody tr td:nth-child(2)", function () {
             //     var row = $ummu.dt.init.row(this).data();
@@ -25,343 +25,343 @@ var app = {
         runing_id: null,
         init: null,
 
-        general_information: function() {
-            return {
-                "type": $("#form_input #type").val(),
-                "kode": $("#form_input #kode").val(),
-                "name": $("#form_input #name").val(),
-                "flag_registry": $("#form_input #flag_registry").val(),
-                "classification": $("#form_input #classification").val(),
-                "yearBuild_place": $("#form_input #yearBuild_place").val(),
-            }
-        },
+        // general_information: function() {
+        //     return {
+        //         "type": $("#form_input #type").val(),
+        //         "kode": $("#form_input #kode").val(),
+        //         "name": $("#form_input #name").val(),
+        //         "flag_registry": $("#form_input #flag_registry").val(),
+        //         "classification": $("#form_input #classification").val(),
+        //         "yearBuild_place": $("#form_input #yearBuild_place").val(),
+        //     }
+        // },
 
-        machinary_propulsion: function() {
-            return {
-                "MainEngines": $("#form_input #MainEngines").val(),
-                "BrandMainEngines": $("#form_input #BrandMainEngines").val(),
-                "AuxiliaryEngines": $("#form_input #AuxiliaryEngines").val(),
-                "BrandAuxiliaryEngines": $("#form_input #BrandAuxiliaryEngines").val(),
-                "HorsePower": $("#form_input #HorsePower").val(),
-                "lightship": $("#form_input #lightship").val(),
-                "propulsion": $("#form_input #propulsion").val(),
-                "ServiceSpeed": $("#form_input #ServiceSpeed").val(),
-            }
-        },
+        // machinary_propulsion: function() {
+        //     return {
+        //         "MainEngines": $("#form_input #MainEngines").val(),
+        //         "BrandMainEngines": $("#form_input #BrandMainEngines").val(),
+        //         "AuxiliaryEngines": $("#form_input #AuxiliaryEngines").val(),
+        //         "BrandAuxiliaryEngines": $("#form_input #BrandAuxiliaryEngines").val(),
+        //         "HorsePower": $("#form_input #HorsePower").val(),
+        //         "lightship": $("#form_input #lightship").val(),
+        //         "propulsion": $("#form_input #propulsion").val(),
+        //         "ServiceSpeed": $("#form_input #ServiceSpeed").val(),
+        //     }
+        // },
 
-        tank_capacity:function() {
-            return {
-                "fot": $("#form_input #fot").val(),
-                "fwt": $("#form_input #fwt").val(),
-            }
-        },
+        // tank_capacity:function() {
+        //     return {
+        //         "fot": $("#form_input #fot").val(),
+        //         "fwt": $("#form_input #fwt").val(),
+        //     }
+        // },
 
-        dimension_capacity:function() {
-            return {
-                "loa": $("#form_input #loa").val(),
-                "breadth": $("#form_input #breadth").val(),
-                "depth": $("#form_input #depth").val(),
-                "MaxDraft": $("#form_input #MaxDraft").val(),
-                "Sideboard": $("#form_input #Sideboard").val(),
-                "GrossTonnage": $("#form_input #GrossTonnage").val(),
-                "Deadweight": $("#form_input #Deadweight").val(),
-                "DeckStrength": $("#form_input #DeckStrength").val(),
-                "NetTonnage": $("#form_input #NetTonnage").val(),
-            }
-        },
+        // dimension_capacity:function() {
+        //     return {
+        //         "loa": $("#form_input #loa").val(),
+        //         "breadth": $("#form_input #breadth").val(),
+        //         "depth": $("#form_input #depth").val(),
+        //         "MaxDraft": $("#form_input #MaxDraft").val(),
+        //         "Sideboard": $("#form_input #Sideboard").val(),
+        //         "GrossTonnage": $("#form_input #GrossTonnage").val(),
+        //         "Deadweight": $("#form_input #Deadweight").val(),
+        //         "DeckStrength": $("#form_input #DeckStrength").val(),
+        //         "NetTonnage": $("#form_input #NetTonnage").val(),
+        //     }
+        // },
 
-        fuel_consumtion:function() {
-            return {
-                "fuelConsumtion_laden_river": $("#form_input #fuelConsumtion_laden_river").val(),
-                "fuelConsumtion_laden_sea": $("#form_input #fuelConsumtion_laden_sea").val(),
-                "fuelConsumtion_ballast_river": $("#form_input #fuelConsumtion_ballast_river").val(),
-                "fuelConsumtion_ballast_sea": $("#form_input #fuelConsumtion_ballast_sea").val(),
-                "fuelConsumtion_runningfree": $("#form_input #fuelConsumtion_runningfree").val(),
-                "fuelConsumtion_standby": $("#form_input #fuelConsumtion_standby").val(),
-            }
-        },
+        // fuel_consumtion:function() {
+        //     return {
+        //         "fuelConsumtion_laden_river": $("#form_input #fuelConsumtion_laden_river").val(),
+        //         "fuelConsumtion_laden_sea": $("#form_input #fuelConsumtion_laden_sea").val(),
+        //         "fuelConsumtion_ballast_river": $("#form_input #fuelConsumtion_ballast_river").val(),
+        //         "fuelConsumtion_ballast_sea": $("#form_input #fuelConsumtion_ballast_sea").val(),
+        //         "fuelConsumtion_runningfree": $("#form_input #fuelConsumtion_runningfree").val(),
+        //         "fuelConsumtion_standby": $("#form_input #fuelConsumtion_standby").val(),
+        //     }
+        // },
 
-        speed:function() {
-            return {
-                "speed_laden_river": $("#form_input #speed_laden_river").val(),
-                "speed_laden_sea": $("#form_input #speed_laden_sea").val(),
-                "speed_ballast_river": $("#form_input #speed_ballast_river").val(),
-                "speed_ballast_sea": $("#form_input #speed_ballast_sea").val(),
-                "speed_runningfree": $("#form_input #speed_runningfree").val(),
-            }
-        },
+        // speed:function() {
+        //     return {
+        //         "speed_laden_river": $("#form_input #speed_laden_river").val(),
+        //         "speed_laden_sea": $("#form_input #speed_laden_sea").val(),
+        //         "speed_ballast_river": $("#form_input #speed_ballast_river").val(),
+        //         "speed_ballast_sea": $("#form_input #speed_ballast_sea").val(),
+        //         "speed_runningfree": $("#form_input #speed_runningfree").val(),
+        //     }
+        // },
     },
 
     controllers: {
+        index: function() {
+            $ummu.dt.controllers.index();
+        },
+
+        // Digunakan untuk mengambil data dari database / API, dan terdapat pengaturannya setelah proses xhr selesai.
+        show: function () {
+            $ummu.dt.controllers.reload()
+
+            $ummu.dt.init.on('xhr.dt', function (e, settings, json, xhr) {
+                // Gunakan parameter 'json' langsung, bukan .ajax.json()
+                if (json && json.status === true) {
+                    if (localStorage.getItem('isDataLocalStorage') == 'true') {
+                        localStorage.setItem($ummu.vars.module_kode, JSON.stringify(json));
+                    }else{
+                        localStorage.removeItem($ummu.vars.module_kode);
+                    }
+                } else {
+                    console.warn("Status response false atau JSON tidak valid");
+                }
+            });
+        },
+
+        // sbNew: function () {
+        //     app.views.forClear()
+        //     $("#status").html('<span class="badge badge-secondary">Draft</span>')
+        //     $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+        // },
+
+        // sbSave: function () {
+        //     var spal_id = $("#spal").attr('data-id');
+        //     var spal_number = $("#spal").val();
+        //     var tgl = $("#iDate").val();
+        //     var number = $("#number").val();
+        //     var from_dept_id = $("#from_dept").attr('data-id');
+        //     var to_dept_id = $("#to_dept").attr('data-id');
+
+        //     var client_id = $("#client").attr('data-id');
+        //     var tugboat_id = $("#tugboat").attr('data-id');
+        //     var barge_id = $("#barge").attr('data-id');
+        //     var ukuran_barge = $("#ukuran_barge").val();
+        //     var tonnage = $("#tonnage").val();
+        //     var uom_id = $("#uom").attr('data-id');
+
+        //     var eta_loading_port = $("#eta_loading_port").attr('data-from');
+        //     var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
+        //     var eta_discharge_port = $("#eta_discharge_port").val();
+
+        //     var loading_port = $("#loading_port").val();
+        //     var discharge_port = $("#discharge_port").val();
+
+        //     $ummu.vars.formData.append("spal_id", spal_id);
+        //     $ummu.vars.formData.append("spal_number", spal_number);
+        //     $ummu.vars.formData.append("tgl", tgl);
+        //     $ummu.vars.formData.append("number", number);
+        //     $ummu.vars.formData.append("from_dept_id", from_dept_id);
+        //     $ummu.vars.formData.append("to_dept_id", to_dept_id);
+
+        //     $ummu.vars.formData.append("client_id", client_id);
+        //     $ummu.vars.formData.append("tugboat_id", tugboat_id);
+        //     $ummu.vars.formData.append("barge_id", barge_id);
+        //     $ummu.vars.formData.append("barge_loa", ukuran_barge);
+        //     $ummu.vars.formData.append("tonnage", tonnage);
+        //     $ummu.vars.formData.append("uom_id", uom_id);
+
+        //     $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
+        //     $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
+        //     $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
+
+        //     $ummu.vars.formData.append("loading_port", loading_port);
+        //     $ummu.vars.formData.append("discharge_port", discharge_port);
+
+        //     var payload = {
+        //         "spal_id": spal,
+        //         "spal_number": spal_number,
+        //         "tgl": tgl,
+        //         "number": number,
+        //         "from_dept_id": from_dept_id,
+        //         "to_dept_id": to_dept_id,
+
+        //         "client_id": client_id,
+        //         "tugboat_id": tugboat_id,
+        //         "barge_id": barge_id,
+        //         "barge_loa": ukuran_barge,
+        //         "tonnage": tonnage,
+        //         "uom_id": uom_id,
+
+        //         "eta_loading_port": eta_loading_port,
+        //         "eta_loading_port_to": eta_loading_port_to,
+        //         "eta_discharge_port": eta_discharge_port,
+
+        //         "loading_port": loading_port,
+        //         "discharge_port": discharge_port,
+        //     };
+
+        //     const id = $ummu.url.getParam('id');
+
+        //     if (id) {
+        //         var func = "update/" + id
+        //     }else{
+        //         var func = "create"
+        //     }
+
+        //     var params = {
+        //         "function": func,
+        //         "data": $ummu.vars.formData,
+        //         "loader": true,
+        //     };
+
+        //     const validation = app.validation.save();
+
+        //     if (validation.length > 0) {
+        //         $ummu.views.errors_msg(validation)
+        //         $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+        //     }else{
+        //         var ummu = $ummu.ajax.ummu7(params);   
+        //         ummu.done(function(result) {
+        //             const response = JSON.parse(result);
+        //             $ummu.views.after_sbToolbar_save(response, func, id, payload);
+
+        //             if (response.status == true) {
+        //                 $("#file_url").attr("href", response.data.fileUrl)
+        //                 let is_release = response.data.is_release;
+        //                 if (is_release == null || is_release == '' || is_release == 0) {
+        //                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+        //                 }else{
+        //                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+        //                 }
+        //             }else{
+        //                 $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+        //             }
+        //         }).fail(function() {
+        //             // An error occurred
+        //             console.log(ummu)
+        //         });
+        //     }
+        // },
+
+        // sbCancle: function () {
+        //     if ($ummu.url.getParam('id')) {
+        //         // 
+        //     }else{
+        //         app.views.forClear()
+        //     }
+        // },
+
+        // sbEdit: function () {
+        //     // 
+        // },
+
+        // sbDelete: function(id) {
+        //     $("#modalDeleteConfirm").modal('hide')
+        //     var params = {
+        //         "function": "delete/" + id,
+        //         "method": "POST",
+        //         "data": [],
+        //         "cache": true,
+        //         "contentType": "application/json",
+        //         "dataType": "json",
+        //         "loader": true,
+        //         "textLoader": "Delete on progress..."
+        //     };
+
+        //     var ummu = $ummu.ajax.ummu8(params);   
+        //     ummu.done(function(result) {
+        //         $ummu.views.after_sbToolbar_delete(id, result);
+        //         app.views.forClear()
+        //     }).fail(function() {
+        //         // An error occurred
+        //         console.log(ummu)
+        //     });
+        // },
+
+        // sbClear: function() {
+        //     app.views.forClear()
+        // },
+
+        // sbRelease: function() {
+        //     $("#modalReleaseConfirm").modal('hide')
+        //     var id = $ummu.url.getParam('id');
+        //     var func = "release/" + id;
+        //     var payload = [];
+
+        //     var params = {
+        //         "function": func,
+        //         "method": "POST",
+        //         "data": [],
+        //         "cache": true,
+        //         "contentType": "application/json",
+        //         "dataType": "json",
+        //         "loader": true,
+        //         "textLoader": "Release on progress...",
+        //     };
+
+        //     var ummu = $ummu.ajax.ummu8(params);   
+        //     ummu.done(function(result) {
+        //         payload = result.data;
+        //         $ummu.views.after_sbToolbar_save(result, func, id, payload);
+        //         if (result.status == true) {
+        //             if (result.data.is_release == 1) {
+        //                 $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+        //             }
+        //         }
+        //     }).fail(function() {
+        //         // An error occurred
+        //         console.log(ummu)
+        //     });
+        // },
+
+        // on_showLeftModal: function(id) {
+        //     // console.log(id)
+        //     if (id == 'client') {
+        //         $ummu.controllers.show_clients(id);
+        //     }else if (id == 'tugboat') {
+        //         $ummu.controllers.show_tugboat(id);
+        //     }else if (id == 'barge') {
+        //         $ummu.controllers.show_barge(id);
+        //     }else if (id == 'uom') {
+        //         $ummu.controllers.show_uom(id);
+        //     }else if (id == 'shipment') {
+        //         $ummu.controllers.show_shippingInstruction(id);
+        //     }else if (id == 'spal') {
+        //         $ummu.controllers.show_spal(id);
+        //     }else if (id == 'to_dept') {
+        //         $ummu.controllers.show_dept(id);
+        //     }else if (id == 'ijo') {
+        //         $ummu.controllers.show_ijo(id);
+        //     }
+        // },
+
+        // on_click_tbody_trtd_child1: function(row) {
+        //     // console.log(row)
+        //     app.views.setRow_toForm_freightCharter(row)
+        // },
+
+        // on_click_tbody_trtd_child_spal: function(row) {
+        //     console.log(row)
+        //     $("#loading_port").val(row.loading_port)
+        //     $("#discharge_port").val(row.discharge_port)
+
+        //     $("#client").val(row.client_name).attr('data-id', row.client_id)
+        //     $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
+        //     $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
+        //     $("#ukuran_barge").val(row.barge_loa)
+        //     $("#tonnage").val(row.qty)
+        //     $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
+
+        //     $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
+        //     .attr('data-from', row.loading_availability_date_from)
+        //     .attr('data-to', row.loading_availability_date_to)
+
+        //     $("#si_number").val(row.si_number)
+        //     $("#si_url").attr('href', row.si_fileUrl)
+        // },
+
+        // on_click_tbody_trtd_child_dept: function(row) {
+        //     // console.log(row)
+        //     $("#to_dept").val(row.name).attr('data-id', row.id);
+        // },
+
+        // on_click_tbody_trtd_child_ijo: function(row) {
+        //     $("#ijo").val(row.number).attr('data-id', row.id);
+        //     $("#client").val(row.client_name).attr('data-id', row.client_id);
+        //     $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id);
+        //     $("#barge").val(row.barge_name).attr('data-id', row.barge_id);
+        // },
+
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
-            app.views.forClear()
-        },
-
-        show: function (params) {
-            if ($ummu.dt.is_init(table) == true) {
-                $ummu.dt.init_destroy();
-            }
-
-            $ummu.dt.init = new DataTable(
-                table,
-                app.dt.default.config_show()
-            );
-
-            $ummu.dt.layout.buttonAll($ummu.dt.init)
-
-            $ummu.dt.init.on('xhr', function () {
-                var response = $ummu.dt.init.ajax.json();
-                if (response.status == true) {
-                    localStorage.setItem($localStrgKey, JSON.stringify(response));
-                }else{
-                    $ummu.modal.ummu_msg(response.message)
-                }
-            });
-        },
-
-        sbNew: function () {
-            app.views.forClear()
-            $("#status").html('<span class="badge badge-secondary">Draft</span>')
-            $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-        },
-
-        sbSave: function () {
-            var spal_id = $("#spal").attr('data-id');
-            var spal_number = $("#spal").val();
-            var tgl = $("#iDate").val();
-            var number = $("#number").val();
-            var from_dept_id = $("#from_dept").attr('data-id');
-            var to_dept_id = $("#to_dept").attr('data-id');
-
-            var client_id = $("#client").attr('data-id');
-            var tugboat_id = $("#tugboat").attr('data-id');
-            var barge_id = $("#barge").attr('data-id');
-            var ukuran_barge = $("#ukuran_barge").val();
-            var tonnage = $("#tonnage").val();
-            var uom_id = $("#uom").attr('data-id');
-
-            var eta_loading_port = $("#eta_loading_port").attr('data-from');
-            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
-            var eta_discharge_port = $("#eta_discharge_port").val();
-
-            var loading_port = $("#loading_port").val();
-            var discharge_port = $("#discharge_port").val();
-
-            $ummu.vars.formData.append("spal_id", spal_id);
-            $ummu.vars.formData.append("spal_number", spal_number);
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            $ummu.vars.formData.append("to_dept_id", to_dept_id);
-
-            $ummu.vars.formData.append("client_id", client_id);
-            $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            $ummu.vars.formData.append("tonnage", tonnage);
-            $ummu.vars.formData.append("uom_id", uom_id);
-
-            $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
-            $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
-
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
-
-            var payload = {
-                "spal_id": spal,
-                "spal_number": spal_number,
-                "tgl": tgl,
-                "number": number,
-                "from_dept_id": from_dept_id,
-                "to_dept_id": to_dept_id,
-
-                "client_id": client_id,
-                "tugboat_id": tugboat_id,
-                "barge_id": barge_id,
-                "barge_loa": ukuran_barge,
-                "tonnage": tonnage,
-                "uom_id": uom_id,
-
-                "eta_loading_port": eta_loading_port,
-                "eta_loading_port_to": eta_loading_port_to,
-                "eta_discharge_port": eta_discharge_port,
-
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
-            };
-
-            const id = $ummu.url.getParam('id');
-
-            if (id) {
-                var func = "update/" + id
-            }else{
-                var func = "create"
-            }
-
-            var params = {
-                "function": func,
-                "data": $ummu.vars.formData,
-                "loader": true,
-            };
-
-            const validation = app.validation.save();
-
-            if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            }else{
-                var ummu = $ummu.ajax.ummu7(params);   
-                ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
-
-                    if (response.status == true) {
-                        $("#file_url").attr("href", response.data.fileUrl)
-                        let is_release = response.data.is_release;
-                        if (is_release == null || is_release == '' || is_release == 0) {
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                        }else{
-                            $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                        }
-                    }else{
-                        $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    }
-                }).fail(function() {
-                    // An error occurred
-                    console.log(ummu)
-                });
-            }
-        },
-
-        sbCancle: function () {
-            if ($ummu.url.getParam('id')) {
-                // 
-            }else{
-                app.views.forClear()
-            }
-        },
-
-        sbEdit: function () {
-            // 
-        },
-
-        sbDelete: function(id) {
-            $("#modalDeleteConfirm").modal('hide')
-            var params = {
-                "function": "delete/" + id,
-                "method": "POST",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Delete on progress..."
-            };
-
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                $ummu.views.after_sbToolbar_delete(id, result);
-                app.views.forClear()
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-        },
-
-        sbClear: function() {
-            app.views.forClear()
-        },
-
-        sbRelease: function() {
-            $("#modalReleaseConfirm").modal('hide')
-            var id = $ummu.url.getParam('id');
-            var func = "release/" + id;
-            var payload = [];
-
-            var params = {
-                "function": func,
-                "method": "POST",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Release on progress...",
-            };
-
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                payload = result.data;
-                $ummu.views.after_sbToolbar_save(result, func, id, payload);
-                if (result.status == true) {
-                    if (result.data.is_release == 1) {
-                        $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    }
-                }
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-        },
-
-        on_showLeftModal: function(id) {
-            // console.log(id)
-            if (id == 'client') {
-                $ummu.controllers.show_clients(id);
-            }else if (id == 'tugboat') {
-                $ummu.controllers.show_tugboat(id);
-            }else if (id == 'barge') {
-                $ummu.controllers.show_barge(id);
-            }else if (id == 'uom') {
-                $ummu.controllers.show_uom(id);
-            }else if (id == 'shipment') {
-                $ummu.controllers.show_shippingInstruction(id);
-            }else if (id == 'spal') {
-                $ummu.controllers.show_spal(id);
-            }else if (id == 'to_dept') {
-                $ummu.controllers.show_dept(id);
-            }else if (id == 'ijo') {
-                $ummu.controllers.show_ijo(id);
-            }
-        },
-
-        on_click_tbody_trtd_child1: function(row) {
-            // console.log(row)
-            app.views.setRow_toForm_freightCharter(row)
-        },
-
-        on_click_tbody_trtd_child_spal: function(row) {
-            console.log(row)
-            $("#loading_port").val(row.loading_port)
-            $("#discharge_port").val(row.discharge_port)
-
-            $("#client").val(row.client_name).attr('data-id', row.client_id)
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id)
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id)
-            $("#ukuran_barge").val(row.barge_loa)
-            $("#tonnage").val(row.qty)
-            $("#uom").val(row.uom_kode).attr('data-id', row.uom_id)
-
-            $("#eta_loading_port").val(row.loading_availability_date_from + " - " + row.loading_availability_date_to)
-            .attr('data-from', row.loading_availability_date_from)
-            .attr('data-to', row.loading_availability_date_to)
-
-            $("#si_number").val(row.si_number)
-            $("#si_url").attr('href', row.si_fileUrl)
-        },
-
-        on_click_tbody_trtd_child_dept: function(row) {
-            // console.log(row)
-            $("#to_dept").val(row.name).attr('data-id', row.id);
-        },
-
-        on_click_tbody_trtd_child_ijo: function(row) {
-            $("#ijo").val(row.number).attr('data-id', row.id);
-            $("#client").val(row.client_name).attr('data-id', row.client_id);
-            $("#tugboat").val(row.tugboat_name).attr('data-id', row.tugboat_id);
-            $("#barge").val(row.barge_name).attr('data-id', row.barge_id);
+            // app.views.forClear()
         },
     },
 
@@ -457,313 +457,193 @@ var app = {
     },
 
     dt: {
-        default: {
-            config_show: function () {
-                return {
-                    ajax: {
-                        dataSrc: "rows",
-                        url: $ummu.vars.page_url + "show",
-                        data: function (d) {
-                            // // d.myKey = "myValue";
-                            // // d.custom = $('#myInput').val();
-                            // // d.release = [0];
-                            // // etc
-                            // d.tgl = tgl.replace(/-/g, "");
-                            // d.tgl2 = tgl2.replace(/-/g, "");
-                            // d.site = site;
-                        },
-                    },
-                    columns: app.dt.default.config_columns(),
-                    processing: true,
-                    // serverSide: true,
-                    responsive: true,
-                    keys: true,
-                    deferLoading: 57,
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [],
-                        }
-                    },
-                    columnDefs: app.dt.default.config_columnDefs(),
-                    select: $ummu.dt.config.select(),
-                    // order: [[26, "asc"],[27,"asc"]],
-                    // rowGroup: app.dt.clients.config_rowGroup(),
-                    // fixedColumns: {
-                    //     start: 2,
-                    //     // end: 1
-                    // },
-                    paging: true,
-                    // scrollCollapse: true,
-                    // scrollX: true,
-                    // scrollY: '60vh',
-                    drawCallback: function (settings) {
-                        // var api = this.api();
-                    },
-                };
-            },  
-            config_columns: function () {
+        config: {
+            columns: function () {
                 let columns = [
-                    { data: null, render: DataTable.render.select() },
-                    { data: "id",
-                        render: function (data, type) {
-                            return (
-                                '<a href="javascript:void(0);">'+
-                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
-                                '</a>'
-                            );
-                        }
+                    { 
+                        data: null,
+                        orderable: false,
+                        render: DataTable.render.select()
                     },
-                    { data: "release_name",
+                    { 
+                        title: "ID",
+                        data: "id",
+                        // className: 'align-middle',
+                        // render: function (data, type) {
+                        //     return (
+                        //         '<a href="javascript:void(0);">'+
+                        //             '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                        //         '</a>'
+                        //     );
+                        // }
+                    },
+                    { 
+                        title: "Nomor IJO",
+                        data: "ijo_number",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Tugboat",
+                        data: "j_tugboat_name",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Barge",
+                        data: "j_barge_name",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Tanggal",
+                        data: "activity_date",
+                        // className: 'align-middle',
                         render: function(data, type, row) {
-                            if (row.is_release == null || row.is_release == 0 || row.is_release == 1) {
-                                return '<span class="text-secondary">'+data+'</span>';
-                            }else if (row.is_release == 2) {
-                                return '<span class="text-primary">'+data+'</span>';
-                            }else if (row.is_release == 3) {
-                                return '<span class="text-warning">'+data+'</span>';
-                            }else{
-                                return '<span class="text-success">'+data+'</span>';
-                            }
+                            var html = row.activity_date + ' ' + row.activity_time;
+                            return html;
                         }
                     },
-                    { data: "tgl"},
-                    { data: "number"},
-                    { data: "from_dept_name"},
-                    { data: "to_dept_name"},
-                    { data: "spal_number"},
-                    { data: "loading_port"},
-                    { data: "discharge_port"},
+                    { 
+                        title: "Activity",
+                        data: "activity_name",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Lokasi / Posisi",
+                        data: "location",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Koordinat",
+                        data: null,
+                        // className: 'align-middle',
+                        render: function (data, type, row) {
+                            if (row.latitude == null || row.longitude == null) return '-';
+                            
+                            var lat = row.latitude;
+                            var lng = row.longitude;
+                            
+                            return '<a href="#" class="btn-map" data-lat="' + lat + '" data-lng="' + lng + '">'
+                                 + lat + ', ' + lng + '</a>';
+                        }
+                    },
+                    { 
+                        title: "Cuaca",
+                        data: "weather_condition",
+                        // className: 'align-middle',
+                        // render: function(data, type, row) {
+                        //     var html = "";
+                        //     var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
+
+                        //     return html;
+                        // }
+                    },
+                    { 
+                        title: "Speed",
+                        data: "speed_knot",
+                        // className: 'align-middle text-right',
+                        // render: function(data, type, row) {
+                        //     const basic_salary = row.basic_salary;
+                        //     const currency = row.currency;
+                        //     const basic_salary_format = $ummu.formatter.input_rupiah.formatRupiah2(row.basic_salary);
+                        //     var html = '';
+
+                        //     if (basic_salary) {
+                        //         // var html = `${currency} ${basic_salary_format}`
+                        //         var html = basic_salary_format
+                        //     }
+                        //     return html;
+                        // }
+                    },
+                    { 
+                        title: "Jarak Tempuh",
+                        data: "distance_nm",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "ETA",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = row.eta_date + ' ' + row.eta_time;
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Remarks",
+                        data: "remarks",
+                        // className: 'align-middle',
+                    },
+                    { 
+                        title: "Create By",
+                        data: "created_by_name",
+                        // className: 'align-middle',
+                    },
                 ];
         
                 return columns;
-            },  
-            config_columnDefs: function() {
-                let columnDefs = [
+            },
+
+            serverSide: function() {
+                return true;
+            },
+
+            onClick_nthChild_2: function(row) {
+                app.views.forClear()
+                // console.log(row)
+                // const row_for_urlParams = row;
+                // const queryString = $.param(row);
+                // console.log(queryString)
+                // $ummu.url.setParamFromRow(row);
+                $ummu.url.setParamFromObject(row);
+                app.views.setRow_toForm(row);
+
+                // console.log(ummu)
+            },
+
+            columnDefs: function() {
+                return [
                     {
                         targets: 0,
                         orderable: false,
+                        width: '40px',
                         render: DataTable.render.select(),
                     },
+                    {
+                        targets: 1,
+                        orderable: true,
+                        width: '50px',
+                        class: 'text-center',
+                    }
                     // { 
                     //     targets: [26,27], 
                     //     visible: false 
                     // },
                 ];
-                return columnDefs;
-            },  
-            config_rowGroup: function() {
-                let rowGroup = {
-                    dataSrc: ["tipe","unit_code"],
-                    startRender: function (rows, group) {
-                    // Display the group name and the number of rows in that group
-                    return group + " (" + rows.count() + " rows)";
-                    },
-                    endRender: function (rows, group, level) {
-                    // =======================================================
-                    // OB ====================================================
-                    // =======================================================
-                    var day_rit_ob_count = rows
-                    .data()
-                    .pluck('day_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_ob_count = rows
-                    .data()
-                    .pluck('night_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var total_rit_ob_count = rows
-                    .data()
-                    .pluck('total_rit_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
+            },
 
-                    var day_ob_count = rows
-                    .data()
-                    .pluck('day_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_ob_count = rows
-                    .data()
-                    .pluck('night_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
+            on_reload_params: function (d) {
+                // // filter wajib
+                // d.date_from = $("#date_from").val() || "";
+                // d.date_to   = $("#date_to").val()   || "";
 
-                    var total_ob_count = rows
-                    .data()
-                    .pluck('total_ob')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-                    
-                    // =========================================================
-                    // Coal Getting ============================================
-                    // =========================================================
-                    var day_rit_cg_count = rows
-                    .data()
-                    .pluck('day_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_cg_count = rows
-                    .data()
-                    .pluck('night_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
+                // filter opsional
+                var vessel_id = $("#form_filter #vessel_id").data('id');
+                if (vessel_id) d.vessel_id = vessel_id;
 
-                    var total_rit_cg_count = rows
-                    .data()
-                    .pluck('total_rit_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
+                var rank_id = $("#form_filter #rank_id").data('id');
+                if (rank_id) d.rank_id = rank_id;
 
-                    var day_cg_count = rows
-                    .data()
-                    .pluck('day_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_cg_count = rows
-                    .data()
-                    .pluck('night_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_cg_count = rows
-                    .data()
-                    .pluck('total_cg')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-
-                    // =========================================================
-                    // Coal Hauling ============================================
-                    // =========================================================
-                    var day_rit_cl_count = rows
-                    .data()
-                    .pluck('day_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_rit_cl_count = rows
-                    .data()
-                    .pluck('night_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_rit_cl_count = rows
-                    .data()
-                    .pluck('total_rit_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var day_cl_count = rows
-                    .data()
-                    .pluck('day_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                    var night_cl_count = rows
-                    .data()
-                    .pluck('night_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-
-                    var total_cl_count = rows
-                    .data()
-                    .pluck('total_cl')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-                    
-                    // ===========================================================================
-                    var fuel_count = rows
-                    .data()
-                    .pluck('fuel')
-                    .reduce( function (a, b) {
-                        return parseFloat(a) + parseFloat(b);
-                    }, 0) ;
-        
-                        
-                    if (level === 0) {
-                        let tr = document.createElement('tr');
-                        let classs = $ummu.dt.endRender_class();
-                        $ummu.dt.addCell(tr, group, 2, classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(day_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(night_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);                
-
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 5, classs);
-                        return tr;
-                    } else if (level === 1) {
-                        let tr = document.createElement('tr');
-                        let classs = 'text-right font-weight-bold bg-warning';
-                        $ummu.dt.addCell(tr, '', 4);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_ob_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cg_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_rit_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 2);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(total_cl_count),null,classs);
-                        $ummu.dt.addCell(tr, $ummu.helpers.currency.us(fuel_count),null,classs);
-                        $ummu.dt.addCell(tr, '', 5);            
-                        return tr;
-                    }          
-                    }
-                };
-        
-                return rowGroup;
+                // // filter dari modal_filter (via localStorage)
+                // var lcFrom = localStorage.getItem("date_from");
+                // var lcTo   = localStorage.getItem("date_to");
+                // if (lcFrom) d.date_from = lcFrom;
+                // if (lcTo)   d.date_to   = lcTo;
             },
         },
     },
 };
 
 $(document).ready(function () {
-    // app.config.autoload()
+    app.config.autoload()
 
     // ==================== STATE ====================
     let currentIjo   = null;
@@ -1204,6 +1084,7 @@ $(document).ready(function () {
                     <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>
                     <td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
                     <td>${escapeHtml(t.location || '-')}</td>
+                    <td>${escapeHtml(t.weather_condition || '-')}</td>
                     <td>${t.speed_knot ? parseFloat(t.speed_knot).toFixed(2)+' kn' : '-'}</td>
                     <td>${t.distance_nm ? parseFloat(t.distance_nm).toFixed(2)+' NM' : '-'}</td>
                     <td class="text-nowrap">${etaText}</td>
