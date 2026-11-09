@@ -46,98 +46,15 @@ class TimeSheetController extends ResourceController
 
     public function index()
     {
-        // $crew = session()->get('crew');
         $timesheets = [];
         $show_ijo = [];
         $ijo_id = '';
 
-        // // Cek position_id (harus 105 = Kapten)
-        // if (!$crew || $this->jabatan_id != 105) {
-        //     // return redirect()->to('/')->with('error', 'Hanya Kapten yang bisa input timesheet.');
-
-        // }
-
-        // // Jika jabatannya adalah Crew
-        // if ($this->jabatan_id == getenv('crewing.jabatan_id')) {
-        //     // Jika Rank nya adalah Kapten
-        //     // if (session()->get('crew')->base_rank_id == '1') {
-        //     //     // code...
-        //     // }
-        // }
-
-        // if (!$crew) {
-        //     // return redirect()->to('/')->with('error', 'Hanya Kapten yang bisa input timesheet.');
-        //     $show_ijo = $this->dorbitt->table('ijo a')
-        //         ->select(implode(',', [
-        //             "a.*",
-        //             "b.name as tugboat_name",
-        //         ]))
-        //         ->join('vessel b', 'b.id = a.tugboat_id', 'left')
-        //         ->whereIn('a.is_release', [2,3])
-        //         ->get()
-        //         ->getResultArray()
-        //     ;
-        // }
-
-        // Cek IJO aktif (status_id 2 atau 3)
-        // $ijo_status_id = isset($crew->ijo_status_id) ? $crew->ijo_status_id : '';
-        // $ijoActive = in_array($ijo_status_id, ['1', '2', '3']);
-
-        // List timesheet milik crew ini
         $filters = [
             'status' => $this->request->getGet('status'),
         ];
 
         $employee_id = session()->get('oa2_employee')->id;
-        // $show_meCrew = $this->builder_get_crewDetail($employee_id)->get()->getFirstRow();
-        // $crew_assignment = $this->dorbitt->table('crew_assignment')
-        //     ->where('employee_id', $employee_id)
-        //     ->get()
-        //     ->getRow()
-        // ;
-
-        // $vessel_id = ($crew_assignment) ? $crew_assignment->vessel_id : null;
-
-        // $show_myIjo = $this->builder_get_ijo($vessel_id)->get()->getFirstRow();
-
-        // $ijo_id = $show_myIjo->id;
-        // $timesheets = $this->timesheetModel->getListByIjo($ijo_id, $filters, 10);
-
-        // $data = [
-        //     'vessel_id'     => $vessel_id,
-        //     'employee_id'   => $employee_id,
-        //     'crew'          => $show_meCrew,
-        //     'ijo_id'        => $ijo_id,
-        //     'show_myIjo'    => $show_myIjo,
-        //     'ijoActive'     => $ijoActive,
-        //     'timesheets'    => $timesheets,
-        //     'pager'         => $this->timesheetModel->pager,
-        //     'filters'       => $filters,
-        //     'kondisi_cuaca' => $this->list_cuaca()
-        // ];
-
-        // $data = [
-        //     'page_title' => 'Daily Record - Time Sheet',
-        //     'module_kode' => $this->module_kode,
-        //     'navlink' => $this->module_kode,
-        //     'group' => ['operations','time_sheet'],
-        //     'tmp' => $this->gHelp->tmp(),
-        //     'dir_views' => $this->dir_view,
-        //     'crud' => null,
-        //     'breadcrumb' => [
-        //         [
-        //             "name" => "Operations",
-        //             "page" => "#",
-        //             "active" => ""
-        //         ],
-        //         [
-        //             "name" => "Time Sheet",
-        //             "page" => "#",
-        //             "active" => "active"
-        //         ]
-        //     ]
-        // ];
-        // return view($this->vH->ummuView($this->dir_view . 'index'), $data);
 
         $data = [
             'page_title'    => '<i class="fas fa-users-cog text-info mr-2"></i> Time Sheet',
