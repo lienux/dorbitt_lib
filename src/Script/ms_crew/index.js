@@ -416,21 +416,24 @@ var app = {
             const id = $ummu.url.getParam('id');
             const employee_id = $ummu.url.getParam('employee_id');
 
-            const sign_type = $("#sign_type").val();
+            const vessel_id = $("#tugboat").attr('data-id');
+            const sign_status = $("#sign_status").val();
             const sign_place = $("#sign_place").val();
             const sign_date = $("#sign_date").val();
             const sign_remark = $("#sign_remark").val();
 
             $ummu.vars.formData = new FormData();
             $ummu.vars.formData.append("employee_id", employee_id);
-            $ummu.vars.formData.append("sign_type", sign_type);
+            $ummu.vars.formData.append("vessel_id", vessel_id);
+            $ummu.vars.formData.append("sign_status", sign_status);
             $ummu.vars.formData.append("sign_place", sign_place);
             $ummu.vars.formData.append("sign_date", sign_date);
             $ummu.vars.formData.append("sign_remark", sign_remark);
 
             var payload = {
                 "employee_id": employee_id,
-                "sign_type": sign_type,
+                "vessel_id": vessel_id,
+                "sign_status": sign_status,
                 "sign_place": sign_place,
                 "sign_date": sign_date,
                 "sign_remark": sign_remark,
@@ -573,18 +576,18 @@ var app = {
             </span>`;
 
             if (row.sign_status == 'on') {
-                $('#sign_status').html(on);
-                $('#sign_type').val('on');
+                $('#current_sign').html(on);
+                $('#sign_status').val('on');
                 $('#sign_place').val(row.sign_on_place);
                 $('#sign_date').val(row.sign_on_date);
             }else if(row.sign_status == 'off') {
-                $('#sign_status').html(off);
-                $('#sign_type').val('off');
+                $('#current_sign').html(off);
+                $('#sign_status').val('off');
                 $('#sign_place').val(row.sign_off_place);
                 $('#sign_date').val(row.sign_off_date);
             }else{
-                $('#sign_status').html('');
-                $('#sign_type').val('');
+                $('#current_sign').html('');
+                $('#sign_status').val('');
                 $('#sign_place').val('');
                 $('#sign_date').val('');
             }

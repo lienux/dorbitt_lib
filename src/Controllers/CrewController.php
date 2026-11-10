@@ -312,14 +312,17 @@ class CrewController extends ResourceController
     public function tr_sign_crew()
     {
         $employee_id = $this->request->getPost('employee_id');
-        $type = $this->request->getPost('sign_type');
+        $vessel_id = $this->request->getPost('vessel_id');
+        $status = $this->request->getPost('sign_status');
         $place = $this->request->getPost('sign_place');
         $date = $this->request->getPost('sign_date');
         $remark = $this->request->getPost('sign_remark');
 
         $payload = [
             'employee_id' => $employee_id,
-            'type' => $type,
+            'vessel_id' => $vessel_id,
+            'type' => 'on_off',
+            'status' => $status,
             'place' => $place,
             'date' => $date,
             'remark' => $remark,
