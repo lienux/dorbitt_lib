@@ -71,8 +71,8 @@ var app = {
                 }
             });
 
-            $('#btn_tr_sign_on').on('click', function(){
-                app.controllers.tr_sign_on_off('on');
+            $('#btn_submit_tr_sign').on('click', function(){
+                app.controllers.tr_sign_crew();
             });
         },
     },
@@ -111,6 +111,7 @@ var app = {
             $('#fixed_cost, #variable_cost').prop('disabled', false);
             // $("#status").html('<span class="badge badge-secondary">Draft</span>')
             // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
+            app.views.tab_transaction()
         },
 
         sbSave: function () {
@@ -303,6 +304,7 @@ var app = {
                     // }else{
                     // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
                     // }
+                    app.views.tab_transaction()
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -320,6 +322,7 @@ var app = {
             }else{
                 app.views.forClear()
             }
+            app.views.tab_transaction()
         },
 
         sbEdit: function () {
@@ -332,6 +335,7 @@ var app = {
             if ($('#crew_ranks').val()) {
                 $('#btn_show_ranks').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
             }
+            app.views.tab_transaction()
         },
 
         sbDelete: function(id) {
@@ -356,16 +360,19 @@ var app = {
                 // An error occurred
                 console.log(ummu)
             });
+            app.views.tab_transaction()
         },
 
         sbClear: function() {
             app.views.forClear()
             // $('#fixed_cost, #variable_cost').prop('disabled', true);
+            app.views.tab_transaction()
         },
 
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
             app.views.forClear()
+            app.views.tab_transaction()
         },
 
         on_showLeftModal: function(id) {
@@ -392,6 +399,7 @@ var app = {
             // ms_cost: function(row) {
             //     $("#ms_cost").val(row.name).attr('data-id', row.id)
             // },
+            app.views.tab_transaction()
         },
 
         on_click_tbody_trtd_child_vessel_id: function(row) {
@@ -404,29 +412,32 @@ var app = {
             $("#rank_id").val(row.rank_name_en).attr('data-id', row.id)
         },
 
-        tr_sign_on_off: function (tr) {
+        tr_sign_crew: function () {
             const id = $ummu.url.getParam('id');
             const employee_id = $ummu.url.getParam('employee_id');
 
-            const sign_on_place = $("#sign_on_place").val();
-            const sign_on_date = $("#sign_on_date").val();
-            const sign_off_place = $("#sign_off_place").val();
-            const sign_off_date = $("#sign_off_date").val();
-            const remarks = $("#remarks").val();
+            const sign_type = $("#sign_type").val();
+            const sign_place = $("#sign_place").val();
+            const sign_date = $("#sign_date").val();
+            const sign_remark = $("#sign_remark").val();
 
-            // =============================================================
-            // =============================================================
-            // =============================================================
             $ummu.vars.formData = new FormData();
-            
             $ummu.vars.formData.append("employee_id", employee_id);
-            $ummu.vars.formData.append("sign_on_place", sign_on_place);
-            $ummu.vars.formData.append("sign_on_date", sign_on_date);
-            $ummu.vars.formData.append("sign_off_place", sign_off_place);
-            $ummu.vars.formData.append("sign_off_date", sign_off_date);
+            $ummu.vars.formData.append("sign_type", sign_type);
+            $ummu.vars.formData.append("sign_place", sign_place);
+            $ummu.vars.formData.append("sign_date", sign_date);
+            $ummu.vars.formData.append("sign_remark", sign_remark);
+
+            var payload = {
+                "employee_id": employee_id,
+                "sign_type": sign_type,
+                "sign_place": sign_place,
+                "sign_date": sign_date,
+                "sign_remark": sign_remark,
+            };
 
             var params = {
-                "function": 'tr_sign_on_off/' + tr,
+                "function": 'tr_sign_crew',
                 "data": $ummu.vars.formData,
                 "loader": true,
             };
@@ -447,18 +458,18 @@ var app = {
                 var ummu = $ummu.ajax.ummu7(params);   
                 ummu.done(function(result) {
                     const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, func, id, payload);
-                    // if (response.status == true) {
-                    // //     $("#file_url").attr("href", response.data.fileUrl)
-                    // //     let is_release = response.data.is_release;
-                    // //     if (is_release == null || is_release == '' || is_release == 0) {
-                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                    // //     }else{
-                    // //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    // //     }
-                    // }else{
-                    // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    // }
+                    $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
+                    if (response.status == true) {
+                    //     $("#file_url").attr("href", response.data.fileUrl)
+                    //     let is_release = response.data.is_release;
+                    //     if (is_release == null || is_release == '' || is_release == 0) {
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                    //     }else{
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    //     }
+                    }else{
+                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    }
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -553,6 +564,33 @@ var app = {
 
             $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
 
+            var on = `<span class="badge badge-success status-badge shadow-sm">
+                    <i class="fas fa-ship mr-1"></i> ON
+                </span>`;
+
+            var off = `<span class="badge badge-secondary status-badge shadow-sm">
+                <i class="fas fa-home mr-1"></i> OFF
+            </span>`;
+
+            if (row.sign_status == 'on') {
+                $('#sign_status').html(on);
+                $('#sign_type').val('on');
+                $('#sign_place').val(row.sign_on_place);
+                $('#sign_date').val(row.sign_on_date);
+            }else if(row.sign_status == 'off') {
+                $('#sign_status').html(off);
+                $('#sign_type').val('off');
+                $('#sign_place').val(row.sign_off_place);
+                $('#sign_date').val(row.sign_off_date);
+            }else{
+                $('#sign_status').html('');
+                $('#sign_type').val('');
+                $('#sign_place').val('');
+                $('#sign_date').val('');
+            }
+
+            $('#sign_remark').val(row.sign_remark);
+
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
         },
@@ -570,6 +608,19 @@ var app = {
             // $('input[name="behavior"]').prop('disabled', true);
             resetCrewFormValidation({ resetTab: true, resetFields: false });
         },
+
+        tab_transaction: function() {
+            const id = $ummu.url.getParam('id');
+
+            if (id) {
+                $('#nav_item_transaction').removeClass('collapse');
+            }else{
+                $('#nav_item_transaction').addClass('collapse');
+                $('#pane-transaction').removeClass('show active');
+                $('#pane-personal').addClass('show active')
+                $('#tab-personal').addClass('active')
+            }
+        }
     },
 
     dt: {
@@ -887,11 +938,11 @@ var app = {
                         data: "npwp",
                         className: 'align-middle',
                     },
-                    { 
-                        title: "Vaksin",
-                        data: "vaccination_info",
-                        className: 'align-middle',
-                    },
+                    // { 
+                    //     title: "Vaksin",
+                    //     data: "vaccination_info",
+                    //     className: 'align-middle',
+                    // },
                     { 
                         title: "Status Kerja",
                         data: null,
@@ -899,30 +950,49 @@ var app = {
                         render: function(data, type, row) {
                             var html = "";
 
-                            var on_board = `<span class="badge badge-success status-badge shadow-sm">
-                                    <i class="fas fa-ship mr-1"></i> ON BOARD
+                            var on = `<span class="badge badge-success status-badge shadow-sm">
+                                    <i class="fas fa-ship mr-1"></i> ON
                                 </span>`;
-                            var standby = `<span class="badge badge-info status-badge shadow-sm">
-                                    <i class="fas fa-user-clock mr-1"></i> STANDBY
-                                </span>`
-                            var off_sign = `<span class="badge badge-secondary status-badge shadow-sm">
-                                <i class="fas fa-home mr-1"></i> OFF SIGN / CUTI
+
+                            var off = `<span class="badge badge-secondary status-badge shadow-sm">
+                                <i class="fas fa-home mr-1"></i> OFF
                             </span>`;
-                            var medical_leave = `<span class="badge badge-danger status-badge shadow-sm">
-                                <i class="fas fa-clinic-medical"></i> MEDICAL LEAVE
-                            </span>`;
+
+                            // var on_board = `<span class="badge badge-success status-badge shadow-sm">
+                            //         <i class="fas fa-ship mr-1"></i> ON BOARD
+                            //     </span>`;
+                            // var standby = `<span class="badge badge-info status-badge shadow-sm">
+                            //         <i class="fas fa-user-clock mr-1"></i> STANDBY
+                            //     </span>`
+                            // var off_sign = `<span class="badge badge-secondary status-badge shadow-sm">
+                            //     <i class="fas fa-home mr-1"></i> OFF SIGN / CUTI
+                            // </span>`;
+                            // var medical_leave = `<span class="badge badge-danger status-badge shadow-sm">
+                            //     <i class="fas fa-clinic-medical"></i> MEDICAL LEAVE
+                            // </span>`;
+
                             // 'STANDBY','ON_BOARD','OFF_SIGN','MEDICAL_LEAVE'
 
-                            var current_crew_status = row.current_crew_status;
+                            // var current_crew_status = row.current_crew_status;
 
-                            if (current_crew_status == 'STANDBY') {
-                                var html = standby;
-                            }else if (current_crew_status == 'ON_BOARD') {
-                                var html = on_board;
-                            }else if (current_crew_status == 'OFF_SIGN') {
-                                var html = off_sign;
+                            // if (current_crew_status == 'STANDBY') {
+                            //     var html = standby;
+                            // }else if (current_crew_status == 'ON_BOARD') {
+                            //     var html = on_board;
+                            // }else if (current_crew_status == 'OFF_SIGN') {
+                            //     var html = off_sign;
+                            // }else{
+                            //     var html = medical_leave;
+                            // }
+
+                            var sign_status = row.sign_status;
+
+                            if (sign_status == 'on') {
+                                var html = on;
+                            }else if (sign_status == 'off') {
+                                var html = off;
                             }else{
-                                var html = medical_leave;
+                                var html = '-';
                             }
 
                             return html;
@@ -956,6 +1026,7 @@ var app = {
                 // $ummu.url.setParamFromRow(row);
                 $ummu.url.setParamFromObject(row);
                 app.views.setRow_toForm(row);
+                app.views.tab_transaction()
 
                 // console.log(ummu)
             },
