@@ -650,7 +650,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <input type="text" class="form-control form-control-sm" id="remark_pindah_kapal" placeholder="Alasan Perpindahan Rank">
+                            <input type="text" class="form-control form-control-sm" id="remark_pindah_kapal" placeholder="Alasan Perpindahan Kapal">
                         </div>
                     </div>
 
@@ -698,23 +698,23 @@
                     <div class="section-title mb-3"><i class="fas fa-ship mr-1"></i> Transaction Sign On / Sign Off Crew</div>
 
                     <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0" for="sign_status">
-                            Current Sign Status
+                        <label class="col-sm-4 mb-0 pb-0" for="current_sign">
+                            Current Sign
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <div class="form-control form-control-sm ummu-readonly" id="sign_status" readonly></div>
+                                <div class="form-control form-control-sm ummu-readonly" id="current_sign" readonly></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0" for="sign_type">
-                            Sign Type <span class="text-danger"> *</span>
+                        <label class="col-sm-4 mb-0 pb-0" for="sign_status">
+                            Status <span class="text-danger"> *</span>
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <select class="form-control form-control-sm" id="sign_type">
+                                <select class="form-control form-control-sm" id="sign_status">
                                     <option value="">- Pilih Sign On / Off -</option>
                                     <option value="on">Sign On</option>
                                     <option value="off">Sign Off</option>
