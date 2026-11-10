@@ -82,11 +82,11 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" id="tab-status" data-toggle="tab" href="#pane-status" role="tab">
-                <i class="fas fa-ship mr-1"></i> Status & Lain
+                <i class="fas fa-ship mr-1"></i> Perlengkapan & Lain-lain
                 <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-status">0</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="nav_item_transaction">
             <a class="nav-link" id="tab-transaction" data-toggle="tab" href="#pane-transaction" role="tab">
                 <i class="fas fa-toggle-off"></i> Transaction
                 <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-transaction">0</span>
@@ -505,9 +505,53 @@
         <!-- ============================================================ -->
         <div class="tab-pane fade" id="pane-status" role="tabpanel">
             <div class="row">
-                <!-- Status & Penempatan -->
+                <!-- Perlengkapan & Catatan -->
                 <div class="col-lg-6 col-sm-12">
-                    <div class="section-title mb-3"><i class="fas fa-ship mr-1"></i> Status & Penempatan</div>
+                    <div class="section-title mb-3"><i class="fas fa-tshirt mr-1"></i> Perlengkapan & Catatan</div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="wearpack_size">
+                            Ukuran Wearpack
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <select class="form-control form-control-sm endis" id="wearpack_size" disabled>
+                                    <option value="">- Pilih -</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="safety_shoes_size">
+                            Ukuran Safety Shoes
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <input type="number" min="30" max="50" class="form-control form-control-sm endis" id="safety_shoes_size" placeholder="cth: 42" title="Ukuran Safety Shoes" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="remarks">
+                            Catatan / Keterangan
+                        </label>
+                        <div class="col">
+                            <textarea class="form-control form-control-sm endis" id="remarks" rows="3" placeholder="Catatan tambahan, mis. dokumen sedang proses perpanjangan..." disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Status & Penempatan -->
+                <div class="col-lg-6 col-sm-12">
+                    <!-- <div class="section-title mb-3"><i class="fas fa-ship mr-1"></i> Status & Penempatan</div>
 
                     <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="current_crew_status">
@@ -523,7 +567,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="row mb-2">
                         <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="sign_on_place">
@@ -581,50 +625,6 @@
                         </div>
                     </div> -->
                 </div>
-
-                <!-- Perlengkapan & Catatan -->
-                <div class="col-lg-6 col-sm-12">
-                    <div class="section-title mb-3"><i class="fas fa-tshirt mr-1"></i> Perlengkapan & Catatan</div>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="wearpack_size">
-                            Ukuran Wearpack
-                        </label>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <select class="form-control form-control-sm endis" id="wearpack_size" disabled>
-                                    <option value="">- Pilih -</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                    <option value="XXL">XXL</option>
-                                    <option value="XXXL">XXXL</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="safety_shoes_size">
-                            Ukuran Safety Shoes
-                        </label>
-                        <div class="col">
-                            <div class="input-group input-group-sm">
-                                <input type="number" min="30" max="50" class="form-control form-control-sm endis" id="safety_shoes_size" placeholder="cth: 42" title="Ukuran Safety Shoes" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="remarks">
-                            Catatan / Keterangan
-                        </label>
-                        <div class="col">
-                            <textarea class="form-control form-control-sm endis" id="remarks" rows="3" placeholder="Catatan tambahan, mis. dokumen sedang proses perpanjangan..." disabled></textarea>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -640,7 +640,7 @@
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm is-data-id" id="tr_tugboat" placeholder="Pilih Kapal" data-label="Vessel" required disabled>
+                                <input type="text" class="form-control form-control-sm is-data-id ummu-readonly" id="tr_tugboat" placeholder="Pilih Kapal" data-label="Vessel" required disabled readonly>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary show-left-modal" id="btn_show_vessel" type="button" data-inputid="tr_tugboat" data-modaltitle="Master Vessel">
                                         <i class="fas fa-list-ul"></i>
@@ -703,7 +703,7 @@
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <div id="sign_status"></div>
+                                <div class="form-control form-control-sm ummu-readonly" id="sign_status" readonly></div>
                             </div>
                         </div>
                     </div>
@@ -714,7 +714,7 @@
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <select class="form-control form-control-sm endis" id="sign_type">
+                                <select class="form-control form-control-sm" id="sign_type">
                                     <option value="">- Pilih Sign On / Off -</option>
                                     <option value="on">Sign On</option>
                                     <option value="off">Sign Off</option>
@@ -740,14 +740,11 @@
                         </label>
                         <div class="col">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control ummu-datepicker" id="sign_date" title="Tanggal Sign" placeholder="Pilih tanggal" readonly disabled>
+                                <input type="text" class="form-control ummu-datepicker ummu-readonly" id="sign_date" title="Tanggal Sign" placeholder="Pilih tanggal" readonly disabled>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary btn-show-datepicker" type="button"
                                         data-inputid="sign_date">
                                         <i class="fas fa-calendar-alt"></i>
-                                    </button>
-                                    <button class="btn btn-warning" id="btn_tr_sign_on_off" type="button">
-                                        <i class="fas fa-save"></i> Update
                                     </button>
                                 </div>
                             </div>
@@ -763,6 +760,12 @@
                                 <textarea class="form-control form-control-sm" id="sign_remark"></textarea>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="text-right">
+                        <button class="btn btn-warning" id="btn_submit_tr_sign" type="button">
+                            <i class="fas fa-save"></i> Update Sign Crew
+                        </button>
                     </div>
                 </div>
             </div>

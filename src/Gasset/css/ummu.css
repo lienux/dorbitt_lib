@@ -1198,3 +1198,38 @@ select:hover + .popup-text {
     box-shadow: 0 4px 10px -2px rgba(99, 102, 241, 0.4);
     color: #fff;
 }
+
+
+/* Style dasar input (mirip form-control Bootstrap 4) */
+.ummu-readonly {
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ummu-readonly:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* === INI KUNCINYA (Bootstrap 4 readonly style) === */
+.ummu-readonly[readonly] {
+    background-color: #e9ecef;
+    color: #495057;
+    cursor: not-allowed;
+    border-color: #ced4da;
+}
+
+/* Readonly tidak dapat fokus style */
+.ummu-readonly[readonly]:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}

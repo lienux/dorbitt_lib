@@ -309,37 +309,31 @@ class CrewController extends ResourceController
         return $payload;
     }
 
-    public function tr_sign_on_off($tr)
+    public function tr_sign_crew()
     {
         $employee_id = $this->request->getPost('employee_id');
-        $sign_on_place = $this->request->getPost('sign_on_place');
-        $sign_on_date = $this->request->getPost('sign_on_date');
-        $sign_off_place = $this->request->getPost('sign_off_place');
-        $sign_off_date = $this->request->getPost('sign_off_date');
+        $type = $this->request->getPost('sign_type');
+        $place = $this->request->getPost('sign_place');
+        $date = $this->request->getPost('sign_date');
+        $remark = $this->request->getPost('sign_remark');
 
-        if ($tr == 'on') {
-            $payload = [
-                'employee_id' => $employee_id,
-                'sign_on_place' => $sign_on_place,
-                'sign_on_date' => $sign_on_date,
-            ];
-        }else{
-            $payload = [
-                'employee_id' => $employee_id,
-                'sign_off_place' => $sign_off_place,
-                'sign_off_date' => $sign_off_date,
-            ];
-        }
+        $payload = [
+            'employee_id' => $employee_id,
+            'type' => $type,
+            'place' => $place,
+            'date' => $date,
+            'remark' => $remark,
+        ];
 
         $params = [
-            "path" => $this->pathAPI . '/tr_sign_on_off/' . $tr,
+            "path" => $this->pathAPI . '/tr_sign_crew',
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
         ];
 
-        // $builder = $this->cH->ummu2($params);
-        $builder = $params;
+        $builder = $this->cH->ummu2($params);
+        // $builder = $params;
 
         return $this->respond($builder, 200);
     }
