@@ -783,7 +783,7 @@
 
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Transaction Sign On / Sign Off Crew</h5>
+                            <h5 class="card-title">Transaksi Sign On / Sign Off Crew</h5>
 
                             <div class="row mb-2">
                                 <label class="col-sm-4 mb-0 pb-0" for="current_sign">

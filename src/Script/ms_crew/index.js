@@ -641,6 +641,7 @@ var app = {
             $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
 
             app.views.current_sign(row);
+            app.views.current_gapok(row);
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
         },
@@ -672,6 +673,39 @@ var app = {
             }
 
             $('#sign_remark').val(row.sign_remark);
+        },
+
+        current_gapok: function(row) {
+            // var on = `<span class="badge badge-success status-badge shadow-sm">
+            //         <i class="fas fa-ship mr-1"></i> ON @ ${row.sign_on_date}
+            //     </span>`;
+
+            // var off = `<span class="badge badge-secondary status-badge shadow-sm">
+            //     <i class="fas fa-home mr-1"></i> OFF @ ${row.sign_off_date}
+            // </span>`;
+
+            // if (row.sign_status == 'on') {
+            //     $('#current_gapok').html(on);
+            //     // $('#sign_status').val('on');
+            //     $('#tr_gapok').val(row.sign_on_place);
+            //     $('#tgl_kenaikan_gapok').val(row.sign_on_date);
+            // }else if(row.sign_status == 'off') {
+            //     $('#current_gapok').html(off);
+            //     // $('#sign_status').val('off');
+            //     $('#tr_gapok').val(row.sign_off_place);
+            //     $('#tgl_kenaikan_gapok').val(row.sign_off_date);
+            // }else{
+            //     $('#current_gapok').html('');
+            //     // $('#sign_status').val('');
+            //     $('#tr_gapok').val('');
+            //     $('#tgl_kenaikan_gapok').val('');
+            // }
+
+            $('#current_gapok').html(row.tr_gapok);
+            // $('#sign_status').val('');
+            $('#tr_gapok').val(row.tr_gapok);
+            $('#tgl_kenaikan_gapok').val(row.tanggal_tr_gapok);
+            $('#remark_update_gapok').val(row.remark_tr_gapok);
         },
 
         forClear: function() {
