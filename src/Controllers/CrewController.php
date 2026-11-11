@@ -340,4 +340,34 @@ class CrewController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function tr_gapok()
+    {
+        $employee_id = $this->request->getPost('employee_id');
+        $vessel_id = $this->request->getPost('vessel_id');
+        $tanggal = $this->request->getPost('tanggal');
+        $gapok = $this->request->getPost('gapok');
+        $remark = $this->request->getPost('remark');
+
+        $payload = [
+            'employee_id' => $employee_id,
+            'vessel_id' => $vessel_id,
+            'type' => 'tr_gapok',
+            'tanggal' => $tanggal,
+            'gapok' => $gapok,
+            'remark' => $remark,
+        ];
+
+        $params = [
+            "path" => $this->pathAPI . '/tr_gapok',
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+        // $builder = $params;
+
+        return $this->respond($builder, 200);
+    }
 }
