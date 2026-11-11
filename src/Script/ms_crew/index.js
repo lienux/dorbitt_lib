@@ -18,6 +18,7 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
+            app.views.tab_transaction();
 
             // $ummu.formatter.number2($("#amount"), 10);
             // $ummu.formatter.number($("#basic_salary"), 8)
@@ -73,6 +74,10 @@ var app = {
 
             $('#btn_submit_tr_sign').on('click', function(){
                 app.controllers.tr_sign_crew();
+            });
+
+            $('#btn_update_tr_kenaikan_gapok').on('click', function(){
+                app.controllers.tr_gapok();
             });
         },
     },
@@ -462,6 +467,74 @@ var app = {
                 ummu.done(function(result) {
                     const response = JSON.parse(result);
                     $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
+                    app.views.current_sign(response.data);
+                    if (response.status == true) {
+                    //     $("#file_url").attr("href", response.data.fileUrl)
+                    //     let is_release = response.data.is_release;
+                    //     if (is_release == null || is_release == '' || is_release == 0) {
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
+                    //     }else{
+                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
+                    //     }
+                    }else{
+                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                    }
+                }).fail(function() {
+                    // An error occurred
+                    console.log(ummu)
+                });
+            }
+
+            // console.log(payload)
+        },
+
+        tr_gapok: function () {
+            const id = $ummu.url.getParam('id');
+            const employee_id = $ummu.url.getParam('employee_id');
+            const vessel_id = $("#tugboat").attr('data-id');
+            const tgl_tr = $('#tgl_kenaikan_gapok').val();
+            const gapok = $("#tr_gapok").val();
+            const remark = $("#remark_update_gapok").val();
+
+            $ummu.vars.formData = new FormData();
+            $ummu.vars.formData.append("employee_id", employee_id);
+            $ummu.vars.formData.append("vessel_id", vessel_id);
+            $ummu.vars.formData.append("tanggal", tgl_tr);
+            $ummu.vars.formData.append("gapok", gapok);
+            $ummu.vars.formData.append("remark", remark);
+
+            var payload = {
+                "employee_id": employee_id,
+                "vessel_id": vessel_id,
+                "tanggal": tgl_tr,
+                "gapok": gapok,
+                "remark": remark,
+            };
+
+            var params = {
+                "function": 'tr_gapok',
+                "data": $ummu.vars.formData,
+                "loader": true,
+            };
+
+            // // validasi dulu
+            // if (typeof validateCrewForm === 'function' && !validateCrewForm()) {
+            //     // otomatis pindah ke tab yang error
+            //     return;
+            // }
+
+            // const validation = app.validation.save();
+            const validation = '';
+
+            if (validation.length > 0) {
+                $ummu.views.errors_msg(validation)
+                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+            }else{
+                var ummu = $ummu.ajax.ummu7(params);   
+                ummu.done(function(result) {
+                    const response = JSON.parse(result);
+                    $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
+                    app.views.current_sign(response.data);
                     if (response.status == true) {
                     //     $("#file_url").attr("href", response.data.fileUrl)
                     //     let is_release = response.data.is_release;
@@ -567,12 +640,18 @@ var app = {
 
             $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
 
+            app.views.current_sign(row);
+            $ummu.views.setIdentitiyToForm(row)
+            $ummu.button.sbBtn_on_showData()
+        },
+
+        current_sign: function(row) {
             var on = `<span class="badge badge-success status-badge shadow-sm">
-                    <i class="fas fa-ship mr-1"></i> ON
+                    <i class="fas fa-ship mr-1"></i> ON @ ${row.sign_on_date}
                 </span>`;
 
             var off = `<span class="badge badge-secondary status-badge shadow-sm">
-                <i class="fas fa-home mr-1"></i> OFF
+                <i class="fas fa-home mr-1"></i> OFF @ ${row.sign_off_date}
             </span>`;
 
             if (row.sign_status == 'on') {
@@ -593,9 +672,6 @@ var app = {
             }
 
             $('#sign_remark').val(row.sign_remark);
-
-            $ummu.views.setIdentitiyToForm(row)
-            $ummu.button.sbBtn_on_showData()
         },
 
         forClear: function() {

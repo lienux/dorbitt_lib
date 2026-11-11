@@ -9192,7 +9192,7 @@ var $ummu = {
             }
         },
 
-        after_sbToolbar_falseStatus: function(result)
+        /*after_sbToolbar_falseStatus: function(result)
         {
             $("#message_title, #text_message").empty();
             var message = result.message;
@@ -9206,6 +9206,48 @@ var $ummu = {
                 "</div>";
                 $("#text_message").append($error);
             }
+            $("#message_modal").modal("show");
+            setTimeout(function () {
+                $("#modal_loader").modal("hide");
+            }, 1000);
+        },*/
+
+        after_sbToolbar_falseStatus: function(result)
+        {
+            $("#message_title, #text_message").empty();
+
+            var message = result.message || "Terjadi kesalahan";
+            var errors  = result.errors;
+
+            // Normalisasi: string -> [string], null -> [message], object -> values
+            var errorList;
+            if (typeof errors === "string") {
+                errorList = [errors];
+            } else if (Array.isArray(errors)) {
+                errorList = errors;
+            } else if (errors && typeof errors === "object") {
+                errorList = Object.values(errors).flat();
+            } else {
+                errorList = [message];
+            }
+
+            // Filter kosong + jadikan string
+            errorList = errorList
+                .filter(function (e) { return e !== null && e !== undefined && e !== ""; })
+                .map(function (e) { return String(e); });
+
+            if (errorList.length === 0) errorList = [message];
+
+            $("#message_title").html(message);
+
+            errorList.forEach(function (errMsg) {
+                $("#text_message").append(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<i class="bi bi-exclamation-octagon me-1"></i> ' + errMsg +
+                    "</div>"
+                );
+            });
+
             $("#message_modal").modal("show");
             setTimeout(function () {
                 $("#modal_loader").modal("hide");
