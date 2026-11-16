@@ -13,6 +13,11 @@
                 <span class="d-none d-sm-block"><i class="far fa-list-alt"></i> List Data</span>
                 <span class="d-block d-sm-none"><i class="far fa-list-alt"></i></span>
             </button>
+            <?php
+                if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'tabs.php')) {
+                    echo $this->include(config('Ummu')->Views($dir_views . 'tabs'));
+                }
+            ?>
         </div>
     </nav>
     <div class="section-body">
@@ -77,7 +82,20 @@
                     </div>
                 </div>
             </div>
+
+            <?php
+                if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'tabpanel.php')) {
+                    echo $this->include(config('Ummu')->Views($dir_views . 'tabpanel'));
+                }
+            ?>
         </div>
     </div>
+
+    <?php
+        if (is_file(ROOTPATH . 'vendor/dorbitt/lib/src/Views/' . $dir_views . 'page2.php')) {
+            echo $this->include(config('Ummu')->Views($dir_views . 'page2'));
+        }
+    ?>
+
     <?= $this->include('partials/modal') ?>
 </div>

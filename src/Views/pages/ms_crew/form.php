@@ -86,12 +86,12 @@
                 <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-status">0</span>
             </a>
         </li>
-        <li class="nav-item collapse" id="nav_item_transaction">
+        <!-- <li class="nav-item collapse" id="nav_item_transaction">
             <a class="nav-link" id="tab-transaction" data-toggle="tab" href="#pane-transaction" role="tab">
                 <i class="fas fa-toggle-off"></i> Transaksi Perubahan Data
                 <span class="badge badge-danger ml-1 d-none" data-tab-badge="pane-transaction">0</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 
     <div class="tab-content" id="crewFormTabContent">
@@ -632,7 +632,7 @@
         <!-- TAB 6: TRANSACTION                                        -->
         <!-- ============================================================ -->
         <div class="tab-pane fade" id="pane-transaction" role="tabpanel">
-            <div class="row">
+            <!-- <div class="row">
 
                 <div class="col-lg-6 col-sm-12">
 
@@ -739,7 +739,7 @@
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control ummu-datepicker ummu-readonly" id="tgl_kenaikan_gapok" title="Tanggal Sign" placeholder="Pilih tanggal" readonly disabled>
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary btn-show-datepicker" type="button"
+                                            <button class="btn btn-primary btn-show-datepicker ummu-btn-custom" type="button"
                                                 data-inputid="tgl_kenaikan_gapok">
                                                 <i class="fas fa-calendar-alt"></i>
                                             </button>
@@ -854,11 +854,14 @@
                                 <button class="btn btn-sm btn-outline-purple" id="btn_submit_tr_sign" type="button">
                                     <i class="fas fa-save"></i> Update Sign Crew
                                 </button>
+                                <button class="btn btn-sm btn-outline-danger" id="btn_delete_tr_sign" type="button">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div><!-- /tab-content -->

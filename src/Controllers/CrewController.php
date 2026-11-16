@@ -20,8 +20,8 @@ class CrewController extends ResourceController
         $this->module_kode = 'ms_crew';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
-        $this->cH = new CurlHelper();
         $this->db = \Config\Database::connect();
+        $this->cH = new CurlHelper();
         $this->gHelp = new GlobalHelper();
         $this->vH = new ViewsHelper();
         $this->umHelp = new UmmuHelper();
@@ -341,6 +341,20 @@ class CrewController extends ResourceController
         return $this->respond($builder, 200);
     }
 
+    public function delete_last_tr_sign($employee_id)
+    {
+        $params = [
+            "path" => $this->pathAPI . "/last_tr_sign/" . $employee_id,
+            "method" => 'DELETE',
+            "payload" => [],
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
     public function tr_gapok()
     {
         $employee_id = $this->request->getPost('employee_id');
@@ -367,6 +381,35 @@ class CrewController extends ResourceController
 
         $builder = $this->cH->ummu2($params);
         // $builder = $params;
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_tr_sign_on_off()
+    {
+        $vessel_id = $this->request->getVar('vessel_id');
+        $rank_id = $this->request->getVar('rank_id');
+        $employee_id = $this->request->getVar('employee_id');
+        
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*",
+            // "type_id" => 1,
+            // "vessel_id" => $vessel_id,
+            // "rank_id" => $rank_id,
+            "employee_id" => $employee_id,
+        ]);
+        $queryString = http_build_query($payload);
+
+        // $path = $this->pathAPI . "?" . $queryString;
+        $path = $this->pathAPI . "/tr_sign_on_off?" . $queryString;
+        $headers = $this->cH->headers3($this->module_kode);
+
+        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }

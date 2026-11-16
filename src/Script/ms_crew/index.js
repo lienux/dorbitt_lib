@@ -1,3 +1,5 @@
+var $dataTable_tr_sign_on_off = $('#dataTable_tr_sign_on_off');
+
 var app = {
     register: function () {
         app.config.autoload()
@@ -18,7 +20,7 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
-            app.views.tab_transaction();
+            app.views.form_tr_perubahan_data();
 
             // $ummu.formatter.number2($("#amount"), 10);
             // $ummu.formatter.number($("#basic_salary"), 8)
@@ -79,6 +81,14 @@ var app = {
             $('#btn_update_tr_kenaikan_gapok').on('click', function(){
                 app.controllers.tr_gapok();
             });
+
+            $('#btn_delete_tr_sign').on('click', function(){
+                $ummu.modal.showDeleteConfirm(function () {
+                    app.controllers.delete_last_tr_sign();
+                });
+            });
+
+            app.controllers.show_tr_sign_on_off();
         },
     },
 
@@ -116,7 +126,7 @@ var app = {
             $('#fixed_cost, #variable_cost').prop('disabled', false);
             // $("#status").html('<span class="badge badge-secondary">Draft</span>')
             // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbSave: function () {
@@ -309,7 +319,7 @@ var app = {
                     // }else{
                     // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
                     // }
-                    app.views.tab_transaction()
+                    app.views.form_tr_perubahan_data()
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -320,14 +330,14 @@ var app = {
         },
 
         sbCancle: function () {
-            $('#fixed_cost, #variable_cost').prop('disabled', false);
+            // $('#fixed_cost, #variable_cost').prop('disabled', false);
 
             if ($ummu.url.getParam('id')) {
                 $('input[name="behavior"]').prop('disabled', true);
             }else{
                 app.views.forClear()
             }
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbEdit: function () {
@@ -340,7 +350,12 @@ var app = {
             if ($('#crew_ranks').val()) {
                 $('#btn_show_ranks').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
             }
-            app.views.tab_transaction()
+
+            if ($('#basic_salary').val()) {
+                $('#basic_salary').attr('disabled', true);
+            }
+
+            app.views.form_tr_perubahan_data()
         },
 
         sbDelete: function(id) {
@@ -365,19 +380,19 @@ var app = {
                 // An error occurred
                 console.log(ummu)
             });
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbClear: function() {
             app.views.forClear()
             // $('#fixed_cost, #variable_cost').prop('disabled', true);
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
             app.views.forClear()
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_showLeftModal: function(id) {
@@ -404,7 +419,7 @@ var app = {
             // ms_cost: function(row) {
             //     $("#ms_cost").val(row.name).attr('data-id', row.id)
             // },
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_click_tbody_trtd_child_vessel_id: function(row) {
@@ -469,15 +484,9 @@ var app = {
                     $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
                     app.views.current_sign(response.data);
                     if (response.status == true) {
-                    //     $("#file_url").attr("href", response.data.fileUrl)
-                    //     let is_release = response.data.is_release;
-                    //     if (is_release == null || is_release == '' || is_release == 0) {
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                    //     }else{
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    //     }
+                        app.dt.tr_sign_on_off.init.ajax.reload();
                     }else{
-                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                        // 
                     }
                 }).fail(function() {
                     // An error occurred
@@ -486,6 +495,31 @@ var app = {
             }
 
             // console.log(payload)
+        },
+
+        delete_last_tr_sign: function() {
+            // $("#modalDeleteConfirm").modal('hide')
+            const employee_id = $ummu.url.getParam('employee_id');
+
+            var params = {
+                "function": "delete_last_tr_sign/" + employee_id,
+                "method": "DELETE",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+                "textLoader": "Delete on progress..."
+            };
+
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                app.dt.tr_sign_on_off.init.ajax.reload();
+                // app.views.form_tr_perubahan_data()
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
         },
 
         tr_gapok: function () {
@@ -553,6 +587,20 @@ var app = {
             }
 
             // console.log(payload)
+        },
+
+        show_tr_sign_on_off: function () {
+            if ($('#dataTable_tr_sign_on_off').data('init') != 'tr_sign_on_off') {
+                $dataTable_tr_sign_on_off.DataTable().destroy();
+                $dataTable_tr_sign_on_off.empty(); // Opsional: bersihkan isi HTML tabel
+                app.dt.tr_sign_on_off.init = null
+            }
+
+            if (app.dt.tr_sign_on_off.init == null) {
+                app.dt.tr_sign_on_off.create()
+            } 
+
+            $($dataTable_tr_sign_on_off).data('init', 'tr_sign_on_off');
         },
     },
 
@@ -648,23 +696,19 @@ var app = {
 
         current_sign: function(row) {
             var on = `<span class="badge badge-success status-badge shadow-sm">
-                    <i class="fas fa-ship mr-1"></i> ON @ ${row.sign_on_date}
+                    <i class="fas fa-ship mr-1"></i> ON @ ${row.tr_sign_date}
                 </span>`;
 
             var off = `<span class="badge badge-secondary status-badge shadow-sm">
-                <i class="fas fa-home mr-1"></i> OFF @ ${row.sign_off_date}
+                <i class="fas fa-home mr-1"></i> OFF @ ${row.tr_sign_date}
             </span>`;
 
-            if (row.sign_status == 'on') {
+            if (row.tr_sign_status == 'on') {
                 $('#current_sign').html(on);
                 $('#sign_status').val('on');
-                $('#sign_place').val(row.sign_on_place);
-                $('#sign_date').val(row.sign_on_date);
-            }else if(row.sign_status == 'off') {
+            }else if(row.tr_sign_status == 'off') {
                 $('#current_sign').html(off);
                 $('#sign_status').val('off');
-                $('#sign_place').val(row.sign_off_place);
-                $('#sign_date').val(row.sign_off_date);
             }else{
                 $('#current_sign').html('');
                 $('#sign_status').val('');
@@ -672,7 +716,9 @@ var app = {
                 $('#sign_date').val('');
             }
 
-            $('#sign_remark').val(row.sign_remark);
+            $('#sign_place').val(row.tr_sign_place);
+            $('#sign_date').val(row.tr_sign_date);
+            $('#sign_remark').val(row.tr_sign_remark);
         },
 
         current_gapok: function(row) {
@@ -722,21 +768,25 @@ var app = {
             resetCrewFormValidation({ resetTab: true, resetFields: false });
         },
 
-        tab_transaction: function() {
+        form_tr_perubahan_data: function() {
             const id = $ummu.url.getParam('id');
 
             if (id) {
-                $('#nav_item_transaction').removeClass('collapse');
+                $('#form_tr_perubahan_data').removeClass('collapse');
             }else{
-                $('#nav_item_transaction').addClass('collapse');
-                $('#pane-transaction').removeClass('show active');
-                $('#pane-personal').addClass('show active')
-                $('#tab-personal').addClass('active')
+                $('#form_tr_perubahan_data').addClass('collapse');
+                // $('#pane-transaction').removeClass('show active');
+                // $('#pane-personal').addClass('show active')
+                // $('#tab-personal').addClass('active')
             }
         }
     },
 
     dt: {
+        init: {
+            // 
+        },
+
         config: {
             columns: function () {
                 let columns = [
@@ -1126,6 +1176,53 @@ var app = {
                 return columns;
             },
 
+            columns_tr_sign_on_off: function () {
+                let columns = [
+                    { 
+                        title: "ID",
+                        data: "id",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Vessel",
+                        data: "vessel_name",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Status",
+                        data: null,
+                        className: 'align-middle',
+                        render: function(data, type, row) {
+                            var html = "";
+                            if (row.status == 'on') {
+                                var html = `<span class="badge badge-success">ON</span>`;
+                            }else{
+                                var html = `<span class="badge badge-danger">OFF</span>`;
+                            }
+
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Place",
+                        data: "place",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Date",
+                        data: "date",
+                        className: 'align-middle'
+                    },
+                    { 
+                        title: "Remark",
+                        data: "remark",
+                        className: 'align-middle',
+                    },
+                ];
+        
+                return columns;
+            },
+
             serverSide: function() {
                 return false;
             },
@@ -1139,7 +1236,7 @@ var app = {
                 // $ummu.url.setParamFromRow(row);
                 $ummu.url.setParamFromObject(row);
                 app.views.setRow_toForm(row);
-                app.views.tab_transaction()
+                app.views.form_tr_perubahan_data()
 
                 // console.log(ummu)
             },
@@ -1182,6 +1279,74 @@ var app = {
                 // var lcTo   = localStorage.getItem("date_to");
                 // if (lcFrom) d.date_from = lcFrom;
                 // if (lcTo)   d.date_to   = lcTo;
+            },
+        },
+
+        tr_sign_on_off: {
+            init: null,
+            
+            create: function () {
+                app.dt.tr_sign_on_off.init = new DataTable(
+                    $dataTable_tr_sign_on_off,
+                    app.dt.tr_sign_on_off.config()
+                );
+
+                app.dt.tr_sign_on_off.init.on('xhr', function () {
+                    var response = app.dt.tr_sign_on_off.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('tr_sign_on_off', JSON.stringify(response));
+                    }
+                });
+            },
+
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: `${$ummu.vars.page_url}show_tr_sign_on_off`,
+                        data: function (d) {
+                            d.employee_id = $ummu.url.getParam('employee_id');
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
+                        },
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        app.dt.tr_sign_on_off.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: app.dt.config.columns_tr_sign_on_off(),
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
             },
         },
     },

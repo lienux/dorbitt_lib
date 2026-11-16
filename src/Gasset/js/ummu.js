@@ -17361,6 +17361,71 @@ var $ummu = {
             $('#ummu_modal_message #alert').html(msg)
             $('#ummu_modal_message').modal('show')
         },
+
+        // Helper reusable
+        showDeleteConfirm: function(callback) {
+            const $btn = $('#ummu_modal_delete_confirm button');
+            
+            // Lepas semua handler lama dulu supaya tidak numpuk
+            $btn.off('click.ummuConfirm');
+            
+            // Pasang handler baru
+            $btn.on('click.ummuConfirm', function () {
+                $('#ummu_modal_delete_confirm').modal('hide');
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+            
+            $('#ummu_modal_delete_confirm').modal('show');
+        },
+        /*// Pemanggilan 1 — hapus tr_sign
+        $('#btn_hapus_tr_sign').on('click', function () {
+            $ummu.showDeleteConfirm(function () {
+                app.controllers.delete_last_tr_sign();
+            });
+        });
+
+        // Pemanggilan 2 — hapus data lain
+        $('#btn_hapus_lain').on('click', function () {
+            $ummu.showDeleteConfirm(function () {
+                app.controllers.delete_something_else(123);
+            });
+        });
+
+        // Pemanggilan 3 — dengan parameter dinamis
+        function confirmDeleteRow(id) {
+            $ummu.showDeleteConfirm(function () {
+                $.post('/api/delete/' + id, function () {
+                    location.reload();
+                });
+            });
+        }*/
+
+        showConfirmModal: function({ title, message, onConfirm, onCancel }) {
+            const $modal = $('#ummu_modal_delete_confirm');
+            
+            if (title)   $modal.find('.modal-title').text(title);
+            if (message) $modal.find('.modal-body').text(message);
+            
+            const $btn = $modal.find('button.btn-confirm');
+            $btn.off('click.ummuConfirm').on('click.ummuConfirm', function () {
+                $modal.modal('hide');
+                onConfirm && onConfirm();
+            });
+            
+            $modal.one('hidden.bs.modal', function () {
+                onCancel && onCancel();
+            });
+            
+            $modal.modal('show');
+        }
+        /*// Pemakaian
+        showConfirmModal({
+            title: 'Hapus Tanda Tangan',
+            message: 'Yakin hapus tanda tangan terakhir?',
+            onConfirm: () => app.controllers.delete_last_tr_sign()
+        });*/
     },
 
     button: {
@@ -17471,7 +17536,7 @@ var $ummu = {
                         // $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     }
 
-                    $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+                    $("#form_input button").not('.ummu-btn-custom').removeClass('btn-primary').addClass('btn-outline-secondary')
 
                     // menghapus nilai data-id 
                     $ummu.views.clearForm();

@@ -8,7 +8,7 @@
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control form-control-sm text-info is-data-id" id="vessel_id" placeholder="Pilih Tugboat" data-label="Tugboat" disabled>
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary endis show-left-modal btn-endis" id="btn_show_vessel" type="button"  data-inputid="vessel_id" data-modaltitle="Master Tugboat">
+                            <button class="btn btn-outline-primary endis show-left-modal ummu-btn-custom" id="btn_show_vessel" type="button"  data-inputid="vessel_id" data-modaltitle="Master Tugboat">
                                 <i class="fas fa-list-ul"></i>
                             </button>
                             <button class="btn btn-outline-danger ummu-clear-input" type="button"  for="vessel_id">
@@ -23,7 +23,7 @@
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control form-control-sm text-info is-data-id" id="rank_id" placeholder="Pilih Rank" data-label="Rank" disabled>
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary endis show-left-modal btn-endis" id="btn_show_ranks" type="button"  data-inputid="rank_id" data-modaltitle="Master Rank">
+                            <button class="btn btn-outline-primary endis show-left-modal ummu-btn-custom" id="btn_show_ranks" type="button"  data-inputid="rank_id" data-modaltitle="Master Rank">
                                 <i class="fas fa-list-ul"></i>
                             </button>
                             <button class="btn btn-outline-danger ummu-clear-input" type="button"  for="rank_id">
