@@ -468,6 +468,7 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('update/(:num)', 'CrewController::update/$1');
         $routes->delete('delete/(:num)', 'CrewController::delete/$1');
 
+        $routes->get('show_tr_sign_on_off', 'CrewController::show_tr_sign_on_off');
         $routes->post('tr_sign_crew', 'CrewController::tr_sign_crew');
         $routes->delete('delete_last_tr_sign/(:num)', 'CrewController::delete_last_tr_sign/$1');
 

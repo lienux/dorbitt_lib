@@ -1,3 +1,5 @@
+var $dataTable_tr_sign_on_off = $('#dataTable_tr_sign_on_off');
+
 var app = {
     register: function () {
         app.config.autoload()
@@ -81,10 +83,12 @@ var app = {
             });
 
             $('#btn_delete_tr_sign').on('click', function(){
-                app.controllers.delete_last_tr_sign();
+                $ummu.modal.showDeleteConfirm(function () {
+                    app.controllers.delete_last_tr_sign();
+                });
             });
 
-            app.dt.init.dataTable_tr_sign_on_off();
+            app.controllers.show_tr_sign_on_off();
         },
     },
 
@@ -480,15 +484,9 @@ var app = {
                     $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
                     app.views.current_sign(response.data);
                     if (response.status == true) {
-                    //     $("#file_url").attr("href", response.data.fileUrl)
-                    //     let is_release = response.data.is_release;
-                    //     if (is_release == null || is_release == '' || is_release == 0) {
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                    //     }else{
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    //     }
+                        app.dt.tr_sign_on_off.init.ajax.reload();
                     }else{
-                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
+                        // 
                     }
                 }).fail(function() {
                     // An error occurred
@@ -516,14 +514,12 @@ var app = {
 
             var ummu = $ummu.ajax.ummu8(params);   
             ummu.done(function(result) {
-                $ummu.views.after_sbToolbar_delete(id, result);
-                app.views.forClear()
-                $('#fixed_cost, #variable_cost').prop('disabled', true);
+                app.dt.tr_sign_on_off.init.ajax.reload();
+                // app.views.form_tr_perubahan_data()
             }).fail(function() {
                 // An error occurred
                 console.log(ummu)
             });
-            app.views.form_tr_perubahan_data()
         },
 
         tr_gapok: function () {
@@ -591,6 +587,20 @@ var app = {
             }
 
             // console.log(payload)
+        },
+
+        show_tr_sign_on_off: function () {
+            if ($('#dataTable_tr_sign_on_off').data('init') != 'tr_sign_on_off') {
+                $dataTable_tr_sign_on_off.DataTable().destroy();
+                $dataTable_tr_sign_on_off.empty(); // Opsional: bersihkan isi HTML tabel
+                app.dt.tr_sign_on_off.init = null
+            }
+
+            if (app.dt.tr_sign_on_off.init == null) {
+                app.dt.tr_sign_on_off.create()
+            } 
+
+            $($dataTable_tr_sign_on_off).data('init', 'tr_sign_on_off');
         },
     },
 
@@ -774,74 +784,7 @@ var app = {
 
     dt: {
         init: {
-            dataTable_tr_sign_on_off: function(d) {
-                // if ($ummu.dt.is_init($table) == true) {
-                //     $ummu.dt.init_destroy();
-                // }
-
-                new DataTable($('#dataTable_tr_sign_on_off'),{
-                    // ajax: {
-                    //     dataSrc: "rows",
-                    //     url: $ummu.vars.page_url + "show-pelabuhan",
-                    //     data: function (d) {
-                    //         // d.myKey = "myValue";
-                    //         // d.custom = $('#myInput').val();
-                    //         // d.release = [0];
-                    //         // etc
-                    //     },
-                    // },
-                    // language: {
-                    //     emptyTable: "<span style=''>Silahkan klik button <span style='color: red; font-weight: bold;'>Get Data</span> untuk mengambil data terbaru</span>"
-                    // },
-                    data: d,
-                    columns: app.dt.config.columns_tr_sign_on_off(),
-                    // columnDefs: $ummu.dt.config.columnDefs(),
-                    // select: $ummu.dt.config.select(),
-                    autoWidth: false,
-                    processing: true,
-                    serverSide: false,
-                    responsive: true,
-                    keys: true,
-                    deferLoading: 57,
-                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
-                    layout: {
-                        topStart: {
-                            buttons: [
-                                {
-                                    extend: "pageLength",
-                                    className: "py-1 dt-btn-ummu",
-                                    attr: { id: "btn_page_length" },
-                                },
-                                {
-                                    text: '<i class="fas fa-sync-alt"></i>',
-                                    attr: { id: "btn_reload" },
-                                    className: "btn-showall-color py-1 dt-btn-ummu",
-                                    action: function (e, dt, node, config) {
-                                        $ummu.dt.pelabuhan.init.ajax.reload();
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                    paging: true,
-                    rowGroup: $ummu.dt.config.rowGroup(),
-                    // scrollCollapse: true,
-                    // scrollX: true,
-                    // scrollY: '60vh',
-                    initComplete: function(settings, json) {
-                        // if (typeof app.dt.config.initComplete !== 'undefined') {
-                        //     app.dt.config.initComplete(settings, json)
-                        // }else{
-                        //     $ummu.dt.config.initComplete(settings, json)
-                        // }
-                    },
-                    drawCallback: function (settings) {
-                        // var api = this.api();
-                    },
-                });
-
-                // $ummu.dt.layout.buttonAll($ummu.dt.init)
-            },
+            // 
         },
 
         config: {
@@ -1236,21 +1179,9 @@ var app = {
             columns_tr_sign_on_off: function () {
                 let columns = [
                     { 
-                        data: null,
-                        orderable: false,
-                        render: DataTable.render.select()
-                    },
-                    { 
                         title: "ID",
                         data: "id",
                         className: 'align-middle',
-                        render: function (data, type) {
-                            return (
-                                '<a href="javascript:void(0);">'+
-                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
-                                '</a>'
-                            );
-                        }
                     },
                     { 
                         title: "Vessel",
@@ -1259,14 +1190,18 @@ var app = {
                     },
                     { 
                         title: "Status",
-                        data: "status_name",
+                        data: null,
                         className: 'align-middle',
-                        // render: function(data, type, row) {
-                        //     var html = `(${row.rank_code}) ${row.rank_name_id}`;
-                        //     // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
+                        render: function(data, type, row) {
+                            var html = "";
+                            if (row.status == 'on') {
+                                var html = `<span class="badge badge-success">ON</span>`;
+                            }else{
+                                var html = `<span class="badge badge-danger">OFF</span>`;
+                            }
 
-                        //     return html;
-                        // }
+                            return html;
+                        }
                     },
                     { 
                         title: "Place",
@@ -1276,17 +1211,7 @@ var app = {
                     { 
                         title: "Date",
                         data: "date",
-                        className: 'align-middle',
-                        // render: function(data, type, row) {
-                        //     var html = "";
-                        //     if (row.coc_id) {
-                        //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.coc_bagian} - ${row.coc_name}</span>`;
-                        //     }else{
-                        //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
-                        //     }
-
-                        //     return html;
-                        // }
+                        className: 'align-middle'
                     },
                     { 
                         title: "Remark",
@@ -1357,69 +1282,72 @@ var app = {
             },
         },
 
-        show_tr_sign_on_off: function () {
-            let lcg = localStorage.getItem('tr_sign_on_off')
+        tr_sign_on_off: {
+            init: null,
+            
+            create: function () {
+                app.dt.tr_sign_on_off.init = new DataTable(
+                    $dataTable_tr_sign_on_off,
+                    app.dt.tr_sign_on_off.config()
+                );
 
-            if ($('#dataTable_tr_sign_on_off').data('init') != 'ms_category') {
-                $tbListDataID.DataTable().destroy();
-                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
-                $ummu.dt.ms_category.init = null
-            }
+                app.dt.tr_sign_on_off.init.on('xhr', function () {
+                    var response = app.dt.tr_sign_on_off.init.ajax.json();
+                    if (response.status == true) {
+                        localStorage.setItem('tr_sign_on_off', JSON.stringify(response));
+                    }
+                });
+            },
 
-            if (lcg) {
-                if ($ummu.dt.ms_category.init == null) {
-                    $ummu.dt.ms_category.init = new DataTable(
-                        $tbListDataID, {
-                        columns: [
-                            {
-                                title: "ID",
-                                data: "id",
-                                render: function (data, type, row) {
-                                    return (
-                                        '<a href="javascript:void(0);"><div><span class="">' +
-                                        data +
-                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                                    );
-                                },
-                            },
-                            { title: "Port Name", data: "name" },
-                        ],
-                        data: JSON.parse(lcg).rows,
-                        layout: {
-                            topStart: {
-                                buttons: [
-                                    {
-                                        extend: "pageLength",
-                                        className: "py-1 dt-btn-ummu",
-                                        attr: { id: "btn_page_length" },
-                                    },
-                                    {
-                                        text: '<i class="fas fa-sync-alt"></i>',
-                                        attr: { id: "btn_reload" },
-                                        className: "btn-showall-color py-1 dt-btn-ummu",
-                                        action: function (e, dt, node, config) {
-                                            // /*Destroy and Re-create*/
-                                            $ummu.dt.ms_category.init.destroy();
-                                            $ummu.dt.ms_category.create()
-                                        },
-                                    },
-                                ],
-                            },
+            config: function () {
+                return {
+                    ajax: {
+                        dataSrc: "rows",
+                        url: `${$ummu.vars.page_url}show_tr_sign_on_off`,
+                        data: function (d) {
+                            d.employee_id = $ummu.url.getParam('employee_id');
+                            // d.myKey = "myValue";
+                            // d.custom = $('#myInput').val();
+                            // d.release = [0];
+                            // etc
                         },
-                    });
-                } else {
-                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-                }
-            } else {
-                if ($ummu.dt.ms_category.init == null) {
-                    $ummu.dt.ms_category.create()
-                } else {
-                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-                }
-            }
-
-            $($tbListDataID).data('init', 'ms_category');
-            $ummu.dt.ms_category.onClick();
+                    },
+                    retrieve: true,
+                    processing: true,
+                    // serverSide: true,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        app.dt.tr_sign_on_off.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    order: [[0, "desc"]],
+                    scrollCollapse: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    columns: app.dt.config.columns_tr_sign_on_off(),
+                    drawCallback: function (data, callback, settings) {
+                        var api = this.api();
+                    },
+                };
+            },
         },
     },
 };

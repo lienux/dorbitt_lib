@@ -82,7 +82,7 @@
                                     <i class="fas fa-save"></i> Update Sign Crew
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" id="btn_delete_tr_sign" type="button">
-                                    <i class="fas fa-trash"></i> Delete
+                                    <i class="fas fa-trash"></i> Delete Last Sign
                                 </button>
                             </div>
                         </div>
