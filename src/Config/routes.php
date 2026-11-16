@@ -57,6 +57,16 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->get('report_tce', 'ReportController::tce');
     $routes->get('report_voyage', 'ReportVoyageController::index');
 
+    $routes->group('config_profile', function ($routes) {
+        $routes->get('/', 'ProfileController::index');
+        $routes->get('show', 'ProfileController::show');
+        $routes->post('sync_to_herp', 'ProfileController::sync_to_herp');
+        $routes->post('update_profile', 'ProfileController::update_profile');
+        $routes->post('update_password', 'ProfileController::update_password');
+        $routes->get('session', 'ProfileController::session');
+        $routes->get('session_get', 'ProfileController::session_get');
+    });
+
     $routes->group('jenis_muatan', function ($routes) {
         $routes->get('/', 'JenisMuatanController::index');
         $routes->get('show', 'JenisMuatanController::show');
@@ -457,7 +467,10 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->post('create', 'CrewController::create');
         $routes->post('update/(:num)', 'CrewController::update/$1');
         $routes->delete('delete/(:num)', 'CrewController::delete/$1');
+
         $routes->post('tr_sign_crew', 'CrewController::tr_sign_crew');
+        $routes->delete('delete_last_tr_sign/(:num)', 'CrewController::delete_last_tr_sign/$1');
+
         $routes->post('tr_gapok', 'CrewController::tr_gapok');
 
         $routes->get('crew-ranks', 'CrewController::show_ranks');
@@ -581,6 +594,16 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     // =============== include area ======================
     $routes->group('mcp_report', function ($routes) {
         require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";
+    });
+
+    // Halaman notifikasi (web, bukan API)
+    $routes->group('service_notification', function ($routes) {
+        $routes->get('/', 'NotificationController::index');
+        $routes->get('show', 'NotificationController::show');
+        // // $routes->post('create', 'OpsIjoController::create');
+        // $routes->post('update/(:num)', 'OpsIjoController::update/$1');
+        // // $routes->delete('delete/(:num)', 'OpsIjoController::delete/$1');
+        $routes->get('count', 'NotificationController::count');
     });
 
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";

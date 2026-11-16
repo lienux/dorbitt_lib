@@ -18,7 +18,7 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
-            app.views.tab_transaction();
+            app.views.form_tr_perubahan_data();
 
             // $ummu.formatter.number2($("#amount"), 10);
             // $ummu.formatter.number($("#basic_salary"), 8)
@@ -79,6 +79,12 @@ var app = {
             $('#btn_update_tr_kenaikan_gapok').on('click', function(){
                 app.controllers.tr_gapok();
             });
+
+            $('#btn_delete_tr_sign').on('click', function(){
+                app.controllers.delete_last_tr_sign();
+            });
+
+            app.dt.init.dataTable_tr_sign_on_off();
         },
     },
 
@@ -116,7 +122,7 @@ var app = {
             $('#fixed_cost, #variable_cost').prop('disabled', false);
             // $("#status").html('<span class="badge badge-secondary">Draft</span>')
             // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbSave: function () {
@@ -309,7 +315,7 @@ var app = {
                     // }else{
                     // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
                     // }
-                    app.views.tab_transaction()
+                    app.views.form_tr_perubahan_data()
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -320,14 +326,14 @@ var app = {
         },
 
         sbCancle: function () {
-            $('#fixed_cost, #variable_cost').prop('disabled', false);
+            // $('#fixed_cost, #variable_cost').prop('disabled', false);
 
             if ($ummu.url.getParam('id')) {
                 $('input[name="behavior"]').prop('disabled', true);
             }else{
                 app.views.forClear()
             }
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbEdit: function () {
@@ -340,7 +346,12 @@ var app = {
             if ($('#crew_ranks').val()) {
                 $('#btn_show_ranks').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
             }
-            app.views.tab_transaction()
+
+            if ($('#basic_salary').val()) {
+                $('#basic_salary').attr('disabled', true);
+            }
+
+            app.views.form_tr_perubahan_data()
         },
 
         sbDelete: function(id) {
@@ -365,19 +376,19 @@ var app = {
                 // An error occurred
                 console.log(ummu)
             });
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         sbClear: function() {
             app.views.forClear()
             // $('#fixed_cost, #variable_cost').prop('disabled', true);
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
             app.views.forClear()
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_showLeftModal: function(id) {
@@ -404,7 +415,7 @@ var app = {
             // ms_cost: function(row) {
             //     $("#ms_cost").val(row.name).attr('data-id', row.id)
             // },
-            app.views.tab_transaction()
+            app.views.form_tr_perubahan_data()
         },
 
         on_click_tbody_trtd_child_vessel_id: function(row) {
@@ -486,6 +497,33 @@ var app = {
             }
 
             // console.log(payload)
+        },
+
+        delete_last_tr_sign: function() {
+            // $("#modalDeleteConfirm").modal('hide')
+            const employee_id = $ummu.url.getParam('employee_id');
+
+            var params = {
+                "function": "delete_last_tr_sign/" + employee_id,
+                "method": "DELETE",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+                "textLoader": "Delete on progress..."
+            };
+
+            var ummu = $ummu.ajax.ummu8(params);   
+            ummu.done(function(result) {
+                $ummu.views.after_sbToolbar_delete(id, result);
+                app.views.forClear()
+                $('#fixed_cost, #variable_cost').prop('disabled', true);
+            }).fail(function() {
+                // An error occurred
+                console.log(ummu)
+            });
+            app.views.form_tr_perubahan_data()
         },
 
         tr_gapok: function () {
@@ -648,23 +686,19 @@ var app = {
 
         current_sign: function(row) {
             var on = `<span class="badge badge-success status-badge shadow-sm">
-                    <i class="fas fa-ship mr-1"></i> ON @ ${row.sign_on_date}
+                    <i class="fas fa-ship mr-1"></i> ON @ ${row.tr_sign_date}
                 </span>`;
 
             var off = `<span class="badge badge-secondary status-badge shadow-sm">
-                <i class="fas fa-home mr-1"></i> OFF @ ${row.sign_off_date}
+                <i class="fas fa-home mr-1"></i> OFF @ ${row.tr_sign_date}
             </span>`;
 
-            if (row.sign_status == 'on') {
+            if (row.tr_sign_status == 'on') {
                 $('#current_sign').html(on);
                 $('#sign_status').val('on');
-                $('#sign_place').val(row.sign_on_place);
-                $('#sign_date').val(row.sign_on_date);
-            }else if(row.sign_status == 'off') {
+            }else if(row.tr_sign_status == 'off') {
                 $('#current_sign').html(off);
                 $('#sign_status').val('off');
-                $('#sign_place').val(row.sign_off_place);
-                $('#sign_date').val(row.sign_off_date);
             }else{
                 $('#current_sign').html('');
                 $('#sign_status').val('');
@@ -672,7 +706,9 @@ var app = {
                 $('#sign_date').val('');
             }
 
-            $('#sign_remark').val(row.sign_remark);
+            $('#sign_place').val(row.tr_sign_place);
+            $('#sign_date').val(row.tr_sign_date);
+            $('#sign_remark').val(row.tr_sign_remark);
         },
 
         current_gapok: function(row) {
@@ -722,21 +758,92 @@ var app = {
             resetCrewFormValidation({ resetTab: true, resetFields: false });
         },
 
-        tab_transaction: function() {
+        form_tr_perubahan_data: function() {
             const id = $ummu.url.getParam('id');
 
             if (id) {
-                $('#nav_item_transaction').removeClass('collapse');
+                $('#form_tr_perubahan_data').removeClass('collapse');
             }else{
-                $('#nav_item_transaction').addClass('collapse');
-                $('#pane-transaction').removeClass('show active');
-                $('#pane-personal').addClass('show active')
-                $('#tab-personal').addClass('active')
+                $('#form_tr_perubahan_data').addClass('collapse');
+                // $('#pane-transaction').removeClass('show active');
+                // $('#pane-personal').addClass('show active')
+                // $('#tab-personal').addClass('active')
             }
         }
     },
 
     dt: {
+        init: {
+            dataTable_tr_sign_on_off: function(d) {
+                // if ($ummu.dt.is_init($table) == true) {
+                //     $ummu.dt.init_destroy();
+                // }
+
+                new DataTable($('#dataTable_tr_sign_on_off'),{
+                    // ajax: {
+                    //     dataSrc: "rows",
+                    //     url: $ummu.vars.page_url + "show-pelabuhan",
+                    //     data: function (d) {
+                    //         // d.myKey = "myValue";
+                    //         // d.custom = $('#myInput').val();
+                    //         // d.release = [0];
+                    //         // etc
+                    //     },
+                    // },
+                    // language: {
+                    //     emptyTable: "<span style=''>Silahkan klik button <span style='color: red; font-weight: bold;'>Get Data</span> untuk mengambil data terbaru</span>"
+                    // },
+                    data: d,
+                    columns: app.dt.config.columns_tr_sign_on_off(),
+                    // columnDefs: $ummu.dt.config.columnDefs(),
+                    // select: $ummu.dt.config.select(),
+                    autoWidth: false,
+                    processing: true,
+                    serverSide: false,
+                    responsive: true,
+                    keys: true,
+                    deferLoading: 57,
+                    lengthMenu: [10, 50, 100, { label: "All", value: -1 }],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: "pageLength",
+                                    className: "py-1 dt-btn-ummu",
+                                    attr: { id: "btn_page_length" },
+                                },
+                                {
+                                    text: '<i class="fas fa-sync-alt"></i>',
+                                    attr: { id: "btn_reload" },
+                                    className: "btn-showall-color py-1 dt-btn-ummu",
+                                    action: function (e, dt, node, config) {
+                                        $ummu.dt.pelabuhan.init.ajax.reload();
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    paging: true,
+                    rowGroup: $ummu.dt.config.rowGroup(),
+                    // scrollCollapse: true,
+                    // scrollX: true,
+                    // scrollY: '60vh',
+                    initComplete: function(settings, json) {
+                        // if (typeof app.dt.config.initComplete !== 'undefined') {
+                        //     app.dt.config.initComplete(settings, json)
+                        // }else{
+                        //     $ummu.dt.config.initComplete(settings, json)
+                        // }
+                    },
+                    drawCallback: function (settings) {
+                        // var api = this.api();
+                    },
+                });
+
+                // $ummu.dt.layout.buttonAll($ummu.dt.init)
+            },
+        },
+
         config: {
             columns: function () {
                 let columns = [
@@ -1126,6 +1233,71 @@ var app = {
                 return columns;
             },
 
+            columns_tr_sign_on_off: function () {
+                let columns = [
+                    { 
+                        data: null,
+                        orderable: false,
+                        render: DataTable.render.select()
+                    },
+                    { 
+                        title: "ID",
+                        data: "id",
+                        className: 'align-middle',
+                        render: function (data, type) {
+                            return (
+                                '<a href="javascript:void(0);">'+
+                                    '<div><span>' + data + '</span> <i class="fas fa-external-link-alt ml-2"></i></div>'+
+                                '</a>'
+                            );
+                        }
+                    },
+                    { 
+                        title: "Vessel",
+                        data: "vessel_name",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Status",
+                        data: "status_name",
+                        className: 'align-middle',
+                        // render: function(data, type, row) {
+                        //     var html = `(${row.rank_code}) ${row.rank_name_id}`;
+                        //     // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
+
+                        //     return html;
+                        // }
+                    },
+                    { 
+                        title: "Place",
+                        data: "place",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Date",
+                        data: "date",
+                        className: 'align-middle',
+                        // render: function(data, type, row) {
+                        //     var html = "";
+                        //     if (row.coc_id) {
+                        //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.coc_bagian} - ${row.coc_name}</span>`;
+                        //     }else{
+                        //         var html = `<span class="badge badge-light border border-secondary text-secondary">${row.highest_coc_certificate}</span>`;
+                        //     }
+
+                        //     return html;
+                        // }
+                    },
+                    { 
+                        title: "Remark",
+                        data: "remark",
+                        className: 'align-middle',
+                    },
+                ];
+        
+                return columns;
+            },
+
             serverSide: function() {
                 return false;
             },
@@ -1139,7 +1311,7 @@ var app = {
                 // $ummu.url.setParamFromRow(row);
                 $ummu.url.setParamFromObject(row);
                 app.views.setRow_toForm(row);
-                app.views.tab_transaction()
+                app.views.form_tr_perubahan_data()
 
                 // console.log(ummu)
             },
@@ -1183,6 +1355,71 @@ var app = {
                 // if (lcFrom) d.date_from = lcFrom;
                 // if (lcTo)   d.date_to   = lcTo;
             },
+        },
+
+        show_tr_sign_on_off: function () {
+            let lcg = localStorage.getItem('tr_sign_on_off')
+
+            if ($('#dataTable_tr_sign_on_off').data('init') != 'ms_category') {
+                $tbListDataID.DataTable().destroy();
+                $tbListDataID.empty(); // Opsional: bersihkan isi HTML tabel
+                $ummu.dt.ms_category.init = null
+            }
+
+            if (lcg) {
+                if ($ummu.dt.ms_category.init == null) {
+                    $ummu.dt.ms_category.init = new DataTable(
+                        $tbListDataID, {
+                        columns: [
+                            {
+                                title: "ID",
+                                data: "id",
+                                render: function (data, type, row) {
+                                    return (
+                                        '<a href="javascript:void(0);"><div><span class="">' +
+                                        data +
+                                        '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
+                                    );
+                                },
+                            },
+                            { title: "Port Name", data: "name" },
+                        ],
+                        data: JSON.parse(lcg).rows,
+                        layout: {
+                            topStart: {
+                                buttons: [
+                                    {
+                                        extend: "pageLength",
+                                        className: "py-1 dt-btn-ummu",
+                                        attr: { id: "btn_page_length" },
+                                    },
+                                    {
+                                        text: '<i class="fas fa-sync-alt"></i>',
+                                        attr: { id: "btn_reload" },
+                                        className: "btn-showall-color py-1 dt-btn-ummu",
+                                        action: function (e, dt, node, config) {
+                                            // /*Destroy and Re-create*/
+                                            $ummu.dt.ms_category.init.destroy();
+                                            $ummu.dt.ms_category.create()
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+                } else {
+                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            } else {
+                if ($ummu.dt.ms_category.init == null) {
+                    $ummu.dt.ms_category.create()
+                } else {
+                    $ummu.dt.ms_category.init.clear().rows.add(JSON.parse(lcg).rows).draw();
+                }
+            }
+
+            $($tbListDataID).data('init', 'ms_category');
+            $ummu.dt.ms_category.onClick();
         },
     },
 };

@@ -17471,7 +17471,7 @@ var $ummu = {
                         // $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     }
 
-                    $("#form_input button").removeClass('btn-primary').addClass('btn-outline-secondary')
+                    $("#form_input button").not('.ummu-btn-custom').removeClass('btn-primary').addClass('btn-outline-secondary')
 
                     // menghapus nilai data-id 
                     $ummu.views.clearForm();
