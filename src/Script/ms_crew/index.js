@@ -343,7 +343,7 @@ var app = {
         sbEdit: function () {
             // 
             // $('#fixed_cost, #variable_cost').prop('disabled', false);
-            if ($('#tugboat').val()) {
+            /*if ($('#tugboat').val()) {
                 $('#btn_show_vessel').attr('disabled', true).addClass('btn-outline-secondary').removeClass('btn-primary');
             }
 
@@ -353,7 +353,7 @@ var app = {
 
             if ($('#basic_salary').val()) {
                 $('#basic_salary').attr('disabled', true);
-            }
+            }*/
 
             app.views.form_tr_perubahan_data()
         },
@@ -687,6 +687,8 @@ var app = {
             }
 
             $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
+
+            $('#header_tr_perubahan_data').html(`#${row.name}`)
 
             app.views.current_sign(row);
             app.views.current_gapok(row);

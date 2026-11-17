@@ -70,6 +70,8 @@ class IjoFromSpalController extends ResourceController
             ],
             "selects" => "*",
             "tugboat_id" => $tugboat_id,
+            "type" => "fc",
+            "referensi_doc" => "from_spal",
         ]);
 
         $params = [
@@ -107,6 +109,8 @@ class IjoFromSpalController extends ResourceController
             
             "loading_port" => $this->request->getPost("loading_port"),
             "discharge_port" => $this->request->getPost("discharge_port"),
+
+            "referensi_doc" => "from_spal",
         ];
 
         $params = [
