@@ -15,7 +15,7 @@ class IjoManualController extends ResourceController
 {
     public function __construct()
     {
-        $this->pathAPI = "api/ijo/";
+        $this->pathAPI = "api/ijo";
         $this->module_kode = 'ijo_manual';
         $this->dir_view = 'pages/' . $this->module_kode . '/';
         $this->request = \Config\Services::request();
@@ -75,7 +75,7 @@ class IjoManualController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/ijo_manual",
+            "path"      => "api/ijo",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -89,30 +89,19 @@ class IjoManualController extends ResourceController
     public function create()
     {
         $payload = [
-            "spal_id" => $this->request->getPost('spal_id'),
-            "spal_number" => $this->request->getPost('spal_number'),
-            "tgl" => $this->request->getPost('tgl'),
-            "number" => $this->request->getPost('number'),
-            "from_dept_id" => $this->request->getPost('from_dept_id'),
-            "to_dept_id" => $this->request->getPost('to_dept_id'),
-
+            "type" => $this->request->getPost("type"),
             "client_id" => $this->request->getPost("client_id"),
             "tugboat_id" => $this->request->getPost("tugboat_id"),
             "barge_id" => $this->request->getPost("barge_id"),
-            "barge_loa" => $this->request->getPost("barge_loa"),
-            "qty" => $this->request->getPost("tonnage"),
-            "uom_id" => $this->request->getPost("uom_id"),
 
+            "rute_perjalanan" => $this->request->getPost("rute_perjalanan"),
             "eta_loading_port" => $this->request->getPost("eta_loading_port"),
-            "eta_loading_port_to" => $this->request->getPost("eta_loading_port_to"),
             "eta_discharge_port" => $this->request->getPost("eta_discharge_port"),
-            
-            "loading_port" => $this->request->getPost("loading_port"),
-            "discharge_port" => $this->request->getPost("discharge_port"),
+            "referensi_doc" => "manual",
         ];
 
         $params = [
-            "path"      => "api/ijo/create",
+            "path"      => $this->pathAPI,
             "method" => 'POST',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -174,59 +163,13 @@ class IjoManualController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function show_si($id = null)
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
-
-        $params = [
-            "path"      => "api/ijo/show_si",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function show_spal()
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*"
-        ]);
-
-        $params = [
-            "path"      => "api/ijo/show_spal",
-            "method" => 'GET',
-            "payload" => $payload,
-            "headers" => $this->cH->headers3($this->module_kode)
-        ];
-
-        $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
     public function show_dept()
     {
         $params = [
-            "path"      => "api/ijo/show_dept",
-            "method" => 'GET',
-            "payload" => [],
-            "headers" => $this->cH->headers3($this->module_kode)
+            "path"      => $this->pathAPI . "/departemen",
+            "method"    => 'GET',
+            "payload"   => [],
+            "headers"   => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
@@ -281,7 +224,7 @@ class IjoManualController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_clients",
+            "path"      => $this->pathAPI . "/clients",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -291,29 +234,6 @@ class IjoManualController extends ResourceController
 
         return $this->respond($builder, 200);
     }
-
-    // public function show_tugboat($id = null)
-    // {
-    //     $payload = $this->umHelp->dt_payload2();
-    //     $payload = array_merge($payload, [
-    //         "date" => [
-    //             "from" => "",
-    //             "to" => ""
-    //         ],
-    //         "selects" => "*"
-    //     ]);
-
-    //     $params = [
-    //         "path"      => "api/" . $this->module_kode . "/show_tugboat",
-    //         "method" => 'GET',
-    //         "payload" => $payload,
-    //         "headers" => $this->cH->headers3($this->module_kode)
-    //     ];
-
-    //     $builder = $this->cH->ummu2($params);
-
-    //     return $this->respond($builder, 200);
-    // }
 
     public function show_barge($id = null)
     {
@@ -327,7 +247,7 @@ class IjoManualController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_barge",
+            "path"      => $this->pathAPI . "/barge",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -338,7 +258,7 @@ class IjoManualController extends ResourceController
         return $this->respond($builder, 200);
     }
 
-    public function show_uom($id = null)
+    public function show_referensi($func)
     {
         $payload = $this->umHelp->dt_payload2();
         $payload = array_merge($payload, [
@@ -350,34 +270,13 @@ class IjoManualController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/" . $this->module_kode . "/show_uom",
+            "path"      => $this->pathAPI . "/barge",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
         ];
 
         $builder = $this->cH->ummu2($params);
-
-        return $this->respond($builder, 200);
-    }
-
-    public function showVoyageRoute($id = null)
-    {
-        $payload = $this->umHelp->dt_payload2();
-        $payload = array_merge($payload, [
-            "date" => [
-                "from" => "",
-                "to" => ""
-            ],
-            "selects" => "*",
-            "type_id" => 1 //type_id = 1 artinya = voyage_route
-        ]);
-        $queryString = http_build_query($payload);
-
-        $path = $this->pathAPI . "/rute?" . $queryString;
-        $headers = $this->cH->headers3($this->module_kode);
-
-        $builder = $this->cH->ummuGet($path, $headers);
 
         return $this->respond($builder, 200);
     }

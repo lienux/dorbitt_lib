@@ -71,28 +71,6 @@ var app = {
             app.views.forClear()
         },
 
-        // show: function (params) {
-        //     if ($ummu.dt.is_init($table) == true) {
-        //         $ummu.dt.init_destroy();
-        //     }
-
-        //     $ummu.dt.init = new DataTable(
-        //         $table,
-        //         $ummu.dt.config.show()
-        //     );
-
-        //     $ummu.dt.layout.buttonAll($ummu.dt.init)
-
-        //     $ummu.dt.init.on('xhr', function () {
-        //         var response = $ummu.dt.init.ajax.json();
-        //         if (response.status == true) {
-        //             localStorage.setItem($localStrgKey, JSON.stringify(response));
-        //         }else{
-        //             $ummu.modal.ummu_msg(response.message)
-        //         }
-        //     });
-        // },
-
         sbNew: function () {
             app.views.forClear()
             $("#status").html('<span class="badge badge-secondary">Draft</span>')
@@ -100,69 +78,33 @@ var app = {
         },
 
         sbSave: function () {
-            var spal_id = $("#spal").attr('data-id');
-            var spal_number = $("#spal").val();
-            var tgl = $("#iDate").val();
-            var number = $("#number").val();
-            var from_dept_id = $("#from_dept").attr('data-id');
-            var to_dept_id = $("#to_dept").attr('data-id');
-
+            var type = $("#type").val();
             var client_id = $("#client").attr('data-id');
             var tugboat_id = $("#tugboat").attr('data-id');
             var barge_id = $("#barge").attr('data-id');
-            var ukuran_barge = $("#ukuran_barge").val();
-            var tonnage = $("#tonnage").val();
-            var uom_id = $("#uom").attr('data-id');
 
-            var eta_loading_port = $("#eta_loading_port").attr('data-from');
-            var eta_loading_port_to = $("#eta_loading_port").attr('data-to');
+            var rute_perjalanan = $("#rute_perjalanan").val();
+            var eta_loading_port = $("#eta_loading_port").val();
             var eta_discharge_port = $("#eta_discharge_port").val();
 
-            var loading_port = $("#loading_port").val();
-            var discharge_port = $("#discharge_port").val();
-
-            $ummu.vars.formData.append("spal_id", spal_id);
-            $ummu.vars.formData.append("spal_number", spal_number);
-            $ummu.vars.formData.append("tgl", tgl);
-            $ummu.vars.formData.append("number", number);
-            $ummu.vars.formData.append("from_dept_id", from_dept_id);
-            $ummu.vars.formData.append("to_dept_id", to_dept_id);
-
+            $ummu.vars.formData.append("type", type);
             $ummu.vars.formData.append("client_id", client_id);
             $ummu.vars.formData.append("tugboat_id", tugboat_id);
             $ummu.vars.formData.append("barge_id", barge_id);
-            $ummu.vars.formData.append("barge_loa", ukuran_barge);
-            $ummu.vars.formData.append("tonnage", tonnage);
-            $ummu.vars.formData.append("uom_id", uom_id);
 
+            $ummu.vars.formData.append("rute_perjalanan", rute_perjalanan);
             $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
-            $ummu.vars.formData.append("eta_loading_port_to", eta_loading_port_to);
             $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
 
-            $ummu.vars.formData.append("loading_port", loading_port);
-            $ummu.vars.formData.append("discharge_port", discharge_port);
-
             var payload = {
-                "spal_id": spal,
-                "spal_number": spal_number,
-                "tgl": tgl,
-                "number": number,
-                "from_dept_id": from_dept_id,
-                "to_dept_id": to_dept_id,
-
+                "type": type,
                 "client_id": client_id,
                 "tugboat_id": tugboat_id,
                 "barge_id": barge_id,
-                "barge_loa": ukuran_barge,
-                "tonnage": tonnage,
-                "uom_id": uom_id,
 
+                "rute_perjalanan": rute_perjalanan,
                 "eta_loading_port": eta_loading_port,
-                "eta_loading_port_to": eta_loading_port_to,
                 "eta_discharge_port": eta_discharge_port,
-
-                "loading_port": loading_port,
-                "discharge_port": discharge_port,
             };
 
             const id = $ummu.url.getParam('id');

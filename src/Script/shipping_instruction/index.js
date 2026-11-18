@@ -399,6 +399,25 @@ var app = {
         
                 return columns;
             },
+
+            on_reload_params: function (d) {
+                // // filter wajib
+                // d.date_from = $("#date_from").val() || "";
+                // d.date_to   = $("#date_to").val()   || "";
+
+                // filter opsional
+                var vessel_id = $("#form_filter #filter_vessel").data('id');
+                if (vessel_id) d.vessel_id = vessel_id;
+
+                var client_id = $("#form_filter #filter_client").data('id');
+                if (client_id) d.client_id = client_id;
+
+                // // filter dari modal_filter (via localStorage)
+                // var lcFrom = localStorage.getItem("date_from");
+                // var lcTo   = localStorage.getItem("date_to");
+                // if (lcFrom) d.date_from = lcFrom;
+                // if (lcTo)   d.date_to   = lcTo;
+            },
         },
     },
 };
