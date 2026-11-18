@@ -36,6 +36,11 @@ $routes->group('auth', ['namespace' => 'Dorbitt\Controllers'], static  function 
         $routes->post('create', 'LoginController::oa2_create');
         // $routes->post('username', 'Auth\LoginController::username');
     });
+
+    $routes->group('update_password', function ($routes) {
+        $routes->get('/', 'UpdatePasswordController::index');
+        $routes->put('(:num)', 'UpdatePasswordController::update/$1');
+    });
 });
 
 $routes->group('v2', function ($routes) {

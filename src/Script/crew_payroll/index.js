@@ -511,15 +511,15 @@ var app = {
                     },
                     { 
                         title: "Perusahaan",
-                        data: null,
+                        data: 'nama_owner',
                         className: 'align-middle',
-                        render: function(data, type, row) {
-                            var html = '';
-                            // var html = `(${row.rank_code}) ${row.rank_name_id}`;
-                            // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
+                        // render: function(data, type, row) {
+                        //     var html = '';
+                        //     // var html = `(${row.rank_code}) ${row.rank_name_id}`;
+                        //     // var html = `<div class="small text-muted">(${row.rank_code}) ${row.rank_name_id}</div>`;
 
-                            return html;
-                        }
+                        //     return html;
+                        // }
                     },
                     { 
                         title: "Tugboat",

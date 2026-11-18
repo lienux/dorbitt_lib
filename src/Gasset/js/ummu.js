@@ -3496,13 +3496,8 @@ var $ummu = {
                     if (msdb == null) {
                         alert("Silahkan pilih company.");
                     } else {
-                        var vars =
-                            "?username=" +
-                            username +
-                            "&password=" +
-                            password +
-                            "&msdb=" +
-                            msdb,
+                        // var vars = "?username=" + username + "&password=" + password + "&msdb=" + msdb,
+                        var vars = `?username=${username}&password=${password}&msdb=${msdb}`,
                             body = {
                                 body: {
                                     username: username,
@@ -4091,7 +4086,7 @@ var $ummu = {
                     $($ummu.$.form_login_password + "#loader_login").removeClass("collapse");
                     $($ummu.$.form_get_otp + "button").prop("disabled", true);
 
-                    var url = $ummu.$.base_url + "auth/phone_number/login_password_create";
+                    var url = `${$ummu.$.base_url}auth/phone_number/login_password_create`;
                     var params = {
                         url: url,
                         type: "post",
@@ -4118,7 +4113,11 @@ var $ummu = {
                                 //         );
 
                                 //     window.location.href = $ummu.$.base_url + 'auth/phone_number/findSuccess?phone_number=' + $ummu.$.auth_phoneNumber.val();
-                                window.location.replace($ummu.$.base_url + 'admin');
+                                if (response.data.updated_paswd_at == null) {
+                                    window.location.href = `${$ummu.$.base_url}admin/config/update_password`;
+                                }else{
+                                    window.location.replace($ummu.$.base_url + 'admin');
+                                }
                             } else {
                                 if (response.messages == "Validation errors!") {
                                     $ummu.$.auth_alert.html('<div class="alert alert-danger">' + JSON.stringify(response.errors) + "</div>");
