@@ -1,8 +1,3 @@
-<!-- Leaflet Map CSS -->
-<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" /> -->
-
 <style>
     /* ============================================
        VOYAGE ROUTE MAP PREVIEW
@@ -299,9 +294,9 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-sm-3 col-form-label mb-0 pb-0">Load Type<span class="text-danger small"> *</span></label>
+                <label class="col-sm-3 col-form-label mb-0 pb-0">Cargo Type<span class="text-danger small"> *</span></label>
                 <div class="col-sm-9">
-                    <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" placeholder="Enter Load Type" data-label="Load Type" required disabled>
+                    <input type="text" name="load_type" id="load_type" class="form-control form-control-sm endis" placeholder="Enter Cargo Type" data-label="Cargo Type" required disabled>
                     <span class="popup-text">ex: Batubara / Pasir / etc.</span>
                 </div>
             </div>
@@ -502,355 +497,355 @@
 </div>
 
 <script>
-// ============================================
-// VOYAGE ROUTE MAP - Shipping Instruction
-// ============================================
-(function () {
-    let siMap = null;
-    let siRouteLayer = null;
-    let siMarkerStart = null;
-    let siMarkerEnd = null;
-
-    // Default center: Indonesia (Selat Makassar area)
-    const DEFAULT_CENTER = [-2.5, 118.0];
-    const DEFAULT_ZOOM = 5;
-
     // ============================================
-    // INIT MAP
+    // VOYAGE ROUTE MAP - Shipping Instruction
     // ============================================
-    function initSiMap() {
-        if (siMap) return siMap;
+    (function () {
+        let siMap = null;
+        let siRouteLayer = null;
+        let siMarkerStart = null;
+        let siMarkerEnd = null;
 
-        const mapEl = document.getElementById('si_route_map');
-        if (!mapEl) return null;
+        // Default center: Indonesia (Selat Makassar area)
+        const DEFAULT_CENTER = [-2.5, 118.0];
+        const DEFAULT_ZOOM = 5;
 
-        // Initialize map
-        siMap = L.map('si_route_map', {
-            center: DEFAULT_CENTER,
-            zoom: DEFAULT_ZOOM,
-            zoomControl: true,
-            attributionControl: false,
-            scrollWheelZoom: false,
-        });
+        // ============================================
+        // INIT MAP
+        // ============================================
+        function initSiMap() {
+            if (siMap) return siMap;
 
-        // Tile layer: OpenStreetMap (gratis, tanpa API key)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            minZoom: 3,
-        }).addTo(siMap);
+            const mapEl = document.getElementById('si_route_map');
+            if (!mapEl) return null;
 
-        // Attribution kecil di kanan bawah
-        L.control.attribution({ position: 'bottomright', prefix: false })
-            .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>')
-            .addTo(siMap);
-
-        // Aktifkan scroll zoom saat user klik peta
-        siMap.on('click', function () {
-            siMap.scrollWheelZoom.enable();
-        });
-        siMap.on('mouseout', function () {
-            siMap.scrollWheelZoom.disable();
-        });
-
-        // Pastikan peta render sempurna setelah tab/form tampil
-        setTimeout(() => siMap.invalidateSize(), 300);
-
-        return siMap;
-    }
-
-    // ============================================
-    // CUSTOM MARKER ICON
-    // ============================================
-    function createPinIcon(type) {
-        const iconColor = type === 'start' ? 'start' : 'end';
-        const iconSymbol = type === 'start' ? 'fa-ship' : 'fa-flag-checkered';
-
-        return L.divIcon({
-            className: 'si-map-marker ' + iconColor,
-            html: `<div class="pin"><i class="fas ${iconSymbol}"></i></div>`,
-            iconSize: [24, 24],
-            iconAnchor: [12, 24],
-            popupAnchor: [0, -24],
-        });
-    }
-
-    // ============================================
-    // HITUNG JARAK (Haversine)
-    // ============================================
-    function haversineDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius bumi dalam km
-        const toRad = (deg) => (deg * Math.PI) / 180;
-
-        const dLat = toRad(lat2 - lat1);
-        const dLon = toRad(lon2 - lon1);
-
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; // km
-    }
-
-    // ============================================
-    // FORMAT JARAK
-    // ============================================
-    function formatDistance(km) {
-        if (km < 1) return (km * 1000).toFixed(0) + ' m';
-        if (km < 100) return km.toFixed(1) + ' km';
-        return km.toFixed(0) + ' km';
-    }
-
-    // ============================================
-    // FORMAT ETA (asumsi kecepatan 10 knot ≈ 18.5 km/jam)
-    // ============================================
-    function formatETA(km) {
-        const speedKnot = 10;
-        const speedKmh = speedKnot * 1.852;
-        const hours = km / speedKmh;
-
-        if (hours < 24) {
-            return hours.toFixed(1) + ' jam';
-        }
-        const days = hours / 24;
-        return days.toFixed(1) + ' hari';
-    }
-
-    // ============================================
-    // DRAW ROUTE
-    // ============================================
-    function drawRoute(routeData) {
-        const map = initSiMap();
-        if (!map) return;
-
-        const { from, to, fromLabel, toLabel } = routeData;
-
-        if (!from || !to || !from.lat || !from.lng || !to.lat || !to.lng) {
-            clearRoute();
-            return;
-        }
-
-        // Hapus layer sebelumnya
-        clearRoute();
-
-        const startLatLng = [from.lat, from.lng];
-        const endLatLng = [to.lat, to.lng];
-
-        // ===== Marker Start =====
-        siMarkerStart = L.marker(startLatLng, {
-            icon: createPinIcon('start'),
-            title: 'Port of Loading',
-        }).addTo(map);
-
-        siMarkerStart.bindPopup(`
-            <div style="font-family: inherit; min-width: 180px;">
-                <div style="font-weight:700; color:#0d6efd; font-size:0.85rem; margin-bottom:4px;">
-                    <i class="fas fa-ship"></i> Port of Loading
-                </div>
-                <div style="font-size:0.8rem; color:#333;">${fromLabel || '-'}</div>
-            </div>
-        `);
-
-        // ===== Marker End =====
-        siMarkerEnd = L.marker(endLatLng, {
-            icon: createPinIcon('end'),
-            title: 'Port of Discharge',
-        }).addTo(map);
-
-        siMarkerEnd.bindPopup(`
-            <div style="font-family: inherit; min-width: 180px;">
-                <div style="font-weight:700; color:#dc3545; font-size:0.85rem; margin-bottom:4px;">
-                    <i class="fas fa-flag-checkered"></i> Port of Discharge
-                </div>
-                <div style="font-size:0.8rem; color:#333;">${toLabel || '-'}</div>
-            </div>
-        `);
-
-        // ===== Garis Rute (Polyline) =====
-        siRouteLayer = L.polyline([startLatLng, endLatLng], {
-            color: '#2c0074',
-            weight: 3,
-            opacity: 0.85,
-            dashArray: '12, 10',
-            lineCap: 'round',
-            lineJoin: 'round',
-        }).addTo(map);
-
-        // Garis glow di bawah (untuk efek visual)
-        const glowLayer = L.polyline([startLatLng, endLatLng], {
-            color: '#00c9a7',
-            weight: 8,
-            opacity: 0.15,
-        }).addTo(map);
-
-        // Simpan referensi agar bisa dihapus
-        siRouteLayer._glowLayer = glowLayer;
-
-        // ===== Zoom ke bounds =====
-        const bounds = L.latLngBounds([startLatLng, endLatLng]);
-        map.fitBounds(bounds, {
-            padding: [50, 50],
-            maxZoom: 8,
-            animate: true,
-            duration: 0.8,
-        });
-
-        // ===== Hitung jarak & ETA =====
-        const distanceKm = haversineDistance(from.lat, from.lng, to.lat, to.lng);
-
-        // Update UI info
-        document.getElementById('route_from_label').textContent = fromLabel || '-';
-        document.getElementById('route_to_label').textContent = toLabel || '-';
-        document.getElementById('route_distance_label').textContent = formatDistance(distanceKm) + ' (garis lurus)';
-        document.getElementById('route_eta_label').textContent = '~' + formatETA(distanceKm) + ' @10 knot';
-
-        document.getElementById('si_route_info').style.display = 'flex';
-        document.getElementById('si_map_empty').style.display = 'none';
-
-        // Update status
-        const statusEl = document.getElementById('map_status');
-        statusEl.className = 'map-status loaded';
-        statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Rute ditampilkan';
-    }
-
-    // ============================================
-    // CLEAR ROUTE
-    // ============================================
-    function clearRoute() {
-        const map = siMap;
-        if (!map) return;
-
-        if (siMarkerStart) { map.removeLayer(siMarkerStart); siMarkerStart = null; }
-        if (siMarkerEnd) { map.removeLayer(siMarkerEnd); siMarkerEnd = null; }
-
-        if (siRouteLayer) {
-            if (siRouteLayer._glowLayer) map.removeLayer(siRouteLayer._glowLayer);
-            map.removeLayer(siRouteLayer);
-            siRouteLayer = null;
-        }
-
-        document.getElementById('si_route_info').style.display = 'none';
-        document.getElementById('si_map_empty').style.display = 'flex';
-
-        const statusEl = document.getElementById('map_status');
-        statusEl.className = 'map-status';
-        statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Menunggu pilihan';
-
-        if (map) {
-            map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: true });
-        }
-    }
-
-    // ============================================
-    // GEOCODING FALLBACK (jika koordinat tidak tersedia)
-    // Menggunakan Nominatim OpenStreetMap (gratis)
-    // ============================================
-    async function geocodePort(portName) {
-        if (!portName) return null;
-
-        try {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(portName)}`;
-            const res = await fetch(url, {
-                headers: { 'Accept-Language': 'id,en' }
+            // Initialize map
+            siMap = L.map('si_route_map', {
+                center: DEFAULT_CENTER,
+                zoom: DEFAULT_ZOOM,
+                zoomControl: true,
+                attributionControl: false,
+                scrollWheelZoom: false,
             });
-            const data = await res.json();
 
-            if (data && data.length > 0) {
-                return {
-                    lat: parseFloat(data[0].lat),
-                    lng: parseFloat(data[0].lon),
-                };
+            // Tile layer: OpenStreetMap (gratis, tanpa API key)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                minZoom: 3,
+            }).addTo(siMap);
+
+            // Attribution kecil di kanan bawah
+            L.control.attribution({ position: 'bottomright', prefix: false })
+                .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>')
+                .addTo(siMap);
+
+            // Aktifkan scroll zoom saat user klik peta
+            siMap.on('click', function () {
+                siMap.scrollWheelZoom.enable();
+            });
+            siMap.on('mouseout', function () {
+                siMap.scrollWheelZoom.disable();
+            });
+
+            // Pastikan peta render sempurna setelah tab/form tampil
+            setTimeout(() => siMap.invalidateSize(), 300);
+
+            return siMap;
+        }
+
+        // ============================================
+        // CUSTOM MARKER ICON
+        // ============================================
+        function createPinIcon(type) {
+            const iconColor = type === 'start' ? 'start' : 'end';
+            const iconSymbol = type === 'start' ? 'fa-ship' : 'fa-flag-checkered';
+
+            return L.divIcon({
+                className: 'si-map-marker ' + iconColor,
+                html: `<div class="pin"><i class="fas ${iconSymbol}"></i></div>`,
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [0, -24],
+            });
+        }
+
+        // ============================================
+        // HITUNG JARAK (Haversine)
+        // ============================================
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius bumi dalam km
+            const toRad = (deg) => (deg * Math.PI) / 180;
+
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // km
+        }
+
+        // ============================================
+        // FORMAT JARAK
+        // ============================================
+        function formatDistance(km) {
+            if (km < 1) return (km * 1000).toFixed(0) + ' m';
+            if (km < 100) return km.toFixed(1) + ' km';
+            return km.toFixed(0) + ' km';
+        }
+
+        // ============================================
+        // FORMAT ETA (asumsi kecepatan 10 knot ≈ 18.5 km/jam)
+        // ============================================
+        function formatETA(km) {
+            const speedKnot = 10;
+            const speedKmh = speedKnot * 1.852;
+            const hours = km / speedKmh;
+
+            if (hours < 24) {
+                return hours.toFixed(1) + ' jam';
             }
-        } catch (e) {
-            console.warn('[SI Map] Geocoding error untuk:', portName, e);
+            const days = hours / 24;
+            return days.toFixed(1) + ' hari';
         }
-        return null;
-    }
 
-    // ============================================
-    // PUBLIC API
-    // ============================================
-    window.SiRouteMap = {
-        init: initSiMap,
-        clear: clearRoute,
-        geocode: geocodePort,
-
-        /**
-         * Set rute dari data voyage
-         * @param {Object} data
-         * @param {Object} data.from - { lat, lng, label } koordinat port of loading
-         * @param {Object} data.to   - { lat, lng, label } koordinat port of discharge
-         * @param {String} [data.fromLabel] - label port of loading (fallback)
-         * @param {String} [data.toLabel]   - label port of discharge (fallback)
-         */
-        setRoute: function (data) {
-            drawRoute({
-                from: data.from,
-                to: data.to,
-                fromLabel: data.fromLabel || (data.from && data.from.label) || '',
-                toLabel: data.toLabel || (data.to && data.to.label) || '',
-            });
-        },
-
-        /**
-         * Set rute berdasarkan nama port (auto-geocode)
-         * @param {String} fromName - nama port of loading
-         * @param {String} toName   - nama port of discharge
-         */
-        setRouteByNames: async function (fromName, toName) {
+        // ============================================
+        // DRAW ROUTE
+        // ============================================
+        function drawRoute(routeData) {
             const map = initSiMap();
             if (!map) return;
 
-            // Update status: loading
-            const statusEl = document.getElementById('map_status');
-            statusEl.className = 'map-status';
-            statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Memuat koordinat...';
+            const { from, to, fromLabel, toLabel } = routeData;
 
-            const [fromCoord, toCoord] = await Promise.all([
-                geocodePort(fromName),
-                geocodePort(toName),
-            ]);
-
-            if (!fromCoord || !toCoord) {
-                statusEl.className = 'map-status';
-                statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Koordinat tidak ditemukan';
+            if (!from || !to || !from.lat || !from.lng || !to.lat || !to.lng) {
+                clearRoute();
                 return;
             }
 
-            drawRoute({
-                from: { ...fromCoord, label: fromName },
-                to: { ...toCoord, label: toName },
-                fromLabel: fromName,
-                toLabel: toName,
+            // Hapus layer sebelumnya
+            clearRoute();
+
+            const startLatLng = [from.lat, from.lng];
+            const endLatLng = [to.lat, to.lng];
+
+            // ===== Marker Start =====
+            siMarkerStart = L.marker(startLatLng, {
+                icon: createPinIcon('start'),
+                title: 'Port of Loading',
+            }).addTo(map);
+
+            siMarkerStart.bindPopup(`
+                <div style="font-family: inherit; min-width: 180px;">
+                    <div style="font-weight:700; color:#0d6efd; font-size:0.85rem; margin-bottom:4px;">
+                        <i class="fas fa-ship"></i> Port of Loading
+                    </div>
+                    <div style="font-size:0.8rem; color:#333;">${fromLabel || '-'}</div>
+                </div>
+            `);
+
+            // ===== Marker End =====
+            siMarkerEnd = L.marker(endLatLng, {
+                icon: createPinIcon('end'),
+                title: 'Port of Discharge',
+            }).addTo(map);
+
+            siMarkerEnd.bindPopup(`
+                <div style="font-family: inherit; min-width: 180px;">
+                    <div style="font-weight:700; color:#dc3545; font-size:0.85rem; margin-bottom:4px;">
+                        <i class="fas fa-flag-checkered"></i> Port of Discharge
+                    </div>
+                    <div style="font-size:0.8rem; color:#333;">${toLabel || '-'}</div>
+                </div>
+            `);
+
+            // ===== Garis Rute (Polyline) =====
+            siRouteLayer = L.polyline([startLatLng, endLatLng], {
+                color: '#2c0074',
+                weight: 3,
+                opacity: 0.85,
+                dashArray: '12, 10',
+                lineCap: 'round',
+                lineJoin: 'round',
+            }).addTo(map);
+
+            // Garis glow di bawah (untuk efek visual)
+            const glowLayer = L.polyline([startLatLng, endLatLng], {
+                color: '#00c9a7',
+                weight: 8,
+                opacity: 0.15,
+            }).addTo(map);
+
+            // Simpan referensi agar bisa dihapus
+            siRouteLayer._glowLayer = glowLayer;
+
+            // ===== Zoom ke bounds =====
+            const bounds = L.latLngBounds([startLatLng, endLatLng]);
+            map.fitBounds(bounds, {
+                padding: [50, 50],
+                maxZoom: 8,
+                animate: true,
+                duration: 0.8,
             });
-        },
-    };
 
-    // ============================================
-    // AUTO-INIT saat DOM ready
-    // ============================================
-    document.addEventListener('DOMContentLoaded', function () {
-        initSiMap();
+            // ===== Hitung jarak & ETA =====
+            const distanceKm = haversineDistance(from.lat, from.lng, to.lat, to.lng);
 
-        // Re-init saat tab form ditampilkan (karena mungkin awalnya hidden)
-        const formTab = document.getElementById('nav-tab-form');
-        if (formTab) {
-            formTab.addEventListener('shown.bs.tab', function () {
+            // Update UI info
+            document.getElementById('route_from_label').textContent = fromLabel || '-';
+            document.getElementById('route_to_label').textContent = toLabel || '-';
+            document.getElementById('route_distance_label').textContent = formatDistance(distanceKm) + ' (garis lurus)';
+            document.getElementById('route_eta_label').textContent = '~' + formatETA(distanceKm) + ' @10 knot';
+
+            document.getElementById('si_route_info').style.display = 'flex';
+            document.getElementById('si_map_empty').style.display = 'none';
+
+            // Update status
+            const statusEl = document.getElementById('map_status');
+            statusEl.className = 'map-status loaded';
+            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Rute ditampilkan';
+        }
+
+        // ============================================
+        // CLEAR ROUTE
+        // ============================================
+        function clearRoute() {
+            const map = siMap;
+            if (!map) return;
+
+            if (siMarkerStart) { map.removeLayer(siMarkerStart); siMarkerStart = null; }
+            if (siMarkerEnd) { map.removeLayer(siMarkerEnd); siMarkerEnd = null; }
+
+            if (siRouteLayer) {
+                if (siRouteLayer._glowLayer) map.removeLayer(siRouteLayer._glowLayer);
+                map.removeLayer(siRouteLayer);
+                siRouteLayer = null;
+            }
+
+            document.getElementById('si_route_info').style.display = 'none';
+            document.getElementById('si_map_empty').style.display = 'flex';
+
+            const statusEl = document.getElementById('map_status');
+            statusEl.className = 'map-status';
+            statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Menunggu pilihan';
+
+            if (map) {
+                map.setView(DEFAULT_CENTER, DEFAULT_ZOOM, { animate: true });
+            }
+        }
+
+        // ============================================
+        // GEOCODING FALLBACK (jika koordinat tidak tersedia)
+        // Menggunakan Nominatim OpenStreetMap (gratis)
+        // ============================================
+        async function geocodePort(portName) {
+            if (!portName) return null;
+
+            try {
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(portName)}`;
+                const res = await fetch(url, {
+                    headers: { 'Accept-Language': 'id,en' }
+                });
+                const data = await res.json();
+
+                if (data && data.length > 0) {
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lng: parseFloat(data[0].lon),
+                    };
+                }
+            } catch (e) {
+                console.warn('[SI Map] Geocoding error untuk:', portName, e);
+            }
+            return null;
+        }
+
+        // ============================================
+        // PUBLIC API
+        // ============================================
+        window.SiRouteMap = {
+            init: initSiMap,
+            clear: clearRoute,
+            geocode: geocodePort,
+
+            /**
+             * Set rute dari data voyage
+             * @param {Object} data
+             * @param {Object} data.from - { lat, lng, label } koordinat port of loading
+             * @param {Object} data.to   - { lat, lng, label } koordinat port of discharge
+             * @param {String} [data.fromLabel] - label port of loading (fallback)
+             * @param {String} [data.toLabel]   - label port of discharge (fallback)
+             */
+            setRoute: function (data) {
+                drawRoute({
+                    from: data.from,
+                    to: data.to,
+                    fromLabel: data.fromLabel || (data.from && data.from.label) || '',
+                    toLabel: data.toLabel || (data.to && data.to.label) || '',
+                });
+            },
+
+            /**
+             * Set rute berdasarkan nama port (auto-geocode)
+             * @param {String} fromName - nama port of loading
+             * @param {String} toName   - nama port of discharge
+             */
+            setRouteByNames: async function (fromName, toName) {
+                const map = initSiMap();
+                if (!map) return;
+
+                // Update status: loading
+                const statusEl = document.getElementById('map_status');
+                statusEl.className = 'map-status';
+                statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Memuat koordinat...';
+
+                const [fromCoord, toCoord] = await Promise.all([
+                    geocodePort(fromName),
+                    geocodePort(toName),
+                ]);
+
+                if (!fromCoord || !toCoord) {
+                    statusEl.className = 'map-status';
+                    statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Koordinat tidak ditemukan';
+                    return;
+                }
+
+                drawRoute({
+                    from: { ...fromCoord, label: fromName },
+                    to: { ...toCoord, label: toName },
+                    fromLabel: fromName,
+                    toLabel: toName,
+                });
+            },
+        };
+
+        // ============================================
+        // AUTO-INIT saat DOM ready
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            initSiMap();
+
+            // Re-init saat tab form ditampilkan (karena mungkin awalnya hidden)
+            const formTab = document.getElementById('nav-tab-form');
+            if (formTab) {
+                formTab.addEventListener('shown.bs.tab', function () {
+                    setTimeout(() => {
+                        if (siMap) siMap.invalidateSize();
+                    }, 200);
+                });
+            }
+        });
+
+        // Handle jika tab di-toggle
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#nav-tab-form')) {
                 setTimeout(() => {
                     if (siMap) siMap.invalidateSize();
-                }, 200);
-            });
-        }
-    });
-
-    // Handle jika tab di-toggle
-    document.addEventListener('click', function (e) {
-        if (e.target.closest('#nav-tab-form')) {
-            setTimeout(() => {
-                if (siMap) siMap.invalidateSize();
-            }, 300);
-        }
-    });
-})();
+                }, 300);
+            }
+        });
+    })();
 </script>

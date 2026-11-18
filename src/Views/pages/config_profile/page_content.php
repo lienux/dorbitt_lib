@@ -15,6 +15,44 @@
             font-weight: 600;
             color: rgba(1, 41, 112, 0.6);
         }
+
+        /* Tombol toggle password */
+        .btn-toggle-password {
+            border: 1px solid #ced4da;
+            border-left: 0;
+            background-color: #fff;
+            color: #6c757d;
+            padding: .25rem .5rem;
+            line-height: 1;
+        }
+
+        .btn-toggle-password:hover {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        .btn-toggle-password:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Pesan error di bawah input password */
+        .password-mismatch {
+            font-size: 12px;
+            color: #dc3545;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .password-mismatch.show {
+            display: block;
+        }
+
+        /* Avatar dummy */
+        .ummu-thumbnail .portrait {
+            background-color: #e9ecef;
+            object-fit: cover;
+        }
     </style>
 <?= $this->endSection() ?>
 
@@ -26,9 +64,12 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <div class="ummu-thumbnail">
-                            <img src="" class="portrait" id="img_avatar_view" alt="Image" />
+                            <!-- Dummy avatar: akan diganti otomatis oleh file JS Anda setelah API selesai load -->
+                            <img src="<?= base_url('uploads/no_image.jpg') ?>"
+                                 onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=User&background=dee2e6&color=6c757d&size=200';"
+                                 class="portrait" id="img_avatar_view" alt="Image" />
                         </div>
-                        <h2 id="img_name_view"></h2>
+                        <h2 id="img_name_view">Memuat data...</h2>
                         <h3 id="img_jabatan_view"></h3>
                         <div class="social-links mt-2">
                             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -354,8 +395,14 @@
                                     <div class="col-md-8 col-lg-9">
                                         <input type="text" name="username_herp" class="form-control form-control-sm mb-1"
                                             id="username_herp" placeholder="Username">
-                                        <input type="password" name="password_herp" class="form-control form-control-sm mb-1" id="password_herp"
-                                            placeholder="Password">
+                                        <div class="input-group input-group-sm mb-1">
+                                            <input type="password" name="password_herp" class="form-control form-control-sm" id="password_herp"
+                                                placeholder="Password">
+                                            <button type="button" class="btn btn-toggle-password btn-toggle-pwd" tabindex="-1"
+                                                data-target="password_herp" title="Tampilkan password">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
                                         <div class="text-danger small">* Bukan untuk login ke aplikasi web ini.</div>
                                         <button class="btn btn-sm btn-primary" id="btn_sysnc_to_herp">Sync</button>
                                     </div>
@@ -371,7 +418,13 @@
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="password" class="form-control form-control-sm" id="currentPassword">
+                                            <div class="input-group input-group-sm">
+                                                <input name="password" type="password" class="form-control form-control-sm" id="currentPassword">
+                                                <button type="button" class="btn btn-toggle-password btn-toggle-pwd" tabindex="-1"
+                                                    data-target="currentPassword" title="Tampilkan password">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -379,7 +432,13 @@
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control form-control-sm" id="newPassword">
+                                            <div class="input-group input-group-sm">
+                                                <input name="newpassword" type="password" class="form-control form-control-sm" id="newPassword">
+                                                <button type="button" class="btn btn-toggle-password btn-toggle-pwd" tabindex="-1"
+                                                    data-target="newPassword" title="Tampilkan password">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -387,8 +446,19 @@
                                         <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
                                             Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="renewpassword" type="password" class="form-control form-control-sm"
-                                                id="renewPassword">
+                                            <div class="input-group input-group-sm">
+                                                <input name="renewpassword" type="password" class="form-control form-control-sm"
+                                                    id="renewPassword">
+                                                <button type="button" class="btn btn-toggle-password btn-toggle-pwd" tabindex="-1"
+                                                    data-target="renewPassword" title="Tampilkan password">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </div>
+                                            <!-- Pesan error jika tidak cocok -->
+                                            <div class="password-mismatch" id="renewPasswordMismatch">
+                                                <i class="bi bi-exclamation-circle"></i>
+                                                Password tidak cocok dengan password baru
+                                            </div>
                                         </div>
                                     </div>
 
@@ -407,6 +477,62 @@
 
 <?= $this->section('script') ?>
     <script>
-       // 
+        // Toggle show/hide password
+        // Handler ini otomatis berlaku untuk SEMUA input dengan class .btn-toggle-pwd
+        // (currentPassword, newPassword, renewPassword, password_herp)
+        $(document).on('click', '.btn-toggle-pwd', function () {
+            var targetId = $(this).data('target');
+            var $input = $('#' + targetId);
+            var $icon = $(this).find('i');
+            var isPwd = $input.attr('type') === 'password';
+
+            $input.attr('type', isPwd ? 'text' : 'password');
+            $icon.toggleClass('bi-eye', !isPwd).toggleClass('bi-eye-slash', isPwd);
+            $(this).attr('title', isPwd ? 'Sembunyikan password' : 'Tampilkan password');
+        });
+
+        // ============================================
+        // Validasi: Re-enter New Password harus sama dengan New Password
+        // ============================================
+        function checkRenewPasswordMatch() {
+            var newPwd = $('#newPassword').val();
+            var renewPwd = $('#renewPassword').val();
+            var $msg = $('#renewPasswordMismatch');
+            var $renew = $('#renewPassword');
+
+            // Jika re-entry masih kosong → tidak perlu tampilkan error
+            if (renewPwd.length === 0) {
+                $msg.removeClass('show');
+                $renew.removeClass('is-invalid');
+                return true;
+            }
+
+            var match = newPwd === renewPwd;
+
+            if (match) {
+                $msg.removeClass('show');
+                $renew.removeClass('is-invalid');
+                $renew.addClass('is-valid');
+            } else {
+                $msg.addClass('show');
+                $renew.addClass('is-invalid');
+                $renew.removeClass('is-valid');
+            }
+
+            return match;
+        }
+
+        // Trigger saat mengetik di newPassword atau renewPassword
+        $('#newPassword, #renewPassword').on('input', checkRenewPasswordMatch);
+
+        // Validasi final saat klik tombol Change Password
+        $('#btn_update_password').on('click', function (e) {
+            if (!checkRenewPasswordMatch()) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $('#renewPassword').focus();
+                return false;
+            }
+        });
     </script>
 <?= $this->endSection() ?>

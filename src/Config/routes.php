@@ -579,6 +579,10 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         // $routes->group('config', function ($routes) {
         //     $routes->get('', 'PassagePlanController::index');
         // });
+        $routes->group('update_password', function ($routes) {
+            $routes->get('/', 'ConfigController::index_update_password');
+            $routes->post('/', 'ConfigController::update_password');
+        });
     });
 
     $routes->group('she_hazard_report', function ($routes) {

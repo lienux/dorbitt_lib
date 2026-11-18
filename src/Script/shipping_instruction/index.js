@@ -390,6 +390,11 @@ var app = {
                         rowspan: true,
                         data: "fileNameOrigin"
                     },
+                    { 
+                        title: "Created By",
+                        rowspan: true,
+                        data: "created_by_name"
+                    },
                 ];
         
                 return columns;
