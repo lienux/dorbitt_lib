@@ -333,22 +333,18 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
 
     $routes->group('ijo_manual', function ($routes) {
         $routes->get('/', 'IjoManualController::index');
+        $routes->get('show', 'IjoManualController::show');
         $routes->get('show/(:num)', 'IjoManualController::show/$1');
-        $routes->post('/', 'IjoManualController::create');
-        $routes->put('/(:num)', 'IjoManualController::update/$1');
-        $routes->delete('/(:num)', 'IjoManualController::delete/$1');
+        $routes->post('create', 'IjoManualController::create');
+        $routes->put('update/(:num)', 'IjoManualController::update/$1');
+        $routes->delete('delete/(:num)', 'IjoManualController::delete/$1');
         $routes->post('release/(:num)', 'IjoManualController::release/$1');
 
-        $routes->get('show_si', 'IjoFromSpalController::show_si');
-        $routes->get('show_spal', 'IjoFromSpalController::show_spal');
-        $routes->get('show_dept', 'IjoFromSpalController::show_dept');
-        $routes->get('tugboat', 'IjoFromSpalController::show_tugboat');
-
-        $routes->get('show_clients', 'IjoFromSpalController::show_clients');
-        $routes->get('show_tugboat', 'IjoFromSpalController::show_tugboat');
-        $routes->get('show_barge', 'IjoFromSpalController::show_barge');
-        $routes->get('show_uom', 'IjoFromSpalController::show_uom');
-        $routes->get('voyage-route', 'IjoFromSpalController::showVoyageRoute');
+        $routes->get('show_dept', 'IjoManualController::show_dept');
+        $routes->get('show_clients', 'IjoManualController::show_clients');
+        $routes->get('show_tugboat', 'IjoManualController::show_tugboat');
+        $routes->get('show_barge', 'IjoManualController::show_barge');
+        $routes->get('show_rute', 'IjoManualController::show_rute');
     });
 
     $routes->group('gallery_photos', function ($routes) {

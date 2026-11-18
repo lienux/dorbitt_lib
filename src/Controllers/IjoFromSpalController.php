@@ -71,11 +71,11 @@ class IjoFromSpalController extends ResourceController
             "selects" => "*",
             "tugboat_id" => $tugboat_id,
             "type" => "fc",
-            "referensi_doc" => "from_spal",
+            "referensi_doc" => "spal",
         ]);
 
         $params = [
-            "path"      => "api/ijo/show",
+            "path"      => "api/ijo",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
@@ -110,7 +110,7 @@ class IjoFromSpalController extends ResourceController
             "loading_port" => $this->request->getPost("loading_port"),
             "discharge_port" => $this->request->getPost("discharge_port"),
 
-            "referensi_doc" => "from_spal",
+            "referensi_doc" => "spal",
         ];
 
         $params = [

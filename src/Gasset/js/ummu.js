@@ -3045,15 +3045,15 @@ var $ummu = {
                             },
                         },
                     });
-                } else {
+                } /*else {
                     $ummu.dt.voyage_route2.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-                }
+                }*/
             } else {
                 if ($ummu.dt.voyage_route2.init == null) {
                     $ummu.dt.voyage_route2.create()
-                } else {
+                } /*else {
                     $ummu.dt.voyage_route2.init.clear().rows.add(JSON.parse(lcg).rows).draw();
-                }
+                }*/
             }
 
             $($tbListDataID).data('init', 'voyage_route2');
@@ -15770,9 +15770,9 @@ var $ummu = {
 
                 $ummu.dt.voyage_route2.init.on('xhr', function () {
                     var response = $ummu.dt.voyage_route2.init.ajax.json();
-                    if (response.status == true) {
-                        localStorage.setItem('voyage_route2', JSON.stringify(response));
-                    }
+                    // if (response.status == true) {
+                    //     localStorage.setItem('voyage_route2', JSON.stringify(response));
+                    // }
                 });
             },
 
@@ -15808,7 +15808,7 @@ var $ummu = {
                                     attr: { id: "btn_reload" },
                                     className: "btn-showall-color py-1 dt-btn-ummu",
                                     action: function (e, dt, node, config) {
-                                        $ummu.dt.pelabuhan.init.ajax.reload();
+                                        $ummu.dt.voyage_route2.init.ajax.reload();
                                     },
                                 },
                             ],

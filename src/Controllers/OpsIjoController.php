@@ -68,7 +68,7 @@ class OpsIjoController extends ResourceController
         ]);
 
         $params = [
-            "path"      => "api/ijo/show",
+            "path"      => "api/ijo",
             "method" => 'GET',
             "payload" => $payload,
             "headers" => $this->cH->headers3($this->module_kode)
