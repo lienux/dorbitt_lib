@@ -432,7 +432,7 @@ class TimeSheetController extends ResourceController
             $lines[] = '*' . $this->formatTanggalIndo($date) . '*';
 
             usort($items, function ($a, $b) {
-                return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
+                return strcmp($a->activity_time ?? '', $b->activity_time ?? '') . '[ '.$b->remarks.' ]';
             });
 
             foreach ($items as $it) {
