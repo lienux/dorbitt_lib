@@ -379,6 +379,16 @@ var $ummu = {
 
                 $(".canvasjs-chart-credit").html('canvas.omdoo.id')
             });
+
+            $(document).on('click', '.btn-toggle-password', function () {
+                var $input = $(`#${$(this).attr('for-input')}`);
+                var $icon = $(`#${$(this).attr('for-icon')}`);
+                var isPwd = $input.attr('type') === 'password';
+
+                $input.attr('type', isPwd ? 'text' : 'password');
+                $icon.toggleClass('fa-eye', !isPwd).toggleClass('fa-eye-slash', isPwd);
+                $(this).attr('title', isPwd ? 'Sembunyikan password' : 'Tampilkan password');
+            });
         },
 
         datepicker: function() {
@@ -6643,7 +6653,7 @@ var $ummu = {
             // if ($ummu.url.getParam('id')) {
             //     $ummu.button.sbBtn_default()
             //     $ummu.url.delParamNotIn(['g']);
-            //     app.views.formParams().prop('disabled', true).val('');
+            //     app.views.formParams().not('.not_on_btn_clear').not(':radio, :checkbox').prop('disabled', true).val('');
             //     $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
             // }
 
@@ -9039,7 +9049,7 @@ var $ummu = {
 
         after_sbToolbar_getData: function() {
             $ummu.url.delParamNotIn(['g'])
-            app.views.formParams().prop('disabled', true).val('')
+            app.views.formParams().not('.not_on_btn_clear').not(':radio, :checkbox').prop('disabled', true).val('')
             $ummu.button.sbBtn_default()
             app.controllers.show()
 
@@ -9169,7 +9179,7 @@ var $ummu = {
                 $ummu.button.sbBtn_default();
 
                 // disable dan kosongkan form
-                app.views.formParams().prop('disabled', true).val('');
+                app.views.formParams().not('.not_on_btn_clear').not(':radio, :checkbox').prop('disabled', true).val('');
 
                 // hapus row pada localStorage
                 $ummu.localStorage.deleteRowById($ummu.vars.module_kode, id);
@@ -9300,6 +9310,79 @@ var $ummu = {
                 .removeAttr('data-id');
 
             $("#form_filter input").val('');
+        },
+
+        // /**
+        //  * Set nilai radio PIC Only dengan aman
+        //  * @param {object} data - data dari server
+        //  */
+        // setPicOnly:function(data) {
+        //     // 1. Normalisasi nilai (handle 1, "1", true, 0, "0", false, null, undefined)
+        //     let val = 0;
+        //     if (data && (data.is_pic_only === 1 || data.is_pic_only === "1" || data.is_pic_only === true)) {
+        //         val = 1;
+        //     }
+
+        //     // 2. Reset dulu semua radio
+        //     $('input[name="pic_only"]').prop('checked', false);
+
+        //     // 3. Set checked sesuai nilai
+        //     $('input[name="pic_only"]').filter(function () {
+        //         return String($(this).val()) === String(val);
+        //     }).prop('checked', true);
+
+        //     // 4. Trigger change (jika ada handler lain yang butuh)
+        //     $('input[name="pic_only"]:checked').trigger('change');
+        // },
+
+        /**
+         * Set nilai radio "PIC Only" (Yes/No) dengan aman.
+         * Otomatis enable dulu -> set checked -> disable kembali,
+         * karena default sistem semua input disabled saat load.
+         *
+         * @param {number|string|boolean} value - 1/"1"/true = Yes, 0/"0"/false = No
+         * @param {string} [name="pic_only"]     - nama group radio (default: pic_only)
+         * @param {boolean} [forceDisabled]      - opsional, paksa disabled/disabled
+         */
+        setPicOnly: function (value, name, forceDisabled) {
+            name = name || "pic_only";
+
+            // 1. Normalisasi nilai -> hanya 1 atau 0
+            var val = (value === 1 || value === "1" || value === true) ? 1 : 0;
+
+            // 2. Simpan state disabled saat ini
+            var $radios     = $('input[name="' + name + '"]');
+            var wasDisabled = (typeof forceDisabled !== "undefined")
+                ? !!forceDisabled
+                : $radios.first().prop('disabled');
+
+            // 3. Enable dulu (wajib, agar .prop('checked') efektif)
+            $radios.prop('disabled', false);
+
+            // 4. Reset semua, lalu set yang sesuai
+            $radios.prop('checked', false);
+            $radios.filter(function () {
+                return String($(this).val()) === String(val);
+            }).prop('checked', true);
+
+            // 5. Trigger change (jika ada handler lain yang butuh)
+            $('input[name="' + name + '"]:checked').trigger('change');
+
+            // 6. Kembalikan ke state disabled semula
+            if (wasDisabled) {
+                $radios.prop('disabled', true);
+            }
+        },
+
+        /**
+         * Get nilai radio "PIC Only" saat ini (dipakai saat submit)
+         * @param {string} [name="pic_only"]
+         * @returns {number} 1 = Yes, 0 = No
+         */
+        getPicOnly: function (name) {
+            name = name || "pic_only";
+            var val = $('input[name="' + name + '"]:checked').val();
+            return (val === "1" || val === 1 || val === true) ? 1 : 0;
         },
 
         images: {
@@ -17482,7 +17565,7 @@ var $ummu = {
                     $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
 
                     if (typeof app.views.formParams !== "undefined") {
-                        app.views.formParams().prop('disabled', false).val('');
+                        app.views.formParams().not('.not_on_btn_clear').not(':radio, :checkbox').prop('disabled', false).val('');
                     }
 
                     $ummu.button.sbBtnToolbar.addRemove_btnEdit('add')
@@ -17530,7 +17613,7 @@ var $ummu = {
                         app.views.setRow_toForm($ummu.url.paramToObject2());
                     }else{
                         $ummu.button.sbBtn_default()
-                        app.views.formParams().prop('disabled', true).val('');
+                        app.views.formParams().not('.not_on_btn_clear').not(':radio, :checkbox').prop('disabled', true).val('');
                         $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
                         // $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
                     }
@@ -17581,7 +17664,7 @@ var $ummu = {
                     if ($ummu.url.getParam('id')) {
                         $ummu.button.sbBtn_default()
                         $ummu.url.delParamNotIn(['g']);
-                        app.views.formParams().prop('disabled', true).val('');
+                        app.views.formParams().not('.not-on-btn-clear').not(':radio, :checkbox').prop('disabled', true).val('');
                         $(".card-footer #created_at, .card-footer #created_by, .card-footer #updated_at, .card-footer #updated_by").html("")
                     }
 

@@ -30,7 +30,7 @@
             <div class="input-group">
                 <input type="password" name="password" id="password" class="form-control" autocomplete="new-password">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary" id="btn_toggle_password" tabindex="-1" title="Tampilkan password">
+                    <button type="button" class="btn btn-outline-secondary btn-toggle-password" id="btn_toggle_password" for-input="password" for-icon="icon_toggle_password" tabindex="-1" title="Tampilkan password">
                         <i class="fa-solid fa-eye" id="icon_toggle_password"></i>
                     </button>
                 </div>
@@ -99,16 +99,5 @@
     var conf_get_otp_wa = "<?= getenv("conf_get_otp_wa") ?>";
     var conf_get_otp_wa_text = "<?= getenv("conf_get_otp_wa_text") ?>";
     $("#password").focus();
-
-    // Toggle show/hide password
-    $(document).on('click', '#btn_toggle_password', function () {
-        var $input = $('#password');
-        var $icon = $('#icon_toggle_password');
-        var isPwd = $input.attr('type') === 'password';
-
-        $input.attr('type', isPwd ? 'text' : 'password');
-        $icon.toggleClass('fa-eye', !isPwd).toggleClass('fa-eye-slash', isPwd);
-        $(this).attr('title', isPwd ? 'Sembunyikan password' : 'Tampilkan password');
-    });
 </script>
 <?= $this->endSection() ?>

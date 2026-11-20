@@ -58,6 +58,7 @@ var app = {
                 "category_id": $("#form_input #category").attr('data-id'),
                 "tcode_id": $("#form_input #tcode").attr('data-id'),
                 "responsibility_id": $("#form_input #responsibility").attr('data-id'),
+                "is_pic_only": $ummu.views.getPicOnly(),
             };
 
             const id = $ummu.url.getParam('id');
@@ -178,11 +179,13 @@ var app = {
 
     views: {
         formParams: function () {
-            return $(".endis");
+            return $("#form_input .endis");
         },
 
         setRow_toForm: function(row) {
+            // $('.endis').prop('disabled', false);
             console.log(row)
+
             $("#domains").val(row.domain_name).data('id', row.domain_id)
             $("#kode").val(row.kode)
             $("#name").val(row.name)
@@ -190,15 +193,28 @@ var app = {
             $("#category").val(row.category_name).data('id', row.category_id)
             $("#tcode").val(row.tcode_name).data('id', row.tcode_id)
             $("#responsibility").val(row.responsibility_name).data('id', row.responsibility_id)
-
+            $ummu.views.setPicOnly(row.is_pic_only)
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
+            // $('.endis').prop('disabled', true);
         },
 
-        forClear: function() {
-            $("#form_input input").val('');
+        forClear: function () {
+            // 1. Kosongkan semua input teks/textarea, KECUALI radio/checkbox pic_only
+            $("#form_input input")
+                .not('input[name="pic_only"]')
+                .not(':radio, :checkbox')   // safety: jangan sentuh radio/checkbox lain
+                .val('');
+
+            // 2. Kosongkan textarea (jika ada)
+            $("#form_input textarea").val('');
+
+            // 3. Hapus data-id
             $(".is-data-id").removeAttr('data-id').removeData('id');
-        },
+
+            // 4. Reset PIC Only ke default "No" via helper (aman untuk disabled)
+            // $ummu.views.setPicOnly(0, "pic_only", true);   // true = tetap disabled
+        }
     },
 
     dt: {
@@ -229,6 +245,17 @@ var app = {
                     { 
                         title: "Name",
                         data: "name"
+                    },
+                    {
+                        title: "PIC Only",
+                        data: "is_pic_only",
+                        render: function (data, type) {
+                            var val = String(data);
+                            if (val === "1" || val === "true") {
+                                return '<i class="fas fa-check-circle text-success"></i> Yes';
+                            }
+                            return '<i class="fas fa-times-circle text-secondary"></i> No';
+                        }
                     },
                     { 
                         title: "TCODE",
