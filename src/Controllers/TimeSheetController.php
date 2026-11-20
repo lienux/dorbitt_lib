@@ -396,7 +396,7 @@ class TimeSheetController extends ResourceController
     /**
      * Bangun format laporan WhatsApp
      */
-    private function buildWaReport(array $meta, array $rows): string
+    private function buildWaReportz(array $meta, array $rows): string
     {
         if (empty($rows)) {
             return "Belum ada data timesheet untuk dilaporkan, silahkan pilih tanggal lain.";
@@ -438,7 +438,8 @@ class TimeSheetController extends ResourceController
             foreach ($items as $it) {
                 $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
                 $activity = $it->activity_name ?? '-';
-                $lines[] = '-' . $time . ' ' . $activity . ' `' . $it->remarks . '`';
+                $remark = !empty($it->remarks) ? ' `' . $it->remarks . '`' : '';
+                $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
             }
         }
 
@@ -446,6 +447,63 @@ class TimeSheetController extends ResourceController
         $lines[] = '';
         $lines[] = 'Note:';
         $lines[] = !empty($latest->remarks) ? $latest->remarks : '-';
+
+        return implode("\n", $lines);
+    }
+
+    private function buildWaReport(array $meta, array $rows): string
+    {
+        if (empty($rows)) {
+            return "Belum ada data timesheet untuk dilaporkan, silahkan pilih tanggal lain.";
+        }
+
+        $lines = [];
+
+        // Header
+        $lines[] = '*Tugboat: ' . ($rows[0]->j_tugboat_name ?: 'TB: -') . '*';
+        $lines[] = '*Barge: ' . ($rows[0]->j_barge_name ?: 'BG: -') . '*';
+        $lines[] = '====================';
+
+        // Status terkini
+        $latest = $rows[0];
+        $lines[] = 'Tanggal: *' . $this->formatTanggalIndo($latest->activity_date) . '*';
+        $lines[] = 'Time: ' . (!empty($latest->activity_time) ? substr($latest->activity_time, 0, 5) : '-');
+        $lines[] = 'Posisi: ' . ($this->cleanText($latest->location) ?: '-');
+        $lines[] = 'Status: ' . ($latest->activity_name ?: '-');
+        if (!empty($latest->weather_condition)) {
+            $lines[] = 'Cuaca: ' . $this->cleanText($latest->weather_condition);
+        }
+        $lines[] = '';
+        $lines[] = '';
+
+        // Group per tanggal
+        $grouped = [];
+        foreach ($rows as $r) {
+            $grouped[$r->activity_date][] = $r;
+        }
+        ksort($grouped);
+
+        foreach ($grouped as $date => $items) {
+            $lines[] = '*' . $this->formatTanggalIndo($date) . '*';
+
+            usort($items, function ($a, $b) {
+                return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
+            });
+
+            foreach ($items as $it) {
+                $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+                $activity = $it->activity_name ?? '-';
+                $remarkText = $this->cleanText($it->remarks);
+                $remark = $remarkText !== '' ? ' `' . $remarkText . '`' : '';
+                $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
+            }
+        }
+
+        // Note
+        $lines[] = '';
+        $lines[] = 'Note:';
+        $noteText = $this->cleanText($latest->remarks);
+        $lines[] = $noteText !== '' ? $noteText : '-';
 
         return implode("\n", $lines);
     }
@@ -622,5 +680,24 @@ class TimeSheetController extends ResourceController
         // response()->download() -> CI4 kirim header Content-Disposition
         return $this->response->download($tmpPath, null)
             ->setFileName($filename);
+    }
+
+    /**
+     * Bersihkan teks dari textarea: ganti newline/tab dengan spasi,
+     * rapikan spasi ganda, dan trim.
+     */
+    private function cleanText(?string $text): string
+    {
+        if ($text === null || $text === '') {
+            return '';
+        }
+
+        // Ganti semua jenis newline & tab dengan spasi
+        $text = preg_replace('/[\r\n\t\x{2028}\x{2029}\x{0085}]+/u', ' ', $text);
+
+        // Rapikan spasi ganda (termasuk non-breaking space)
+        $text = preg_replace('/[ \x{00A0}]+/u', ' ', $text);
+
+        return trim($text);
     }
 }
