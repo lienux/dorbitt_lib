@@ -38,24 +38,24 @@
                     </div>
                 </div>
                 <div class="row mb-2">
-                <label class="col-sm-3 col-form-label mb-0 pb-0" for="category">
-                    Category<!-- <span class="text-danger small"> *</span> -->
-                </label>
-                <div class="col-sm-9">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control is-data-id" id="category" data-toggle="tooltip" data-placement="top" title="Master Category" required disabled>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_category" type="button" disabled
-                                data-inputid="category" data-modaltitle="Master Data Category">
-                                <i class="fas fa-list-ul"></i>
-                            </button>
-                            <button class="btn btn-outline-danger ummu-clear-input endis" type="button" data-inputid="category" data-modaltitle="Clear Responsibility" for="category" disabled>
-                                <i class="fas fa-backspace"></i>
-                            </button>
+                    <label class="col-sm-3 col-form-label mb-0 pb-0" for="category">
+                        Category<!-- <span class="text-danger small"> *</span> -->
+                    </label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control is-data-id" id="category" data-toggle="tooltip" data-placement="top" title="Master Category" required disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary show-left-modal endis btn-endis" id="btn_show_category" type="button" disabled
+                                    data-inputid="category" data-modaltitle="Master Data Category">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                                <button class="btn btn-outline-danger ummu-clear-input endis" type="button" data-inputid="category" data-modaltitle="Clear Responsibility" for="category" disabled>
+                                    <i class="fas fa-backspace"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <!-- </div> -->
         </div>
         <div class="col-lg-6 col-sm-12">
@@ -97,6 +97,36 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ============================================= -->
+            <!-- TAMBAHAN: PIC Only (Radio Button)             -->
+            <!-- ============================================= -->
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label mb-0 pb-0">
+                    PIC Only
+                </label>
+                <div class="col-sm-9">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input endis not-on-btn-clear" type="radio" name="pic_only" id="pic_only_yes" value="1" disabled>
+                        <label class="form-check-label" for="pic_only_yes">
+                            <i class="fas fa-check-circle text-success"></i> Yes
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input endis not-on-btn-clear" type="radio" name="pic_only" id="pic_only_no" value="0" checked disabled>
+                        <label class="form-check-label" for="pic_only_no">
+                            <i class="fas fa-times-circle text-secondary"></i> No
+                        </label>
+                    </div>
+                    <small class="form-text text-muted d-block">
+                        Pilih <strong>Yes</strong> jika activity hanya boleh diakses oleh PIC.
+                    </small>
+                </div>
+            </div>
+            <!-- ============================================= -->
+            <!-- END TAMBAHAN PIC Only                          -->
+            <!-- ============================================= -->
+
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Description</label>
                 <div class="col-sm-9">

@@ -92,6 +92,7 @@ class MsActivityController extends ResourceController
         $category_id = $this->request->getVar('category_id');
         $tcode_id = $this->request->getVar('tcode_id');
         $responsibility_id = $this->request->getVar('responsibility_id');
+        $is_pic_only = $this->request->getVar('is_pic_only');
 
         $payload = [
             "domain_id" => $domain_id,
@@ -101,6 +102,7 @@ class MsActivityController extends ResourceController
             "category_id" => $category_id,
             "tcode_id" => $tcode_id,
             "responsibility_id" => $responsibility_id,
+            "is_pic_only" => $is_pic_only,
         ];
 
         $params = [
@@ -124,6 +126,7 @@ class MsActivityController extends ResourceController
         $category_id = $this->request->getVar('category_id');
         $tcode_id = $this->request->getVar('tcode_id');
         $responsibility_id = $this->request->getVar('responsibility_id');
+        $is_pic_only = $this->request->getVar('is_pic_only');
 
         $payload = [
             "domain_id" => $domain_id,
@@ -133,6 +136,7 @@ class MsActivityController extends ResourceController
             "category_id" => $category_id,
             "tcode_id" => $tcode_id,
             "responsibility_id" => $responsibility_id,
+            "is_pic_only" => $is_pic_only,
         ];
 
         $params = [

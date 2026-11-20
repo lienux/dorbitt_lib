@@ -425,3 +425,272 @@ var app = {
 $(document).ready(function () {
     app.config.autoload()
 });
+
+$(document).ready(function () {
+
+    // ================================================================
+    // MOCK DATA PORTS
+    // ================================================================
+    const MOCK_PORTS = [
+        { id: 1, name: "Jetty Borneo Mandiri Prima Energi, Batang Kulur, KalSel" },
+        { id: 2, name: "Jetty Pelindo, Bojonegara, Jawa Barat" },
+        { id: 3, name: "Tanjung Priok, Jakarta" },
+        { id: 4, name: "Tanjung Perak, Surabaya" },
+        { id: 5, name: "Pelabuhan Samarinda, KalTim" },
+        { id: 6, name: "Pelabuhan Banjarmasin, KalSel" },
+        { id: 7, name: "Jetty Adaro, Taboneo, KalSel" },
+        { id: 8, name: "Pelabuhan Palembang, SumSel" }
+    ];
+
+    // ================================================================
+    // 1. Load Ports
+    // ================================================================
+    function loadPorts() {
+        renderPorts(MOCK_PORTS);
+    }
+
+    function renderPorts(list) {
+        const $dlLoad = $('#list_loading_port').empty();
+        const $dlDisc = $('#list_discharge_port').empty();
+
+        list.forEach(function (p) {
+            const name = (typeof p === 'string') ? p : p.name;
+            const safe = escapeHtml(name);
+            $dlLoad.append('<option value="' + safe + '"></option>');
+            $dlDisc.append('<option value="' + safe + '"></option>');
+        });
+    }
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    // ================================================================
+    // 2. Smart Datalist Logic (Auto-Koreksi & Peringatan)
+    // ================================================================
+    // Fungsi universal untuk menangani input berbasis datalist
+    function handleSmartDatalist(inputId, listId, warnId) {
+        const $el = $('#' + inputId);
+        const $warn = $('#' + warnId);
+        
+        // 1. Sanitasi: Hapus spasi ganda dan spasi di ujung
+        let val = $el.val().replace(/\s+/g, ' ').trim();
+        $el.val(val);
+
+        // Jika kosong, hilangkan warning dan reset state
+        if (val === '') {
+            $el.removeClass('is-warning-custom').data('is-new', false);
+            $warn.hide();
+            return;
+        }
+
+        let exactMatch = null;
+        let similarMatch = null;
+
+        // 2. Cari di datalist
+        $('#' + listId + ' option').each(function () {
+            const listVal = $(this).val();
+            
+            // Cek Exact Match (persis sama abaikan huruf besar/kecil)
+            if (listVal.toLowerCase() === val.toLowerCase()) {
+                exactMatch = listVal;
+            }
+            // Cek Similar Match (kata terkandung di dalamnya)
+            else if (listVal.toLowerCase().includes(val.toLowerCase()) || val.toLowerCase().includes(listVal.toLowerCase())) {
+                similarMatch = listVal;
+            }
+        });
+
+        // 3. LOGIKA EKSEKUSI
+        if (exactMatch) {
+            // Auto-Koreksi: Jika ada yang persis sama (typo kapitalisasi/spasi)
+            $el.val(exactMatch);
+            $el.removeClass('is-warning-custom').data('is-new', false);
+            $warn.hide();
+        } 
+        else if (similarMatch) {
+            // Peringatan: Jika mirip tapi tidak persis
+            $el.addClass('is-warning-custom').data('is-new', true);
+            $warn.html('<i class="fas fa-exclamation-triangle"></i> Mirip dengan: <b>' + escapeHtml(similarMatch) + '</b>. Yakin tambah baru?').show();
+        } 
+        else {
+            // Info: Jika benar-benar baru
+            $el.addClass('is-warning-custom').data('is-new', true);
+            $warn.html('<i class="fas fa-info-circle"></i> Info: Data baru (akan didaftarkan ke sistem).').show();
+        }
+    }
+
+    // Binding Events
+    $('#loading_port').on('blur change', function() {
+        handleSmartDatalist('loading_port', 'list_loading_port', 'warn_loading');
+    });
+    
+    $('#discharge_port').on('blur change', function() {
+        handleSmartDatalist('discharge_port', 'list_discharge_port', 'warn_discharge');
+    });
+    
+    $('#load_type').on('blur change', function() {
+        handleSmartDatalist('load_type', 'list_cargo_type', 'warn_load_type');
+    });
+
+    // ================================================================
+    // 3. Auto-Format Ribuan pada Quantity (Hanya Angka)
+    // ================================================================
+    $('#qty').on('input', function() {
+        // Hapus karakter selain angka dan titik (mencegah user ngetik huruf)
+        let val = $(this).val().replace(/[^0-9.]/g, '');
+        
+        if (val === '') {
+            $(this).val('');
+            return;
+        }
+        
+        let parts = val.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        
+        $(this).val(parts.join('.'));
+    });
+
+    // ================================================================
+    // 4. Validasi Rentang Tanggal
+    // ================================================================
+    function validateDates() {
+        const from = $('#iDateLoadingFrom').val();
+        const to = $('#iDateLoadingTo').val();
+        let isError = false;
+
+        if (from && to) {
+            const d1 = new Date(from);
+            const d2 = new Date(to);
+            if (d1 > d2) {
+                isError = true;
+            }
+        }
+
+        if (isError) {
+            $('#date_group').addClass('is-invalid-custom');
+            $('#err_date').show();
+        } else {
+            $('#date_group').removeClass('is-invalid-custom');
+            $('#err_date').hide();
+        }
+        return !isError;
+    }
+
+    $('#iDateLoadingFrom, #iDateLoadingTo').on('change blur', validateDates);
+
+    // ================================================================
+    // 5. Submit, Draft & Reset Handlers
+    // ================================================================
+    function buildDatalistPayload(selector) {
+        const $el = $(selector);
+        return {
+            name: $el.val().trim(),
+            is_new: $el.data('is-new') === true
+        };
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        // Validasi Quantity
+        if ($('#qty').val().trim() === '' || $('#qty').val().trim() === '0' || $('#uom').val() === null) {
+            $('#qty_group').addClass('is-invalid-custom');
+            $('#err_qty').show();
+            isValid = false;
+        } else {
+            $('#qty_group').removeClass('is-invalid-custom');
+            $('#err_qty').hide();
+        }
+
+        // Validasi Tanggal
+        if (!validateDates()) {
+            isValid = false;
+        }
+
+        // Pemicu Smart Datalist untuk update state terakhir
+        handleSmartDatalist('loading_port', 'list_loading_port', 'warn_loading');
+        handleSmartDatalist('discharge_port', 'list_discharge_port', 'warn_discharge');
+        handleSmartDatalist('load_type', 'list_cargo_type', 'warn_load_type');
+
+        return isValid;
+    }
+
+    // Tombol Simpan & Submit
+    $('#btn_submit').on('click', function () {
+        if (!validateForm()) {
+            // Scroll ke elemen error pertama
+            if ($('.is-invalid-custom').length > 0) {
+                $('html, body').animate({
+                    scrollTop: $('.is-invalid-custom').first().offset().top - 100
+                }, 300);
+            }
+            return;
+        }
+
+        const payload = {
+            status: 'SUBMITTED',
+            date_loading: {
+                from: $('#iDateLoadingFrom').val(),
+                to: $('#iDateLoadingTo').val()
+            },
+            cargo_type:     buildDatalistPayload('#load_type'),
+            loading_port:   buildDatalistPayload('#loading_port'),
+            discharge_port: buildDatalistPayload('#discharge_port'),
+            quantity: {
+                qty: $('#qty').val().replace(/,/g, ''), 
+                uom: $('#uom').val()
+            }
+        };
+
+        $('#preview_payload').text(JSON.stringify(payload, null, 2));
+        console.log('Payload Submit:', payload);
+    });
+
+    // Tombol Save as Draft
+    $('#btn_draft').on('click', function () {
+        const payload = {
+            status: 'DRAFT',
+            date_loading: {
+                from: $('#iDateLoadingFrom').val(),
+                to: $('#iDateLoadingTo').val()
+            },
+            cargo_type:     buildDatalistPayload('#load_type'),
+            loading_port:   buildDatalistPayload('#loading_port'),
+            discharge_port: buildDatalistPayload('#discharge_port'),
+            quantity: {
+                qty: $('#qty').val().replace(/,/g, ''),
+                uom: $('#uom').val()
+            }
+        };
+
+        $('#preview_payload').text(JSON.stringify(payload, null, 2));
+        console.log('Payload Draft:', payload);
+    });
+
+    // Tombol Reset
+    $('#btn_reset').on('click', function () {
+        $('#loading_port, #discharge_port, #load_type').val('').removeClass('is-warning-custom').removeData('is-new');
+        $('#qty').val('');
+        $('#uom').val('');
+        $('#iDateLoadingFrom, #iDateLoadingTo').val('');
+        $('#preview_payload').text('-');
+        
+        $('#qty_group').removeClass('is-invalid-custom');
+        $('#date_group').removeClass('is-invalid-custom');
+        $('#err_qty, #err_date, #warn_loading, #warn_discharge, #warn_load_type').hide();
+    });
+
+    // ================================================================
+    // 6. Init
+    // ================================================================
+    loadPorts();
+
+    // DEMO: aktifkan field agar bisa langsung dites
+    // $('#qty, #uom, #loading_port, #discharge_port, #iDateLoadingFrom, #iDateLoadingTo, #load_type').prop('disabled', false);
+});
