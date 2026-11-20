@@ -40,7 +40,8 @@
 
     <style>
         body {
-            background-image: url(<?=$vH->bgAuthImg() ?>); 
+            background-image: url(<?=$vH->bgAuthImg() ?>);
+            background-size: cover;
         }
     </style>
 
