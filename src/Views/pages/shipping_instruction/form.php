@@ -207,7 +207,7 @@
         <div class="col-lg-6 col-sm-12">
 
             <!-- Shipper -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Shipper<span class="text-danger small"> *</span></label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
@@ -223,7 +223,7 @@
             </div>
 
             <!-- Tugboat -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat<span class="text-danger small"> *</span></label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
@@ -239,7 +239,7 @@
             </div>
 
             <!-- Barge -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Barge<span class="text-danger small"> *</span></label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
@@ -255,18 +255,18 @@
             </div>
 
             <!-- Cargo Type (Datalist + Smart Validation) -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Cargo Type<span class="text-danger small"> *</span></label>
                 <div class="col-sm-9">
                     <input type="text" name="load_type" id="load_type" list="list_cargo_type" class="form-control form-control-sm endis" placeholder="Pilih atau ketik Cargo Type" data-label="Cargo Type" required disabled>
                     <datalist id="list_cargo_type">
-                        <option value="Batubara"></option>
+                        <!-- <option value="Batubara"></option>
                         <option value="Pasir Besi"></option>
                         <option value="Biji Kelapa"></option>
                         <option value="Pupuk"></option>
                         <option value="General Cargo"></option>
                         <option value="Semen"></option>
-                        <option value="Kontainer"></option>
+                        <option value="Kontainer"></option> -->
                     </datalist>
                     <span class="popup-text">Pilih dari list atau ketik manual jika tidak ada.</span>
                     <div class="warning-feedback-custom" id="warn_load_type"></div>
@@ -274,7 +274,7 @@
             </div>
 
             <!-- Modern Quantity + UoM -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label mb-0 pb-0">
                     Quantity<span class="text-danger small"> *</span>
                 </label>
@@ -309,7 +309,7 @@
         <div class="col-lg-6 col-sm-12">
 
             <!-- Modern Date of Loading -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Date of Loading<span class="text-danger small"> *</span></label>
                 <div class="col-sm-8">
                     <div class="date-range-group" id="date_group">
@@ -329,9 +329,9 @@
             </div>
 
             <!-- Port of Loading -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
-                    Port of Loading
+                    Port of Loading<span class="text-danger small"> *</span>
                 </label>
                 <div class="col-sm-8">
                     <input type="text"
@@ -350,9 +350,9 @@
             </div>
 
             <!-- Port of Discharge -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">
-                    Port of Discharge
+                    Port of Discharge<span class="text-danger small"> *</span>
                 </label>
                 <div class="col-sm-8">
                     <input type="text"
@@ -371,7 +371,7 @@
             </div>
 
             <!-- File -->
-            <div class="row mb-3">
+            <div class="row mb-2">
                 <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">File<span class="text-danger small"> *</span></label>
                 <div class="col-sm-8">
                     <div class="input-group input-group-sm">

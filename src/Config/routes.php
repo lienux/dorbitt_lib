@@ -269,6 +269,8 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
         $routes->get('show_barge', 'ShippingInstructionController::show_barge');
         $routes->get('show_uom', 'ShippingInstructionController::show_uom');
         $routes->get('voyage-route', 'ShippingInstructionController::showVoyageRoute');
+        $routes->get('show_jenis_muatan', 'ShippingInstructionController::show_jenis_muatan');
+        $routes->get('show_location', 'ShippingInstructionController::show_location');
     });
 
     $routes->group('spal_standard', function ($routes) {
@@ -621,10 +623,9 @@ $routes->group('admin', ['namespace' => 'Dorbitt\Controllers', 'filter' => 'auth
     $routes->group('service_notification', function ($routes) {
         $routes->get('/', 'NotificationController::index');
         $routes->get('show', 'NotificationController::show');
-        // // $routes->post('create', 'OpsIjoController::create');
-        // $routes->post('update/(:num)', 'OpsIjoController::update/$1');
-        // // $routes->delete('delete/(:num)', 'OpsIjoController::delete/$1');
         $routes->get('count', 'NotificationController::count');
+        $routes->post('read/(:num)', 'NotificationController::read/$1');
+        $routes->post('read-all', 'NotificationController::readAll');
     });
 
     require ROOTPATH . "vendor/dorbitt/lib/src/Config/mcp_report_routes.php";

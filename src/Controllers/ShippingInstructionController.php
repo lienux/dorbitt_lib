@@ -274,4 +274,50 @@ class ShippingInstructionController extends ResourceController
 
         return $this->respond($builder, 200);
     }
+
+    public function show_jenis_muatan()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/jenis_muatan",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function show_location()
+    {
+        $payload = $this->umHelp->dt_payload2();
+        $payload = array_merge($payload, [
+            "date" => [
+                "from" => "",
+                "to" => ""
+            ],
+            "selects" => "*"
+        ]);
+
+        $params = [
+            "path"      => "api/" . $this->module_kode . "/locations",
+            "method" => 'GET',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
 }
