@@ -93,6 +93,15 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row mb-2">
+                <label class="col-sm-4 col-form-label mb-0 pb-0 text-lg-right text-sm-left">Remark</label>
+                <div class="col-sm-8">
+                    <div class="input-group input-group-sm">
+                        <textarea class="form-control endis" id="remark" disabled></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

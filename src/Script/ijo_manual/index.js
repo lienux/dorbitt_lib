@@ -86,6 +86,7 @@ var app = {
             var rute_perjalanan = $("#rute_perjalanan").val();
             var eta_loading_port = $("#eta_loading_port").val();
             var eta_discharge_port = $("#eta_discharge_port").val();
+            var remark = $("#remark").val();
 
             $ummu.vars.formData.append("type", type);
             $ummu.vars.formData.append("client_id", client_id);
@@ -96,6 +97,8 @@ var app = {
             $ummu.vars.formData.append("eta_loading_port", eta_loading_port);
             $ummu.vars.formData.append("eta_discharge_port", eta_discharge_port);
 
+            $ummu.vars.formData.append("remark", remark);
+
             var payload = {
                 "type": type,
                 "client_id": client_id,
@@ -105,6 +108,7 @@ var app = {
                 "rute_perjalanan": rute_perjalanan,
                 "eta_loading_port": eta_loading_port,
                 "eta_discharge_port": eta_discharge_port,
+                "remark": remark,
             };
 
             const id = $ummu.url.getParam('id');
