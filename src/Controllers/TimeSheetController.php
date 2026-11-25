@@ -461,8 +461,13 @@ class TimeSheetController extends ResourceController
         $lines = [];
 
         // Header
-        $lines[] = '*Tugboat: ' . ($rows[0]->j_tugboat_name ?: 'TB: -') . '*';
-        $lines[] = '*Barge: ' . ($rows[0]->j_barge_name ?: 'BG: -') . '*';
+        $lines[] = '*Tugboat: ' . ($rows[0]->j_tugboat_name ?: 'TB: -') . '*' . ', Conditions: -';
+        $lines[] = '*Barge: ' . ($rows[0]->j_barge_name ?: 'BG: -') . '*' . ', Conditions: -';
+        // $lines[] = '*Conditions: ' . ('-') . '*';
+        $lines[] = '*POL: ' . ('-') . '*';
+        $lines[] = '*POD: ' . ('-') . '*';
+        $lines[] = '*Total Cargo: ' . ('-') . '*';
+        $lines[] = '*TC: ' . ('Five Start') . '*';
         $lines[] = '====================';
 
         // Status terkini
@@ -474,6 +479,7 @@ class TimeSheetController extends ResourceController
         if (!empty($latest->weather_condition)) {
             $lines[] = 'Cuaca: ' . $this->cleanText($latest->weather_condition);
         }
+        $lines[] = 'ETA: ' . ($latest->eta_date.' '.$latest->eta_time);
         $lines[] = '';
         $lines[] = '';
 
@@ -491,12 +497,20 @@ class TimeSheetController extends ResourceController
                 return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
             });
 
+            // foreach ($items as $it) {
+            //     $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+            //     $activity = $it->activity_name ?? '-';
+            //     $remarkText = $this->cleanText($it->remarks);
+            //     $remark = $remarkText !== '' ? ' `' . $remarkText . '`' : '';
+            //     $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
+            // }
+
             foreach ($items as $it) {
                 $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
                 $activity = $it->activity_name ?? '-';
                 $remarkText = $this->cleanText($it->remarks);
-                $remark = $remarkText !== '' ? ' `' . $remarkText . '`' : '';
-                $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
+                $remark = $remarkText !== '' ? ' : ' . $remarkText . '' : '';
+                $lines[] = '* ' . $time . ' ' . $activity . ' ' . $remark;
             }
         }
 

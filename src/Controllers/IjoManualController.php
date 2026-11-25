@@ -97,6 +97,7 @@ class IjoManualController extends ResourceController
             "rute_perjalanan" => $this->request->getPost("rute_perjalanan"),
             "eta_loading_port" => $this->request->getPost("eta_loading_port"),
             "eta_discharge_port" => $this->request->getPost("eta_discharge_port"),
+            "remark" => $this->request->getPost("remark"),
             "referensi_doc" => "manual",
         ];
 
