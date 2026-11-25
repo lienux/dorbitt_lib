@@ -298,7 +298,8 @@ var app = {
 
         setRow_toForm: function(row) {
             // console.log(row)
-            $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
+            // $("#spal").val(row.spal_number).attr('data-id', row.spal_id)
+            $("#type").val(row.type)
             $("#iDate").val(row.tgl)
             $("#number").val(row.number)
             $("#from_dept").val(row.from_dept_name).attr('data-id', row.from_dept_id)
@@ -312,6 +313,8 @@ var app = {
             $("#tonnage").val($ummu.formatter.id(row.qty))
             $("#uom").html(row.uom_kode).attr('data-id', row.uom_id)
 
+            $("#rute_perjalanan").val(row.rute_perjalanan)
+            $("#remark").val(row.remark)
             $("#eta_loading_port").val(row.eta_loading_port)
             $("#eta_loading_port_to").val(row.eta_loading_port_to)
             $("#loading_port").val(row.loading_port)
