@@ -17,7 +17,7 @@
                 <i class="bi bi-trash-fill"></i> Delete
             </button>
             <button class="btn btn-sm mb-1" type="button" id="btn_cancle" disabled="">
-                <i class="bi bi-x-circle-fill"></i> Cancle
+                <i class="bi bi-x-circle-fill"></i> Cancel
             </button>
             <button class="btn btn-sm mb-1" type="button" id="btn_save" disabled="">
                 <i class="bi bi-floppy-fill"></i> Save
