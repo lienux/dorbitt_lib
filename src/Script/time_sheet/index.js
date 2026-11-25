@@ -979,6 +979,7 @@ $(document).ready(function () {
 
     // ==================== RENDER INFO IJO ====================
     function renderIjoInfo(ijo) {
+        $ummu.url.setParam('ijo_type', ijo.type)
         $('#ijoIdLabel').text('(ID ' + ijo.id + ')');
         $('#ijoNumberLabel').text(ijo.number || '-');
         $('#tugboatLabel').text(ijo.tugboat_name || '-');
@@ -986,6 +987,17 @@ $(document).ready(function () {
         $('#routeLabel').text((ijo.loading_port || '-') + ' → ' + (ijo.discharge_port || '-'));
         $('#clientLabel').text(ijo.client_name || '-');
         $('#spalLabel').text(ijo.spal_number || '-');
+
+        // console.log(ijo.type)
+
+        if (ijo.type == 'tc') {
+            $('#form_rute').removeClass('collapse');
+            $('#kolom_rute').removeClass('collapse');
+        }else{
+            $('#form_rute').addClass('collapse');
+            $('#rute').val('');
+            $('#kolom_rute').addClass('collapse');
+        }
 
         let etaLoad = '-';
         if (isValidDate(ijo.eta_loading_port)) {
@@ -1078,10 +1090,16 @@ $(document).ready(function () {
                 etaText = t.eta_date;
                 if (t.eta_time) etaText += ' ' + String(t.eta_time).slice(0, 5);
             }
+            if ($ummu.url.getParam('ijo_type') == 'tc') {
+                var tdrute = `<td>${escapeHtml(t.rute)}</td>`;
+            }else{
+                var tdrute = '';
+            }
             const tr = `
                 <tr data-id="${t.id}">
                     <td class="text-nowrap">${t.activity_date || '-'}</td>
                     <td>${t.activity_time ? String(t.activity_time).slice(0,5) : '-'}</td>
+                    ${tdrute}
                     <td><span class="badge badge-info">${escapeHtml(t.activity_name || '-')}</span></td>
                     <td>${escapeHtml(t.location || '-')}</td>
                     <td>${escapeHtml(t.weather_condition || '-')}</td>
@@ -1135,7 +1153,8 @@ $(document).ready(function () {
                     rows.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
                     rows.forEach(r => {
                         const name = (r.name || '').trim();
-                        const label = r.kode ? `${name} [${r.kode}]` : name;
+                        // const label = r.kode ? `${name} [${r.kode}]` : name;
+                        const label = r.kode ? `${name}` : name;
                         $sel.append(`<option value="${r.id}" data-name="${name}" data-kode="${r.kode || ''}">${label}</option>`);
                     });
                     $('#activityCount').text(`${rows.length} activity tersedia`);
@@ -1568,7 +1587,12 @@ $(document).ready(function () {
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
                         const disc = r.discharge_port || '-';
-                        const label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
+                        // const label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
+                        if (r.type == 'tc') {
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge}`;
+                        }else{
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
+                        }
                         const $option = $('<option>').val(r.id).text(label);
                         $option.data('ijo', r);
                         $sel.append($option);
@@ -1624,7 +1648,11 @@ $(document).ready(function () {
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
                         const disc = r.discharge_port || '-';
-                        const label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
+                        if (r.type == 'tc') {
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge}`;
+                        }else{
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
+                        }
                         const $option = $('<option>').val(r.id).text(label);
                         $option.data('ijo', r);
                         $sel.append($option);
