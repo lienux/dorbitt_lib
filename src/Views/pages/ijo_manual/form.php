@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat<span class="text-danger small"> *</span></label>
+                <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="tugboat" placeholder="Pilih Tugboat" data-label="Tugboat" required disabled>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label class="col-sm-3 col-form-label mb-0 pb-0">Barge<span class="text-danger small"> *</span></label>
+                <label class="col-sm-3 col-form-label mb-0 pb-0">Barge</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="barge" placeholder="Pilih Barge" data-label="Barge" disabled required>
