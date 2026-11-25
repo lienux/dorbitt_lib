@@ -298,6 +298,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-4 mb-0 pb-0 font-weight-bold small" for="tunjangan">
+                            Tunjangan
+                        </label>
+                        <div class="col">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input type="text" inputmode="numeric" step="0.01" min="0" class="form-control form-control-sm endis text-right" id="tunjangan" placeholder="0" title="Gaji Pokok" disabled>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

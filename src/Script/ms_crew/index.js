@@ -25,6 +25,7 @@ var app = {
             // $ummu.formatter.number2($("#amount"), 10);
             // $ummu.formatter.number($("#basic_salary"), 8)
             $ummu.formatter.input_rupiah.load(jQuery('#basic_salary'));
+            $ummu.formatter.input_rupiah.load(jQuery('#tunjangan'));
 
             $ummu.dt.modal_list.register("vessel_id", {
                 url: "show_tugboat",
@@ -149,6 +150,7 @@ var app = {
             // Kesehatan & Komersial
             const vaccination_info = $('#vaccination_info').val();
             const basic_salary = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#basic_salary').val());
+            const tunjangan = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#tunjangan').val());
 
             // Jabatan & Penempatan
             const tugboat_id = $("#tugboat").data('id');
@@ -203,6 +205,7 @@ var app = {
 
             $ummu.vars.formData.append("vaccination_info", vaccination_info);
             $ummu.vars.formData.append("basic_salary", basic_salary);
+            $ummu.vars.formData.append("tunjangan", tunjangan);
 
             $ummu.vars.formData.append("tugboat_id", tugboat_id);
             $ummu.vars.formData.append("base_rank_id", base_rank_id);
@@ -248,6 +251,7 @@ var app = {
 
                 "vaccination_info": vaccination_info,
                 "basic_salary": basic_salary,
+                "tunjangan": tunjangan,
 
                 "tugboat_id": tugboat_id,
                 "base_rank_id": base_rank_id,
@@ -649,6 +653,7 @@ var app = {
             $("#address").val(row.alamat);
             $("#vaccination_info").val(row.vaccination_info);
             $("#basic_salary").val($ummu.formatter.input_rupiah.formatRupiah2(row.basic_salary));
+            $("#tunjangan").val($ummu.formatter.input_rupiah.formatRupiah2(row.tunjangan));
 
             $("#tugboat").val(row.vessel_name).attr('data-id', row.vessel_id);
             $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
@@ -863,6 +868,22 @@ var app = {
                             if (basic_salary) {
                                 // var html = `${currency} ${basic_salary_format}`
                                 var html = basic_salary_format
+                            }
+                            return html;
+                        }
+                    },
+                    { 
+                        title: "Tunjangan",
+                        data: null,
+                        className: 'align-middle text-right',
+                        render: function(data, type, row) {
+                            const tunjangan = row.tunjangan;
+                            const currency = row.currency;
+                            const tunjangan_format = $ummu.formatter.input_rupiah.formatRupiah2(row.tunjangan);
+                            var html = '';
+
+                            if (tunjangan) {
+                                var html = tunjangan_format
                             }
                             return html;
                         }
