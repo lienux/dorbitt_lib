@@ -32,7 +32,7 @@
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Tugboat</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="tugboat" placeholder="Pilih Tugboat" data-label="Tugboat" required disabled>
+                        <input type="text" class="form-control" id="tugboat" placeholder="Pilih Tugboat" data-label="Tugboat" disabled>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_tugboat" type="button" disabled
                                 data-inputid="tugboat" data-modaltitle="Master Data Vessel - Tugboat">
@@ -46,7 +46,7 @@
                 <label class="col-sm-3 col-form-label mb-0 pb-0">Barge</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="barge" placeholder="Pilih Barge" data-label="Barge" disabled required>
+                        <input type="text" class="form-control" id="barge" placeholder="Pilih Barge" data-label="Barge" disabled>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary endis show-left-modal btn-endis" id="btn_show_barge" type="button" disabled
                                 data-inputid="barge" data-modaltitle="Master Data Vessel - Barge">
