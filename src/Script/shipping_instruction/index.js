@@ -11,6 +11,8 @@ var app = {
             localStorage.setItem(`${$ummu.vars.module_kode}_isDtServerSide`, false)
             $ummu.config.dataTables()
             app.controllers.index();
+            app.controllers.show_jenis_muatan();
+            app.controllers.show_location();
             $ummu.helpers.renderComplexHeader($table, app.dt.config.columns());
 
             // $ummu.formatter.number($("#form_input #nome"), 1);
@@ -203,6 +205,114 @@ var app = {
             $("#voyage_route").val(row.name).attr('data-id', row.id);
             $("#loading_port").val(row.from_name);
             $("#discharge_port").val(row.to_name);
+        },
+
+        show_client: function() {
+            var params = {
+                "func": 'show_clients',
+                "type": "GET",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
+            var ummu = $ummu.ajax.ummu10(params);
+            ummu
+            .done(function (result) {
+                // var response = JSON.parse(result);
+                var response = result;
+                console.log(response)
+                // $globFunc.set_value_to_option(response.rows, "category", 0);
+            })
+            .fail(function () {
+                // An error occurred
+            });
+        },
+
+        show_jenis_muatan: function() {
+            var params = {
+                "func": 'show_jenis_muatan',
+                "type": "GET",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
+            var ummu = $ummu.ajax.ummu10(params);
+            ummu
+            .done(function (result) {
+                // var response = JSON.parse(result);
+                var response = result;
+                var res = result;
+                console.log(response)
+                // $globFunc.set_value_to_option(response.rows, "category", 0);
+                // 
+                if (res.status && res.rows) {
+                    let $select = $('#list_cargo_type');
+
+                    $.each(res.rows, function (i, item) {
+                        $select.append(
+                            $('<option>', {
+                                value: item.nama_muatan,
+                                // text : item.kode_muatan + ' - ' + item.nama_muatan,
+                                // text : item.nama_muatan,
+                                // 'data-kategori'   : item.kategori,
+                                // 'data-satuan'     : item.satuan,
+                                // 'data-sifat-kargo': item.sifat_kargo,
+                                // 'data-stowage'    : item.stowage_factor
+                            })
+                        );
+                    });
+
+                    // Refresh jika pakai plugin select2 / bootstrap-select
+                    // $select.select2();
+                    // $select.selectpicker('refresh');
+                }
+            })
+            .fail(function () {
+                // An error occurred
+            });
+        },
+
+        show_location: function() {
+            var params = {
+                "func": 'show_location',
+                "type": "GET",
+                "data": [],
+                "cache": true,
+                "contentType": "application/json",
+                "dataType": "json",
+                "loader": true,
+            };
+            var ummu = $ummu.ajax.ummu10(params);
+            ummu
+            .done(function (result) {
+                // var response = JSON.parse(result);
+                var response = result;
+                var res = result;
+                console.log(response)
+                // 
+                if (res.status && res.rows) {
+                    let $select = $('#list_loading_port, #list_discharge_port');
+
+                    $.each(res.rows, function (i, item) {
+                        $select.append(
+                            $('<option>', {
+                                value: item.name
+                            })
+                        );
+                    });
+
+                    // Refresh jika pakai plugin select2 / bootstrap-select
+                    // $select.select2();
+                    // $select.selectpicker('refresh');
+                }
+            })
+            .fail(function () {
+                // An error occurred
+            });
         },
     },
 
@@ -689,7 +799,7 @@ $(document).ready(function () {
     // ================================================================
     // 6. Init
     // ================================================================
-    loadPorts();
+    // loadPorts();
 
     // DEMO: aktifkan field agar bisa langsung dites
     // $('#qty, #uom, #loading_port, #discharge_port, #iDateLoadingFrom, #iDateLoadingTo, #load_type').prop('disabled', false);

@@ -912,14 +912,19 @@ var app = {
                             return '.....';
                         }
                     },
-                    { 
-                        title: "Sign On Place",
-                        data: "sign_on_place",
-                        className: 'align-middle',
-                    },
+                    // { 
+                    //     title: "Sign On Place",
+                    //     data: "sign_on_place",
+                    //     className: 'align-middle',
+                    // },
                     { 
                         title: "Sign On Date",
                         data: "sign_on_date",
+                        className: 'align-middle',
+                    },
+                    { 
+                        title: "Sign Off Date",
+                        data: "sign_off_date",
                         className: 'align-middle',
                     },
                     { 

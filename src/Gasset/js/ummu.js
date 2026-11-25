@@ -268,7 +268,7 @@ var $ummu = {
 
             // $(".canvasjs-chart-credit").html('canvas.omdoo.id')
             // var _0x4d12=["\x2E\x75\x6D\x6D\x75\x2D\x61\x75\x74\x68\x20\x2E\x66\x6F\x6F\x74\x65\x72\x2D\x74\x65\x78\x74\x20\x73\x70\x61\x6E","","\x68\x74\x6D\x6C","\x41\x6C\x69\x73\x61\x74\x75\x20\x44\x67\x69\x74\x69\x61\x6C\x20\x54\x65\x6B\x6E\x6F\x6C\x6F\x67\x69\x2E\x20\x41\x6C\x6C\x20\x52\x69\x67\x68\x74\x73\x20\x52\x65\x73\x65\x72\x76\x65\x64\x2E"];$(_0x4d12[0])[_0x4d12[2]](_0x4d12[1])[_0x4d12[2]](_0x4d12[3]);
-            $(".ummu-auth .footer-text span").html('').html('PT. Alisatu Dgitial Teknologi. All Rights Reserved.')
+            $(".ummu-auth .footer-text span").html('').html('Alisatu Dgitial Teknologi. All Rights Reserved.')
 
             $('[data-toggle="tooltip"]').tooltip()
 
@@ -4991,6 +4991,56 @@ var $ummu = {
         ummu9: function (params) {
             var jqXHR = $.ajax({
                 url: newURL().origin + '/' + params.path,
+                method: params.type,
+                timeout: 0,
+                headers: {
+                    "Content-Type": params.contentType,
+                },
+                data: params.data,
+                prossesing: true,
+                language: {
+                    loadingRecords: "&nbsp;",
+                    processing: '<div class="spinner"></div>',
+                },
+                beforeSend: function (e) {
+                    if (params.loader == true) {
+                        $("#modal_loader").modal("show");
+                    }
+                },
+                complete: function () {
+                    //
+                },
+                success: function (response) {
+                    // console.log(response)
+                    setTimeout(function () {
+                        $(".modal-loader").modal("hide");
+                    }, 1000);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+                    $("#modal_loader").modal("hide");
+                },
+            });
+
+            return jqXHR;
+        },
+
+        // /**
+        // * page_url host otomatis, tinggal menambahkan path saja
+        // * dinamis modal_loader
+        // * */
+        // var params = {
+        //     "func": 'show_clients',
+        //     "type": "GET",
+        //     "data": payload,
+        //     "cache": true,
+        //     "contentType": "application/json",
+        //     "dataType": "json",
+        //     "loader": true,
+        // };
+        ummu10: function (params) {
+            var jqXHR = $.ajax({
+                url: $ummu.vars.page_url + '/' + params.func,
                 method: params.type,
                 timeout: 0,
                 headers: {

@@ -142,7 +142,7 @@
 
     // ---------- Actions ----------
     function markRead(id, $card) {
-        $.post($ummu.vars.page_url + id + '/read', function () {
+        $.post(`${$ummu.vars.page_url}read/${id}`, function () {
             $card.removeClass('bg-white').addClass('bg-light');
             $card.find('.badge-primary').remove();
             $card.find('strong').removeClass('text-dark').addClass('text-muted');

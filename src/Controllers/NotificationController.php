@@ -34,6 +34,7 @@ class NotificationController extends ResourceController
     {
         $this->db = \Config\Database::connect();
         $this->dorbitt = \Config\Database::connect('dorbitt');
+        $this->pathAPI = "api/notifications/";
         $this->module_kode = 'service_notification';
         $this->dir_view = 'pages/'. $this->module_kode .'/';
         $this->request = \Config\Services::request();
@@ -144,6 +145,38 @@ class NotificationController extends ResourceController
 
         $builder = $this->cH->ummu2($params);
         // $builder = $urlParams;
+
+        return $this->respond($builder, 200);
+    }
+
+    public function read($id)
+    {
+        $payload = [];
+
+        $params = [
+            "path" => $this->pathAPI . "read/" . $id,
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
+
+        return $this->respond($builder, 200);
+    }
+
+    public function readAll()
+    {
+        $payload = [];
+
+        $params = [
+            "path" => $this->pathAPI . "read-all",
+            "method" => 'POST',
+            "payload" => $payload,
+            "headers" => $this->cH->headers3($this->module_kode)
+        ];
+
+        $builder = $this->cH->ummu2($params);
 
         return $this->respond($builder, 200);
     }
