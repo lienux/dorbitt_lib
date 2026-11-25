@@ -165,6 +165,7 @@ class TimeSheetController extends ResourceController
             'eta_time'          => !empty($post['eta_time']) ? $post['eta_time'] : null,
             'eta_remarks'       => $post['eta_remarks'] ?? null,
             'status'            => 'submitted',
+            'rute'              => $post['rute'],
             'rejection_reason'  => null,
         ];
 
@@ -176,7 +177,7 @@ class TimeSheetController extends ResourceController
         ];
 
         $builder = $this->cH->ummu2($params);
-        // $builder = $params;
+        // $builder = $post;
 
         return $this->respond($builder, 200);
     }

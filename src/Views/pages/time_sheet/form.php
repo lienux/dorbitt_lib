@@ -113,6 +113,7 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Jam</th>
+                        <th class="collapse" id="kolom_rute">Rute</th>
                         <th>Activity</th>
                         <th>Lokasi / Posisi</th>
                         <th>Cuaca</th>
@@ -193,6 +194,11 @@
                             </select>
                             <small class="text-muted" id="activityCount"></small>
                         </div>
+                    </div>
+
+                    <div class="form-group collapse" id="form_rute">
+                        <label>Rute</label>
+                        <input type="text" class="form-control form-control-sm" name="rute" id="rute" placeholder="Contoh: Jambi - Marunda">
                     </div>
 
                     <div class="form-group">
