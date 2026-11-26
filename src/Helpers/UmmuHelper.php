@@ -904,4 +904,178 @@ class UmmuHelper
         }
         return $randomUsername;
     }
+
+    /**
+     * Bangun format laporan WhatsApp
+     */
+    /*public function buildWaReportz(array $meta, array $rows): string
+    {
+        if (empty($rows)) {
+            return "Belum ada data timesheet untuk dilaporkan, silahkan pilih tanggal lain.";
+        }
+
+        $lines = [];
+
+        // Header
+        $lines[] = '*Tugboat: ' . ($rows[0]->j_tugboat_name ?: 'TB: -') . '*';
+        $lines[] = '*Barge: ' . ($rows[0]->j_barge_name ?: 'BG: -') . '*';
+        $lines[] = '================';
+
+        // Status terkini
+        $latest = $rows[0];
+        $lines[] = 'Tanggal:*' . $this->formatTanggalIndo($latest->activity_date) . '*';
+        $lines[] = 'Time:' . (!empty($latest->activity_time) ? substr($latest->activity_time, 0, 5) : '-');
+        $lines[] = 'Posisi:' . ($latest->location ?: '-');
+        $lines[] = 'Status:' . ($latest->activity_name ?: '-');
+        if (!empty($latest->weather_condition)) {
+            $lines[] = 'Cuaca:' . $latest->weather_condition;
+        }
+        $lines[] = '';
+        $lines[] = '';
+
+        // Group per tanggal
+        $grouped = [];
+        foreach ($rows as $r) {
+            $grouped[$r->activity_date][] = $r;
+        }
+        ksort($grouped);
+
+        foreach ($grouped as $date => $items) {
+            $lines[] = '*' . $this->formatTanggalIndo($date) . '*';
+
+            usort($items, function ($a, $b) {
+                return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
+            });
+
+            foreach ($items as $it) {
+                $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+                $activity = $it->activity_name ?? '-';
+                $remark = !empty($it->remarks) ? ' `' . $it->remarks . '`' : '';
+                $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
+            }
+        }
+
+        // Note
+        $lines[] = '';
+        $lines[] = 'Note:';
+        $lines[] = !empty($latest->remarks) ? $latest->remarks : '-';
+
+        return implode("\n", $lines);
+    }*/
+
+    public function buildWaReport(array $meta, array $rows): string
+    {
+        if (empty($rows)) {
+            return "Belum ada data timesheet untuk dilaporkan, silahkan pilih tanggal lain.";
+        }
+
+        $tugboatName = (isset($rows[0]->j_tugboat_name) ? $rows[0]->j_tugboat_name : $meta['tugboat_name']);
+        $bargeName = (isset($rows[0]->j_barge_name) ? $rows[0]->j_barge_name : $meta['barge_name']);
+
+        $lines = [];
+
+        // Header
+        $lines[] = '*Tugboat: ' . ($tugboatName ?: 'TB: -') . '*' . ', Conditions: -';
+        $lines[] = '*Barge: ' . ($bargeName ?: 'BG: -') . '*' . ', Conditions: -';
+        // $lines[] = '*Conditions: ' . ('-') . '*';
+        $lines[] = '*POL: ' . ('-') . '*';
+        $lines[] = '*POD: ' . ('-') . '*';
+        $lines[] = '*Total Cargo: ' . ('-') . '*';
+        $lines[] = '*TC: ' . ('Five Start') . '*';
+        $lines[] = '====================';
+
+        // Status terkini
+        $latest = (object) $rows[0];
+        $lines[] = 'Tanggal: *' . $this->formatTanggalIndo($latest->activity_date) . '*';
+        $lines[] = 'Time: ' . (!empty($latest->activity_time) ? substr($latest->activity_time, 0, 5) : '-');
+        $lines[] = 'Posisi: ' . ($this->cleanText($latest->location) ?: '-');
+        $lines[] = 'Status: ' . ($latest->activity_name ?: '-');
+        if (!empty($latest->weather_condition)) {
+            $lines[] = 'Cuaca: ' . $this->cleanText($latest->weather_condition);
+        }
+        $lines[] = 'ETA: ' . ($latest->eta_date.' '.$latest->eta_time);
+        $lines[] = '';
+        $lines[] = '';
+
+        // Group per tanggal
+        $grouped = [];
+        foreach ($rows as $r) {
+            $r = (object) $r;
+            $grouped[$r->activity_date][] = $r;
+        }
+        ksort($grouped);
+
+        foreach ($grouped as $date => $items) {
+            $lines[] = '*' . $this->formatTanggalIndo($date) . '*';
+
+            usort($items, function ($a, $b) {
+                return strcmp($a->activity_time ?? '', $b->activity_time ?? '');
+            });
+
+            // foreach ($items as $it) {
+            //     $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+            //     $activity = $it->activity_name ?? '-';
+            //     $remarkText = $this->cleanText($it->remarks);
+            //     $remark = $remarkText !== '' ? ' `' . $remarkText . '`' : '';
+            //     $lines[] = '* ' . $time . ' `->` ' . $activity . ' ' . $remark;
+            // }
+
+            foreach ($items as $it) {
+                $time = !empty($it->activity_time) ? substr($it->activity_time, 0, 5) : '--:--';
+                $activity = $it->activity_name ?? '-';
+                $remarkText = $this->cleanText($it->remarks);
+                $remark = $remarkText !== '' ? ' : ' . $remarkText . '' : '';
+                $lines[] = '* ' . $time . ' ' . $activity . ' ' . $remark;
+            }
+        }
+
+        // Note
+        $lines[] = '';
+        $lines[] = 'Note:';
+        $noteText = $this->cleanText($latest->remarks);
+        $lines[] = $noteText !== '' ? $noteText : '-';
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Format tanggal Indonesia: "Selasa 29/09/2026"
+     */
+    private function formatTanggalIndo(string $date): string
+    {
+        $hari = [
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        ];
+
+        $ts = strtotime($date);
+        $dayEn = date('l', $ts);
+        $dayId = $hari[$dayEn] ?? $dayEn;
+
+        return $dayId . ' ' . date('d/m/Y', $ts);
+    }
+
+    /**
+     * Bersihkan teks dari textarea: ganti newline/tab dengan spasi,
+     * rapikan spasi ganda, dan trim.
+     */
+    private function cleanText(?string $text): string
+    {
+        if ($text === null || $text === '') {
+            return '';
+        }
+
+        // Ganti semua jenis newline & tab dengan spasi
+        $text = preg_replace('/[\r\n\t\x{2028}\x{2029}\x{0085}]+/u', ' ', $text);
+
+        // Rapikan spasi ganda (termasuk non-breaking space)
+        $text = preg_replace('/[ \x{00A0}]+/u', ' ', $text);
+
+        return trim($text);
+    }
 }
