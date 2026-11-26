@@ -984,7 +984,11 @@ $(document).ready(function () {
         $('#ijoNumberLabel').text(ijo.number || '-');
         $('#tugboatLabel').text(ijo.tugboat_name || '-');
         $('#bargeLabel').text(ijo.barge_name || '-');
-        $('#routeLabel').text((ijo.loading_port || '-') + ' → ' + (ijo.discharge_port || '-'));
+        if (ijo.referensi_doc == 'spal') {
+            $('#routeLabel').text((ijo.loading_port || '-') + ' → ' + (ijo.discharge_port || '-'));
+        }else{
+            $('#routeLabel').text(ijo.rute_perjalanan)
+        }
         $('#clientLabel').text(ijo.client_name || '-');
         $('#spalLabel').text(ijo.spal_number || '-');
 
