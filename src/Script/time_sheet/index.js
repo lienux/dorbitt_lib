@@ -984,11 +984,13 @@ $(document).ready(function () {
         $('#ijoNumberLabel').text(ijo.number || '-');
         $('#tugboatLabel').text(ijo.tugboat_name || '-');
         $('#bargeLabel').text(ijo.barge_name || '-');
+
         if (ijo.referensi_doc == 'spal') {
             $('#routeLabel').text((ijo.loading_port || '-') + ' → ' + (ijo.discharge_port || '-'));
         }else{
             $('#routeLabel').text(ijo.rute_perjalanan)
         }
+
         $('#clientLabel').text(ijo.client_name || '-');
         $('#spalLabel').text(ijo.spal_number || '-');
 
@@ -1591,12 +1593,13 @@ $(document).ready(function () {
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
                         const disc = r.discharge_port || '-';
-                        // const label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
-                        if (r.type == 'tc') {
-                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge}`;
+
+                        if (r.referensi_doc == 'manual') {
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${r.rute_perjalanan})`;
                         }else{
                             var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
                         }
+
                         const $option = $('<option>').val(r.id).text(label);
                         $option.data('ijo', r);
                         $sel.append($option);
@@ -1652,11 +1655,13 @@ $(document).ready(function () {
                         const barge = r.barge_name || '-';
                         const load = r.loading_port || '-';
                         const disc = r.discharge_port || '-';
-                        if (r.type == 'tc') {
-                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge}`;
+
+                        if (r.referensi_doc == 'manual') {
+                            var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${r.rute_perjalanan})`;
                         }else{
                             var label = `${r.number || ('ID '+r.id)} — ${tug} / ${barge} (${load} → ${disc})`;
                         }
+                        
                         const $option = $('<option>').val(r.id).text(label);
                         $option.data('ijo', r);
                         $sel.append($option);
