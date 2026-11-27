@@ -524,6 +524,10 @@ var app = {
                         }
                     },
                     { 
+                        title: "Client",
+                        data: "client_name"
+                    },
+                    { 
                         title: "Tanggal IJO",
                         data: "tgl"
                     },
@@ -538,6 +542,18 @@ var app = {
                     { 
                         title: "Barge",
                         data: "barge_name"
+                    },
+                    { 
+                        title: "Rute",
+                        data: "rute_perjalanan"
+                    },
+                    { 
+                        title: "Port of Loading",
+                        data: "loading_port"
+                    },
+                    { 
+                        title: "Port of Discharge",
+                        data: "discharge_port"
                     },
                     { 
                         title: "Dari Departemen",
@@ -566,14 +582,6 @@ var app = {
 
                             return html;
                         }
-                    },
-                    { 
-                        title: "Port of Loading",
-                        data: "loading_port"
-                    },
-                    { 
-                        title: "Port of Discharge",
-                        data: "discharge_port"
                     },
                 ];
         
