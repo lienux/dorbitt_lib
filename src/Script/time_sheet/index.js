@@ -1504,6 +1504,8 @@ $(document).ready(function () {
 
         let dateFrom = $('#waDateFrom').val();
         let dateTo   = $('#waDateTo').val();
+        let clientName = $('#clientLabel').html();
+        let ijo_type = $ummu.url.getParam('ijo_type');
 
         if (!dateFrom && !dateTo) {
             const today = new Date();
@@ -1522,7 +1524,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: `${BASE_URL}/report-wa?ijo_id=${currentIjo.id}&date_from=${dateFrom}&date_to=${dateTo}`,
+            url: `${BASE_URL}/report-wa?ijo_id=${currentIjo.id}&date_from=${dateFrom}&date_to=${dateTo}&client_name=${clientName}&ijo_type=${ijo_type}`,
             type: 'GET',
             dataType: 'json',
             success: function(res) {
