@@ -981,7 +981,7 @@ class UmmuHelper
         $lines[] = '*POL: ' . ('-') . '*';
         $lines[] = '*POD: ' . ('-') . '*';
         $lines[] = '*Total Cargo: ' . ('-') . '*';
-        $lines[] = '*TC: ' . ('Five Start') . '*';
+        $lines[] = '*'.strtoupper($meta['ijo_type']).': ' . ($meta['client_name']) . '*';
         $lines[] = '====================';
 
         // Status terkini

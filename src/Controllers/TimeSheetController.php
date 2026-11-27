@@ -347,6 +347,8 @@ class TimeSheetController extends ResourceController
         $date_to        = $this->request->getGet('date_to');
         $tugboat_name   = $this->request->getGet('tugboat_name');
         $barge_name     = $this->request->getGet('barge_name');
+        $client_name     = $this->request->getGet('client_name');
+        $ijo_type     = $this->request->getGet('ijo_type');
         $rows           = [];
 
         $payload = $this->umHelp->dt_payload2();
@@ -360,6 +362,8 @@ class TimeSheetController extends ResourceController
             "ijo_id"    => $ijo_id,
             "date_from" => $date_from,
             "date_to"   => $date_to,
+            "client_name" => $client_name,
+            "ijo_type"  => $ijo_type,
         ]);
 
         $urlParams = $this->cH->payload_http_build_query($payload);
@@ -380,7 +384,8 @@ class TimeSheetController extends ResourceController
             'tugboat_name' => $tugboat_name ?? '',
             'barge_name'   => $barge_name ?? '',
             // 'pic_name'     => $crew->pic_name ?? '',
-            // 'client_name'  => $crew->client_name ?? '',
+            'client_name'  => $client_name ?? '',
+            'ijo_type'     => $ijo_type ?? '',
         ];
 
         $text = $this->umHelp->buildWaReport($meta, $rows);
