@@ -365,17 +365,19 @@
 
             <!-- Actions -->
             <div class="actions">
-                <button type="button"
-                        class="btn btn-user btn-link-muted btn-block w-100 mb-1"
-                        onclick="skip()">
-                    <i class="fas fa-long-arrow-alt-right"></i>
-                    Lewati untuk sekarang
-                </button>
                 <button type="submit"
                         class="btn btn-user btn-purple btn-block w-100 mb-1"
                         id="submitBtn">
                     <i class="fas fa-save"></i>
                     <span id="submitText">Simpan password</span>
+                </button>
+            </div>
+            <div>
+                <button type="button"
+                        class="btn btn-user btn-link-mutedz btn-secondary btn-block w-100"
+                        onclick="skip()">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    Lewati untuk sekarang
                 </button>
             </div>
 
