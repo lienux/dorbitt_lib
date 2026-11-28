@@ -17781,6 +17781,22 @@ var $ummu = {
         },
 
         sbBtnToolbar: {
+            addRemove_btnSave: function(a) {
+                var btn = '<button class="btn btn-sm btn-warning mx-1" type="button" id="btn_save">'+
+                    '<i class="bi bi-pencil-square"></i> Save'+
+                '</button>';
+                
+                if (a == 'add') {
+                    if ($('#btn_save').length > 0) {
+                        //
+                    } else {
+                        $(".sb-toolbar").prepend(btn)
+                    }
+                }else{
+                    $('#btn_save').remove()
+                }
+            },
+
             addRemove_btnEdit: function(a) {
                 var btn = '<button class="btn btn-sm btn-warning mx-1" type="button" id="btn_edit">'+
                     '<i class="bi bi-pencil-square"></i> Edit'+

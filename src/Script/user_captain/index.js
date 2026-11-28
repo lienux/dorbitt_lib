@@ -20,76 +20,8 @@ var app = {
             //     $ummu.dt.config.autoGetData = false;
             // }
             app.controllers.index();
-            app.views.form_tr_perubahan_data();
-
-            // $ummu.formatter.number2($("#amount"), 10);
-            // $ummu.formatter.number($("#basic_salary"), 8)
-            $ummu.formatter.input_rupiah.load(jQuery('#basic_salary'));
-            $ummu.formatter.input_rupiah.load(jQuery('#tunjangan'));
-
-            $ummu.dt.modal_list.register("vessel_id", {
-                url: "show_tugboat",
-                inputId: "vessel_id",
-                inputValueField: "name",
-                columns: [
-                    {
-                        title: "ID",
-                        data: "id",
-                        render: function (data, type, row) {
-                            return (
-                                '<a href="javascript:void(0);"><div><span class="">' +
-                                data +
-                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                            );
-                        },
-                    },
-                    { title: "Name", data: "name" },
-                ],
-                onSelect: function (row) {
-                    console.log("vessel_id dipilih:", row);
-                }
-            });
-
-            $ummu.dt.modal_list.register("rank_id", {
-                url: "crew-ranks",
-                inputId: "rank_id",
-                inputValueField: "rank_name_en",
-                columns: [
-                    {
-                        title: "ID",
-                        data: "id",
-                        render: function (data, type, row) {
-                            return (
-                                '<a href="javascript:void(0);"><div><span class="">' +
-                                data +
-                                '</span> <i class="fas fa-external-link-alt ml-2"></i></div></a>'
-                            );
-                        },
-                    },
-                    { title: "Code", data: "rank_code" },
-                    { title: "Name EN", data: "rank_name_en" },
-                    { title: "Name ID", data: "rank_name_id" },
-                ],
-                onSelect: function (row) {
-                    console.log("rank_id dipilih:", row);
-                }
-            });
-
-            $('#btn_submit_tr_sign').on('click', function(){
-                app.controllers.tr_sign_crew();
-            });
-
-            $('#btn_update_tr_kenaikan_gapok').on('click', function(){
-                app.controllers.tr_gapok();
-            });
-
-            $('#btn_delete_tr_sign').on('click', function(){
-                $ummu.modal.showDeleteConfirm(function () {
-                    app.controllers.delete_last_tr_sign();
-                });
-            });
-
-            app.controllers.show_tr_sign_on_off();
+            // $ummu.button.sbBtnToolbar.addRemove_btnNew('rm')
+            $('#toolbar_buttons #btn_new, #toolbar_buttons #btn_delete').remove()
         },
     },
 
@@ -124,161 +56,25 @@ var app = {
 
         sbNew: function () {
             app.views.forClear()
-            $('#fixed_cost, #variable_cost').prop('disabled', false);
+            // $('#fixed_cost, #variable_cost').prop('disabled', false);
             // $("#status").html('<span class="badge badge-secondary">Draft</span>')
             // $("#from_dept").val($ummu.vars.employee.department).attr('data-id', $ummu.vars.employee.department_id)
-            app.views.form_tr_perubahan_data()
+            $('#toolbar_buttons #btn_new, #toolbar_buttons #btn_delete').remove()
         },
 
         sbSave: function () {
             // Personal
-            const full_name = $("#full_name").val();
-            const seafarer_code = $('#seafarer_code').val();
-            const tempat_lahir = $("#birth_place").val();
-            const tanggal_lahir = $("#birth_date").val();
-            const gender = $('#gender').val();
-            const golongan_darah = $("#blood_type").val();
             const phone_number = $("#phone_number").val();
-            const email = $("#email").val();
-            const address = $("#address").val();
+            const password = $("#password").val();
 
-            // Identitas Resmi
-            const national_id_number = $('#national_id_number').val();
-            const family_card_number = $('#family_card_number').val();
-            const tax_id_number = $('#tax_id_number').val();
-
-            // Kesehatan & Komersial
-            const vaccination_info = $('#vaccination_info').val();
-            const basic_salary = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#basic_salary').val());
-            const tunjangan = $ummu.formatter.input_rupiah.parseRupiahNumber(jQuery('#tunjangan').val());
-
-            // Jabatan & Penempatan
-            const tugboat_id = $("#tugboat").data('id');
-            const base_rank_id = $("#crew_ranks").data('id');
-            const employment_status = $("#employment_status").val();
-
-            // Sertifikat COC
-            const highest_coc_certificate = $("#highest_coc_certificate").val();
-            const coc_certificate_number = $("#coc_certificate_number").val();
-            const coc_expiry_date = $("#coc_expiry_date").val();
-            
-            // Buku Pelaut & MCU
-            const seaman_book_number = $("#seaman_book_number").val();
-            const seaman_book_expiry = $("#seaman_book_expiry").val();
-            const mcu_maritime_number = $("#mcu_maritime_number").val();
-            const mcu_maritime_expiry = $("#mcu_maritime_expiry").val();
-
-            // Paspor & Berkas
-            const passport_number = $("#passport_number").val();
-            const passport_expiry = $("#passport_expiry").val();
-            const crew_document_pdf = $("#crew_document_pdf")[0].files[0];
-
-            // Status & Penempatan
-            const current_crew_status = $("#current_crew_status").val();
-            const sign_on_place = $("#sign_on_place").val();
-            const sign_on_date = $("#sign_on_date").val();
-            const sign_off_place = $("#sign_off_place").val();
-            const sign_off_date = $("#sign_off_date").val();
-
-            // Perlengkapan & Catatan
-            const wearpack_size = $("#wearpack_size").val();
-            const safety_shoes_size = $("#safety_shoes_size").val();
-            const remarks = $("#remarks").val();
-
-            // =============================================================
-            // =============================================================
             // =============================================================
             $ummu.vars.formData = new FormData();
-            $ummu.vars.formData.append("full_name", full_name);
-            $ummu.vars.formData.append("seafarer_code", seafarer_code);
-            $ummu.vars.formData.append("tempat_lahir", tempat_lahir);
-            $ummu.vars.formData.append("tanggal_lahir", tanggal_lahir);
-            $ummu.vars.formData.append("gender", gender);
-            $ummu.vars.formData.append("golongan_darah", golongan_darah);
             $ummu.vars.formData.append("phone_number", phone_number);
-            $ummu.vars.formData.append("email", email);
-            $ummu.vars.formData.append("address", address);
-
-            $ummu.vars.formData.append("national_id_number", national_id_number);
-            $ummu.vars.formData.append("family_card_number", family_card_number);
-            $ummu.vars.formData.append("tax_id_number", tax_id_number);
-
-            $ummu.vars.formData.append("vaccination_info", vaccination_info);
-            $ummu.vars.formData.append("basic_salary", basic_salary);
-            $ummu.vars.formData.append("tunjangan", tunjangan);
-
-            $ummu.vars.formData.append("tugboat_id", tugboat_id);
-            $ummu.vars.formData.append("base_rank_id", base_rank_id);
-            $ummu.vars.formData.append("employment_status", employment_status);
-
-            $ummu.vars.formData.append("highest_coc_certificate", highest_coc_certificate);
-            $ummu.vars.formData.append("coc_certificate_number", coc_certificate_number);
-            $ummu.vars.formData.append("coc_expiry_date", coc_expiry_date);
-
-            $ummu.vars.formData.append("seaman_book_number", seaman_book_number);
-            $ummu.vars.formData.append("seaman_book_expiry", seaman_book_expiry);
-            $ummu.vars.formData.append("mcu_maritime_number", mcu_maritime_number);
-            $ummu.vars.formData.append("mcu_maritime_expiry", mcu_maritime_expiry);
-
-            $ummu.vars.formData.append("passport_number", passport_number);
-            $ummu.vars.formData.append("passport_expiry", passport_expiry);
-            $ummu.vars.formData.append("crew_document_pdf", crew_document_pdf);
-
-            $ummu.vars.formData.append("current_crew_status", current_crew_status);
-            $ummu.vars.formData.append("sign_on_place", sign_on_place);
-            $ummu.vars.formData.append("sign_on_date", sign_on_date);
-            $ummu.vars.formData.append("sign_off_place", sign_off_place);
-            $ummu.vars.formData.append("sign_off_date", sign_off_date);
-
-            $ummu.vars.formData.append("wearpack_size", wearpack_size);
-            $ummu.vars.formData.append("safety_shoes_size", safety_shoes_size);
-            $ummu.vars.formData.append("remarks", remarks);
+            $ummu.vars.formData.append("password", password);
 
             var payload = {
-                "full_name": full_name,
-                "seafarer_code": seafarer_code,
-                "tempat_lahir": tempat_lahir,
-                "tanggal_lahir": tanggal_lahir,
-                "gender": gender,
-                "golongan_darah": golongan_darah,
                 "phone_number": phone_number,
-                "email": email,
-                "address": address,
-
-                "national_id_number": national_id_number,
-                "family_card_number": family_card_number,
-                "tax_id_number": tax_id_number,
-
-                "vaccination_info": vaccination_info,
-                "basic_salary": basic_salary,
-                "tunjangan": tunjangan,
-
-                "tugboat_id": tugboat_id,
-                "base_rank_id": base_rank_id,
-                "employment_status": employment_status,
-
-                "highest_coc_certificate": highest_coc_certificate,
-                "coc_certificate_number": coc_certificate_number,
-                "coc_expiry_date": coc_expiry_date,
-
-                "seaman_book_number": seaman_book_number,
-                "seaman_book_expiry": seaman_book_expiry,
-                "mcu_maritime_number": mcu_maritime_number,
-                "mcu_maritime_expiry": mcu_maritime_expiry,
-
-                "passport_number": passport_number,
-                "passport_expiry": passport_expiry,
-                "crew_document_pdf": crew_document_pdf,
-
-                "current_crew_status": current_crew_status,
-                "sign_on_place": sign_on_place,
-                "sign_on_date": sign_on_date,
-                "sign_off_place": sign_off_place,
-                "sign_off_date": sign_off_date,
-
-                "wearpack_size": wearpack_size,
-                "safety_shoes_size": safety_shoes_size,
-                "remarks": remarks,
+                "password": password,
             };
 
             const id = $ummu.url.getParam('id');
@@ -323,7 +119,6 @@ var app = {
                     // }else{
                     // //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
                     // }
-                    app.views.form_tr_perubahan_data()
                 }).fail(function() {
                     // An error occurred
                     console.log(ummu)
@@ -337,11 +132,12 @@ var app = {
             // $('#fixed_cost, #variable_cost').prop('disabled', false);
 
             if ($ummu.url.getParam('id')) {
-                $('input[name="behavior"]').prop('disabled', true);
+                // $('input[name="behavior"]').prop('disabled', true);
+                $('#password').val('')
             }else{
                 app.views.forClear()
             }
-            app.views.form_tr_perubahan_data()
+            $('#toolbar_buttons #btn_new, #toolbar_buttons #btn_delete').remove()
         },
 
         sbEdit: function () {
@@ -358,8 +154,7 @@ var app = {
             if ($('#basic_salary').val()) {
                 $('#basic_salary').attr('disabled', true);
             }*/
-
-            app.views.form_tr_perubahan_data()
+            $('#toolbar_buttons #btn_new, #toolbar_buttons #btn_delete').remove()
         },
 
         sbDelete: function(id) {
@@ -384,19 +179,17 @@ var app = {
                 // An error occurred
                 console.log(ummu)
             });
-            app.views.form_tr_perubahan_data()
         },
 
         sbClear: function() {
             app.views.forClear()
             // $('#fixed_cost, #variable_cost').prop('disabled', true);
-            app.views.form_tr_perubahan_data()
+            $('#toolbar_buttons #btn_new, #toolbar_buttons #btn_delete').remove()
         },
 
         on_btn_getData_click: function () {
             $ummu.views.after_sbToolbar_getData();
             app.views.forClear()
-            app.views.form_tr_perubahan_data()
         },
 
         on_showLeftModal: function(id) {
@@ -423,188 +216,6 @@ var app = {
             // ms_cost: function(row) {
             //     $("#ms_cost").val(row.name).attr('data-id', row.id)
             // },
-            app.views.form_tr_perubahan_data()
-        },
-
-        on_click_tbody_trtd_child_vessel_id: function(row) {
-            // console.log(row)
-            $("#vessel_id").val(row.name).attr('data-id', row.id)
-        },
-
-        on_click_tbody_trtd_child_rank_id: function(row) {
-            // console.log(row)
-            $("#rank_id").val(row.rank_name_en).attr('data-id', row.id)
-        },
-
-        tr_sign_crew: function () {
-            const id = $ummu.url.getParam('id');
-            const employee_id = $ummu.url.getParam('employee_id');
-
-            const vessel_id = $("#tugboat").attr('data-id');
-            const sign_status = $("#sign_status").val();
-            const sign_place = $("#sign_place").val();
-            const sign_date = $("#sign_date").val();
-            const sign_remark = $("#sign_remark").val();
-
-            $ummu.vars.formData = new FormData();
-            $ummu.vars.formData.append("employee_id", employee_id);
-            $ummu.vars.formData.append("vessel_id", vessel_id);
-            $ummu.vars.formData.append("sign_status", sign_status);
-            $ummu.vars.formData.append("sign_place", sign_place);
-            $ummu.vars.formData.append("sign_date", sign_date);
-            $ummu.vars.formData.append("sign_remark", sign_remark);
-
-            var payload = {
-                "employee_id": employee_id,
-                "vessel_id": vessel_id,
-                "sign_status": sign_status,
-                "sign_place": sign_place,
-                "sign_date": sign_date,
-                "sign_remark": sign_remark,
-            };
-
-            var params = {
-                "function": 'tr_sign_crew',
-                "data": $ummu.vars.formData,
-                "loader": true,
-            };
-
-            // // validasi dulu
-            // if (typeof validateCrewForm === 'function' && !validateCrewForm()) {
-            //     // otomatis pindah ke tab yang error
-            //     return;
-            // }
-
-            // const validation = app.validation.save();
-            const validation = '';
-
-            if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            }else{
-                var ummu = $ummu.ajax.ummu7(params);   
-                ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
-                    app.views.current_sign(response.data);
-                    if (response.status == true) {
-                        app.dt.tr_sign_on_off.init.ajax.reload();
-                    }else{
-                        // 
-                    }
-                }).fail(function() {
-                    // An error occurred
-                    console.log(ummu)
-                });
-            }
-
-            // console.log(payload)
-        },
-
-        delete_last_tr_sign: function() {
-            // $("#modalDeleteConfirm").modal('hide')
-            const employee_id = $ummu.url.getParam('employee_id');
-
-            var params = {
-                "function": "delete_last_tr_sign/" + employee_id,
-                "method": "DELETE",
-                "data": [],
-                "cache": true,
-                "contentType": "application/json",
-                "dataType": "json",
-                "loader": true,
-                "textLoader": "Delete on progress..."
-            };
-
-            var ummu = $ummu.ajax.ummu8(params);   
-            ummu.done(function(result) {
-                app.dt.tr_sign_on_off.init.ajax.reload();
-                // app.views.form_tr_perubahan_data()
-            }).fail(function() {
-                // An error occurred
-                console.log(ummu)
-            });
-        },
-
-        tr_gapok: function () {
-            const id = $ummu.url.getParam('id');
-            const employee_id = $ummu.url.getParam('employee_id');
-            const vessel_id = $("#tugboat").attr('data-id');
-            const tgl_tr = $('#tgl_kenaikan_gapok').val();
-            const gapok = $("#tr_gapok").val();
-            const remark = $("#remark_update_gapok").val();
-
-            $ummu.vars.formData = new FormData();
-            $ummu.vars.formData.append("employee_id", employee_id);
-            $ummu.vars.formData.append("vessel_id", vessel_id);
-            $ummu.vars.formData.append("tanggal", tgl_tr);
-            $ummu.vars.formData.append("gapok", gapok);
-            $ummu.vars.formData.append("remark", remark);
-
-            var payload = {
-                "employee_id": employee_id,
-                "vessel_id": vessel_id,
-                "tanggal": tgl_tr,
-                "gapok": gapok,
-                "remark": remark,
-            };
-
-            var params = {
-                "function": 'tr_gapok',
-                "data": $ummu.vars.formData,
-                "loader": true,
-            };
-
-            // // validasi dulu
-            // if (typeof validateCrewForm === 'function' && !validateCrewForm()) {
-            //     // otomatis pindah ke tab yang error
-            //     return;
-            // }
-
-            // const validation = app.validation.save();
-            const validation = '';
-
-            if (validation.length > 0) {
-                $ummu.views.errors_msg(validation)
-                $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-            }else{
-                var ummu = $ummu.ajax.ummu7(params);   
-                ummu.done(function(result) {
-                    const response = JSON.parse(result);
-                    $ummu.views.after_sbToolbar_save(response, 'update', id, payload);
-                    app.views.current_sign(response.data);
-                    if (response.status == true) {
-                    //     $("#file_url").attr("href", response.data.fileUrl)
-                    //     let is_release = response.data.is_release;
-                    //     if (is_release == null || is_release == '' || is_release == 0) {
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('add');
-                    //     }else{
-                    //         $ummu.button.sbBtnToolbar.addRemove_btnRelease('rm');
-                    //     }
-                    }else{
-                    //     $(".btn-endis").removeClass('btn-outline-secondary').addClass('btn-primary')
-                    }
-                }).fail(function() {
-                    // An error occurred
-                    console.log(ummu)
-                });
-            }
-
-            // console.log(payload)
-        },
-
-        show_tr_sign_on_off: function () {
-            if ($('#dataTable_tr_sign_on_off').data('init') != 'tr_sign_on_off') {
-                $dataTable_tr_sign_on_off.DataTable().destroy();
-                $dataTable_tr_sign_on_off.empty(); // Opsional: bersihkan isi HTML tabel
-                app.dt.tr_sign_on_off.init = null
-            }
-
-            if (app.dt.tr_sign_on_off.init == null) {
-                app.dt.tr_sign_on_off.create()
-            } 
-
-            $($dataTable_tr_sign_on_off).data('init', 'tr_sign_on_off');
         },
     },
 
@@ -634,131 +245,14 @@ var app = {
             console.log(row);
 
             $ummu.vars.row = row;
-            var tanggal_lahir_text = '';
-            var tanggal_lahir_text = row.tanggal_lahir;
-
-            $("#full_name").val(row.name);
-            $("#seafarer_code").val(row.seafarer_code)
-            $("#birth_place").val(row.tempat_lahir);
-            $("#birth_date").val(row.tanggal_lahir);
-            $("#gender").val(row.jenis_kelamin).trigger('change');
-            $("#blood_type").val(row.golongan_darah);
+            $("#vessel_name").html(`<label class="badge badge-secondary">${row.vessel_name}</label>`)
+            $("#name").html(`<label class="badge badge-secondary">${row.name}</label> <span class="text-muted small">${row.i_phone_number}</span>`);
             $("#phone_number").val(row.phone_number);
-            $("#email").val(row.email);
-            $("#national_id_number").val(row.nik);
-            $("#family_card_number").val(row.kk);
-            $("#tax_id_number").val(row.npwp);
-            $("#passport_number").val(row.passport_number);
-            $("#passport_expiry").val(row.passport_expiry);
-            $("#address").val(row.alamat);
-            $("#vaccination_info").val(row.vaccination_info);
-            $("#basic_salary").val($ummu.formatter.input_rupiah.formatRupiah2(row.basic_salary));
-            $("#tunjangan").val($ummu.formatter.input_rupiah.formatRupiah2(row.tunjangan));
-
-            $("#tugboat").val(row.vessel_name).attr('data-id', row.vessel_id);
-            $("#crew_ranks").val(row.rank_name_id).attr('data-id', row.base_rank_id);
-            if (row.coc_id) {
-                $("#highest_coc_certificate").val(row.coc_id).trigger('change');
-            }else{
-                $("#highest_coc_certificate").val(row.highest_coc_certificate).trigger('change');
-            }
-            $("#coc_certificate_number").val(row.coc_certificate_number);
-            $("#coc_expiry_date").val(row.coc_expiry_date);
-            $("#seaman_book_number").val(row.seaman_book_number);
-            $("#seaman_book_expiry").val(row.seaman_book_expiry);
-            $("#mcu_maritime_number").val(row.mcu_maritime_number);
-            $("#mcu_maritime_expiry").val(row.mcu_maritime_expiry);
-            $("#current_crew_status").val(row.current_crew_status);
-            $("#sign_on_place").val(row.sign_on_place);
-            $("#sign_on_date").val(row.sign_on_date);
-            $("#sign_off_place").val(row.sign_off_place);
-            $("#sign_off_date").val(row.sign_off_date);
-            $("#current_crew_status").val(row.current_crew_status);
-
-            $("#employment_status").val(row.employment_status_id).trigger('change');
-            $("#wearpack_size").val(row.size_baju);
-            $("#safety_shoes_size").val(row.size_sepatu);
-
-            $("#remarks").val(row.remarks);
-
-            $("#crew_document_pdf_text").html(row.file_name);
-            $("#click_to_open_file").attr('href', row.file_url);
-
-            // console.log(tanggal_lahir_text)
-            if (tanggal_lahir_text) {
-                var age = $ummu.date.hitungUmur(tanggal_lahir_text);
-            }else{
-                var age = '..........';
-            }
-
-            $("#info-umur").html(`<strong class="mr-1">Usia:</strong>${age} Tahun`);
 
             $('#header_tr_perubahan_data').html(`#${row.name}`)
 
-            app.views.current_sign(row);
-            app.views.current_gapok(row);
             $ummu.views.setIdentitiyToForm(row)
             $ummu.button.sbBtn_on_showData()
-        },
-
-        current_sign: function(row) {
-            var on = `<span class="badge badge-success status-badge shadow-sm">
-                    <i class="fas fa-ship mr-1"></i> ON @ ${row.tr_sign_date}
-                </span>`;
-
-            var off = `<span class="badge badge-secondary status-badge shadow-sm">
-                <i class="fas fa-home mr-1"></i> OFF @ ${row.tr_sign_date}
-            </span>`;
-
-            if (row.tr_sign_status == 'on') {
-                $('#current_sign').html(on);
-                $('#sign_status').val('on');
-            }else if(row.tr_sign_status == 'off') {
-                $('#current_sign').html(off);
-                $('#sign_status').val('off');
-            }else{
-                $('#current_sign').html('');
-                $('#sign_status').val('');
-                $('#sign_place').val('');
-                $('#sign_date').val('');
-            }
-
-            $('#sign_place').val(row.tr_sign_place);
-            $('#sign_date').val(row.tr_sign_date);
-            $('#sign_remark').val(row.tr_sign_remark);
-        },
-
-        current_gapok: function(row) {
-            // var on = `<span class="badge badge-success status-badge shadow-sm">
-            //         <i class="fas fa-ship mr-1"></i> ON @ ${row.sign_on_date}
-            //     </span>`;
-
-            // var off = `<span class="badge badge-secondary status-badge shadow-sm">
-            //     <i class="fas fa-home mr-1"></i> OFF @ ${row.sign_off_date}
-            // </span>`;
-
-            // if (row.sign_status == 'on') {
-            //     $('#current_gapok').html(on);
-            //     // $('#sign_status').val('on');
-            //     $('#tr_gapok').val(row.sign_on_place);
-            //     $('#tgl_kenaikan_gapok').val(row.sign_on_date);
-            // }else if(row.sign_status == 'off') {
-            //     $('#current_gapok').html(off);
-            //     // $('#sign_status').val('off');
-            //     $('#tr_gapok').val(row.sign_off_place);
-            //     $('#tgl_kenaikan_gapok').val(row.sign_off_date);
-            // }else{
-            //     $('#current_gapok').html('');
-            //     // $('#sign_status').val('');
-            //     $('#tr_gapok').val('');
-            //     $('#tgl_kenaikan_gapok').val('');
-            // }
-
-            $('#current_gapok').html(row.tr_gapok);
-            // $('#sign_status').val('');
-            $('#tr_gapok').val(row.tr_gapok);
-            $('#tgl_kenaikan_gapok').val(row.tanggal_tr_gapok);
-            $('#remark_update_gapok').val(row.remark_tr_gapok);
         },
 
         forClear: function() {
@@ -766,27 +260,15 @@ var app = {
             $("#form_input input")
             // .not('#fixed_cost, #variable_cost')
             .val('');
+            $(".ummu-label-value").html('')
             // $(".is-data-id").removeAttr('data-id').removeData('id');
-            $("#crew_document_pdf_text").html('Pilih Berkas PDF...');
-            $("#click_to_open_file").attr('href', "");
-            $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
+            // $("#crew_document_pdf_text").html('Pilih Berkas PDF...');
+            // $("#click_to_open_file").attr('href', "");
+            // $("#form_input #info-umur").html('<strong class="mr-1">Usia:</strong>. . . . . . . .');
             // $('input[name="behavior"]').prop('checked', false);
             // $('input[name="behavior"]').prop('disabled', true);
             resetCrewFormValidation({ resetTab: true, resetFields: false });
         },
-
-        form_tr_perubahan_data: function() {
-            const id = $ummu.url.getParam('id');
-
-            if (id) {
-                $('#form_tr_perubahan_data').removeClass('collapse');
-            }else{
-                $('#form_tr_perubahan_data').addClass('collapse');
-                // $('#pane-transaction').removeClass('show active');
-                // $('#pane-personal').addClass('show active')
-                // $('#tab-personal').addClass('active')
-            }
-        }
     },
 
     dt: {
@@ -878,7 +360,6 @@ var app = {
                 // $ummu.url.setParamFromRow(row);
                 $ummu.url.setParamFromObject(row);
                 app.views.setRow_toForm(row);
-                app.views.form_tr_perubahan_data()
 
                 // console.log(ummu)
             },
@@ -1270,90 +751,3 @@ function _resetSummernote(el) {
         }
     }
 }
-
-// // ============================================================
-// // HELPER: FORMAT RUPIAH (input) & PARSER (simpan)
-// // ============================================================
-
-// // Ubah angka / string apapun menjadi "1.234.567"
-// window.formatRupiah = function (value) {
-//     if (value === null || value === undefined || value === '') return '';
-
-//     // buang semua karakter non-digit kecuali minus (kalau perlu)
-//     let num = String(value).replace(/[^\d]/g, '');
-//     if (num === '') return '';
-
-//     // hilangkan leading zero berlebih: "000123" -> "123"
-//     num = num.replace(/^0+(?=\d)/, '');
-
-//     // beri titik ribuan
-//     return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-// };
-
-// // Ambil angka murni dari "1.234.567" -> "1234567"
-// window.parseRupiah = function (value) {
-//     if (value === null || value === undefined) return '';
-//     return String(value).replace(/[^\d]/g, '');
-// };
-
-// // Ambil angka murni sebagai Number (untuk payload AJAX)
-// window.parseRupiahNumber = function (value) {
-//     const clean = window.parseRupiah(value);
-//     return clean === '' ? 0 : parseInt(clean, 10);
-// };
-
-
-// jQuery(function () {
-
-//     const $salary = jQuery('#basic_salary');
-
-//     // ------------------------------------------------------
-//     // Saat user mengetik: format ulang, pertahankan posisi kursor
-//     // ------------------------------------------------------
-//     $salary.on('input', function () {
-//         const el = this;
-
-//         // 1. simpan posisi kursor
-//         const cursorPos = el.selectionStart;
-//         const oldLength = el.value.length;
-//         const oldRaw    = el.value.slice(0, cursorPos).replace(/[^\d]/g, '').length;
-
-//         // 2. format ulang
-//         const formatted = window.formatRupiah(el.value);
-
-//         // 3. kalau berubah, set ulang & hitung posisi kursor baru
-//         if (el.value !== formatted) {
-//             el.value = formatted;
-
-//             // cari posisi kursor berdasarkan jumlah digit di kiri
-//             let newPos = 0, digits = 0;
-//             while (newPos < formatted.length && digits < oldRaw) {
-//                 if (/\d/.test(formatted[newPos])) digits++;
-//                 newPos++;
-//             }
-//             try { el.setSelectionRange(newPos, newPos); } catch (e) {}
-//         }
-//     });
-
-//     // ------------------------------------------------------
-//     // Saat paste: bersihkan & format
-//     // ------------------------------------------------------
-//     $salary.on('paste', function (e) {
-//         e.preventDefault();
-//         const text = (e.originalEvent || e).clipboardData.getData('text') || '';
-//         this.value = window.formatRupiah(text);
-//         this.dispatchEvent(new Event('input'));
-//     });
-
-//     // ------------------------------------------------------
-//     // Saat blur: kalau kosong, kosongkan. Kalau 0, tampil "0"
-//     // ------------------------------------------------------
-//     $salary.on('blur', function () {
-//         const raw = window.parseRupiah(this.value);
-//         if (raw === '' || raw === '0') {
-//             this.value = '';
-//         } else {
-//             this.value = window.formatRupiah(raw);
-//         }
-//     });
-// });
