@@ -22,7 +22,7 @@
                 <label for="ijoSelect"><i class="fas fa-file-contract mr-1"></i>Pilih IJO</label>
                 <select id="ijoSelect" class="form-control"></select>
                 <small class="text-muted" id="ijoHint">Pilih IJO untuk menampilkan Tugboat, Barge, dan daftar timesheet.</small>
-                <div class="ijo-meta-badges" id="ijoMetaBadges"></div>
+                <!-- <div class="ijo-meta-badges" id="ijoMetaBadges"></div> -->
             </div>
             <div class="col-md-3 text-right">
                 <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReloadIjo">
